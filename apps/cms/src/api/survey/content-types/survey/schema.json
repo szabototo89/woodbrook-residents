@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "surveys",
+  "info": {
+    "singularName": "survey",
+    "pluralName": "surveys",
+    "displayName": "Survey",
+    "description": "Community surveys and public consultations"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "stage": {
+      "type": "enumeration",
+      "enum": ["upcoming", "open", "closed"],
+      "required": true
+    },
+    "summary": {
+      "type": "text",
+      "required": true
+    },
+    "opensOn": {
+      "type": "date"
+    },
+    "closesOn": {
+      "type": "date"
+    },
+    "responseUrl": {
+      "type": "string"
+    },
+    "sourceName": {
+      "type": "string",
+      "required": true
+    },
+    "sourceUrl": {
+      "type": "string",
+      "required": true
+    },
+    "sourceReviewedOn": {
+      "type": "date",
+      "required": true
+    }
+  }
+}

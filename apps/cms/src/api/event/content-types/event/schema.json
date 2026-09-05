@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event",
+    "description": "Confirmed community events and meetings"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "summary": {
+      "type": "text",
+      "required": true
+    },
+    "startsAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "endsAt": {
+      "type": "datetime"
+    },
+    "location": {
+      "type": "string",
+      "required": true
+    },
+    "bookingUrl": {
+      "type": "string"
+    },
+    "sourceUrl": {
+      "type": "string",
+      "required": true
+    },
+    "sourceReviewedOn": {
+      "type": "date",
+      "required": true
+    }
+  }
+}

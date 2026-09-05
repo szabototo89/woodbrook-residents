@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "issue_reports",
+  "info": {
+    "singularName": "issue-report",
+    "pluralName": "issue-reports",
+    "displayName": "Issue report",
+    "description": "Private structured reports submitted by residents"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "lighting",
+        "litter",
+        "drainage",
+        "roads-paths",
+        "landscaping",
+        "traffic",
+        "other"
+      ],
+      "required": true,
+      "private": true
+    },
+    "location": {
+      "type": "string",
+      "required": true,
+      "private": true
+    },
+    "details": {
+      "type": "text",
+      "required": true,
+      "private": true
+    },
+    "reporterName": {
+      "type": "string",
+      "private": true
+    },
+    "reporterEmail": {
+      "type": "email",
+      "private": true
+    },
+    "consent": {
+      "type": "boolean",
+      "required": true,
+      "private": true
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": ["new", "reviewing", "routed", "closed"],
+      "required": true,
+      "default": "new",
+      "private": true
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+.output/
+.tanstack/
+.tmp/
+.cache/
+coverage/
+playwright-report/
+test-results/
+apps/cms/public/uploads/*
+!apps/cms/public/uploads/.gitkeep
+*.log
+

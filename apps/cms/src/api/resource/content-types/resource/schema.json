@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "resources",
+  "info": {
+    "singularName": "resource",
+    "pluralName": "resources",
+    "displayName": "Resource",
+    "description": "Curated local contacts, services, and useful links"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "transport",
+        "council",
+        "community",
+        "safety",
+        "waste",
+        "recreation"
+      ],
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "url": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "displayOrder": {
+      "type": "integer",
+      "required": true,
+      "default": 0
+    },
+    "sourceReviewedOn": {
+      "type": "date",
+      "required": true
+    }
+  }
+}

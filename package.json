@@ -1,0 +1,33 @@
+{
+  "name": "woodbrook-community-hub",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,cms -c cyan,green \"bun run --cwd apps/web dev\" \"bun run --cwd apps/cms develop\"",
+    "dev:web": "bun run --cwd apps/web dev",
+    "dev:cms": "bun run --cwd apps/cms develop",
+    "build": "bun run lint && bun run build:cms && bun run build:web",
+    "build:web": "bun run --cwd apps/web build",
+    "build:cms": "bun run --cwd apps/cms build",
+    "test": "bun run test:unit && bun run test:browser && bun run test:e2e",
+    "test:unit": "bun run --cwd apps/web test:unit",
+    "test:browser": "bun run --cwd apps/web test:browser",
+    "test:e2e": "bun run --cwd apps/web test:e2e",
+    "typecheck": "bun run --cwd apps/web typecheck && bun run --cwd apps/cms typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "bun run format:check && eslint apps/web/src apps/web/tests && bun run typecheck"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "concurrently": "^9.2.1",
+    "eslint": "^10.0.0",
+    "prettier": "^3.8.2",
+    "typescript-eslint": "^8.67.0"
+  }
+}
