@@ -15,6 +15,7 @@
     "build:web": "bun run --cwd apps/web build",
     "build:cms": "bun run --cwd apps/cms build",
     "test": "bun run test:unit && bun run test:browser && bun run test:e2e",
+    "test:install-browser": "bun run --cwd apps/web playwright install chromium",
     "test:unit": "bun run --cwd apps/web test:unit",
     "test:browser": "bun run --cwd apps/web test:browser",
     "test:e2e": "bun run --cwd apps/web test:e2e",

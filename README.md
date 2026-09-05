@@ -12,6 +12,7 @@ A resident information and action hub for Woodbrook, Shankill. The public site i
 ```bash
 cp .env.example apps/web/.env
 bun install
+bun run test:install-browser
 bun run dev
 ```
 
@@ -29,5 +30,9 @@ bun run test:e2e
 bun run lint
 bun run build
 ```
+
+`test:install-browser` installs the Chromium build used by Vitest Browser Mode
+and Playwright. It only needs to be rerun when the pinned Playwright version
+changes.
 
 See [Architecture](docs/architecture.md), [CMS model](docs/cms-model.md), and the [feature index](docs/features/README.md).

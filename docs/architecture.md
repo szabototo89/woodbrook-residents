@@ -32,4 +32,4 @@ The browser never needs a privileged CMS token. Published public content is fetc
 
 ## Deployment note
 
-The web and CMS are separate deployable services. Strapi should use managed PostgreSQL and persistent media storage in production. `STRAPI_URL` is server-only; `PUBLIC_SITE_URL` is used for canonical metadata.
+The web and CMS are separate deployable services. Strapi should use managed PostgreSQL and persistent media storage in production. `STRAPI_URL` is server-only; `VITE_PUBLIC_SITE_URL` is used for canonical and social metadata.
