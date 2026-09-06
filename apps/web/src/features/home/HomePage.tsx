@@ -16,7 +16,7 @@ import { SurveyCard } from '../../components/SurveyCard';
 import { UpdateCard } from '../../components/UpdateCard';
 import { Route } from '../../routes/index';
 
-const estateImageSource = 'https://lda.ie/projects/woodbrook-shankill';
+const estateImageSource = 'https://www.woodbrookshankill.ie/south-coast';
 
 export function HomePage() {
   const content = Route.useLoaderData();
@@ -49,14 +49,15 @@ export function HomePage() {
 
           <figure className="rooms-hero-image">
             <img
-              src="/images/woodbrook-estate-aerial-lda.jpg"
-              alt="Aerial view of homes under construction at Woodbrook, Shankill"
+              src="/images/woodbrook-coast-aerial.jpg"
+              alt="Aerial view across Woodbrook toward the coast, Bray and the Wicklow Mountains"
+              width="1920"
+              height="1420"
             />
             <figcaption>
-              Woodbrook taking shape beside its green edge · construction
-              progress image:{' '}
+              Woodbrook between coast and mountains · aerial image:{' '}
               <a href={estateImageSource} target="_blank" rel="noreferrer">
-                Land Development Agency
+                Woodbrook Shankill
               </a>
             </figcaption>
           </figure>

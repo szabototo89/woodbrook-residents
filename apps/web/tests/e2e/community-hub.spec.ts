@@ -11,6 +11,26 @@ test('shows researched community content and supports primary navigation', async
       name: /a shared place for everyday woodbrook/i,
     }),
   ).toBeVisible();
+  const estateImage = page.getByRole('img', {
+    name: /aerial view across woodbrook toward the coast/i,
+  });
+  await expect(estateImage).toBeVisible();
+  await expect(estateImage).toHaveAttribute(
+    'src',
+    '/images/woodbrook-coast-aerial.jpg',
+  );
+  expect(
+    await estateImage.evaluate((image) => {
+      if (!(image instanceof HTMLImageElement)) {
+        throw new Error('Expected the Woodbrook hero asset to be an image');
+      }
+
+      return image.naturalWidth;
+    }),
+  ).toBe(1920);
+  await expect(
+    page.getByRole('link', { name: 'Woodbrook Shankill', exact: true }),
+  ).toHaveAttribute('href', 'https://www.woodbrookshankill.ie/south-coast');
   await expect(
     page.getByRole('heading', {
       name: 'Woodbrook DART station',
