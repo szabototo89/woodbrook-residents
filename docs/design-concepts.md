@@ -2,6 +2,15 @@
 
 These six throwaway static homepages deliberately restart the visual system. They explore what Woodbrook should feel like before any direction is moved into the application.
 
+## Selected direction
+
+The live application uses the warm visual character of Concept 04: soft natural
+colour, generous rounded shapes, an open-threshold brand mark, and a documentary
+Woodbrook hero image. The concept name and room metaphor are not part of the
+product language. The resident-facing identity remains **Woodbrook Community
+Hub**, and its navigation uses direct labels such as updates, events, projects,
+local information, and ways to participate.
+
 ## Product purpose
 
 Woodbrook Community Hub is resident infrastructure, not a transport microsite and not a council service. Its main jobs are:

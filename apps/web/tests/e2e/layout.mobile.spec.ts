@@ -12,7 +12,7 @@ test('the homepage has no horizontal overflow on a phone', async ({ page }) => {
   await expect(
     page.getByRole('heading', {
       level: 1,
-      name: /what’s happening here. what we can do together/i,
+      name: /a shared place for everyday woodbrook/i,
     }),
   ).toBeVisible();
 });

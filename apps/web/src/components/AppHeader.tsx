@@ -1,10 +1,10 @@
 import { Link } from '@tanstack/react-router';
-import { Menu, Send } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
 const navigation = [
   { to: '/updates', label: 'Updates' },
+  { to: '/events', label: 'What’s on' },
   { to: '/projects', label: 'Projects' },
-  { to: '/events', label: 'Events' },
   { to: '/surveys', label: 'Have your say' },
   { to: '/local-info', label: 'Local info' },
 ] as const;
@@ -40,8 +40,7 @@ export function AppHeader() {
         </nav>
 
         <Link className="button button-small header-action" to="/report">
-          <Send size={15} aria-hidden="true" />
-          Report an issue
+          Ask or raise something
         </Link>
 
         <details className="mobile-nav">

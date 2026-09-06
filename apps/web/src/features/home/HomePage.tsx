@@ -3,9 +3,9 @@ import {
   ArrowRight,
   CalendarDays,
   CircleAlert,
-  MapPinned,
-  MessageSquareText,
-  Users,
+  Hammer,
+  House,
+  Megaphone,
 } from 'lucide-react';
 
 import { CmsUnavailable } from '../../components/CmsUnavailable';
@@ -16,122 +16,141 @@ import { SurveyCard } from '../../components/SurveyCard';
 import { UpdateCard } from '../../components/UpdateCard';
 import { Route } from '../../routes/index';
 
+const estateImageSource = 'https://lda.ie/projects/woodbrook-shankill';
+
 export function HomePage() {
   const content = Route.useLoaderData();
 
   return (
     <main id="main-content">
-      <section className="hero">
-        <div className="shell hero-grid">
+      <section className="hero rooms-hero">
+        <div className="shell rooms-hero-card">
           <div className="hero-copy">
-            <p className="eyebrow">
-              <MapPinned size={14} aria-hidden="true" />
-              Woodbrook Community Hub · Shankill
-            </p>
-            <h1>
-              What’s happening here. <span>What we can do together.</span>
-            </h1>
+            <p className="eyebrow">Hello, neighbour</p>
+            <h1>A shared place for everyday Woodbrook.</h1>
             <p className="hero-lede">
               {content.siteSetting?.tagline ??
-                'See what’s happening. Have your say. Help shape our neighbourhood.'}
+                'A shared place to know what’s happening, meet people nearby, and help shape our neighbourhood.'}
             </p>
             <p className="hero-intro">
               {content.siteSetting?.introduction ??
-                'A practical home for local information and resident action.'}
+                'Find a useful answer, a local date, a neighbourly idea, or a clear next step.'}
             </p>
             <div className="button-row">
-              <Link className="button" to="/updates">
-                See what’s happening <ArrowRight size={16} aria-hidden="true" />
-              </Link>
-              <Link className="button button-secondary" to="/surveys">
-                Have your say
+              <a className="button" href="#community-start">
+                Explore the community hub{' '}
+                <ArrowRight size={16} aria-hidden="true" />
+              </a>
+              <Link className="button button-secondary" to="/events">
+                See what’s on
               </Link>
             </div>
-            <dl className="fact-row" aria-label="Community hub information">
-              <div>
-                <dt>{content.updates.length}</dt>
-                <dd>local updates</dd>
-              </div>
-              <div>
-                <dt>{content.projects.length}</dt>
-                <dd>projects tracked</dd>
-              </div>
-              <div>
-                <dt>Verified</dt>
-                <dd>source-linked facts</dd>
-              </div>
-            </dl>
           </div>
-          <aside className="hero-board" aria-label="Community board">
-            <div className="board-heading">
-              <span>On the community board</span>
-              <small>Woodbrook · right now</small>
-            </div>
-            <div className="board-feature">
-              <p className="eyebrow">Built for residents</p>
-              <h2>Find out. Join in. Help shape Woodbrook.</h2>
-              <p>
-                Follow local changes, check useful dates, respond to
-                consultations, and turn a neighbourhood concern into a clear
-                next step.
-              </p>
-            </div>
-            <div className="board-links">
-              <Link to="/updates">
-                <span>Stay informed</span>
-                <strong>{content.updates.length} verified local updates</strong>
-                <ArrowRight size={16} aria-hidden="true" />
-              </Link>
-              <Link to="/events">
-                <span>Meet and join in</span>
-                <strong>
-                  {content.events.length}{' '}
-                  {content.events.length === 1
-                    ? 'upcoming date'
-                    : 'upcoming dates'}
-                </strong>
-                <ArrowRight size={16} aria-hidden="true" />
-              </Link>
-              <Link to="/projects">
-                <span>Shape the area</span>
-                <strong>
-                  {content.projects.length} projects being tracked
-                </strong>
-                <ArrowRight size={16} aria-hidden="true" />
-              </Link>
-              <Link to="/report">
-                <span>Raise a concern</span>
-                <strong>Send a private issue report</strong>
-                <ArrowRight size={16} aria-hidden="true" />
-              </Link>
-            </div>
-          </aside>
+
+          <figure className="rooms-hero-image">
+            <img
+              src="/images/woodbrook-estate-aerial-lda.jpg"
+              alt="Aerial view of homes under construction at Woodbrook, Shankill"
+            />
+            <figcaption>
+              Woodbrook taking shape beside its green edge · construction
+              progress image:{' '}
+              <a href={estateImageSource} target="_blank" rel="noreferrer">
+                Land Development Agency
+              </a>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      <section className="action-rail" aria-label="Community hub priorities">
-        <div className="shell action-rail-grid">
-          <Link to="/updates">
-            <span className="action-stop">
-              <MessageSquareText size={20} aria-hidden="true" />
-            </span>
-            <strong>Know what’s happening</strong>
-            <small>Updates and useful local information</small>
-          </Link>
-          <Link to="/projects">
-            <span className="action-stop">
-              <Users size={20} aria-hidden="true" />
-            </span>
-            <strong>Take part</strong>
-            <small>Projects, events, and consultations</small>
-          </Link>
-          <Link to="/report">
-            <span className="action-stop">
-              <CircleAlert size={20} aria-hidden="true" />
-            </span>
-            <strong>Help improve the area</strong>
-            <small>Report an issue or get involved</small>
-          </Link>
+      <section className="section room-directory" id="community-start">
+        <div className="shell">
+          <div className="rooms-heading">
+            <div>
+              <p className="eyebrow">A simple way in</p>
+              <h2>What do you need today?</h2>
+            </div>
+            <p>
+              One clear starting point for local information, community
+              activity, practical help, and ways to contribute.
+            </p>
+          </div>
+
+          <div className="room-grid">
+            <Link className="room-card room-welcome" to="/local-info">
+              <span className="room-icon">
+                <House size={21} aria-hidden="true" />
+              </span>
+              <div>
+                <small>New to Woodbrook?</small>
+                <h3>Find your feet locally</h3>
+                <p>
+                  Useful places, services, contacts, and everyday essentials.
+                </p>
+              </div>
+              <span className="room-link">
+                Open the local guide <ArrowRight size={15} aria-hidden="true" />
+              </span>
+            </Link>
+
+            <Link className="room-card room-notice" to="/updates">
+              <span className="room-icon">
+                <Megaphone size={21} aria-hidden="true" />
+              </span>
+              <div>
+                <small>Keep up</small>
+                <h3>Know what’s changing</h3>
+                <p>
+                  {content.availability === 'ready'
+                    ? `${content.updates.length} source-linked local updates.`
+                    : 'Source-linked local updates and practical next steps.'}
+                </p>
+              </div>
+              <span className="room-link">
+                Browse updates <ArrowRight size={15} aria-hidden="true" />
+              </span>
+            </Link>
+
+            <Link className="room-card room-table" to="/events">
+              <span className="room-icon">
+                <CalendarDays size={21} aria-hidden="true" />
+              </span>
+              <div>
+                <small>Come along</small>
+                <h3>Meet and join in</h3>
+                <p>
+                  {content.availability === 'ready'
+                    ? `${content.events.length} ${
+                        content.events.length === 1
+                          ? 'upcoming date'
+                          : 'upcoming dates'
+                      } and ways to take part.`
+                    : 'Local dates and ways to take part.'}
+                </p>
+              </div>
+              <span className="room-link">
+                See what’s on <ArrowRight size={15} aria-hidden="true" />
+              </span>
+            </Link>
+
+            <Link className="room-card room-workshop" to="/projects">
+              <span className="room-icon">
+                <Hammer size={21} aria-hidden="true" />
+              </span>
+              <div>
+                <small>Have a say</small>
+                <h3>Help shape the area</h3>
+                <p>
+                  {content.availability === 'ready'
+                    ? `${content.projects.length} local projects being followed.`
+                    : 'Local projects, clear sources, and visible next steps.'}
+                </p>
+              </div>
+              <span className="room-link">
+                Follow the work <ArrowRight size={15} aria-hidden="true" />
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -142,12 +161,12 @@ export function HomePage() {
       ) : null}
 
       {content.updates.length > 0 ? (
-        <section className="section section-tint">
+        <section className="section section-tint notice-room-section">
           <div className="shell">
             <SectionHeading
-              eyebrow="Latest updates"
-              title="From around Woodbrook"
-              linkLabel="All updates"
+              eyebrow="Latest from Woodbrook"
+              title="Useful things to know"
+              linkLabel="See every update"
               linkTo="/updates"
             />
             <div className="card-grid">
@@ -159,50 +178,13 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {content.projects.length > 0 ? (
-        <section className="section shell">
-          <SectionHeading
-            eyebrow="Neighbourhood watch"
-            title="Projects shaping the area"
-            linkLabel="View all projects"
-            linkTo="/projects"
-          />
-          <div className="card-grid">
-            {content.projects.map((project) => (
-              <ProjectCard key={project.documentId} project={project} />
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      <section className="section action-banner">
-        <div className="shell action-banner-grid">
-          <div>
-            <p className="eyebrow">From signal to action</p>
-            <h2>A local observation can become a shared next step.</h2>
-            <p>
-              Structured reports help the community understand patterns and
-              route local issues to the right place.
-            </p>
-          </div>
-          <div className="button-row">
-            <Link className="button button-light" to="/report">
-              Report an issue <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-            <Link className="button button-ghost-light" to="/surveys">
-              Have your say
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {content.events.length > 0 || content.surveys.length > 0 ? (
-        <section className="section section-tint">
+        <section className="section table-section">
           <div className="shell split-section">
             <div>
               <SectionHeading
-                eyebrow="Coming up"
-                title="Dates for the diary"
+                eyebrow="Meet and join in"
+                title="Coming up nearby"
                 linkLabel="All events"
                 linkTo="/events"
               />
@@ -213,7 +195,7 @@ export function HomePage() {
             <div>
               <SectionHeading
                 eyebrow="Have your say"
-                title="Consultations"
+                title="Open conversations"
                 linkLabel="All surveys"
                 linkTo="/surveys"
               />
@@ -225,19 +207,46 @@ export function HomePage() {
         </section>
       ) : null}
 
-      <section className="section shell welcome-strip">
-        <CalendarDays size={28} aria-hidden="true" />
-        <div>
-          <p className="eyebrow">A shared calendar starts with one date</p>
-          <h2>Organising something for Woodbrook?</h2>
-          <p>
-            The hub is being prepared for resident-led meetings, clean-ups, and
-            family events. Get involved to help shape the publishing process.
-          </p>
+      {content.projects.length > 0 ? (
+        <section className="section workshop-section">
+          <div className="shell">
+            <SectionHeading
+              eyebrow="Neighbourhood projects"
+              title="Projects shaping the place"
+              linkLabel="View all projects"
+              linkTo="/projects"
+            />
+            <div className="card-grid">
+              {content.projects.map((project) => (
+                <ProjectCard key={project.documentId} project={project} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="section help-desk-section">
+        <div className="shell help-desk-card">
+          <span className="room-icon">
+            <CircleAlert size={22} aria-hidden="true" />
+          </span>
+          <div>
+            <p className="eyebrow">Contribute or get help</p>
+            <h2>Ask, contribute, or raise something useful.</h2>
+            <p>
+              Send a neighbourhood concern privately, or help make the hub more
+              useful for the people who live here.
+            </p>
+          </div>
+          <div className="button-row">
+            <Link className="button" to="/report">
+              Report an issue <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+            <Link className="button button-secondary" to="/get-involved">
+              Get involved
+            </Link>
+          </div>
         </div>
-        <Link className="text-link" to="/get-involved">
-          Help build the hub <ArrowRight size={16} aria-hidden="true" />
-        </Link>
       </section>
     </main>
   );

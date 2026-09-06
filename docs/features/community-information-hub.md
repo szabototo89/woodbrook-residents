@@ -9,6 +9,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 ## User-visible behavior
 
 - Residents can browse current updates, initiatives, events, surveys, and local resources.
+- The home page presents those paths as one Woodbrook Community Hub, using direct resident-focused language rather than institutional categories or a themed naming system.
 - Every factual seeded item links to its original public source.
 - Empty and unavailable states explain what happened without showing invented content.
 - The experience works on mobile and desktop and supports keyboard navigation.

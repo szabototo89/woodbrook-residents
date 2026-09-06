@@ -5,7 +5,7 @@ import { RootDocument } from '../app/RootDocument';
 import appCss from '../styles.css?url';
 
 const siteUrl = import.meta.env.VITE_PUBLIC_SITE_URL ?? 'http://localhost:3000';
-const socialImageUrl = `${siteUrl}/images/woodbrook-community-hub-social.png`;
+const socialImageUrl = `${siteUrl}/images/woodbrook-community-hub-social-v2.png`;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -19,7 +19,7 @@ export const Route = createRootRoute({
       },
       {
         name: 'theme-color',
-        content: '#145e63',
+        content: '#416b58',
       },
       {
         title: 'Woodbrook Community Hub | Shankill',
@@ -35,8 +35,7 @@ export const Route = createRootRoute({
       },
       {
         property: 'og:description',
-        content:
-          'See what’s happening. Have your say. Help shape our neighbourhood.',
+        content: 'A shared place for everyday Woodbrook.',
       },
       {
         property: 'og:type',

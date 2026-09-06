@@ -18,8 +18,8 @@ export function AppFooter() {
             </span>
           </Link>
           <p>
-            A practical, independent neighbourhood resource in development —
-            built to help residents inform, organise, and act.
+            A shared place for useful local information, neighbourly activity,
+            and clear ways to help shape Woodbrook.
           </p>
         </div>
         <div>
