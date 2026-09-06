@@ -2,7 +2,7 @@ import { CmsUnavailable } from '../../components/CmsUnavailable';
 import { EmptyState } from '../../components/EmptyState';
 import { PageIntro } from '../../components/PageIntro';
 import { SurveyCard } from '../../components/SurveyCard';
-import { Route } from '../../routes/surveys';
+import { Route } from '../../routes/surveys/index';
 
 export function SurveysPage() {
   const content = Route.useLoaderData();

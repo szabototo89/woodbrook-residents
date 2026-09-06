@@ -1,4 +1,5 @@
-import { ArrowUpRight, CalendarDays, MapPin } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { ArrowRight, CalendarDays, MapPin } from 'lucide-react';
 
 import { formatDateTime } from '../features/content/contentFormatting';
 import type { CommunityEvent } from '../features/content/contentTypes';
@@ -21,7 +22,11 @@ export function EventCard({ event }: { event: CommunityEvent }) {
         </span>
       </div>
       <div>
-        <h2>{event.title}</h2>
+        <h2>
+          <Link to="/events/$slug" params={{ slug: event.slug }}>
+            {event.title}
+          </Link>
+        </h2>
         <p>{event.summary}</p>
         <div className="event-meta">
           <span>
@@ -33,14 +38,14 @@ export function EventCard({ event }: { event: CommunityEvent }) {
             {event.location}
           </span>
         </div>
-        <a
+        <Link
           className="text-link"
-          href={event.bookingUrl ?? event.sourceUrl}
-          target="_blank"
-          rel="noreferrer"
+          to="/events/$slug"
+          params={{ slug: event.slug }}
+          aria-label={`View event: ${event.title}`}
         >
-          Check organiser details <ArrowUpRight size={15} aria-hidden="true" />
-        </a>
+          View event <ArrowRight size={15} aria-hidden="true" />
+        </Link>
       </div>
     </article>
   );

@@ -1,4 +1,5 @@
-import { ArrowUpRight } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { ArrowRight } from 'lucide-react';
 
 import { formatDate, formatLabel } from '../features/content/contentFormatting';
 import type { Survey } from '../features/content/contentTypes';
@@ -9,7 +10,11 @@ export function SurveyCard({ survey }: { survey: Survey }) {
       <span className={`tag status-${survey.stage}`}>
         {formatLabel(survey.stage)}
       </span>
-      <h2>{survey.title}</h2>
+      <h2>
+        <Link to="/surveys/$slug" params={{ slug: survey.slug }}>
+          {survey.title}
+        </Link>
+      </h2>
       <p>{survey.summary}</p>
       {survey.closesOn ? (
         <p className="survey-date">
@@ -17,15 +22,14 @@ export function SurveyCard({ survey }: { survey: Survey }) {
           {formatDate(survey.closesOn)}
         </p>
       ) : null}
-      <a
+      <Link
         className="text-link"
-        href={survey.responseUrl ?? survey.sourceUrl}
-        target="_blank"
-        rel="noreferrer"
+        to="/surveys/$slug"
+        params={{ slug: survey.slug }}
+        aria-label={`View details: ${survey.title}`}
       >
-        {survey.stage === 'open' ? 'Have your say' : 'View source'}{' '}
-        <ArrowUpRight size={15} aria-hidden="true" />
-      </a>
+        View details <ArrowRight size={15} aria-hidden="true" />
+      </Link>
     </article>
   );
 }

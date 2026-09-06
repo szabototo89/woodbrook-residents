@@ -182,3 +182,48 @@ export const getUpdateBySlug = createServerFn({ method: 'GET' })
       return undefined;
     }
   });
+
+export const getProjectBySlug = createServerFn({ method: 'GET' })
+  .validator(slugInputSchema)
+  .handler(async ({ data }): Promise<Project | undefined> => {
+    try {
+      const search = new URLSearchParams({
+        'filters[slug][$eq]': data.slug,
+        'pagination[pageSize]': '1',
+      });
+      const response = await fetchJson(`projects?${search.toString()}`);
+      return collectionEnvelopeSchema(projectSchema).parse(response).data[0];
+    } catch {
+      return undefined;
+    }
+  });
+
+export const getEventBySlug = createServerFn({ method: 'GET' })
+  .validator(slugInputSchema)
+  .handler(async ({ data }): Promise<CommunityEvent | undefined> => {
+    try {
+      const search = new URLSearchParams({
+        'filters[slug][$eq]': data.slug,
+        'pagination[pageSize]': '1',
+      });
+      const response = await fetchJson(`events?${search.toString()}`);
+      return collectionEnvelopeSchema(eventSchema).parse(response).data[0];
+    } catch {
+      return undefined;
+    }
+  });
+
+export const getSurveyBySlug = createServerFn({ method: 'GET' })
+  .validator(slugInputSchema)
+  .handler(async ({ data }): Promise<Survey | undefined> => {
+    try {
+      const search = new URLSearchParams({
+        'filters[slug][$eq]': data.slug,
+        'pagination[pageSize]': '1',
+      });
+      const response = await fetchJson(`surveys?${search.toString()}`);
+      return collectionEnvelopeSchema(surveySchema).parse(response).data[0];
+    } catch {
+      return undefined;
+    }
+  });
