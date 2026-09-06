@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router';
 import {
   ArrowLeft,
   ArrowUpRight,
+  CalendarPlus,
   CalendarDays,
   Clock3,
   MapPin,
@@ -9,6 +10,10 @@ import {
 
 import { formatDate, formatDateTime } from '../content/contentFormatting';
 import { Route } from '../../routes/events/$slug';
+import {
+  createEventCalendarDataUri,
+  createGoogleMapsUrl,
+} from './eventCalendar';
 
 export function EventDetailPage() {
   const event = Route.useLoaderData();
@@ -67,18 +72,41 @@ export function EventDetailPage() {
               <dt>
                 <MapPin size={17} aria-hidden="true" /> Location
               </dt>
-              <dd>{event.location}</dd>
+              <dd>
+                <a
+                  className="detail-location-link"
+                  href={createGoogleMapsUrl(event.location)}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Open ${event.location} in Google Maps`}
+                >
+                  {event.location}
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </a>
+              </dd>
             </div>
           </dl>
-          <a
-            className="button button-primary detail-action"
-            href={actionUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {event.bookingUrl ? 'Check organiser details' : 'View event source'}
-            <ArrowUpRight size={17} aria-hidden="true" />
-          </a>
+          <div className="button-row detail-actions">
+            <a
+              className="button button-primary"
+              href={actionUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {event.bookingUrl
+                ? 'Check organiser details'
+                : 'View event source'}
+              <ArrowUpRight size={17} aria-hidden="true" />
+            </a>
+            <a
+              className="button button-secondary"
+              href={createEventCalendarDataUri(event)}
+              download={`${event.slug}.ics`}
+            >
+              Add to calendar
+              <CalendarPlus size={17} aria-hidden="true" />
+            </a>
+          </div>
           <aside className="source-note">
             <p className="eyebrow">Source and freshness</p>
             <p>

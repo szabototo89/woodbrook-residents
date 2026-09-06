@@ -3238,8 +3238,22 @@ p {
   line-height: 1.45;
 }
 
-.detail-action {
+.detail-action,
+.detail-actions {
   margin-top: 2px;
+}
+
+.detail-location-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.detail-location-link:hover {
+  color: var(--forest);
 }
 
 .detail-callout {
