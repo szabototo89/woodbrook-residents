@@ -13,6 +13,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Detail pages use a consistent reading layout while surfacing the dates, status, location, next step, action, and source information relevant to each content type.
 - Event detail pages let residents download an event to their calendar and open its location in Google Maps.
 - The home page presents those paths as one Woodbrook Community Hub, using direct resident-focused language rather than institutional categories or a themed naming system.
+- The home page grounds the hub in a high-resolution, source-attributed photograph of Woodbrook's coastal setting.
 - Every factual seeded item links to its original public source.
 - Empty and unavailable states explain what happened without showing invented content.
 - The experience works on mobile and desktop and supports keyboard navigation.
@@ -20,6 +21,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 ## Acceptance criteria
 
 - Given Strapi contains published content, when a resident opens the home page, then featured and recent content is rendered from the CMS.
+- Given a resident opens the home page, when the hero loads, then a high-resolution Woodbrook photograph and its linked source credit are visible.
 - Given a source-backed item, when a resident opens it, then its source and last reviewed date are visible.
 - Given a published project, event, or survey, when a resident follows its card, then a dedicated detail page presents its available CMS information and a route back to the listing.
 - Given a published event, when a resident uses its calendar or location action, then the event downloads as an `.ics` calendar file or opens as a Google Maps search respectively.
