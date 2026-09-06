@@ -20,13 +20,14 @@ It should feel:
 
 ## Research translated into decisions
 
-- The [Government of Ireland Design System principles](https://ds.services.gov.ie/get-started/principles/) prioritise citizen needs, accessibility, consistency, and transparency. The interface therefore puts the next action and source freshness ahead of decoration.
-- Its [typography guidance](https://ds.services.gov.ie/foundations/guidelines/typography/) recommends a responsive hierarchy, restrained secondary text, and 50–75 character reading measures. Woodbrook follows those constraints while using a distinct type family.
-- The [Braille Institute](https://www.brailleinstitute.org/freefont/) designed Atkinson Hyperlegible Next to make characters easier to distinguish for readers with low vision. It is the main interface family, using weight and scale for confident civic hierarchy.
-- [Fáilte Ireland's wayfinding guidance](https://meetings.southdublin.ie/Home/ViewReply/67300) favours uncomplicated sans-serif letterforms, generous lowercase forms, and sentence case. Navigation and headings follow that public-space language.
-- The [Center for Civic Design](https://civicdesign.org/fieldguides/creating-accessible-online-information/) stresses prominent information, headings, contrast, keyboard use, and small-screen testing. Cards remain fully labelled and status never depends on colour alone.
-- [Newsreader](https://productiontype.com/font/newsreader) was designed specifically for longer-form on-screen reading. It adds a quiet editorial register to introductions and articles without turning the interface into a property brochure.
-- Contemporary placemaking work warns against interchangeable civic branding. Woodbrook's system uses Atlantic teal, sea-glass, Wicklow fern, heather, and gorse instead of a generic government or lifestyle palette.
+Woodbrook is not styled as a government service. Public-sector references are retained only as an accessibility and plain-language baseline; they do not determine its visual language.
+
+- [Decidim](https://docs.decidim.org/en/develop/features/general-description.html) structures participation around meetings, surveys, proposals, information, and accountability. Woodbrook similarly treats components as ways residents can know, join, shape, or raise something—not as administrative departments.
+- [Material 3's colour hierarchy](https://developer.android.com/codelabs/m3-design-theming) recommends calm surface roles for the majority of containers and stronger accent roles only for the most important actions. Cards therefore use tonal separation, quiet outlines, and soft depth; saturated teal and gorse are reserved for navigation, focus, and primary calls to action.
+- The [Braille Institute](https://www.brailleinstitute.org/freefont/) designed Atkinson Hyperlegible Next to make characters easier to distinguish for readers with low vision. It is the main interface family, using weight and scale for confident but friendly hierarchy.
+- The [Center for Civic Design](https://civicdesign.org/fieldguides/creating-accessible-online-information/) remains an accessibility check: headings, contrast, keyboard use, and small-screen testing. It is not a visual template.
+- [Newsreader](https://productiontype.com/font/newsreader) was designed specifically for longer-form on-screen reading. It adds a quiet local-editorial register to introductions and articles.
+- Woodbrook's visual identity comes from Atlantic teal, sea-glass, Wicklow fern, heather, and gorse—not national-government branding or generic lifestyle imagery.
 
 ## Palette
 
@@ -55,11 +56,11 @@ The palette is led by sea and vegetation rather than beige neutrals. Atlantic te
 
 ## Shape and composition
 
-- Twelve-pixel cards and clear rules feel friendly without returning to the oversized soft cards of the first version.
+- Twelve-pixel cards and tonal surface shifts feel friendly without returning to the oversized soft cards of the first version.
 - A typographic welcome and live task board anchor the hero. Local photography supports the content it documents instead of defining the whole identity.
 - The first screen leads with four resident jobs: stay informed, meet and join in, shape the area, and raise a concern. A broad sea-glass field and Atlantic/fern pairing locate the hub between coast and mountains without becoming a tourism motif.
-- Cards work as indexed notices with visible dates, stages, and source actions.
-- Subpages use a deep hedgerow field and a quiet `LOCAL` marker, creating continuity without repeating the home hero.
+- Cards work as calm editorial notices with visible dates, stages, and source actions. Hairline outlines and tonal surfaces separate them; hard black frames and offset block shadows are avoided.
+- Subpages use a pale sea-and-fern field with a quiet `LOCAL` marker, creating continuity without the institutional feel of a dark government masthead.
 
 ## Accessibility invariants
 

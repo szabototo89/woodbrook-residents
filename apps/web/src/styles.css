@@ -1465,7 +1465,8 @@ summary:focus-visible {
   --paper: #f3f7f4;
   --paper-deep: #dceee9;
   --white: #fbfdfb;
-  --line: rgba(32, 55, 47, 0.22);
+  --line: rgba(32, 55, 47, 0.16);
+  --line-strong: rgba(20, 94, 99, 0.34);
   --shadow: none;
   --radius: 4px;
   --deep-sea: #145e63;
@@ -1477,6 +1478,10 @@ summary:focus-visible {
   --granite: #c8d3ce;
   --chalk: #f3f7f4;
   --sand: #dceee9;
+  --gorse-soft: #f7e8b1;
+  --heather-soft: #eee8f0;
+  --soft-shadow: 0 18px 44px rgba(32, 55, 47, 0.11);
+  --small-shadow: 0 8px 22px rgba(32, 55, 47, 0.09);
   font-family:
     'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
 }
@@ -1597,7 +1602,7 @@ p {
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 2px;
   background: var(--deep-sea);
-  box-shadow: 8px 8px 0 var(--gorse);
+  box-shadow: var(--soft-shadow);
 }
 
 .mobile-nav nav a {
@@ -1608,10 +1613,10 @@ p {
 .button {
   min-height: 48px;
   padding: 12px 20px;
-  border: 2px solid var(--deep-sea);
+  border: 1.5px solid var(--deep-sea);
   border-radius: 3px;
   background: var(--deep-sea);
-  box-shadow: 5px 5px 0 var(--gorse);
+  box-shadow: 0 6px 16px rgba(20, 94, 99, 0.16);
   color: var(--white);
   font-weight: 760;
   letter-spacing: 0.01em;
@@ -1619,8 +1624,8 @@ p {
 
 .button:hover {
   background: var(--tide);
-  box-shadow: 2px 2px 0 var(--gorse);
-  transform: translate(3px, 3px);
+  box-shadow: 0 4px 12px rgba(20, 94, 99, 0.12);
+  transform: translateY(-1px);
 }
 
 .header-action {
@@ -1674,10 +1679,12 @@ textarea:focus-visible {
 .eyebrow {
   margin-bottom: 16px;
   color: var(--tide);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 720;
+  letter-spacing: 0.025em;
+  text-transform: none;
 }
 
 .hero {
@@ -1729,7 +1736,7 @@ textarea:focus-visible {
   width: fit-content;
   margin-top: 0.12em;
   color: var(--signal);
-  box-shadow: inset 0 -0.18em var(--gorse);
+  box-shadow: inset 0 -0.1em var(--gorse);
 }
 
 .hero-lede {
@@ -1750,7 +1757,7 @@ textarea:focus-visible {
 .fact-row {
   margin-top: 46px;
   padding-top: 0;
-  border-top: 2px solid var(--ink);
+  border-top: 1px solid var(--line-strong);
 }
 
 .fact-row div {
@@ -1764,7 +1771,8 @@ textarea:focus-visible {
 }
 
 .fact-row dt {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
   font-size: clamp(1.5rem, 2.7vw, 2.3rem);
   font-weight: 780;
   letter-spacing: -0.05em;
@@ -1779,10 +1787,10 @@ textarea:focus-visible {
   position: relative;
   z-index: 2;
   overflow: hidden;
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line-strong);
   border-radius: 16px;
   background: var(--white);
-  box-shadow: 14px 14px 0 var(--signal);
+  box-shadow: var(--soft-shadow);
 }
 
 .board-heading {
@@ -1790,17 +1798,17 @@ textarea:focus-visible {
   padding: 15px 20px;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid var(--ink);
-  background: var(--gorse);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  border-bottom: 1px solid var(--line);
+  background: var(--gorse-soft);
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
   gap: 16px;
 }
 
 .board-heading span {
   font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 720;
+  letter-spacing: 0.02em;
 }
 
 .board-heading small {
@@ -1826,7 +1834,7 @@ textarea:focus-visible {
 .board-links {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 2px solid var(--ink);
+  border-top: 1px solid var(--line);
 }
 
 .board-links a {
@@ -1835,15 +1843,15 @@ textarea:focus-visible {
   padding: 18px 20px;
   grid-template-columns: 1fr auto;
   align-content: space-between;
-  border-right: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
-  background: var(--sea-glass);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--sage-pale);
   gap: 8px 12px;
 }
 
 .board-links a:nth-child(2n) {
   border-right: 0;
-  background: var(--sand);
+  background: var(--white);
 }
 
 .board-links a:nth-last-child(-n + 2) {
@@ -1851,17 +1859,17 @@ textarea:focus-visible {
 }
 
 .board-links a:hover {
-  background: var(--gorse);
+  background: var(--gorse-soft);
 }
 
 .board-links span {
   grid-column: 1 / 3;
   color: var(--ink-soft);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 680;
+  letter-spacing: 0.01em;
 }
 
 .board-links strong {
@@ -1870,7 +1878,7 @@ textarea:focus-visible {
 }
 
 .action-rail {
-  border-block: 2px solid var(--ink);
+  border-block: 1px solid var(--line);
   background: var(--chalk);
   color: var(--ink);
 }
@@ -1888,12 +1896,12 @@ textarea:focus-visible {
   z-index: 1;
   grid-template-columns: 64px 1fr;
   padding: 29px clamp(20px, 3vw, 42px);
-  border-right-color: var(--ink);
+  border-right-color: var(--line);
   background: var(--white);
 }
 
 .action-rail-grid > a:hover {
-  background: var(--gorse);
+  background: var(--sea-glass);
 }
 
 .action-rail-grid > a > .action-stop {
@@ -1903,7 +1911,7 @@ textarea:focus-visible {
   height: 54px;
   padding: 6px;
   place-items: center;
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line-strong);
   border-radius: 50%;
   background: var(--sea-glass);
   color: var(--hedgerow);
@@ -1943,7 +1951,7 @@ textarea:focus-visible {
 .section-heading {
   margin-bottom: 36px;
   padding-bottom: 22px;
-  border-bottom: 2px solid var(--deep-sea);
+  border-bottom: 1px solid var(--line-strong);
 }
 
 .section-heading h2 {
@@ -1953,10 +1961,10 @@ textarea:focus-visible {
 .featured-story {
   min-height: 470px;
   overflow: visible;
-  border: 2px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 3px;
   background: var(--white);
-  box-shadow: 12px 12px 0 var(--tide);
+  box-shadow: var(--soft-shadow);
 }
 
 .featured-story > img {
@@ -1979,7 +1987,7 @@ textarea:focus-visible {
 .content-card,
 .survey-card,
 .resource-card {
-  border: 1.5px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 12px;
   background: var(--white);
   box-shadow: none;
@@ -1992,8 +2000,8 @@ textarea:focus-visible {
 }
 
 .content-card:hover {
-  box-shadow: 7px 7px 0 var(--granite);
-  transform: translate(-3px, -3px);
+  box-shadow: var(--small-shadow);
+  transform: translateY(-2px);
 }
 
 .content-card img {
@@ -2014,19 +2022,22 @@ textarea:focus-visible {
 }
 
 .card-meta {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.67rem;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-size: 0.75rem;
 }
 
 .tag {
   padding: 6px 8px;
-  border: 1px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 2px;
-  background: var(--gorse);
+  background: var(--gorse-soft);
   color: var(--ink);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.05em;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
 }
 
 .status-active,
@@ -2051,8 +2062,8 @@ textarea:focus-visible {
 }
 
 .action-banner {
-  border-block: 2px solid var(--deep-sea);
-  background: var(--gorse);
+  border-block: 1px solid var(--line);
+  background: var(--sage-pale);
   color: var(--ink);
 }
 
@@ -2068,7 +2079,7 @@ textarea:focus-visible {
 .button-light {
   border-color: var(--deep-sea);
   background: var(--deep-sea);
-  box-shadow: 5px 5px 0 var(--white);
+  box-shadow: 0 6px 16px rgba(20, 94, 99, 0.16);
   color: var(--white);
 }
 
@@ -2081,7 +2092,7 @@ textarea:focus-visible {
 
 .event-card {
   padding: 28px;
-  border: 2px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 12px;
   background: var(--white);
 }
@@ -2089,13 +2100,14 @@ textarea:focus-visible {
 .event-date {
   width: 72px;
   height: 82px;
-  border: 2px solid var(--deep-sea);
+  border: 0;
   border-radius: 2px;
   background: var(--signal);
 }
 
 .event-date strong {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 1.9rem;
   font-weight: 800;
 }
@@ -2104,7 +2116,8 @@ textarea:focus-visible {
 .event-meta,
 .survey-date,
 .resource-actions {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 .survey-card,
@@ -2113,7 +2126,7 @@ textarea:focus-visible {
 }
 
 .welcome-strip {
-  border-top: 2px solid var(--deep-sea);
+  border-top: 1px solid var(--line);
 }
 
 .welcome-strip > svg {
@@ -2124,18 +2137,25 @@ textarea:focus-visible {
   position: relative;
   overflow: hidden;
   padding: clamp(76px, 10vw, 134px) 0 82px;
-  border-bottom: 12px solid var(--gorse);
-  background: var(--hedgerow);
-  color: var(--white);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(
+      circle at 88% 18%,
+      rgba(118, 87, 121, 0.1) 0 18%,
+      transparent 18.2%
+    ),
+    linear-gradient(120deg, var(--sage-pale), var(--sea-glass));
+  color: var(--ink);
 }
 
 .page-intro::after {
   position: absolute;
   right: max(24px, calc((100vw - 1240px) / 2));
   bottom: -0.18em;
-  color: rgba(255, 255, 255, 0.07);
+  color: rgba(32, 55, 47, 0.045);
   content: 'LOCAL';
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
   font-size: clamp(8rem, 22vw, 20rem);
   font-weight: 900;
   line-height: 0.8;
@@ -2148,19 +2168,19 @@ textarea:focus-visible {
 }
 
 .page-intro .eyebrow {
-  color: var(--gorse);
+  color: var(--tide);
 }
 
 .page-intro h1 {
   max-width: 11ch;
   margin-bottom: 28px;
-  color: var(--white);
+  color: var(--ink);
   font-size: clamp(3.2rem, 7vw, 6.2rem);
 }
 
 .page-intro-copy p {
   max-width: 65ch;
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--ink-soft);
   font-family: 'Newsreader Variable', Georgia, serif;
   font-size: 1.28rem;
   line-height: 1.48;
@@ -2172,7 +2192,7 @@ textarea:focus-visible {
 
 .notice-card,
 .empty-state {
-  border: 2px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 12px;
   background: var(--white);
 }
@@ -2197,14 +2217,15 @@ textarea:focus-visible {
 }
 
 .article-image img {
-  border: 2px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 12px;
-  box-shadow: 12px 12px 0 var(--sea-glass);
+  box-shadow: var(--soft-shadow);
 }
 
 .article-image figcaption,
 .source-note {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 .article-body > p {
@@ -2217,8 +2238,8 @@ textarea:focus-visible {
 
 .source-note {
   padding: 26px;
-  border: 1.5px solid var(--deep-sea);
-  border-left: 8px solid var(--tide);
+  border: 1px solid var(--line-strong);
+  border-left: 5px solid var(--tide);
   border-radius: 10px;
   background: var(--sea-glass);
   font-size: 0.82rem;
@@ -2236,27 +2257,27 @@ textarea:focus-visible {
 }
 
 .involvement-grid article {
-  border: 1.5px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 12px;
   background: var(--white);
 }
 
 .involvement-grid article > span {
-  border: 2px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 50%;
   background: var(--gorse);
 }
 
 .involvement-cta {
-  border: 2px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 12px;
   background: var(--sea-glass);
-  box-shadow: 10px 10px 0 var(--gorse);
+  box-shadow: var(--small-shadow);
 }
 
 .safety-card {
-  border: 2px solid var(--deep-sea);
-  border-left: 8px solid var(--signal);
+  border: 1px solid var(--line-strong);
+  border-left: 5px solid var(--signal);
   border-radius: 12px;
   background: #f3edf4;
 }
@@ -2268,10 +2289,10 @@ textarea:focus-visible {
 }
 
 .report-form {
-  border: 2px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 12px;
   background: var(--white);
-  box-shadow: 12px 12px 0 var(--sea-glass);
+  box-shadow: var(--soft-shadow);
 }
 
 .report-form label {
@@ -2283,7 +2304,7 @@ textarea:focus-visible {
 .report-form select,
 .report-form textarea {
   min-height: 48px;
-  border: 1.5px solid var(--deep-sea);
+  border: 1px solid var(--line-strong);
   border-radius: 6px;
   background: var(--chalk);
 }
@@ -2305,7 +2326,7 @@ textarea:focus-visible {
 
 .site-footer {
   padding-top: 78px;
-  border-top: 10px solid var(--gorse);
+  border-top: 5px solid var(--gorse);
   background: var(--ink);
 }
 
@@ -2323,7 +2344,8 @@ textarea:focus-visible {
 
 .footer-grid h2 {
   color: var(--gorse);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family:
+    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 @media (max-width: 1040px) {
@@ -2361,7 +2383,7 @@ textarea:focus-visible {
 
   .hero-board {
     margin-right: 8px;
-    box-shadow: 9px 9px 0 var(--signal);
+    box-shadow: var(--soft-shadow);
   }
 
   .action-rail-grid::before {
@@ -2374,7 +2396,7 @@ textarea:focus-visible {
 
   .action-rail-grid > a {
     border-right: 0;
-    border-bottom-color: var(--ink);
+    border-bottom-color: var(--line);
   }
 
   .card-grid,
@@ -2389,7 +2411,7 @@ textarea:focus-visible {
 
   .featured-story {
     overflow: visible;
-    box-shadow: 8px 8px 0 var(--tide);
+    box-shadow: var(--small-shadow);
   }
 
   .page-intro::after {
@@ -2420,7 +2442,7 @@ textarea:focus-visible {
   .board-links a:nth-child(2n),
   .board-links a:nth-last-child(-n + 2) {
     border-right: 0;
-    border-bottom: 1px solid var(--ink);
+    border-bottom: 1px solid var(--line);
   }
 
   .board-links a:last-child {
@@ -2448,6 +2470,6 @@ textarea:focus-visible {
   }
 
   .report-form {
-    box-shadow: 7px 7px 0 var(--sea-glass);
+    box-shadow: var(--small-shadow);
   }
 }
