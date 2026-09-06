@@ -5,66 +5,483 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Concept 04 — Neighbourhood Rooms</title>
     <style>
-      :root { --ink:#274038; --green:#416b58; --sage:#cdddc9; --blue:#bcdad9; --rose:#e9c5b5; --butter:#f2db88; --paper:#f8f5ed; --white:#fffdf8; --muted:#61716a; --line:rgba(39,64,56,.13); }
-      * { box-sizing:border-box; }
-      body { margin:0; overflow-x:hidden; background:var(--paper); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
-      a { color:inherit; }
-      img { display:block; width:100%; object-fit:cover; }
-      .shell { width:min(1180px,calc(100% - 44px)); margin-inline:auto; }
-      .back { position:fixed; z-index:20; right:18px; bottom:18px; padding:11px 15px; border-radius:999px; background:var(--ink); color:white; font-size:.78rem; font-weight:700; text-decoration:none; box-shadow:0 10px 30px rgba(39,64,56,.18); }
-      header { padding:22px 0; }
-      .header-inner { display:flex; align-items:center; justify-content:space-between; gap:28px; }
-      .brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
-      .door { display:grid; width:38px; height:48px; place-items:end center; padding-bottom:7px; border-radius:18px 18px 3px 3px; background:var(--green); color:white; font-family:Georgia,serif; }
-      .brand strong { display:block; font-family:Georgia,serif; font-size:1.45rem; font-weight:400; letter-spacing:-.035em; }
-      .brand small { color:var(--muted); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; }
-      nav { display:flex; align-items:center; gap:24px; }
-      nav a { color:var(--muted); font-size:.82rem; font-weight:700; text-decoration:none; }
-      nav a:last-child { padding:11px 16px; border-radius:999px; background:var(--butter); color:var(--ink); }
-      .hero { padding:42px 0 86px; }
-      .hero-card { display:grid; grid-template-columns:minmax(0,1.04fr) minmax(390px,.96fr); min-height:650px; overflow:hidden; border-radius:42px 42px 120px 42px; background:var(--white); box-shadow:0 24px 70px rgba(39,64,56,.09); }
-      .hero-copy { display:flex; padding:clamp(38px,6vw,76px); flex-direction:column; justify-content:space-between; }
-      .eyebrow { display:inline-flex; width:fit-content; padding:8px 12px; border-radius:999px; background:var(--sage); font-size:.76rem; font-weight:800; }
-      h1 { max-width:650px; margin:62px 0 20px; font-family:Georgia,'Times New Roman',serif; font-size:clamp(4rem,6.4vw,6.5rem); font-weight:400; line-height:.88; letter-spacing:-.06em; }
-      .hero-copy p { max-width:570px; margin:0; color:var(--muted); font-size:1.12rem; line-height:1.58; }
-      .actions { display:flex; margin-top:28px; flex-wrap:wrap; gap:11px; }
-      .button { padding:14px 19px; border:1px solid var(--line); border-radius:999px; background:var(--white); font-weight:750; text-decoration:none; }
-      .button.primary { border-color:var(--green); background:var(--green); color:white; }
-      .hero-image { position:relative; margin:0; min-height:650px; overflow:hidden; }
-      .hero-image img { height:100%; }
-      .hero-image figcaption { position:absolute; right:18px; bottom:18px; left:18px; padding:14px 16px; border-radius:18px; background:rgba(255,253,248,.9); color:var(--muted); font-size:.74rem; line-height:1.4; backdrop-filter:blur(9px); }
-      .rooms { padding:12px 0 96px; }
-      .section-head { display:flex; margin-bottom:34px; align-items:end; justify-content:space-between; gap:30px; }
-      .section-head h2 { max-width:640px; margin:0; font-family:Georgia,serif; font-size:clamp(3rem,5vw,5.2rem); font-weight:400; line-height:.94; letter-spacing:-.05em; }
-      .section-head p { max-width:390px; margin:0; color:var(--muted); line-height:1.55; }
-      .room-grid { display:grid; grid-template-columns:1.25fr .75fr .75fr; gap:16px; }
-      .room { display:flex; min-height:360px; padding:28px; flex-direction:column; justify-content:space-between; border-radius:34px; background:var(--sage); text-decoration:none; }
-      .room:nth-child(2) { background:var(--blue); }
-      .room:nth-child(3) { background:var(--rose); }
-      .room-label { font-size:.73rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-      .room h3 { margin:90px 0 12px; font-family:Georgia,serif; font-size:2.35rem; font-weight:400; line-height:1; letter-spacing:-.035em; }
-      .room p { margin:0; color:#52675e; line-height:1.48; }
-      .threshold { padding:88px 0; background:var(--green); color:white; }
-      .threshold-grid { display:grid; grid-template-columns:.82fr 1.18fr; align-items:center; gap:80px; }
-      .threshold h2 { margin:12px 0 18px; font-family:Georgia,serif; font-size:clamp(3rem,5vw,5.2rem); font-weight:400; line-height:.95; letter-spacing:-.05em; }
-      .threshold p { color:#d7e5dc; line-height:1.6; }
-      .calendar { display:grid; gap:9px; }
-      .calendar a { display:grid; padding:18px 20px; grid-template-columns:75px 1fr auto; align-items:center; gap:14px; border-radius:18px; background:rgba(255,255,255,.1); text-decoration:none; }
-      .calendar time { color:var(--butter); font-weight:800; }
-      footer { padding:48px 0; background:#21362f; color:#ccdad3; }
-      footer .shell { display:flex; align-items:center; justify-content:space-between; gap:20px; }
-      @media(max-width:900px){ nav a:not(:last-child){display:none}.hero-card,.threshold-grid{grid-template-columns:1fr}.hero-image{min-height:470px}.room-grid{grid-template-columns:1fr 1fr}.room:first-child{grid-column:1/-1}.section-head{align-items:start;flex-direction:column} }
-      @media(max-width:560px){ .shell{width:min(100% - 28px,1180px)}.hero-card{border-radius:28px}.hero-copy{padding:34px 26px 42px}h1{margin-top:44px;font-size:4rem}.hero-image{min-height:390px}.room-grid{grid-template-columns:1fr}.room:first-child{grid-column:auto}.calendar a{grid-template-columns:62px 1fr}.calendar a span{display:none}footer .shell{align-items:flex-start;flex-direction:column} }
+      :root {
+        --ink: #274038;
+        --green: #416b58;
+        --sage: #cdddc9;
+        --blue: #bcdad9;
+        --rose: #e9c5b5;
+        --butter: #f2db88;
+        --paper: #f8f5ed;
+        --white: #fffdf8;
+        --muted: #61716a;
+        --line: rgba(39, 64, 56, 0.13);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        overflow-x: hidden;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      a {
+        color: inherit;
+      }
+      img {
+        display: block;
+        width: 100%;
+        object-fit: cover;
+      }
+      .shell {
+        width: min(1180px, calc(100% - 44px));
+        margin-inline: auto;
+      }
+      .back {
+        position: fixed;
+        z-index: 20;
+        right: 18px;
+        bottom: 18px;
+        padding: 11px 15px;
+        border-radius: 999px;
+        background: var(--ink);
+        color: white;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(39, 64, 56, 0.18);
+      }
+      header {
+        padding: 22px 0;
+      }
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+      .door {
+        display: grid;
+        width: 38px;
+        height: 48px;
+        place-items: end center;
+        padding-bottom: 7px;
+        border-radius: 18px 18px 3px 3px;
+        background: var(--green);
+        color: white;
+        font-family: Georgia, serif;
+      }
+      .brand strong {
+        display: block;
+        font-family: Georgia, serif;
+        font-size: 1.45rem;
+        font-weight: 400;
+        letter-spacing: -0.035em;
+      }
+      .brand small {
+        color: var(--muted);
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+      nav a {
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      nav a:last-child {
+        padding: 11px 16px;
+        border-radius: 999px;
+        background: var(--butter);
+        color: var(--ink);
+      }
+      .hero {
+        padding: 42px 0 86px;
+      }
+      .hero-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1.04fr) minmax(390px, 0.96fr);
+        min-height: 650px;
+        overflow: hidden;
+        border-radius: 42px 42px 120px 42px;
+        background: var(--white);
+        box-shadow: 0 24px 70px rgba(39, 64, 56, 0.09);
+      }
+      .hero-copy {
+        display: flex;
+        padding: clamp(38px, 6vw, 76px);
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .eyebrow {
+        display: inline-flex;
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: var(--sage);
+        font-size: 0.76rem;
+        font-weight: 800;
+      }
+      h1 {
+        max-width: 650px;
+        margin: 62px 0 20px;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: clamp(4rem, 6.4vw, 6.5rem);
+        font-weight: 400;
+        line-height: 0.88;
+        letter-spacing: -0.06em;
+      }
+      .hero-copy p {
+        max-width: 570px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.12rem;
+        line-height: 1.58;
+      }
+      .actions {
+        display: flex;
+        margin-top: 28px;
+        flex-wrap: wrap;
+        gap: 11px;
+      }
+      .button {
+        padding: 14px 19px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--white);
+        font-weight: 750;
+        text-decoration: none;
+      }
+      .button.primary {
+        border-color: var(--green);
+        background: var(--green);
+        color: white;
+      }
+      .hero-image {
+        position: relative;
+        margin: 0;
+        min-height: 650px;
+        overflow: hidden;
+      }
+      .hero-image img {
+        height: 100%;
+      }
+      .hero-image figcaption {
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+        left: 18px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: rgba(255, 253, 248, 0.9);
+        color: var(--muted);
+        font-size: 0.74rem;
+        line-height: 1.4;
+        backdrop-filter: blur(9px);
+      }
+      .rooms {
+        padding: 12px 0 96px;
+      }
+      .section-head {
+        display: flex;
+        margin-bottom: 34px;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+      }
+      .section-head h2 {
+        max-width: 640px;
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(3rem, 5vw, 5.2rem);
+        font-weight: 400;
+        line-height: 0.94;
+        letter-spacing: -0.05em;
+      }
+      .section-head p {
+        max-width: 390px;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      .room-grid {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr 0.75fr;
+        gap: 16px;
+      }
+      .room {
+        display: flex;
+        min-height: 360px;
+        padding: 28px;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 34px;
+        background: var(--sage);
+        text-decoration: none;
+      }
+      .room:nth-child(2) {
+        background: var(--blue);
+      }
+      .room:nth-child(3) {
+        background: var(--rose);
+      }
+      .room-label {
+        font-size: 0.73rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .room h3 {
+        margin: 90px 0 12px;
+        font-family: Georgia, serif;
+        font-size: 2.35rem;
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: -0.035em;
+      }
+      .room p {
+        margin: 0;
+        color: #52675e;
+        line-height: 1.48;
+      }
+      .threshold {
+        padding: 88px 0;
+        background: var(--green);
+        color: white;
+      }
+      .threshold-grid {
+        display: grid;
+        grid-template-columns: 0.82fr 1.18fr;
+        align-items: center;
+        gap: 80px;
+      }
+      .threshold h2 {
+        margin: 12px 0 18px;
+        font-family: Georgia, serif;
+        font-size: clamp(3rem, 5vw, 5.2rem);
+        font-weight: 400;
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+      }
+      .threshold p {
+        color: #d7e5dc;
+        line-height: 1.6;
+      }
+      .calendar {
+        display: grid;
+        gap: 9px;
+      }
+      .calendar a {
+        display: grid;
+        padding: 18px 20px;
+        grid-template-columns: 75px 1fr auto;
+        align-items: center;
+        gap: 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.1);
+        text-decoration: none;
+      }
+      .calendar time {
+        color: var(--butter);
+        font-weight: 800;
+      }
+      footer {
+        padding: 48px 0;
+        background: #21362f;
+        color: #ccdad3;
+      }
+      footer .shell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      @media (max-width: 900px) {
+        nav a:not(:last-child) {
+          display: none;
+        }
+        .hero-card,
+        .threshold-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-image {
+          min-height: 470px;
+        }
+        .room-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .room:first-child {
+          grid-column: 1/-1;
+        }
+        .section-head {
+          align-items: start;
+          flex-direction: column;
+        }
+      }
+      @media (max-width: 560px) {
+        .shell {
+          width: min(100% - 28px, 1180px);
+        }
+        .hero-card {
+          border-radius: 28px;
+        }
+        .hero-copy {
+          padding: 34px 26px 42px;
+        }
+        h1 {
+          margin-top: 44px;
+          font-size: 4rem;
+        }
+        .hero-image {
+          min-height: 390px;
+        }
+        .room-grid {
+          grid-template-columns: 1fr;
+        }
+        .room:first-child {
+          grid-column: auto;
+        }
+        .calendar a {
+          grid-template-columns: 62px 1fr;
+        }
+        .calendar a span {
+          display: none;
+        }
+        footer .shell {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
     </style>
   </head>
   <body>
     <a class="back" href="index.html">All concepts</a>
-    <header><div class="shell header-inner"><a class="brand" href="#"><span class="door">W</span><span><strong>Woodbrook Rooms</strong><small>A place shared by neighbours</small></span></a><nav aria-label="Main navigation"><a href="#rooms">Find a room</a><a href="#calendar">What’s on</a><a href="#">Local guide</a><a href="#">Bring something in</a></nav></div></header>
+    <header>
+      <div class="shell header-inner">
+        <a class="brand" href="#"
+          ><span class="door">W</span
+          ><span
+            ><strong>Woodbrook Rooms</strong
+            ><small>A place shared by neighbours</small></span
+          ></a
+        >
+        <nav aria-label="Main navigation">
+          <a href="#rooms">Find a room</a><a href="#calendar">What’s on</a
+          ><a href="#">Local guide</a><a href="#">Bring something in</a>
+        </nav>
+      </div>
+    </header>
     <main>
-      <section class="hero"><div class="shell hero-card"><div class="hero-copy"><span class="eyebrow">The door is open</span><div><h1>There’s room for everyone in Woodbrook.</h1><p>A familiar place to meet a neighbour, find a useful answer, share an idea, or help something local happen.</p><div class="actions"><a class="button primary" href="#rooms">Come inside</a><a class="button" href="#calendar">See what’s on</a></div></div></div><figure class="hero-image"><img src="../images/woodbrook-estate-aerial-lda.jpg" alt="Aerial view of homes under construction at Woodbrook, Shankill" /><figcaption>Woodbrook taking shape beside its green edge · construction progress image: Land Development Agency</figcaption></figure></div></section>
-      <section class="rooms" id="rooms"><div class="shell"><div class="section-head"><h2>Which room do you need today?</h2><p>No departments or service menus. Just a simple way into the life of the neighbourhood.</p></div><div class="room-grid"><a class="room" href="#calendar"><span class="room-label">The welcome room</span><div><h3>New here? Start with people, places, and practical things.</h3><p>A warm introduction to Woodbrook and the wider Shankill neighbourhood.</p></div></a><a class="room" href="#"><span class="room-label">The notice room</span><div><h3>Know what is changing.</h3><p>Short, sourced updates and clear next steps.</p></div></a><a class="room" href="#"><span class="room-label">The help desk</span><div><h3>Ask or raise something.</h3><p>Find an answer or send a local concern privately.</p></div></a></div></div></section>
-      <section class="threshold" id="calendar"><div class="shell threshold-grid"><div><span class="room-label">Around the kitchen table</span><h2>Ordinary dates make a community.</h2><p>Come once, come often, or simply know what your neighbours are making happen.</p></div><div class="calendar"><a href="#"><time>08 SEP</time><strong>Welcome walk around Woodbrook</strong><span>→</span></a><a href="#"><time>10 SEP</time><strong>Tea and ideas for the shared garden</strong><span>→</span></a><a href="#"><time>12 SEP</time><strong>Saturday neighbourhood clean-up</strong><span>→</span></a></div></div></section>
+      <section class="hero">
+        <div class="shell hero-card">
+          <div class="hero-copy">
+            <span class="eyebrow">The door is open</span>
+            <div>
+              <h1>There’s room for everyone in Woodbrook.</h1>
+              <p>
+                A familiar place to meet a neighbour, find a useful answer,
+                share an idea, or help something local happen.
+              </p>
+              <div class="actions">
+                <a class="button primary" href="#rooms">Come inside</a
+                ><a class="button" href="#calendar">See what’s on</a>
+              </div>
+            </div>
+          </div>
+          <figure class="hero-image">
+            <img
+              src="../images/woodbrook-estate-aerial-lda.jpg"
+              alt="Aerial view of homes under construction at Woodbrook, Shankill"
+            />
+            <figcaption>
+              Woodbrook taking shape beside its green edge · construction
+              progress image: Land Development Agency
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="rooms" id="rooms">
+        <div class="shell">
+          <div class="section-head">
+            <h2>Which room do you need today?</h2>
+            <p>
+              No departments or service menus. Just a simple way into the life
+              of the neighbourhood.
+            </p>
+          </div>
+          <div class="room-grid">
+            <a class="room" href="#calendar"
+              ><span class="room-label">The welcome room</span>
+              <div>
+                <h3>
+                  New here? Start with people, places, and practical things.
+                </h3>
+                <p>
+                  A warm introduction to Woodbrook and the wider Shankill
+                  neighbourhood.
+                </p>
+              </div></a
+            ><a class="room" href="#"
+              ><span class="room-label">The notice room</span>
+              <div>
+                <h3>Know what is changing.</h3>
+                <p>Short, sourced updates and clear next steps.</p>
+              </div></a
+            ><a class="room" href="#"
+              ><span class="room-label">The help desk</span>
+              <div>
+                <h3>Ask or raise something.</h3>
+                <p>Find an answer or send a local concern privately.</p>
+              </div></a
+            >
+          </div>
+        </div>
+      </section>
+      <section class="threshold" id="calendar">
+        <div class="shell threshold-grid">
+          <div>
+            <span class="room-label">Around the kitchen table</span>
+            <h2>Ordinary dates make a community.</h2>
+            <p>
+              Come once, come often, or simply know what your neighbours are
+              making happen.
+            </p>
+          </div>
+          <div class="calendar">
+            <a href="#"
+              ><time>08 SEP</time><strong>Welcome walk around Woodbrook</strong
+              ><span>→</span></a
+            ><a href="#"
+              ><time>10 SEP</time
+              ><strong>Tea and ideas for the shared garden</strong
+              ><span>→</span></a
+            ><a href="#"
+              ><time>12 SEP</time
+              ><strong>Saturday neighbourhood clean-up</strong><span>→</span></a
+            >
+          </div>
+        </div>
+      </section>
     </main>
-    <footer><div class="shell"><strong>Woodbrook Neighbourhood Rooms</strong><span>Concept 04 · a shared-house community hub</span></div></footer>
+    <footer>
+      <div class="shell">
+        <strong>Woodbrook Neighbourhood Rooms</strong
+        ><span>Concept 04 · a shared-house community hub</span>
+      </div>
+    </footer>
   </body>
 </html>

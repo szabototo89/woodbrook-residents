@@ -16,97 +16,611 @@
         --lilac: #dcd0e1;
         --white: #fcfdf9;
         --muted: #5c6f67;
-        --line: rgba(33,58,50,.14);
+        --line: rgba(33, 58, 50, 0.14);
       }
-      * { box-sizing: border-box; }
-      body { margin: 0; overflow-x: hidden; background: #f4f8f5; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
-      a { color: inherit; }
-      .shell { width: min(1180px, calc(100% - 44px)); margin-inline: auto; }
-      .back { position: fixed; z-index: 10; right: 18px; bottom: 18px; padding: 11px 15px; border-radius: 999px; background: var(--ink); color: white; font-size: .78rem; font-weight: 700; text-decoration: none; box-shadow: 0 8px 28px rgba(33,58,50,.2); }
-      header { position: relative; z-index: 3; padding: 20px 0; }
-      .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
-      .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; text-decoration: none; }
-      .brand-mark { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 50% 50% 46% 54%; background: var(--yellow); font-family: Georgia, serif; font-size: 1.3rem; }
-      nav { display: flex; align-items: center; gap: 28px; }
-      nav a { color: var(--muted); font-size: .86rem; font-weight: 700; text-decoration: none; }
-      .report { padding: 12px 17px; border-radius: 999px; background: var(--forest); color: white; }
-      .hero { position: relative; padding: 52px 0 88px; }
-      .hero::before { position: absolute; z-index: -1; top: -140px; right: -160px; width: 620px; height: 620px; border-radius: 48% 52% 56% 44%; background: var(--sea); content: ''; transform: rotate(18deg); }
-      .hero::after { position: absolute; z-index: -1; bottom: -120px; left: -170px; width: 480px; height: 360px; border-radius: 52% 48% 38% 62%; background: var(--leaf); content: ''; transform: rotate(-12deg); }
-      .hero-grid { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(380px,.75fr); align-items: center; gap: clamp(36px,6vw,86px); }
-      .hello { display: inline-flex; padding: 8px 13px; border-radius: 999px; background: var(--yellow); font-size: .8rem; font-weight: 700; }
-      h1 { max-width: 760px; margin: 24px 0; font-size: clamp(4rem,6.6vw,6.6rem); line-height: .9; letter-spacing: -.065em; }
-      h1 span { color: var(--teal); }
-      .hero-copy { max-width: 680px; color: var(--muted); font-size: 1.2rem; line-height: 1.6; }
-      .hero-actions { display: flex; margin-top: 30px; flex-wrap: wrap; gap: 12px; }
-      .hero-place { position: relative; margin: 0; }
-      .hero-place::before { position: absolute; z-index: -1; top: -28px; right: -32px; width: 48%; height: 38%; border-radius: 50%; background: var(--coral); content: ''; opacity: .45; }
-      .hero-place img { display: block; width: 100%; aspect-ratio: 4/5; border-radius: 48% 48% 22px 22px; object-fit: cover; box-shadow: 0 22px 48px rgba(33,58,50,.14); }
-      .hero-place figcaption { max-width: 340px; margin: 13px 8px 0; color: var(--muted); font-size: .76rem; line-height: 1.45; }
-      .button { padding: 14px 20px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); font-weight: 750; text-decoration: none; box-shadow: 0 8px 22px rgba(33,58,50,.08); }
-      .button.primary { border-color: var(--forest); background: var(--forest); color: white; }
-      .jobs { position: relative; z-index: 2; padding: 20px 0 90px; }
-      .jobs-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; }
-      .job { display: grid; min-height: 250px; padding: 24px; align-content: space-between; border: 1px solid var(--line); border-radius: 28px; background: var(--white); text-decoration: none; box-shadow: 0 14px 32px rgba(33,58,50,.06); }
-      .job:nth-child(2) { background: var(--sea); }
-      .job:nth-child(3) { background: var(--lilac); }
-      .job:nth-child(4) { background: #f7e7dc; }
-      .job-icon { display: grid; width: 48px; height: 48px; place-items: center; border-radius: 50%; background: rgba(255,255,255,.65); font-size: 1.25rem; }
-      .job small { color: var(--muted); font-weight: 700; }
-      .job h2 { margin: 48px 0 8px; font-size: 1.65rem; line-height: 1.02; letter-spacing: -.035em; }
-      .job p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.45; }
-      .pulse { padding: 86px 0; background: var(--white); }
-      .section-head { display: flex; margin-bottom: 34px; align-items: end; justify-content: space-between; gap: 30px; }
-      .section-head h2 { max-width: 650px; margin: 0; font-size: clamp(2.8rem,5vw,5rem); line-height: .95; letter-spacing: -.055em; }
-      .section-head p { max-width: 350px; margin: 0; color: var(--muted); line-height: 1.5; }
-      .pulse-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
-      .feature { position: relative; overflow: hidden; min-height: 480px; padding: 36px; border-radius: 34px; background: var(--forest); color: white; }
-      .feature::after { position: absolute; right: -60px; bottom: -90px; width: 330px; height: 330px; border-radius: 50%; background: var(--leaf); content: ''; opacity: .2; }
-      .feature .tag, .notice .tag { display: inline-flex; padding: 7px 11px; border-radius: 999px; background: rgba(255,255,255,.15); font-size: .74rem; font-weight: 700; }
-      .feature h3 { max-width: 620px; margin: 130px 0 18px; font-size: clamp(2.5rem,5vw,4.9rem); line-height: .95; letter-spacing: -.05em; }
-      .feature p { max-width: 540px; color: #d8e7e0; font-size: 1.05rem; line-height: 1.55; }
-      .feature a { display: inline-flex; margin-top: 16px; color: var(--yellow); font-weight: 700; text-decoration: none; }
-      .notices { display: grid; gap: 16px; }
-      .notice { display: grid; min-height: 232px; padding: 28px; align-content: space-between; border-radius: 28px; background: var(--sea); }
-      .notice:nth-child(2) { background: #f4ecc9; }
-      .notice .tag { width: fit-content; background: rgba(255,255,255,.6); }
-      .notice h3 { margin: 46px 0 8px; font-size: 1.75rem; line-height: 1.05; }
-      .notice p { margin: 0; color: var(--muted); line-height: 1.45; }
-      .gather { padding: 90px 0; background: var(--sea); }
-      .gather-card { display: grid; padding: clamp(34px,6vw,72px); grid-template-columns: 1fr .8fr; align-items: center; gap: 60px; border-radius: 38px; background: var(--white); }
-      .gather h2 { margin: 0 0 20px; font-size: clamp(3rem,5vw,5.4rem); line-height: .94; letter-spacing: -.055em; }
-      .gather p { color: var(--muted); line-height: 1.6; }
-      .agenda { display: grid; gap: 8px; }
-      .agenda div { display: grid; padding: 16px 0; grid-template-columns: 54px 1fr; gap: 12px; border-bottom: 1px solid var(--line); }
-      .agenda time { color: var(--heather,#795d7e); font-weight: 800; }
-      .agenda strong { line-height: 1.3; }
-      footer { padding: 52px 0; background: var(--ink); color: #d8e7e0; }
-      footer .shell { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
-      footer strong { color: white; }
-      @media (max-width: 900px) { nav a:not(.report) { display: none; } .hero-grid, .pulse-grid, .gather-card { grid-template-columns: 1fr; } .hero-place { max-width: 620px; } .hero-place img { aspect-ratio: 16/10; border-radius: 34px; } .jobs-grid { grid-template-columns: repeat(2,1fr); } }
-      @media (max-width: 560px) { .shell { width: min(100% - 28px,1180px); } .hero { padding-top: 50px; } h1 { font-size: 4rem; } .jobs-grid { grid-template-columns: 1fr; } .section-head { align-items: start; flex-direction: column; } .feature h3 { margin-top: 80px; } footer .shell { align-items: flex-start; flex-direction: column; } }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        overflow-x: hidden;
+        background: #f4f8f5;
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      a {
+        color: inherit;
+      }
+      .shell {
+        width: min(1180px, calc(100% - 44px));
+        margin-inline: auto;
+      }
+      .back {
+        position: fixed;
+        z-index: 10;
+        right: 18px;
+        bottom: 18px;
+        padding: 11px 15px;
+        border-radius: 999px;
+        background: var(--ink);
+        color: white;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 8px 28px rgba(33, 58, 50, 0.2);
+      }
+      header {
+        position: relative;
+        z-index: 3;
+        padding: 20px 0;
+      }
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+      .brand-mark {
+        display: grid;
+        width: 46px;
+        height: 46px;
+        place-items: center;
+        border-radius: 50% 50% 46% 54%;
+        background: var(--yellow);
+        font-family: Georgia, serif;
+        font-size: 1.3rem;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+      nav a {
+        color: var(--muted);
+        font-size: 0.86rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .report {
+        padding: 12px 17px;
+        border-radius: 999px;
+        background: var(--forest);
+        color: white;
+      }
+      .hero {
+        position: relative;
+        padding: 52px 0 88px;
+      }
+      .hero::before {
+        position: absolute;
+        z-index: -1;
+        top: -140px;
+        right: -160px;
+        width: 620px;
+        height: 620px;
+        border-radius: 48% 52% 56% 44%;
+        background: var(--sea);
+        content: '';
+        transform: rotate(18deg);
+      }
+      .hero::after {
+        position: absolute;
+        z-index: -1;
+        bottom: -120px;
+        left: -170px;
+        width: 480px;
+        height: 360px;
+        border-radius: 52% 48% 38% 62%;
+        background: var(--leaf);
+        content: '';
+        transform: rotate(-12deg);
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.75fr);
+        align-items: center;
+        gap: clamp(36px, 6vw, 86px);
+      }
+      .hello {
+        display: inline-flex;
+        padding: 8px 13px;
+        border-radius: 999px;
+        background: var(--yellow);
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+      h1 {
+        max-width: 760px;
+        margin: 24px 0;
+        font-size: clamp(4rem, 6.6vw, 6.6rem);
+        line-height: 0.9;
+        letter-spacing: -0.065em;
+      }
+      h1 span {
+        color: var(--teal);
+      }
+      .hero-copy {
+        max-width: 680px;
+        color: var(--muted);
+        font-size: 1.2rem;
+        line-height: 1.6;
+      }
+      .hero-actions {
+        display: flex;
+        margin-top: 30px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .hero-place {
+        position: relative;
+        margin: 0;
+      }
+      .hero-place::before {
+        position: absolute;
+        z-index: -1;
+        top: -28px;
+        right: -32px;
+        width: 48%;
+        height: 38%;
+        border-radius: 50%;
+        background: var(--coral);
+        content: '';
+        opacity: 0.45;
+      }
+      .hero-place img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4/5;
+        border-radius: 48% 48% 22px 22px;
+        object-fit: cover;
+        box-shadow: 0 22px 48px rgba(33, 58, 50, 0.14);
+      }
+      .hero-place figcaption {
+        max-width: 340px;
+        margin: 13px 8px 0;
+        color: var(--muted);
+        font-size: 0.76rem;
+        line-height: 1.45;
+      }
+      .button {
+        padding: 14px 20px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--white);
+        font-weight: 750;
+        text-decoration: none;
+        box-shadow: 0 8px 22px rgba(33, 58, 50, 0.08);
+      }
+      .button.primary {
+        border-color: var(--forest);
+        background: var(--forest);
+        color: white;
+      }
+      .jobs {
+        position: relative;
+        z-index: 2;
+        padding: 20px 0 90px;
+      }
+      .jobs-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .job {
+        display: grid;
+        min-height: 250px;
+        padding: 24px;
+        align-content: space-between;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: var(--white);
+        text-decoration: none;
+        box-shadow: 0 14px 32px rgba(33, 58, 50, 0.06);
+      }
+      .job:nth-child(2) {
+        background: var(--sea);
+      }
+      .job:nth-child(3) {
+        background: var(--lilac);
+      }
+      .job:nth-child(4) {
+        background: #f7e7dc;
+      }
+      .job-icon {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        place-items: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.65);
+        font-size: 1.25rem;
+      }
+      .job small {
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .job h2 {
+        margin: 48px 0 8px;
+        font-size: 1.65rem;
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+      }
+      .job p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.45;
+      }
+      .pulse {
+        padding: 86px 0;
+        background: var(--white);
+      }
+      .section-head {
+        display: flex;
+        margin-bottom: 34px;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+      }
+      .section-head h2 {
+        max-width: 650px;
+        margin: 0;
+        font-size: clamp(2.8rem, 5vw, 5rem);
+        line-height: 0.95;
+        letter-spacing: -0.055em;
+      }
+      .section-head p {
+        max-width: 350px;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .pulse-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 16px;
+      }
+      .feature {
+        position: relative;
+        overflow: hidden;
+        min-height: 480px;
+        padding: 36px;
+        border-radius: 34px;
+        background: var(--forest);
+        color: white;
+      }
+      .feature::after {
+        position: absolute;
+        right: -60px;
+        bottom: -90px;
+        width: 330px;
+        height: 330px;
+        border-radius: 50%;
+        background: var(--leaf);
+        content: '';
+        opacity: 0.2;
+      }
+      .feature .tag,
+      .notice .tag {
+        display: inline-flex;
+        padding: 7px 11px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.15);
+        font-size: 0.74rem;
+        font-weight: 700;
+      }
+      .feature h3 {
+        max-width: 620px;
+        margin: 130px 0 18px;
+        font-size: clamp(2.5rem, 5vw, 4.9rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+      }
+      .feature p {
+        max-width: 540px;
+        color: #d8e7e0;
+        font-size: 1.05rem;
+        line-height: 1.55;
+      }
+      .feature a {
+        display: inline-flex;
+        margin-top: 16px;
+        color: var(--yellow);
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .notices {
+        display: grid;
+        gap: 16px;
+      }
+      .notice {
+        display: grid;
+        min-height: 232px;
+        padding: 28px;
+        align-content: space-between;
+        border-radius: 28px;
+        background: var(--sea);
+      }
+      .notice:nth-child(2) {
+        background: #f4ecc9;
+      }
+      .notice .tag {
+        width: fit-content;
+        background: rgba(255, 255, 255, 0.6);
+      }
+      .notice h3 {
+        margin: 46px 0 8px;
+        font-size: 1.75rem;
+        line-height: 1.05;
+      }
+      .notice p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+      .gather {
+        padding: 90px 0;
+        background: var(--sea);
+      }
+      .gather-card {
+        display: grid;
+        padding: clamp(34px, 6vw, 72px);
+        grid-template-columns: 1fr 0.8fr;
+        align-items: center;
+        gap: 60px;
+        border-radius: 38px;
+        background: var(--white);
+      }
+      .gather h2 {
+        margin: 0 0 20px;
+        font-size: clamp(3rem, 5vw, 5.4rem);
+        line-height: 0.94;
+        letter-spacing: -0.055em;
+      }
+      .gather p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .agenda {
+        display: grid;
+        gap: 8px;
+      }
+      .agenda div {
+        display: grid;
+        padding: 16px 0;
+        grid-template-columns: 54px 1fr;
+        gap: 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      .agenda time {
+        color: var(--heather, #795d7e);
+        font-weight: 800;
+      }
+      .agenda strong {
+        line-height: 1.3;
+      }
+      footer {
+        padding: 52px 0;
+        background: var(--ink);
+        color: #d8e7e0;
+      }
+      footer .shell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+      }
+      footer strong {
+        color: white;
+      }
+      @media (max-width: 900px) {
+        nav a:not(.report) {
+          display: none;
+        }
+        .hero-grid,
+        .pulse-grid,
+        .gather-card {
+          grid-template-columns: 1fr;
+        }
+        .hero-place {
+          max-width: 620px;
+        }
+        .hero-place img {
+          aspect-ratio: 16/10;
+          border-radius: 34px;
+        }
+        .jobs-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 560px) {
+        .shell {
+          width: min(100% - 28px, 1180px);
+        }
+        .hero {
+          padding-top: 50px;
+        }
+        h1 {
+          font-size: 4rem;
+        }
+        .jobs-grid {
+          grid-template-columns: 1fr;
+        }
+        .section-head {
+          align-items: start;
+          flex-direction: column;
+        }
+        .feature h3 {
+          margin-top: 80px;
+        }
+        footer .shell {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
     </style>
   </head>
   <body>
     <a class="back" href="index.html">All concepts</a>
-    <header><div class="shell header-inner"><a class="brand" href="#"><span class="brand-mark">W</span><span>Woodbrook<br /><small>Common Ground</small></span></a><nav aria-label="Main navigation"><a href="#pulse">What’s happening</a><a href="#gather">Meet nearby</a><a href="#shape">Shape the area</a><a class="report" href="#raise">Raise something</a></nav></div></header>
+    <header>
+      <div class="shell header-inner">
+        <a class="brand" href="#"
+          ><span class="brand-mark">W</span
+          ><span>Woodbrook<br /><small>Common Ground</small></span></a
+        >
+        <nav aria-label="Main navigation">
+          <a href="#pulse">What’s happening</a><a href="#gather">Meet nearby</a
+          ><a href="#shape">Shape the area</a
+          ><a class="report" href="#raise">Raise something</a>
+        </nav>
+      </div>
+    </header>
     <main>
-      <section class="hero"><div class="shell hero-grid"><div><span class="hello">Hello, neighbour</span><h1>A shared place for <span>everyday Woodbrook.</span></h1><p class="hero-copy">Find out what’s changing, meet people nearby, discover something useful, or bring forward an issue the neighbourhood should know about.</p><div class="hero-actions"><a class="button primary" href="#pulse">See what’s happening</a><a class="button" href="#gather">Find a local date</a></div></div><figure class="hero-place"><img src="../images/woodbrook-estate-aerial-lda.jpg" alt="Aerial view of homes under construction at Woodbrook, Shankill" /><figcaption>Woodbrook taking shape beside its green edge · construction progress image: Land Development Agency</figcaption></figure></div></section>
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div>
+            <span class="hello">Hello, neighbour</span>
+            <h1>A shared place for <span>everyday Woodbrook.</span></h1>
+            <p class="hero-copy">
+              Find out what’s changing, meet people nearby, discover something
+              useful, or bring forward an issue the neighbourhood should know
+              about.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="#pulse">See what’s happening</a
+              ><a class="button" href="#gather">Find a local date</a>
+            </div>
+          </div>
+          <figure class="hero-place">
+            <img
+              src="../images/woodbrook-estate-aerial-lda.jpg"
+              alt="Aerial view of homes under construction at Woodbrook, Shankill"
+            />
+            <figcaption>
+              Woodbrook taking shape beside its green edge · construction
+              progress image: Land Development Agency
+            </figcaption>
+          </figure>
+        </div>
+      </section>
 
-      <section class="jobs" id="shape"><div class="shell jobs-grid">
-        <a class="job" href="#pulse"><span class="job-icon">⌁</span><div><small>Keep up</small><h2>Know what’s happening</h2><p>Clear updates with sources and dates.</p></div></a>
-        <a class="job" href="#gather"><span class="job-icon">◌</span><div><small>Come along</small><h2>Meet and join in</h2><p>Local events, walks, groups, and clean-ups.</p></div></a>
-        <a class="job" href="#shape"><span class="job-icon">◇</span><div><small>Have a say</small><h2>Help shape the area</h2><p>Projects, surveys, and visible next steps.</p></div></a>
-        <a class="job" id="raise" href="#"><span class="job-icon">↑</span><div><small>Speak up</small><h2>Raise something useful</h2><p>A private route for neighbourhood concerns.</p></div></a>
-      </div></section>
+      <section class="jobs" id="shape">
+        <div class="shell jobs-grid">
+          <a class="job" href="#pulse"
+            ><span class="job-icon">⌁</span>
+            <div>
+              <small>Keep up</small>
+              <h2>Know what’s happening</h2>
+              <p>Clear updates with sources and dates.</p>
+            </div></a
+          >
+          <a class="job" href="#gather"
+            ><span class="job-icon">◌</span>
+            <div>
+              <small>Come along</small>
+              <h2>Meet and join in</h2>
+              <p>Local events, walks, groups, and clean-ups.</p>
+            </div></a
+          >
+          <a class="job" href="#shape"
+            ><span class="job-icon">◇</span>
+            <div>
+              <small>Have a say</small>
+              <h2>Help shape the area</h2>
+              <p>Projects, surveys, and visible next steps.</p>
+            </div></a
+          >
+          <a class="job" id="raise" href="#"
+            ><span class="job-icon">↑</span>
+            <div>
+              <small>Speak up</small>
+              <h2>Raise something useful</h2>
+              <p>A private route for neighbourhood concerns.</p>
+            </div></a
+          >
+        </div>
+      </section>
 
-      <section class="pulse" id="pulse"><div class="shell"><div class="section-head"><h2>The neighbourhood pulse</h2><p>A small number of useful things, clearly explained. No feed, no noise.</p></div><div class="pulse-grid">
-        <article class="feature"><span class="tag">Growing community</span><h3>328 new homes are taking shape. So is the neighbourhood around them.</h3><p>Follow housing delivery, shared amenities, green space, and the questions residents are asking next.</p><a href="#">See the project record →</a></article>
-        <div class="notices"><article class="notice"><span class="tag">Green space</span><div><h3>Shanganagh Park improvements</h3><p>Paths, woodland, play, and the next public update.</p></div></article><article class="notice"><span class="tag">Getting around</span><div><h3>The station is open</h3><p>Now residents are watching walking, cycling, and local access.</p></div></article></div>
-      </div></div></section>
+      <section class="pulse" id="pulse">
+        <div class="shell">
+          <div class="section-head">
+            <h2>The neighbourhood pulse</h2>
+            <p>
+              A small number of useful things, clearly explained. No feed, no
+              noise.
+            </p>
+          </div>
+          <div class="pulse-grid">
+            <article class="feature">
+              <span class="tag">Growing community</span>
+              <h3>
+                328 new homes are taking shape. So is the neighbourhood around
+                them.
+              </h3>
+              <p>
+                Follow housing delivery, shared amenities, green space, and the
+                questions residents are asking next.
+              </p>
+              <a href="#">See the project record →</a>
+            </article>
+            <div class="notices">
+              <article class="notice">
+                <span class="tag">Green space</span>
+                <div>
+                  <h3>Shanganagh Park improvements</h3>
+                  <p>Paths, woodland, play, and the next public update.</p>
+                </div>
+              </article>
+              <article class="notice">
+                <span class="tag">Getting around</span>
+                <div>
+                  <h3>The station is open</h3>
+                  <p>
+                    Now residents are watching walking, cycling, and local
+                    access.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <section class="gather" id="gather"><div class="shell gather-card"><div><span class="hello">Coming up nearby</span><h2>Show up as you are.</h2><p>Community begins with ordinary encounters: a welcome walk, a park conversation, a clean-up, or simply knowing who else lives nearby.</p><a class="button primary" href="#">See the shared calendar</a></div><div class="agenda"><div><time>08</time><strong>Welcome walk around Woodbrook</strong></div><div><time>10</time><strong>Park improvement drop-in</strong></div><div><time>12</time><strong>Saturday neighbourhood clean-up</strong></div></div></div></section>
+      <section class="gather" id="gather">
+        <div class="shell gather-card">
+          <div>
+            <span class="hello">Coming up nearby</span>
+            <h2>Show up as you are.</h2>
+            <p>
+              Community begins with ordinary encounters: a welcome walk, a park
+              conversation, a clean-up, or simply knowing who else lives nearby.
+            </p>
+            <a class="button primary" href="#">See the shared calendar</a>
+          </div>
+          <div class="agenda">
+            <div>
+              <time>08</time><strong>Welcome walk around Woodbrook</strong>
+            </div>
+            <div><time>10</time><strong>Park improvement drop-in</strong></div>
+            <div>
+              <time>12</time><strong>Saturday neighbourhood clean-up</strong>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
-    <footer><div class="shell"><strong>Woodbrook Common Ground</strong><span>Concept 02 · a resident participation system</span></div></footer>
+    <footer>
+      <div class="shell">
+        <strong>Woodbrook Common Ground</strong
+        ><span>Concept 02 · a resident participation system</span>
+      </div>
+    </footer>
   </body>
 </html>

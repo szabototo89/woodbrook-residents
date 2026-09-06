@@ -5,24 +5,505 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Concept 05 — The Shared Table</title>
     <style>
-      :root { --ink:#263d37; --berry:#765c78; --sea:#b8dbd6; --leaf:#bad0a8; --sun:#f1ce69; --clay:#dd9c7f; --blush:#f2ddd6; --paper:#fffaf3; --muted:#60716a; --line:rgba(38,61,55,.14); }
-      *{box-sizing:border-box} body{margin:0;overflow-x:hidden;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif} a{color:inherit} img{display:block;width:100%;object-fit:cover}.shell{width:min(1200px,calc(100% - 44px));margin-inline:auto}.back{position:fixed;z-index:20;right:18px;bottom:18px;padding:11px 15px;border-radius:999px;background:var(--ink);color:white;font-size:.78rem;font-weight:700;text-decoration:none;box-shadow:0 10px 30px rgba(38,61,55,.2)}
-      header{padding:22px 0}.header-inner{display:flex;align-items:center;justify-content:space-between;gap:26px}.brand{display:flex;align-items:center;gap:13px;text-decoration:none}.mark{display:grid;width:49px;height:49px;place-items:center;border:2px solid var(--ink);border-radius:50%;font-family:Georgia,serif;font-size:1.35rem}.brand strong{font-size:1rem}.brand small{display:block;margin-top:2px;color:var(--muted);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase}nav{display:flex;align-items:center;gap:24px}nav a{color:var(--muted);font-size:.82rem;font-weight:700;text-decoration:none}nav a:last-child{padding:11px 16px;border-radius:999px;background:var(--berry);color:white}
-      .hero{position:relative;padding:42px 0 98px}.hero::before{position:absolute;z-index:-1;top:40px;left:-130px;width:330px;height:330px;border-radius:50%;background:var(--sea);content:'';opacity:.7}.hero-grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(34px,7vw,100px)}.hero-copy{padding:40px 0}.eyebrow{display:flex;align-items:center;gap:10px;color:var(--berry);font-size:.76rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}.eyebrow::before{width:34px;height:2px;background:var(--clay);content:''}h1{max-width:650px;margin:28px 0 22px;font-family:Georgia,'Times New Roman',serif;font-size:clamp(4.5rem,8vw,8rem);font-weight:400;line-height:.82;letter-spacing:-.065em}.hero-copy p{max-width:570px;margin:0;color:var(--muted);font-size:1.15rem;line-height:1.6}.actions{display:flex;margin-top:30px;flex-wrap:wrap;gap:11px}.button{padding:14px 20px;border:1px solid var(--line);border-radius:999px;background:white;font-weight:750;text-decoration:none}.button.primary{border-color:var(--berry);background:var(--berry);color:white}
-      .table-photo{position:relative;margin:0;aspect-ratio:1;border:22px solid var(--sea);border-radius:50%;box-shadow:0 25px 70px rgba(38,61,55,.13)}.table-photo::before,.table-photo::after{position:absolute;z-index:-1;width:100px;height:100px;border-radius:50%;content:''}.table-photo::before{top:-26px;right:-38px;background:var(--sun)}.table-photo::after{bottom:4px;left:-58px;background:var(--clay)}.table-photo img{height:100%;border-radius:50%}.table-photo figcaption{position:absolute;right:-12px;bottom:28px;max-width:310px;padding:13px 16px;border-radius:18px;background:rgba(255,250,243,.92);color:var(--muted);font-size:.73rem;line-height:1.4;box-shadow:0 8px 25px rgba(38,61,55,.1)}
-      .agenda{padding:90px 0;background:var(--ink);color:white}.agenda-head{display:grid;margin-bottom:44px;grid-template-columns:1fr .8fr;align-items:end;gap:60px}.agenda h2,.ways h2{margin:0;font-family:Georgia,serif;font-size:clamp(3.2rem,6vw,6rem);font-weight:400;line-height:.92;letter-spacing:-.055em}.agenda-head p{max-width:470px;margin:0;color:#cddbd5;line-height:1.55}.agenda-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.date{display:flex;min-height:330px;padding:26px;flex-direction:column;justify-content:space-between;border-radius:50% 50% 24px 24px;background:var(--sea);color:var(--ink);text-decoration:none}.date:nth-child(2){background:var(--leaf)}.date:nth-child(3){background:var(--blush)}.date time{font-weight:800}.date h3{margin:80px 0 10px;font-family:Georgia,serif;font-size:2rem;font-weight:400;line-height:1}.date p{margin:0;color:#52665f;line-height:1.45}
-      .ways{padding:96px 0}.ways-grid{display:grid;grid-template-columns:.85fr 1.15fr;align-items:start;gap:80px}.ways-intro p{max-width:430px;color:var(--muted);line-height:1.6}.way-list{border-top:1px solid var(--line)}.way-list a{display:grid;padding:25px 4px;grid-template-columns:64px 1fr auto;align-items:center;gap:18px;border-bottom:1px solid var(--line);text-decoration:none}.way-list b{display:grid;width:42px;height:42px;place-items:center;border-radius:50%;background:var(--sun)}.way-list strong{font-family:Georgia,serif;font-size:1.65rem;font-weight:400}.way-list span{color:var(--berry);font-size:1.25rem}footer{padding:48px 0;background:var(--blush)}footer .shell{display:flex;align-items:center;justify-content:space-between;gap:20px}
-      @media(max-width:900px){nav a:not(:last-child){display:none}.hero-grid,.agenda-head,.ways-grid{grid-template-columns:1fr}.table-photo{max-width:600px}.agenda-grid{grid-template-columns:1fr}.date{min-height:270px;border-radius:30px}.date h3{margin-top:55px}}@media(max-width:560px){.shell{width:min(100% - 28px,1200px)}h1{font-size:5rem}.table-photo{border-width:12px}.table-photo figcaption{right:8px;left:8px}.way-list a{grid-template-columns:52px 1fr}.way-list span{display:none}footer .shell{align-items:flex-start;flex-direction:column}}
+      :root {
+        --ink: #263d37;
+        --berry: #765c78;
+        --sea: #b8dbd6;
+        --leaf: #bad0a8;
+        --sun: #f1ce69;
+        --clay: #dd9c7f;
+        --blush: #f2ddd6;
+        --paper: #fffaf3;
+        --muted: #60716a;
+        --line: rgba(38, 61, 55, 0.14);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        overflow-x: hidden;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      a {
+        color: inherit;
+      }
+      img {
+        display: block;
+        width: 100%;
+        object-fit: cover;
+      }
+      .shell {
+        width: min(1200px, calc(100% - 44px));
+        margin-inline: auto;
+      }
+      .back {
+        position: fixed;
+        z-index: 20;
+        right: 18px;
+        bottom: 18px;
+        padding: 11px 15px;
+        border-radius: 999px;
+        background: var(--ink);
+        color: white;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(38, 61, 55, 0.2);
+      }
+      header {
+        padding: 22px 0;
+      }
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 26px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        text-decoration: none;
+      }
+      .mark {
+        display: grid;
+        width: 49px;
+        height: 49px;
+        place-items: center;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        font-family: Georgia, serif;
+        font-size: 1.35rem;
+      }
+      .brand strong {
+        font-size: 1rem;
+      }
+      .brand small {
+        display: block;
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 0.68rem;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+      nav a {
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      nav a:last-child {
+        padding: 11px 16px;
+        border-radius: 999px;
+        background: var(--berry);
+        color: white;
+      }
+      .hero {
+        position: relative;
+        padding: 42px 0 98px;
+      }
+      .hero::before {
+        position: absolute;
+        z-index: -1;
+        top: 40px;
+        left: -130px;
+        width: 330px;
+        height: 330px;
+        border-radius: 50%;
+        background: var(--sea);
+        content: '';
+        opacity: 0.7;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: clamp(34px, 7vw, 100px);
+      }
+      .hero-copy {
+        padding: 40px 0;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--berry);
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+      .eyebrow::before {
+        width: 34px;
+        height: 2px;
+        background: var(--clay);
+        content: '';
+      }
+      h1 {
+        max-width: 650px;
+        margin: 28px 0 22px;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: clamp(4.5rem, 8vw, 8rem);
+        font-weight: 400;
+        line-height: 0.82;
+        letter-spacing: -0.065em;
+      }
+      .hero-copy p {
+        max-width: 570px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.15rem;
+        line-height: 1.6;
+      }
+      .actions {
+        display: flex;
+        margin-top: 30px;
+        flex-wrap: wrap;
+        gap: 11px;
+      }
+      .button {
+        padding: 14px 20px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: white;
+        font-weight: 750;
+        text-decoration: none;
+      }
+      .button.primary {
+        border-color: var(--berry);
+        background: var(--berry);
+        color: white;
+      }
+      .table-photo {
+        position: relative;
+        margin: 0;
+        aspect-ratio: 1;
+        border: 22px solid var(--sea);
+        border-radius: 50%;
+        box-shadow: 0 25px 70px rgba(38, 61, 55, 0.13);
+      }
+      .table-photo::before,
+      .table-photo::after {
+        position: absolute;
+        z-index: -1;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        content: '';
+      }
+      .table-photo::before {
+        top: -26px;
+        right: -38px;
+        background: var(--sun);
+      }
+      .table-photo::after {
+        bottom: 4px;
+        left: -58px;
+        background: var(--clay);
+      }
+      .table-photo img {
+        height: 100%;
+        border-radius: 50%;
+      }
+      .table-photo figcaption {
+        position: absolute;
+        right: -12px;
+        bottom: 28px;
+        max-width: 310px;
+        padding: 13px 16px;
+        border-radius: 18px;
+        background: rgba(255, 250, 243, 0.92);
+        color: var(--muted);
+        font-size: 0.73rem;
+        line-height: 1.4;
+        box-shadow: 0 8px 25px rgba(38, 61, 55, 0.1);
+      }
+      .agenda {
+        padding: 90px 0;
+        background: var(--ink);
+        color: white;
+      }
+      .agenda-head {
+        display: grid;
+        margin-bottom: 44px;
+        grid-template-columns: 1fr 0.8fr;
+        align-items: end;
+        gap: 60px;
+      }
+      .agenda h2,
+      .ways h2 {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(3.2rem, 6vw, 6rem);
+        font-weight: 400;
+        line-height: 0.92;
+        letter-spacing: -0.055em;
+      }
+      .agenda-head p {
+        max-width: 470px;
+        margin: 0;
+        color: #cddbd5;
+        line-height: 1.55;
+      }
+      .agenda-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .date {
+        display: flex;
+        min-height: 330px;
+        padding: 26px;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 50% 50% 24px 24px;
+        background: var(--sea);
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .date:nth-child(2) {
+        background: var(--leaf);
+      }
+      .date:nth-child(3) {
+        background: var(--blush);
+      }
+      .date time {
+        font-weight: 800;
+      }
+      .date h3 {
+        margin: 80px 0 10px;
+        font-family: Georgia, serif;
+        font-size: 2rem;
+        font-weight: 400;
+        line-height: 1;
+      }
+      .date p {
+        margin: 0;
+        color: #52665f;
+        line-height: 1.45;
+      }
+      .ways {
+        padding: 96px 0;
+      }
+      .ways-grid {
+        display: grid;
+        grid-template-columns: 0.85fr 1.15fr;
+        align-items: start;
+        gap: 80px;
+      }
+      .ways-intro p {
+        max-width: 430px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .way-list {
+        border-top: 1px solid var(--line);
+      }
+      .way-list a {
+        display: grid;
+        padding: 25px 4px;
+        grid-template-columns: 64px 1fr auto;
+        align-items: center;
+        gap: 18px;
+        border-bottom: 1px solid var(--line);
+        text-decoration: none;
+      }
+      .way-list b {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--sun);
+      }
+      .way-list strong {
+        font-family: Georgia, serif;
+        font-size: 1.65rem;
+        font-weight: 400;
+      }
+      .way-list span {
+        color: var(--berry);
+        font-size: 1.25rem;
+      }
+      footer {
+        padding: 48px 0;
+        background: var(--blush);
+      }
+      footer .shell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      @media (max-width: 900px) {
+        nav a:not(:last-child) {
+          display: none;
+        }
+        .hero-grid,
+        .agenda-head,
+        .ways-grid {
+          grid-template-columns: 1fr;
+        }
+        .table-photo {
+          max-width: 600px;
+        }
+        .agenda-grid {
+          grid-template-columns: 1fr;
+        }
+        .date {
+          min-height: 270px;
+          border-radius: 30px;
+        }
+        .date h3 {
+          margin-top: 55px;
+        }
+      }
+      @media (max-width: 560px) {
+        .shell {
+          width: min(100% - 28px, 1200px);
+        }
+        h1 {
+          font-size: 5rem;
+        }
+        .table-photo {
+          border-width: 12px;
+        }
+        .table-photo figcaption {
+          right: 8px;
+          left: 8px;
+        }
+        .way-list a {
+          grid-template-columns: 52px 1fr;
+        }
+        .way-list span {
+          display: none;
+        }
+        footer .shell {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
     </style>
   </head>
   <body>
     <a class="back" href="index.html">All concepts</a>
-    <header><div class="shell header-inner"><a class="brand" href="#"><span class="mark">W</span><span><strong>Woodbrook</strong><small>The shared table</small></span></a><nav aria-label="Main navigation"><a href="#agenda">Around the table</a><a href="#ways">Take part</a><a href="#">Local stories</a><a href="#">Add something</a></nav></div></header>
+    <header>
+      <div class="shell header-inner">
+        <a class="brand" href="#"
+          ><span class="mark">W</span
+          ><span
+            ><strong>Woodbrook</strong><small>The shared table</small></span
+          ></a
+        >
+        <nav aria-label="Main navigation">
+          <a href="#agenda">Around the table</a><a href="#ways">Take part</a
+          ><a href="#">Local stories</a><a href="#">Add something</a>
+        </nav>
+      </div>
+    </header>
     <main>
-      <section class="hero"><div class="shell hero-grid"><div class="hero-copy"><span class="eyebrow">Everyone has a place</span><h1>Pull up a chair.</h1><p>The Woodbrook table is where local plans meet everyday life—what’s on, who needs a hand, what’s changing, and what we can make happen together.</p><div class="actions"><a class="button primary" href="#agenda">See what’s on the table</a><a class="button" href="#ways">Bring an idea</a></div></div><figure class="table-photo"><img src="../images/woodbrook-estate-aerial-lda.jpg" alt="Aerial view of homes under construction at Woodbrook, Shankill" /><figcaption>Woodbrook taking shape beside its green edge · construction progress image: Land Development Agency</figcaption></figure></div></section>
-      <section class="agenda" id="agenda"><div class="shell"><div class="agenda-head"><h2>On the table this week</h2><p>A short community agenda. Real invitations, visible organisers, and a useful next step for every item.</p></div><div class="agenda-grid"><a class="date" href="#"><time>08 SEP · 18:30</time><div><h3>Welcome walk for new neighbours</h3><p>Meet at the green · everyone welcome</p></div></a><a class="date" href="#"><time>10 SEP · 19:00</time><div><h3>Ideas for our shared garden</h3><p>Bring one thought or simply listen in</p></div></a><a class="date" href="#"><time>12 SEP · 10:00</time><div><h3>Saturday clean-up and coffee</h3><p>Gloves provided · children welcome</p></div></a></div></div></section>
-      <section class="ways" id="ways"><div class="shell ways-grid"><div class="ways-intro"><span class="eyebrow">Your place here</span><h2>Join in your own way.</h2><p>Community participation should not begin with a form. It can be showing up, sharing local knowledge, offering an hour, or asking for help.</p></div><div class="way-list"><a href="#"><b>1</b><strong>Come to something nearby</strong><span>→</span></a><a href="#"><b>2</b><strong>Share a useful local update</strong><span>→</span></a><a href="#"><b>3</b><strong>Offer a skill or ask for a hand</strong><span>→</span></a><a href="#"><b>4</b><strong>Help shape a neighbourhood idea</strong><span>→</span></a></div></div></section>
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">Everyone has a place</span>
+            <h1>Pull up a chair.</h1>
+            <p>
+              The Woodbrook table is where local plans meet everyday life—what’s
+              on, who needs a hand, what’s changing, and what we can make happen
+              together.
+            </p>
+            <div class="actions">
+              <a class="button primary" href="#agenda"
+                >See what’s on the table</a
+              ><a class="button" href="#ways">Bring an idea</a>
+            </div>
+          </div>
+          <figure class="table-photo">
+            <img
+              src="../images/woodbrook-estate-aerial-lda.jpg"
+              alt="Aerial view of homes under construction at Woodbrook, Shankill"
+            />
+            <figcaption>
+              Woodbrook taking shape beside its green edge · construction
+              progress image: Land Development Agency
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="agenda" id="agenda">
+        <div class="shell">
+          <div class="agenda-head">
+            <h2>On the table this week</h2>
+            <p>
+              A short community agenda. Real invitations, visible organisers,
+              and a useful next step for every item.
+            </p>
+          </div>
+          <div class="agenda-grid">
+            <a class="date" href="#"
+              ><time>08 SEP · 18:30</time>
+              <div>
+                <h3>Welcome walk for new neighbours</h3>
+                <p>Meet at the green · everyone welcome</p>
+              </div></a
+            ><a class="date" href="#"
+              ><time>10 SEP · 19:00</time>
+              <div>
+                <h3>Ideas for our shared garden</h3>
+                <p>Bring one thought or simply listen in</p>
+              </div></a
+            ><a class="date" href="#"
+              ><time>12 SEP · 10:00</time>
+              <div>
+                <h3>Saturday clean-up and coffee</h3>
+                <p>Gloves provided · children welcome</p>
+              </div></a
+            >
+          </div>
+        </div>
+      </section>
+      <section class="ways" id="ways">
+        <div class="shell ways-grid">
+          <div class="ways-intro">
+            <span class="eyebrow">Your place here</span>
+            <h2>Join in your own way.</h2>
+            <p>
+              Community participation should not begin with a form. It can be
+              showing up, sharing local knowledge, offering an hour, or asking
+              for help.
+            </p>
+          </div>
+          <div class="way-list">
+            <a href="#"
+              ><b>1</b><strong>Come to something nearby</strong
+              ><span>→</span></a
+            ><a href="#"
+              ><b>2</b><strong>Share a useful local update</strong
+              ><span>→</span></a
+            ><a href="#"
+              ><b>3</b><strong>Offer a skill or ask for a hand</strong
+              ><span>→</span></a
+            ><a href="#"
+              ><b>4</b><strong>Help shape a neighbourhood idea</strong
+              ><span>→</span></a
+            >
+          </div>
+        </div>
+      </section>
     </main>
-    <footer><div class="shell"><strong>Woodbrook · The Shared Table</strong><span>Concept 05 · a gathering-led community hub</span></div></footer>
+    <footer>
+      <div class="shell">
+        <strong>Woodbrook · The Shared Table</strong
+        ><span>Concept 05 · a gathering-led community hub</span>
+      </div>
+    </footer>
   </body>
 </html>
