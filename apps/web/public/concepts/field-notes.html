@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Concept 03 — Coast &amp; Canopy Field Notes</title>
+    <style>
+      :root {
+        --ink: #203a31;
+        --pine: #234f3d;
+        --fern: #557b5d;
+        --moss: #b9d1a9;
+        --foam: #eff6f2;
+        --tide: #a8d3d1;
+        --atlantic: #246e75;
+        --heather: #806685;
+        --gorse: #eccb58;
+        --white: #fbfcf7;
+        --muted: #5c6d65;
+        --line: rgba(32,58,49,.16);
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--foam); color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+      a { color: inherit; }
+      img { display: block; width: 100%; object-fit: cover; }
+      .shell { width: min(1250px, calc(100% - 48px)); margin-inline: auto; }
+      .back { position: fixed; z-index: 10; right: 18px; bottom: 18px; padding: 11px 15px; border-radius: 8px; background: var(--ink); color: white; font-size: .78rem; font-weight: 700; text-decoration: none; box-shadow: 0 8px 28px rgba(32,58,49,.2); }
+      header { padding: 22px 0; border-bottom: 1px solid var(--line); background: var(--foam); }
+      .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+      .brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; }
+      .brand strong { font-family: Georgia, serif; font-size: 1.7rem; font-weight: 400; letter-spacing: -.04em; }
+      .brand span { color: var(--fern); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+      nav { display: flex; align-items: center; gap: 26px; }
+      nav a { color: var(--muted); font-size: .82rem; font-weight: 700; text-decoration: none; }
+      nav a:last-child { padding: 11px 15px; border-radius: 8px; background: var(--gorse); color: var(--ink); }
+      .hero { padding: 34px 0 78px; }
+      .season-line { display: flex; padding: 14px 0 28px; align-items: center; justify-content: space-between; color: var(--muted); font-size: .75rem; gap: 20px; }
+      .season-line span:first-child { color: var(--atlantic); font-weight: 800; }
+      .hero-grid { display: grid; grid-template-columns: minmax(0,.82fr) minmax(500px,1.18fr); gap: 18px; }
+      .hero-copy { position: relative; display: grid; min-height: 620px; padding: clamp(34px,5vw,68px); align-content: space-between; overflow: hidden; border-radius: 10px 70px 10px 10px; background: var(--pine); color: white; }
+      .hero-copy::after { position: absolute; right: -110px; bottom: -110px; width: 330px; height: 330px; border: 60px solid rgba(185,209,169,.18); border-radius: 50%; content: ''; }
+      .coordinate { color: #bcd5c8; font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; }
+      h1 { position: relative; z-index: 1; max-width: 620px; margin: 42px 0 24px; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(3.5rem,5vw,5.5rem); font-weight: 400; line-height: .9; letter-spacing: -.055em; }
+      .hero-copy p { position: relative; z-index: 1; max-width: 500px; margin: 0; color: #d8e7df; font-size: 1.1rem; line-height: 1.58; }
+      .hero-photo { position: relative; min-height: 620px; overflow: hidden; border-radius: 70px 10px 10px 10px; }
+      .hero-photo img { height: 100%; }
+      .caption { position: absolute; right: 18px; bottom: 18px; max-width: 330px; padding: 16px 18px; border-radius: 8px; background: rgba(251,252,247,.9); color: var(--ink); font-size: .82rem; line-height: 1.45; backdrop-filter: blur(10px); }
+      .pathways { padding: 18px 0 90px; }
+      .pathways h2, .notes h2, .season h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(2.8rem,5vw,5.2rem); font-weight: 400; line-height: .96; letter-spacing: -.05em; }
+      .path-intro { display: flex; margin-bottom: 34px; align-items: end; justify-content: space-between; gap: 30px; }
+      .path-intro p { max-width: 440px; margin: 0; color: var(--muted); line-height: 1.55; }
+      .path-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; }
+      .path { min-height: 270px; padding: 24px; border-radius: 10px; background: var(--white); text-decoration: none; }
+      .path:nth-child(1) { border-top: 8px solid var(--tide); }
+      .path:nth-child(2) { border-top: 8px solid var(--moss); }
+      .path:nth-child(3) { border-top: 8px solid #d4c6d8; }
+      .path:nth-child(4) { border-top: 8px solid var(--gorse); }
+      .path small { color: var(--muted); font-weight: 700; }
+      .path h3 { margin: 70px 0 10px; font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400; line-height: 1.05; }
+      .path p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.45; }
+      .notes { padding: 90px 0; background: var(--white); }
+      .notes-head { display: grid; margin-bottom: 42px; grid-template-columns: 1fr 1fr; align-items: end; gap: 50px; }
+      .notes-head p { max-width: 520px; margin: 0; color: var(--muted); line-height: 1.55; }
+      .note-grid { display: grid; grid-template-columns: 1.1fr .9fr .9fr; gap: 18px; }
+      .note { display: grid; min-height: 430px; padding: 28px; align-content: space-between; border: 1px solid var(--line); border-radius: 12px; background: var(--foam); }
+      .note:first-child { background: var(--tide); }
+      .specimen { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: .72rem; gap: 16px; }
+      .specimen b { color: var(--pine); }
+      .note h3 { margin: 120px 0 16px; font-family: Georgia, serif; font-size: 2.2rem; font-weight: 400; line-height: 1; }
+      .note p { margin: 0; color: #4f635a; line-height: 1.5; }
+      .note a { display: inline-flex; width: fit-content; margin-top: 20px; padding-bottom: 4px; border-bottom: 2px solid var(--gorse); color: var(--atlantic); font-weight: 700; text-decoration: none; }
+      .season { padding: 90px 0; background: var(--moss); }
+      .season-grid { display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; gap: 70px; }
+      .season p { color: #40574d; line-height: 1.6; }
+      .season-list { display: grid; gap: 10px; }
+      .season-list a { display: grid; padding: 18px 20px; grid-template-columns: 100px 1fr auto; align-items: center; gap: 16px; border-radius: 8px; background: rgba(251,252,247,.65); text-decoration: none; }
+      .season-list time { color: var(--heather); font-weight: 800; }
+      .season-list strong { line-height: 1.25; }
+      footer { padding: 48px 0; background: var(--pine); color: #cfe0d7; }
+      footer .shell { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+      @media (max-width: 900px) { nav a:not(:last-child) { display: none; } .hero-grid, .notes-head, .season-grid { grid-template-columns: 1fr; } .hero-copy, .hero-photo { min-height: 520px; } .path-grid { grid-template-columns: repeat(2,1fr); } .note-grid { grid-template-columns: 1fr; } .note { min-height: 330px; } .note h3 { margin-top: 70px; } }
+      @media (max-width: 560px) { .shell { width: min(100% - 28px,1250px); } .brand span { display: none; } .hero-copy, .hero-photo { min-height: 430px; border-radius: 10px; } h1 { margin-top: 40px; font-size: 4rem; } .path-grid { grid-template-columns: 1fr; } .path-intro { align-items: start; flex-direction: column; } .season-list a { grid-template-columns: 70px 1fr; } .season-list a span { display: none; } footer .shell { align-items: flex-start; flex-direction: column; } }
+    </style>
+  </head>
+  <body>
+    <a class="back" href="index.html">All concepts</a>
+    <header><div class="shell header-inner"><a class="brand" href="#"><strong>Woodbrook</strong><span>Coast &amp; Canopy field notes</span></a><nav aria-label="Main navigation"><a href="#notes">Latest notes</a><a href="#pathways">Local paths</a><a href="#season">This season</a><a href="#">Raise a concern</a></nav></div></header>
+    <main>
+      <section class="hero"><div class="shell"><div class="season-line"><span>Field note 01 · early autumn</span><span>Woodbrook · Shankill · between sea and hills</span></div><div class="hero-grid"><div class="hero-copy"><span class="coordinate">A resident guide to a changing place</span><div><h1>Rooted here. Open to what comes next.</h1><p>Local change, community knowledge, useful dates, and small ways to care for the place we share.</p></div></div><figure class="hero-photo"><img src="../images/shankill-coast.jpg" alt="View across the coast and green landscape near Shankill" /><figcaption class="caption">The landscape is context, not decoration: coast, green edge, and a neighbourhood growing between them.</figcaption></figure></div></div></section>
+
+      <section class="pathways shell" id="pathways"><div class="path-intro"><h2>Find your way in</h2><p>Start with what you need today. The hub connects information to a clear local next step.</p></div><div class="path-grid">
+        <a class="path" href="#notes"><small>Observe</small><h3>What’s changing?</h3><p>Updates with dates, sources, and what happens next.</p></a>
+        <a class="path" href="#season"><small>Gather</small><h3>What’s on nearby?</h3><p>Walks, meetings, family dates, and resident activity.</p></a>
+        <a class="path" href="#"><small>Shape</small><h3>Where can I have a say?</h3><p>Consultations and projects open to resident input.</p></a>
+        <a class="path" href="#"><small>Care</small><h3>What needs attention?</h3><p>A private way to raise a practical local concern.</p></a>
+      </div></section>
+
+      <section class="notes" id="notes"><div class="shell"><div class="notes-head"><h2>Notes from around Woodbrook</h2><p>Each note records an observable change, the source behind it, and the next thing residents can watch or do.</p></div><div class="note-grid">
+        <article class="note"><div class="specimen"><b>Community growth</b><span>Reviewed 05.09.26</span></div><div><h3>Homes are arriving. Shared neighbourhood life should arrive with them.</h3><p>Track housing delivery, amenities, green space, and the practical welcome for new residents.</p><a href="#">Open field note →</a></div></article>
+        <article class="note"><div class="specimen"><b>Park &amp; woodland</b><span>Active</span></div><div><h3>Shanganagh Park improvements</h3><p>Accessible paths, woodland, recreation, play, and the next public update.</p><a href="#">Follow the record →</a></div></article>
+        <article class="note"><div class="specimen"><b>Getting around</b><span>Completed</span></div><div><h3>The station is open</h3><p>One local connection; the continuing note is walking, cycling, and access as homes fill.</p><a href="#">Read the note →</a></div></article>
+      </div></div></section>
+
+      <section class="season" id="season"><div class="shell season-grid"><div><span class="coordinate" style="color:#55705f">The shared season</span><h2>Three reasons to step outside</h2><p>Woodbrook becomes a community through ordinary repeated encounters, not a stream of online conversation.</p></div><div class="season-list"><a href="#"><time>08 SEP</time><strong>Welcome walk around Woodbrook</strong><span>→</span></a><a href="#"><time>10 SEP</time><strong>Park improvement drop-in</strong><span>→</span></a><a href="#"><time>12 SEP</time><strong>Saturday neighbourhood clean-up</strong><span>→</span></a></div></div></section>
+    </main>
+    <footer><div class="shell"><strong>Woodbrook · Coast &amp; Canopy</strong><span>Concept 03 · a resident field guide</span></div></footer>
+  </body>
+</html>
