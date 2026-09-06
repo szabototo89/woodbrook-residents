@@ -13,6 +13,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Detail pages use a consistent reading layout while surfacing the dates, status, location, next step, action, and source information relevant to each content type.
 - Event detail pages let residents download an event to their calendar and open its location in Google Maps.
 - The home page presents those paths as one Woodbrook Community Hub, using direct resident-focused language rather than institutional categories or a themed naming system.
+- The home page presents its four resident starting points as one balanced row on wide screens and a compact single-column sequence on phones.
 - The home page grounds the hub in a high-resolution, source-attributed photograph of Woodbrook's coastal setting.
 - Every factual seeded item links to its original public source.
 - Empty and unavailable states explain what happened without showing invented content.
@@ -28,6 +29,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Given an unknown, unpublished, or unavailable project, event, or survey slug, when a resident opens its detail URL, then a useful unavailable state links back to the relevant listing.
 - Given the CMS cannot be reached, when a resident opens a content route, then a clear unavailable state appears.
 - Given a narrow mobile viewport, when a resident browses primary routes, then navigation and main content remain usable without horizontal overflow.
+- Given a wide desktop viewport, when a resident reaches the homepage starting points, then all four paths have equal visual weight with no empty grid quadrant.
 
 ## Scope
 

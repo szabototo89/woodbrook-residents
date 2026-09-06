@@ -1,20 +1,9 @@
 import { expect, test } from '@playwright/test';
 
-test('the homepage has no horizontal overflow on a phone', async ({ page }) => {
+test('the homepage presents four balanced starting points on desktop', async ({
+  page,
+}) => {
   await page.goto('/');
-
-  const dimensions = await page.evaluate(() => ({
-    clientWidth: document.documentElement.clientWidth,
-    scrollWidth: document.documentElement.scrollWidth,
-  }));
-
-  expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
-  await expect(
-    page.getByRole('heading', {
-      level: 1,
-      name: /a shared place for everyday woodbrook/i,
-    }),
-  ).toBeVisible();
 
   const startingPoints = [
     page.getByRole('link', { name: /new to woodbrook/i }),
@@ -22,15 +11,17 @@ test('the homepage has no horizontal overflow on a phone', async ({ page }) => {
     page.getByRole('link', { name: /come along/i }),
     page.getByRole('link', { name: /have a say/i }),
   ];
-  const cardWidths = await Promise.all(
+  const boxes = await Promise.all(
     startingPoints.map((startingPoint) =>
-      startingPoint.evaluate(
-        (element) => element.getBoundingClientRect().width,
-      ),
+      startingPoint.evaluate((element) => {
+        const { top, width } = element.getBoundingClientRect();
+        return { top, width };
+      }),
     ),
   );
 
-  expect(new Set(cardWidths.map(Math.round)).size).toBe(1);
+  expect(new Set(boxes.map(({ top }) => Math.round(top))).size).toBe(1);
+  expect(new Set(boxes.map(({ width }) => Math.round(width))).size).toBe(1);
 
   await page
     .getByRole('link', { name: 'Explore the community hub', exact: true })
