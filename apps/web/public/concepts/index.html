@@ -14,12 +14,15 @@
       }
       main { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 72px 0 88px; }
       .kicker { color: #387d75; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-      h1 { max-width: 760px; margin: 12px 0 18px; font-family: Georgia, serif; font-size: clamp(3rem, 7vw, 6.2rem); font-weight: 400; line-height: .95; letter-spacing: -.045em; }
+      h1 { max-width: 840px; margin: 12px 0 18px; font-family: Georgia, serif; font-size: clamp(3rem, 7vw, 6.2rem); font-weight: 400; line-height: .95; letter-spacing: -.045em; }
       .intro { max-width: 680px; margin: 0 0 50px; color: #4f675f; font-size: 1.15rem; line-height: 1.55; }
       .grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; }
-      article { display: grid; min-height: 430px; padding: 28px; border: 1px solid rgba(23,54,47,.16); border-radius: 24px; background: #fff; box-shadow: 0 18px 50px rgba(23,54,47,.08); }
+      article { display: grid; min-height: 380px; padding: 28px; border: 1px solid rgba(23,54,47,.16); border-radius: 24px; background: #fff; box-shadow: 0 18px 50px rgba(23,54,47,.08); }
       article:nth-child(2) { background: #dcefe9; }
       article:nth-child(3) { background: #203f35; color: #f7fbf8; }
+      article:nth-child(4) { background: #f3e8d9; }
+      article:nth-child(5) { background: #eee8f0; }
+      article:nth-child(6) { background: #f4e6a9; }
       .number { font-family: Georgia, serif; font-size: 1.1rem; color: #7b5f80; }
       h2 { align-self: end; margin: 70px 0 12px; font-size: 2rem; line-height: 1; letter-spacing: -.035em; }
       p { color: #5a6c65; line-height: 1.55; }
@@ -34,8 +37,8 @@
   <body>
     <main>
       <p class="kicker">Woodbrook Community Hub · design exploration</p>
-      <h1>Three ways a neighbourhood can feel like home.</h1>
-      <p class="intro">Each standalone concept uses the same resident-first purpose and comparable local content. Transport appears only as one update among community life, green space, housing, events, services, and participation.</p>
+      <h1>Six ways a neighbourhood can feel like home.</h1>
+      <p class="intro">Each standalone concept uses the same resident-first purpose. Concept 02 is the current favourite; concepts 04–06 explore three more community-hub directions around gathering, belonging, and shared contribution. Transport is not part of their primary content.</p>
       <section class="grid" aria-label="Design concepts">
         <article>
           <span class="number">01</span>
@@ -54,6 +57,24 @@
           <h2>Coast &amp; Canopy</h2>
           <p>A local field guide: distinctive, nature-led, and built to document the changing place between sea and hills.</p>
           <a href="field-notes.html">Open concept 03 →</a>
+        </article>
+        <article>
+          <span class="number">04</span>
+          <h2>Neighbourhood Rooms</h2>
+          <p>A warm shared house: each part of the hub feels like a room for meeting, learning, helping, or organising.</p>
+          <a href="neighbourhood-rooms.html">Open concept 04 →</a>
+        </article>
+        <article>
+          <span class="number">05</span>
+          <h2>The Shared Table</h2>
+          <p>A social gathering place: the community agenda sits at the centre and every resident has a way into the conversation.</p>
+          <a href="shared-table.html">Open concept 05 →</a>
+        </article>
+        <article>
+          <span class="number">06</span>
+          <h2>Neighbourhood Patchwork</h2>
+          <p>A lively collective identity: many small resident contributions combine into one useful, recognisable whole.</p>
+          <a href="patchwork.html">Open concept 06 →</a>
         </article>
       </section>
       <p class="note">These are intentionally disposable prototypes. Choose the system that feels right; the selected direction can then be rebuilt properly inside the live application.</p>

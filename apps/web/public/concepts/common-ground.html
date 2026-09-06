@@ -30,14 +30,19 @@
       nav { display: flex; align-items: center; gap: 28px; }
       nav a { color: var(--muted); font-size: .86rem; font-weight: 700; text-decoration: none; }
       .report { padding: 12px 17px; border-radius: 999px; background: var(--forest); color: white; }
-      .hero { position: relative; padding: 76px 0 92px; }
+      .hero { position: relative; padding: 52px 0 88px; }
       .hero::before { position: absolute; z-index: -1; top: -140px; right: -160px; width: 620px; height: 620px; border-radius: 48% 52% 56% 44%; background: var(--sea); content: ''; transform: rotate(18deg); }
       .hero::after { position: absolute; z-index: -1; bottom: -120px; left: -170px; width: 480px; height: 360px; border-radius: 52% 48% 38% 62%; background: var(--leaf); content: ''; transform: rotate(-12deg); }
+      .hero-grid { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(380px,.75fr); align-items: center; gap: clamp(36px,6vw,86px); }
       .hello { display: inline-flex; padding: 8px 13px; border-radius: 999px; background: var(--yellow); font-size: .8rem; font-weight: 700; }
-      h1 { max-width: 920px; margin: 24px 0; font-size: clamp(4rem,8vw,7.6rem); line-height: .9; letter-spacing: -.065em; }
+      h1 { max-width: 760px; margin: 24px 0; font-size: clamp(4rem,6.6vw,6.6rem); line-height: .9; letter-spacing: -.065em; }
       h1 span { color: var(--teal); }
       .hero-copy { max-width: 680px; color: var(--muted); font-size: 1.2rem; line-height: 1.6; }
       .hero-actions { display: flex; margin-top: 30px; flex-wrap: wrap; gap: 12px; }
+      .hero-place { position: relative; margin: 0; }
+      .hero-place::before { position: absolute; z-index: -1; top: -28px; right: -32px; width: 48%; height: 38%; border-radius: 50%; background: var(--coral); content: ''; opacity: .45; }
+      .hero-place img { display: block; width: 100%; aspect-ratio: 4/5; border-radius: 48% 48% 22px 22px; object-fit: cover; box-shadow: 0 22px 48px rgba(33,58,50,.14); }
+      .hero-place figcaption { max-width: 340px; margin: 13px 8px 0; color: var(--muted); font-size: .76rem; line-height: 1.45; }
       .button { padding: 14px 20px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); font-weight: 750; text-decoration: none; box-shadow: 0 8px 22px rgba(33,58,50,.08); }
       .button.primary { border-color: var(--forest); background: var(--forest); color: white; }
       .jobs { position: relative; z-index: 2; padding: 20px 0 90px; }
@@ -78,7 +83,7 @@
       footer { padding: 52px 0; background: var(--ink); color: #d8e7e0; }
       footer .shell { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
       footer strong { color: white; }
-      @media (max-width: 900px) { nav a:not(.report) { display: none; } .jobs-grid { grid-template-columns: repeat(2,1fr); } .pulse-grid, .gather-card { grid-template-columns: 1fr; } }
+      @media (max-width: 900px) { nav a:not(.report) { display: none; } .hero-grid, .pulse-grid, .gather-card { grid-template-columns: 1fr; } .hero-place { max-width: 620px; } .hero-place img { aspect-ratio: 16/10; border-radius: 34px; } .jobs-grid { grid-template-columns: repeat(2,1fr); } }
       @media (max-width: 560px) { .shell { width: min(100% - 28px,1180px); } .hero { padding-top: 50px; } h1 { font-size: 4rem; } .jobs-grid { grid-template-columns: 1fr; } .section-head { align-items: start; flex-direction: column; } .feature h3 { margin-top: 80px; } footer .shell { align-items: flex-start; flex-direction: column; } }
     </style>
   </head>
@@ -86,7 +91,7 @@
     <a class="back" href="index.html">All concepts</a>
     <header><div class="shell header-inner"><a class="brand" href="#"><span class="brand-mark">W</span><span>Woodbrook<br /><small>Common Ground</small></span></a><nav aria-label="Main navigation"><a href="#pulse">What’s happening</a><a href="#gather">Meet nearby</a><a href="#shape">Shape the area</a><a class="report" href="#raise">Raise something</a></nav></div></header>
     <main>
-      <section class="hero"><div class="shell"><span class="hello">Hello, neighbour</span><h1>A shared place for <span>everyday Woodbrook.</span></h1><p class="hero-copy">Find out what’s changing, meet people nearby, discover something useful, or bring forward an issue the neighbourhood should know about.</p><div class="hero-actions"><a class="button primary" href="#pulse">See what’s happening</a><a class="button" href="#gather">Find a local date</a></div></div></section>
+      <section class="hero"><div class="shell hero-grid"><div><span class="hello">Hello, neighbour</span><h1>A shared place for <span>everyday Woodbrook.</span></h1><p class="hero-copy">Find out what’s changing, meet people nearby, discover something useful, or bring forward an issue the neighbourhood should know about.</p><div class="hero-actions"><a class="button primary" href="#pulse">See what’s happening</a><a class="button" href="#gather">Find a local date</a></div></div><figure class="hero-place"><img src="../images/woodbrook-estate-aerial-lda.jpg" alt="Aerial view of homes under construction at Woodbrook, Shankill" /><figcaption>Woodbrook taking shape beside its green edge · construction progress image: Land Development Agency</figcaption></figure></div></section>
 
       <section class="jobs" id="shape"><div class="shell jobs-grid">
         <a class="job" href="#pulse"><span class="job-icon">⌁</span><div><small>Keep up</small><h2>Know what’s happening</h2><p>Clear updates with sources and dates.</p></div></a>

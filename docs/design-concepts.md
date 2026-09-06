@@ -1,6 +1,6 @@
 # Woodbrook community hub concept exploration
 
-These three throwaway static homepages deliberately restart the visual system. They explore what Woodbrook should feel like before any direction is moved into the application.
+These six throwaway static homepages deliberately restart the visual system. They explore what Woodbrook should feel like before any direction is moved into the application.
 
 ## Product purpose
 
@@ -20,6 +20,7 @@ Transport belongs inside that system as one topic among housing, green space, ev
 - [Decidim's participatory architecture](https://docs.decidim.org/en/develop/features/general-description.html) combines meetings, surveys, proposals, information, and accountability inside shared participatory spaces. Concept 02 organises the homepage around what residents can know, join, shape, and raise.
 - [Mozilla Protocol's principles](https://protocol.mozilla.org/docs/fundamentals/principles) say components should reinforce content, remain flexible under changing conditions, and prove useful. Concept 03 uses a small set of adaptable field-note modules rather than a decorative component catalogue.
 - [Material 3 colour hierarchy](https://developer.android.com/codelabs/m3-design-theming) reserves stronger colour roles for the most important actions and lets calm surfaces occupy most of the page. All three concepts use tonal separation and avoid the high-contrast frame around every component.
+- The [Land Development Agency Woodbrook project page](https://lda.ie/projects/woodbrook-shankill) provides a documentary aerial of the estate taking shape. The image appears in the hero with an honest construction-progress caption so residents recognise the place immediately without presenting it as a finished development.
 
 Government of Ireland is not a visual reference for these concepts. General accessibility practices remain requirements, but public-service mastheads, route-sign typography, thick rules, and administrative component styling are intentionally excluded.
 
@@ -49,6 +50,30 @@ Government of Ireland is not a visual reference for these concepts. General acce
 - Updates behave like field notes: observable change, date, source, next step.
 - Coastal blue, woodland green, heather, and gorse form a natural seasonal system.
 - Best when local distinctiveness and a strong ownable identity should lead.
+
+## Concept 04 — Neighbourhood Rooms
+
+**Idea:** Woodbrook as a generous shared house with a useful room for each kind of community activity.
+
+- A soft editorial composition with familiar room names instead of institutional service labels.
+- The welcome room, notice room, kitchen table, and help desk create a clear mental model.
+- Best when belonging and ease of orientation should lead.
+
+## Concept 05 — The Shared Table
+
+**Idea:** Woodbrook as an open table where local plans, invitations, and resident contributions meet.
+
+- A circular gathering motif and a visible community agenda dominate the first screen.
+- Dates and ways to take part sit ahead of formal project updates.
+- Best when real-world participation and sociability should lead.
+
+## Concept 06 — Neighbourhood Patchwork
+
+**Idea:** Woodbrook as one place assembled from many small resident contributions.
+
+- A colourful modular grid gives different types of content distinct but related identities.
+- Lower contrast and repeated rounded shapes keep the collage lively rather than noisy.
+- Best when resident voices, varied activity, and a contemporary local identity should lead.
 
 ## What to evaluate
 
