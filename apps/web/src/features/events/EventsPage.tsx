@@ -2,7 +2,7 @@ import { CmsUnavailable } from '../../components/CmsUnavailable';
 import { EmptyState } from '../../components/EmptyState';
 import { EventCard } from '../../components/EventCard';
 import { PageIntro } from '../../components/PageIntro';
-import { Route } from '../../routes/events';
+import { Route } from '../../routes/events/index';
 
 export function EventsPage() {
   const content = Route.useLoaderData();
