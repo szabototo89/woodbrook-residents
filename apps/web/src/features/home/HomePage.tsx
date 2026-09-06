@@ -5,7 +5,6 @@ import {
   CircleAlert,
   MapPinned,
   MessageSquareText,
-  TrainFront,
   Users,
 } from 'lucide-react';
 
@@ -19,8 +18,6 @@ import { Route } from '../../routes/index';
 
 export function HomePage() {
   const content = Route.useLoaderData();
-  const featuredUpdate =
-    content.updates.find((update) => update.featured) ?? content.updates[0];
 
   return (
     <main id="main-content">
@@ -29,10 +26,10 @@ export function HomePage() {
           <div className="hero-copy">
             <p className="eyebrow">
               <MapPinned size={14} aria-hidden="true" />
-              Woodbrook · Shankill · Dublin 18
+              Woodbrook Community Hub · Shankill
             </p>
             <h1>
-              Our Woodbrook, <em>together.</em>
+              What’s happening here. <span>What we can do together.</span>
             </h1>
             <p className="hero-lede">
               {content.siteSetting?.tagline ??
@@ -43,73 +40,97 @@ export function HomePage() {
                 'A practical home for local information and resident action.'}
             </p>
             <div className="button-row">
-              <Link className="button" to="/get-involved">
-                Get involved <ArrowRight size={16} aria-hidden="true" />
+              <Link className="button" to="/updates">
+                See what’s happening <ArrowRight size={16} aria-hidden="true" />
               </Link>
-              <Link className="button button-secondary" to="/projects">
-                Explore projects
+              <Link className="button button-secondary" to="/surveys">
+                Have your say
               </Link>
             </div>
-            <dl className="fact-row" aria-label="Woodbrook transport facts">
+            <dl className="fact-row" aria-label="Community hub information">
               <div>
-                <dt>32nd</dt>
-                <dd>DART station</dd>
+                <dt>{content.updates.length}</dt>
+                <dd>local updates</dd>
               </div>
               <div>
-                <dt>191</dt>
-                <dd>weekday services</dd>
+                <dt>{content.projects.length}</dt>
+                <dd>projects tracked</dd>
               </div>
               <div>
-                <dt>≈40 min</dt>
-                <dd>to city centre</dd>
+                <dt>Verified</dt>
+                <dd>source-linked facts</dd>
               </div>
             </dl>
           </div>
-          <div className="hero-media">
-            <figure className="hero-image hero-image-main">
-              <img
-                src="/images/woodbrook-station.jpg"
-                alt="Woodbrook DART station in Shankill"
-              />
-            </figure>
-            <figure className="hero-image hero-image-small">
-              <img
-                src="/images/shankill-coast.jpg"
-                alt="View over Shankill Beach towards Bray"
-              />
-            </figure>
-            <figure className="hero-image hero-image-small">
-              <img
-                src="/images/shankill-village.jpg"
-                alt="Shankill village main street"
-              />
-            </figure>
-          </div>
+          <aside className="hero-board" aria-label="Community board">
+            <div className="board-heading">
+              <span>On the community board</span>
+              <small>Woodbrook · right now</small>
+            </div>
+            <div className="board-feature">
+              <p className="eyebrow">Built for residents</p>
+              <h2>Find out. Join in. Help shape Woodbrook.</h2>
+              <p>
+                Follow local changes, check useful dates, respond to
+                consultations, and turn a neighbourhood concern into a clear
+                next step.
+              </p>
+            </div>
+            <div className="board-links">
+              <Link to="/updates">
+                <span>Stay informed</span>
+                <strong>{content.updates.length} verified local updates</strong>
+                <ArrowRight size={16} aria-hidden="true" />
+              </Link>
+              <Link to="/events">
+                <span>Meet and join in</span>
+                <strong>
+                  {content.events.length}{' '}
+                  {content.events.length === 1
+                    ? 'upcoming date'
+                    : 'upcoming dates'}
+                </strong>
+                <ArrowRight size={16} aria-hidden="true" />
+              </Link>
+              <Link to="/projects">
+                <span>Shape the area</span>
+                <strong>
+                  {content.projects.length} projects being tracked
+                </strong>
+                <ArrowRight size={16} aria-hidden="true" />
+              </Link>
+              <Link to="/report">
+                <span>Raise a concern</span>
+                <strong>Send a private issue report</strong>
+                <ArrowRight size={16} aria-hidden="true" />
+              </Link>
+            </div>
+          </aside>
         </div>
       </section>
 
       <section className="action-rail" aria-label="Community hub priorities">
         <div className="shell action-rail-grid">
           <Link to="/updates">
-            <span>
+            <span className="action-stop">
               <MessageSquareText size={20} aria-hidden="true" />
             </span>
-            <strong>Inform</strong>
-            <small>Reliable local updates</small>
+            <strong>Know what’s happening</strong>
+            <small>Updates and useful local information</small>
           </Link>
           <Link to="/projects">
-            <span>
+            <span className="action-stop">
               <Users size={20} aria-hidden="true" />
             </span>
-            <strong>Organise</strong>
-            <small>Projects and next steps</small>
+            <strong>Take part</strong>
+            <small>Projects, events, and consultations</small>
           </Link>
           <Link to="/report">
-            <span>
+            <span className="action-stop">
               <CircleAlert size={20} aria-hidden="true" />
             </span>
-            <strong>Act</strong>
-            <small>Report, respond, volunteer</small>
+            <strong>Help improve the area</strong>
+            <small>Report an issue or get involved</small>
           </Link>
         </div>
       </section>
@@ -117,33 +138,6 @@ export function HomePage() {
       {content.availability === 'unavailable' ? (
         <section className="section shell">
           <CmsUnavailable />
-        </section>
-      ) : null}
-
-      {featuredUpdate ? (
-        <section className="section shell">
-          <article className="featured-story">
-            {featuredUpdate.imagePath ? (
-              <img
-                src={featuredUpdate.imagePath}
-                alt={featuredUpdate.imageAlt ?? ''}
-              />
-            ) : null}
-            <div>
-              <p className="eyebrow">
-                <TrainFront size={14} aria-hidden="true" /> Featured update
-              </p>
-              <h2>{featuredUpdate.title}</h2>
-              <p>{featuredUpdate.summary}</p>
-              <Link
-                className="button button-secondary"
-                to="/updates/$slug"
-                params={{ slug: featuredUpdate.slug }}
-              >
-                Read the update <ArrowRight size={16} aria-hidden="true" />
-              </Link>
-            </div>
-          </article>
         </section>
       ) : null}
 
@@ -184,8 +178,8 @@ export function HomePage() {
       <section className="section action-banner">
         <div className="shell action-banner-grid">
           <div>
-            <p className="eyebrow">Make it useful</p>
-            <h2>Notice something? Add signal, not noise.</h2>
+            <p className="eyebrow">From signal to action</p>
+            <h2>A local observation can become a shared next step.</h2>
             <p>
               Structured reports help the community understand patterns and
               route local issues to the right place.

@@ -23,7 +23,7 @@ export function AppHeader() {
           </span>
           <span className="brand-copy">
             <strong>Woodbrook</strong>
-            <span>Community Hub</span>
+            <span>Community hub · Shankill</span>
           </span>
         </Link>
 

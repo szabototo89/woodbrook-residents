@@ -8,7 +8,7 @@ test('shows researched community content and supports primary navigation', async
   await expect(
     page.getByRole('heading', {
       level: 1,
-      name: /our woodbrook, together/i,
+      name: /what’s happening here. what we can do together/i,
     }),
   ).toBeVisible();
   await expect(

@@ -1,9 +1,10 @@
 export const siteSetting = {
   name: 'Woodbrook Community Hub',
   location: 'Woodbrook, Shankill, Dublin 18',
-  tagline: 'See what’s happening. Have your say. Help shape our neighbourhood.',
+  tagline:
+    'A shared place for local updates, practical information, and resident action.',
   introduction:
-    'A resident-led place to follow local projects, find reliable updates, join community events, and take practical action.',
+    'Follow what is changing, find the right local service, join a community event, or raise an issue that needs attention.',
 };
 
 export const updates = [
