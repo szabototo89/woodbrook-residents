@@ -22,7 +22,7 @@ export function HomePage() {
   const content = Route.useLoaderData();
 
   return (
-    <main id="main-content">
+    <main className="home-page" id="main-content">
       <section className="hero rooms-hero">
         <div className="shell rooms-hero-card">
           <div className="hero-copy">

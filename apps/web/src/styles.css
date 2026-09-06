@@ -2698,7 +2698,7 @@ p {
 }
 
 .rooms-hero {
-  padding: 48px 0 88px;
+  padding: 40px 0 64px;
   border: 0;
   background: var(--paper);
 }
@@ -2782,10 +2782,6 @@ p {
   text-underline-offset: 2px;
 }
 
-.room-directory {
-  padding-top: 20px;
-}
-
 .rooms-heading {
   display: flex;
   margin-bottom: 38px;
@@ -2806,17 +2802,16 @@ p {
 
 .room-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr 0.8fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
 .room-card {
   display: flex;
-  min-height: 360px;
-  padding: 27px;
+  min-height: 320px;
+  padding: 24px;
   flex-direction: column;
-  justify-content: space-between;
-  border-radius: 34px;
+  border-radius: 28px;
   background: var(--sage);
   box-shadow: none;
   transition:
@@ -2829,10 +2824,6 @@ p {
   transform: translateY(-3px);
 }
 
-.room-card:nth-child(4) {
-  grid-column: 2 / 4;
-}
-
 .room-notice {
   background: var(--sea);
 }
@@ -2842,7 +2833,7 @@ p {
 }
 
 .room-workshop {
-  min-height: 270px;
+  min-height: 320px;
   background: var(--gorse-soft);
 }
 
@@ -2863,10 +2854,18 @@ p {
   text-transform: uppercase;
 }
 
+.room-card > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding-top: 14px;
+}
+
 .room-card h3 {
   max-width: 14ch;
-  margin: 70px 0 11px;
-  font-size: 2.25rem;
+  margin: auto 0 11px;
+  padding-top: 32px;
+  font-size: 2rem;
 }
 
 .room-card p {
@@ -2878,7 +2877,7 @@ p {
 
 .room-link {
   display: inline-flex;
-  margin-top: 28px;
+  margin-top: 22px;
   align-items: center;
   gap: 7px;
   font-size: 0.86rem;
@@ -2887,6 +2886,15 @@ p {
 
 .section {
   padding-block: clamp(72px, 9vw, 112px);
+}
+
+.home-page .section {
+  padding-block: clamp(64px, 7vw, 88px);
+}
+
+.home-page .room-directory {
+  padding-top: 48px;
+  scroll-margin-top: 88px;
 }
 
 .section-tint,
@@ -3113,8 +3121,9 @@ p {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .room-card:nth-child(4) {
-    grid-column: auto;
+  .room-card,
+  .room-workshop {
+    min-height: 300px;
   }
 
   .help-desk-card {
@@ -3164,7 +3173,11 @@ p {
 
   .room-card,
   .room-workshop {
-    min-height: 310px;
+    min-height: 290px;
+  }
+
+  .room-card h3 {
+    padding-top: 24px;
   }
 
   .help-desk-card {
