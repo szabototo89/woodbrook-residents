@@ -2,8 +2,8 @@ import { Link } from '@tanstack/react-router';
 import {
   ArrowRight,
   CalendarDays,
-  CircleAlert,
   Hammer,
+  HandHeart,
   House,
   Megaphone,
 } from 'lucide-react';
@@ -228,11 +228,13 @@ export function HomePage() {
 
       <section className="section help-desk-section">
         <div className="shell help-desk-card">
-          <span className="room-icon">
-            <CircleAlert size={22} aria-hidden="true" />
-          </span>
-          <div>
-            <p className="eyebrow">Contribute or get help</p>
+          <div className="help-desk-copy">
+            <div className="help-desk-label">
+              <span className="help-desk-icon">
+                <HandHeart size={20} aria-hidden="true" />
+              </span>
+              <p className="eyebrow">Contribute or get help</p>
+            </div>
             <h2>Ask, contribute, or raise something useful.</h2>
             <p>
               Send a neighbourhood concern privately, or help make the hub more

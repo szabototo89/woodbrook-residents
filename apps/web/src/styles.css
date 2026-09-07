@@ -1,4 +1,4 @@
-@import '@fontsource-variable/atkinson-hyperlegible-next';
+@import '@fontsource-variable/inter';
 @import '@fontsource-variable/newsreader';
 
 :root {
@@ -718,7 +718,14 @@ summary:focus-visible {
 .split-section {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 56px;
+  column-gap: 56px;
+  row-gap: 0;
+}
+
+.split-section > div {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
 }
 
 .split-section .section-heading {
@@ -1482,8 +1489,7 @@ summary:focus-visible {
   --heather-soft: #eee8f0;
   --soft-shadow: 0 18px 44px rgba(32, 55, 47, 0.11);
   --small-shadow: 0 8px 22px rgba(32, 55, 47, 0.09);
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 body {
@@ -1501,8 +1507,7 @@ body::before {
 h1,
 h2,
 h3 {
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-weight: 760;
   letter-spacing: -0.045em;
 }
@@ -1561,8 +1566,7 @@ p {
 
 .brand-copy strong {
   color: var(--white);
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 1.12rem;
   font-weight: 760;
   letter-spacing: -0.02em;
@@ -1653,6 +1657,10 @@ textarea:focus-visible {
   outline-offset: 4px;
 }
 
+.brand {
+  border-radius: 12px;
+}
+
 .button-secondary {
   border-color: var(--deep-sea);
   background: transparent;
@@ -1679,8 +1687,7 @@ textarea:focus-visible {
 .eyebrow {
   margin-bottom: 16px;
   color: var(--tide);
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 0.78rem;
   font-weight: 720;
   letter-spacing: 0.025em;
@@ -1771,8 +1778,7 @@ textarea:focus-visible {
 }
 
 .fact-row dt {
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: clamp(1.5rem, 2.7vw, 2.3rem);
   font-weight: 780;
   letter-spacing: -0.05em;
@@ -1800,8 +1806,7 @@ textarea:focus-visible {
   justify-content: space-between;
   border-bottom: 1px solid var(--line);
   background: var(--gorse-soft);
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   gap: 16px;
 }
 
@@ -1865,8 +1870,7 @@ textarea:focus-visible {
 .board-links span {
   grid-column: 1 / 3;
   color: var(--ink-soft);
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 0.72rem;
   font-weight: 680;
   letter-spacing: 0.01em;
@@ -1930,8 +1934,7 @@ textarea:focus-visible {
 
 .action-rail-grid strong {
   color: var(--ink);
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 1.25rem;
   font-weight: 760;
 }
@@ -2022,8 +2025,7 @@ textarea:focus-visible {
 }
 
 .card-meta {
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 0.75rem;
 }
 
@@ -2033,8 +2035,7 @@ textarea:focus-visible {
   border-radius: 2px;
   background: var(--gorse-soft);
   color: var(--ink);
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 0.7rem;
   letter-spacing: 0.01em;
   text-transform: none;
@@ -2106,8 +2107,7 @@ textarea:focus-visible {
 }
 
 .event-date strong {
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 1.9rem;
   font-weight: 800;
 }
@@ -2116,8 +2116,7 @@ textarea:focus-visible {
 .event-meta,
 .survey-date,
 .resource-actions {
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 .survey-card,
@@ -2154,8 +2153,7 @@ textarea:focus-visible {
   bottom: -0.18em;
   color: rgba(32, 55, 47, 0.045);
   content: 'LOCAL';
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: clamp(8rem, 22vw, 20rem);
   font-weight: 900;
   line-height: 0.8;
@@ -2224,8 +2222,7 @@ textarea:focus-visible {
 
 .article-image figcaption,
 .source-note {
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 .article-body > p {
@@ -2338,14 +2335,12 @@ textarea:focus-visible {
 
 .footer-brand strong,
 .footer-grid h2 {
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 .footer-grid h2 {
   color: var(--gorse);
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 @media (max-width: 1040px) {
@@ -2506,8 +2501,7 @@ textarea:focus-visible {
   --gorse-soft: #f8edc6;
   --heather-soft: #eee7f0;
   --rose: #e9c5b5;
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 body {
@@ -2591,8 +2585,7 @@ p {
 
 .brand-copy span {
   color: var(--ink-soft);
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 0.63rem;
   letter-spacing: 0.08em;
 }
@@ -2738,8 +2731,7 @@ p {
 .rooms-hero .hero-lede {
   max-width: 560px;
   margin-bottom: 12px;
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: clamp(1.15rem, 1.8vw, 1.35rem);
   font-weight: 500;
   line-height: 1.48;
@@ -2863,8 +2855,7 @@ p {
 
 .room-card h3 {
   max-width: 14ch;
-  margin: auto 0 11px;
-  padding-top: 32px;
+  margin: 42px 0 11px;
   font-size: 2rem;
 }
 
@@ -2991,12 +2982,34 @@ p {
 .help-desk-card {
   display: grid;
   padding: clamp(34px, 6vw, 68px);
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(24px, 4vw, 44px);
   border-radius: 40px;
   background: var(--white);
   box-shadow: var(--shadow);
+}
+
+.help-desk-label {
+  display: flex;
+  margin-bottom: 16px;
+  align-items: center;
+  gap: 10px;
+}
+
+.help-desk-label .eyebrow {
+  margin-bottom: 0;
+}
+
+.help-desk-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--sea-glass);
+  color: var(--forest);
 }
 
 .help-desk-card h2 {
@@ -3007,6 +3020,10 @@ p {
 .help-desk-card p:not(.eyebrow) {
   max-width: 650px;
   margin-bottom: 0;
+}
+
+.help-desk-card .button-row {
+  align-self: end;
 }
 
 .page-intro {
@@ -3035,8 +3052,7 @@ p {
 }
 
 .page-intro-copy p {
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
   font-size: 1.18rem;
 }
 
@@ -3096,8 +3112,7 @@ p {
 
 .footer-brand strong,
 .footer-grid h2 {
-  font-family:
-    'Atkinson Hyperlegible Next Variable', Arial, ui-sans-serif, sans-serif;
+  font-family: 'Inter Variable', Arial, ui-sans-serif, sans-serif;
 }
 
 .footer-grid h2 {
@@ -3127,11 +3142,11 @@ p {
   }
 
   .help-desk-card {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
   }
 
   .help-desk-card .button-row {
-    grid-column: 2;
+    grid-column: auto;
   }
 }
 
@@ -3177,7 +3192,7 @@ p {
   }
 
   .room-card h3 {
-    padding-top: 24px;
+    margin-top: 32px;
   }
 
   .help-desk-card {

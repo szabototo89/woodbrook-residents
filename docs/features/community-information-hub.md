@@ -14,7 +14,12 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Event detail pages let residents download an event to their calendar and open its location in Google Maps.
 - The home page presents those paths as one Woodbrook Community Hub, using direct resident-focused language rather than institutional categories or a themed naming system.
 - The home page presents its four resident starting points as one balanced row on wide screens and a compact single-column sequence on phones.
+- The four resident starting points align their titles consistently on wide screens.
+- Featured event and consultation cards share a horizontal starting line even when their headings wrap differently.
 - The home page grounds the hub in a high-resolution, source-attributed photograph of Woodbrook's coastal setting.
+- Dates and times use conventional, unslashed numerals throughout the resident-facing interface.
+- The home page contribution panel pairs its label with a relevant, visually anchored icon.
+- The contribution panel anchors its actions to the explanatory copy on wide screens and stacks them naturally on small screens.
 - Every factual seeded item links to its original public source.
 - Empty and unavailable states explain what happened without showing invented content.
 - The experience works on mobile and desktop and supports keyboard navigation.
@@ -30,6 +35,8 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Given the CMS cannot be reached, when a resident opens a content route, then a clear unavailable state appears.
 - Given a narrow mobile viewport, when a resident browses primary routes, then navigation and main content remain usable without horizontal overflow.
 - Given a wide desktop viewport, when a resident reaches the homepage starting points, then all four paths have equal visual weight with no empty grid quadrant.
+- Given a wide desktop viewport, when resident starting points, featured cards, and contribution actions are shown, then related elements align consistently without being displaced by differing copy lengths.
+- Given resident-facing content contains a date or time, when it is rendered, then its numerals use conventional unslashed forms.
 
 ## Scope
 
