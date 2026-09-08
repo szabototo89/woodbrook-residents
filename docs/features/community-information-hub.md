@@ -8,7 +8,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 
 ## User-visible behavior
 
-- Residents can browse current updates, initiatives, events, surveys, and local resources.
+- Residents can browse current updates, initiatives, events, surveys, and a searchable directory of local services.
 - Residents can open dedicated detail pages for updates, projects, events, and surveys from their listing cards.
 - Detail pages use a consistent reading layout while surfacing the dates, status, location, next step, action, and source information relevant to each content type.
 - Event detail pages let residents download an event to their calendar and open its location in Google Maps.
@@ -16,6 +16,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - The home page presents its four resident starting points as one balanced row on wide screens and a compact single-column sequence on phones.
 - The home page grounds the hub in a high-resolution, source-attributed photograph of Woodbrook's coastal setting.
 - Every factual seeded item links to its original public source.
+- Local service cards show their source and checked date, support direct contact actions, and do not present listings as endorsements.
 - Empty and unavailable states explain what happened without showing invented content.
 - The experience works on mobile and desktop and supports keyboard navigation.
 
