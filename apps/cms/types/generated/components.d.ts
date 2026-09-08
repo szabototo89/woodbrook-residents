@@ -1,3 +1,21 @@
-/*
- * The app doesn't have any components yet.
- */
+import type { Schema, Struct } from '@strapi/strapi';
+
+export interface SharedResourceDetail extends Struct.ComponentSchema {
+  collectionName: 'components_shared_resource_details';
+  info: {
+    description: 'A reusable label and value shown with a directory entry';
+    displayName: 'Resource detail';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    value: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+declare module '@strapi/strapi' {
+  export namespace Public {
+    export interface ComponentSchemas {
+      'shared.resource-detail': SharedResourceDetail;
+    }
+  }
+}

@@ -79,7 +79,7 @@ async function loadSurveys(): Promise<Survey[]> {
 
 async function loadResources(): Promise<Resource[]> {
   const response = await fetchJson(
-    'resources?sort[0]=displayOrder:asc&pagination[pageSize]=100',
+    'resources?populate[details]=*&sort[0]=displayOrder:asc&sort[1]=title:asc&pagination[pageSize]=200',
   );
   return collectionEnvelopeSchema(resourceSchema).parse(response).data;
 }

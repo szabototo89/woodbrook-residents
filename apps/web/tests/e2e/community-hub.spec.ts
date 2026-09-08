@@ -116,6 +116,36 @@ test('validates a private issue report before sending it', async ({ page }) => {
   );
 });
 
+test('finds local services by need and category', async ({ page }) => {
+  await page.goto('/local-info');
+
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Local information' }),
+  ).toBeVisible();
+
+  const search = page.getByRole('searchbox', { name: 'What do you need?' });
+  await search.fill('plumber');
+  await expect(page.getByText('1 contact', { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Plumbers Dublin — Shankill' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Shankill Pharmacy' }),
+  ).not.toBeVisible();
+
+  await page.getByRole('button', { name: 'Clear filters' }).click();
+  await page.getByRole('button', { name: 'Health', exact: true }).click();
+  await expect(
+    page.getByRole('heading', { name: 'Shankill Pharmacy' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: /call 01 282 3263/i }),
+  ).toHaveAttribute('href', 'tel:012823263');
+  await expect(
+    page.getByText(/checked 7 september 2026/i).first(),
+  ).toBeVisible();
+});
+
 test('detail pages offer a way back when content is unavailable', async ({
   page,
 }) => {

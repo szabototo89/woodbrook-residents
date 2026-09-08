@@ -18,6 +18,10 @@
     "category": {
       "type": "enumeration",
       "enum": [
+        "health",
+        "trades",
+        "professional",
+        "care",
         "transport",
         "council",
         "community",
@@ -26,6 +30,16 @@
         "recreation"
       ],
       "required": true
+    },
+    "serviceType": {
+      "type": "string",
+      "required": true
+    },
+    "providerType": {
+      "type": "enumeration",
+      "enum": ["business", "public-service", "community", "nonprofit"],
+      "required": true,
+      "default": "business"
     },
     "description": {
       "type": "text",
@@ -40,6 +54,16 @@
     "email": {
       "type": "email"
     },
+    "outOfHours": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "details": {
+      "type": "component",
+      "component": "shared.resource-detail",
+      "repeatable": true
+    },
     "displayOrder": {
       "type": "integer",
       "required": true,
@@ -47,6 +71,14 @@
     },
     "sourceReviewedOn": {
       "type": "date",
+      "required": true
+    },
+    "sourceName": {
+      "type": "string",
+      "required": true
+    },
+    "sourceUrl": {
+      "type": "string",
       "required": true
     }
   }

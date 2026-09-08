@@ -77,12 +77,31 @@ export type Resource = {
   documentId: string;
   title: string;
   category:
-    'transport' | 'council' | 'community' | 'safety' | 'waste' | 'recreation';
+    | 'health'
+    | 'trades'
+    | 'professional'
+    | 'care'
+    | 'transport'
+    | 'council'
+    | 'community'
+    | 'safety'
+    | 'waste'
+    | 'recreation';
+  serviceType: string;
+  providerType: 'business' | 'public-service' | 'community' | 'nonprofit';
   description: string;
   url?: string;
   phone?: string;
   email?: string;
+  outOfHours: boolean;
+  details: Array<{
+    id: number;
+    label: string;
+    value: string;
+  }>;
   displayOrder: number;
+  sourceName: string;
+  sourceUrl: string;
   sourceReviewedOn: string;
 };
 

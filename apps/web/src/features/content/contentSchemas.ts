@@ -88,6 +88,10 @@ export const resourceSchema = z.object({
   documentId: z.string(),
   title: z.string(),
   category: z.enum([
+    'health',
+    'trades',
+    'professional',
+    'care',
     'transport',
     'council',
     'community',
@@ -95,10 +99,29 @@ export const resourceSchema = z.object({
     'waste',
     'recreation',
   ]),
+  serviceType: z.string(),
+  providerType: z.enum([
+    'business',
+    'public-service',
+    'community',
+    'nonprofit',
+  ]),
   description: z.string(),
   url: optionalString,
   phone: optionalString,
   email: optionalString,
+  outOfHours: z.boolean().default(false),
+  details: z
+    .array(
+      z.object({
+        id: z.number(),
+        label: z.string(),
+        value: z.string(),
+      }),
+    )
+    .default([]),
   displayOrder: z.number(),
+  sourceName: z.string(),
+  sourceUrl: z.string(),
   sourceReviewedOn: z.string(),
 });

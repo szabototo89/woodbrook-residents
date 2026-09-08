@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_shared_resource_details",
+  "info": {
+    "displayName": "Resource detail",
+    "description": "A reusable label and value shown with a directory entry"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "value": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
