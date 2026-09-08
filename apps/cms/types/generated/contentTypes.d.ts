@@ -599,13 +599,25 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
   };
   attributes: {
     category: Schema.Attribute.Enumeration<
-      ['transport', 'council', 'community', 'safety', 'waste', 'recreation']
+      [
+        'health',
+        'trades',
+        'professional',
+        'care',
+        'transport',
+        'council',
+        'community',
+        'safety',
+        'waste',
+        'recreation',
+      ]
     > &
       Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
+    details: Schema.Attribute.Component<'shared.resource-detail', true>;
     displayOrder: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<0>;
@@ -616,9 +628,20 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
       'api::resource.resource'
     > &
       Schema.Attribute.Private;
+    outOfHours: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     phone: Schema.Attribute.String;
+    providerType: Schema.Attribute.Enumeration<
+      ['business', 'public-service', 'community', 'nonprofit']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'business'>;
     publishedAt: Schema.Attribute.DateTime;
+    serviceType: Schema.Attribute.String & Schema.Attribute.Required;
+    sourceName: Schema.Attribute.String & Schema.Attribute.Required;
     sourceReviewedOn: Schema.Attribute.Date & Schema.Attribute.Required;
+    sourceUrl: Schema.Attribute.String & Schema.Attribute.Required;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
