@@ -1,17 +1,20 @@
-# web
+# Woodbrook web application
 
-A minimal TanStack Start app with one route and plain CSS.
+The TanStack Start public website supports dynamic local development and a fully static production build.
 
-```bash
-npm install
-npm run dev
-```
+Run the development server from the repository root with `bun run dev:web`.
 
-Edit `src/routes/index.tsx` to get started. Add route files under
-`src/routes`; TanStack Router updates `src/routeTree.gen.ts` for you.
+## Static build
 
-Build the production app with:
+The repository-level command runs quality checks before producing and verifying the Cloudflare Pages artifact:
 
 ```bash
-npm run build
+bun run build:static
 ```
+
+Required build environment:
+
+- `STRAPI_URL`: reachable Strapi origin used only while prerendering.
+- `VITE_PUBLIC_SITE_URL`: public origin embedded in canonical and social metadata.
+
+Deploy `dist/client` when the Pages project root is `apps/web`, or `apps/web/dist/client` when it is the repository root. Do not deploy `dist/server`; it is a temporary prerendering input and is not needed at runtime.

@@ -9,6 +9,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 ## User-visible behavior
 
 - Residents can browse current updates, initiatives, events, surveys, and a searchable directory of local services.
+- Published content is captured during deployment and remains available without a runtime CMS connection.
 - Residents can open dedicated detail pages for updates, projects, events, and surveys from their listing cards.
 - Detail pages use a consistent reading layout while surfacing the dates, status, location, next step, action, and source information relevant to each content type.
 - Event detail pages let residents download an event to their calendar and open its location in Google Maps.
@@ -27,13 +28,13 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 
 ## Acceptance criteria
 
-- Given Strapi contains published content, when a resident opens the home page, then featured and recent content is rendered from the CMS.
+- Given Strapi contains published content when the site is built, when a resident opens the home page, then featured and recent content from that build is rendered.
 - Given a resident opens the home page, when the hero loads, then a high-resolution Woodbrook photograph and its linked source credit are visible.
 - Given a source-backed item, when a resident opens it, then its source and last reviewed date are visible.
 - Given a published project, event, or survey, when a resident follows its card, then a dedicated detail page presents its available CMS information and a route back to the listing.
 - Given a published event, when a resident uses its calendar or location action, then the event downloads as an `.ics` calendar file or opens as a Google Maps search respectively.
 - Given an unknown, unpublished, or unavailable project, event, or survey slug, when a resident opens its detail URL, then a useful unavailable state links back to the relevant listing.
-- Given the CMS cannot be reached, when a resident opens a content route, then a clear unavailable state appears.
+- Given the CMS cannot be reached during a static build, when the build attempts to prerender content routes, then the build fails instead of producing an empty deployment.
 - Given a narrow mobile viewport, when a resident browses primary routes, then navigation and main content remain usable without horizontal overflow.
 - Given a wide desktop viewport, when a resident reaches the homepage starting points, then all four paths have equal visual weight with no empty grid quadrant.
 - Given a wide desktop viewport, when resident starting points, featured cards, and contribution actions are shown, then related elements align consistently without being displaced by differing copy lengths.
@@ -48,4 +49,4 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 
 ### Not included
 
-- Accounts, comments, forum posts, private messaging, marketplace listings, or a social feed.
+- Accounts, issue reporting, comments, forum posts, private messaging, marketplace listings, or a social feed.

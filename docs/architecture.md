@@ -14,22 +14,26 @@ The setup borrows the parts of `/Users/tszabo/Development/anki-app` that make ch
 ## Runtime topology
 
 ```text
+Cloudflare Pages build
+  -> TanStack Start prerenderer
+       -> Strapi REST API
+            -> published content snapshot
+                 -> static HTML and JSON in apps/web/dist/client
+
 Resident browser
-  -> TanStack Start (SSR + client navigation, port 3000)
-       -> server-only Strapi client
-            -> Strapi REST API (port 1337)
-                 -> SQLite locally / PostgreSQL in production
+  -> Cloudflare Pages static assets
 ```
 
-The browser never needs a privileged CMS token. Published public content is fetched on the TanStack server. Issue reports are validated by a TanStack server function and forwarded to Strapi's create-only public endpoint.
+Strapi is contacted only during the static build. The deployed browser application reads pre-rendered HTML and immutable JSON assets and has no runtime application server, CMS request, API route, or issue-report submission path.
 
 ## Content and failure behavior
 
 - Strapi is the source of truth for updates, projects, events, surveys, resources, and site settings.
 - Seed content contains current, source-linked Woodbrook and Shankill information researched in September 2026.
-- If Strapi is unavailable, the website shows a clear service state instead of substituting fake content.
+- Dynamic development and server builds show a clear service state if Strapi is unavailable.
+- Static builds fail if Strapi content cannot be fetched or validated, preserving the previous successful deployment instead of producing an empty site.
 - Local SQLite data, uploads, build output, coverage, and secrets are excluded from Git.
 
-## Deployment note
+## Deployment
 
-The web and CMS are separate deployable services. Strapi should use managed PostgreSQL and persistent media storage in production. `STRAPI_URL` is server-only; `VITE_PUBLIC_SITE_URL` is used for canonical and social metadata.
+Deploy only `apps/web/dist/client` to Cloudflare Pages. Strapi must be reachable from the build environment but is not a runtime dependency of the deployed website. `STRAPI_URL` is build-only; `VITE_PUBLIC_SITE_URL` is embedded in canonical and social metadata. See [Static Cloudflare Pages deployment](features/static-cloudflare-pages-site.md).
