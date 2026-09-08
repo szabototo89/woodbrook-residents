@@ -1,4 +1,5 @@
 import { createServerFn } from '@tanstack/react-start';
+import { staticFunctionMiddleware } from '@tanstack/start-static-server-functions';
 import { z } from 'zod';
 
 import {
@@ -19,6 +20,11 @@ import type {
   Survey,
   Update,
 } from './contentTypes';
+import { loadCmsContent } from './loadCmsContent';
+
+const contentMiddleware = __STATIC_SITE_BUILD__
+  ? [staticFunctionMiddleware]
+  : [];
 
 const collectionEnvelopeSchema = <T extends z.ZodType>(itemSchema: T) =>
   z.object({ data: z.array(itemSchema) });
@@ -84,146 +90,160 @@ async function loadResources(): Promise<Resource[]> {
   return collectionEnvelopeSchema(resourceSchema).parse(response).data;
 }
 
-export const getHomeContent = createServerFn({ method: 'GET' }).handler(
-  async (): Promise<HomeContent> => {
-    try {
-      const [siteSetting, updates, projects, events, surveys] =
-        await Promise.all([
-          loadSiteSetting(),
-          loadUpdates(3),
-          loadProjects(3),
-          loadEvents(),
-          loadSurveys(),
-        ]);
+export const getHomeContent = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler(async (): Promise<HomeContent> => {
+    return loadCmsContent<HomeContent>(
+      async () => {
+        const [siteSetting, updates, projects, events, surveys] =
+          await Promise.all([
+            loadSiteSetting(),
+            loadUpdates(3),
+            loadProjects(3),
+            loadEvents(),
+            loadSurveys(),
+          ]);
 
-      return {
-        availability: 'ready',
-        siteSetting,
-        updates,
-        projects,
-        events,
-        surveys,
-      };
-    } catch {
-      return {
+        return {
+          availability: 'ready',
+          siteSetting,
+          updates,
+          projects,
+          events,
+          surveys,
+        };
+      },
+      {
         availability: 'unavailable',
         updates: [],
         projects: [],
         events: [],
         surveys: [],
-      };
-    }
-  },
-);
+      },
+      __STATIC_SITE_BUILD__,
+    );
+  });
 
-export const getUpdates = createServerFn({ method: 'GET' }).handler(
-  async (): Promise<ContentCollection<Update>> => {
-    try {
-      return { availability: 'ready', items: await loadUpdates() };
-    } catch {
-      return { availability: 'unavailable', items: [] };
-    }
-  },
-);
+export const getUpdates = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler(async (): Promise<ContentCollection<Update>> =>
+    loadCmsContent<ContentCollection<Update>>(
+      async () => ({ availability: 'ready', items: await loadUpdates() }),
+      { availability: 'unavailable', items: [] },
+      __STATIC_SITE_BUILD__,
+    ),
+  );
 
-export const getProjects = createServerFn({ method: 'GET' }).handler(
-  async (): Promise<ContentCollection<Project>> => {
-    try {
-      return { availability: 'ready', items: await loadProjects() };
-    } catch {
-      return { availability: 'unavailable', items: [] };
-    }
-  },
-);
+export const getProjects = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler(async (): Promise<ContentCollection<Project>> =>
+    loadCmsContent<ContentCollection<Project>>(
+      async () => ({ availability: 'ready', items: await loadProjects() }),
+      { availability: 'unavailable', items: [] },
+      __STATIC_SITE_BUILD__,
+    ),
+  );
 
-export const getEvents = createServerFn({ method: 'GET' }).handler(
-  async (): Promise<ContentCollection<CommunityEvent>> => {
-    try {
-      return { availability: 'ready', items: await loadEvents() };
-    } catch {
-      return { availability: 'unavailable', items: [] };
-    }
-  },
-);
+export const getEvents = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler(async (): Promise<ContentCollection<CommunityEvent>> =>
+    loadCmsContent<ContentCollection<CommunityEvent>>(
+      async () => ({ availability: 'ready', items: await loadEvents() }),
+      { availability: 'unavailable', items: [] },
+      __STATIC_SITE_BUILD__,
+    ),
+  );
 
-export const getSurveys = createServerFn({ method: 'GET' }).handler(
-  async (): Promise<ContentCollection<Survey>> => {
-    try {
-      return { availability: 'ready', items: await loadSurveys() };
-    } catch {
-      return { availability: 'unavailable', items: [] };
-    }
-  },
-);
+export const getSurveys = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler(async (): Promise<ContentCollection<Survey>> =>
+    loadCmsContent<ContentCollection<Survey>>(
+      async () => ({ availability: 'ready', items: await loadSurveys() }),
+      { availability: 'unavailable', items: [] },
+      __STATIC_SITE_BUILD__,
+    ),
+  );
 
-export const getResources = createServerFn({ method: 'GET' }).handler(
-  async (): Promise<ContentCollection<Resource>> => {
-    try {
-      return { availability: 'ready', items: await loadResources() };
-    } catch {
-      return { availability: 'unavailable', items: [] };
-    }
-  },
-);
+export const getResources = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler(async (): Promise<ContentCollection<Resource>> =>
+    loadCmsContent<ContentCollection<Resource>>(
+      async () => ({ availability: 'ready', items: await loadResources() }),
+      { availability: 'unavailable', items: [] },
+      __STATIC_SITE_BUILD__,
+    ),
+  );
 
 const slugInputSchema = z.object({ slug: z.string().min(1).max(160) });
 
 export const getUpdateBySlug = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
   .validator(slugInputSchema)
   .handler(async ({ data }): Promise<Update | undefined> => {
-    try {
-      const search = new URLSearchParams({
-        'filters[slug][$eq]': data.slug,
-        'pagination[pageSize]': '1',
-      });
-      const response = await fetchJson(`updates?${search.toString()}`);
-      return collectionEnvelopeSchema(updateSchema).parse(response).data[0];
-    } catch {
-      return undefined;
-    }
+    return loadCmsContent(
+      async () => {
+        const search = new URLSearchParams({
+          'filters[slug][$eq]': data.slug,
+          'pagination[pageSize]': '1',
+        });
+        const response = await fetchJson(`updates?${search.toString()}`);
+        return collectionEnvelopeSchema(updateSchema).parse(response).data[0];
+      },
+      undefined,
+      __STATIC_SITE_BUILD__,
+    );
   });
 
 export const getProjectBySlug = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
   .validator(slugInputSchema)
   .handler(async ({ data }): Promise<Project | undefined> => {
-    try {
-      const search = new URLSearchParams({
-        'filters[slug][$eq]': data.slug,
-        'pagination[pageSize]': '1',
-      });
-      const response = await fetchJson(`projects?${search.toString()}`);
-      return collectionEnvelopeSchema(projectSchema).parse(response).data[0];
-    } catch {
-      return undefined;
-    }
+    return loadCmsContent(
+      async () => {
+        const search = new URLSearchParams({
+          'filters[slug][$eq]': data.slug,
+          'pagination[pageSize]': '1',
+        });
+        const response = await fetchJson(`projects?${search.toString()}`);
+        return collectionEnvelopeSchema(projectSchema).parse(response).data[0];
+      },
+      undefined,
+      __STATIC_SITE_BUILD__,
+    );
   });
 
 export const getEventBySlug = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
   .validator(slugInputSchema)
   .handler(async ({ data }): Promise<CommunityEvent | undefined> => {
-    try {
-      const search = new URLSearchParams({
-        'filters[slug][$eq]': data.slug,
-        'pagination[pageSize]': '1',
-      });
-      const response = await fetchJson(`events?${search.toString()}`);
-      return collectionEnvelopeSchema(eventSchema).parse(response).data[0];
-    } catch {
-      return undefined;
-    }
+    return loadCmsContent(
+      async () => {
+        const search = new URLSearchParams({
+          'filters[slug][$eq]': data.slug,
+          'pagination[pageSize]': '1',
+        });
+        const response = await fetchJson(`events?${search.toString()}`);
+        return collectionEnvelopeSchema(eventSchema).parse(response).data[0];
+      },
+      undefined,
+      __STATIC_SITE_BUILD__,
+    );
   });
 
 export const getSurveyBySlug = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
   .validator(slugInputSchema)
   .handler(async ({ data }): Promise<Survey | undefined> => {
-    try {
-      const search = new URLSearchParams({
-        'filters[slug][$eq]': data.slug,
-        'pagination[pageSize]': '1',
-      });
-      const response = await fetchJson(`surveys?${search.toString()}`);
-      return collectionEnvelopeSchema(surveySchema).parse(response).data[0];
-    } catch {
-      return undefined;
-    }
+    return loadCmsContent(
+      async () => {
+        const search = new URLSearchParams({
+          'filters[slug][$eq]': data.slug,
+          'pagination[pageSize]': '1',
+        });
+        const response = await fetchJson(`surveys?${search.toString()}`);
+        return collectionEnvelopeSchema(surveySchema).parse(response).data[0];
+      },
+      undefined,
+      __STATIC_SITE_BUILD__,
+    );
   });

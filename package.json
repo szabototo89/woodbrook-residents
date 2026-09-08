@@ -12,6 +12,7 @@
     "dev:web": "bun run --cwd apps/web dev",
     "dev:cms": "bun run --cwd apps/cms develop",
     "build": "bun run lint && bun run build:cms && bun run build:web",
+    "build:static": "bun run lint && bun run --cwd apps/web build:static",
     "build:web": "bun run --cwd apps/web build",
     "build:cms": "bun run --cwd apps/cms build",
     "test": "bun run test:unit && bun run test:browser && bun run test:e2e",
