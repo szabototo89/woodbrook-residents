@@ -227,3 +227,19 @@ export const getSurveyBySlug = createServerFn({ method: 'GET' })
       return undefined;
     }
   });
+
+export const getResourceBySlug = createServerFn({ method: 'GET' })
+  .validator(slugInputSchema)
+  .handler(async ({ data }): Promise<Resource | undefined> => {
+    try {
+      const search = new URLSearchParams({
+        'filters[slug][$eq]': data.slug,
+        'populate[details]': '*',
+        'pagination[pageSize]': '1',
+      });
+      const response = await fetchJson(`resources?${search.toString()}`);
+      return collectionEnvelopeSchema(resourceSchema).parse(response).data[0];
+    } catch {
+      return undefined;
+    }
+  });

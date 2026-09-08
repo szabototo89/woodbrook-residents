@@ -11,10 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GetInvolvedRouteImport } from './routes/get-involved'
-import { Route as LocalInfoRouteImport } from './routes/local-info'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as EventsIndexRouteImport } from './routes/events/index'
 import { Route as EventsSlugRouteImport } from './routes/events/$slug'
+import { Route as LocalInfoIndexRouteImport } from './routes/local-info/index'
+import { Route as LocalInfoSlugRouteImport } from './routes/local-info/$slug'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
 import { Route as SurveysIndexRouteImport } from './routes/surveys/index'
@@ -32,11 +33,6 @@ const GetInvolvedRoute = GetInvolvedRouteImport.update({
   path: '/get-involved',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocalInfoRoute = LocalInfoRouteImport.update({
-  id: '/local-info',
-  path: '/local-info',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
   path: '/report',
@@ -50,6 +46,16 @@ const EventsIndexRoute = EventsIndexRouteImport.update({
 const EventsSlugRoute = EventsSlugRouteImport.update({
   id: '/events/$slug',
   path: '/events/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalInfoIndexRoute = LocalInfoIndexRouteImport.update({
+  id: '/local-info/',
+  path: '/local-info/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalInfoSlugRoute = LocalInfoSlugRouteImport.update({
+  id: '/local-info/$slug',
+  path: '/local-info/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
@@ -86,13 +92,14 @@ const UpdatesSlugRoute = UpdatesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/get-involved': typeof GetInvolvedRoute
-  '/local-info': typeof LocalInfoRoute
   '/report': typeof ReportRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/local-info/$slug': typeof LocalInfoSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/surveys/$slug': typeof SurveysSlugRoute
   '/updates/$slug': typeof UpdatesSlugRoute
   '/events/': typeof EventsIndexRoute
+  '/local-info/': typeof LocalInfoIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/surveys/': typeof SurveysIndexRoute
   '/updates/': typeof UpdatesIndexRoute
@@ -100,13 +107,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/get-involved': typeof GetInvolvedRoute
-  '/local-info': typeof LocalInfoRoute
   '/report': typeof ReportRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/local-info/$slug': typeof LocalInfoSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/surveys/$slug': typeof SurveysSlugRoute
   '/updates/$slug': typeof UpdatesSlugRoute
   '/events': typeof EventsIndexRoute
+  '/local-info': typeof LocalInfoIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/surveys': typeof SurveysIndexRoute
   '/updates': typeof UpdatesIndexRoute
@@ -115,13 +123,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/get-involved': typeof GetInvolvedRoute
-  '/local-info': typeof LocalInfoRoute
   '/report': typeof ReportRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/local-info/$slug': typeof LocalInfoSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/surveys/$slug': typeof SurveysSlugRoute
   '/updates/$slug': typeof UpdatesSlugRoute
   '/events/': typeof EventsIndexRoute
+  '/local-info/': typeof LocalInfoIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/surveys/': typeof SurveysIndexRoute
   '/updates/': typeof UpdatesIndexRoute
@@ -131,13 +140,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/get-involved'
-    | '/local-info'
     | '/report'
     | '/events/$slug'
+    | '/local-info/$slug'
     | '/projects/$slug'
     | '/surveys/$slug'
     | '/updates/$slug'
     | '/events/'
+    | '/local-info/'
     | '/projects/'
     | '/surveys/'
     | '/updates/'
@@ -145,13 +155,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/get-involved'
-    | '/local-info'
     | '/report'
     | '/events/$slug'
+    | '/local-info/$slug'
     | '/projects/$slug'
     | '/surveys/$slug'
     | '/updates/$slug'
     | '/events'
+    | '/local-info'
     | '/projects'
     | '/surveys'
     | '/updates'
@@ -159,13 +170,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/get-involved'
-    | '/local-info'
     | '/report'
     | '/events/$slug'
+    | '/local-info/$slug'
     | '/projects/$slug'
     | '/surveys/$slug'
     | '/updates/$slug'
     | '/events/'
+    | '/local-info/'
     | '/projects/'
     | '/surveys/'
     | '/updates/'
@@ -174,13 +186,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GetInvolvedRoute: typeof GetInvolvedRoute
-  LocalInfoRoute: typeof LocalInfoRoute
   ReportRoute: typeof ReportRoute
   EventsSlugRoute: typeof EventsSlugRoute
+  LocalInfoSlugRoute: typeof LocalInfoSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   SurveysSlugRoute: typeof SurveysSlugRoute
   UpdatesSlugRoute: typeof UpdatesSlugRoute
   EventsIndexRoute: typeof EventsIndexRoute
+  LocalInfoIndexRoute: typeof LocalInfoIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   SurveysIndexRoute: typeof SurveysIndexRoute
   UpdatesIndexRoute: typeof UpdatesIndexRoute
@@ -202,13 +215,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GetInvolvedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/local-info': {
-      id: '/local-info'
-      path: '/local-info'
-      fullPath: '/local-info'
-      preLoaderRoute: typeof LocalInfoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/report': {
       id: '/report'
       path: '/report'
@@ -228,6 +234,20 @@ declare module '@tanstack/react-router' {
       path: '/events/$slug'
       fullPath: '/events/$slug'
       preLoaderRoute: typeof EventsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/local-info/': {
+      id: '/local-info/'
+      path: '/local-info'
+      fullPath: '/local-info/'
+      preLoaderRoute: typeof LocalInfoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/local-info/$slug': {
+      id: '/local-info/$slug'
+      path: '/local-info/$slug'
+      fullPath: '/local-info/$slug'
+      preLoaderRoute: typeof LocalInfoSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/': {
@@ -278,13 +298,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GetInvolvedRoute: GetInvolvedRoute,
-  LocalInfoRoute: LocalInfoRoute,
   ReportRoute: ReportRoute,
   EventsSlugRoute: EventsSlugRoute,
+  LocalInfoSlugRoute: LocalInfoSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   SurveysSlugRoute: SurveysSlugRoute,
   UpdatesSlugRoute: UpdatesSlugRoute,
   EventsIndexRoute: EventsIndexRoute,
+  LocalInfoIndexRoute: LocalInfoIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   SurveysIndexRoute: SurveysIndexRoute,
   UpdatesIndexRoute: UpdatesIndexRoute,

@@ -87,6 +87,7 @@ export const surveySchema = z.object({
 export const resourceSchema = z.object({
   documentId: z.string(),
   title: z.string(),
+  slug: z.string(),
   category: z.enum([
     'health',
     'trades',
@@ -117,6 +118,7 @@ export const resourceSchema = z.object({
         id: z.number(),
         label: z.string(),
         value: z.string(),
+        showOnCard: z.boolean().default(false),
       }),
     )
     .default([]),
