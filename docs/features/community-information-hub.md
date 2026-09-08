@@ -10,6 +10,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 
 - Residents can browse current updates, initiatives, events, surveys, and a searchable directory of local services.
 - Published content is captured during deployment and remains available without a runtime CMS connection.
+- Residents can open dedicated detail pages for local service providers while directory cards remain concise.
 - Residents can open dedicated detail pages for updates, projects, events, and surveys from their listing cards.
 - Detail pages use a consistent reading layout while surfacing the dates, status, location, next step, action, and source information relevant to each content type.
 - Event detail pages let residents download an event to their calendar and open its location in Google Maps.

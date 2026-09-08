@@ -171,6 +171,7 @@ export const surveys = [
 export const resources = [
   {
     title: 'TFI journey planner',
+    slug: 'tfi-journey-planner',
     category: 'transport',
     serviceType: 'Journey planning',
     providerType: 'public-service',
@@ -178,7 +179,13 @@ export const resources = [
       'Plan DART, bus, Luas, walking, and cycling journeys using current timetable information.',
     url: 'https://www.transportforireland.ie/plan-a-journey/',
     outOfHours: false,
-    details: [{ label: 'Coverage', value: 'Public transport across Ireland' }],
+    details: [
+      {
+        label: 'Coverage',
+        value: 'Public transport across Ireland',
+        showOnCard: true,
+      },
+    ],
     displayOrder: 10,
     sourceName: 'Transport for Ireland',
     sourceUrl: 'https://www.transportforireland.ie/plan-a-journey/',
@@ -186,6 +193,7 @@ export const resources = [
   },
   {
     title: 'BusConnects E-Spine',
+    slug: 'busconnects-e-spine',
     category: 'transport',
     serviceType: 'Bus information',
     providerType: 'public-service',
@@ -193,7 +201,9 @@ export const resources = [
       'Official route information for the 24-hour E1 service between Northwood, the city centre, and Bray/Ballywaltrim.',
     url: 'https://www.transportforireland.ie/getting-around/by-bus/phase-6a-e-spine/',
     outOfHours: false,
-    details: [{ label: 'Local service', value: 'E1 via Shankill' }],
+    details: [
+      { label: 'Local service', value: 'E1 via Shankill', showOnCard: true },
+    ],
     displayOrder: 20,
     sourceName: 'Transport for Ireland',
     sourceUrl:
@@ -202,6 +212,7 @@ export const resources = [
   },
   {
     title: 'Dún Laoghaire–Rathdown County Council',
+    slug: 'dlr-county-council',
     category: 'council',
     serviceType: 'Council services',
     providerType: 'public-service',
@@ -211,7 +222,13 @@ export const resources = [
     phone: '01 205 4700',
     email: 'info@dlrcoco.ie',
     outOfHours: false,
-    details: [{ label: 'Coverage', value: 'Dún Laoghaire–Rathdown' }],
+    details: [
+      {
+        label: 'Coverage',
+        value: 'Dún Laoghaire–Rathdown',
+        showOnCard: true,
+      },
+    ],
     displayOrder: 30,
     sourceName: 'Dún Laoghaire–Rathdown County Council',
     sourceUrl: 'https://www.dlrcoco.ie/',
@@ -219,6 +236,7 @@ export const resources = [
   },
   {
     title: 'Shankill Library',
+    slug: 'shankill-library',
     category: 'community',
     serviceType: 'Public library',
     providerType: 'public-service',
@@ -228,7 +246,13 @@ export const resources = [
     phone: '01 282 3081',
     email: 'shankilllib@dlrcoco.ie',
     outOfHours: false,
-    details: [{ label: 'Address', value: 'Library Road, Shankill' }],
+    details: [
+      {
+        label: 'Address',
+        value: 'Library Road, Shankill',
+        showOnCard: true,
+      },
+    ],
     displayOrder: 40,
     sourceName: 'Dún Laoghaire–Rathdown Libraries',
     sourceUrl: 'https://libraries.dlrcoco.ie/',
@@ -236,6 +260,7 @@ export const resources = [
   },
   {
     title: 'MyWaste Ireland',
+    slug: 'mywaste-ireland',
     category: 'waste',
     serviceType: 'Waste guidance',
     providerType: 'public-service',
@@ -243,7 +268,7 @@ export const resources = [
       'Official guidance for household waste, recycling, bring centres, and special collection days.',
     url: 'https://mywaste.ie/',
     outOfHours: false,
-    details: [{ label: 'Coverage', value: 'Ireland' }],
+    details: [{ label: 'Coverage', value: 'Ireland', showOnCard: true }],
     displayOrder: 50,
     sourceName: 'MyWaste Ireland',
     sourceUrl: 'https://mywaste.ie/',
@@ -251,6 +276,7 @@ export const resources = [
   },
   {
     title: 'Shankill Family Practice',
+    slug: 'shankill-family-practice',
     category: 'health',
     serviceType: 'GP practice',
     providerType: 'business',
@@ -264,12 +290,18 @@ export const resources = [
       {
         label: 'Address',
         value: 'Corbawn Medical Centre, Corbawn Lane, Shankill, D18 C2DH',
+        showOnCard: true,
       },
       {
         label: 'Opening hours',
         value: 'Monday–Thursday 9am–1pm and 2pm–6pm; Friday until 5pm',
+        showOnCard: false,
       },
-      { label: 'Accessibility', value: 'Wheelchair accessible' },
+      {
+        label: 'Accessibility',
+        value: 'Wheelchair accessible',
+        showOnCard: false,
+      },
     ],
     displayOrder: 60,
     sourceName: 'Shankill Family Practice',
@@ -278,6 +310,7 @@ export const resources = [
   },
   {
     title: 'Shankill Pharmacy',
+    slug: 'shankill-pharmacy',
     category: 'health',
     serviceType: 'Pharmacy',
     providerType: 'business',
@@ -291,10 +324,12 @@ export const resources = [
       {
         label: 'Address',
         value: 'Violet House, Main Street, Shankill, D18 P2Y3',
+        showOnCard: true,
       },
       {
         label: 'Opening hours',
         value: 'Monday–Friday 8:30am–6:30pm; Saturday 9:30am–6pm',
+        showOnCard: false,
       },
     ],
     displayOrder: 70,
@@ -304,6 +339,7 @@ export const resources = [
   },
   {
     title: 'Shankill Village Dental',
+    slug: 'shankill-village-dental',
     category: 'health',
     serviceType: 'Dentist',
     providerType: 'business',
@@ -317,10 +353,12 @@ export const resources = [
       {
         label: 'Address',
         value: 'Violet House, Main Street, Shankill, D18 V9W4',
+        showOnCard: true,
       },
       {
         label: 'Opening hours',
         value: 'Monday–Thursday 9am–5pm; Friday 9am–1pm',
+        showOnCard: false,
       },
     ],
     displayOrder: 80,
@@ -330,6 +368,7 @@ export const resources = [
   },
   {
     title: 'Plumbers Dublin — Shankill',
+    slug: 'plumbers-dublin-shankill',
     category: 'trades',
     serviceType: 'Plumber',
     providerType: 'business',
@@ -338,7 +377,13 @@ export const resources = [
     url: 'https://plumbers-dublin.ie/plumber-shankill/',
     phone: '01 284 4921',
     outOfHours: false,
-    details: [{ label: 'Service area', value: 'Shankill and Dublin' }],
+    details: [
+      {
+        label: 'Service area',
+        value: 'Shankill and Dublin',
+        showOnCard: true,
+      },
+    ],
     displayOrder: 90,
     sourceName: 'Plumbers Dublin',
     sourceUrl: 'https://plumbers-dublin.ie/plumber-shankill/',
@@ -346,6 +391,7 @@ export const resources = [
   },
   {
     title: 'Dublin Electrical Services',
+    slug: 'dublin-electrical-services',
     category: 'trades',
     serviceType: 'Electrician',
     providerType: 'business',
@@ -356,8 +402,12 @@ export const resources = [
     email: 'dublinelectricalservices@gmail.com',
     outOfHours: false,
     details: [
-      { label: 'Service area', value: 'Greater Dublin' },
-      { label: 'Base', value: 'Ballybrack' },
+      {
+        label: 'Service area',
+        value: 'Greater Dublin',
+        showOnCard: true,
+      },
+      { label: 'Base', value: 'Ballybrack', showOnCard: false },
     ],
     displayOrder: 100,
     sourceName: 'Dublin Electrical Services',
@@ -366,6 +416,7 @@ export const resources = [
   },
   {
     title: 'Conway Locksmiths',
+    slug: 'conway-locksmiths',
     category: 'trades',
     serviceType: 'Locksmith',
     providerType: 'business',
@@ -379,9 +430,18 @@ export const resources = [
       {
         label: 'Address',
         value: '51 Rathsallagh Park, Shankill, D18 C535',
+        showOnCard: false,
       },
-      { label: 'Service area', value: 'South Dublin and Wicklow' },
-      { label: 'Licence', value: 'PSA licence 10489' },
+      {
+        label: 'Service area',
+        value: 'South Dublin and Wicklow',
+        showOnCard: true,
+      },
+      {
+        label: 'Licence',
+        value: 'PSA licence 10489',
+        showOnCard: false,
+      },
     ],
     displayOrder: 110,
     sourceName: 'Conway Locksmiths',
@@ -390,6 +450,7 @@ export const resources = [
   },
   {
     title: 'Drain Fix Services',
+    slug: 'drain-fix-services',
     category: 'trades',
     serviceType: 'Drainage',
     providerType: 'business',
@@ -400,8 +461,16 @@ export const resources = [
     email: 'drainfix247@gmail.com',
     outOfHours: true,
     details: [
-      { label: 'Base', value: 'Shankill, Dublin 18' },
-      { label: '24/7 contact', value: '086 077 8578' },
+      {
+        label: 'Base',
+        value: 'Shankill, Dublin 18',
+        showOnCard: true,
+      },
+      {
+        label: '24/7 contact',
+        value: '086 077 8578',
+        showOnCard: false,
+      },
     ],
     displayOrder: 120,
     sourceName: 'Drain Fix Services',
@@ -410,6 +479,7 @@ export const resources = [
   },
   {
     title: 'The Bottom Line',
+    slug: 'the-bottom-line',
     category: 'professional',
     serviceType: 'Accountancy',
     providerType: 'business',
@@ -423,6 +493,7 @@ export const resources = [
       {
         label: 'Address',
         value: '1st Floor, 7 Corbawn Court, Shankill, D18 K280',
+        showOnCard: true,
       },
     ],
     displayOrder: 130,
@@ -432,6 +503,7 @@ export const resources = [
   },
   {
     title: 'Emergency services',
+    slug: 'emergency-services',
     category: 'safety',
     serviceType: 'Emergency response',
     providerType: 'public-service',
@@ -440,7 +512,7 @@ export const resources = [
     url: 'https://www.gov.ie/en/department-of-the-taoiseach/publications/how-to-contact-emergency-services-in-ireland/',
     phone: '112',
     outOfHours: true,
-    details: [{ label: 'Alternative number', value: '999' }],
+    details: [{ label: 'Alternative number', value: '999', showOnCard: false }],
     displayOrder: 900,
     sourceName: 'Government of Ireland',
     sourceUrl:

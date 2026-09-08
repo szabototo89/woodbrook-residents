@@ -76,6 +76,7 @@ export type Survey = {
 export type Resource = {
   documentId: string;
   title: string;
+  slug: string;
   category:
     | 'health'
     | 'trades'
@@ -98,6 +99,7 @@ export type Resource = {
     id: number;
     label: string;
     value: string;
+    showOnCard: boolean;
   }>;
   displayOrder: number;
   sourceName: string;

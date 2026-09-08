@@ -16,6 +16,10 @@ export const resourceCategoryOrder: ResourceCategory[] = [
   'safety',
 ];
 
+export function toTelephoneHref(phone: string) {
+  return `tel:${phone.replace(/[^+\d]/g, '')}`;
+}
+
 export function getAvailableResourceCategories(resources: Resource[]) {
   const availableCategories = new Set(
     resources.map((resource) => resource.category),

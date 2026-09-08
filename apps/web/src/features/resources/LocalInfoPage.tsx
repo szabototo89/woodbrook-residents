@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { CmsUnavailable } from '../../components/CmsUnavailable';
 import { EmptyState } from '../../components/EmptyState';
 import { PageIntro } from '../../components/PageIntro';
-import { Route } from '../../routes/local-info';
+import { Route } from '../../routes/local-info/index';
 import { formatLabel } from '../content/contentFormatting';
 import { LocalServiceCard } from './LocalServiceCard';
 import {

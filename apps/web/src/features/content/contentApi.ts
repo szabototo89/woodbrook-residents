@@ -247,3 +247,22 @@ export const getSurveyBySlug = createServerFn({ method: 'GET' })
       __STATIC_SITE_BUILD__,
     );
   });
+
+export const getResourceBySlug = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .validator(slugInputSchema)
+  .handler(async ({ data }): Promise<Resource | undefined> => {
+    return loadCmsContent(
+      async () => {
+        const search = new URLSearchParams({
+          'filters[slug][$eq]': data.slug,
+          'populate[details]': '*',
+          'pagination[pageSize]': '1',
+        });
+        const response = await fetchJson(`resources?${search.toString()}`);
+        return collectionEnvelopeSchema(resourceSchema).parse(response).data[0];
+      },
+      undefined,
+      __STATIC_SITE_BUILD__,
+    );
+  });

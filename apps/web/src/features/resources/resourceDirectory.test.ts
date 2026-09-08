@@ -4,19 +4,28 @@ import type { Resource } from '../content/contentTypes';
 import {
   filterResources,
   getAvailableResourceCategories,
+  toTelephoneHref,
 } from './resourceDirectory';
 
 const resources: Resource[] = [
   {
     documentId: 'gp',
     title: 'Neighbourhood Practice',
+    slug: 'neighbourhood-practice',
     category: 'health',
     serviceType: 'GP practice',
     providerType: 'business',
     description: 'Primary care appointments',
     phone: '01 234 5678',
     outOfHours: false,
-    details: [{ id: 1, label: 'Address', value: 'Main Street' }],
+    details: [
+      {
+        id: 1,
+        label: 'Address',
+        value: 'Main Street',
+        showOnCard: true,
+      },
+    ],
     displayOrder: 10,
     sourceName: 'Practice website',
     sourceUrl: 'https://example.com/gp',
@@ -25,13 +34,21 @@ const resources: Resource[] = [
   {
     documentId: 'locksmith',
     title: 'Local Locks',
+    slug: 'local-locks',
     category: 'trades',
     serviceType: 'Locksmith',
     providerType: 'business',
     description: 'Door and window lock repairs',
     phone: '086 123 4567',
     outOfHours: true,
-    details: [{ id: 2, label: 'Coverage', value: 'South Dublin' }],
+    details: [
+      {
+        id: 2,
+        label: 'Coverage',
+        value: 'South Dublin',
+        showOnCard: true,
+      },
+    ],
     displayOrder: 20,
     sourceName: 'Local Locks',
     sourceUrl: 'https://example.com/locks',
@@ -61,5 +78,9 @@ describe('resource directory', () => {
       'health',
       'trades',
     ]);
+  });
+
+  it('creates a dialable link from a formatted phone number', () => {
+    expect(toTelephoneHref('+353 (0)1 234 5678')).toBe('tel:+353012345678');
   });
 });

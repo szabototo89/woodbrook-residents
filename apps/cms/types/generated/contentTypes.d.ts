@@ -639,6 +639,7 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
       Schema.Attribute.DefaultTo<'business'>;
     publishedAt: Schema.Attribute.DateTime;
     serviceType: Schema.Attribute.String & Schema.Attribute.Required;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
     sourceName: Schema.Attribute.String & Schema.Attribute.Required;
     sourceReviewedOn: Schema.Attribute.Date & Schema.Attribute.Required;
     sourceUrl: Schema.Attribute.String & Schema.Attribute.Required;

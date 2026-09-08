@@ -1,13 +1,13 @@
-import { ArrowUpRight, Mail, Phone, ShieldCheck } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { ArrowRight, Phone } from 'lucide-react';
 
-import { formatDate, formatLabel } from '../content/contentFormatting';
+import { formatLabel } from '../content/contentFormatting';
 import type { Resource } from '../content/contentTypes';
-
-function toTelephoneHref(phone: string) {
-  return `tel:${phone.replace(/[^+\d]/g, '')}`;
-}
+import { toTelephoneHref } from './resourceDirectory';
 
 export function LocalServiceCard({ resource }: { resource: Resource }) {
+  const cardDetails = resource.details.filter((detail) => detail.showOnCard);
+
   return (
     <article className="resource-card">
       <div className="resource-card-heading">
@@ -17,12 +17,16 @@ export function LocalServiceCard({ resource }: { resource: Resource }) {
         ) : null}
       </div>
       <p className="resource-type">{resource.serviceType}</p>
-      <h2>{resource.title}</h2>
+      <h2>
+        <Link to="/local-info/$slug" params={{ slug: resource.slug }}>
+          {resource.title}
+        </Link>
+      </h2>
       <p>{resource.description}</p>
 
-      {resource.details.length > 0 ? (
+      {cardDetails.length > 0 ? (
         <dl className="resource-details">
-          {resource.details.map((detail) => (
+          {cardDetails.map((detail) => (
             <div key={detail.id}>
               <dt>{detail.label}</dt>
               <dd>{detail.value}</dd>
@@ -37,31 +41,14 @@ export function LocalServiceCard({ resource }: { resource: Resource }) {
             <Phone size={16} aria-hidden="true" /> Call {resource.phone}
           </a>
         ) : null}
-        {resource.url ? (
-          <a
-            className="button button-secondary"
-            href={resource.url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Website <ArrowUpRight size={16} aria-hidden="true" />
-          </a>
-        ) : null}
-        {resource.email ? (
-          <a className="resource-email" href={`mailto:${resource.email}`}>
-            <Mail size={15} aria-hidden="true" /> Email
-          </a>
-        ) : null}
-      </div>
-
-      <div className="resource-source">
-        <ShieldCheck size={15} aria-hidden="true" />
-        <span>
-          Checked {formatDate(resource.sourceReviewedOn)} against{' '}
-          <a href={resource.sourceUrl} target="_blank" rel="noreferrer">
-            {resource.sourceName}
-          </a>
-        </span>
+        <Link
+          className="button button-secondary"
+          to="/local-info/$slug"
+          params={{ slug: resource.slug }}
+          aria-label={`View details: ${resource.title}`}
+        >
+          View details <ArrowRight size={16} aria-hidden="true" />
+        </Link>
       </div>
     </article>
   );

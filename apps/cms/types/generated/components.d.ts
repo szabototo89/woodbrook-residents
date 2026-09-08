@@ -8,6 +8,9 @@ export interface SharedResourceDetail extends Struct.ComponentSchema {
   };
   attributes: {
     label: Schema.Attribute.String & Schema.Attribute.Required;
+    showOnCard: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     value: Schema.Attribute.Text & Schema.Attribute.Required;
   };
 }

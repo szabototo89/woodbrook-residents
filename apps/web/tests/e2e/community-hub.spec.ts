@@ -133,7 +133,31 @@ test('finds local services by need and category', async ({ page }) => {
     page.getByRole('link', { name: /call 01 282 3263/i }),
   ).toHaveAttribute('href', 'tel:012823263');
   await expect(
-    page.getByText(/checked 7 september 2026/i).first(),
+    page.getByText('Monday–Friday 8:30am–6:30pm; Saturday 9:30am–6pm', {
+      exact: true,
+    }),
+  ).not.toBeVisible();
+
+  await page
+    .getByRole('link', { name: 'View details: Shankill Pharmacy' })
+    .click();
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Shankill Pharmacy' }),
+  ).toBeVisible();
+  await expect(
+    page.getByText('Monday–Friday 8:30am–6:30pm; Saturday 9:30am–6pm', {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Email' })).toHaveAttribute(
+    'href',
+    'mailto:shankillpharmacyshop@gmail.com',
+  );
+  await expect(
+    page.getByText(/checked against shankill pharmacy on 7 september 2026/i),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'All local services' }),
   ).toBeVisible();
 });
 
@@ -155,6 +179,11 @@ test('detail pages offer a way back when content is unavailable', async ({
       path: '/surveys/not-published',
       heading: 'We couldn’t find that consultation',
       backLink: 'Back to consultations',
+    },
+    {
+      path: '/local-info/not-published',
+      heading: 'We couldn’t find that service',
+      backLink: 'Back to local information',
     },
   ];
 
