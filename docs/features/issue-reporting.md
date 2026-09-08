@@ -1,31 +1,27 @@
 # Issue reporting
 
-Status: Available
+Status: Removed
 
 ## Job to be done
 
-When I notice a local maintenance or safety problem, I want to submit a structured report, so the community team can understand, triage, and route it.
+Issue reporting was removed so the public hub can be deployed without a runtime backend.
 
 ## User-visible behavior
 
-- Residents choose a category and provide a location and useful detail.
-- Name and email are optional; consent is required before submission.
-- A successful submission shows a receipt message.
-- Submitted reports are never publicly readable.
+- The site does not display an issue-report form.
+- Navigation and calls to action do not link to an issue-report route.
 
 ## Acceptance criteria
 
-- Given valid required fields and consent, when a resident submits a report, then it is stored in Strapi and a success state is shown.
-- Given missing or invalid required fields, when a resident submits, then accessible validation guidance is shown and nothing is sent.
-- Given a public API caller, when they request issue reports, then no list or record can be read.
+- Given a resident browses the public site, when they use the header, footer, home page, or involvement page, then no issue-report action is offered.
+- Given a static deployment is published, when it is inspected, then it contains no issue-report submission code or runtime endpoint.
 
 ## Scope
 
 ### Included
 
-- Lighting, litter, drainage, roads and paths, landscaping, traffic, and other issue categories.
-- Optional contact details and a private triage state.
+- Removal of the resident-facing form, route, and navigation links.
 
 ### Not included
 
-- Emergency reporting, automatic council ticket creation, public issue maps, resident accounts, or status notifications.
+- Issue submission, triage, notifications, maps, or integrations with external reporting systems.

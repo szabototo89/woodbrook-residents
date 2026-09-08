@@ -1,10 +1,4 @@
-import { Link } from '@tanstack/react-router';
-import {
-  ArrowRight,
-  CalendarPlus,
-  ClipboardCheck,
-  Megaphone,
-} from 'lucide-react';
+import { CalendarPlus, ClipboardCheck, Megaphone } from 'lucide-react';
 
 import { PageIntro } from '../../components/PageIntro';
 
@@ -50,19 +44,6 @@ export function GetInvolvedPage() {
               status, accountable next step, and update history.
             </p>
           </article>
-        </div>
-        <div className="involvement-cta">
-          <div>
-            <p className="eyebrow">Start with what you can see</p>
-            <h2>Report a neighbourhood issue</h2>
-            <p>
-              A structured report is the quickest way to begin building useful
-              evidence about recurring local concerns.
-            </p>
-          </div>
-          <Link className="button" to="/report">
-            Open issue form <ArrowRight size={16} aria-hidden="true" />
-          </Link>
         </div>
       </section>
     </main>

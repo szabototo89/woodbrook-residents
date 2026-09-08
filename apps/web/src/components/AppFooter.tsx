@@ -31,7 +31,6 @@ export function AppFooter() {
         </div>
         <div>
           <h2>Take action</h2>
-          <Link to="/report">Report an issue</Link>
           <Link to="/local-info">Local information</Link>
           <Link to="/get-involved">Get involved</Link>
           <a href="https://www.dlrcoco.ie/" target="_blank" rel="noreferrer">

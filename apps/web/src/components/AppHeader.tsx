@@ -39,8 +39,8 @@ export function AppHeader() {
           ))}
         </nav>
 
-        <Link className="button button-small header-action" to="/report">
-          Ask or raise something
+        <Link className="button button-small header-action" to="/get-involved">
+          Get involved
         </Link>
 
         <details className="mobile-nav">
@@ -53,7 +53,6 @@ export function AppHeader() {
                 {item.label}
               </Link>
             ))}
-            <Link to="/report">Report an issue</Link>
             <Link to="/get-involved">Get involved</Link>
           </nav>
         </details>

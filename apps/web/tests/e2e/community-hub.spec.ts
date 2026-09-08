@@ -107,15 +107,6 @@ test('opens event and survey detail pages from their listings', async ({
   ).toBeVisible();
 });
 
-test('validates a private issue report before sending it', async ({ page }) => {
-  await page.goto('/report');
-  await page.getByRole('button', { name: 'Submit private report' }).click();
-
-  await expect(page.getByRole('alert')).toContainText(
-    'Please choose a category',
-  );
-});
-
 test('finds local services by need and category', async ({ page }) => {
   await page.goto('/local-info');
 

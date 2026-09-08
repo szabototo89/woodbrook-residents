@@ -235,18 +235,15 @@ export function HomePage() {
               </span>
               <p className="eyebrow">Contribute or get help</p>
             </div>
-            <h2>Ask, contribute, or raise something useful.</h2>
+            <h2>Contribute something useful.</h2>
             <p>
-              Send a neighbourhood concern privately, or help make the hub more
-              useful for the people who live here.
+              Help check local information, share confirmed dates, or make the
+              hub more useful for the people who live here.
             </p>
           </div>
           <div className="button-row">
-            <Link className="button" to="/report">
-              Report an issue <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-            <Link className="button button-secondary" to="/get-involved">
-              Get involved
+            <Link className="button" to="/get-involved">
+              Get involved <ArrowRight size={16} aria-hidden="true" />
             </Link>
           </div>
         </div>
