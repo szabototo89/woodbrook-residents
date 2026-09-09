@@ -29,7 +29,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `STRAPI_URL=${strapiUrl} bun run preview -- --host 127.0.0.1 --port 4173`,
+    command: `CONTENT_SOURCE=strapi STRAPI_URL=${strapiUrl} bun run preview -- --host 127.0.0.1 --port 4173`,
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: !isContinuousIntegration,
     timeout: 120_000,

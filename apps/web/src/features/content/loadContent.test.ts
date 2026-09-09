@@ -1,17 +1,17 @@
 import { describe, expect, it } from 'vitest';
 
-import { loadCmsContent } from './loadCmsContent';
+import { loadContent } from './loadContent';
 
-describe('loadCmsContent', () => {
-  it('returns the loaded CMS content', async () => {
+describe('loadContent', () => {
+  it('returns content from the selected source', async () => {
     await expect(
-      loadCmsContent(async () => ['published'], [], true),
+      loadContent(async () => ['published'], [], true),
     ).resolves.toEqual(['published']);
   });
 
   it('uses the unavailable fallback for a dynamic server build', async () => {
     await expect(
-      loadCmsContent(
+      loadContent(
         async () => {
           throw new Error('offline');
         },
@@ -21,17 +21,15 @@ describe('loadCmsContent', () => {
     ).resolves.toEqual({ availability: 'unavailable' });
   });
 
-  it('fails a static build when required CMS content cannot load', async () => {
+  it('fails a static build when required content cannot load', async () => {
     await expect(
-      loadCmsContent(
+      loadContent(
         async () => {
           throw new Error('offline');
         },
         undefined,
         true,
       ),
-    ).rejects.toThrow(
-      'Static site build could not load required content from Strapi.',
-    );
+    ).rejects.toThrow('Static site build could not load required content.');
   });
 });

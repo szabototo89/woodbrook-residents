@@ -22,7 +22,19 @@
     },
     "kind": {
       "type": "enumeration",
-      "enum": ["news", "planning", "transport", "community"],
+      "enum": [
+        "news",
+        "planning",
+        "community",
+        "transport",
+        "housing",
+        "parks",
+        "environment",
+        "safety",
+        "waste",
+        "education",
+        "other"
+      ],
       "required": true,
       "default": "news"
     },

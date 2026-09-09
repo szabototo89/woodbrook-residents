@@ -22,12 +22,30 @@
     },
     "category": {
       "type": "enumeration",
-      "enum": ["transport", "housing", "parks", "public-realm", "community"],
+      "enum": [
+        "transport",
+        "housing",
+        "parks",
+        "public-realm",
+        "planning",
+        "community",
+        "environment",
+        "safety",
+        "education",
+        "other"
+      ],
       "required": true
     },
     "stage": {
       "type": "enumeration",
-      "enum": ["monitoring", "consultation", "active", "completed"],
+      "enum": [
+        "proposed",
+        "active",
+        "monitoring",
+        "paused",
+        "completed",
+        "consultation"
+      ],
       "required": true,
       "default": "monitoring"
     },

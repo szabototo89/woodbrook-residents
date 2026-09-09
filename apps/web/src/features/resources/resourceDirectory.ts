@@ -14,6 +14,9 @@ export const resourceCategoryOrder: ResourceCategory[] = [
   'waste',
   'recreation',
   'safety',
+  'education',
+  'childcare',
+  'other',
 ];
 
 export function toTelephoneHref(phone: string) {

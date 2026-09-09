@@ -1,4 +1,4 @@
-export async function loadCmsContent<T>(
+export async function loadContent<T>(
   load: () => Promise<T>,
   fallback: T,
   failOnError: boolean,
@@ -7,10 +7,9 @@ export async function loadCmsContent<T>(
     return await load();
   } catch (error) {
     if (failOnError) {
-      throw new Error(
-        'Static site build could not load required content from Strapi.',
-        { cause: error },
-      );
+      throw new Error('Static site build could not load required content.', {
+        cause: error,
+      });
     }
 
     return fallback;
