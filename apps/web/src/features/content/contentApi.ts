@@ -55,6 +55,16 @@ async function loadSiteSetting(): Promise<SiteSetting | undefined> {
   );
 }
 
+export const getSiteSetting = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler(async (): Promise<SiteSetting | undefined> =>
+    loadCmsContent<SiteSetting | undefined>(
+      loadSiteSetting,
+      undefined,
+      __STATIC_SITE_BUILD__,
+    ),
+  );
+
 async function loadUpdates(limit = 25): Promise<Update[]> {
   const response = await fetchJson(
     `updates?sort[0]=publishedOn:desc&pagination[pageSize]=${limit}`,

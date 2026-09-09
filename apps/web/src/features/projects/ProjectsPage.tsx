@@ -9,7 +9,7 @@ export function ProjectsPage() {
 
   return (
     <main id="main-content">
-      <PageIntro eyebrow="Organise" title="Projects and initiatives">
+      <PageIntro eyebrow="Follow local change" title="Projects">
         <p>
           A simple record of what is proposed, active, completed, or still being
           monitored — with the latest known next step and an official source.

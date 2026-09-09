@@ -24,11 +24,11 @@ export function buildEventCalendar(
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Woodbrook Community Hub//Events//EN',
+    'PRODID:-//Woodbrook Residents//Events//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    `UID:${event.documentId}@woodbrook-community-hub`,
+    `UID:${event.documentId}@woodbrook-residents`,
     `DTSTAMP:${formatCalendarDate(createdAt)}`,
     `DTSTART:${formatCalendarDate(event.startsAt)}`,
   ];

@@ -9,7 +9,7 @@ export function SurveysPage() {
 
   return (
     <main id="main-content">
-      <PageIntro eyebrow="Have your say" title="Surveys and consultations">
+      <PageIntro eyebrow="Have your say" title="Consultations">
         <p>
           Open opportunities to respond, plus a record of relevant closed
           consultations so important context does not disappear.

@@ -3,26 +3,22 @@ import { Menu } from 'lucide-react';
 
 const navigation = [
   { to: '/updates', label: 'Updates' },
-  { to: '/events', label: 'What’s on' },
+  { to: '/events', label: 'Events' },
   { to: '/projects', label: 'Projects' },
-  { to: '/surveys', label: 'Have your say' },
-  { to: '/local-info', label: 'Local info' },
+  { to: '/surveys', label: 'Consultations' },
+  { to: '/local-info', label: 'Local information' },
 ] as const;
 
 export function AppHeader() {
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link
-          className="brand"
-          to="/"
-          aria-label="Woodbrook Community Hub home"
-        >
+        <Link className="brand" to="/" aria-label="Woodbrook Residents home">
           <span className="brand-mark" aria-hidden="true">
             W
           </span>
           <span className="brand-copy">
-            <strong>Woodbrook</strong>
+            <strong>Woodbrook Residents</strong>
             <span>Community hub · Shankill</span>
           </span>
         </Link>

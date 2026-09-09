@@ -1,4 +1,4 @@
-# Woodbrook Community Hub
+# Woodbrook Residents
 
 A resident information and action hub for Woodbrook, Shankill. The public site is built with TanStack Start and can capture published Strapi content as a fully static Cloudflare Pages deployment.
 
@@ -20,6 +20,11 @@ bun run dev
 - Strapi admin: `http://localhost:1337/admin`
 
 The CMS creates researched starter content on its first run. Create the first Strapi administrator in the admin screen; public content read permissions are configured automatically.
+
+`bun install` also configures the repository's pre-commit hook. Every commit runs
+formatting and ESLint checks, TypeScript checks for both apps, and the unit,
+browser, and end-to-end test suites. Run the same quality gate manually with
+`bun run precommit`.
 
 ## Build the static site
 

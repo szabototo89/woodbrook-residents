@@ -9,7 +9,7 @@ export function UpdatesPage() {
 
   return (
     <main id="main-content">
-      <PageIntro eyebrow="Stay informed" title="Woodbrook updates">
+      <PageIntro eyebrow="Stay informed" title="Updates">
         <p>
           Clear, source-linked notes on transport, planning, public spaces, and
           the practical changes residents need to know about.

@@ -14,7 +14,10 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Residents can open dedicated detail pages for updates, projects, events, and surveys from their listing cards.
 - Detail pages use a consistent reading layout while surfacing the dates, status, location, next step, action, and source information relevant to each content type.
 - Event detail pages let residents download an event to their calendar and open its location in Google Maps.
-- The home page presents those paths as one Woodbrook Community Hub, using direct resident-focused language rather than institutional categories or a themed naming system.
+- The site consistently identifies itself as Woodbrook Residents, with Community hub · Shankill as supporting context.
+- The home page states plainly that it provides local information and ways to take part.
+- Navigation, page headings, and calls to action consistently use Updates, Events, Projects, Consultations, and Local information.
+- The home page Have your say starting point links to Consultations rather than Projects.
 - The home page presents its four resident starting points as one balanced row on wide screens and a compact single-column sequence on phones.
 - The four resident starting points align their titles consistently on wide screens.
 - Featured event and consultation cards share a horizontal starting line even when their headings wrap differently.
@@ -22,6 +25,8 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Dates and times use conventional, unslashed numerals throughout the resident-facing interface.
 - The home page contribution panel pairs its label with a relevant, visually anchored icon.
 - The contribution panel anchors its actions to the explanatory copy on wide screens and stacks them naturally on small screens.
+- The Ways to help page distinguishes actions available now from submission channels that are not yet open, and uses a configured CMS contact email for corrections when one exists.
+- Listing and detail routes provide specific page titles, descriptions, social metadata, and canonical URLs.
 - Every factual seeded item links to its original public source.
 - Local service cards show their source and checked date, support direct contact actions, and do not present listings as endorsements.
 - Empty and unavailable states explain what happened without showing invented content.
@@ -31,6 +36,11 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 
 - Given Strapi contains published content when the site is built, when a resident opens the home page, then featured and recent content from that build is rendered.
 - Given a resident opens the home page, when the hero loads, then a high-resolution Woodbrook photograph and its linked source credit are visible.
+- Given a resident uses the site, when they read the header, footer, page metadata, or social preview, then Woodbrook Residents is the consistent primary identity.
+- Given a resident chooses Have your say on the home page, when they follow the link, then they reach Consultations.
+- Given the resident publishing contact is not configured, when a resident opens Ways to help, then the page says that corrections, event submissions, and issue reports are not accepted and still links to useful read-only actions.
+- Given the resident publishing contact is configured, when a resident opens Ways to help, then they can email a correction through that published contact.
+- Given a resident opens a listing or detail route, when the document head is rendered, then its title, description, social metadata, and canonical URL describe that route.
 - Given a source-backed item, when a resident opens it, then its source and last reviewed date are visible.
 - Given a published project, event, or survey, when a resident follows its card, then a dedicated detail page presents its available CMS information and a route back to the listing.
 - Given a published event, when a resident uses its calendar or location action, then the event downloads as an `.ics` calendar file or opens as a Google Maps search respectively.
