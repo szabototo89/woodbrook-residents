@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "woodbrook",
+  "compatibility_date": "2026-09-09",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./apps/web/dist/client",
+    "html_handling": "auto-trailing-slash",
+  },
+}

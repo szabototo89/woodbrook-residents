@@ -1,6 +1,6 @@
 # Woodbrook Residents
 
-A resident information and action hub for Woodbrook, Shankill. The public site is built with TanStack Start and can capture published Strapi content as a fully static Cloudflare Pages deployment.
+A resident information and action hub for Woodbrook, Shankill. The public site is built with TanStack Start and can capture published Strapi content as a fully static Cloudflare deployment.
 
 ## Prerequisites
 
@@ -47,6 +47,26 @@ Configure Cloudflare Pages from the repository root with:
 Only the output directory is deployed. It contains no server process or Pages Function, and the public site never contacts Strapi at runtime. See Cloudflare's [build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/) documentation for where to enter these values.
 
 To publish CMS changes automatically, create a [Cloudflare Pages deploy hook](https://developers.cloudflare.com/pages/configuration/deploy-hooks/) and add its URL as a Strapi webhook for entry and media publish, update, unpublish, and delete events. Treat the deploy-hook URL as a secret.
+
+### Deploy with Wrangler
+
+The production Worker is configured in `wrangler.jsonc` as `woodbrook`. On a
+Cloudflare account whose `workers.dev` subdomain is `shankill`, it is published
+at `https://woodbrook.shankill.workers.dev/`.
+
+Authenticate Wrangler, set the build-only CMS origin, and deploy from the
+repository root:
+
+```bash
+bunx wrangler login
+STRAPI_URL=https://cms.example.com bun run deploy
+```
+
+`bun run deploy` first builds and verifies the static site with its production
+public URL, then Wrangler uploads only `apps/web/dist/client`. For CI, provide
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` instead of using interactive
+login. The Cloudflare account must already use `shankill` as its `workers.dev`
+subdomain for the configured Worker name to resolve to the expected URL.
 
 ## Verification
 
