@@ -21,6 +21,11 @@ bun run dev
 
 The CMS creates researched starter content on its first run. Create the first Strapi administrator in the admin screen; public content read permissions are configured automatically.
 
+`bun install` also configures the repository's pre-commit hook. Every commit runs
+formatting and ESLint checks, TypeScript checks for both apps, and the unit,
+browser, and end-to-end test suites. Run the same quality gate manually with
+`bun run precommit`.
+
 ## Build the static site
 
 With Strapi running and reachable at `STRAPI_URL`, run:
