@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { Menu } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 const navigation = [
   { to: '/updates', label: 'Updates' },
@@ -10,6 +11,45 @@ const navigation = [
 ] as const;
 
 export function AppHeader() {
+  const [isMobileNavigationOpen, setIsMobileNavigationOpen] = useState(false);
+  const mobileNavigationRef = useRef<HTMLDivElement>(null);
+  const mobileNavigationButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isMobileNavigationOpen) {
+      return;
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      if (
+        event.target instanceof Node &&
+        !mobileNavigationRef.current?.contains(event.target)
+      ) {
+        setIsMobileNavigationOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setIsMobileNavigationOpen(false);
+        mobileNavigationButtonRef.current?.focus();
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMobileNavigationOpen]);
+
+  function closeMobileNavigation() {
+    setIsMobileNavigationOpen(false);
+  }
+
   return (
     <header className="site-header">
       <div className="shell header-inner">
@@ -39,19 +79,34 @@ export function AppHeader() {
           Get involved
         </Link>
 
-        <details className="mobile-nav">
-          <summary aria-label="Open navigation">
+        <div className="mobile-nav" ref={mobileNavigationRef}>
+          <button
+            ref={mobileNavigationButtonRef}
+            type="button"
+            aria-controls="mobile-navigation-links"
+            aria-expanded={isMobileNavigationOpen}
+            aria-label={`${isMobileNavigationOpen ? 'Close' : 'Open'} navigation`}
+            onClick={() =>
+              setIsMobileNavigationOpen((isNavigationOpen) => !isNavigationOpen)
+            }
+          >
             <Menu size={22} aria-hidden="true" />
-          </summary>
-          <nav aria-label="Mobile navigation">
+          </button>
+          <nav
+            id="mobile-navigation-links"
+            aria-label="Mobile navigation"
+            hidden={!isMobileNavigationOpen}
+          >
             {navigation.map((item) => (
-              <Link key={item.to} to={item.to}>
+              <Link key={item.to} to={item.to} onClick={closeMobileNavigation}>
                 {item.label}
               </Link>
             ))}
-            <Link to="/get-involved">Get involved</Link>
+            <Link to="/get-involved" onClick={closeMobileNavigation}>
+              Get involved
+            </Link>
           </nav>
-        </details>
+        </div>
       </div>
     </header>
   );
