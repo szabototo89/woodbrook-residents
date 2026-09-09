@@ -15,6 +15,7 @@ When I need practical help nearby, I want to find and contact an appropriate loc
 - Provider addresses link to a Google Maps search from both directory cards and provider pages.
 - Each provider page shows all supplied contact methods and additional details, such as address, service area, opening hours, accessibility, or professional registration.
 - Each provider page identifies its source and the date on which the information was checked.
+- Waste resources can show upcoming collection dates and provide an original schedule to view or download.
 - The directory explains that inclusion is not an endorsement and does not provide ratings or reviews.
 - The directory describes itself as a curated, unpaid starting set rather than a complete directory or recommendation.
 - The directory links residents to the correction guidance, which uses the configured resident publishing email when available and otherwise states that corrections are not yet open.

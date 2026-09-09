@@ -69,6 +69,17 @@
       "component": "shared.resource-detail",
       "repeatable": true
     },
+    "collectionDates": {
+      "type": "component",
+      "component": "shared.collection-date",
+      "repeatable": true
+    },
+    "documentUrl": {
+      "type": "string"
+    },
+    "documentLabel": {
+      "type": "string"
+    },
     "displayOrder": {
       "type": "integer",
       "required": true,

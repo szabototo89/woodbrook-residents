@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowUpRight, Mail, Phone } from 'lucide-react';
 
 import { Route } from '../../routes/local-info/$slug';
 import { formatDate, formatLabel } from '../content/contentFormatting';
+import { CollectionSchedule } from './CollectionSchedule';
 import { ResourceDetailValue } from './ResourceDetailValue';
 import { toTelephoneHref } from './resourceDirectory';
 
@@ -90,6 +91,14 @@ export function LocalServiceDetailPage() {
                 ))}
               </dl>
             </section>
+          ) : null}
+
+          {resource.collectionDates.length > 0 ? (
+            <CollectionSchedule
+              collectionDates={resource.collectionDates}
+              documentLabel={resource.documentLabel}
+              documentUrl={resource.documentUrl}
+            />
           ) : null}
 
           <aside className="source-note">

@@ -3341,6 +3341,47 @@ p {
   text-align: center;
 }
 
+.collection-date-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  gap: 14px;
+}
+
+.collection-date-grid > div {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--white);
+}
+
+.collection-date-grid dt {
+  color: var(--forest);
+  font-size: 0.74rem;
+  font-weight: 760;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.collection-date-grid dd {
+  margin: 6px 0 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 650;
+}
+
+.collection-schedule-actions {
+  margin-top: 20px;
+}
+
+.collection-schedule-note {
+  max-width: 680px;
+  margin: 18px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
 @media (max-width: 760px) {
   .directory-tools {
     border-radius: 22px;
@@ -3356,5 +3397,9 @@ p {
     align-items: flex-start;
     flex-direction: column;
     gap: 4px;
+  }
+
+  .collection-date-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -613,6 +613,7 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
       ]
     > &
       Schema.Attribute.Required;
+    collectionDates: Schema.Attribute.Component<'shared.collection-date', true>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -621,6 +622,8 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
     displayOrder: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<0>;
+    documentLabel: Schema.Attribute.String;
+    documentUrl: Schema.Attribute.String;
     email: Schema.Attribute.Email;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
