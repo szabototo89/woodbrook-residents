@@ -85,7 +85,7 @@ async function loadSurveys(): Promise<Survey[]> {
 
 async function loadResources(): Promise<Resource[]> {
   const response = await fetchJson(
-    'resources?populate[details]=*&sort[0]=displayOrder:asc&sort[1]=title:asc&pagination[pageSize]=200',
+    'resources?populate[details]=*&populate[collectionDates]=*&sort[0]=displayOrder:asc&sort[1]=title:asc&pagination[pageSize]=200',
   );
   return collectionEnvelopeSchema(resourceSchema).parse(response).data;
 }
@@ -257,6 +257,7 @@ export const getResourceBySlug = createServerFn({ method: 'GET' })
         const search = new URLSearchParams({
           'filters[slug][$eq]': data.slug,
           'populate[details]': '*',
+          'populate[collectionDates]': '*',
           'pagination[pageSize]': '1',
         });
         const response = await fetchJson(`resources?${search.toString()}`);

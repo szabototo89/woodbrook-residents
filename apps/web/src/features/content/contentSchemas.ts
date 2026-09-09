@@ -122,6 +122,17 @@ export const resourceSchema = z.object({
       }),
     )
     .default([]),
+  collectionDates: z
+    .array(
+      z.object({
+        id: z.number(),
+        date: z.string(),
+        stream: z.enum(['recycling', 'waste-compost']),
+      }),
+    )
+    .default([]),
+  documentUrl: optionalString,
+  documentLabel: optionalString,
   displayOrder: z.number(),
   sourceName: z.string(),
   sourceUrl: z.string(),

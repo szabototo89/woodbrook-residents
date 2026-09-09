@@ -177,6 +177,55 @@ test('finds local services by need and category', async ({ page }) => {
   ).toBeVisible();
 });
 
+test('shows the qualified Thorntons bin schedule and PDF actions', async ({
+  page,
+}) => {
+  await page.clock.setFixedTime(new Date('2026-09-09T09:00:00+01:00'));
+  await page.goto('/local-info');
+
+  const search = page.getByRole('searchbox', { name: 'What do you need?' });
+  await search.fill('bin collection');
+  await expect(
+    page.getByRole('heading', {
+      name: 'Thorntons 2026 bin collection schedule',
+    }),
+  ).toBeVisible();
+
+  await page
+    .getByRole('link', {
+      name: 'View details: Thorntons 2026 bin collection schedule',
+    })
+    .click();
+
+  await expect(
+    page.getByRole('heading', { name: 'Next collection dates' }),
+  ).toBeVisible();
+  await expect(page.getByText('15 September 2026')).toBeVisible();
+  await expect(page.getByText('22 September 2026')).toBeVisible();
+  await expect(
+    page.getByText(/collection arrangements can vary by route/i),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: /view 2026 bin collection schedule/i }),
+  ).toHaveAttribute(
+    'href',
+    '/documents/thorntons-bin-collection-schedule-2026.pdf',
+  );
+  await expect(
+    page.getByRole('link', { name: /download pdf/i }),
+  ).toHaveAttribute('download', 'thorntons-bin-collection-schedule-2026.pdf');
+  const pdfResponse = await page.request.get(
+    '/documents/thorntons-bin-collection-schedule-2026.pdf',
+  );
+  expect(pdfResponse.ok()).toBe(true);
+  expect(pdfResponse.headers()['content-type']).toContain('application/pdf');
+  await expect(
+    page.getByText(
+      /checked against Thorntons Recycling 2026 collection schedule on 9 September 2026/i,
+    ),
+  ).toBeVisible();
+});
+
 test('detail pages offer a way back when content is unavailable', async ({
   page,
 }) => {

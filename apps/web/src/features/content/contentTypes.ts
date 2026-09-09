@@ -101,6 +101,13 @@ export type Resource = {
     value: string;
     showOnCard: boolean;
   }>;
+  collectionDates: Array<{
+    id: number;
+    date: string;
+    stream: 'recycling' | 'waste-compost';
+  }>;
+  documentUrl?: string;
+  documentLabel?: string;
   displayOrder: number;
   sourceName: string;
   sourceUrl: string;

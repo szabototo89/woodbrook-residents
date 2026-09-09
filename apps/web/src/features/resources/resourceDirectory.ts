@@ -58,6 +58,7 @@ export function filterResources(
       resource.description,
       resource.phone,
       resource.email,
+      resource.documentLabel,
       ...resource.details.flatMap((detail) => [detail.label, detail.value]),
     ]
       .filter(Boolean)
