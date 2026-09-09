@@ -4,7 +4,7 @@ Status: Available
 
 ## Job to be done
 
-When the public website is deployed, I want every published page to be generated from Strapi during the build, so residents can browse the complete hub on Cloudflare Pages without a runtime backend.
+When the public website is deployed, I want every published page to be generated from the selected content source during the build, so residents can browse the complete hub on Cloudflare Pages without a runtime backend.
 
 ## User-visible behavior
 
@@ -15,20 +15,20 @@ When the public website is deployed, I want every published page to be generated
 
 ## Acceptance criteria
 
-- Given Strapi is reachable and contains published content, when `bun run build:static` runs, then the output contains the main routes, every reachable detail route, and static CMS data under `apps/web/dist/client`.
+- Given the selected content source is reachable and contains published content, when `bun run build:static` runs, then the output contains the main routes, every reachable detail route, and static content data under `apps/web/dist/client`.
 - Given a listing links to a published detail route, when the static output is verified, then that route has a corresponding HTML file.
-- Given Strapi cannot be reached or returns content that fails validation, when the static build runs, then it exits unsuccessfully instead of publishing unavailable or empty content.
+- Given the selected source cannot be reached or returns content that fails validation, when the static build runs, then it exits unsuccessfully instead of publishing unavailable or empty content.
 - Given the contents of `apps/web/dist/client` are deployed, when a resident browses or navigates between generated pages, then no runtime application server or Strapi connection is required.
 - Given the public artifact is inspected, then it contains no issue-report page or runtime server-function endpoint.
-- Given Wrangler is authenticated, when `bun run deploy` runs without `STRAPI_URL`, then it starts a temporary local Strapi instance, builds and verifies its seeded published content, stops Strapi, and publishes the artifact as the `woodbrook` Worker at `https://woodbrook.shankill.workers.dev/`.
-- Given Strapi is already reachable at `http://127.0.0.1:1337`, when `bun run deploy` runs without `STRAPI_URL`, then it reuses that instance and does not stop it.
-- Given `STRAPI_URL` is set to a reachable CMS, when `bun run deploy` runs, then it uses that CMS without starting a local Strapi instance.
+- Given `CONTENT_SOURCE=strapi` and Wrangler is authenticated, when `bun run deploy` runs without `STRAPI_URL`, then it reuses a ready local Strapi or starts and later stops a temporary seeded instance.
+- Given `CONTENT_SOURCE=google-sheets` and read-only credentials are configured, when `bun run deploy` runs, then it builds from the configured spreadsheet without starting Strapi.
+- Given `CONTENT_SOURCE` is absent or invalid, when deployment begins, then it stops with a configuration error before building or publishing.
 
 ## Scope
 
 ### Included
 
-- Build-time Strapi reads, static prerendering, linked dynamic-route discovery, immutable client-navigation data, and output verification.
+- Build-time Google Sheets or Strapi reads, static prerendering, linked dynamic-route discovery, immutable client-navigation data, and output verification.
 - Cloudflare Pages build settings, Wrangler deployment to Workers Static Assets, and Strapi-triggered rebuild guidance.
 
 ### Not included

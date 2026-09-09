@@ -96,12 +96,19 @@ async function runChecked(
 }
 
 async function deploy() {
+  const contentSource = process.env.CONTENT_SOURCE?.trim();
+  if (contentSource !== 'strapi' && contentSource !== 'google-sheets') {
+    throw new Error(
+      'CONTENT_SOURCE must be set to "strapi" or "google-sheets" before deploying.',
+    );
+  }
+
   const configuredStrapiUrl = process.env.STRAPI_URL?.trim();
   const strapiUrl = configuredStrapiUrl || localStrapiUrl;
   let localStrapiProcess: Bun.Subprocess | undefined;
 
   try {
-    if (!configuredStrapiUrl) {
+    if (contentSource === 'strapi' && !configuredStrapiUrl) {
       if (await isStrapiReady()) {
         console.log(
           `Using the local Strapi already running at ${localStrapiUrl}.`,
@@ -122,6 +129,7 @@ async function deploy() {
 
     await runChecked(['bun', 'run', 'build:static'], {
       ...process.env,
+      CONTENT_SOURCE: contentSource,
       STRAPI_URL: strapiUrl,
       VITE_PUBLIC_SITE_URL: publicSiteUrl,
     });

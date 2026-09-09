@@ -1,4 +1,21 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+const googleAuthMock = vi.hoisted(() => ({
+  constructor: vi.fn(),
+  request: vi.fn(),
+}));
+
+vi.mock('google-auth-library', () => ({
+  GoogleAuth: class {
+    constructor(options: unknown) {
+      googleAuthMock.constructor(options);
+    }
+
+    request(options: unknown) {
+      return googleAuthMock.request(options);
+    }
+  },
+}));
 
 import {
   GoogleSheetsContentSource,
@@ -30,7 +47,38 @@ const projectHeaders = [
   'admin_notes',
 ];
 
+const eventHeaders = [
+  'record_id',
+  'slug',
+  'publish',
+  'featured',
+  'category',
+  'status',
+  'title',
+  'summary',
+  'start_at',
+  'end_at',
+  'timezone',
+  'all_day',
+  'location_name',
+  'address',
+  'map_url',
+  'organiser_name',
+  'organiser_url',
+  'registration_url',
+  'source_name',
+  'source_url',
+  'source_checked_on',
+  'sort_order',
+  'admin_notes',
+];
+
 describe('parseGoogleSheetsContent', () => {
+  beforeEach(() => {
+    googleAuthMock.constructor.mockReset();
+    googleAuthMock.request.mockReset();
+  });
+
   it('filters drafts and maps a published project into the domain model', () => {
     const sheets = {
       Updates: [[]],
@@ -207,6 +255,53 @@ describe('parseGoogleSheetsContent', () => {
     );
   });
 
+  it('reads all content tabs in one authenticated read-only batch request', async () => {
+    googleAuthMock.request.mockResolvedValue({
+      data: {
+        valueRanges: Array.from({ length: 5 }, () => ({ values: [[]] })),
+      },
+    });
+    const source = new GoogleSheetsContentSource({
+      spreadsheetId: 'private-sheet',
+      serviceAccountEmail: 'reader@example.test',
+      serviceAccountPrivateKey: 'private-key',
+    });
+
+    await expect(source.loadSnapshot()).resolves.toMatchObject({
+      updates: [],
+      projects: [],
+      events: [],
+      surveys: [],
+      resources: [],
+    });
+    expect(googleAuthMock.constructor).toHaveBeenCalledWith(
+      expect.objectContaining({
+        credentials: {
+          client_email: 'reader@example.test',
+          private_key: 'private-key',
+        },
+        scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+      }),
+    );
+    expect(googleAuthMock.request).toHaveBeenCalledTimes(1);
+    expect(googleAuthMock.request).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.stringContaining('/private-sheet/values:batchGet'),
+        params: expect.objectContaining({
+          ranges: [
+            'Updates!A:Q',
+            'Events!A:W',
+            'Projects!A:V',
+            'Consultations!A:R',
+            'Local_Info!A:AA',
+          ],
+          valueRenderOption: 'UNFORMATTED_VALUE',
+          dateTimeRenderOption: 'SERIAL_NUMBER',
+        }),
+      }),
+    );
+  });
+
   it('accepts every deliberately configured spreadsheet taxonomy family', () => {
     const updateHeaders = [
       'record_id',
@@ -351,31 +446,6 @@ describe('parseGoogleSheetsContent', () => {
   });
 
   it('maps Dublin spreadsheet date-times and consultation relations', () => {
-    const eventHeaders = [
-      'record_id',
-      'slug',
-      'publish',
-      'featured',
-      'category',
-      'status',
-      'title',
-      'summary',
-      'start_at',
-      'end_at',
-      'timezone',
-      'all_day',
-      'location_name',
-      'address',
-      'map_url',
-      'organiser_name',
-      'organiser_url',
-      'registration_url',
-      'source_name',
-      'source_url',
-      'source_checked_on',
-      'sort_order',
-      'admin_notes',
-    ];
     const consultationHeaders = [
       'record_id',
       'slug',
@@ -545,5 +615,80 @@ describe('parseGoogleSheetsContent', () => {
       'newer',
       'older',
     ]);
+  });
+
+  it('validates editorial taxonomy fields even when the domain does not display them', () => {
+    expect(() =>
+      parseGoogleSheetsContent({
+        Updates: [[]],
+        Events: [
+          eventHeaders,
+          [
+            'event-1',
+            'event-1',
+            true,
+            false,
+            'Community',
+            'Hidden',
+            'Event',
+            'Summary',
+            46242.5,
+            '',
+            'Europe/Dublin',
+            false,
+            'Woodbrook',
+            '',
+            '',
+            'Organiser',
+            '',
+            '',
+            'Source',
+            'https://example.com/event',
+            46242,
+            1,
+          ],
+        ],
+        Projects: [[]],
+        Consultations: [[]],
+        Local_Info: [[]],
+      }),
+    ).toThrow('Events row 2 field "status": unsupported value "Hidden".');
+  });
+
+  it('enforces required spreadsheet fields before canonical validation', () => {
+    expect(() =>
+      parseGoogleSheetsContent({
+        Updates: [[]],
+        Events: [[]],
+        Projects: [
+          projectHeaders,
+          [
+            'project-1',
+            'project-1',
+            true,
+            false,
+            'Community',
+            'Active',
+            'Project',
+            'Summary',
+            'Details',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            'Source',
+            'https://example.com/project',
+            46242,
+            '',
+            1,
+          ],
+        ],
+        Consultations: [[]],
+        Local_Info: [[]],
+      }),
+    ).toThrow('Projects row 2 field "next_step": is required.');
   });
 });

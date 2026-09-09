@@ -2,6 +2,9 @@ import { GoogleAuth } from 'google-auth-library';
 
 import type { ContentSource } from './contentSource';
 import {
+  consultationCategories,
+  eventCategories,
+  eventStatuses,
   projectCategories,
   projectStages,
   providerTypes,
@@ -335,23 +338,29 @@ function mapProjects(values: unknown[][]): Project[] {
   return mapRows(
     'Projects',
     values,
-    (row) => ({
-      ...identity(row),
-      category: row.enum('category', projectCategories),
-      stage: row.enum('status', projectStages),
-      title: row.text('title', true)!,
-      summary: row.text('summary', true)!,
-      details: row.text('body_markdown') ?? '',
-      updatedOn: row.date('reviewed_on', true)!,
-      nextStep: row.text('next_step'),
-      sourceName: row.text('source_name', true)!,
-      sourceUrl: requiredUrl(row, 'source_url'),
-      sourceReviewedOn: row.date('reviewed_on', true)!,
-      imagePath: row.url('image_url'),
-      imageAlt: row.text('image_alt'),
-      imageCredit: row.text('image_credit'),
-      featured: row.boolean('featured'),
-    }),
+    (row) => {
+      row.numeric('latitude');
+      row.numeric('longitude');
+      row.date('target_date');
+
+      return {
+        ...identity(row),
+        category: row.enum('category', projectCategories),
+        stage: row.enum('status', projectStages),
+        title: row.text('title', true)!,
+        summary: row.text('summary', true)!,
+        details: row.text('body_markdown') ?? '',
+        updatedOn: row.date('reviewed_on', true)!,
+        nextStep: row.text('next_step', true)!,
+        sourceName: row.text('source_name', true)!,
+        sourceUrl: requiredUrl(row, 'source_url'),
+        sourceReviewedOn: row.date('reviewed_on', true)!,
+        imagePath: row.url('image_url'),
+        imageAlt: row.text('image_alt'),
+        imageCredit: row.text('image_credit'),
+        featured: row.boolean('featured'),
+      };
+    },
     (left, right) => right.updatedOn.localeCompare(left.updatedOn),
   );
 }
@@ -361,6 +370,11 @@ function mapEvents(values: unknown[][]): CommunityEvent[] {
     'Events',
     values,
     (row) => {
+      row.enum('category', eventCategories);
+      row.enum('status', eventStatuses);
+      row.boolean('all_day', true);
+      row.text('source_name', true);
+      row.url('map_url');
       const timeZone = row.text('timezone', true) ?? spreadsheetTimeZone;
       const locationName = row.text('location_name');
       const address = row.text('address');
@@ -386,19 +400,22 @@ function mapSurveys(values: unknown[][]): Survey[] {
   return mapRows(
     'Consultations',
     values,
-    (row) => ({
-      ...identity(row),
-      title: row.text('title', true)!,
-      stage: row.enum('status', surveyStages),
-      summary: row.text('summary', true)!,
-      opensOn: row.date('opens_on'),
-      closesOn: row.date('closes_on'),
-      responseUrl: row.url('response_url'),
-      sourceName: row.text('source_name', true)!,
-      sourceUrl: requiredUrl(row, 'source_url'),
-      sourceReviewedOn: row.date('source_checked_on', true)!,
-      relatedProjectId: row.text('related_project_id'),
-    }),
+    (row) => {
+      row.enum('category', consultationCategories);
+      return {
+        ...identity(row),
+        title: row.text('title', true)!,
+        stage: row.enum('status', surveyStages),
+        summary: row.text('summary', true)!,
+        opensOn: row.date('opens_on', true)!,
+        closesOn: row.date('closes_on', true)!,
+        responseUrl: row.url('response_url'),
+        sourceName: row.text('source_name', true)!,
+        sourceUrl: requiredUrl(row, 'source_url'),
+        sourceReviewedOn: row.date('source_checked_on', true)!,
+        relatedProjectId: row.text('related_project_id'),
+      };
+    },
     (left, right) =>
       (right.closesOn ?? right.opensOn ?? '').localeCompare(
         left.closesOn ?? left.opensOn ?? '',
@@ -424,6 +441,7 @@ function mapResources(values: unknown[][]): Resource[] {
       const detailLabel = row.text('detail_label');
       const detailValue = row.text('detail_value');
       const address = row.text('address');
+      row.url('map_url');
       if (detailLabel && detailValue) {
         addDetail(detailLabel, detailValue, true);
       } else if (address) {
