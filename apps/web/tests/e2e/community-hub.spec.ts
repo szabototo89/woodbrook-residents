@@ -133,6 +133,14 @@ test('finds local services by need and category', async ({ page }) => {
     page.getByRole('link', { name: /call 01 282 3263/i }),
   ).toHaveAttribute('href', 'tel:012823263');
   await expect(
+    page.getByRole('link', {
+      name: 'Open Violet House, Main Street, Shankill, D18 P2Y3 in Google Maps',
+    }),
+  ).toHaveAttribute(
+    'href',
+    'https://www.google.com/maps/search/?api=1&query=Violet+House%2C+Main+Street%2C+Shankill%2C+D18+P2Y3',
+  );
+  await expect(
     page.getByText('Monday–Friday 8:30am–6:30pm; Saturday 9:30am–6pm', {
       exact: true,
     }),
@@ -149,6 +157,14 @@ test('finds local services by need and category', async ({ page }) => {
       exact: true,
     }),
   ).toBeVisible();
+  await expect(
+    page.getByRole('link', {
+      name: 'Open Violet House, Main Street, Shankill, D18 P2Y3 in Google Maps',
+    }),
+  ).toHaveAttribute(
+    'href',
+    'https://www.google.com/maps/search/?api=1&query=Violet+House%2C+Main+Street%2C+Shankill%2C+D18+P2Y3',
+  );
   await expect(page.getByRole('link', { name: 'Email' })).toHaveAttribute(
     'href',
     'mailto:shankillpharmacyshop@gmail.com',

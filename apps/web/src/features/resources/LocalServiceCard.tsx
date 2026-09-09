@@ -3,6 +3,7 @@ import { ArrowRight, Phone } from 'lucide-react';
 
 import { formatLabel } from '../content/contentFormatting';
 import type { Resource } from '../content/contentTypes';
+import { ResourceDetailValue } from './ResourceDetailValue';
 import { toTelephoneHref } from './resourceDirectory';
 
 export function LocalServiceCard({ resource }: { resource: Resource }) {
@@ -29,7 +30,9 @@ export function LocalServiceCard({ resource }: { resource: Resource }) {
           {cardDetails.map((detail) => (
             <div key={detail.id}>
               <dt>{detail.label}</dt>
-              <dd>{detail.value}</dd>
+              <dd>
+                <ResourceDetailValue detail={detail} />
+              </dd>
             </div>
           ))}
         </dl>

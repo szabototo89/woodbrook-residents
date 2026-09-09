@@ -6,6 +6,7 @@ import {
   getAvailableResourceCategories,
   toTelephoneHref,
 } from './resourceDirectory';
+import { isAddressDetail } from './ResourceDetailValue';
 
 const resources: Resource[] = [
   {
@@ -82,5 +83,10 @@ describe('resource directory', () => {
 
   it('creates a dialable link from a formatted phone number', () => {
     expect(toTelephoneHref('+353 (0)1 234 5678')).toBe('tel:+353012345678');
+  });
+
+  it('identifies address details without depending on label casing', () => {
+    expect(isAddressDetail(resources[0].details[0])).toBe(true);
+    expect(isAddressDetail(resources[1].details[0])).toBe(false);
   });
 });

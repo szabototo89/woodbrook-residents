@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
+import { createGoogleMapsUrl } from '../../components/GoogleMapsLink';
 import type { CommunityEvent } from '../content/contentTypes';
 import {
   buildEventCalendar,
   createEventCalendarDataUri,
-  createGoogleMapsUrl,
 } from './eventCalendar';
 
 const event: CommunityEvent = {
