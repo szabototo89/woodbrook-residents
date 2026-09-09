@@ -2,10 +2,10 @@ import { Link } from '@tanstack/react-router';
 import {
   ArrowRight,
   CalendarDays,
-  Hammer,
   HandHeart,
   House,
   Megaphone,
+  MessageSquareText,
 } from 'lucide-react';
 
 import { CmsUnavailable } from '../../components/CmsUnavailable';
@@ -26,23 +26,23 @@ export function HomePage() {
       <section className="hero rooms-hero">
         <div className="shell rooms-hero-card">
           <div className="hero-copy">
-            <p className="eyebrow">Hello, neighbour</p>
-            <h1>A shared place for everyday Woodbrook.</h1>
+            <p className="eyebrow">For Woodbrook residents</p>
+            <h1>Local information and ways to take part.</h1>
             <p className="hero-lede">
               {content.siteSetting?.tagline ??
-                'A shared place to know what’s happening, meet people nearby, and help shape our neighbourhood.'}
+                'Keep up with local changes, find practical information, and take part in community life.'}
             </p>
             <p className="hero-intro">
               {content.siteSetting?.introduction ??
-                'Find a useful answer, a local date, a neighbourly idea, or a clear next step.'}
+                'Browse updates, services, events, projects, and public consultations for Woodbrook and nearby Shankill.'}
             </p>
             <div className="button-row">
               <a className="button" href="#community-start">
-                Explore the community hub{' '}
+                Choose where to start{' '}
                 <ArrowRight size={16} aria-hidden="true" />
               </a>
               <Link className="button button-secondary" to="/events">
-                See what’s on
+                Browse events
               </Link>
             </div>
           </div>
@@ -68,13 +68,10 @@ export function HomePage() {
         <div className="shell">
           <div className="rooms-heading">
             <div>
-              <p className="eyebrow">A simple way in</p>
-              <h2>What do you need today?</h2>
+              <p className="eyebrow">Start here</p>
+              <h2>What would you like to do?</h2>
             </div>
-            <p>
-              One clear starting point for local information, community
-              activity, practical help, and ways to contribute.
-            </p>
+            <p>Choose a section based on the task you want to complete.</p>
           </div>
 
           <div className="room-grid">
@@ -83,14 +80,15 @@ export function HomePage() {
                 <House size={21} aria-hidden="true" />
               </span>
               <div>
-                <small>New to Woodbrook?</small>
-                <h3>Find your feet locally</h3>
+                <small>Find practical help</small>
+                <h3>Browse local information</h3>
                 <p>
                   Useful places, services, contacts, and everyday essentials.
                 </p>
               </div>
               <span className="room-link">
-                Open the local guide <ArrowRight size={15} aria-hidden="true" />
+                Browse local information{' '}
+                <ArrowRight size={15} aria-hidden="true" />
               </span>
             </Link>
 
@@ -99,8 +97,8 @@ export function HomePage() {
                 <Megaphone size={21} aria-hidden="true" />
               </span>
               <div>
-                <small>Keep up</small>
-                <h3>Know what’s changing</h3>
+                <small>Stay informed</small>
+                <h3>Read local updates</h3>
                 <p>
                   {content.availability === 'ready'
                     ? `${content.updates.length} source-linked local updates.`
@@ -117,8 +115,8 @@ export function HomePage() {
                 <CalendarDays size={21} aria-hidden="true" />
               </span>
               <div>
-                <small>Come along</small>
-                <h3>Meet and join in</h3>
+                <small>Take part</small>
+                <h3>Find upcoming events</h3>
                 <p>
                   {content.availability === 'ready'
                     ? `${content.events.length} ${
@@ -130,25 +128,24 @@ export function HomePage() {
                 </p>
               </div>
               <span className="room-link">
-                See what’s on <ArrowRight size={15} aria-hidden="true" />
+                Browse events <ArrowRight size={15} aria-hidden="true" />
               </span>
             </Link>
 
-            <Link className="room-card room-workshop" to="/projects">
+            <Link className="room-card room-workshop" to="/surveys">
               <span className="room-icon">
-                <Hammer size={21} aria-hidden="true" />
+                <MessageSquareText size={21} aria-hidden="true" />
               </span>
               <div>
-                <small>Have a say</small>
-                <h3>Help shape the area</h3>
+                <small>Have your say</small>
+                <h3>View public consultations</h3>
                 <p>
-                  {content.availability === 'ready'
-                    ? `${content.projects.length} local projects being followed.`
-                    : 'Local projects, clear sources, and visible next steps.'}
+                  Current opportunities to respond and an archive of closed
+                  consultations.
                 </p>
               </div>
               <span className="room-link">
-                Follow the work <ArrowRight size={15} aria-hidden="true" />
+                View consultations <ArrowRight size={15} aria-hidden="true" />
               </span>
             </Link>
           </div>
@@ -186,7 +183,7 @@ export function HomePage() {
               <SectionHeading
                 eyebrow="Meet and join in"
                 title="Coming up nearby"
-                linkLabel="All events"
+                linkLabel="View all events"
                 linkTo="/events"
               />
               {content.events.slice(0, 1).map((event) => (
@@ -196,8 +193,8 @@ export function HomePage() {
             <div>
               <SectionHeading
                 eyebrow="Have your say"
-                title="Open conversations"
-                linkLabel="All surveys"
+                title="Public consultations"
+                linkLabel="View all consultations"
                 linkTo="/surveys"
               />
               {content.surveys.slice(0, 1).map((survey) => (
@@ -233,17 +230,17 @@ export function HomePage() {
               <span className="help-desk-icon">
                 <HandHeart size={20} aria-hidden="true" />
               </span>
-              <p className="eyebrow">Contribute or get help</p>
+              <p className="eyebrow">Ways to help</p>
             </div>
-            <h2>Contribute something useful.</h2>
+            <h2>Help keep local information useful.</h2>
             <p>
-              Help check local information, share confirmed dates, or make the
-              hub more useful for the people who live here.
+              See what residents can do now, what is still being set up, and
+              where to find official help.
             </p>
           </div>
           <div className="button-row">
             <Link className="button" to="/get-involved">
-              Get involved <ArrowRight size={16} aria-hidden="true" />
+              See ways to help <ArrowRight size={16} aria-hidden="true" />
             </Link>
           </div>
         </div>

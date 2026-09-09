@@ -12,15 +12,15 @@ test('the homepage has no horizontal overflow on a phone', async ({ page }) => {
   await expect(
     page.getByRole('heading', {
       level: 1,
-      name: /a shared place for everyday woodbrook/i,
+      name: 'Local information and ways to take part.',
     }),
   ).toBeVisible();
 
   const startingPoints = [
-    page.getByRole('link', { name: /new to woodbrook/i }),
-    page.getByRole('link', { name: /keep up/i }),
-    page.getByRole('link', { name: /come along/i }),
-    page.getByRole('link', { name: /have a say/i }),
+    page.getByRole('link', { name: /find practical help/i }),
+    page.getByRole('link', { name: /stay informed/i }),
+    page.getByRole('link', { name: /take part/i }),
+    page.getByRole('link', { name: /have your say/i }),
   ];
   const cardWidths = await Promise.all(
     startingPoints.map((startingPoint) =>
@@ -33,7 +33,7 @@ test('the homepage has no horizontal overflow on a phone', async ({ page }) => {
   expect(new Set(cardWidths.map(Math.round)).size).toBe(1);
 
   await page
-    .getByRole('link', { name: 'Explore the community hub', exact: true })
+    .getByRole('link', { name: 'Choose where to start', exact: true })
     .click();
   const anchorClearance = await page.evaluate(() => {
     const headerBottom = document

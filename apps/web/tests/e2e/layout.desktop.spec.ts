@@ -6,10 +6,10 @@ test('the homepage presents four balanced starting points on desktop', async ({
   await page.goto('/');
 
   const startingPoints = [
-    page.getByRole('link', { name: /new to woodbrook/i }),
-    page.getByRole('link', { name: /keep up/i }),
-    page.getByRole('link', { name: /come along/i }),
-    page.getByRole('link', { name: /have a say/i }),
+    page.getByRole('link', { name: /find practical help/i }),
+    page.getByRole('link', { name: /stay informed/i }),
+    page.getByRole('link', { name: /take part/i }),
+    page.getByRole('link', { name: /have your say/i }),
   ];
   const boxes = await Promise.all(
     startingPoints.map((startingPoint) =>
@@ -45,7 +45,7 @@ test('the homepage presents four balanced starting points on desktop', async ({
   expect(new Set(featureCardTops.map(Math.round)).size).toBe(1);
 
   await page
-    .getByRole('link', { name: 'Explore the community hub', exact: true })
+    .getByRole('link', { name: 'Choose where to start', exact: true })
     .click();
   const anchorClearance = await page.evaluate(() => {
     const headerBottom = document
@@ -68,9 +68,9 @@ test('the homepage action panel keeps its icon with its label and uses clear num
 
   const actionPanel = page.getByRole('heading', {
     level: 2,
-    name: 'Ask, contribute, or raise something useful.',
+    name: 'Help keep local information useful.',
   });
-  const label = page.getByText('Contribute or get help', { exact: true });
+  const label = page.getByText('Ways to help', { exact: true });
   const icon = page.locator('.help-desk-icon');
 
   await expect(actionPanel).toBeVisible();
@@ -96,7 +96,7 @@ test('the homepage action panel keeps its icon with its label and uses clear num
 
   expect(Math.abs(actionBottoms[0] - actionBottoms[1])).toBeLessThanOrEqual(1);
   await expect(
-    page.getByRole('link', { name: 'Woodbrook Community Hub home' }),
+    page.getByRole('link', { name: 'Woodbrook Residents home' }),
   ).toHaveCSS('border-radius', '12px');
   await expect(
     page.getByText('Closed 24 July 2026', { exact: true }),
