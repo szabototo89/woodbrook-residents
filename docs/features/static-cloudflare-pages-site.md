@@ -20,13 +20,14 @@ When the public website is deployed, I want every published page to be generated
 - Given Strapi cannot be reached or returns content that fails validation, when the static build runs, then it exits unsuccessfully instead of publishing unavailable or empty content.
 - Given the contents of `apps/web/dist/client` are deployed, when a resident browses or navigates between generated pages, then no runtime application server or Strapi connection is required.
 - Given the public artifact is inspected, then it contains no issue-report page or runtime server-function endpoint.
+- Given Wrangler is authenticated and `STRAPI_URL` is reachable, when `bun run deploy` succeeds, then the verified static artifact is published as the `woodbrook` Worker at `https://woodbrook.shankill.workers.dev/`.
 
 ## Scope
 
 ### Included
 
 - Build-time Strapi reads, static prerendering, linked dynamic-route discovery, immutable client-navigation data, and output verification.
-- Cloudflare Pages build settings and Strapi-triggered rebuild guidance.
+- Cloudflare Pages build settings, Wrangler deployment to Workers Static Assets, and Strapi-triggered rebuild guidance.
 
 ### Not included
 

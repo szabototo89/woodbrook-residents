@@ -18,6 +18,7 @@
     "build:static": "bun run lint && bun run --cwd apps/web build:static",
     "build:web": "bun run --cwd apps/web build",
     "build:cms": "bun run --cwd apps/cms build",
+    "deploy": "VITE_PUBLIC_SITE_URL=https://woodbrook.shankill.workers.dev bun run build:static && wrangler deploy",
     "test": "bun run test:unit && bun run test:browser && bun run test:e2e",
     "test:install-browser": "bun run --cwd apps/web playwright install chromium",
     "test:unit": "bun run --cwd apps/web test:unit",
@@ -33,6 +34,7 @@
     "concurrently": "^9.2.1",
     "eslint": "^10.0.0",
     "prettier": "^3.8.2",
-    "typescript-eslint": "^8.67.0"
+    "typescript-eslint": "^8.67.0",
+    "wrangler": "^4.130.0"
   }
 }
