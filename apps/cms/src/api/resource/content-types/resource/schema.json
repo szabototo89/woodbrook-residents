@@ -32,7 +32,10 @@
         "community",
         "safety",
         "waste",
-        "recreation"
+        "recreation",
+        "education",
+        "childcare",
+        "other"
       ],
       "required": true
     },
@@ -42,7 +45,7 @@
     },
     "providerType": {
       "type": "enumeration",
-      "enum": ["business", "public-service", "community", "nonprofit"],
+      "enum": ["business", "public-service", "community", "nonprofit", "other"],
       "required": true,
       "default": "business"
     },
