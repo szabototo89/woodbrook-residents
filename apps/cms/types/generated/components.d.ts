@@ -1,5 +1,18 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface SharedCollectionDate extends Struct.ComponentSchema {
+  collectionName: 'components_shared_collection_dates';
+  info: {
+    description: 'A dated recycling or waste and compost collection';
+    displayName: 'Collection date';
+  };
+  attributes: {
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
+    stream: Schema.Attribute.Enumeration<['recycling', 'waste-compost']> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface SharedResourceDetail extends Struct.ComponentSchema {
   collectionName: 'components_shared_resource_details';
   info: {
@@ -18,6 +31,7 @@ export interface SharedResourceDetail extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'shared.collection-date': SharedCollectionDate;
       'shared.resource-detail': SharedResourceDetail;
     }
   }

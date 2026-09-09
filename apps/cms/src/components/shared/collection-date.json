@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_shared_collection_dates",
+  "info": {
+    "displayName": "Collection date",
+    "description": "A dated recycling or waste and compost collection"
+  },
+  "options": {},
+  "attributes": {
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "stream": {
+      "type": "enumeration",
+      "enum": ["recycling", "waste-compost"],
+      "required": true
+    }
+  }
+}
