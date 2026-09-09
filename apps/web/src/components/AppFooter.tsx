@@ -11,15 +11,15 @@ export function AppFooter() {
               W
             </span>
             <span>
-              <strong>Woodbrook Community Hub</strong>
+              <strong>Woodbrook Residents</strong>
               <small>
                 <MapPin size={13} aria-hidden="true" /> Shankill, Dublin 18
               </small>
             </span>
           </Link>
           <p>
-            A shared place for useful local information, neighbourly activity,
-            and clear ways to help shape Woodbrook.
+            Local information, events, consultations, and practical ways for
+            Woodbrook residents to take part.
           </p>
         </div>
         <div>
@@ -27,7 +27,7 @@ export function AppFooter() {
           <Link to="/updates">Updates</Link>
           <Link to="/projects">Projects</Link>
           <Link to="/events">Events</Link>
-          <Link to="/surveys">Have your say</Link>
+          <Link to="/surveys">Consultations</Link>
         </div>
         <div>
           <h2>Take action</h2>
@@ -39,7 +39,7 @@ export function AppFooter() {
         </div>
       </div>
       <div className="shell footer-bottom">
-        <span>© 2026 Woodbrook Community Hub</span>
+        <span>© 2026 Woodbrook Residents</span>
         <span>Local facts are linked to their original public sources.</span>
       </div>
     </footer>

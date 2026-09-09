@@ -9,7 +9,7 @@ export function EventsPage() {
 
   return (
     <main id="main-content">
-      <PageIntro eyebrow="Meet and take part" title="Community calendar">
+      <PageIntro eyebrow="Meet and take part" title="Events">
         <p>
           Confirmed local dates from organisers and public bodies. Always check
           the linked organiser page before travelling.

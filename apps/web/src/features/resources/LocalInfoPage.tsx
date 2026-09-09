@@ -32,8 +32,9 @@ export function LocalInfoPage() {
     <main id="main-content">
       <PageIntro eyebrow="Useful nearby" title="Local information">
         <p>
-          Find useful nearby health services, trades, professional help, and
-          public services—then call or visit their website directly.
+          Find a curated starting set of nearby public services, community
+          contacts, and businesses—then check the source and contact the
+          provider directly.
         </p>
       </PageIntro>
       <section className="section shell directory-section">
@@ -126,9 +127,12 @@ export function LocalInfoPage() {
             )}
 
             <p className="directory-disclaimer">
-              Listings are provided for convenience, not as endorsements. Check
-              availability, qualifications, and costs directly with the
-              provider.
+              This is a curated starting set, not a complete directory or a
+              recommendation. Listings are unpaid. Check availability,
+              qualifications, and costs with the provider.{' '}
+              <a href="/get-involved#corrections">
+                See how to suggest a correction.
+              </a>
             </p>
           </>
         ) : null}

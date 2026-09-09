@@ -33,6 +33,8 @@ describe('event calendar actions', () => {
     expect(calendar).toContain('SUMMARY:Community clean-up\\, Woodbrook');
     expect(calendar).toContain('Meet neighbours\\; bags provided.\\n');
     expect(calendar).toContain('LOCATION:Woodbrook\\, Shankill');
+    expect(calendar).toContain('PRODID:-//Woodbrook Residents//Events//EN');
+    expect(calendar).toContain('UID:event-123@woodbrook-residents');
     expect(calendar.endsWith('\r\n')).toBe(true);
   });
 

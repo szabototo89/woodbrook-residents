@@ -1,4 +1,4 @@
-# Woodbrook Community Hub
+# Woodbrook Residents
 
 A resident information and action hub for Woodbrook, Shankill. The public site is built with TanStack Start and can capture published Strapi content as a fully static Cloudflare Pages deployment.
 

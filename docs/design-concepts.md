@@ -13,7 +13,7 @@ local information, and ways to participate.
 
 ## Product purpose
 
-Woodbrook Community Hub is resident infrastructure, not a transport microsite and not a council service. Its main jobs are:
+Woodbrook Residents is resident infrastructure, not a transport microsite and not a council service. Its main jobs are:
 
 1. help a resident quickly understand what is happening nearby;
 2. make local dates, services, projects, and source material easier to find;

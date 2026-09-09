@@ -8,7 +8,7 @@ test('shows researched community content and supports primary navigation', async
   await expect(
     page.getByRole('heading', {
       level: 1,
-      name: /a shared place for everyday woodbrook/i,
+      name: 'Local information and ways to take part.',
     }),
   ).toBeVisible();
   const estateImage = page.getByRole('img', {
@@ -43,7 +43,7 @@ test('shows researched community content and supports primary navigation', async
     .first()
     .click();
   await expect(
-    page.getByRole('heading', { level: 1, name: 'Projects and initiatives' }),
+    page.getByRole('heading', { level: 1, name: 'Projects' }),
   ).toBeVisible();
   await expect(
     page.getByRole('heading', { name: 'Woodbrook housing delivery' }),
@@ -113,6 +113,12 @@ test('finds local services by need and category', async ({ page }) => {
   await expect(
     page.getByRole('heading', { level: 1, name: 'Local information' }),
   ).toBeVisible();
+  await expect(
+    page.getByText(/curated starting set, not a complete directory/i),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'See how to suggest a correction.' }),
+  ).toHaveAttribute('href', '/get-involved#corrections');
 
   const search = page.getByRole('searchbox', { name: 'What do you need?' });
   await search.fill('plumber');
@@ -175,6 +181,60 @@ test('finds local services by need and category', async ({ page }) => {
   await expect(
     page.getByRole('link', { name: 'All local services' }),
   ).toBeVisible();
+});
+
+test('uses consistent resident labels and honest contribution paths', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  await expect(
+    page.getByRole('link', { name: 'Woodbrook Residents home' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: /have your say/i }),
+  ).toHaveAttribute('href', '/surveys');
+
+  await page.goto('/get-involved');
+  await expect(
+    page.getByText(/does not yet accept event submissions or issue reports/i),
+  ).toBeVisible();
+  await expect(page.getByText(/corrections are not open yet/i)).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Browse events' }),
+  ).toHaveAttribute('href', '/events');
+  await expect(
+    page.getByRole('link', { name: 'View projects' }),
+  ).toHaveAttribute('href', '/projects');
+});
+
+test('provides page-specific titles and canonical URLs', async ({ page }) => {
+  await page.goto('/');
+  await expect(page).toHaveTitle('Woodbrook Residents | Shankill');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'http://localhost:3000/',
+  );
+
+  await page.goto('/events');
+  await expect(page).toHaveTitle('Events | Woodbrook Residents');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    /confirmed community meetings/i,
+  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'http://localhost:3000/events',
+  );
+
+  await page.getByRole('link', { name: /^View event:/ }).click();
+  await expect(page).toHaveTitle(
+    'DLR household hazardous waste collection day | Woodbrook Residents',
+  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'http://localhost:3000/events/dlr-household-hazardous-waste-day-2026',
+  );
 });
 
 test('detail pages offer a way back when content is unavailable', async ({
