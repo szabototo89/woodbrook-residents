@@ -15,6 +15,8 @@ When I need practical help nearby, I want to find and contact an appropriate loc
 - Each provider page shows all supplied contact methods and additional details, such as address, service area, opening hours, accessibility, or professional registration.
 - Each provider page identifies its source and the date on which the information was checked.
 - The directory explains that inclusion is not an endorsement and does not provide ratings or reviews.
+- The directory describes itself as a curated, unpaid starting set rather than a complete directory or recommendation.
+- The directory links residents to the correction guidance, which uses the configured resident publishing email when available and otherwise states that corrections are not yet open.
 
 ## Acceptance criteria
 
@@ -26,6 +28,8 @@ When I need practical help nearby, I want to find and contact an appropriate loc
 - Given a resident follows a provider’s detail link, when the provider is published, then its full contact methods, metadata, source, and last-reviewed date are visible.
 - Given an unknown or unpublished resource slug, when a resident opens its detail URL, then a useful unavailable state links back to the directory.
 - Given an editor needs to add new metadata, when they edit a Resource in Strapi, then they can add repeatable label/value details and choose whether each appears on the card without a schema change.
+- Given a resident needs to judge the directory’s scope, when they read its guidance, then they can see that inclusion is curated and unpaid, is not comprehensive, and is not a recommendation.
+- Given a resident spots inaccurate information, when they follow the correction link, then they reach the current correction guidance without being offered a non-functional submission form.
 
 ## Scope
 
