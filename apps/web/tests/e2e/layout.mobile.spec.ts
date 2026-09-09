@@ -48,3 +48,41 @@ test('the homepage has no horizontal overflow on a phone', async ({ page }) => {
 
   expect(anchorClearance).toBeGreaterThanOrEqual(0);
 });
+
+test('the mobile navigation can be dismissed accessibly', async ({ page }) => {
+  await page.goto('/');
+
+  const openNavigation = page.getByRole('button', {
+    name: 'Open navigation',
+  });
+  await expect(openNavigation).toHaveAttribute('aria-expanded', 'false');
+
+  await openNavigation.click();
+  const closeNavigation = page.getByRole('button', {
+    name: 'Close navigation',
+  });
+  await expect(closeNavigation).toHaveAttribute('aria-expanded', 'true');
+  await expect(
+    page.getByRole('navigation', { name: 'Mobile navigation' }),
+  ).toBeVisible();
+
+  await page.touchscreen.tap(10, 180);
+  await expect(openNavigation).toHaveAttribute('aria-expanded', 'false');
+
+  await openNavigation.click();
+  await page.keyboard.press('Escape');
+  await expect(openNavigation).toHaveAttribute('aria-expanded', 'false');
+  await expect(openNavigation).toBeFocused();
+
+  await openNavigation.click();
+  await closeNavigation.click();
+  await expect(openNavigation).toHaveAttribute('aria-expanded', 'false');
+
+  await openNavigation.click();
+  await page
+    .getByRole('navigation', { name: 'Mobile navigation' })
+    .getByRole('link', { name: 'Local information' })
+    .click();
+  await expect(page).toHaveURL(/\/local-info$/);
+  await expect(openNavigation).toHaveAttribute('aria-expanded', 'false');
+});

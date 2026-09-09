@@ -31,6 +31,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Local service cards show their source and checked date, support direct contact actions, and do not present listings as endorsements.
 - Empty and unavailable states explain what happened without showing invented content.
 - The experience works on mobile and desktop and supports keyboard navigation.
+- On phones, the navigation menu closes when a resident taps outside it, presses Escape, follows a link, or activates the menu button again. Escape returns focus to the menu button, whose accessible expanded state stays in sync.
 
 ## Acceptance criteria
 
@@ -47,6 +48,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Given an unknown, unpublished, or unavailable project, event, or survey slug, when a resident opens its detail URL, then a useful unavailable state links back to the relevant listing.
 - Given the CMS cannot be reached during a static build, when the build attempts to prerender content routes, then the build fails instead of producing an empty deployment.
 - Given a narrow mobile viewport, when a resident browses primary routes, then navigation and main content remain usable without horizontal overflow.
+- Given the mobile navigation is open, when a resident taps outside it, presses Escape, follows a link, or activates the menu button again, then the menu closes; Escape returns focus to the menu button and its expanded state is announced accurately.
 - Given a wide desktop viewport, when a resident reaches the homepage starting points, then all four paths have equal visual weight with no empty grid quadrant.
 - Given a wide desktop viewport, when resident starting points, featured cards, and contribution actions are shown, then related elements align consistently without being displaced by differing copy lengths.
 - Given resident-facing content contains a date or time, when it is rendered, then its numerals use conventional unslashed forms.

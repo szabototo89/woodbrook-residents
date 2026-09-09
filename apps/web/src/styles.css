@@ -230,18 +230,20 @@ p {
   display: none;
 }
 
-.mobile-nav summary {
+.mobile-nav > button {
   display: grid;
   width: 42px;
   height: 42px;
+  padding: 0;
   place-items: center;
   border: 1px solid var(--line);
   border-radius: 50%;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
-  list-style: none;
 }
 
-.mobile-nav summary::-webkit-details-marker {
+.mobile-nav nav[hidden] {
   display: none;
 }
 
@@ -1446,7 +1448,7 @@ p {
   box-shadow: inset 0 -4px var(--gorse);
 }
 
-.mobile-nav summary {
+.mobile-nav > button {
   border-color: rgba(255, 255, 255, 0.38);
   border-radius: 2px;
   color: var(--white);
@@ -2395,7 +2397,7 @@ p {
   box-shadow: inset 0 -3px var(--forest);
 }
 
-.mobile-nav summary {
+.mobile-nav > button {
   border-color: var(--line);
   border-radius: 50%;
   color: var(--ink);
