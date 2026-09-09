@@ -52,8 +52,3 @@ export function buildEventCalendar(
 export function createEventCalendarDataUri(event: CommunityEvent) {
   return `data:text/calendar;charset=utf-8,${encodeURIComponent(buildEventCalendar(event))}`;
 }
-
-export function createGoogleMapsUrl(location: string) {
-  const search = new URLSearchParams({ api: '1', query: location });
-  return `https://www.google.com/maps/search/?${search.toString()}`;
-}

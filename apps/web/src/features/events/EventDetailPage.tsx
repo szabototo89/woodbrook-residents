@@ -8,12 +8,10 @@ import {
   MapPin,
 } from 'lucide-react';
 
+import { GoogleMapsLink } from '../../components/GoogleMapsLink';
 import { formatDate, formatDateTime } from '../content/contentFormatting';
 import { Route } from '../../routes/events/$slug';
-import {
-  createEventCalendarDataUri,
-  createGoogleMapsUrl,
-} from './eventCalendar';
+import { createEventCalendarDataUri } from './eventCalendar';
 
 export function EventDetailPage() {
   const event = Route.useLoaderData();
@@ -73,16 +71,7 @@ export function EventDetailPage() {
                 <MapPin size={17} aria-hidden="true" /> Location
               </dt>
               <dd>
-                <a
-                  className="detail-location-link"
-                  href={createGoogleMapsUrl(event.location)}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`Open ${event.location} in Google Maps`}
-                >
-                  {event.location}
-                  <ArrowUpRight size={15} aria-hidden="true" />
-                </a>
+                <GoogleMapsLink location={event.location} />
               </dd>
             </div>
           </dl>

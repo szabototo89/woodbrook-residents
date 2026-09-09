@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowUpRight, Mail, Phone } from 'lucide-react';
 
 import { Route } from '../../routes/local-info/$slug';
 import { formatDate, formatLabel } from '../content/contentFormatting';
+import { ResourceDetailValue } from './ResourceDetailValue';
 import { toTelephoneHref } from './resourceDirectory';
 
 export function LocalServiceDetailPage() {
@@ -82,7 +83,9 @@ export function LocalServiceDetailPage() {
                 {resource.details.map((detail) => (
                   <div key={detail.id}>
                     <dt>{detail.label}</dt>
-                    <dd>{detail.value}</dd>
+                    <dd>
+                      <ResourceDetailValue detail={detail} />
+                    </dd>
                   </div>
                 ))}
               </dl>
