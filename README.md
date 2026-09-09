@@ -54,19 +54,26 @@ The production Worker is configured in `wrangler.jsonc` as `woodbrook`. On a
 Cloudflare account whose `workers.dev` subdomain is `shankill`, it is published
 at `https://woodbrook.shankill.workers.dev/`.
 
-Authenticate Wrangler, set the build-only CMS origin, and deploy from the
-repository root:
+Authenticate Wrangler and deploy from the repository root:
 
 ```bash
 bunx wrangler login
-STRAPI_URL=https://cms.example.com bun run deploy
+bun run deploy
 ```
 
 `bun run deploy` first builds and verifies the static site with its production
-public URL, then Wrangler uploads only `apps/web/dist/client`. For CI, provide
-`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` instead of using interactive
-login. The Cloudflare account must already use `shankill` as its `workers.dev`
-subdomain for the configured Worker name to resolve to the expected URL.
+public URL, then Wrangler uploads only `apps/web/dist/client`. When `STRAPI_URL`
+is not set, the command starts a temporary local Strapi instance at
+`http://127.0.0.1:1337`, waits for it to be ready, and stops it after the deploy.
+If Strapi is already running there, the command reuses it and leaves it running.
+Set `STRAPI_URL=https://cms.example.com` to build from another CMS instead.
+Set `WOODBROOK_LOCAL_STRAPI_PORT` if the temporary local instance should use a
+port other than `1337`.
+
+For CI, provide `STRAPI_URL`, `CLOUDFLARE_API_TOKEN`, and
+`CLOUDFLARE_ACCOUNT_ID` instead of using the local CMS or interactive login. The
+Cloudflare account must already use `shankill` as its `workers.dev` subdomain
+for the configured Worker name to resolve to the expected URL.
 
 ## Verification
 
