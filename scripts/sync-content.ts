@@ -32,7 +32,7 @@ export type StrapiRecord = {
   data: JsonObject;
 };
 
-type CollectionDescriptor = {
+export type CollectionDescriptor = {
   key: string;
   strapiPath: string;
   tab: string;
@@ -224,7 +224,7 @@ function detailsToSheet(detailsValue: unknown) {
   });
 }
 
-const descriptors: CollectionDescriptor[] = [
+export const contentCollections: CollectionDescriptor[] = [
   {
     key: 'updates',
     strapiPath: 'updates',
@@ -698,7 +698,7 @@ class GoogleSheetsClient {
     const url = new URL(
       `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(this.config.spreadsheetId)}/values:batchGet`,
     );
-    for (const descriptor of descriptors) {
+    for (const descriptor of contentCollections) {
       url.searchParams.append(
         'ranges',
         `${descriptor.tab}!${descriptor.range}`,
@@ -712,7 +712,7 @@ class GoogleSheetsClient {
     }>({ url: url.toString() });
 
     return Object.fromEntries(
-      descriptors.map((descriptor, index) => {
+      contentCollections.map((descriptor, index) => {
         const [rawHeaders = [], ...rawRows] =
           response.data.valueRanges?.[index]?.values ?? [];
         const headers = rawHeaders.map(String);
@@ -914,11 +914,11 @@ async function loadPlan(
   const [tables, recordSets] = await Promise.all([
     sheets.loadTables(),
     Promise.all(
-      descriptors.map((descriptor) => strapi.loadRecords(descriptor)),
+      contentCollections.map((descriptor) => strapi.loadRecords(descriptor)),
     ),
   ]);
   const plan = combinePlans(
-    descriptors.map((descriptor, index) =>
+    contentCollections.map((descriptor, index) =>
       planCollectionSync({
         descriptor,
         direction: config.direction,
@@ -955,7 +955,7 @@ async function applyPlan(
   sheets: GoogleSheetsClient,
   strapi: StrapiClient,
 ) {
-  for (const descriptor of descriptors) {
+  for (const descriptor of contentCollections) {
     const table = tables[descriptor.tab];
     if (!table || table.headers.length === 0) {
       throw new Error(`${descriptor.tab} is missing its header row.`);
@@ -970,7 +970,9 @@ async function applyPlan(
   }
   for (const action of plan.actions) {
     if (action.type === 'update-sheet') {
-      const descriptor = descriptors.find((item) => item.tab === action.tab)!;
+      const descriptor = contentCollections.find(
+        (item) => item.tab === action.tab,
+      )!;
       await sheets.updateRow(
         descriptor,
         tables[action.tab]!,

@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 
 import {
+  contentCollections,
   planCollectionSync,
   type SheetRecord,
   type StrapiRecord,
@@ -36,6 +37,46 @@ const strapiRecord = (slug: string, title: string): StrapiRecord => ({
   documentId: `document-${slug}`,
   slug,
   data: { slug, title },
+});
+
+test('maps Dublin spreadsheet date-times to UTC for Strapi', () => {
+  const events = contentCollections.find((item) => item.key === 'events')!;
+  const row: SheetRecord = {
+    rowNumber: 2,
+    values: [],
+    cells: {
+      slug: 'summer-event',
+      start_at: 46242.5,
+      timezone: 'Europe/Dublin',
+    },
+  };
+
+  expect(events.sheetToStrapi(row).startsAt).toBe('2026-08-08T11:00:00.000Z');
+});
+
+test('maps a featured resource detail without duplicating it', () => {
+  const resources = contentCollections.find(
+    (item) => item.key === 'resources',
+  )!;
+  const source = strapiRecord('library', 'Library');
+  source.data.details = [
+    {
+      id: 1,
+      label: 'Opening hours',
+      value: 'Monday to Friday',
+      showOnCard: true,
+    },
+  ];
+  const cells = resources.strapiToSheet(source);
+  const data = resources.sheetToStrapi({ rowNumber: 2, values: [], cells });
+
+  expect(data.details).toEqual([
+    {
+      label: 'Opening hours',
+      value: 'Monday to Friday',
+      showOnCard: true,
+    },
+  ]);
 });
 
 describe('content sync planning', () => {
