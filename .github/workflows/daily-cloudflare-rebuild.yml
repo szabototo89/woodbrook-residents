@@ -1,0 +1,22 @@
+name: Daily Cloudflare rebuild
+
+on:
+  schedule:
+    - cron: '15 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild:
+    name: Trigger production rebuild
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Workers Build
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}
+        run: |
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            "$DEPLOY_HOOK_URL"

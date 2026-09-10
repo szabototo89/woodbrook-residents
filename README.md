@@ -75,6 +75,26 @@ For CI, provide `STRAPI_URL`, `CLOUDFLARE_API_TOKEN`, and
 Cloudflare account must already use `shankill` as its `workers.dev` subdomain
 for the configured Worker name to resolve to the expected URL.
 
+### Daily Google Sheets rebuild
+
+The `daily-cloudflare-rebuild.yml` GitHub workflow triggers a Cloudflare Workers
+Build from `main` every day at 03:15 UTC. It can also be started manually from
+GitHub Actions. Configure the production Workers Build with:
+
+- Build command: `bun run build:static`
+- Deploy command: `bunx wrangler deploy`
+- Build variables: `CONTENT_SOURCE=google-sheets`,
+  `GOOGLE_SHEETS_SPREADSHEET_ID`, `VITE_PUBLIC_SITE_URL`, and
+  `BUN_VERSION=1.4.0`
+- Secret build variables: `GOOGLE_SERVICE_ACCOUNT_EMAIL` and
+  `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`
+
+Create a production deploy hook for the `main` branch and save its complete URL
+as the `CLOUDFLARE_DEPLOY_HOOK_URL` GitHub Actions secret. The URL authorizes
+builds and must not be committed. Each scheduled invocation rebuilds the latest
+`main` commit and fetches a fresh, validated Google Sheets snapshot before
+publishing the static assets.
+
 ## Verification
 
 ```bash

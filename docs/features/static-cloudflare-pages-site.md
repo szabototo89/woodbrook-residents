@@ -22,6 +22,7 @@ When the public website is deployed, I want every published page to be generated
 - Given the public artifact is inspected, then it contains no issue-report page or runtime server-function endpoint.
 - Given `CONTENT_SOURCE=strapi` and Wrangler is authenticated, when `bun run deploy` runs without `STRAPI_URL`, then it reuses a ready local Strapi or starts and later stops a temporary seeded instance.
 - Given `CONTENT_SOURCE=google-sheets` and read-only credentials are configured, when `bun run deploy` runs, then it builds from the configured spreadsheet without starting Strapi.
+- Given the production Worker is connected to the GitHub repository and its deploy hook is configured, when the daily schedule runs, then Cloudflare rebuilds the latest `main` commit with a fresh Google Sheets snapshot.
 - Given `CONTENT_SOURCE` is absent or invalid, when deployment begins, then it stops with a configuration error before building or publishing.
 
 ## Scope
