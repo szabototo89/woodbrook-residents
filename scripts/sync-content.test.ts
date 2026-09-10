@@ -54,7 +54,7 @@ test('maps Dublin spreadsheet date-times to UTC for Strapi', () => {
   expect(events.sheetToStrapi(row).startsAt).toBe('2026-08-08T11:00:00.000Z');
 });
 
-test('maps a featured resource detail without duplicating it', () => {
+test('maps a resource to every required local information field', () => {
   const resources = contentCollections.find(
     (item) => item.key === 'resources',
   )!;
@@ -70,6 +70,7 @@ test('maps a featured resource detail without duplicating it', () => {
   const cells = resources.strapiToSheet(source);
   const data = resources.sheetToStrapi({ rowNumber: 2, values: [], cells });
 
+  expect(cells.emergency_only).toBe(false);
   expect(data.details).toEqual([
     {
       label: 'Opening hours',

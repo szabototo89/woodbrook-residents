@@ -9,7 +9,7 @@
     "dev": "vite dev --port 3000",
     "generate-routes": "tsr generate",
     "build": "vite build",
-    "build:static": "vite build --mode static && bun run verify:static",
+    "build:static": "bun scripts/build-static.ts",
     "preview": "vite preview",
     "test:unit": "vitest run src --exclude 'src/**/*.browser.test.tsx'",
     "test:browser": "vitest run --config vitest.browser.config.ts",

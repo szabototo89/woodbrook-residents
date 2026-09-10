@@ -407,6 +407,7 @@ export const contentCollections: CollectionDescriptor[] = [
         email: data.email,
         website_url: data.url,
         out_of_hours: data.outOfHours ?? false,
+        emergency_only: false,
         source_name: data.sourceName,
         source_url: data.sourceUrl,
         source_checked_on: data.sourceReviewedOn,
