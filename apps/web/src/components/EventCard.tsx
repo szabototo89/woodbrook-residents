@@ -4,7 +4,15 @@ import { ArrowRight, CalendarDays, MapPin } from 'lucide-react';
 import { formatDateTime } from '../features/content/contentFormatting';
 import type { CommunityEvent } from '../features/content/contentTypes';
 
-export function EventCard({ event }: { event: CommunityEvent }) {
+export function EventCard({
+  event,
+  headingLevel = 2,
+}: {
+  event: CommunityEvent;
+  headingLevel?: 2 | 3;
+}) {
+  const Heading = `h${headingLevel}` as const;
+
   return (
     <article className="event-card">
       <div className="event-date" aria-hidden="true">
@@ -22,11 +30,11 @@ export function EventCard({ event }: { event: CommunityEvent }) {
         </span>
       </div>
       <div>
-        <h2>
+        <Heading>
           <Link to="/events/$slug" params={{ slug: event.slug }}>
             {event.title}
           </Link>
-        </h2>
+        </Heading>
         <p>{event.summary}</p>
         <div className="event-meta">
           <span>
