@@ -1,11 +1,26 @@
+import { useSyncExternalStore } from 'react';
+
 import { CmsUnavailable } from '../../components/CmsUnavailable';
 import { EmptyState } from '../../components/EmptyState';
 import { EventCard } from '../../components/EventCard';
 import { PageIntro } from '../../components/PageIntro';
 import { Route } from '../../routes/events/index';
+import { groupEventsByTimeline } from './eventTimeline';
+
+const subscribeToHydration = () => () => {};
+
+function useHasHydrated() {
+  return useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false,
+  );
+}
 
 export function EventsPage() {
   const content = Route.useLoaderData();
+  const hasHydrated = useHasHydrated();
+  const timeline = hasHydrated ? groupEventsByTimeline(content.items) : [];
 
   return (
     <main id="main-content">
@@ -23,11 +38,41 @@ export function EventsPage() {
             message="The calendar is ready for verified community meetings, clean-ups, and local events."
           />
         ) : null}
-        <div className="stack-list">
-          {content.items.map((event) => (
-            <EventCard key={event.documentId} event={event} />
-          ))}
-        </div>
+        {!hasHydrated && content.items.length > 0 ? (
+          <div className="stack-list">
+            {content.items.map((event) => (
+              <EventCard key={event.documentId} event={event} />
+            ))}
+          </div>
+        ) : null}
+        {hasHydrated && timeline.length > 0 ? (
+          <div className="event-timeline" aria-label="Events by date">
+            {timeline.map((period) => (
+              <section
+                className={`event-period event-period-${period.id}`}
+                aria-labelledby={`event-period-${period.id}`}
+                key={period.id}
+              >
+                <header className="event-period-header">
+                  <div>
+                    <span className="event-period-marker" aria-hidden="true" />
+                    <h2 id={`event-period-${period.id}`}>{period.title}</h2>
+                  </div>
+                  <p>{period.dateRange}</p>
+                </header>
+                <div className="stack-list">
+                  {period.events.map((event) => (
+                    <EventCard
+                      key={event.documentId}
+                      event={event}
+                      headingLevel={3}
+                    />
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        ) : null}
       </section>
     </main>
   );

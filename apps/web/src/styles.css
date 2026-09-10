@@ -3078,16 +3078,102 @@ p {
 }
 
 .event-card h2 a:hover,
+.event-card h3 a:hover,
 .survey-card h2 a:hover {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
 }
 
+.event-timeline {
+  display: grid;
+  gap: clamp(44px, 7vw, 72px);
+}
+
+.event-period {
+  --event-period-accent: var(--forest);
+  --event-period-surface: var(--sage-pale);
+}
+
+.event-period-next-week {
+  --event-period-accent: #8a6d3f;
+  --event-period-surface: var(--gorse-soft);
+}
+
+.event-period-later,
+.event-period-earlier {
+  --event-period-accent: var(--ink-soft);
+  --event-period-surface: var(--paper-deep);
+}
+
+.event-period-header {
+  display: flex;
+  margin-bottom: 18px;
+  padding: 0 4px 14px;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--event-period-accent) 30%, transparent);
+}
+
+.event-period-header > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.event-period-marker {
+  width: 12px;
+  height: 12px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--event-period-accent);
+  box-shadow: 0 0 0 6px var(--event-period-surface);
+}
+
+.event-period-header h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+}
+
+.event-period-header p {
+  margin: 0;
+  color: var(--event-period-accent);
+  font-size: 0.78rem;
+  font-weight: 760;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.event-period .event-card {
+  border-left: 5px solid var(--event-period-accent);
+  box-shadow: var(--small-shadow);
+}
+
+.event-period .event-date {
+  background: var(--event-period-accent);
+}
+
+.event-card h3 {
+  margin-bottom: 12px;
+  font-size: 1.55rem;
+}
+
 @media (max-width: 760px) {
   .detail-facts,
   .detail-facts-two {
     grid-template-columns: 1fr;
+  }
+
+  .event-period-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .event-period-header p {
+    padding-left: 24px;
   }
 }
 
