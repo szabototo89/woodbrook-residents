@@ -19,4 +19,14 @@ describe('content environment scripts', () => {
       'bun run --cwd apps/web --env-file=../../.env build:static',
     );
   });
+
+  it('runs the static build through the content-aware build script', () => {
+    const webPackage = JSON.parse(
+      readFileSync(new URL('../../../package.json', import.meta.url), 'utf8'),
+    ) as RootPackage;
+
+    expect(webPackage.scripts['build:static']).toBe(
+      'bun scripts/build-static.ts',
+    );
+  });
 });
