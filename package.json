@@ -19,21 +19,29 @@
     "build:web": "bun run --cwd apps/web build",
     "build:cms": "bun run --cwd apps/cms build",
     "deploy": "bun scripts/deploy.ts",
-    "test": "bun run test:unit && bun run test:browser && bun run test:e2e",
+    "sync:content": "bun scripts/sync-content.ts",
+    "test:sync-content": "bun test scripts/sync-content.test.ts",
+    "test": "bun run test:sync-content && bun run test:unit && bun run test:browser && bun run test:e2e",
     "test:install-browser": "bun run --cwd apps/web playwright install chromium",
     "test:unit": "bun run --cwd apps/web test:unit",
     "test:browser": "bun run --cwd apps/web test:browser",
     "test:e2e": "bun run --cwd apps/web test:e2e",
-    "typecheck": "bun run --cwd apps/web typecheck && bun run --cwd apps/cms typecheck",
+    "typecheck": "bun run --cwd apps/web typecheck && bun run --cwd apps/cms typecheck && bun run typecheck:sync-content",
+    "typecheck:sync-content": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --strict --skipLibCheck --types bun scripts/sync-content.ts scripts/sync-content.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "bun run format:check && eslint apps/web/src apps/web/tests && bun run typecheck"
   },
+  "dependencies": {
+    "google-auth-library": "^11.0.2"
+  },
   "devDependencies": {
+    "@types/bun": "^1.2.22",
     "@eslint/js": "^10.0.1",
     "concurrently": "^9.2.1",
     "eslint": "^10.0.0",
     "prettier": "^3.8.2",
+    "typescript": "^5",
     "typescript-eslint": "^8.67.0",
     "wrangler": "^4.130.0"
   }
