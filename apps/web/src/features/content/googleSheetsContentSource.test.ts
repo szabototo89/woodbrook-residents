@@ -284,22 +284,26 @@ describe('parseGoogleSheetsContent', () => {
       }),
     );
     expect(googleAuthMock.request).toHaveBeenCalledTimes(1);
-    expect(googleAuthMock.request).toHaveBeenCalledWith(
-      expect.objectContaining({
-        url: expect.stringContaining('/private-sheet/values:batchGet'),
-        params: expect.objectContaining({
-          ranges: [
-            'Updates!A:Q',
-            'Events!A:W',
-            'Projects!A:V',
-            'Consultations!A:R',
-            'Local_Info!A:AA',
-          ],
-          valueRenderOption: 'UNFORMATTED_VALUE',
-          dateTimeRenderOption: 'SERIAL_NUMBER',
-        }),
-      }),
+    const request = googleAuthMock.request.mock.calls[0]?.[0] as {
+      url: string;
+    };
+    const requestUrl = new URL(request.url);
+
+    expect(requestUrl.pathname).toContain('/private-sheet/values:batchGet');
+    expect(requestUrl.searchParams.getAll('ranges')).toEqual([
+      'Updates!A:Q',
+      'Events!A:W',
+      'Projects!A:V',
+      'Consultations!A:R',
+      'Local_Info!A:AA',
+    ]);
+    expect(requestUrl.searchParams.get('valueRenderOption')).toBe(
+      'UNFORMATTED_VALUE',
     );
+    expect(requestUrl.searchParams.get('dateTimeRenderOption')).toBe(
+      'SERIAL_NUMBER',
+    );
+    expect(request).not.toHaveProperty('params');
   });
 
   it('accepts every deliberately configured spreadsheet taxonomy family', () => {

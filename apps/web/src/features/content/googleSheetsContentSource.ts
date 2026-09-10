@@ -513,14 +513,18 @@ export class GoogleSheetsContentSource implements ContentSource {
       },
       scopes: [sheetsApiScope],
     });
+    const requestUrl = new URL(
+      `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(this.config.spreadsheetId)}/values:batchGet`,
+    );
+    sheetRanges.forEach((range) =>
+      requestUrl.searchParams.append('ranges', range),
+    );
+    requestUrl.searchParams.set('majorDimension', 'ROWS');
+    requestUrl.searchParams.set('valueRenderOption', 'UNFORMATTED_VALUE');
+    requestUrl.searchParams.set('dateTimeRenderOption', 'SERIAL_NUMBER');
+
     const response = await auth.request<BatchGetResponse>({
-      url: `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(this.config.spreadsheetId)}/values:batchGet`,
-      params: {
-        ranges: [...sheetRanges],
-        majorDimension: 'ROWS',
-        valueRenderOption: 'UNFORMATTED_VALUE',
-        dateTimeRenderOption: 'SERIAL_NUMBER',
-      },
+      url: requestUrl.toString(),
     });
     const values = response.data.valueRanges ?? [];
     if (values.length !== sheetRanges.length) {
