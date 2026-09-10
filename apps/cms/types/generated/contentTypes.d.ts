@@ -548,7 +548,18 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
   };
   attributes: {
     category: Schema.Attribute.Enumeration<
-      ['transport', 'housing', 'parks', 'public-realm', 'community']
+      [
+        'transport',
+        'housing',
+        'parks',
+        'public-realm',
+        'planning',
+        'community',
+        'environment',
+        'safety',
+        'education',
+        'other',
+      ]
     > &
       Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
@@ -573,7 +584,14 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
     sourceReviewedOn: Schema.Attribute.Date & Schema.Attribute.Required;
     sourceUrl: Schema.Attribute.String & Schema.Attribute.Required;
     stage: Schema.Attribute.Enumeration<
-      ['monitoring', 'consultation', 'active', 'completed']
+      [
+        'proposed',
+        'active',
+        'monitoring',
+        'paused',
+        'completed',
+        'consultation',
+      ]
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'monitoring'>;
@@ -610,6 +628,9 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
         'safety',
         'waste',
         'recreation',
+        'education',
+        'childcare',
+        'other',
       ]
     > &
       Schema.Attribute.Required;
@@ -636,7 +657,7 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
       Schema.Attribute.DefaultTo<false>;
     phone: Schema.Attribute.String;
     providerType: Schema.Attribute.Enumeration<
-      ['business', 'public-service', 'community', 'nonprofit']
+      ['business', 'public-service', 'community', 'nonprofit', 'other']
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'business'>;
@@ -748,7 +769,19 @@ export interface ApiUpdateUpdate extends Struct.CollectionTypeSchema {
     imageCreditUrl: Schema.Attribute.String;
     imagePath: Schema.Attribute.String;
     kind: Schema.Attribute.Enumeration<
-      ['news', 'planning', 'transport', 'community']
+      [
+        'news',
+        'planning',
+        'community',
+        'transport',
+        'housing',
+        'parks',
+        'environment',
+        'safety',
+        'waste',
+        'education',
+        'other',
+      ]
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'news'>;
