@@ -73,4 +73,35 @@ export default tseslint.config(
       'react/no-multi-comp': ['error', { ignoreStateless: false }],
     },
   },
+  {
+    files: [
+      '**/*.test.{ts,tsx}',
+      '**/*.spec.{ts,tsx}',
+      'apps/web/tests/**/*.{ts,tsx}',
+      'scripts/**/*.test.ts',
+    ],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'CallExpression[callee.name="describe"]',
+          message:
+            'Use test(...) instead of describe(...). Flatten the suite name into each test name.',
+        },
+        {
+          selector: 'CallExpression[callee.object.name="describe"]',
+          message:
+            'Use test(...) instead of describe(...). Flatten the suite name into each test name.',
+        },
+        {
+          selector: 'CallExpression[callee.name="it"]',
+          message: 'Use test(...) instead of it(...).',
+        },
+        {
+          selector: 'CallExpression[callee.object.name="it"]',
+          message: 'Use test(...) instead of it(...).',
+        },
+      ],
+    },
+  },
 );
