@@ -172,6 +172,7 @@ export const resources = [
   {
     title: 'TFI journey planner',
     slug: 'tfi-journey-planner',
+    featured: false,
     category: 'transport',
     serviceType: 'Journey planning',
     providerType: 'public-service',
@@ -194,6 +195,7 @@ export const resources = [
   {
     title: 'BusConnects E-Spine',
     slug: 'busconnects-e-spine',
+    featured: false,
     category: 'transport',
     serviceType: 'Bus information',
     providerType: 'public-service',
@@ -213,6 +215,7 @@ export const resources = [
   {
     title: 'Dún Laoghaire–Rathdown County Council',
     slug: 'dlr-county-council',
+    featured: false,
     category: 'council',
     serviceType: 'Council services',
     providerType: 'public-service',
@@ -237,6 +240,7 @@ export const resources = [
   {
     title: 'Shankill Library',
     slug: 'shankill-library',
+    featured: false,
     category: 'community',
     serviceType: 'Public library',
     providerType: 'public-service',
@@ -346,6 +350,7 @@ export const resources = [
   {
     title: 'MyWaste Ireland',
     slug: 'mywaste-ireland',
+    featured: false,
     category: 'waste',
     serviceType: 'Waste guidance',
     providerType: 'public-service',
@@ -362,6 +367,7 @@ export const resources = [
   {
     title: 'Shankill Family Practice',
     slug: 'shankill-family-practice',
+    featured: false,
     category: 'health',
     serviceType: 'GP practice',
     providerType: 'business',
@@ -396,6 +402,7 @@ export const resources = [
   {
     title: 'Shankill Pharmacy',
     slug: 'shankill-pharmacy',
+    featured: false,
     category: 'health',
     serviceType: 'Pharmacy',
     providerType: 'business',
@@ -425,6 +432,7 @@ export const resources = [
   {
     title: 'Shankill Village Dental',
     slug: 'shankill-village-dental',
+    featured: false,
     category: 'health',
     serviceType: 'Dentist',
     providerType: 'business',
@@ -454,6 +462,7 @@ export const resources = [
   {
     title: 'Plumbers Dublin — Shankill',
     slug: 'plumbers-dublin-shankill',
+    featured: false,
     category: 'trades',
     serviceType: 'Plumber',
     providerType: 'business',
@@ -477,6 +486,7 @@ export const resources = [
   {
     title: 'Dublin Electrical Services',
     slug: 'dublin-electrical-services',
+    featured: false,
     category: 'trades',
     serviceType: 'Electrician',
     providerType: 'business',
@@ -502,6 +512,7 @@ export const resources = [
   {
     title: 'Conway Locksmiths',
     slug: 'conway-locksmiths',
+    featured: false,
     category: 'trades',
     serviceType: 'Locksmith',
     providerType: 'business',
@@ -536,6 +547,7 @@ export const resources = [
   {
     title: 'Drain Fix Services',
     slug: 'drain-fix-services',
+    featured: false,
     category: 'trades',
     serviceType: 'Drainage',
     providerType: 'business',
@@ -565,6 +577,7 @@ export const resources = [
   {
     title: 'The Bottom Line',
     slug: 'the-bottom-line',
+    featured: false,
     category: 'professional',
     serviceType: 'Accountancy',
     providerType: 'business',
@@ -589,6 +602,7 @@ export const resources = [
   {
     title: 'Emergency services',
     slug: 'emergency-services',
+    featured: false,
     category: 'safety',
     serviceType: 'Emergency response',
     providerType: 'public-service',
