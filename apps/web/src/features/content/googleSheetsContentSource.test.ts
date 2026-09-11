@@ -302,10 +302,9 @@ describe('parseGoogleSheetsContent', () => {
       }),
     );
     expect(googleAuthMock.request).toHaveBeenCalledTimes(1);
-    const request = googleAuthMock.request.mock.calls[0]?.[0] as {
-      url: string;
-    };
-    const requestUrl = new URL(request.url);
+    const request: { url: string } | undefined =
+      googleAuthMock.request.mock.calls[0]?.[0];
+    const requestUrl = new URL(request?.url ?? '');
 
     expect(requestUrl.pathname).toContain('/private-sheet/values:batchGet');
     expect(requestUrl.searchParams.getAll('ranges')).toEqual([
