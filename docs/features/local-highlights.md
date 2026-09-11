@@ -35,6 +35,9 @@ several listings.
   details without waste-specific copy.
 - Given no eligible resource is featured, when Local information opens, then
   no empty highlights section is rendered.
+- Given the page is viewed on a phone, when the highlight is shown, then its
+  title uses the full card width and its fact labels and values remain aligned
+  without overlapping or causing horizontal overflow.
 
 ## Scope
 
