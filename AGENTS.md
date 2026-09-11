@@ -29,6 +29,7 @@
 
 ## Quality
 
+- Implement all code changes using TDD: write a failing test first, then the minimal implementation to pass, then refactor.
 - Follow Clean Code, KISS, and pragmatic single responsibility.
 - Prefer precise names and straightforward control flow.
 - Tests should assert observable behavior through roles, labels, visible copy, URLs, and submitted outcomes.
