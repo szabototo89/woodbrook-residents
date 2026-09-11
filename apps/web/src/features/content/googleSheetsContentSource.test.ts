@@ -217,6 +217,7 @@ describe('parseGoogleSheetsContent', () => {
       providerType: 'business',
       url: 'https://example.com',
       outOfHours: true,
+      featured: false,
       displayOrder: 20,
       collectionDates: [
         { id: 1, date: '2026-09-15', stream: 'recycling' },

@@ -19,6 +19,7 @@ const resources: Resource[] = [
     description: 'Primary care appointments',
     phone: '01 234 5678',
     outOfHours: false,
+    featured: false,
     details: [
       {
         id: 1,
@@ -43,6 +44,7 @@ const resources: Resource[] = [
     description: 'Door and window lock repairs',
     phone: '086 123 4567',
     outOfHours: true,
+    featured: false,
     details: [
       {
         id: 2,

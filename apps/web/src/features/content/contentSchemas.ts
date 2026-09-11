@@ -161,6 +161,10 @@ export const resourceSchema = z.object({
     .boolean()
     .default(false)
     .describe('Whether a separate out-of-hours contact is available.'),
+  featured: z
+    .boolean()
+    .default(false)
+    .describe('Whether the resource is eligible for local highlighting.'),
   details: z
     .array(resourceDetailSchema)
     .default([])

@@ -2,10 +2,14 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { createPageHead } from '../../app/siteMetadata';
 import { getResources } from '../../features/content/contentApi';
+import { getDublinCalendarDate } from '../../features/resources/collectionScheduleUtils';
 import { LocalInfoPage } from '../../features/resources/LocalInfoPage';
 
 export const Route = createFileRoute('/local-info/')({
-  loader: () => getResources(),
+  loader: async () => ({
+    content: await getResources(),
+    today: getDublinCalendarDate(),
+  }),
   head: () =>
     createPageHead({
       title: 'Local information',
