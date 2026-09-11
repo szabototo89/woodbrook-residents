@@ -36,10 +36,11 @@
     "google-auth-library": "^11.0.2"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.22",
     "@eslint/js": "^10.0.1",
+    "@types/bun": "^1.2.22",
     "concurrently": "^9.2.1",
     "eslint": "^10.0.0",
+    "eslint-plugin-react": "^7.37.5",
     "prettier": "^3.8.2",
     "typescript": "^5",
     "typescript-eslint": "^8.67.0",
