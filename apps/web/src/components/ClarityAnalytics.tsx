@@ -1,3 +1,5 @@
+import { useCookieConsentChoice } from './CookieConsent';
+
 export const CLARITY_TAG_URL = 'https://www.clarity.ms/tag/';
 
 export function resolveClarityProjectId(
@@ -21,8 +23,9 @@ export function createClaritySnippet(projectId: string) {
 
 export function ClarityAnalytics() {
   const projectId = getClarityProjectId();
+  const consentChoice = useCookieConsentChoice();
 
-  if (!projectId) {
+  if (!projectId || consentChoice !== 'accepted') {
     return null;
   }
 

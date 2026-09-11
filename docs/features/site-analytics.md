@@ -8,12 +8,15 @@ When the community hub is visited, I want privacy-friendly counts of visitors, p
 
 ## User-visible behavior
 
-- Residents load no cookie banner for analytics; Cloudflare Web Analytics uses no cookies or local storage.
+- Cloudflare Web Analytics needs no cookie banner; it uses no cookies or local storage. Clarity is gated behind the consent banner below.
 - When `VITE_CF_WEB_ANALYTICS_TOKEN` is configured, every public page emits the Cloudflare beacon (`https://static.cloudflareinsights.com/beacon.min.js`).
 - When the token is absent, no analytics script is emitted.
 - Visitor counts, top pages, referrers, countries, devices, and browsers are read in the Cloudflare dashboard under Web Analytics.
 - When `VITE_CLARITY_PROJECT_ID` is configured, every public page loads the Microsoft Clarity tag (`https://www.clarity.ms/tag/`), enabling heatmaps and session recordings in the Clarity dashboard.
 - When the Clarity project ID is absent, no Clarity script is emitted.
+- First-time visitors see a cookie consent banner explaining that optional analytics cookies are used; nothing is recorded until they choose.
+- The Clarity tag loads only after a visitor accepts analytics cookies; rejecting leaves it off entirely.
+- The stored choice persists across visits, and the footer Cookie settings control clears it so the banner can be answered again.
 - Analytics never collects issue-report contents or other form input.
 
 ## Acceptance criteria
@@ -24,6 +27,11 @@ When the community hub is visited, I want privacy-friendly counts of visitors, p
 - Given `bun run build` runs, when verification completes, then analytics does not break prerendering or client navigation.
 - Given `VITE_CLARITY_PROJECT_ID` is set, when any public route is rendered, then its document head contains the Clarity tag loading `https://www.clarity.ms/tag/` for that project.
 - Given the Clarity project ID is absent or blank, when a public route is rendered, then no Clarity script is emitted.
+- Given a first-time visitor, when any public route is rendered, then a cookie consent banner offers Accept analytics cookies and Reject.
+- Given the visitor accepts, when the choice is stored, then the banner hides and the Clarity tag loads.
+- Given the visitor rejects, when the choice is stored, then the banner hides and no Clarity script is emitted.
+- Given a returning visitor with a stored choice, when a public route is rendered, then no banner is shown.
+- Given the visitor activates Cookie settings in the footer, when the stored choice is cleared, then the banner is shown again.
 
 ## Scope
 
@@ -33,11 +41,11 @@ When the community hub is visited, I want privacy-friendly counts of visitors, p
 - `VITE_CF_WEB_ANALYTICS_TOKEN` configuration and dashboard setup notes.
 - Project-gated Microsoft Clarity tag in the shared document head for heatmaps and session recordings.
 - `VITE_CLARITY_PROJECT_ID` configuration.
+- Cookie consent banner gating Clarity behind explicit acceptance, with the choice stored locally and a footer Cookie settings control to revisit it.
 
 ### Not included
 
 - Google Analytics, funnels, advertising identifiers, or cross-site tracking.
-- Cookie-consent handling: Clarity sets its own cookies, so consent remains the site owner's responsibility outside this capability.
 - Analytics of private issue-report submissions.
 - Cloudflare account, hostname, or dashboard provisioning.
 
