@@ -1,3 +1,5 @@
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
 import type { Resource } from '../content/contentTypes';
@@ -6,7 +8,7 @@ import {
   getAvailableResourceCategories,
   toTelephoneHref,
 } from './resourceDirectory';
-import { isAddressDetail } from './ResourceDetailValue';
+import { ResourceDetailValue, isAddressDetail } from './ResourceDetailValue';
 
 const resources: Resource[] = [
   {
@@ -90,7 +92,28 @@ describe('resource directory', () => {
   });
 
   it('identifies address details without depending on label casing', () => {
-    expect(isAddressDetail(resources[0].details[0])).toBe(true);
-    expect(isAddressDetail(resources[1].details[0])).toBe(false);
+    expect(isAddressDetail(resources[0]?.details[0]!)).toBe(true);
+    expect(isAddressDetail(resources[1]?.details[0]!)).toBe(false);
+  });
+
+  it('links address details to a Google Maps search', () => {
+    const markup = renderToStaticMarkup(
+      createElement(ResourceDetailValue, {
+        detail: resources[0]?.details[0]!,
+      }),
+    );
+
+    expect(markup).toContain('https://www.google.com/maps/search/');
+    expect(markup).toContain('Main Street');
+  });
+
+  it('renders other details as plain text', () => {
+    const markup = renderToStaticMarkup(
+      createElement(ResourceDetailValue, {
+        detail: resources[1]?.details[0]!,
+      }),
+    );
+
+    expect(markup).toBe('South Dublin');
   });
 });

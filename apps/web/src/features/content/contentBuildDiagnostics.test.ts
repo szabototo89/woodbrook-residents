@@ -23,4 +23,17 @@ describe('formatErrorChain', () => {
       'content unavailable',
     ]);
   });
+
+  it('lists each distinct message only once', () => {
+    const error = new Error('Same message.', {
+      cause: new Error('Same message.'),
+    });
+
+    expect(formatErrorChain(error)).toEqual(['Same message.']);
+  });
+
+  it('falls back when no error information is available', () => {
+    expect(formatErrorChain(null)).toEqual(['Unknown build error.']);
+    expect(formatErrorChain(undefined)).toEqual(['Unknown build error.']);
+  });
 });
