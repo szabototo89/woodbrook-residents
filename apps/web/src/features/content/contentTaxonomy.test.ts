@@ -9,14 +9,17 @@ import {
   updateKinds,
 } from './contentTaxonomy';
 
+type CmsSchema = {
+  attributes: Record<string, { enum?: string[] }>;
+};
+
 function readCmsSchema(type: string) {
   const url = new URL(
     `../../../../cms/src/api/${type}/content-types/${type}/schema.json`,
     import.meta.url,
   );
-  return JSON.parse(readFileSync(url, 'utf8')) as {
-    attributes: Record<string, { enum?: string[] }>;
-  };
+  const parsed: CmsSchema = JSON.parse(readFileSync(url, 'utf8'));
+  return parsed;
 }
 
 describe('content taxonomy', () => {

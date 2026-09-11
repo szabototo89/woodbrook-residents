@@ -49,7 +49,7 @@ async function isStrapiReady() {
 async function waitForStrapi(process: Bun.Subprocess) {
   const deadline = Date.now() + strapiReadyTimeoutMs;
 
-  while (Date.now() < deadline) {
+  const poll = async (): Promise<void> => {
     if (process.exitCode !== null) {
       throw new Error(`Local Strapi exited with code ${process.exitCode}.`);
     }
@@ -59,12 +59,17 @@ async function waitForStrapi(process: Bun.Subprocess) {
       return;
     }
 
-    await Bun.sleep(250);
-  }
+    if (Date.now() >= deadline) {
+      throw new Error(
+        `Local Strapi did not become ready within ${strapiReadyTimeoutMs / 1_000} seconds.`,
+      );
+    }
 
-  throw new Error(
-    `Local Strapi did not become ready within ${strapiReadyTimeoutMs / 1_000} seconds.`,
-  );
+    await Bun.sleep(250);
+    return poll();
+  };
+
+  return poll();
 }
 
 async function stopStrapi(process: Bun.Subprocess) {
@@ -105,7 +110,7 @@ async function deploy() {
 
   const configuredStrapiUrl = process.env.STRAPI_URL?.trim();
   const strapiUrl = configuredStrapiUrl || localStrapiUrl;
-  let localStrapiProcess: Bun.Subprocess | undefined;
+  const localStrapiHolder: { current?: Bun.Subprocess } = {};
 
   try {
     if (contentSource === 'strapi' && !configuredStrapiUrl) {
@@ -119,11 +124,11 @@ async function deploy() {
         );
         const environment = { ...process.env, ...localStrapiEnvironment };
         await runChecked(['bun', 'run', 'build:cms'], environment);
-        localStrapiProcess = run(
+        localStrapiHolder.current = run(
           ['bun', 'run', '--cwd', 'apps/cms', 'start'],
           environment,
         );
-        await waitForStrapi(localStrapiProcess);
+        await waitForStrapi(localStrapiHolder.current);
       }
     }
 
@@ -135,9 +140,9 @@ async function deploy() {
     });
     await runChecked(['bunx', 'wrangler', 'deploy', ...Bun.argv.slice(2)]);
   } finally {
-    if (localStrapiProcess) {
+    if (localStrapiHolder.current) {
       console.log('Stopping temporary local Strapi.');
-      await stopStrapi(localStrapiProcess);
+      await stopStrapi(localStrapiHolder.current);
     }
   }
 }

@@ -326,7 +326,8 @@ test('detail pages offer a way back when content is unavailable', async ({
     },
   ];
 
-  for (const unavailablePage of unavailablePages) {
+  await unavailablePages.reduce(async (previous, unavailablePage) => {
+    await previous;
     await page.goto(unavailablePage.path);
     await expect(
       page.getByRole('heading', { level: 1, name: unavailablePage.heading }),
@@ -334,7 +335,7 @@ test('detail pages offer a way back when content is unavailable', async ({
     await expect(
       page.getByRole('link', { name: unavailablePage.backLink }),
     ).toBeVisible();
-  }
+  }, Promise.resolve());
 });
 
 test('unknown routes have a useful recovery path', async ({ page }) => {

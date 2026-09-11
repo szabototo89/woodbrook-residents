@@ -63,6 +63,14 @@ const resources: Resource[] = [
   },
 ];
 
+const detailAt = (resourceIndex: number) => {
+  const detail = resources[resourceIndex]?.details[0];
+  if (!detail) {
+    throw new Error(`Missing detail fixture at index ${resourceIndex}`);
+  }
+  return detail;
+};
+
 describe('resource directory', () => {
   it('finds contacts using names, service types, and dynamic details', () => {
     expect(filterResources(resources, 'gp', 'all', false)).toEqual([
@@ -92,14 +100,14 @@ describe('resource directory', () => {
   });
 
   it('identifies address details without depending on label casing', () => {
-    expect(isAddressDetail(resources[0]!.details[0]!)).toBe(true);
-    expect(isAddressDetail(resources[1]!.details[0]!)).toBe(false);
+    expect(isAddressDetail(detailAt(0))).toBe(true);
+    expect(isAddressDetail(detailAt(1))).toBe(false);
   });
 
   it('links address details to a Google Maps search', () => {
     const markup = renderToStaticMarkup(
       createElement(ResourceDetailValue, {
-        detail: resources[0]!.details[0]!,
+        detail: detailAt(0),
       }),
     );
 
@@ -110,7 +118,7 @@ describe('resource directory', () => {
   it('renders other details as plain text', () => {
     const markup = renderToStaticMarkup(
       createElement(ResourceDetailValue, {
-        detail: resources[1]!.details[0]!,
+        detail: detailAt(1),
       }),
     );
 

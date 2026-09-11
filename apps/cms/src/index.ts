@@ -25,17 +25,18 @@ async function upsertSeedDocument(
     filters: { [uniqueField]: uniqueValue },
   });
 
+  const payload = JSON.parse(JSON.stringify(data));
   if (existing) {
     await strapi.documents(uid).update({
       documentId: existing.documentId,
-      data: data as never,
+      data: payload,
       status: 'published',
     });
     return;
   }
 
   await strapi.documents(uid).create({
-    data: data as never,
+    data: payload,
     status: 'published',
   });
 }
@@ -58,55 +59,60 @@ async function seedEditorialContent(strapi: Core.Strapi) {
     });
   }
 
-  for (const update of updates) {
-    await upsertSeedDocument(
-      strapi,
-      'api::update.update',
-      'slug',
-      update.slug,
-      update,
-    );
-  }
+  type SeedJob = {
+    uid:
+      | 'api::event.event'
+      | 'api::project.project'
+      | 'api::resource.resource'
+      | 'api::survey.survey'
+      | 'api::update.update';
+    uniqueField: string;
+    uniqueValue: string;
+    data: Record<string, unknown>;
+  };
+  const seedJobs: SeedJob[] = [
+    ...updates.map((update) => ({
+      uid: 'api::update.update' as const,
+      uniqueField: 'slug',
+      uniqueValue: update.slug,
+      data: update,
+    })),
+    ...projects.map((project) => ({
+      uid: 'api::project.project' as const,
+      uniqueField: 'slug',
+      uniqueValue: project.slug,
+      data: project,
+    })),
+    ...events.map((event) => ({
+      uid: 'api::event.event' as const,
+      uniqueField: 'slug',
+      uniqueValue: event.slug,
+      data: event,
+    })),
+    ...surveys.map((survey) => ({
+      uid: 'api::survey.survey' as const,
+      uniqueField: 'slug',
+      uniqueValue: survey.slug,
+      data: survey,
+    })),
+    ...resources.map((resource) => ({
+      uid: 'api::resource.resource' as const,
+      uniqueField: 'title',
+      uniqueValue: resource.title,
+      data: resource,
+    })),
+  ];
 
-  for (const project of projects) {
+  await seedJobs.reduce(async (previous, job) => {
+    await previous;
     await upsertSeedDocument(
       strapi,
-      'api::project.project',
-      'slug',
-      project.slug,
-      project,
+      job.uid,
+      job.uniqueField,
+      job.uniqueValue,
+      job.data,
     );
-  }
-
-  for (const event of events) {
-    await upsertSeedDocument(
-      strapi,
-      'api::event.event',
-      'slug',
-      event.slug,
-      event,
-    );
-  }
-
-  for (const survey of surveys) {
-    await upsertSeedDocument(
-      strapi,
-      'api::survey.survey',
-      'slug',
-      survey.slug,
-      survey,
-    );
-  }
-
-  for (const resource of resources) {
-    await upsertSeedDocument(
-      strapi,
-      'api::resource.resource',
-      'title',
-      resource.title,
-      resource,
-    );
-  }
+  }, Promise.resolve());
 }
 
 const publicReadActions = [
@@ -133,7 +139,8 @@ async function enablePublicPermissions(strapi: Core.Strapi) {
     return;
   }
 
-  for (const action of publicReadActions) {
+  await publicReadActions.reduce(async (previous, action) => {
+    await previous;
     const permissionQuery = strapi.db.query(
       'plugin::users-permissions.permission',
     );
@@ -145,7 +152,7 @@ async function enablePublicPermissions(strapi: Core.Strapi) {
       await permissionQuery.create({
         data: { action, enabled: true, role: publicRole.id },
       });
-      continue;
+      return;
     }
 
     if (!existing.enabled) {
@@ -154,7 +161,7 @@ async function enablePublicPermissions(strapi: Core.Strapi) {
         data: { enabled: true },
       });
     }
-  }
+  }, Promise.resolve());
 }
 
 export default {

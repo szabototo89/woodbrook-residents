@@ -21,12 +21,16 @@ export function getDublinCalendarDate(now = new Date()) {
   return `${partValue('year')}-${partValue('month')}-${partValue('day')}`;
 }
 
+const isCollectionStream = (candidate: string): candidate is CollectionStream =>
+  candidate in collectionStreamLabels;
+
 export function getNextCollectionDates(
   collectionDates: CollectionDate[],
   today: string,
 ) {
-  return (Object.keys(collectionStreamLabels) as CollectionStream[]).map(
-    (stream) => ({
+  return Object.keys(collectionStreamLabels)
+    .filter(isCollectionStream)
+    .map((stream) => ({
       stream,
       date: collectionDates
         .filter(
@@ -34,6 +38,5 @@ export function getNextCollectionDates(
             collectionDate.stream === stream && collectionDate.date >= today,
         )
         .sort((left, right) => left.date.localeCompare(right.date))[0]?.date,
-    }),
-  );
+    }));
 }

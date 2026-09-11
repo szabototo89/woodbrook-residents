@@ -127,8 +127,8 @@ const spreadsheetDateTime = (row: SheetRecord, header: string) => {
     wallTime.getUTCMinutes(),
     wallTime.getUTCSeconds(),
   );
-  let timestamp = localTimestamp - timeZoneOffset(localTimestamp, timeZone);
-  timestamp = localTimestamp - timeZoneOffset(timestamp, timeZone);
+  const firstPass = localTimestamp - timeZoneOffset(localTimestamp, timeZone);
+  const timestamp = localTimestamp - timeZoneOffset(firstPass, timeZone);
   return new Date(timestamp).toISOString();
 };
 
@@ -162,6 +162,14 @@ function timeZoneOffset(timestamp: number, timeZone: string) {
 const compact = (object: JsonObject) =>
   Object.fromEntries(
     Object.entries(object).filter(([, item]) => item !== undefined),
+  );
+const compactStrings = (
+  object: Record<string, string | undefined>,
+): Record<string, string> =>
+  Object.fromEntries(
+    Object.entries(object).filter(
+      (entry): entry is [string, string] => entry[1] !== undefined,
+    ),
   );
 const publicUrl = (candidate: unknown) =>
   typeof candidate === 'string' && /^https?:\/\//i.test(candidate)
@@ -242,8 +250,10 @@ function detailsToSheet(detailsValue: unknown) {
         ): detail is { label: string; value: string; showOnCard?: boolean } =>
           typeof detail === 'object' &&
           detail !== null &&
-          typeof (detail as JsonObject).label === 'string' &&
-          typeof (detail as JsonObject).value === 'string',
+          'label' in detail &&
+          'value' in detail &&
+          typeof detail.label === 'string' &&
+          typeof detail.value === 'string',
       )
     : [];
   const featured = details.find((detail) => detail.showOnCard) ?? details[0];
@@ -471,7 +481,7 @@ function normalize(candidate: unknown): unknown {
   if (Array.isArray(candidate)) return candidate.map(normalize);
   if (typeof candidate === 'object') {
     return Object.fromEntries(
-      Object.entries(candidate as JsonObject)
+      Object.entries(candidate)
         .filter(([key]) => key !== 'id')
         .sort(([left], [right]) => left.localeCompare(right))
         .map(([key, item]) => [key, normalize(item)]),
@@ -514,21 +524,31 @@ function uniqueBySlug<T>(
   slugFor: (record: T) => string | undefined,
   label: string,
 ) {
-  const unique = new Map<string, T>();
-  const duplicates: string[] = [];
-  const duplicateSlugs = new Set<string>();
-  for (const record of records) {
+  const initial: {
+    unique: Map<string, T>;
+    duplicates: string[];
+    duplicateSlugs: Set<string>;
+  } = {
+    unique: new Map<string, T>(),
+    duplicates: [],
+    duplicateSlugs: new Set<string>(),
+  };
+  return records.reduce((state, record) => {
     const slug = slugFor(record);
-    if (!slug) continue;
-    if (unique.has(slug)) {
-      duplicates.push(`${label}: ${slug}`);
-      duplicateSlugs.add(slug);
-      unique.delete(slug);
-    } else if (!duplicateSlugs.has(slug)) {
-      unique.set(slug, record);
+    if (!slug) {
+      return state;
     }
-  }
-  return { unique, duplicates, duplicateSlugs };
+    if (state.unique.has(slug)) {
+      state.duplicates.push(`${label}: ${slug}`);
+      state.duplicateSlugs.add(slug);
+      state.unique.delete(slug);
+      return state;
+    }
+    if (!state.duplicateSlugs.has(slug)) {
+      state.unique.set(slug, record);
+    }
+    return state;
+  }, initial);
 }
 
 export function planCollectionSync(options: {
@@ -549,33 +569,32 @@ export function planCollectionSync(options: {
     (record) => record.slug,
     `${descriptor.strapiPath} Strapi collection`,
   );
-  const plan: SyncPlan = {
-    actions: [],
-    conflicts: [],
-    duplicates: [...sheetIndex.duplicates, ...strapiIndex.duplicates],
-  };
+  const duplicates = [...sheetIndex.duplicates, ...strapiIndex.duplicates];
   const slugs = new Set([
     ...sheetIndex.unique.keys(),
     ...strapiIndex.unique.keys(),
   ]);
 
-  for (const slug of [...slugs].sort()) {
+  const planForSlug = (
+    slug: string,
+  ): { action?: SyncAction; conflict?: SyncConflict } => {
     if (
       sheetIndex.duplicateSlugs.has(slug) ||
       strapiIndex.duplicateSlugs.has(slug)
     ) {
-      continue;
+      return {};
     }
     const row = sheetIndex.unique.get(slug);
     const record = strapiIndex.unique.get(slug);
     if (!row && record && direction !== 'sheets-to-strapi') {
-      plan.actions.push({
-        type: 'append-sheet',
-        collection: descriptor.key,
-        tab: descriptor.tab,
-        record,
-      });
-      continue;
+      return {
+        action: {
+          type: 'append-sheet',
+          collection: descriptor.key,
+          tab: descriptor.tab,
+          record,
+        },
+      };
     }
     if (
       row &&
@@ -583,76 +602,115 @@ export function planCollectionSync(options: {
       direction !== 'strapi-to-sheets' &&
       bool(row, 'publish')
     ) {
-      plan.actions.push({
-        type: 'create-strapi',
-        collection: descriptor.key,
-        strapiPath: descriptor.strapiPath,
-        row,
-        data: descriptor.sheetToStrapi(row),
-      });
-      continue;
+      return {
+        action: {
+          type: 'create-strapi',
+          collection: descriptor.key,
+          strapiPath: descriptor.strapiPath,
+          row,
+          data: descriptor.sheetToStrapi(row),
+        },
+      };
     }
-    if (!row || !record) continue;
+    if (!row || !record) {
+      return {};
+    }
 
     const differences = differingFields(
       comparableSheetData(descriptor, row),
       comparableStrapiData(descriptor, record),
     );
-    if (differences.length === 0) continue;
+    if (differences.length === 0) {
+      return {};
+    }
 
     if (conflictPolicy === 'strapi-wins' && direction !== 'sheets-to-strapi') {
-      plan.actions.push({
-        type: 'update-sheet',
-        collection: descriptor.key,
-        tab: descriptor.tab,
-        row,
-        record,
-      });
-    } else if (
+      return {
+        action: {
+          type: 'update-sheet',
+          collection: descriptor.key,
+          tab: descriptor.tab,
+          row,
+          record,
+        },
+      };
+    }
+    if (
       conflictPolicy === 'sheets-wins' &&
       direction !== 'strapi-to-sheets' &&
       bool(row, 'publish')
     ) {
-      plan.actions.push({
-        type: 'update-strapi',
-        collection: descriptor.key,
-        strapiPath: descriptor.strapiPath,
-        documentId: record.documentId,
-        row,
-        data: descriptor.sheetToStrapi(row),
-      });
-    } else {
-      plan.conflicts.push({
+      return {
+        action: {
+          type: 'update-strapi',
+          collection: descriptor.key,
+          strapiPath: descriptor.strapiPath,
+          documentId: record.documentId,
+          row,
+          data: descriptor.sheetToStrapi(row),
+        },
+      };
+    }
+    return {
+      conflict: {
         collection: descriptor.key,
         slug,
         sheetRow: row.rowNumber,
         differingFields: differences,
-      });
-    }
-  }
+      },
+    };
+  };
+
+  const outcomes = [...slugs].sort().map(planForSlug);
+  const plan: SyncPlan = {
+    actions: outcomes.flatMap((outcome) =>
+      outcome.action ? [outcome.action] : [],
+    ),
+    conflicts: outcomes.flatMap((outcome) =>
+      outcome.conflict ? [outcome.conflict] : [],
+    ),
+    duplicates,
+  };
   return plan;
 }
 
 function parseArguments(argv: string[]) {
-  const options = new Map<string, string>();
-  let apply = false;
-  let help = false;
-  for (let index = 0; index < argv.length; index += 1) {
-    const argument = argv[index]!;
-    if (argument === '--apply') apply = true;
-    else if (argument === '--help' || argument === '-h') help = true;
-    else if (argument.startsWith('--') && argument.includes('=')) {
+  const parseAt = (
+    index: number,
+    apply: boolean,
+    help: boolean,
+    options: Map<string, string>,
+  ): { apply: boolean; help: boolean; options: Map<string, string> } => {
+    const argument = argv[index];
+    if (argument === undefined) {
+      return { apply, help, options };
+    }
+    if (argument === '--apply') {
+      return parseAt(index + 1, true, help, options);
+    }
+    if (argument === '--help' || argument === '-h') {
+      return parseAt(index + 1, apply, true, options);
+    }
+    if (argument.startsWith('--') && argument.includes('=')) {
       const [key, ...parts] = argument.slice(2).split('=');
-      options.set(key!, parts.join('='));
-    } else if (argument.startsWith('--')) {
+      if (!key) {
+        throw new Error(`Unknown argument: ${argument}`);
+      }
+      options.set(key, parts.join('='));
+      return parseAt(index + 1, apply, help, options);
+    }
+    if (argument.startsWith('--')) {
       const next = argv[index + 1];
-      if (!next || next.startsWith('--'))
+      if (!next || next.startsWith('--')) {
         throw new Error(`${argument} needs a value.`);
+      }
       options.set(argument.slice(2), next);
-      index += 1;
-    } else throw new Error(`Unknown argument: ${argument}`);
-  }
-  return { apply, help, options };
+      return parseAt(index + 2, apply, help, options);
+    }
+    throw new Error(`Unknown argument: ${argument}`);
+  };
+
+  return parseAt(0, false, false, new Map<string, string>());
 }
 
 function required(name: string, candidate: string | undefined) {
@@ -661,29 +719,45 @@ function required(name: string, candidate: string | undefined) {
   return result;
 }
 
+function parseDirection(candidate: string): Direction {
+  if (
+    candidate === 'strapi-to-sheets' ||
+    candidate === 'sheets-to-strapi' ||
+    candidate === 'two-way'
+  ) {
+    return candidate;
+  }
+  throw new Error(`Unsupported sync direction: ${candidate}`);
+}
+
+function parseConflictPolicy(candidate: string): ConflictPolicy {
+  if (
+    candidate === 'report' ||
+    candidate === 'strapi-wins' ||
+    candidate === 'sheets-wins'
+  ) {
+    return candidate;
+  }
+  throw new Error(`Unsupported conflict policy: ${candidate}`);
+}
+
 function readConfig(argv: string[]): Config | 'help' {
   const parsed = parseArguments(argv);
   if (parsed.help) return 'help';
-  const direction =
+  const direction = parseDirection(
     parsed.options.get('direction') ??
-    process.env.CONTENT_SYNC_DIRECTION ??
-    'strapi-to-sheets';
-  const conflictPolicy =
+      process.env.CONTENT_SYNC_DIRECTION ??
+      'strapi-to-sheets',
+  );
+  const conflictPolicy = parseConflictPolicy(
     parsed.options.get('conflict') ??
-    process.env.CONTENT_SYNC_CONFLICT ??
-    'report';
-  if (
-    !['strapi-to-sheets', 'sheets-to-strapi', 'two-way'].includes(direction)
-  ) {
-    throw new Error(`Unsupported sync direction: ${direction}`);
-  }
-  if (!['report', 'strapi-wins', 'sheets-wins'].includes(conflictPolicy)) {
-    throw new Error(`Unsupported conflict policy: ${conflictPolicy}`);
-  }
+      process.env.CONTENT_SYNC_CONFLICT ??
+      'report',
+  );
   return {
     apply: parsed.apply,
-    direction: direction as Direction,
-    conflictPolicy: conflictPolicy as ConflictPolicy,
+    direction,
+    conflictPolicy,
     spreadsheetId: required(
       'GOOGLE_SHEETS_SPREADSHEET_ID',
       parsed.options.get('spreadsheet-id') ??
@@ -742,16 +816,15 @@ class GoogleSheetsClient {
     });
   }
 
-  async loadTables() {
-    const url = new URL(
-      `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(this.config.spreadsheetId)}/values:batchGet`,
-    );
-    for (const descriptor of contentCollections) {
-      url.searchParams.append(
+  async loadTables(): Promise<Record<string, SheetTable>> {
+    const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(this.config.spreadsheetId)}/values:batchGet`;
+    const url = contentCollections.reduce((requestUrl, descriptor) => {
+      requestUrl.searchParams.append(
         'ranges',
         `${descriptor.tab}!${descriptor.range}`,
       );
-    }
+      return requestUrl;
+    }, new URL(baseUrl));
     url.searchParams.set('majorDimension', 'ROWS');
     url.searchParams.set('valueRenderOption', 'UNFORMATTED_VALUE');
     url.searchParams.set('dateTimeRenderOption', 'SERIAL_NUMBER');
@@ -759,8 +832,8 @@ class GoogleSheetsClient {
       valueRanges?: Array<{ values?: unknown[][] }>;
     }>({ url: url.toString() });
 
-    return Object.fromEntries(
-      contentCollections.map((descriptor, index) => {
+    const entries = contentCollections.map(
+      (descriptor, index): [string, SheetTable] => {
         const [rawHeaders = [], ...rawRows] =
           response.data.valueRanges?.[index]?.values ?? [];
         const headers = rawHeaders.map(String);
@@ -778,9 +851,10 @@ class GoogleSheetsClient {
           .filter((row) =>
             Object.values(row.cells).some((cell) => cell !== ''),
           );
-        return [descriptor.tab, { headers, rows } satisfies SheetTable];
-      }),
-    ) as Record<string, SheetTable>;
+        return [descriptor.tab, { headers, rows }];
+      },
+    );
+    return Object.fromEntries(entries);
   }
 
   async updateRow(
@@ -847,20 +921,25 @@ class StrapiClient {
   constructor(private readonly config: Config) {}
 
   private headers(write = false) {
-    return compact({
+    return compactStrings({
       Accept: 'application/json',
       'Content-Type': write ? 'application/json' : undefined,
       Authorization: this.config.strapiApiToken
         ? `Bearer ${this.config.strapiApiToken}`
         : undefined,
-    }) as Record<string, string>;
+    });
   }
 
   async loadRecords(descriptor: CollectionDescriptor) {
-    const items: JsonObject[] = [];
-    let page = 1;
-    let pageCount = 1;
-    do {
+    type StrapiPage = {
+      data?: JsonObject[];
+      error?: { message?: string };
+      meta?: { pagination?: { pageCount?: number } };
+    };
+    const fetchPage = async (
+      page: number,
+      accumulated: JsonObject[],
+    ): Promise<JsonObject[]> => {
       const url = new URL(
         `${this.config.strapiUrl}/api/${descriptor.strapiPath}`,
       );
@@ -869,20 +948,20 @@ class StrapiClient {
       url.searchParams.set('pagination[pageSize]', '200');
       if (descriptor.key === 'resources') url.searchParams.set('populate', '*');
       const response = await fetch(url, { headers: this.headers() });
-      const body = (await response.json()) as {
-        data?: JsonObject[];
-        error?: { message?: string };
-        meta?: { pagination?: { pageCount?: number } };
-      };
+      const body: StrapiPage = await response.json();
       if (!response.ok) {
         throw new Error(
           `Strapi read failed for ${descriptor.strapiPath} (${response.status}): ${body.error?.message ?? response.statusText}`,
         );
       }
-      items.push(...(body.data ?? []));
-      pageCount = body.meta?.pagination?.pageCount ?? 1;
-      page += 1;
-    } while (page <= pageCount);
+      const nextItems = [...accumulated, ...(body.data ?? [])];
+      const pageCount = body.meta?.pagination?.pageCount ?? 1;
+      if (page >= pageCount) {
+        return nextItems;
+      }
+      return fetchPage(page + 1, nextItems);
+    };
+    const items = await fetchPage(1, []);
 
     return items.map((item) => ({
       documentId: String(item.documentId),
@@ -925,9 +1004,9 @@ class StrapiClient {
       body: JSON.stringify({ data }),
     });
     if (!response.ok) {
-      const body = (await response.json().catch(() => ({}))) as {
-        error?: { message?: string };
-      };
+      const body: { error?: { message?: string } } = await response
+        .json()
+        .catch(() => ({}));
       throw new Error(
         `Strapi ${method} failed (${response.status}): ${body.error?.message ?? response.statusText}`,
       );
@@ -935,15 +1014,16 @@ class StrapiClient {
   }
 }
 
-function columnName(columnCount: number) {
-  let result = '';
-  let value = columnCount;
-  while (value > 0) {
-    value -= 1;
-    result = String.fromCharCode(65 + (value % 26)) + result;
-    value = Math.floor(value / 26);
-  }
-  return result;
+function columnName(columnCount: number): string {
+  const build = (value: number, result: string): string => {
+    if (value <= 0) {
+      return result;
+    }
+    const adjusted = value - 1;
+    const nextResult = String.fromCharCode(65 + (adjusted % 26)) + result;
+    return build(Math.floor(adjusted / 26), nextResult);
+  };
+  return build(columnCount, '');
 }
 
 function combinePlans(plans: SyncPlan[]): SyncPlan {
@@ -981,20 +1061,22 @@ async function loadPlan(
 
 function printPlan(plan: SyncPlan, apply: boolean) {
   console.log(apply ? 'Applied content sync:' : 'Content sync dry run:');
-  const counts = new Map<string, number>();
-  for (const action of plan.actions) {
+  const counts = plan.actions.reduce((totals, action) => {
     const key = `${action.type} (${action.collection})`;
-    counts.set(key, (counts.get(key) ?? 0) + 1);
+    totals.set(key, (totals.get(key) ?? 0) + 1);
+    return totals;
+  }, new Map<string, number>());
+  if (counts.size === 0) {
+    console.log('  no changes');
+  } else {
+    [...counts].map(([label, count]) => console.log(`  ${label}: ${count}`));
   }
-  if (counts.size === 0) console.log('  no changes');
-  else for (const [label, count] of counts) console.log(`  ${label}: ${count}`);
-  for (const conflict of plan.conflicts) {
+  plan.conflicts.map((conflict) =>
     console.log(
       `  conflict ${conflict.collection}/${conflict.slug} at sheet row ${conflict.sheetRow}: ${conflict.differingFields.join(', ')}`,
-    );
-  }
-  for (const duplicate of plan.duplicates)
-    console.log(`  duplicate ${duplicate}`);
+    ),
+  );
+  plan.duplicates.map((duplicate) => console.log(`  duplicate ${duplicate}`));
 }
 
 async function applyPlan(
@@ -1003,7 +1085,8 @@ async function applyPlan(
   sheets: GoogleSheetsClient,
   strapi: StrapiClient,
 ) {
-  for (const descriptor of contentCollections) {
+  await contentCollections.reduce(async (previous, descriptor) => {
+    await previous;
     const table = tables[descriptor.tab];
     if (!table || table.headers.length === 0) {
       throw new Error(`${descriptor.tab} is missing its header row.`);
@@ -1015,8 +1098,9 @@ async function applyPlan(
       )
       .map((action) => action.record);
     await sheets.appendRows(descriptor, table, appends);
-  }
-  for (const action of plan.actions) {
+  }, Promise.resolve());
+  await plan.actions.reduce(async (previous, action) => {
+    await previous;
     if (action.type === 'update-sheet') {
       const descriptor = contentCollections.find(
         (item) => item.tab === action.tab,
@@ -1027,12 +1111,16 @@ async function applyPlan(
         action.row,
         action.record,
       );
-    } else if (action.type === 'create-strapi') {
+      return;
+    }
+    if (action.type === 'create-strapi') {
       await strapi.create(action.strapiPath, action.data);
-    } else if (action.type === 'update-strapi') {
+      return;
+    }
+    if (action.type === 'update-strapi') {
       await strapi.update(action.strapiPath, action.documentId, action.data);
     }
-  }
+  }, Promise.resolve());
 }
 
 async function main() {
