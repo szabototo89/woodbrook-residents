@@ -302,10 +302,9 @@ describe('parseGoogleSheetsContent', () => {
       }),
     );
     expect(googleAuthMock.request).toHaveBeenCalledTimes(1);
-    const request = googleAuthMock.request.mock.calls[0]?.[0] as {
-      url: string;
-    };
-    const requestUrl = new URL(request.url);
+    const request: { url: string } | undefined =
+      googleAuthMock.request.mock.calls[0]?.[0];
+    const requestUrl = new URL(request?.url ?? '');
 
     expect(requestUrl.pathname).toContain('/private-sheet/values:batchGet');
     expect(requestUrl.searchParams.getAll('ranges')).toEqual([
@@ -754,9 +753,9 @@ describe('parseGoogleSheetsContent field handling', () => {
       '2026-09-09',
       1,
     ];
-    for (const [index, value] of Object.entries(overrides)) {
+    Object.entries(overrides).map(([index, value]) => {
       row[Number(index)] = value;
-    }
+    });
     return row;
   };
   const parseUpdates = (rows: unknown[][]) =>
@@ -858,9 +857,9 @@ describe('parseGoogleSheetsContent project handling', () => {
       1,
       '',
     ];
-    for (const [index, value] of Object.entries(overrides)) {
+    Object.entries(overrides).map(([index, value]) => {
       row[Number(index)] = value;
-    }
+    });
     return row;
   };
   const parseProjects = (rows: unknown[][]) =>
@@ -949,9 +948,9 @@ describe('parseGoogleSheetsContent event handling', () => {
       1,
       '',
     ];
-    for (const [index, value] of Object.entries(overrides)) {
+    Object.entries(overrides).map(([index, value]) => {
       row[Number(index)] = value;
-    }
+    });
     return row;
   };
   const parseEvents = (rows: unknown[][]) =>
@@ -1055,9 +1054,9 @@ describe('parseGoogleSheetsContent consultation handling', () => {
       1,
       '',
     ];
-    for (const [index, value] of Object.entries(overrides)) {
+    Object.entries(overrides).map(([index, value]) => {
       row[Number(index)] = value;
-    }
+    });
     return row;
   };
 
@@ -1149,9 +1148,9 @@ describe('parseGoogleSheetsContent resource handling', () => {
       '',
       '',
     ];
-    for (const [index, value] of Object.entries(overrides)) {
+    Object.entries(overrides).map(([index, value]) => {
       row[Number(index)] = value;
-    }
+    });
     return row;
   };
   const parseResources = (rows: unknown[][]) =>

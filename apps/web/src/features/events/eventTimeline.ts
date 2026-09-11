@@ -63,7 +63,22 @@ export function groupEventsByTimeline(
   const thisWeekStarts = startOfWeek(getDublinDayNumber(now));
   const nextWeekStarts = thisWeekStarts + 7;
   const laterStarts = nextWeekStarts + 7;
-  const groups: EventTimelineGroup[] = [
+
+  const periodForEvent = (event: CommunityEvent): EventTimelinePeriod => {
+    const eventDay = getDublinDayNumber(event.startsAt);
+    if (eventDay < thisWeekStarts) {
+      return 'earlier';
+    }
+    if (eventDay < nextWeekStarts) {
+      return 'this-week';
+    }
+    if (eventDay < laterStarts) {
+      return 'next-week';
+    }
+    return 'later';
+  };
+
+  const baseGroups: EventTimelineGroup[] = [
     {
       id: 'this-week',
       title: 'This week',
@@ -90,18 +105,10 @@ export function groupEventsByTimeline(
     },
   ];
 
-  for (const event of events) {
-    const eventDay = getDublinDayNumber(event.startsAt);
-    const groupIndex =
-      eventDay < thisWeekStarts
-        ? 3
-        : eventDay < nextWeekStarts
-          ? 0
-          : eventDay < laterStarts
-            ? 1
-            : 2;
-    groups[groupIndex]?.events.push(event);
-  }
-
-  return groups.filter((group) => group.events.length > 0);
+  return baseGroups
+    .map((group) => ({
+      ...group,
+      events: events.filter((event) => periodForEvent(event) === group.id),
+    }))
+    .filter((group) => group.events.length > 0);
 }

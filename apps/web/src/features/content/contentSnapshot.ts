@@ -3,17 +3,17 @@ import { validateContentSnapshot } from './contentSource';
 import { createContentSource } from './contentSourceFactory';
 import type { ContentSnapshot } from './contentTypes';
 
-let cachedSource: ContentSource | undefined;
-let cachedSnapshot: Promise<ContentSnapshot> | undefined;
+const sourceHolder: { current?: ContentSource } = {};
+const snapshotHolder: { current?: Promise<ContentSnapshot> } = {};
 
 export function createContentSnapshotLoader(source: ContentSource) {
-  let snapshot: Promise<ContentSnapshot> | undefined;
+  const holder: { current?: Promise<ContentSnapshot> } = {};
 
   return () => {
-    snapshot ??= source
+    holder.current ??= source
       .loadSnapshot()
       .then((content) => validateContentSnapshot(content, source.name));
-    return snapshot;
+    return holder.current;
   };
 }
 
@@ -26,13 +26,15 @@ export function getContentSnapshot(cache: boolean) {
     return loadContentSnapshot(createContentSource());
   }
 
-  cachedSource ??= createContentSource();
-  cachedSnapshot ??= createContentSnapshotLoader(cachedSource)();
+  sourceHolder.current ??= createContentSource();
+  snapshotHolder.current ??= createContentSnapshotLoader(
+    sourceHolder.current,
+  )();
 
-  return cachedSnapshot;
+  return snapshotHolder.current;
 }
 
 export function resetContentSnapshotForTests() {
-  cachedSource = undefined;
-  cachedSnapshot = undefined;
+  sourceHolder.current = undefined;
+  snapshotHolder.current = undefined;
 }

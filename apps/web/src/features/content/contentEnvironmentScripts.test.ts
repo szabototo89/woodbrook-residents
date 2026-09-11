@@ -8,12 +8,12 @@ type RootPackage = {
 
 describe('content environment scripts', () => {
   it('loads the repository environment when building the static site', () => {
-    const rootPackage = JSON.parse(
+    const rootPackage: RootPackage = JSON.parse(
       readFileSync(
         new URL('../../../../../package.json', import.meta.url),
         'utf8',
       ),
-    ) as RootPackage;
+    );
 
     expect(rootPackage.scripts['build:static']).toContain(
       'bun run --cwd apps/web --env-file=../../.env build:static',
@@ -21,9 +21,9 @@ describe('content environment scripts', () => {
   });
 
   it('runs the static build through the content-aware build script', () => {
-    const webPackage = JSON.parse(
+    const webPackage: RootPackage = JSON.parse(
       readFileSync(new URL('../../../package.json', import.meta.url), 'utf8'),
-    ) as RootPackage;
+    );
 
     expect(webPackage.scripts['build:static']).toBe(
       'bun scripts/build-static.ts',

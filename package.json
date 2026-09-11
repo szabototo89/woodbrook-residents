@@ -30,7 +30,7 @@
     "typecheck:sync-content": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --strict --noImplicitAny --noImplicitOverride --noImplicitReturns --noUncheckedIndexedAccess --skipLibCheck --types bun scripts/sync-content.ts scripts/sync-content.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "bun run format:check && eslint apps/web/src apps/web/tests && bun run typecheck"
+    "lint": "bun run format:check && eslint apps/web/src apps/web/tests scripts apps/cms/src && bun run typecheck"
   },
   "dependencies": {
     "google-auth-library": "^11.0.2"

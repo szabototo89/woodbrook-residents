@@ -21,11 +21,12 @@ const emptySnapshot = {
   resources: [],
 };
 
-const stubSource = (loadSnapshot: () => Promise<typeof emptySnapshot>) =>
-  ({
-    name: 'strapi',
-    loadSnapshot,
-  }) as ContentSource;
+const stubSource = (
+  loadSnapshot: () => Promise<typeof emptySnapshot>,
+): ContentSource => ({
+  name: 'strapi',
+  loadSnapshot,
+});
 
 beforeEach(() => {
   resetContentSnapshotForTests();

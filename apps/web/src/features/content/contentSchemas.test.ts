@@ -15,12 +15,20 @@ function expectEveryFieldToHaveDescription(
   schemaName: string,
   schema: z.ZodObject,
 ) {
-  for (const [fieldName, fieldSchema] of Object.entries(schema.shape)) {
+  Object.entries(schema.shape).map(([fieldName, fieldSchema]) => {
     expect(
       fieldSchema.description,
       `${schemaName}.${fieldName} should have a Zod description`,
     ).toBeTruthy();
+  });
+}
+
+function expectZodObject(candidate: unknown, label: string): z.ZodObject {
+  expect(candidate).toBeInstanceOf(z.ZodObject);
+  if (!(candidate instanceof z.ZodObject)) {
+    throw new Error(`${label} should be a Zod object`);
   }
+  return candidate;
 }
 
 describe('content schemas', () => {
@@ -33,19 +41,19 @@ describe('content schemas', () => {
     expectEveryFieldToHaveDescription('resource', resourceSchema);
     expectEveryFieldToHaveDescription('contentSnapshot', contentSnapshotSchema);
 
-    const resourceDetails = resourceSchema.shape.details.unwrap().element;
-    expect(resourceDetails).toBeInstanceOf(z.ZodObject);
-    expectEveryFieldToHaveDescription(
+    const resourceDetails = expectZodObject(
+      resourceSchema.shape.details.unwrap().element,
       'resource.details[]',
-      resourceDetails as z.ZodObject,
     );
+    expectEveryFieldToHaveDescription('resource.details[]', resourceDetails);
 
-    const collectionDates =
-      resourceSchema.shape.collectionDates.unwrap().element;
-    expect(collectionDates).toBeInstanceOf(z.ZodObject);
+    const collectionDates = expectZodObject(
+      resourceSchema.shape.collectionDates.unwrap().element,
+      'resource.collectionDates[]',
+    );
     expectEveryFieldToHaveDescription(
       'resource.collectionDates[]',
-      collectionDates as z.ZodObject,
+      collectionDates,
     );
   });
 });
