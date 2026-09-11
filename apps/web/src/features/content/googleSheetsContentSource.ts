@@ -55,11 +55,13 @@ class SheetRow {
     headers: unknown[],
     values: unknown[],
   ) {
-    headers.forEach((header, index) => {
-      if (typeof header === 'string' && header) {
-        this.cells.set(header, values[index]);
-      }
-    });
+    const entries = headers
+      .map((header, index): [unknown, unknown] => [header, values[index]])
+      .filter(
+        (entry): entry is [string, unknown] =>
+          typeof entry[0] === 'string' && entry[0].length > 0,
+      );
+    this.cells = new Map(entries);
   }
 
   error(field: string, message: string): never {
@@ -169,14 +171,19 @@ class SheetRow {
     return this.error(field, 'must be a real spreadsheet date-time.');
   }
 
-  enum<const T extends readonly string[]>(field: string, allowed: T) {
+  enum<const T extends readonly string[]>(
+    field: string,
+    allowed: T,
+  ): T[number] {
     const value = this.text(field, true)!;
     const normalized = value.toLowerCase().replace(/[ _]+/g, '-');
-    const match = allowed.find((candidate) => candidate === normalized);
-    if (!match) {
-      this.error(field, `unsupported value "${value}".`);
+    const match: T[number] | undefined = allowed.find(
+      (candidate) => candidate === normalized,
+    );
+    if (match === undefined) {
+      return this.error(field, `unsupported value "${value}".`);
     }
-    return match as T[number];
+    return match;
   }
 
   url(field: string) {
@@ -297,8 +304,8 @@ function zonedPartsToIso(parts: DateTimeParts, timeZone: string) {
     parts.minute,
     parts.second,
   );
-  let timestamp = localTimestamp - timeZoneOffset(localTimestamp, timeZone);
-  timestamp = localTimestamp - timeZoneOffset(timestamp, timeZone);
+  const firstPass = localTimestamp - timeZoneOffset(localTimestamp, timeZone);
+  const timestamp = localTimestamp - timeZoneOffset(firstPass, timeZone);
   return new Date(timestamp).toISOString();
 }
 
@@ -462,34 +469,38 @@ function mapResources(values: unknown[][]): Resource[] {
     'Local_Info',
     values,
     (row) => {
-      const details: Resource['details'] = [];
-      const addDetail = (label: string, value: string, showOnCard: boolean) => {
-        if (
-          !details.some(
-            (detail) => detail.label === label && detail.value === value,
-          )
-        ) {
-          details.push({ id: details.length + 1, label, value, showOnCard });
-        }
-      };
       const detailLabel = row.text('detail_label');
       const detailValue = row.text('detail_value');
       const address = row.text('address');
       row.url('map_url');
-      if (detailLabel && detailValue) {
-        addDetail(detailLabel, detailValue, true);
-      } else if (address) {
-        addDetail('Address', address, true);
-      }
-      const optionalDetails = [
+      const primaryDetail =
+        detailLabel && detailValue
+          ? [{ label: detailLabel, value: detailValue, showOnCard: true }]
+          : address
+            ? [{ label: 'Address', value: address, showOnCard: true }]
+            : [];
+      const optionalDetails: Array<[string, string | undefined]> = [
         ['Opening hours', row.text('opening_hours')],
         ['Accessibility', row.text('accessibility')],
         ['Out-of-hours contact', row.text('out_of_hours_contact')],
         ['Please note', row.text('disclaimer')],
-      ] as const;
-      optionalDetails.forEach(([label, value]) => {
-        if (value) addDetail(label, value, false);
-      });
+      ];
+      const extraDetails = optionalDetails
+        .filter(
+          (entry): entry is [string, string] =>
+            typeof entry[1] === 'string' && entry[1].length > 0,
+        )
+        .map(([label, value]) => ({ label, value, showOnCard: false }));
+      const details: Resource['details'] = [...primaryDetail, ...extraDetails]
+        .filter(
+          (candidate, index, candidates) =>
+            candidates.findIndex(
+              (other) =>
+                other.label === candidate.label &&
+                other.value === candidate.value,
+            ) === index,
+        )
+        .map((detail, index) => ({ id: index + 1, ...detail }));
       row.boolean('emergency_only', true);
       const collectionDates = [
         ...row.dateList('recycling_dates').map((date) => ({
@@ -569,12 +580,11 @@ export class GoogleSheetsContentSource implements ContentSource {
       },
       scopes: [sheetsApiScope],
     });
-    const requestUrl = new URL(
-      `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(this.config.spreadsheetId)}/values:batchGet`,
-    );
-    sheetRanges.forEach((range) =>
-      requestUrl.searchParams.append('ranges', range),
-    );
+    const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(this.config.spreadsheetId)}/values:batchGet`;
+    const requestUrl = sheetRanges.reduce((url, range) => {
+      url.searchParams.append('ranges', range);
+      return url;
+    }, new URL(baseUrl));
     requestUrl.searchParams.set('majorDimension', 'ROWS');
     requestUrl.searchParams.set('valueRenderOption', 'UNFORMATTED_VALUE');
     requestUrl.searchParams.set('dateTimeRenderOption', 'SERIAL_NUMBER');
@@ -589,12 +599,14 @@ export class GoogleSheetsContentSource implements ContentSource {
       );
     }
 
-    const sheets = Object.fromEntries(
-      sheetRanges.map((range, index) => [
-        range.slice(0, range.indexOf('!')),
-        values[index]?.values ?? [],
-      ]),
-    ) as GoogleSheetsValues;
+    const valuesFor = (index: number) => values[index]?.values ?? [];
+    const sheets: GoogleSheetsValues = {
+      Updates: valuesFor(0),
+      Events: valuesFor(1),
+      Projects: valuesFor(2),
+      Consultations: valuesFor(3),
+      Local_Info: valuesFor(4),
+    };
 
     return parseGoogleSheetsContent(sheets);
   }
