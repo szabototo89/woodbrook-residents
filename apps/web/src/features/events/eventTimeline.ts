@@ -100,7 +100,7 @@ export function groupEventsByTimeline(
           : eventDay < laterStarts
             ? 1
             : 2;
-    groups[groupIndex].events.push(event);
+    groups[groupIndex]?.events.push(event);
   }
 
   return groups.filter((group) => group.events.length > 0);

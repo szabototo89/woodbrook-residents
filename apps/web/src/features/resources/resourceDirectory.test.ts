@@ -92,14 +92,14 @@ describe('resource directory', () => {
   });
 
   it('identifies address details without depending on label casing', () => {
-    expect(isAddressDetail(resources[0].details[0])).toBe(true);
-    expect(isAddressDetail(resources[1].details[0])).toBe(false);
+    expect(isAddressDetail(resources[0]?.details[0]!)).toBe(true);
+    expect(isAddressDetail(resources[1]?.details[0]!)).toBe(false);
   });
 
   it('links address details to a Google Maps search', () => {
     const markup = renderToStaticMarkup(
       createElement(ResourceDetailValue, {
-        detail: resources[0].details[0],
+        detail: resources[0]?.details[0]!,
       }),
     );
 
@@ -110,7 +110,7 @@ describe('resource directory', () => {
   it('renders other details as plain text', () => {
     const markup = renderToStaticMarkup(
       createElement(ResourceDetailValue, {
-        detail: resources[1].details[0],
+        detail: resources[1]?.details[0]!,
       }),
     );
 

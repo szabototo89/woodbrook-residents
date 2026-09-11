@@ -27,7 +27,7 @@
     "test:browser": "bun run --cwd apps/web test:browser",
     "test:e2e": "bun run --cwd apps/web test:e2e",
     "typecheck": "bun run --cwd apps/web typecheck && bun run --cwd apps/cms typecheck && bun run typecheck:sync-content",
-    "typecheck:sync-content": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --strict --skipLibCheck --types bun scripts/sync-content.ts scripts/sync-content.test.ts",
+    "typecheck:sync-content": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --strict --noImplicitAny --noImplicitOverride --noImplicitReturns --noUncheckedIndexedAccess --skipLibCheck --types bun scripts/sync-content.ts scripts/sync-content.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "bun run format:check && eslint apps/web/src apps/web/tests && bun run typecheck"

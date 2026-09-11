@@ -52,7 +52,7 @@ describe('event timeline', () => {
       '28 Sept–4 Oct',
       '5–11 Oct',
     ]);
-    expect(groups.map((group) => group.events[0].documentId)).toEqual([
+    expect(groups.map((group) => group.events[0]?.documentId)).toEqual([
       'sunday',
       'monday',
     ]);
@@ -68,8 +68,8 @@ describe('event timeline', () => {
     );
 
     expect(groups).toHaveLength(1);
-    expect(groups[0].title).toBe('Later');
-    expect(groups[0].events.map(({ documentId }) => documentId)).toEqual([
+    expect(groups[0]?.title).toBe('Later');
+    expect(groups[0]?.events.map(({ documentId }) => documentId)).toEqual([
       'first',
       'second',
     ]);

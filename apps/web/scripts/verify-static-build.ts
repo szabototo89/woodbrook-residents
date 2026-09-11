@@ -88,6 +88,9 @@ for (const htmlFile of htmlFiles) {
   const pageUrl = new URL(pagePath, 'https://static-build.local/');
 
   for (const [, href] of links) {
+    if (!href) {
+      continue;
+    }
     const url = new URL(href, pageUrl);
 
     if (url.origin !== 'https://static-build.local') {
