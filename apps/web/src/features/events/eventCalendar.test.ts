@@ -38,6 +38,13 @@ describe('event calendar actions', () => {
     expect(calendar.endsWith('\r\n')).toBe(true);
   });
 
+  it('omits the end date when the event has no end time', () => {
+    const calendar = buildEventCalendar({ ...event, endsAt: undefined });
+
+    expect(calendar).toContain('DTSTART:20261017T080000Z');
+    expect(calendar).not.toContain('DTEND:');
+  });
+
   it('exposes the event as a calendar data URI', () => {
     const dataUri = createEventCalendarDataUri(event);
 
