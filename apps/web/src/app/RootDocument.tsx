@@ -5,6 +5,7 @@ import { AppFooter } from '../components/AppFooter';
 import { AppHeader } from '../components/AppHeader';
 import { CloudflareWebAnalytics } from '../components/CloudflareWebAnalytics';
 import { ClarityAnalytics } from '../components/ClarityAnalytics';
+import { CookieConsentBanner } from '../components/CookieConsent';
 
 export function RootDocument({ children }: { children: ReactNode }) {
   return (
@@ -21,6 +22,7 @@ export function RootDocument({ children }: { children: ReactNode }) {
         <AppHeader />
         {children}
         <AppFooter />
+        <CookieConsentBanner />
         <Scripts />
       </body>
     </html>

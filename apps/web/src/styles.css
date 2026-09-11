@@ -1108,6 +1108,63 @@ summary:focus-visible {
   font-size: 0.72rem;
 }
 
+.footer-cookie-settings {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.footer-cookie-settings:hover {
+  color: white;
+}
+
+.cookie-consent {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  z-index: 60;
+  max-width: 560px;
+  margin-left: auto;
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: #102b25;
+  color: white;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.cookie-consent p {
+  margin: 0 0 14px;
+  font-size: 0.88rem;
+}
+
+.cookie-consent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cookie-consent-actions button {
+  padding: 9px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: transparent;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cookie-consent-actions button:first-child {
+  border-color: transparent;
+  background: white;
+  color: #102b25;
+}
+
 @media (max-width: 1040px) {
   .desktop-nav {
     display: none;

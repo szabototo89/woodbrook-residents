@@ -1,6 +1,8 @@
 import { Link } from '@tanstack/react-router';
 import { ArrowUpRight, MapPin } from 'lucide-react';
 
+import { clearCookieConsentChoice } from './CookieConsent';
+
 export function AppFooter() {
   return (
     <footer className="site-footer">
@@ -41,6 +43,13 @@ export function AppFooter() {
       <div className="shell footer-bottom">
         <span>© 2026 Woodbrook Residents</span>
         <span>Local facts are linked to their original public sources.</span>
+        <button
+          type="button"
+          className="footer-cookie-settings"
+          onClick={clearCookieConsentChoice}
+        >
+          Cookie settings
+        </button>
       </div>
     </footer>
   );
