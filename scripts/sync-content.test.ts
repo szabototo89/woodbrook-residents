@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'bun:test';
+import { expect, test } from 'bun:test';
 
 import {
   contentCollections,
@@ -103,89 +103,87 @@ test('maps a resource to every required local information field', () => {
   });
 });
 
-describe('content sync planning', () => {
-  test('appends Strapi-only records to Sheets', () => {
-    const plan = planCollectionSync({
-      descriptor,
-      direction: 'strapi-to-sheets',
-      conflictPolicy: 'report',
-      sheetRows: [],
-      strapiRecords: [strapiRecord('new-item', 'New item')],
-    });
-
-    expect(plan.actions).toHaveLength(1);
+test('content sync planning appends Strapi-only records to Sheets', () => {
+  const plan = planCollectionSync({
+    descriptor,
+    direction: 'strapi-to-sheets',
+    conflictPolicy: 'report',
+    sheetRows: [],
+    strapiRecords: [strapiRecord('new-item', 'New item')],
   });
 
-  test('creates only published Sheet records in Strapi', () => {
-    const published = planCollectionSync({
-      descriptor,
-      direction: 'sheets-to-strapi',
-      conflictPolicy: 'report',
-      sheetRows: [sheetRow('new-item', 'New item')],
-      strapiRecords: [],
-    });
-    const draft = planCollectionSync({
-      descriptor,
-      direction: 'sheets-to-strapi',
-      conflictPolicy: 'report',
-      sheetRows: [sheetRow('draft-item', 'Draft item', false)],
-      strapiRecords: [],
-    });
+  expect(plan.actions).toHaveLength(1);
+});
 
-    expect(published.actions[0]?.type).toBe('create-strapi');
-    expect(draft.actions).toHaveLength(0);
+test('content sync planning creates only published Sheet records in Strapi', () => {
+  const published = planCollectionSync({
+    descriptor,
+    direction: 'sheets-to-strapi',
+    conflictPolicy: 'report',
+    sheetRows: [sheetRow('new-item', 'New item')],
+    strapiRecords: [],
+  });
+  const draft = planCollectionSync({
+    descriptor,
+    direction: 'sheets-to-strapi',
+    conflictPolicy: 'report',
+    sheetRows: [sheetRow('draft-item', 'Draft item', false)],
+    strapiRecords: [],
   });
 
-  test('reports differences by default', () => {
-    const plan = planCollectionSync({
-      descriptor,
-      direction: 'two-way',
-      conflictPolicy: 'report',
-      sheetRows: [sheetRow('same-item', 'Sheet title')],
-      strapiRecords: [strapiRecord('same-item', 'Strapi title')],
-    });
+  expect(published.actions[0]?.type).toBe('create-strapi');
+  expect(draft.actions).toHaveLength(0);
+});
 
-    expect(plan.actions).toHaveLength(0);
-    expect(plan.conflicts).toEqual([
-      {
-        collection: 'updates',
-        slug: 'same-item',
-        sheetRow: 2,
-        differingFields: ['title'],
-      },
-    ]);
+test('content sync planning reports differences by default', () => {
+  const plan = planCollectionSync({
+    descriptor,
+    direction: 'two-way',
+    conflictPolicy: 'report',
+    sheetRows: [sheetRow('same-item', 'Sheet title')],
+    strapiRecords: [strapiRecord('same-item', 'Strapi title')],
   });
 
-  test('honours the selected winner for two-way conflicts', () => {
-    const strapiWins = planCollectionSync({
-      descriptor,
-      direction: 'two-way',
-      conflictPolicy: 'strapi-wins',
-      sheetRows: [sheetRow('same-item', 'Sheet title')],
-      strapiRecords: [strapiRecord('same-item', 'Strapi title')],
-    });
-    const sheetsWins = planCollectionSync({
-      descriptor,
-      direction: 'two-way',
-      conflictPolicy: 'sheets-wins',
-      sheetRows: [sheetRow('same-item', 'Sheet title')],
-      strapiRecords: [strapiRecord('same-item', 'Strapi title')],
-    });
+  expect(plan.actions).toHaveLength(0);
+  expect(plan.conflicts).toEqual([
+    {
+      collection: 'updates',
+      slug: 'same-item',
+      sheetRow: 2,
+      differingFields: ['title'],
+    },
+  ]);
+});
 
-    expect(strapiWins.actions[0]?.type).toBe('update-sheet');
-    expect(sheetsWins.actions[0]?.type).toBe('update-strapi');
+test('content sync planning honours the selected winner for two-way conflicts', () => {
+  const strapiWins = planCollectionSync({
+    descriptor,
+    direction: 'two-way',
+    conflictPolicy: 'strapi-wins',
+    sheetRows: [sheetRow('same-item', 'Sheet title')],
+    strapiRecords: [strapiRecord('same-item', 'Strapi title')],
+  });
+  const sheetsWins = planCollectionSync({
+    descriptor,
+    direction: 'two-way',
+    conflictPolicy: 'sheets-wins',
+    sheetRows: [sheetRow('same-item', 'Sheet title')],
+    strapiRecords: [strapiRecord('same-item', 'Strapi title')],
   });
 
-  test('does not act on ambiguous duplicate slugs', () => {
-    const plan = planCollectionSync({
-      descriptor,
-      direction: 'two-way',
-      conflictPolicy: 'strapi-wins',
-      sheetRows: [sheetRow('duplicate', 'One'), sheetRow('duplicate', 'Two')],
-      strapiRecords: [strapiRecord('duplicate', 'Strapi')],
-    });
+  expect(strapiWins.actions[0]?.type).toBe('update-sheet');
+  expect(sheetsWins.actions[0]?.type).toBe('update-strapi');
+});
 
-    expect(plan.actions).toHaveLength(0);
-    expect(plan.duplicates).toEqual(['Updates sheet: duplicate']);
+test('content sync planning does not act on ambiguous duplicate slugs', () => {
+  const plan = planCollectionSync({
+    descriptor,
+    direction: 'two-way',
+    conflictPolicy: 'strapi-wins',
+    sheetRows: [sheetRow('duplicate', 'One'), sheetRow('duplicate', 'Two')],
+    strapiRecords: [strapiRecord('duplicate', 'Strapi')],
   });
+
+  expect(plan.actions).toHaveLength(0);
+  expect(plan.duplicates).toEqual(['Updates sheet: duplicate']);
 });

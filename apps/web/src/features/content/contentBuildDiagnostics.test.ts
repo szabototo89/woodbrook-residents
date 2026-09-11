@@ -1,39 +1,37 @@
-import { describe, expect, it } from 'vitest';
+import { expect, test } from 'vitest';
 
 import { formatErrorChain } from './contentBuildDiagnostics';
 
-describe('formatErrorChain', () => {
-  it('reports each distinct message in a nested error chain', () => {
-    const sourceError = new Error(
-      'Local_Info row 25 field "emergency_only": is required.',
-    );
-    const buildError = new Error(
-      'Static site build could not load required content.',
-      { cause: sourceError },
-    );
+test('formatErrorChain reports each distinct message in a nested error chain', () => {
+  const sourceError = new Error(
+    'Local_Info row 25 field "emergency_only": is required.',
+  );
+  const buildError = new Error(
+    'Static site build could not load required content.',
+    { cause: sourceError },
+  );
 
-    expect(formatErrorChain(buildError)).toEqual([
-      'Static site build could not load required content.',
-      'Local_Info row 25 field "emergency_only": is required.',
-    ]);
+  expect(formatErrorChain(buildError)).toEqual([
+    'Static site build could not load required content.',
+    'Local_Info row 25 field "emergency_only": is required.',
+  ]);
+});
+
+test('formatErrorChain reports thrown values that are not Error instances', () => {
+  expect(formatErrorChain('content unavailable')).toEqual([
+    'content unavailable',
+  ]);
+});
+
+test('formatErrorChain lists each distinct message only once', () => {
+  const error = new Error('Same message.', {
+    cause: new Error('Same message.'),
   });
 
-  it('reports thrown values that are not Error instances', () => {
-    expect(formatErrorChain('content unavailable')).toEqual([
-      'content unavailable',
-    ]);
-  });
+  expect(formatErrorChain(error)).toEqual(['Same message.']);
+});
 
-  it('lists each distinct message only once', () => {
-    const error = new Error('Same message.', {
-      cause: new Error('Same message.'),
-    });
-
-    expect(formatErrorChain(error)).toEqual(['Same message.']);
-  });
-
-  it('falls back when no error information is available', () => {
-    expect(formatErrorChain(null)).toEqual(['Unknown build error.']);
-    expect(formatErrorChain(undefined)).toEqual(['Unknown build error.']);
-  });
+test('formatErrorChain falls back when no error information is available', () => {
+  expect(formatErrorChain(null)).toEqual(['Unknown build error.']);
+  expect(formatErrorChain(undefined)).toEqual(['Unknown build error.']);
 });

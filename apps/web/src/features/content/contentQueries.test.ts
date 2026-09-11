@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { expect, test } from 'vitest';
 
 import {
   findBySlug,
@@ -30,40 +30,36 @@ const snapshot: ContentSnapshot = {
   resources: [],
 };
 
-describe('content queries', () => {
-  it('selects the first three items for homepage collections', () => {
-    expect(getHomeContentFromSnapshot(snapshot).updates).toHaveLength(3);
-  });
+test('content queries selects the first three items for homepage collections', () => {
+  expect(getHomeContentFromSnapshot(snapshot).updates).toHaveLength(3);
+});
 
-  it('limits public collection responses without changing the snapshot', () => {
-    expect(getCollection(snapshot.updates)).toHaveLength(25);
-    expect(snapshot.updates).toHaveLength(30);
-  });
+test('content queries limits public collection responses without changing the snapshot', () => {
+  expect(getCollection(snapshot.updates)).toHaveLength(25);
+  expect(snapshot.updates).toHaveLength(30);
+});
 
-  it('finds canonical content by slug', () => {
-    expect(findBySlug(snapshot.updates, 'update-4')?.documentId).toBe(
-      'update-4',
-    );
-    expect(findBySlug(snapshot.updates, 'missing')).toBeUndefined();
-  });
+test('content queries finds canonical content by slug', () => {
+  expect(findBySlug(snapshot.updates, 'update-4')?.documentId).toBe('update-4');
+  expect(findBySlug(snapshot.updates, 'missing')).toBeUndefined();
+});
 
-  it('reads the optional site setting from the snapshot', () => {
-    expect(getSiteSettingFromSnapshot(snapshot)).toBeUndefined();
-    expect(
-      getSiteSettingFromSnapshot({
-        ...snapshot,
-        siteSetting: {
-          name: 'Woodbrook',
-          location: 'Shankill',
-          tagline: 'Tagline',
-          introduction: 'Introduction',
-        },
-      }),
-    ).toEqual({
-      name: 'Woodbrook',
-      location: 'Shankill',
-      tagline: 'Tagline',
-      introduction: 'Introduction',
-    });
+test('content queries reads the optional site setting from the snapshot', () => {
+  expect(getSiteSettingFromSnapshot(snapshot)).toBeUndefined();
+  expect(
+    getSiteSettingFromSnapshot({
+      ...snapshot,
+      siteSetting: {
+        name: 'Woodbrook',
+        location: 'Shankill',
+        tagline: 'Tagline',
+        introduction: 'Introduction',
+      },
+    }),
+  ).toEqual({
+    name: 'Woodbrook',
+    location: 'Shankill',
+    tagline: 'Tagline',
+    introduction: 'Introduction',
   });
 });

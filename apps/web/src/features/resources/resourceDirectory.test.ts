@@ -1,6 +1,6 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it } from 'vitest';
+import { expect, test } from 'vitest';
 
 import type { Resource } from '../content/contentTypes';
 import {
@@ -71,57 +71,55 @@ const detailAt = (resourceIndex: number) => {
   return detail;
 };
 
-describe('resource directory', () => {
-  it('finds contacts using names, service types, and dynamic details', () => {
-    expect(filterResources(resources, 'gp', 'all', false)).toEqual([
-      resources[0],
-    ]);
-    expect(filterResources(resources, 'south dublin', 'all', false)).toEqual([
-      resources[1],
-    ]);
-  });
+test('resource directory finds contacts using names, service types, and dynamic details', () => {
+  expect(filterResources(resources, 'gp', 'all', false)).toEqual([
+    resources[0],
+  ]);
+  expect(filterResources(resources, 'south dublin', 'all', false)).toEqual([
+    resources[1],
+  ]);
+});
 
-  it('combines category and out-of-hours filters', () => {
-    expect(filterResources(resources, '', 'trades', true)).toEqual([
-      resources[1],
-    ]);
-    expect(filterResources(resources, '', 'health', true)).toEqual([]);
-  });
+test('resource directory combines category and out-of-hours filters', () => {
+  expect(filterResources(resources, '', 'trades', true)).toEqual([
+    resources[1],
+  ]);
+  expect(filterResources(resources, '', 'health', true)).toEqual([]);
+});
 
-  it('only presents categories that contain contacts', () => {
-    expect(getAvailableResourceCategories(resources)).toEqual([
-      'health',
-      'trades',
-    ]);
-  });
+test('resource directory only presents categories that contain contacts', () => {
+  expect(getAvailableResourceCategories(resources)).toEqual([
+    'health',
+    'trades',
+  ]);
+});
 
-  it('creates a dialable link from a formatted phone number', () => {
-    expect(toTelephoneHref('+353 (0)1 234 5678')).toBe('tel:+353012345678');
-  });
+test('resource directory creates a dialable link from a formatted phone number', () => {
+  expect(toTelephoneHref('+353 (0)1 234 5678')).toBe('tel:+353012345678');
+});
 
-  it('identifies address details without depending on label casing', () => {
-    expect(isAddressDetail(detailAt(0))).toBe(true);
-    expect(isAddressDetail(detailAt(1))).toBe(false);
-  });
+test('resource directory identifies address details without depending on label casing', () => {
+  expect(isAddressDetail(detailAt(0))).toBe(true);
+  expect(isAddressDetail(detailAt(1))).toBe(false);
+});
 
-  it('links address details to a Google Maps search', () => {
-    const markup = renderToStaticMarkup(
-      createElement(ResourceDetailValue, {
-        detail: detailAt(0),
-      }),
-    );
+test('resource directory links address details to a Google Maps search', () => {
+  const markup = renderToStaticMarkup(
+    createElement(ResourceDetailValue, {
+      detail: detailAt(0),
+    }),
+  );
 
-    expect(markup).toContain('https://www.google.com/maps/search/');
-    expect(markup).toContain('Main Street');
-  });
+  expect(markup).toContain('https://www.google.com/maps/search/');
+  expect(markup).toContain('Main Street');
+});
 
-  it('renders other details as plain text', () => {
-    const markup = renderToStaticMarkup(
-      createElement(ResourceDetailValue, {
-        detail: detailAt(1),
-      }),
-    );
+test('resource directory renders other details as plain text', () => {
+  const markup = renderToStaticMarkup(
+    createElement(ResourceDetailValue, {
+      detail: detailAt(1),
+    }),
+  );
 
-    expect(markup).toBe('South Dublin');
-  });
+  expect(markup).toBe('South Dublin');
 });

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { expect, test } from 'vitest';
 import { z } from 'zod';
 
 import {
@@ -31,29 +31,27 @@ function expectZodObject(candidate: unknown, label: string): z.ZodObject {
   return candidate;
 }
 
-describe('content schemas', () => {
-  it('documents every canonical content field', () => {
-    expectEveryFieldToHaveDescription('siteSetting', siteSettingSchema);
-    expectEveryFieldToHaveDescription('update', updateSchema);
-    expectEveryFieldToHaveDescription('project', projectSchema);
-    expectEveryFieldToHaveDescription('event', eventSchema);
-    expectEveryFieldToHaveDescription('survey', surveySchema);
-    expectEveryFieldToHaveDescription('resource', resourceSchema);
-    expectEveryFieldToHaveDescription('contentSnapshot', contentSnapshotSchema);
+test('content schemas documents every canonical content field', () => {
+  expectEveryFieldToHaveDescription('siteSetting', siteSettingSchema);
+  expectEveryFieldToHaveDescription('update', updateSchema);
+  expectEveryFieldToHaveDescription('project', projectSchema);
+  expectEveryFieldToHaveDescription('event', eventSchema);
+  expectEveryFieldToHaveDescription('survey', surveySchema);
+  expectEveryFieldToHaveDescription('resource', resourceSchema);
+  expectEveryFieldToHaveDescription('contentSnapshot', contentSnapshotSchema);
 
-    const resourceDetails = expectZodObject(
-      resourceSchema.shape.details.unwrap().element,
-      'resource.details[]',
-    );
-    expectEveryFieldToHaveDescription('resource.details[]', resourceDetails);
+  const resourceDetails = expectZodObject(
+    resourceSchema.shape.details.unwrap().element,
+    'resource.details[]',
+  );
+  expectEveryFieldToHaveDescription('resource.details[]', resourceDetails);
 
-    const collectionDates = expectZodObject(
-      resourceSchema.shape.collectionDates.unwrap().element,
-      'resource.collectionDates[]',
-    );
-    expectEveryFieldToHaveDescription(
-      'resource.collectionDates[]',
-      collectionDates,
-    );
-  });
+  const collectionDates = expectZodObject(
+    resourceSchema.shape.collectionDates.unwrap().element,
+    'resource.collectionDates[]',
+  );
+  expectEveryFieldToHaveDescription(
+    'resource.collectionDates[]',
+    collectionDates,
+  );
 });
