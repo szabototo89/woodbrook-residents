@@ -189,19 +189,33 @@ test('shows the qualified Thorntons bin schedule and PDF actions', async ({
   await page.clock.setFixedTime(new Date('2026-09-09T09:00:00+01:00'));
   await page.goto('/local-info');
 
+  const localHighlight = page.getByRole('region', {
+    name: 'Good to know locally',
+  });
+  await expect(localHighlight).toBeVisible();
+  await expect(localHighlight.getByText('15 September 2026')).toBeVisible();
+  await expect(localHighlight.getByText('22 September 2026')).toBeVisible();
+  await expect(
+    localHighlight.getByText(
+      /applies to: Thorntons customers who received this 2026 schedule/i,
+    ),
+  ).toBeVisible();
+  await expect(
+    localHighlight.getByRole('link', {
+      name: /view full schedule: Thorntons 2026 bin collection schedule/i,
+    }),
+  ).toHaveAttribute(
+    'href',
+    '/local-info/thorntons-bin-collection-schedule-2026',
+  );
+
   const search = page.getByRole('searchbox', { name: 'What do you need?' });
   await search.fill('bin collection');
-  await expect(
-    page.getByRole('heading', {
-      name: 'Thorntons 2026 bin collection schedule',
-    }),
-  ).toBeVisible();
-
-  await page
-    .getByRole('link', {
-      name: 'View details: Thorntons 2026 bin collection schedule',
-    })
-    .click();
+  const scheduleDetails = page.getByRole('link', {
+    name: 'View details: Thorntons 2026 bin collection schedule',
+  });
+  await expect(scheduleDetails).toBeVisible();
+  await scheduleDetails.click();
 
   await expect(
     page.getByRole('heading', { name: 'Next collection dates' }),

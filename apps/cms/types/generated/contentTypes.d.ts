@@ -646,6 +646,9 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
     documentLabel: Schema.Attribute.String;
     documentUrl: Schema.Attribute.String;
     email: Schema.Attribute.Email;
+    featured: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

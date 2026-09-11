@@ -67,6 +67,11 @@
       "required": true,
       "default": false
     },
+    "featured": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
     "details": {
       "type": "component",
       "component": "shared.resource-detail",

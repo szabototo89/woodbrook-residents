@@ -522,6 +522,7 @@ function mapResources(values: unknown[][]): Resource[] {
         phone: row.text('phone'),
         email: row.text('email'),
         outOfHours: row.boolean('out_of_hours', true),
+        featured: row.boolean('featured'),
         details,
         collectionDates,
         documentUrl: row.publicLink('document_url'),

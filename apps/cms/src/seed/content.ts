@@ -261,6 +261,7 @@ export const resources = [
   {
     title: 'Thorntons 2026 bin collection schedule',
     slug: 'thorntons-bin-collection-schedule-2026',
+    featured: true,
     category: 'waste',
     serviceType: 'Household bin collections',
     providerType: 'business',

@@ -6,6 +6,7 @@ import { EmptyState } from '../../components/EmptyState';
 import { PageIntro } from '../../components/PageIntro';
 import { Route } from '../../routes/local-info/index';
 import { formatLabel } from '../content/contentFormatting';
+import { LocalHighlights } from './LocalHighlights';
 import { LocalServiceCard } from './LocalServiceCard';
 import {
   filterResources,
@@ -14,7 +15,7 @@ import {
 } from './resourceDirectory';
 
 export function LocalInfoPage() {
-  const content = Route.useLoaderData();
+  const { content, today } = Route.useLoaderData();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<ResourceCategoryFilter>('all');
   const [outOfHoursOnly, setOutOfHoursOnly] = useState(false);
@@ -47,6 +48,8 @@ export function LocalInfoPage() {
         ) : null}
         {content.availability === 'ready' && content.items.length > 0 ? (
           <>
+            <LocalHighlights resources={content.items} today={today} />
+
             <div className="directory-tools">
               <label className="directory-search">
                 <span>What do you need?</span>

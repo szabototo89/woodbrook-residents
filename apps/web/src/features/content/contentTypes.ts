@@ -102,6 +102,7 @@ export type Resource = {
   phone?: string;
   email?: string;
   outOfHours: boolean;
+  featured: boolean;
   details: Array<{
     id: number;
     label: string;
