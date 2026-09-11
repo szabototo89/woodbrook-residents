@@ -4,6 +4,7 @@ import {
   findBySlug,
   getCollection,
   getHomeContentFromSnapshot,
+  getSiteSettingFromSnapshot,
 } from './contentQueries';
 import type { ContentSnapshot, Update } from './contentTypes';
 
@@ -44,5 +45,25 @@ describe('content queries', () => {
       'update-4',
     );
     expect(findBySlug(snapshot.updates, 'missing')).toBeUndefined();
+  });
+
+  it('reads the optional site setting from the snapshot', () => {
+    expect(getSiteSettingFromSnapshot(snapshot)).toBeUndefined();
+    expect(
+      getSiteSettingFromSnapshot({
+        ...snapshot,
+        siteSetting: {
+          name: 'Woodbrook',
+          location: 'Shankill',
+          tagline: 'Tagline',
+          introduction: 'Introduction',
+        },
+      }),
+    ).toEqual({
+      name: 'Woodbrook',
+      location: 'Shankill',
+      tagline: 'Tagline',
+      introduction: 'Introduction',
+    });
   });
 });

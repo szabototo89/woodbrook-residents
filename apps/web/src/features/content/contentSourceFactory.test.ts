@@ -33,4 +33,19 @@ describe('createContentSource', () => {
       'Unsupported CONTENT_SOURCE "filesystem".',
     );
   });
+
+  it('falls back to the local Strapi URL when none is configured', () => {
+    expect(createContentSource({ CONTENT_SOURCE: 'strapi' })).toBeInstanceOf(
+      StrapiContentSource,
+    );
+  });
+
+  it('falls back to built-in Google defaults for optional values', async () => {
+    const source = createContentSource({ CONTENT_SOURCE: 'google-sheets' });
+
+    expect(source).toBeInstanceOf(GoogleSheetsContentSource);
+    await expect(source.loadSnapshot()).rejects.toThrow(
+      'GOOGLE_SERVICE_ACCOUNT_EMAIL is required.',
+    );
+  });
 });

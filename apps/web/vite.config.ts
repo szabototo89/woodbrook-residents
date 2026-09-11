@@ -30,6 +30,21 @@ const config = defineConfig(({ mode }) => {
     test: {
       environment: 'node',
       include: ['src/**/*.test.ts'],
+      coverage: {
+        provider: 'v8',
+        reporter: ['text', 'json-summary'],
+        exclude: [
+          'src/**/*.test.{ts,tsx}',
+          'src/routeTree.gen.ts',
+          'src/build.d.ts',
+        ],
+        thresholds: {
+          statements: 90,
+          branches: 90,
+          functions: 90,
+          lines: 90,
+        },
+      },
     },
   };
 });
