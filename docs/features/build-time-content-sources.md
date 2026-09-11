@@ -31,6 +31,8 @@ When maintaining the public website, I want to choose either the Woodbrook Googl
 ### Included
 
 - Read-only Strapi and Google Sheets adapters, source selection, normalization, validation, build-time caching, service-account configuration, tests, and deployment guidance.
+- Structured local-information collection schedules and supporting document
+  links stored in the Google spreadsheet.
 
 ### Not included
 

@@ -45,6 +45,8 @@ without creating duplicates or silently overwriting editorial changes.
 - Shared content fields only. Spreadsheet-only editorial fields remain in the
   spreadsheet; Strapi-only fields remain in Strapi unless their source wins an
   explicitly configured conflict.
+- Local information sync includes collection schedule dates and supporting
+  document links.
 - No deletions, media uploads, site settings, issue reports, or automatic
   publication of newly appended spreadsheet rows.
 

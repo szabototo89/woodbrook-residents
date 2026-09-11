@@ -28,7 +28,7 @@ const sheetRanges = [
   'Events!A:W',
   'Projects!A:V',
   'Consultations!A:R',
-  'Local_Info!A:AA',
+  'Local_Info!A:AE',
 ] as const;
 
 type SheetTab =
@@ -194,6 +194,40 @@ class SheetRow {
       this.error(field, 'must be a valid public URL.');
     }
     return value;
+  }
+
+  publicLink(field: string) {
+    const value = this.text(field);
+    if (!value) {
+      return undefined;
+    }
+
+    if (value.startsWith('/') && !value.startsWith('//')) {
+      return value;
+    }
+
+    return this.url(field);
+  }
+
+  dateList(field: string) {
+    const value = this.text(field);
+    if (!value) {
+      return [];
+    }
+
+    return value
+      .split(/[\n,;]+/)
+      .map((date) => date.trim())
+      .filter(Boolean)
+      .map((date) => {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+          this.error(
+            field,
+            `contains invalid date "${date}"; use ISO dates (YYYY-MM-DD) separated by commas.`,
+          );
+        }
+        return date;
+      });
   }
 }
 
@@ -457,6 +491,25 @@ function mapResources(values: unknown[][]): Resource[] {
         if (value) addDetail(label, value, false);
       });
       row.boolean('emergency_only', true);
+      const collectionDates = [
+        ...row.dateList('recycling_dates').map((date) => ({
+          date,
+          stream: 'recycling' as const,
+        })),
+        ...row.dateList('waste_compost_dates').map((date) => ({
+          date,
+          stream: 'waste-compost' as const,
+        })),
+      ]
+        .sort(
+          (left, right) =>
+            left.date.localeCompare(right.date) ||
+            left.stream.localeCompare(right.stream),
+        )
+        .map((collectionDate, index) => ({
+          id: index + 1,
+          ...collectionDate,
+        }));
 
       return {
         ...identity(row),
@@ -470,7 +523,9 @@ function mapResources(values: unknown[][]): Resource[] {
         email: row.text('email'),
         outOfHours: row.boolean('out_of_hours', true),
         details,
-        collectionDates: [],
+        collectionDates,
+        documentUrl: row.publicLink('document_url'),
+        documentLabel: row.text('document_label'),
         displayOrder: row.numeric('sort_order') ?? 0,
         sourceName: row.text('source_name', true)!,
         sourceUrl: requiredUrl(row, 'source_url'),

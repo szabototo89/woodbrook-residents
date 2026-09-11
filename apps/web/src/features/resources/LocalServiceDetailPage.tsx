@@ -8,7 +8,7 @@ import { ResourceDetailValue } from './ResourceDetailValue';
 import { toTelephoneHref } from './resourceDirectory';
 
 export function LocalServiceDetailPage() {
-  const resource = Route.useLoaderData();
+  const { resource, today } = Route.useLoaderData();
 
   if (!resource) {
     return (
@@ -98,6 +98,7 @@ export function LocalServiceDetailPage() {
               collectionDates={resource.collectionDates}
               documentLabel={resource.documentLabel}
               documentUrl={resource.documentUrl}
+              today={today}
             />
           ) : null}
 

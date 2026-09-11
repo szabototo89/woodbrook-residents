@@ -161,6 +161,10 @@ describe('parseGoogleSheetsContent', () => {
       'disclaimer',
       'sort_order',
       'admin_notes',
+      'recycling_dates',
+      'waste_compost_dates',
+      'document_url',
+      'document_label',
     ];
     const snapshot = parseGoogleSheetsContent({
       Updates: [[]],
@@ -196,6 +200,11 @@ describe('parseGoogleSheetsContent', () => {
           46242,
           'Call ahead',
           20,
+          '',
+          '2026-09-15, 2026-09-29',
+          '2026-09-22\n2026-10-06',
+          '/documents/bin-schedule.pdf',
+          '2026 bin collection schedule',
         ],
       ],
     });
@@ -209,6 +218,14 @@ describe('parseGoogleSheetsContent', () => {
       url: 'https://example.com',
       outOfHours: true,
       displayOrder: 20,
+      collectionDates: [
+        { id: 1, date: '2026-09-15', stream: 'recycling' },
+        { id: 2, date: '2026-09-22', stream: 'waste-compost' },
+        { id: 3, date: '2026-09-29', stream: 'recycling' },
+        { id: 4, date: '2026-10-06', stream: 'waste-compost' },
+      ],
+      documentUrl: '/documents/bin-schedule.pdf',
+      documentLabel: '2026 bin collection schedule',
       details: [
         { label: 'Address', value: 'Main Street', showOnCard: true },
         {
@@ -295,7 +312,7 @@ describe('parseGoogleSheetsContent', () => {
       'Events!A:W',
       'Projects!A:V',
       'Consultations!A:R',
-      'Local_Info!A:AA',
+      'Local_Info!A:AE',
     ]);
     expect(requestUrl.searchParams.get('valueRenderOption')).toBe(
       'UNFORMATTED_VALUE',

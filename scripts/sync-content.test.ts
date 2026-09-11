@@ -67,6 +67,12 @@ test('maps a resource to every required local information field', () => {
       showOnCard: true,
     },
   ];
+  source.data.collectionDates = [
+    { id: 1, date: '2026-09-15', stream: 'recycling' },
+    { id: 2, date: '2026-09-22', stream: 'waste-compost' },
+  ];
+  source.data.documentUrl = '/documents/bin-schedule.pdf';
+  source.data.documentLabel = '2026 bin collection schedule';
   const cells = resources.strapiToSheet(source);
   const data = resources.sheetToStrapi({ rowNumber: 2, values: [], cells });
 
@@ -78,6 +84,20 @@ test('maps a resource to every required local information field', () => {
       showOnCard: true,
     },
   ]);
+  expect(cells).toMatchObject({
+    recycling_dates: '2026-09-15',
+    waste_compost_dates: '2026-09-22',
+    document_url: '/documents/bin-schedule.pdf',
+    document_label: '2026 bin collection schedule',
+  });
+  expect(data).toMatchObject({
+    collectionDates: [
+      { date: '2026-09-15', stream: 'recycling' },
+      { date: '2026-09-22', stream: 'waste-compost' },
+    ],
+    documentUrl: '/documents/bin-schedule.pdf',
+    documentLabel: '2026 bin collection schedule',
+  });
 });
 
 describe('content sync planning', () => {
