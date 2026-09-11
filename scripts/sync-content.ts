@@ -109,6 +109,11 @@ const spreadsheetDate = (row: SheetRecord, header: string) => {
   const date = new Date(Date.UTC(1899, 11, 30) + cell * 86_400_000);
   return date.toISOString().slice(0, 10);
 };
+const spreadsheetDates = (row: SheetRecord, header: string) =>
+  (text(row, header) ?? '')
+    .split(/[\n,;]+/)
+    .map((date) => date.trim())
+    .filter(Boolean);
 const spreadsheetDateTime = (row: SheetRecord, header: string) => {
   const cell = value(row, header);
   if (typeof cell !== 'number') return text(row, header);
@@ -162,6 +167,40 @@ const publicUrl = (candidate: unknown) =>
   typeof candidate === 'string' && /^https?:\/\//i.test(candidate)
     ? candidate
     : undefined;
+
+function collectionDatesFromSheet(row: SheetRecord) {
+  return [
+    ...spreadsheetDates(row, 'recycling_dates').map((date) => ({
+      date,
+      stream: 'recycling',
+    })),
+    ...spreadsheetDates(row, 'waste_compost_dates').map((date) => ({
+      date,
+      stream: 'waste-compost',
+    })),
+  ].sort((left, right) => left.date.localeCompare(right.date));
+}
+
+function collectionDatesToSheet(candidate: unknown) {
+  const collectionDates = Array.isArray(candidate) ? candidate : [];
+  const datesFor = (stream: string) =>
+    collectionDates
+      .filter(
+        (item): item is JsonObject =>
+          typeof item === 'object' &&
+          item !== null &&
+          item.stream === stream &&
+          typeof item.date === 'string',
+      )
+      .map((item) => item.date)
+      .sort()
+      .join(', ');
+
+  return {
+    recycling_dates: datesFor('recycling'),
+    waste_compost_dates: datesFor('waste-compost'),
+  };
+}
 
 function detailsFromSheet(row: SheetRecord) {
   const details: Array<{
@@ -375,7 +414,7 @@ export const contentCollections: CollectionDescriptor[] = [
     key: 'resources',
     strapiPath: 'resources',
     tab: 'Local_Info',
-    range: 'A:AA',
+    range: 'A:AE',
     sheetToStrapi: (row) =>
       compact({
         slug: text(row, 'slug'),
@@ -389,6 +428,9 @@ export const contentCollections: CollectionDescriptor[] = [
         email: text(row, 'email'),
         outOfHours: bool(row, 'out_of_hours'),
         details: detailsFromSheet(row),
+        collectionDates: collectionDatesFromSheet(row),
+        documentUrl: text(row, 'document_url'),
+        documentLabel: text(row, 'document_label'),
         displayOrder: number(row, 'sort_order') ?? 0,
         sourceName: text(row, 'source_name'),
         sourceUrl: text(row, 'source_url'),
@@ -413,6 +455,9 @@ export const contentCollections: CollectionDescriptor[] = [
         source_checked_on: data.sourceReviewedOn,
         sort_order: data.displayOrder,
         ...detailsToSheet(data.details),
+        ...collectionDatesToSheet(data.collectionDates),
+        document_url: data.documentUrl,
+        document_label: data.documentLabel,
       }),
   },
 ];

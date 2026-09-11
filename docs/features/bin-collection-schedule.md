@@ -10,6 +10,8 @@ When I need to put out my bins, I want to see the next dates on the local hub an
 
 - A Thorntons 2026 bin collection entry appears under the Waste category in Local information.
 - The service page shows the next recycling date and the next waste and compost date in Dublin local time.
+- Static page HTML includes those next dates without requiring client-side
+  JavaScript to calculate them after the page loads.
 - Residents can view the original schedule in a new tab or download the PDF.
 - The page states that the calendar is only for Thorntons customers who received it and advises residents to confirm that it matches their address because routes can differ.
 - When all listed dates have passed, the page directs residents to Thorntons for a current schedule rather than presenting an expired date as upcoming.
@@ -29,6 +31,9 @@ When I need to put out my bins, I want to see the next dates on the local hub an
 ### Included
 
 - The supplied Thorntons 2026 recycling and waste/compost dates.
+- Google Sheets builds read the comma-separated ISO dates from the
+  `recycling_dates` and `waste_compost_dates` Local_Info columns, together with
+  the supporting `document_url` and `document_label` fields.
 - An accessible, mobile-friendly summary of the next collections.
 - The original PDF as a supporting download.
 

@@ -106,6 +106,21 @@ if (missingLinks.size > 0) {
   );
 }
 
+const collectionSchedulePath = outputPathForUrl(
+  '/local-info/thorntons-bin-collection-schedule-2026',
+);
+const collectionScheduleHtml = await readFile(collectionSchedulePath, 'utf8');
+if (
+  !collectionScheduleHtml.includes('Next collection dates') ||
+  collectionScheduleHtml.includes('Checking the next collection dates') ||
+  (!collectionScheduleHtml.includes('<time') &&
+    !collectionScheduleHtml.includes('No remaining 2026 dates are listed'))
+) {
+  throw new Error(
+    'Static build does not contain the resolved Thorntons collection schedule.',
+  );
+}
+
 const cacheFiles = files.filter(
   (file) =>
     file.includes(
