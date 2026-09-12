@@ -26,6 +26,7 @@
     "test:unit": "bun run --cwd apps/web test:unit",
     "test:browser": "bun run --cwd apps/web test:browser",
     "test:e2e": "bun run --cwd apps/web test:e2e",
+    "test:lighthouse": "bun run --cwd apps/web test:lighthouse",
     "typecheck": "bun run --cwd apps/web typecheck && bun run --cwd apps/cms typecheck && bun run typecheck:sync-content",
     "typecheck:sync-content": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --strict --noImplicitAny --noImplicitOverride --noImplicitReturns --noUncheckedIndexedAccess --skipLibCheck --types bun scripts/sync-content.ts scripts/sync-content.test.ts",
     "format": "prettier --write .",
