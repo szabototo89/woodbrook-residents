@@ -8,9 +8,22 @@ import {
   clearCookieConsentChoice,
 } from '../../../src/components/CookieConsent';
 
+declare global {
+  interface Window {
+    clarity?: (...args: Array<unknown>) => void;
+  }
+}
+
 beforeEach(() => {
   window.localStorage.clear();
   vi.unstubAllEnvs();
+  document.getElementById('woodbrook-clarity-tag')?.remove();
+  Array.from(
+    document.head.querySelectorAll(
+      'script[src^="https://www.clarity.ms/tag/"]',
+    ),
+  ).map((script) => script.remove());
+  delete window.clarity;
 });
 
 test('asks first-time visitors for analytics consent', async () => {
@@ -47,7 +60,15 @@ test('accepting hides the banner and enables the Clarity tag', async () => {
   expect(window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY)).toBe(
     'accepted',
   );
-  expect(document.body.innerHTML).toContain('test-project');
+  await vi.waitFor(() => {
+    const tag = document.head.querySelector('#woodbrook-clarity-tag');
+    expect(tag).not.toBeNull();
+    expect(tag?.textContent).toContain('test-project');
+    expect(tag?.textContent).toContain('https://www.clarity.ms/tag/');
+  });
+  await vi.waitFor(() => {
+    expect(typeof window.clarity).toBe('function');
+  });
 });
 
 test('rejecting keeps analytics off', async () => {
@@ -68,7 +89,8 @@ test('rejecting keeps analytics off', async () => {
   expect(window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY)).toBe(
     'declined',
   );
-  expect(document.body.innerHTML).not.toContain('test-project');
+  expect(document.head.querySelector('#woodbrook-clarity-tag')).toBeNull();
+  expect(window.clarity).toBeUndefined();
 });
 
 test('a returning visitor who accepted sees no banner', async () => {
@@ -79,6 +101,21 @@ test('a returning visitor who accepted sees no banner', async () => {
     expect(
       document.body.querySelector('[aria-label="Cookie consent"]'),
     ).toBeNull();
+  });
+});
+
+test('a returning visitor who accepted loads the Clarity tag', async () => {
+  vi.stubEnv('VITE_CLARITY_PROJECT_ID', 'test-project');
+  window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, 'accepted');
+  await render(<ClarityAnalytics />);
+
+  await vi.waitFor(() => {
+    const tag = document.head.querySelector('#woodbrook-clarity-tag');
+    expect(tag).not.toBeNull();
+    expect(tag?.textContent).toContain('test-project');
+  });
+  await vi.waitFor(() => {
+    expect(typeof window.clarity).toBe('function');
   });
 });
 

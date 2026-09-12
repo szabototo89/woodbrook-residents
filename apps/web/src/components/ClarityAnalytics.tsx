@@ -1,6 +1,10 @@
+import { useEffect } from 'react';
+
 import { useCookieConsentChoice } from './CookieConsent';
 
 export const CLARITY_TAG_URL = 'https://www.clarity.ms/tag/';
+
+export const CLARITY_SCRIPT_ID = 'woodbrook-clarity-tag';
 
 export function resolveClarityProjectId(
   env: Record<string, unknown>,
@@ -25,13 +29,22 @@ export function ClarityAnalytics() {
   const projectId = getClarityProjectId();
   const consentChoice = useCookieConsentChoice();
 
-  if (!projectId || consentChoice !== 'accepted') {
-    return null;
-  }
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    if (!projectId || consentChoice !== 'accepted') {
+      return;
+    }
+    if (document.getElementById(CLARITY_SCRIPT_ID)) {
+      return;
+    }
+    const script = document.createElement('script');
+    script.id = CLARITY_SCRIPT_ID;
+    script.async = true;
+    script.textContent = createClaritySnippet(projectId);
+    document.head.appendChild(script);
+  }, [projectId, consentChoice]);
 
-  return (
-    <script
-      dangerouslySetInnerHTML={{ __html: createClaritySnippet(projectId) }}
-    />
-  );
+  return null;
 }
