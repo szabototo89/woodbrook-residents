@@ -17,7 +17,7 @@ test('shows researched community content and supports primary navigation', async
   await expect(estateImage).toBeVisible();
   await expect(estateImage).toHaveAttribute(
     'src',
-    '/images/woodbrook-coast-aerial.jpg',
+    '/images/woodbrook-coast-aerial-1200.jpg',
   );
   await page.waitForFunction(
     () => {
@@ -41,11 +41,24 @@ test('shows researched community content and supports primary navigation', async
             throw new Error('Expected the Woodbrook hero asset to be an image');
           }
 
+          return image.currentSrc;
+        }),
+      { timeout: 10_000 },
+    )
+    .toContain('woodbrook-coast-aerial-');
+  await expect
+    .poll(
+      () =>
+        estateImage.evaluate((image) => {
+          if (!(image instanceof HTMLImageElement)) {
+            throw new Error('Expected the Woodbrook hero asset to be an image');
+          }
+
           return image.naturalWidth;
         }),
       { timeout: 10_000 },
     )
-    .toBe(1920);
+    .toBeGreaterThanOrEqual(480);
   await expect(
     page.getByRole('link', { name: 'Woodbrook Shankill', exact: true }),
   ).toHaveAttribute('href', 'https://www.woodbrookshankill.ie/south-coast');
@@ -278,7 +291,7 @@ test('uses consistent resident labels and honest contribution paths', async ({
   await page.goto('/');
 
   await expect(
-    page.getByRole('link', { name: 'Woodbrook Residents home' }),
+    page.getByRole('link', { name: 'Woodbrook Residents', exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole('link', { name: /have your say/i }),

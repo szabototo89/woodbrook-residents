@@ -111,7 +111,7 @@ test('the homepage action panel keeps its icon with its label and uses clear num
     layoutTolerancePx,
   );
   await expect(
-    page.getByRole('link', { name: 'Woodbrook Residents home' }),
+    page.getByRole('link', { name: 'Woodbrook Residents', exact: true }),
   ).toHaveCSS('border-radius', '12px');
   const closedLabel = page.getByText('Closed 24 July 2026', { exact: true });
   await expect(closedLabel).toBeVisible();
