@@ -11,3 +11,13 @@ test('exposes a site icon that loads successfully', async ({ page }) => {
   expect(iconResponse.ok()).toBe(true);
   expect(iconResponse.headers()['content-type']).toContain('image/svg+xml');
 });
+
+test('names the header brand link exactly as its visible text', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  await expect(
+    page.getByRole('link', { name: 'Woodbrook Residents', exact: true }),
+  ).toBeVisible();
+});

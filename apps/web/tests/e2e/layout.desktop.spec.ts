@@ -96,7 +96,7 @@ test('the homepage action panel keeps its icon with its label and uses clear num
 
   expect(Math.abs(actionBottoms[0] - actionBottoms[1])).toBeLessThanOrEqual(1);
   await expect(
-    page.getByRole('link', { name: 'Woodbrook Residents home' }),
+    page.getByRole('link', { name: 'Woodbrook Residents', exact: true }),
   ).toHaveCSS('border-radius', '12px');
   await expect(
     page.getByText('Closed 24 July 2026', { exact: true }),

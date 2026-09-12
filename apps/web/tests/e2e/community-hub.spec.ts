@@ -252,7 +252,7 @@ test('uses consistent resident labels and honest contribution paths', async ({
   await page.goto('/');
 
   await expect(
-    page.getByRole('link', { name: 'Woodbrook Residents home' }),
+    page.getByRole('link', { name: 'Woodbrook Residents', exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole('link', { name: /have your say/i }),
