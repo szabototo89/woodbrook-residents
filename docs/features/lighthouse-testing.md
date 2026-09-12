@@ -1,6 +1,6 @@
 # Chrome Lighthouse testing
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
@@ -33,3 +33,37 @@ When the public site changes, I want automated Chrome Lighthouse checks for perf
 
 - CMS or content-pipeline changes beyond what Lighthouse findings require.
 - Third-party dashboard provisioning.
+
+## Verification (12 September 2026)
+
+Full matrix — 7 public routes × mobile and desktop — passes with every
+category at 90 or above (desktop performance/accessibility/best
+practices/SEO at 100 on every route; mobile performance 91–95,
+accessibility/best practices/SEO at 100):
+
+- `PASS mobile /`, `PASS desktop /`
+- `PASS mobile /events`, `PASS desktop /events`
+- `PASS mobile /local-info`, `PASS desktop /local-info`
+- `PASS mobile /projects`, `PASS desktop /projects`
+- `PASS mobile /surveys`, `PASS desktop /surveys`
+- `PASS mobile /updates`, `PASS desktop /updates`
+- `PASS mobile /get-involved`, `PASS desktop /get-involved`
+
+Issues found in the baseline and fixed:
+
+- Missing favicon caused a console 404 (best practices): added
+  `public/favicon.svg` and a document-head icon link.
+- Header brand link overrode its visible text with `aria-label`
+  (accessible-name audit): the name now derives from the link content.
+- Room-card descriptions, footer-bottom text, footer cookie-settings
+  button, and the cookie-consent paragraph failed contrast: darkened to
+  ratios between 6.7 and 8.9.
+- The 784 KB hero JPEG drove mobile LCP to 6.5 s (performance 73):
+  added 480/768/1200/1920 px JPEG and WebP variants with `srcset`,
+  `sizes`, `fetchpriority="high"`, and async decoding (mobile LCP 3.0 s,
+  performance 91).
+
+Known informational findings left as-is (no category impact): unused
+JavaScript inside the TanStack Start client bundle, the single
+render-blocking stylesheet, uncompressed preview-server responses, and a
+31 KB further-compression suggestion for the hero WebP.

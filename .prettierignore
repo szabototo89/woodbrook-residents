@@ -2,4 +2,5 @@
 apps/cms/.strapi/
 apps/cms/.strapi-updater.json
 apps/cms/types/generated/
+apps/web/lighthouse-reports/
 apps/web/src/routeTree.gen.ts
