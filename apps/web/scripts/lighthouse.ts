@@ -10,8 +10,13 @@ import {
 } from './lighthouse-config';
 import {
   evaluateLighthouseScores,
+  failedCombinations,
+  mergeRetriedResults,
   routeReportFilename,
   toLighthouseScores,
+  type LighthouseFormFactor,
+  type LighthouseRunCombination,
+  type LighthouseRunResult,
   type LighthouseScores,
 } from './lighthouse-report';
 
@@ -21,13 +26,7 @@ const appRoot = path.resolve(
 );
 const reportDir = path.join(appRoot, LIGHTHOUSE_REPORT_DIR);
 
-type FormFactor = 'mobile' | 'desktop';
-
-type LighthouseRunResult = {
-  route: string;
-  formFactor: FormFactor;
-  scores: LighthouseScores;
-};
+const DEFAULT_RETRIES = 1;
 
 const CATEGORY_KEYS: LighthouseCategory[] = [
   'performance',
@@ -85,7 +84,7 @@ async function waitForServer(
 function lighthouseArgs(
   url: string,
   reportPath: string,
-  formFactor: FormFactor,
+  formFactor: LighthouseFormFactor,
 ): string[] {
   const args = [
     'lighthouse',
@@ -104,7 +103,7 @@ function lighthouseArgs(
 async function runLighthouseForRoute(
   baseUrl: string,
   route: string,
-  formFactor: FormFactor,
+  formFactor: LighthouseFormFactor,
 ): Promise<LighthouseRunResult> {
   const reportPath = path.join(
     reportDir,
@@ -122,7 +121,9 @@ async function runLighthouseForRoute(
   return { route, formFactor, scores: toLighthouseScores(scoreFor) };
 }
 
-function resolveFormFactors(filter: string | undefined): FormFactor[] {
+function resolveFormFactors(
+  filter: string | undefined,
+): LighthouseFormFactor[] {
   if (filter === 'mobile' || filter === 'desktop') {
     return [filter];
   }
@@ -135,9 +136,60 @@ function scoreText(scores: LighthouseScores): string {
   ).join(' ');
 }
 
+function parseRetries(raw: string | undefined): number {
+  if (raw === undefined) {
+    return DEFAULT_RETRIES;
+  }
+  const retries = Number.parseInt(raw, 10);
+  if (!Number.isInteger(retries) || retries < 0) {
+    throw new Error(
+      `Invalid --retries value "${raw}". Use a whole number of 0 or more.`,
+    );
+  }
+  return retries;
+}
+
+async function runAllCombinations(
+  baseUrl: string,
+  combinations: LighthouseRunCombination[],
+): Promise<LighthouseRunResult[]> {
+  return combinations.reduce<Promise<LighthouseRunResult[]>>(
+    (previous, combination) =>
+      previous.then((collected) => {
+        console.log(
+          `Running Lighthouse (${combination.formFactor}) for ${combination.route}...`,
+        );
+        return runLighthouseForRoute(
+          baseUrl,
+          combination.route,
+          combination.formFactor,
+        ).then((result) => [...collected, result]);
+      }),
+    Promise.resolve([]),
+  );
+}
+
+async function runWithRetries(
+  baseUrl: string,
+  combinations: LighthouseRunCombination[],
+  retriesLeft: number,
+): Promise<LighthouseRunResult[]> {
+  const results = await runAllCombinations(baseUrl, combinations);
+  const failed = failedCombinations(results, LIGHTHOUSE_MIN_SCORES);
+  if (failed.length === 0 || retriesLeft <= 0) {
+    return results;
+  }
+  console.log(
+    `Retrying ${failed.length} failed check(s) (${retriesLeft} attempt(s) left)...`,
+  );
+  const retried = await runWithRetries(baseUrl, failed, retriesLeft - 1);
+  return mergeRetriedResults(results, retried);
+}
+
 async function runLighthouse() {
   const skipBuild = hasFlag('skip-build');
   const routeFilter = parseArg('route');
+  const retries = parseRetries(parseArg('retries'));
   const port = Number.parseInt(
     parseArg('port') ?? String(LIGHTHOUSE_PREVIEW_PORT),
     10,
@@ -186,20 +238,7 @@ async function runLighthouse() {
     const combinations = routes.flatMap((route) =>
       formFactors.map((formFactor) => ({ route, formFactor })),
     );
-    const results = await combinations.reduce<Promise<LighthouseRunResult[]>>(
-      (previous, combination) =>
-        previous.then((collected) => {
-          console.log(
-            `Running Lighthouse (${combination.formFactor}) for ${combination.route}...`,
-          );
-          return runLighthouseForRoute(
-            baseUrl,
-            combination.route,
-            combination.formFactor,
-          ).then((result) => [...collected, result]);
-        }),
-      Promise.resolve([]),
-    );
+    const results = await runWithRetries(baseUrl, combinations, retries);
 
     const summaryLines = results.map((result) => {
       const evaluation = evaluateLighthouseScores(

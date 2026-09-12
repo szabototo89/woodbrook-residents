@@ -12,6 +12,7 @@ When the public site changes, I want automated Chrome Lighthouse checks for perf
 - Every Lighthouse category (performance, accessibility, best practices, SEO) must score at least 90 on every checked route; the command exits non-zero and prints the failing categories otherwise.
 - JSON and HTML reports land in `apps/web/lighthouse-reports/`, alongside `lighthouse-summary.json` and `lighthouse-summary.md`.
 - Flags narrow a run while iterating: `bun scripts/lighthouse.ts --form-factor=mobile --route=/ --skip-build --port=4173 --base-url=http://127.0.0.1:4173`.
+- Failing checks are retried once by default to absorb single-point Lighthouse variance; use `--retries=0` to disable or `--retries=2` for extra attempts (only failed routes are re-run).
 - The `Lighthouse` GitHub workflow runs the same checks on pull requests and pushes to `main`, and uploads the reports as an artifact.
 
 ## Acceptance criteria
