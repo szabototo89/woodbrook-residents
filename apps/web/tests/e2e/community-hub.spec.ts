@@ -19,15 +19,33 @@ test('shows researched community content and supports primary navigation', async
     'src',
     '/images/woodbrook-coast-aerial.jpg',
   );
-  expect(
-    await estateImage.evaluate((image) => {
-      if (!(image instanceof HTMLImageElement)) {
-        throw new Error('Expected the Woodbrook hero asset to be an image');
-      }
+  await page.waitForFunction(
+    () => {
+      const image = document.querySelector(
+        'img[alt*="Aerial view across Woodbrook"]',
+      );
+      return (
+        image instanceof HTMLImageElement &&
+        image.complete &&
+        image.naturalWidth > 0
+      );
+    },
+    undefined,
+    { timeout: 10_000 },
+  );
+  await expect
+    .poll(
+      () =>
+        estateImage.evaluate((image) => {
+          if (!(image instanceof HTMLImageElement)) {
+            throw new Error('Expected the Woodbrook hero asset to be an image');
+          }
 
-      return image.naturalWidth;
-    }),
-  ).toBe(1920);
+          return image.naturalWidth;
+        }),
+      { timeout: 10_000 },
+    )
+    .toBe(1920);
   await expect(
     page.getByRole('link', { name: 'Woodbrook Shankill', exact: true }),
   ).toHaveAttribute('href', 'https://www.woodbrookshankill.ie/south-coast');
@@ -66,7 +84,11 @@ test('opens event and survey detail pages from their listings', async ({
   page,
 }) => {
   await page.goto('/events');
-  await page.getByRole('link', { name: /^View event:/ }).click();
+  const viewEventLink = page
+    .getByRole('link', { name: /^View event:/ })
+    .first();
+  await expect(viewEventLink).toBeVisible();
+  await viewEventLink.click();
   await expect(
     page.getByRole('heading', {
       level: 1,
@@ -94,7 +116,11 @@ test('opens event and survey detail pages from their listings', async ({
   await expect(page.getByRole('link', { name: 'All events' })).toBeVisible();
 
   await page.goto('/surveys');
-  await page.getByRole('link', { name: /^View details:/ }).click();
+  const viewSurveyLink = page
+    .getByRole('link', { name: /^View details:/ })
+    .first();
+  await expect(viewSurveyLink).toBeVisible();
+  await viewSurveyLink.click();
   await expect(
     page.getByRole('heading', {
       level: 1,
@@ -290,7 +316,11 @@ test('provides page-specific titles and canonical URLs', async ({ page }) => {
     'http://localhost:3000/events',
   );
 
-  await page.getByRole('link', { name: /^View event:/ }).click();
+  const canonicalEventLink = page
+    .getByRole('link', { name: /^View event:/ })
+    .first();
+  await expect(canonicalEventLink).toBeVisible();
+  await canonicalEventLink.click();
   await expect(page).toHaveTitle(
     'DLR household hazardous waste collection day | Woodbrook Residents',
   );

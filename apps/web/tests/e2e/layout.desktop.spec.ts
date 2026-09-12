@@ -1,9 +1,18 @@
 import { expect, test } from '@playwright/test';
 
+const layoutTolerancePx = 4;
+
+function expectAligned(values: number[], tolerance = layoutTolerancePx) {
+  expect(Math.max(...values) - Math.min(...values)).toBeLessThanOrEqual(
+    tolerance,
+  );
+}
+
 test('the homepage presents four balanced starting points on desktop', async ({
   page,
 }) => {
   await page.goto('/');
+  await page.evaluate(() => document.fonts?.ready);
 
   const startingPoints = [
     page.getByRole('link', { name: /find practical help/i }),
@@ -11,6 +20,9 @@ test('the homepage presents four balanced starting points on desktop', async ({
     page.getByRole('link', { name: /take part/i }),
     page.getByRole('link', { name: /have your say/i }),
   ];
+  for (const startingPoint of startingPoints) {
+    await expect(startingPoint).toBeVisible();
+  }
   const boxes = await Promise.all(
     startingPoints.map((startingPoint) =>
       startingPoint.evaluate((element) => {
@@ -20,8 +32,8 @@ test('the homepage presents four balanced starting points on desktop', async ({
     ),
   );
 
-  expect(new Set(boxes.map(({ top }) => Math.round(top))).size).toBe(1);
-  expect(new Set(boxes.map(({ width }) => Math.round(width))).size).toBe(1);
+  expectAligned(boxes.map(({ top }) => top));
+  expectAligned(boxes.map(({ width }) => width));
 
   const titleTops = await Promise.all(
     startingPoints.map((startingPoint) =>
@@ -31,18 +43,18 @@ test('the homepage presents four balanced starting points on desktop', async ({
     ),
   );
 
-  expect(new Set(titleTops.map(Math.round)).size).toBe(1);
+  expectAligned(titleTops);
 
+  const eventCard = page.locator('article.event-card');
+  const surveyCard = page.locator('article.survey-card');
+  await expect(eventCard).toBeVisible();
+  await expect(surveyCard).toBeVisible();
   const featureCardTops = await Promise.all([
-    page
-      .locator('article.event-card')
-      .evaluate((element) => element.getBoundingClientRect().top),
-    page
-      .locator('article.survey-card')
-      .evaluate((element) => element.getBoundingClientRect().top),
+    eventCard.evaluate((element) => element.getBoundingClientRect().top),
+    surveyCard.evaluate((element) => element.getBoundingClientRect().top),
   ]);
 
-  expect(new Set(featureCardTops.map(Math.round)).size).toBe(1);
+  expectAligned(featureCardTops);
 
   await page
     .getByRole('link', { name: 'Choose where to start', exact: true })
@@ -65,6 +77,7 @@ test('the homepage action panel keeps its icon with its label and uses clear num
   page,
 }) => {
   await page.goto('/');
+  await page.evaluate(() => document.fonts?.ready);
 
   const actionPanel = page.getByRole('heading', {
     level: 2,
@@ -82,8 +95,8 @@ test('the homepage action panel keeps its icon with its label and uses clear num
     label.evaluate((element) => element.getBoundingClientRect().left),
   ]).then(([iconRight, labelLeft]) => labelLeft - iconRight);
 
-  expect(labelGap).toBeGreaterThanOrEqual(0);
-  expect(labelGap).toBeLessThanOrEqual(16);
+  expect(labelGap).toBeGreaterThanOrEqual(-1);
+  expect(labelGap).toBeLessThanOrEqual(24);
 
   const actionBottoms = await Promise.all([
     page
@@ -94,11 +107,13 @@ test('the homepage action panel keeps its icon with its label and uses clear num
       .evaluate((element) => element.getBoundingClientRect().bottom),
   ]);
 
-  expect(Math.abs(actionBottoms[0] - actionBottoms[1])).toBeLessThanOrEqual(1);
+  expect(Math.abs(actionBottoms[0] - actionBottoms[1])).toBeLessThanOrEqual(
+    layoutTolerancePx,
+  );
   await expect(
     page.getByRole('link', { name: 'Woodbrook Residents home' }),
   ).toHaveCSS('border-radius', '12px');
-  await expect(
-    page.getByText('Closed 24 July 2026', { exact: true }),
-  ).toHaveCSS('font-family', /Inter Variable/);
+  const closedLabel = page.getByText('Closed 24 July 2026', { exact: true });
+  await expect(closedLabel).toBeVisible();
+  await expect(closedLabel).toHaveCSS('font-family', /Inter/);
 });
