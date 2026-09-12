@@ -64,6 +64,38 @@ test('Clarity injects the tag only once', () => {
   second.unmount();
 });
 
+test('Clarity signals granted consent so sessions persist as same user', () => {
+  vi.stubEnv('VITE_CLARITY_PROJECT_ID', 'test-project');
+  setConsentCookie('accepted');
+  const consentSpy = vi.fn();
+  window.clarity = consentSpy;
+  const { unmount } = renderUi(<ClarityAnalytics />);
+
+  expect(consentSpy).toHaveBeenCalledWith('consentv2', {
+    ad_Storage: 'granted',
+    analytics_Storage: 'granted',
+  });
+  unmount();
+});
+
+test('Withdrawing consent signals denied and removes the tag', () => {
+  vi.stubEnv('VITE_CLARITY_PROJECT_ID', 'test-project');
+  setConsentCookie('declined');
+  const tag = document.createElement('script');
+  tag.id = CLARITY_SCRIPT_ID;
+  document.head.appendChild(tag);
+  const consentSpy = vi.fn();
+  window.clarity = consentSpy;
+  const { unmount } = renderUi(<ClarityAnalytics />);
+
+  expect(consentSpy).toHaveBeenCalledWith('consentv2', {
+    ad_Storage: 'denied',
+    analytics_Storage: 'denied',
+  });
+  expect(document.head.querySelector(`#${CLARITY_SCRIPT_ID}`)).toBeNull();
+  unmount();
+});
+
 test('Clarity stays off without consent', () => {
   vi.stubEnv('VITE_CLARITY_PROJECT_ID', 'test-project');
   setConsentCookie('declined');
