@@ -15,7 +15,7 @@ When the community hub is visited, I want privacy-friendly counts of visitors, p
 - When `VITE_CLARITY_PROJECT_ID` is configured, every public page loads the Microsoft Clarity tag (`https://www.clarity.ms/tag/`), enabling heatmaps and session recordings in the Clarity dashboard.
 - When the Clarity project ID is absent, no Clarity script is emitted.
 - First-time visitors see a cookie consent banner explaining that optional analytics cookies are used; nothing is recorded until they choose.
-- The Clarity tag loads only after a visitor accepts analytics cookies; rejecting leaves it off entirely.
+- The Clarity tag loads only after a visitor accepts analytics cookies; rejecting leaves it off entirely. On accept the site sends Clarity `consentv2` granted so Clarity may persist the same user via its `_clck` cookie; on reject or withdraw it sends `consentv2` denied and removes the tag.
 - The choice is stored in a first-party consent cookie so clearing site cookies resets it, and the footer Cookie settings control clears it so the banner can be answered again.
 - Analytics never collects issue-report contents or other form input.
 
@@ -28,8 +28,9 @@ When the community hub is visited, I want privacy-friendly counts of visitors, p
 - Given `VITE_CLARITY_PROJECT_ID` is set, when any public route is rendered, then its document head contains the Clarity tag loading `https://www.clarity.ms/tag/` for that project.
 - Given the Clarity project ID is absent or blank, when a public route is rendered, then no Clarity script is emitted.
 - Given a first-time visitor, when any public route is rendered, then a cookie consent banner offers Accept analytics cookies and Reject.
-- Given the visitor accepts, when the choice is stored, then the banner hides and the Clarity tag loads.
+- Given the visitor accepts, when the choice is stored, then the banner hides, the Clarity tag loads, and a `consentv2` granted signal is sent so return visits persist as the same Clarity user.
 - Given the visitor rejects, when the choice is stored, then the banner hides and no Clarity script is emitted.
+- Given the visitor withdraws a prior accept via Cookie settings, when the stored choice is cleared, then a `consentv2` denied signal is sent and the Clarity tag is removed.
 - Given a returning visitor with a stored choice, when a public route is rendered, then no banner is shown.
 - Given the visitor clears site cookies, when a public route is rendered, then the banner is shown again.
 - Given the visitor activates Cookie settings in the footer, when the stored choice is cleared, then the banner is shown again.
