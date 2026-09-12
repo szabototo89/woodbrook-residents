@@ -30,9 +30,6 @@ export function ClarityAnalytics() {
   const consentChoice = useCookieConsentChoice();
 
   useEffect(() => {
-    if (typeof document === 'undefined') {
-      return;
-    }
     if (!projectId || consentChoice !== 'accepted') {
       return;
     }
