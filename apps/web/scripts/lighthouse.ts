@@ -8,6 +8,7 @@ import {
   LIGHTHOUSE_ROUTES,
   type LighthouseCategory,
 } from './lighthouse-config';
+import { lighthouseArgs, resolveChromePath } from './lighthouse-chrome';
 import {
   evaluateLighthouseScores,
   failedCombinations,
@@ -81,25 +82,6 @@ async function waitForServer(
   return waitForServer(baseUrl, attemptsLeft - 1);
 }
 
-function lighthouseArgs(
-  url: string,
-  reportPath: string,
-  formFactor: LighthouseFormFactor,
-): string[] {
-  const args = [
-    'lighthouse',
-    url,
-    '--output=json',
-    `--output-path=${reportPath}`,
-    `--only-categories=${CATEGORY_KEYS.join(',')}`,
-    '--chrome-flags=--headless --no-sandbox --disable-gpu',
-    '--quiet',
-  ];
-  return formFactor === 'desktop'
-    ? [...args, '--preset=desktop']
-    : [...args, '--form-factor=mobile'];
-}
-
 async function runLighthouseForRoute(
   baseUrl: string,
   route: string,
@@ -111,7 +93,10 @@ async function runLighthouseForRoute(
   );
   await runChecked([
     'bunx',
-    ...lighthouseArgs(`${baseUrl}${route}`, reportPath, formFactor),
+    ...lighthouseArgs(`${baseUrl}${route}`, reportPath, {
+      chromePath: resolveChromePath(process.env),
+      formFactor,
+    }),
   ]);
   const report = await Bun.file(reportPath).json();
   const scoreFor = (category: LighthouseCategory): number => {
