@@ -48,12 +48,23 @@ export function HomePage() {
           </div>
 
           <figure className="rooms-hero-image">
-            <img
-              src="/images/woodbrook-coast-aerial.jpg"
-              alt="Aerial view across Woodbrook toward the coast, Bray and the Wicklow Mountains"
-              width="1920"
-              height="1420"
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcSet="/images/woodbrook-coast-aerial-480.webp 480w, /images/woodbrook-coast-aerial-768.webp 768w, /images/woodbrook-coast-aerial-1200.webp 1200w, /images/woodbrook-coast-aerial-1920.webp 1920w"
+                sizes="(max-width: 1040px) calc(100vw - 32px), 580px"
+              />
+              <img
+                src="/images/woodbrook-coast-aerial-1200.jpg"
+                srcSet="/images/woodbrook-coast-aerial-480.jpg 480w, /images/woodbrook-coast-aerial-768.jpg 768w, /images/woodbrook-coast-aerial-1200.jpg 1200w, /images/woodbrook-coast-aerial.jpg 1920w"
+                sizes="(max-width: 1040px) calc(100vw - 32px), 580px"
+                alt="Aerial view across Woodbrook toward the coast, Bray and the Wicklow Mountains"
+                width="1920"
+                height="1420"
+                fetchPriority="high"
+                decoding="async"
+              />
+            </picture>
             <figcaption>
               Woodbrook between coast and mountains · aerial image:{' '}
               <a href={estateImageSource} target="_blank" rel="noreferrer">

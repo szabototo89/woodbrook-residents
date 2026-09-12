@@ -1104,7 +1104,7 @@ summary:focus-visible {
   padding-top: 20px;
   justify-content: space-between;
   border-top: 1px solid rgba(255, 255, 255, 0.13);
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 0.72rem;
 }
 
@@ -1112,7 +1112,7 @@ summary:focus-visible {
   padding: 0;
   border: 0;
   background: transparent;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.72);
   font: inherit;
   text-decoration: underline;
   cursor: pointer;
@@ -2711,7 +2711,7 @@ p {
 .room-card p {
   max-width: 37ch;
   margin-bottom: 0;
-  color: #52675e;
+  color: var(--ink);
   line-height: 1.48;
 }
 

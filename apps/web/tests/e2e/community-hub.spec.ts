@@ -17,8 +17,17 @@ test('shows researched community content and supports primary navigation', async
   await expect(estateImage).toBeVisible();
   await expect(estateImage).toHaveAttribute(
     'src',
-    '/images/woodbrook-coast-aerial.jpg',
+    '/images/woodbrook-coast-aerial-1200.jpg',
   );
+  expect(
+    await estateImage.evaluate((image) => {
+      if (!(image instanceof HTMLImageElement)) {
+        throw new Error('Expected the Woodbrook hero asset to be an image');
+      }
+
+      return image.currentSrc;
+    }),
+  ).toContain('woodbrook-coast-aerial-');
   expect(
     await estateImage.evaluate((image) => {
       if (!(image instanceof HTMLImageElement)) {
@@ -27,7 +36,7 @@ test('shows researched community content and supports primary navigation', async
 
       return image.naturalWidth;
     }),
-  ).toBe(1920);
+  ).toBeGreaterThanOrEqual(480);
   await expect(
     page.getByRole('link', { name: 'Woodbrook Shankill', exact: true }),
   ).toHaveAttribute('href', 'https://www.woodbrookshankill.ie/south-coast');

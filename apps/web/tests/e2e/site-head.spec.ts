@@ -12,9 +12,7 @@ test('exposes a site icon that loads successfully', async ({ page }) => {
   expect(iconResponse.headers()['content-type']).toContain('image/svg+xml');
 });
 
-test('names the header brand link exactly as its visible text', async ({
-  page,
-}) => {
+test('names the header brand link from its visible text', async ({ page }) => {
   await page.goto('/');
 
   await expect(

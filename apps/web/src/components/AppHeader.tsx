@@ -53,7 +53,7 @@ export function AppHeader() {
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link className="brand" to="/" aria-label="Woodbrook Residents">
+        <Link className="brand" to="/">
           <span className="brand-mark" aria-hidden="true">
             W
           </span>
