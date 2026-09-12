@@ -13,6 +13,7 @@ When the public site changes, I want automated Chrome Lighthouse checks for perf
 - JSON and HTML reports land in `apps/web/lighthouse-reports/`, alongside `lighthouse-summary.json` and `lighthouse-summary.md`.
 - Flags narrow a run while iterating: `bun scripts/lighthouse.ts --form-factor=mobile --route=/ --skip-build --port=4173 --base-url=http://127.0.0.1:4173`.
 - Failing checks are retried once by default to absorb single-point Lighthouse variance; use `--retries=0` to disable or `--retries=2` for extra attempts (only failed routes are re-run).
+- The runner launches Chrome with CI-safe flags (`--headless --no-sandbox --disable-gpu --disable-dev-shm-usage`) and honors a `CHROME_PATH` override via `--chrome-path`.
 - The `Lighthouse` GitHub workflow runs the same checks on pull requests and pushes to `main`, and uploads the reports as an artifact.
 
 ## Acceptance criteria
@@ -27,7 +28,7 @@ When the public site changes, I want automated Chrome Lighthouse checks for perf
 
 - Reproducible local Lighthouse runner (`apps/web/scripts/lighthouse.ts`) with route/threshold config (`lighthouse-config.ts`) and pure scoring helpers (`lighthouse-report.ts`) covered by `bun test`.
 - `test:lighthouse` scripts in `apps/web` and at the repo root.
-- `Lighthouse` CI workflow with report artifacts.
+- `Lighthouse` CI workflow with report artifacts (provisions Chrome via `browser-actions/setup-chrome`).
 - Fixes for every issue the baseline run surfaces.
 
 ### Not included

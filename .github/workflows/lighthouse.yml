@@ -27,6 +27,9 @@ jobs:
         run: bun install
         working-directory: apps/web
 
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+
       - name: Run Chrome Lighthouse checks
         env:
           CONTENT_SOURCE: strapi
