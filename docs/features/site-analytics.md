@@ -16,7 +16,7 @@ When the community hub is visited, I want privacy-friendly counts of visitors, p
 - When the Clarity project ID is absent, no Clarity script is emitted.
 - First-time visitors see a cookie consent banner explaining that optional analytics cookies are used; nothing is recorded until they choose.
 - The Clarity tag loads only after a visitor accepts analytics cookies; rejecting leaves it off entirely.
-- The stored choice persists across visits, and the footer Cookie settings control clears it so the banner can be answered again.
+- The choice is stored in a first-party consent cookie so clearing site cookies resets it, and the footer Cookie settings control clears it so the banner can be answered again.
 - Analytics never collects issue-report contents or other form input.
 
 ## Acceptance criteria
@@ -31,6 +31,7 @@ When the community hub is visited, I want privacy-friendly counts of visitors, p
 - Given the visitor accepts, when the choice is stored, then the banner hides and the Clarity tag loads.
 - Given the visitor rejects, when the choice is stored, then the banner hides and no Clarity script is emitted.
 - Given a returning visitor with a stored choice, when a public route is rendered, then no banner is shown.
+- Given the visitor clears site cookies, when a public route is rendered, then the banner is shown again.
 - Given the visitor activates Cookie settings in the footer, when the stored choice is cleared, then the banner is shown again.
 
 ## Scope

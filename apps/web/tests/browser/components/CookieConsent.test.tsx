@@ -14,8 +14,12 @@ declare global {
   }
 }
 
+function expireConsentCookie() {
+  document.cookie = `${COOKIE_CONSENT_STORAGE_KEY}=deleted; Max-Age=0; Path=/; SameSite=Lax`;
+}
+
 beforeEach(() => {
-  window.localStorage.clear();
+  expireConsentCookie();
   vi.unstubAllEnvs();
   document.getElementById('woodbrook-clarity-tag')?.remove();
   Array.from(
@@ -57,9 +61,7 @@ test('accepting hides the banner and enables the Clarity tag', async () => {
       document.body.querySelector('[aria-label="Cookie consent"]'),
     ).toBeNull();
   });
-  expect(window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY)).toBe(
-    'accepted',
-  );
+  expect(document.cookie).toContain(`${COOKIE_CONSENT_STORAGE_KEY}=accepted`);
   await vi.waitFor(() => {
     const tag = document.head.querySelector('#woodbrook-clarity-tag');
     expect(tag).not.toBeNull();
@@ -86,15 +88,13 @@ test('rejecting keeps analytics off', async () => {
       document.body.querySelector('[aria-label="Cookie consent"]'),
     ).toBeNull();
   });
-  expect(window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY)).toBe(
-    'declined',
-  );
+  expect(document.cookie).toContain(`${COOKIE_CONSENT_STORAGE_KEY}=declined`);
   expect(document.head.querySelector('#woodbrook-clarity-tag')).toBeNull();
   expect(window.clarity).toBeUndefined();
 });
 
 test('a returning visitor who accepted sees no banner', async () => {
-  window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, 'accepted');
+  document.cookie = `${COOKIE_CONSENT_STORAGE_KEY}=accepted; Max-Age=3600; Path=/; SameSite=Lax`;
   await render(<CookieConsentBanner />);
 
   await vi.waitFor(() => {
@@ -106,7 +106,7 @@ test('a returning visitor who accepted sees no banner', async () => {
 
 test('a returning visitor who accepted loads the Clarity tag', async () => {
   vi.stubEnv('VITE_CLARITY_PROJECT_ID', 'test-project');
-  window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, 'accepted');
+  document.cookie = `${COOKIE_CONSENT_STORAGE_KEY}=accepted; Max-Age=3600; Path=/; SameSite=Lax`;
   await render(<ClarityAnalytics />);
 
   await vi.waitFor(() => {
@@ -119,8 +119,25 @@ test('a returning visitor who accepted loads the Clarity tag', async () => {
   });
 });
 
+test('clearing cookies shows the banner again', async () => {
+  document.cookie = `${COOKIE_CONSENT_STORAGE_KEY}=accepted; Max-Age=3600; Path=/; SameSite=Lax`;
+  const screen = await render(<CookieConsentBanner />);
+  await vi.waitFor(() => {
+    expect(
+      document.body.querySelector('[aria-label="Cookie consent"]'),
+    ).toBeNull();
+  });
+
+  expireConsentCookie();
+  window.dispatchEvent(new Event('focus'));
+
+  await expect
+    .element(screen.getByRole('region', { name: 'Cookie consent' }))
+    .toBeVisible();
+});
+
 test('clearing the choice brings the banner back', async () => {
-  window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, 'declined');
+  document.cookie = `${COOKIE_CONSENT_STORAGE_KEY}=declined; Max-Age=3600; Path=/; SameSite=Lax`;
   const screen = await render(<CookieConsentBanner />);
   await vi.waitFor(() => {
     expect(
@@ -129,7 +146,7 @@ test('clearing the choice brings the banner back', async () => {
   });
 
   clearCookieConsentChoice();
-  expect(window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY)).toBeNull();
+  expect(document.cookie).not.toContain(COOKIE_CONSENT_STORAGE_KEY);
 
   await expect
     .element(screen.getByRole('region', { name: 'Cookie consent' }))
