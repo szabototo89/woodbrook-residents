@@ -4,5 +4,5 @@
 - [Event timeline](event-timeline.md) — Available
 - [Static Cloudflare Pages site](static-cloudflare-pages-site.md) — Available
 - [Build-time content sources](build-time-content-sources.md) — Available
-- [Developer dashboard](developer-dashboard.md) — In progress
+- [Developer dashboard](developer-dashboard.md) — Available
 - [Issue reporting](issue-reporting.md) — Removed
