@@ -9,12 +9,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "rspeedy preview",
-    "test": "rstest run",
+    "test": "vitest run --coverage",
     "typecheck": "tsc --build --pretty false"
   },
   "dependencies": {
-    "@lynx-js/react": "^0.126.1",
-    "preact": "npm:@lynx-js/internal-preact@11.0.0-rc.1-20260903085447-f95471a"
+    "@lynx-js/react": "^0.126.1"
   },
   "devDependencies": {
     "@lynx-js/preact-devtools": "^5.0.1-20260827072047-5f77e12",
@@ -23,13 +22,13 @@
     "@lynx-js/rspeedy": "^0.17.2",
     "@lynx-js/types": "^4.1.0",
     "@rsbuild/plugin-type-check": "^1.6.0",
-    "@rstest/core": "^0.11.12",
-    "@rstest/coverage-istanbul": "^0.11.12",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^7.0.0",
     "@types/react": "^19.2.18",
+    "@vitest/coverage-v8": "4.1.11",
     "jsdom": "^27.4.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

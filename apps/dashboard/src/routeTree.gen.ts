@@ -11,7 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
-import { Route as ShellAppAppNameRouteImport } from './routes/_shell.app.$appName'
+import { Route as ShellAppAppNameIndexRouteImport } from './routes/_shell.app.$appName.index'
+import { Route as ShellAppAppNameSectionRouteImport } from './routes/_shell.app.$appName.$section'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,32 +23,45 @@ const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ShellAppAppNameRoute = ShellAppAppNameRouteImport.update({
-  id: '/app/$appName',
-  path: '/app/$appName',
+const ShellAppAppNameIndexRoute = ShellAppAppNameIndexRouteImport.update({
+  id: '/app/$appName/',
+  path: '/app/$appName/',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellAppAppNameSectionRoute = ShellAppAppNameSectionRouteImport.update({
+  id: '/app/$appName/$section',
+  path: '/app/$appName/$section',
   getParentRoute: () => ShellRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app/$appName': typeof ShellAppAppNameRoute
+  '/app/$appName/$section': typeof ShellAppAppNameSectionRoute
+  '/app/$appName/': typeof ShellAppAppNameIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app/$appName': typeof ShellAppAppNameRoute
+  '/app/$appName/$section': typeof ShellAppAppNameSectionRoute
+  '/app/$appName': typeof ShellAppAppNameIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_shell': typeof ShellRouteWithChildren
-  '/_shell/app/$appName': typeof ShellAppAppNameRoute
+  '/_shell/app/$appName/$section': typeof ShellAppAppNameSectionRoute
+  '/_shell/app/$appName/': typeof ShellAppAppNameIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app/$appName'
+  fullPaths: '/' | '/app/$appName/$section' | '/app/$appName/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app/$appName'
-  id: '__root__' | '/' | '/_shell' | '/_shell/app/$appName'
+  to: '/' | '/app/$appName/$section' | '/app/$appName'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/_shell/app/$appName/$section'
+    | '/_shell/app/$appName/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -71,22 +85,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_shell/app/$appName': {
-      id: '/_shell/app/$appName'
+    '/_shell/app/$appName/': {
+      id: '/_shell/app/$appName/'
       path: '/app/$appName'
-      fullPath: '/app/$appName'
-      preLoaderRoute: typeof ShellAppAppNameRouteImport
+      fullPath: '/app/$appName/'
+      preLoaderRoute: typeof ShellAppAppNameIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/app/$appName/$section': {
+      id: '/_shell/app/$appName/$section'
+      path: '/app/$appName/$section'
+      fullPath: '/app/$appName/$section'
+      preLoaderRoute: typeof ShellAppAppNameSectionRouteImport
       parentRoute: typeof ShellRoute
     }
   }
 }
 
 interface ShellRouteChildren {
-  ShellAppAppNameRoute: typeof ShellAppAppNameRoute
+  ShellAppAppNameSectionRoute: typeof ShellAppAppNameSectionRoute
+  ShellAppAppNameIndexRoute: typeof ShellAppAppNameIndexRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
-  ShellAppAppNameRoute: ShellAppAppNameRoute,
+  ShellAppAppNameSectionRoute: ShellAppAppNameSectionRoute,
+  ShellAppAppNameIndexRoute: ShellAppAppNameIndexRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)

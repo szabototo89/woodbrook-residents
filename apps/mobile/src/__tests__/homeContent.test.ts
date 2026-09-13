@@ -1,4 +1,4 @@
-import { expect, test } from '@rstest/core';
+import { expect, test } from 'vitest';
 
 import { homeActions } from '../features/home/homeContent.js';
 

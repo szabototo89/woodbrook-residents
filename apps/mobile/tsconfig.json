@@ -19,6 +19,6 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "lynx.config.ts",
-    "rstest.config.ts"
+    "vitest.config.ts"
   ]
 }

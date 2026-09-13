@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@lynx-js/react/testing-library';
-import { expect, test } from '@rstest/core';
+import { expect, test } from 'vitest';
 
 import { App } from '../App.js';
 import { HomeScreen } from '../features/home/HomeScreen.js';
