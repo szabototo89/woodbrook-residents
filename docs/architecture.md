@@ -23,9 +23,14 @@ Cloudflare Pages build
 
 Resident browser
   -> Cloudflare Pages static assets
+
+Resident iOS app
+  -> Cloudflare Worker GET /api/mobile-content
+       -> Google Sheets API (read-only)
+       -> validated public content snapshot
 ```
 
-The selected source is contacted only during the static build. The deployed browser application reads pre-rendered HTML and immutable JSON assets and has no runtime application server, spreadsheet or CMS request, API route, or issue-report submission path.
+The deployed browser application reads pre-rendered HTML and immutable JSON assets. The iOS app is the sole runtime content consumer: it calls a narrow read-only Worker endpoint, which retrieves the Google Sheet with server-side credentials. No issue-report submission path exists.
 
 ## Content and failure behavior
 
@@ -33,7 +38,7 @@ The selected source is contacted only during the static build. The deployed brow
 - Both adapters normalize their input into one domain-level content snapshot before routes or UI see it.
 - Google Sheets reads the Updates, Events, Projects, Consultations, and Local_Info tabs in one authenticated, read-only batch request. Strapi reads the corresponding published API collections and site settings.
 - The static build caches one validated snapshot. Dynamic development reloads the selected source so content changes do not require restarting the server.
-- Google Sheets rows are public only when `publish` is `TRUE`; `admin_notes` is never mapped into the snapshot.
+- Google Sheets rows are public only when `publish` is `TRUE`; `admin_notes` is never mapped into either the static site or mobile response.
 - Seed content contains current, source-linked Woodbrook and Shankill information researched in September 2026.
 - Dynamic development and server builds show a clear service state if Strapi is unavailable.
 - Static builds fail if selected-source content cannot be fetched, normalized, or validated, preserving the previous successful deployment instead of producing an empty site.
@@ -41,4 +46,4 @@ The selected source is contacted only during the static build. The deployed brow
 
 ## Deployment
 
-Deploy only `apps/web/dist/client` to Cloudflare Pages. Set `CONTENT_SOURCE` and only the build-time credentials required by that source. None of `STRAPI_URL`, `GOOGLE_SERVICE_ACCOUNT_EMAIL`, or `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` is exposed through a `VITE_` variable or required at runtime. `VITE_PUBLIC_SITE_URL` is embedded in canonical and social metadata. See [Static Cloudflare Pages deployment](features/static-cloudflare-pages-site.md).
+The Cloudflare Worker deploys `apps/web/dist/client` as static assets and runs first only for `/api/*`. Configure the Google service-account values as Worker secrets for the mobile endpoint; none is exposed through a public build variable. `VITE_PUBLIC_SITE_URL` supplies browser metadata and `WOODBROOK_API_URL` supplies the mobile bundle's public endpoint origin. See [Static Cloudflare Pages deployment](features/static-cloudflare-pages-site.md) and [iOS mobile navigation and live content](features/ios-mobile-navigation.md).

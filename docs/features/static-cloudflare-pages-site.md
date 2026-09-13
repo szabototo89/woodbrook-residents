@@ -19,7 +19,7 @@ When the public website is deployed, I want every published page to be generated
 - Given a listing links to a published detail route, when the static output is verified, then that route has a corresponding HTML file.
 - Given the selected source cannot be reached or returns content that fails validation, when the static build runs, then it exits unsuccessfully instead of publishing unavailable or empty content.
 - Given the contents of `apps/web/dist/client` are deployed, when a resident browses or navigates between generated pages, then no runtime application server or Strapi connection is required.
-- Given the public artifact is inspected, then it contains no issue-report page or runtime server-function endpoint.
+- Given the public artifact is inspected, then it contains no issue-report page or runtime write endpoint; the attached read-only mobile content endpoint does not participate in website rendering.
 - Given `CONTENT_SOURCE=strapi` and Wrangler is authenticated, when `bun run deploy` runs without `STRAPI_URL`, then it reuses a ready local Strapi or starts and later stops a temporary seeded instance.
 - Given `CONTENT_SOURCE=google-sheets` and read-only credentials are configured, when `bun run deploy` runs, then it builds from the configured spreadsheet without starting Strapi.
 - Given the production Worker is connected to the GitHub repository and its deploy hook is configured, when the daily schedule runs, then Cloudflare rebuilds the latest `main` commit with a fresh Google Sheets snapshot.
@@ -34,4 +34,4 @@ When the public website is deployed, I want every published page to be generated
 
 ### Not included
 
-- Runtime SSR, Pages Functions, API routes, issue reporting, live CMS reads, deployment credentials, or Cloudflare project provisioning.
+- Runtime SSR, Pages Functions, website runtime data reads, issue reporting, deployment credentials, or Cloudflare project provisioning. The separately specified read-only mobile content route is outside this static website capability.

@@ -44,7 +44,7 @@ Configure Cloudflare Pages from the repository root with:
 - Build output directory: `apps/web/dist/client`
 - Build environment variables: `STRAPI_URL`, `VITE_PUBLIC_SITE_URL`, and `BUN_VERSION=1.4.0`
 
-Only the output directory is deployed. It contains no server process or Pages Function, and the public site never contacts Strapi at runtime. See Cloudflare's [build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/) documentation for where to enter these values.
+The public website remains fully static and never contacts Strapi at runtime. The Wrangler deployment also attaches a read-only Worker endpoint used only by the mobile app; it does not change browser page delivery. See Cloudflare's [build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/) documentation for where to enter these values.
 
 To publish CMS changes automatically, create a [Cloudflare Pages deploy hook](https://developers.cloudflare.com/pages/configuration/deploy-hooks/) and add its URL as a Strapi webhook for entry and media publish, update, unpublish, and delete events. Treat the deploy-hook URL as a secret.
 
@@ -62,7 +62,7 @@ bun run deploy
 ```
 
 `bun run deploy` first builds and verifies the static site with its production
-public URL, then Wrangler uploads only `apps/web/dist/client`. When `STRAPI_URL`
+public URL, then Wrangler uploads `apps/web/dist/client` with the mobile content Worker. When `STRAPI_URL`
 is not set, the command starts a temporary local Strapi instance at
 `http://127.0.0.1:1337`, waits for it to be ready, and stops it after the deploy.
 If Strapi is already running there, the command reuses it and leaves it running.
@@ -71,7 +71,7 @@ Set `WOODBROOK_LOCAL_STRAPI_PORT` if the temporary local instance should use a
 port other than `1337`.
 
 For CI, provide `STRAPI_URL`, `CLOUDFLARE_API_TOKEN`, and
-`CLOUDFLARE_ACCOUNT_ID` instead of using the local CMS or interactive login. The
+`CLOUDFLARE_ACCOUNT_ID` instead of using the local CMS or interactive login. Configure `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` as Worker secrets for mobile runtime reads. The
 Cloudflare account must already use `shankill` as its `workers.dev` subdomain
 for the configured Worker name to resolve to the expected URL.
 

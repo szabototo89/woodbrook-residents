@@ -13,7 +13,7 @@ When maintaining the public website, I want to choose either the Woodbrook Googl
 - Published content changes become visible after the next successful static build and deployment.
 - Invalid content stops the build instead of publishing a partial or misleading site.
 - Invalid content is reported before prerendering with the source validation message, including the affected spreadsheet tab, row, and field when available.
-- The deployed site never contacts Google Sheets, Strapi, or a runtime application backend.
+- The deployed browser site never contacts Google Sheets, Strapi, or a runtime application backend. Mobile runtime loading is specified separately.
 
 ## Acceptance criteria
 
@@ -24,7 +24,7 @@ When maintaining the public website, I want to choose either the Woodbrook Googl
 - Given build-time content is invalid, when the static build runs, then it reports the actionable source error before starting Vite prerendering.
 - Given published records contain duplicate stable IDs or route slugs, when the snapshot is validated, then the build fails.
 - Given the prerenderer requests content for multiple routes, when one static build is running, then the validated snapshot is loaded only once.
-- Given the built client artifact is inspected, then it contains no service-account credentials or runtime content-source endpoint.
+- Given the built client artifact is inspected, then it contains no service-account credentials; credentials remain only in build infrastructure and the server-side mobile Worker.
 
 ## Scope
 
@@ -36,4 +36,4 @@ When maintaining the public website, I want to choose either the Woodbrook Googl
 
 ### Not included
 
-- Editing the spreadsheet, synchronizing one source into the other, runtime content reads, media mirroring, issue-report writes, or a public CMS API.
+- Editing the spreadsheet, synchronizing one source into the other, browser runtime content reads, media mirroring, issue-report writes, or a public CMS API. Mobile runtime reads are covered by the iOS mobile navigation capability.
