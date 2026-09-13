@@ -13,7 +13,8 @@
     "typecheck": "tsc --build --pretty false"
   },
   "dependencies": {
-    "@lynx-js/react": "^0.126.1"
+    "@lynx-js/react": "^0.126.1",
+    "zod": "^4.6.4"
   },
   "devDependencies": {
     "@lynx-js/preact-devtools": "^5.0.1-20260827072047-5f77e12",
