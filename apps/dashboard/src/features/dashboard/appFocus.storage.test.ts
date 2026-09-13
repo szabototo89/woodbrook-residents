@@ -1,11 +1,18 @@
 // @vitest-environment happy-dom
-import { afterEach, expect, test, vi } from 'vitest';
+import { Window } from 'happy-dom';
+import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 
 import { persistSelectedApp, readSelectedApp } from './appFocus';
 
+const testWindow = new Window({ url: 'https://woodbrook.local' });
+
+beforeEach(() => {
+  vi.stubGlobal('window', testWindow);
+});
+
 afterEach(() => {
   vi.unstubAllGlobals();
-  window.localStorage.clear();
+  testWindow.localStorage.clear();
 });
 
 test('selected app persists across navigation', () => {

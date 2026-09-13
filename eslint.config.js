@@ -79,6 +79,7 @@ export default tseslint.config(
       '**/*.spec.{ts,tsx}',
       'apps/web/tests/**/*.{ts,tsx}',
       'apps/dashboard/tests/**/*.{ts,tsx}',
+      'apps/mobile/src/__tests__/**/*.{ts,tsx}',
       'scripts/**/*.test.ts',
     ],
     rules: {
