@@ -1,23 +1,16 @@
 import woodbrookImage from '../../../../web/public/images/woodbrook-coast-aerial-768.jpg';
 
 import { homeActions } from './homeContent.js';
+import type { Route } from '../content/contentModels.js';
 
 const imageDescription =
   'Aerial view across Woodbrook toward the coast, Bray and the Wicklow Mountains';
 
-export function HomeScreen() {
+type Props = { navigate?: (route: Route) => void };
+
+export function HomeScreen({ navigate = () => undefined }: Props) {
   return (
     <scroll-view className="screen" scroll-orientation="vertical">
-      <view className="header">
-        <view className="brand-mark" accessibility-element={true}>
-          <text className="brand-initial">W</text>
-        </view>
-        <view className="brand-copy">
-          <text className="brand-name">Woodbrook Residents</text>
-          <text className="brand-context">Community hub · Shankill</text>
-        </view>
-      </view>
-
       <view className="hero">
         <text className="eyebrow">For Woodbrook residents</text>
         <text className="hero-title">
@@ -56,6 +49,7 @@ export function HomeScreen() {
               accessibility-element={true}
               accessibility-trait="button"
               accessibility-label={`${action.title}. ${action.description}`}
+              bindtap={() => navigate(action.route)}
             >
               <text className="action-eyebrow">{action.eyebrow}</text>
               <text className="action-title">{action.title}</text>
@@ -66,7 +60,7 @@ export function HomeScreen() {
         </view>
       </view>
 
-      <view className="contribution">
+      <view className="contribution" bindtap={() => navigate({ name: 'help' })}>
         <text className="eyebrow eyebrow-light">Ways to help</text>
         <text className="contribution-title">
           Help keep local information useful.

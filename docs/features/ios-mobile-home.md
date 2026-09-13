@@ -10,7 +10,7 @@ When I open Woodbrook Residents on an iPhone, I want the same clear starting poi
 
 - The iOS-focused ReactLynx screen identifies itself as Woodbrook Residents with Community hub · Shankill as supporting context.
 - The screen states that it provides local information and ways to take part.
-- The current four homepage starting points appear in a single, touch-friendly mobile sequence: local information, updates, events, and public consultations.
+- The current four homepage starting points appear in a single, touch-friendly mobile sequence and navigate to their mobile sections.
 - The current Ways to help panel appears after the starting points.
 - The existing Woodbrook coastal image is bundled with accessible descriptive text and its existing source attribution.
 - Content is presented in a vertically scrollable layout sized for a phone.
@@ -28,13 +28,12 @@ When I open Woodbrook Residents on an iPhone, I want the same clear starting poi
 
 - ReactLynx, React, and TypeScript project setup under `apps/mobile`.
 - A native, vertically scrollable rendering of the current Woodbrook homepage hierarchy and visual language.
-- The four existing homepage destinations as informational, accessible action cards.
+- The four existing homepage destinations as accessible navigation cards.
 - iOS Simulator development through Lynx Explorer.
 - Prettier, strict TypeScript, rendered component tests, and a 90% coverage gate.
 
 ### Not included
 
-- Native destination screens or navigation.
-- Runtime CMS loading or duplicated seeded content.
+- Mobile-only features beyond the existing resident-facing web capabilities.
 - Accounts, issue reporting, comments, forums, chat, private messaging, marketplace listings, or a social feed.
 - Android packaging or a standalone production iOS host application.
