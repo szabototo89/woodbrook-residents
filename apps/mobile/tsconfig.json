@@ -19,6 +19,11 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "lynx.config.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "../web/src/features/content/googleSheetsParsing.ts",
+    "../web/src/features/content/contentTaxonomy.ts",
+    "../web/src/features/content/contentTypes.ts",
+    "../web/src/features/content/contentSource.ts",
+    "../web/src/features/content/contentSchemas.ts"
   ]
 }
