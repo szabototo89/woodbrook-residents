@@ -1,5 +1,5 @@
 import { Theme } from '@astryxdesign/core';
-import { neutralTheme } from '@astryxdesign/theme-neutral/built';
+import { butterTheme } from '@astryxdesign/theme-butter/built';
 import { HeadContent, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 
@@ -10,7 +10,7 @@ export function RootDocument({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Theme theme={neutralTheme}>
+        <Theme theme={butterTheme}>
           <>{children}</>
         </Theme>
         <Scripts />
