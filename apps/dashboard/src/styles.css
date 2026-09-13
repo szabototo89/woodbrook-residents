@@ -2,26 +2,6 @@
 @import '@astryxdesign/core/astryx.css';
 @import '@astryxdesign/theme-neutral/theme.css';
 
-.skip-link {
-  position: absolute;
-  top: calc(var(--spacing-12) * -1);
-  left: var(--spacing-3);
-  padding: var(--spacing-3) var(--spacing-4);
-  background: var(--color-background-inverted);
-  color: var(--color-background-surface);
-  z-index: 100;
-}
-
-.skip-link:focus {
-  top: var(--spacing-3);
-}
-
-.dashboard-main {
-  max-width: 1100px;
-  margin-inline: auto;
-  padding: var(--spacing-8) var(--spacing-5) var(--spacing-12);
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

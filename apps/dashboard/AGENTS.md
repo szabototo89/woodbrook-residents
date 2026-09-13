@@ -34,3 +34,22 @@ docs <topic> browser-support, cli-integrations, color, elevation, getting-starte
 swizzle <Name> eject component source for deep customization
 upgrade --apply run after any Astryx or integration dependency bump
 <!-- ASTRYX:END -->
+
+## Dashboard conventions
+
+- Frame: `src/components/AdminShell.tsx` owns the Astryx `AppShell` + `SideNav` chrome and the `Outlet`. Do not add another skip link or `<main>`.
+- Routes stay thin (`src/routes/`). Page UI lives in `src/features/<view>/`. Shared chrome lives in `src/components/`.
+- Views are data-driven from `src/features/dashboard/registry.ts`, validated by `registrySchema.ts`. Add apps, links, and actions as data, not layout.
+- Follow the repository `AGENTS.md`: TDD (failing test first), small commits, and verification below before handoff.
+
+## Verification (mirrors apps/web)
+
+```bash
+bun run --cwd apps/dashboard test:unit    # Vitest with 90% coverage gate (statements/branches/functions/lines, per file)
+bun run --cwd apps/dashboard test:browser # Real-browser component tests
+bun run --cwd apps/dashboard test:e2e     # Build + Playwright desktop and mobile projects
+bun run --cwd apps/dashboard typecheck    # Strict tsc --noEmit
+bun run build:dashboard                   # Production build (from the repository root)
+```
+
+Root `bun run lint` and `bun run test` include the dashboard suites. Keep them green and document user-visible changes in `docs/features/developer-dashboard.md`.

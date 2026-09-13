@@ -11,9 +11,6 @@ export function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body>
         <Theme theme={neutralTheme}>
-          <a className="skip-link" href="#main-content">
-            Skip to main content
-          </a>
           <>{children}</>
         </Theme>
         <Scripts />
