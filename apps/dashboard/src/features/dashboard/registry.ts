@@ -26,6 +26,7 @@ export const apps: DashboardApp[] = [
       'test:unit': 'bun run --cwd apps/web test:unit',
       'test:e2e': 'bun run --cwd apps/web test:e2e',
     },
+    infraGroups: ['source', 'hosting', 'analytics'],
   },
   {
     name: 'cms',
@@ -37,6 +38,7 @@ export const apps: DashboardApp[] = [
       develop: 'bun run --cwd apps/cms develop',
       build: 'bun run --cwd apps/cms build',
     },
+    infraGroups: ['cms', 'source', 'hosting'],
   },
   {
     name: 'dashboard',
@@ -50,6 +52,7 @@ export const apps: DashboardApp[] = [
       'test:unit': 'bun run --cwd apps/dashboard test:unit',
       'test:e2e': 'bun run --cwd apps/dashboard test:e2e',
     },
+    infraGroups: ['source', 'hosting'],
   },
 ];
 

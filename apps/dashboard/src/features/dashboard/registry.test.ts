@@ -42,6 +42,7 @@ test('dashboard registry stays extendable without layout changes', () => {
           stack: 'Bun · TypeScript',
           localUrl: 'http://localhost:3002',
           scripts: { dev: 'bun run --cwd apps/future-app dev' },
+          infraGroups: ['source'],
         },
       ],
       infraLinks,
