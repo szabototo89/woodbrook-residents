@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "lynx-devtool": {
+      "type": "local",
+      "command": ["npx", "-y", "@lynx-js/devtool-mcp-server@latest"],
+      "enabled": true
+    }
+  }
+}
