@@ -1,6 +1,6 @@
 # iOS mobile navigation and live content
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
