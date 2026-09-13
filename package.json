@@ -15,7 +15,7 @@
     "dev:web": "CONTENT_SOURCE=strapi bun run --cwd apps/web dev",
     "dev:cms": "bun run --cwd apps/cms develop",
     "dev:dashboard": "bun run --cwd apps/dashboard dev",
-    "dev:mobile": "WOODBROOK_API_URL=http://localhost:3000 bun run --cwd apps/mobile dev",
+    "dev:mobile": "bun run --cwd apps/mobile --env-file=../../.env dev",
     "dev:mobile-content": "CONTENT_SOURCE=google-sheets bun run --cwd apps/web --env-file=../../.env dev",
     "build": "bun run lint && bun run build:cms && bun run build:web && bun run build:dashboard && bun run build:mobile",
     "build:static": "bun run lint && bun run --cwd apps/web --env-file=../../.env build:static",

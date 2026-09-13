@@ -6,9 +6,16 @@ import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
 export default defineConfig({
   source: {
     define: {
-      __WOODBROOK_API_URL__: JSON.stringify(
-        process.env.WOODBROOK_API_URL ??
-          'https://woodbrook.shankill.workers.dev',
+      __GOOGLE_SHEETS_SPREADSHEET_ID__: JSON.stringify(
+        process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim() ||
+          '1X9N_0s7ZN7W6IC43nVegtottBdMbfz-rRKvClccPqgo',
+      ),
+      __GOOGLE_SERVICE_ACCOUNT_EMAIL__: JSON.stringify(
+        process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim() ?? '',
+      ),
+      __GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY__: JSON.stringify(
+        process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, '\n') ??
+          '',
       ),
     },
   },
