@@ -40,7 +40,7 @@ export function getStatusMeta(status: EnvironmentStatus): StatusMeta {
   return STATUS_META[status];
 }
 
-export interface WorkspaceEnvironment {
+export interface WorkspaceEnvironment extends Record<string, unknown> {
   id: string;
   name: string;
   project: string;
@@ -159,34 +159,68 @@ export function summarizeEnvironments(
   };
 }
 
-const FILTER_KEYS: Array<keyof EnvironmentFilters> = [
-  'search',
-  'status',
-  'owner',
-  'template',
-  'lifecycle',
-];
-
 export function parseEnvironmentFilters(
   params: URLSearchParams,
 ): EnvironmentFilters {
-  const filters: EnvironmentFilters = {};
-  for (const key of FILTER_KEYS) {
-    const value = params.get(key)?.trim();
-    if (value) {
-      filters[key] = value as never;
-    }
-  }
-  return filters;
+  const search = params.get('search')?.trim() || undefined;
+  const status = toStatus(params.get('status')?.trim() ?? '');
+  const owner = params.get('owner')?.trim() || undefined;
+  const template = params.get('template')?.trim() || undefined;
+  const lifecycle = toLifecycle(params.get('lifecycle')?.trim() ?? '');
+  return {
+    ...(search ? { search } : {}),
+    ...(status ? { status } : {}),
+    ...(owner ? { owner } : {}),
+    ...(template ? { template } : {}),
+    ...(lifecycle ? { lifecycle } : {}),
+  };
+}
+
+const STATUSES: EnvironmentStatus[] = [
+  'running',
+  'starting',
+  'stopping',
+  'stopped',
+  'updating',
+  'paused',
+  'failed',
+  'unhealthy',
+  'expired',
+  'deleting',
+];
+
+function toStatus(value: string): EnvironmentStatus | undefined {
+  return STATUSES.find((status) => status === value);
+}
+
+const LIFECYCLES: LifecycleFilter[] = [
+  'expiring-24h',
+  'expiring-3d',
+  'no-ttl',
+  'inactive-7d',
+];
+
+function toLifecycle(value: string): LifecycleFilter | undefined {
+  return LIFECYCLES.find((lifecycle) => lifecycle === value);
 }
 
 export function serializeEnvironmentFilters(
   filters: EnvironmentFilters,
 ): URLSearchParams {
   const params = new URLSearchParams();
-  for (const key of FILTER_KEYS) {
-    const value = filters[key]?.trim();
-    if (value) params.set(key, value);
-  }
+  setParam(params, 'search', filters.search);
+  setParam(params, 'status', filters.status);
+  setParam(params, 'owner', filters.owner);
+  setParam(params, 'template', filters.template);
+  setParam(params, 'lifecycle', filters.lifecycle);
   return params;
+}
+
+function setParam(
+  params: URLSearchParams,
+  key: string,
+  value: string | undefined,
+) {
+  const trimmed = value?.trim();
+  if (trimmed) params.set(key, trimmed);
 }

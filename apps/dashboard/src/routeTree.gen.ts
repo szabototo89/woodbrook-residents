@@ -11,6 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
+import { Route as ShellActionsIndexRouteImport } from './routes/_shell.actions.index'
+import { Route as ShellActivityIndexRouteImport } from './routes/_shell.activity.index'
+import { Route as ShellEnvironmentsIndexRouteImport } from './routes/_shell.environments.index'
+import { Route as ShellEnvironmentsEnvIdRouteImport } from './routes/_shell.environments.$envId'
+import { Route as ShellInfrastructureIndexRouteImport } from './routes/_shell.infrastructure.index'
+import { Route as ShellOverviewIndexRouteImport } from './routes/_shell.overview.index'
+import { Route as ShellProjectsIndexRouteImport } from './routes/_shell.projects.index'
+import { Route as ShellTemplatesIndexRouteImport } from './routes/_shell.templates.index'
 import { Route as ShellAppAppNameIndexRouteImport } from './routes/_shell.app.$appName.index'
 import { Route as ShellAppAppNameSectionRouteImport } from './routes/_shell.app.$appName.$section'
 
@@ -22,6 +30,47 @@ const IndexRoute = IndexRouteImport.update({
 const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ShellActionsIndexRoute = ShellActionsIndexRouteImport.update({
+  id: '/actions/',
+  path: '/actions/',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellActivityIndexRoute = ShellActivityIndexRouteImport.update({
+  id: '/activity/',
+  path: '/activity/',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellEnvironmentsIndexRoute = ShellEnvironmentsIndexRouteImport.update({
+  id: '/environments/',
+  path: '/environments/',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellEnvironmentsEnvIdRoute = ShellEnvironmentsEnvIdRouteImport.update({
+  id: '/environments/$envId',
+  path: '/environments/$envId',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellInfrastructureIndexRoute =
+  ShellInfrastructureIndexRouteImport.update({
+    id: '/infrastructure/',
+    path: '/infrastructure/',
+    getParentRoute: () => ShellRoute,
+  } as any)
+const ShellOverviewIndexRoute = ShellOverviewIndexRouteImport.update({
+  id: '/overview/',
+  path: '/overview/',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellProjectsIndexRoute = ShellProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellTemplatesIndexRoute = ShellTemplatesIndexRouteImport.update({
+  id: '/templates/',
+  path: '/templates/',
+  getParentRoute: () => ShellRoute,
 } as any)
 const ShellAppAppNameIndexRoute = ShellAppAppNameIndexRouteImport.update({
   id: '/app/$appName/',
@@ -36,11 +85,27 @@ const ShellAppAppNameSectionRoute = ShellAppAppNameSectionRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/environments/$envId': typeof ShellEnvironmentsEnvIdRoute
+  '/actions/': typeof ShellActionsIndexRoute
+  '/activity/': typeof ShellActivityIndexRoute
+  '/environments/': typeof ShellEnvironmentsIndexRoute
+  '/infrastructure/': typeof ShellInfrastructureIndexRoute
+  '/overview/': typeof ShellOverviewIndexRoute
+  '/projects/': typeof ShellProjectsIndexRoute
+  '/templates/': typeof ShellTemplatesIndexRoute
   '/app/$appName/$section': typeof ShellAppAppNameSectionRoute
   '/app/$appName/': typeof ShellAppAppNameIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/environments/$envId': typeof ShellEnvironmentsEnvIdRoute
+  '/actions': typeof ShellActionsIndexRoute
+  '/activity': typeof ShellActivityIndexRoute
+  '/environments': typeof ShellEnvironmentsIndexRoute
+  '/infrastructure': typeof ShellInfrastructureIndexRoute
+  '/overview': typeof ShellOverviewIndexRoute
+  '/projects': typeof ShellProjectsIndexRoute
+  '/templates': typeof ShellTemplatesIndexRoute
   '/app/$appName/$section': typeof ShellAppAppNameSectionRoute
   '/app/$appName': typeof ShellAppAppNameIndexRoute
 }
@@ -48,18 +113,56 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_shell': typeof ShellRouteWithChildren
+  '/_shell/environments/$envId': typeof ShellEnvironmentsEnvIdRoute
+  '/_shell/actions/': typeof ShellActionsIndexRoute
+  '/_shell/activity/': typeof ShellActivityIndexRoute
+  '/_shell/environments/': typeof ShellEnvironmentsIndexRoute
+  '/_shell/infrastructure/': typeof ShellInfrastructureIndexRoute
+  '/_shell/overview/': typeof ShellOverviewIndexRoute
+  '/_shell/projects/': typeof ShellProjectsIndexRoute
+  '/_shell/templates/': typeof ShellTemplatesIndexRoute
   '/_shell/app/$appName/$section': typeof ShellAppAppNameSectionRoute
   '/_shell/app/$appName/': typeof ShellAppAppNameIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app/$appName/$section' | '/app/$appName/'
+  fullPaths:
+    | '/'
+    | '/environments/$envId'
+    | '/actions/'
+    | '/activity/'
+    | '/environments/'
+    | '/infrastructure/'
+    | '/overview/'
+    | '/projects/'
+    | '/templates/'
+    | '/app/$appName/$section'
+    | '/app/$appName/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app/$appName/$section' | '/app/$appName'
+  to:
+    | '/'
+    | '/environments/$envId'
+    | '/actions'
+    | '/activity'
+    | '/environments'
+    | '/infrastructure'
+    | '/overview'
+    | '/projects'
+    | '/templates'
+    | '/app/$appName/$section'
+    | '/app/$appName'
   id:
     | '__root__'
     | '/'
     | '/_shell'
+    | '/_shell/environments/$envId'
+    | '/_shell/actions/'
+    | '/_shell/activity/'
+    | '/_shell/environments/'
+    | '/_shell/infrastructure/'
+    | '/_shell/overview/'
+    | '/_shell/projects/'
+    | '/_shell/templates/'
     | '/_shell/app/$appName/$section'
     | '/_shell/app/$appName/'
   fileRoutesById: FileRoutesById
@@ -85,6 +188,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell/actions/': {
+      id: '/_shell/actions/'
+      path: '/actions'
+      fullPath: '/actions/'
+      preLoaderRoute: typeof ShellActionsIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/activity/': {
+      id: '/_shell/activity/'
+      path: '/activity'
+      fullPath: '/activity/'
+      preLoaderRoute: typeof ShellActivityIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/environments/': {
+      id: '/_shell/environments/'
+      path: '/environments'
+      fullPath: '/environments/'
+      preLoaderRoute: typeof ShellEnvironmentsIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/environments/$envId': {
+      id: '/_shell/environments/$envId'
+      path: '/environments/$envId'
+      fullPath: '/environments/$envId'
+      preLoaderRoute: typeof ShellEnvironmentsEnvIdRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/infrastructure/': {
+      id: '/_shell/infrastructure/'
+      path: '/infrastructure'
+      fullPath: '/infrastructure/'
+      preLoaderRoute: typeof ShellInfrastructureIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/overview/': {
+      id: '/_shell/overview/'
+      path: '/overview'
+      fullPath: '/overview/'
+      preLoaderRoute: typeof ShellOverviewIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/projects/': {
+      id: '/_shell/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ShellProjectsIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/templates/': {
+      id: '/_shell/templates/'
+      path: '/templates'
+      fullPath: '/templates/'
+      preLoaderRoute: typeof ShellTemplatesIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/app/$appName/': {
       id: '/_shell/app/$appName/'
       path: '/app/$appName'
@@ -103,11 +262,27 @@ declare module '@tanstack/react-router' {
 }
 
 interface ShellRouteChildren {
+  ShellEnvironmentsEnvIdRoute: typeof ShellEnvironmentsEnvIdRoute
+  ShellActionsIndexRoute: typeof ShellActionsIndexRoute
+  ShellActivityIndexRoute: typeof ShellActivityIndexRoute
+  ShellEnvironmentsIndexRoute: typeof ShellEnvironmentsIndexRoute
+  ShellInfrastructureIndexRoute: typeof ShellInfrastructureIndexRoute
+  ShellOverviewIndexRoute: typeof ShellOverviewIndexRoute
+  ShellProjectsIndexRoute: typeof ShellProjectsIndexRoute
+  ShellTemplatesIndexRoute: typeof ShellTemplatesIndexRoute
   ShellAppAppNameSectionRoute: typeof ShellAppAppNameSectionRoute
   ShellAppAppNameIndexRoute: typeof ShellAppAppNameIndexRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
+  ShellEnvironmentsEnvIdRoute: ShellEnvironmentsEnvIdRoute,
+  ShellActionsIndexRoute: ShellActionsIndexRoute,
+  ShellActivityIndexRoute: ShellActivityIndexRoute,
+  ShellEnvironmentsIndexRoute: ShellEnvironmentsIndexRoute,
+  ShellInfrastructureIndexRoute: ShellInfrastructureIndexRoute,
+  ShellOverviewIndexRoute: ShellOverviewIndexRoute,
+  ShellProjectsIndexRoute: ShellProjectsIndexRoute,
+  ShellTemplatesIndexRoute: ShellTemplatesIndexRoute,
   ShellAppAppNameSectionRoute: ShellAppAppNameSectionRoute,
   ShellAppAppNameIndexRoute: ShellAppAppNameIndexRoute,
 }
