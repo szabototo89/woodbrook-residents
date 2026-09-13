@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import { apps } from '../features/dashboard/registry';
-import { readSelectedApp } from '../features/workspace/AppWorkspacePage';
+import { readSelectedApp } from '../features/dashboard/appFocus';
 
 export const Route = createFileRoute('/')({
   beforeLoad: () => {
