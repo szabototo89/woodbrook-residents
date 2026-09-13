@@ -1,3 +1,4 @@
+.agents/
 .opencode/
 apps/cms/.strapi/
 apps/cms/.strapi-updater.json
