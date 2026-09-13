@@ -40,7 +40,23 @@ upgrade --apply run after any Astryx or integration dependency bump
 - Frame: `src/components/AdminShell.tsx` owns the Astryx `AppShell` + `SideNav` chrome and the `Outlet`. Do not add another skip link or `<main>`.
 - Routes stay thin (`src/routes/`). Page UI lives in `src/features/<view>/`. Shared chrome lives in `src/components/`.
 - Views are data-driven from `src/features/dashboard/registry.ts`, validated by `registrySchema.ts`. Add apps, links, and actions as data, not layout.
+- Environments derive from the registry in `src/features/environments/environments.ts`. Never invent status, TTL, cost, or URLs; render honest empty states instead.
 - Follow the repository `AGENTS.md`: TDD (failing test first), small commits, and verification below before handoff.
+
+## Admin UI design guidelines
+
+This dashboard is an operational control surface, not a marketing dashboard.
+
+- Optimize for frequent expert users; prefer density over decorative whitespace.
+- The environments table is the home page. No giant KPI cards, no charts without an operational purpose.
+- Columns: environment (real link), status, owner, TTL, cost, actions. Keep rows dense (compact density).
+- Status vocabulary: running, starting, stopping, stopped, updating, paused, failed, unhealthy, expired, deleting. Never report running without backend confirmation. Status is always dot plus text, never color alone.
+- TTL and cost are first-class: relative wording, honest empty states, extend/tracking guidance inline.
+- Filters (search, status, owner, template, lifecycle) persist in URL query parameters. Tabs use `?tab=` and remain deep-linkable with working history.
+- Sentence case everywhere. Buttons name the operation (Create environment, Delete environment, View logs). Errors explain the problem plus the recovery action.
+- Every view handles loading, empty (with next step), populated, and error states.
+- Keyboard: `⌘K`/`Ctrl+K` palette, `/` focuses search, `Esc` closes. Real links for navigation so Cmd+click and middle-click work.
+- Meet WCAG AA: visible focus, keyboard-operable, semantic HTML, labels on every input, aria-labels on icon-only actions, reduced-motion support, 44px mobile targets.
 
 ## Verification (mirrors apps/web)
 
