@@ -15,7 +15,7 @@ type TokenResponse = {
 
 export type TokenFetch = (
   url: string,
-  init: { method: string; headers: Record<string, string>; body: string },
+  init: { method: string; headers: Record<string, string>; body?: string },
 ) => Promise<TokenResponse>;
 
 const tokenEndpoint = 'https://oauth2.googleapis.com/token';
