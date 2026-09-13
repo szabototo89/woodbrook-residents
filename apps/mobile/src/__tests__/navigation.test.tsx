@@ -167,7 +167,7 @@ test('collection and detail screens explain empty or missing content', async () 
   ).toBeInTheDocument();
 });
 
-test('app shows runtime loading and failure states with retry', async () => {
+test('app stays usable with empty sections when loading fails, then recovers on retry', async () => {
   const loadContent = vi
     .fn()
     .mockRejectedValueOnce(new Error('offline'))
@@ -175,14 +175,22 @@ test('app shows runtime loading and failure states with retry', async () => {
   render(<App loadContent={loadContent} />);
 
   expect(
-    await screen.findByText('Content is temporarily unavailable.'),
+    await screen.findByText('What would you like to do?'),
   ).toBeInTheDocument();
+  expect(
+    screen.getByText('Content is temporarily unavailable.'),
+  ).toBeInTheDocument();
+
+  fireEvent.tap(screen.getByText('Updates'));
+  expect(
+    await screen.findByText('No updates are available right now.'),
+  ).toBeInTheDocument();
+
   fireEvent.tap(screen.getByText('Try again'));
 
   await waitFor(() => expect(loadContent).toHaveBeenCalledTimes(2));
-  expect(
-    await screen.findByText('What would you like to do?'),
-  ).toBeInTheDocument();
+  expect(await screen.findByText('Bus route update')).toBeInTheDocument();
+  expect(screen.queryByText('Try again')).not.toBeInTheDocument();
 });
 
 test('local information shows no-match and empty-directory states', async () => {
