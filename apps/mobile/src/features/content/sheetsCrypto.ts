@@ -215,8 +215,8 @@ function readBlock(
 
 function integerToBigInt(bytes: Uint8Array): bigint {
   return Array.from(bytes).reduce(
-    (value, byte) => (value << 8n) + BigInt(byte),
-    0n,
+    (value, byte) => (value << BigInt(8)) + BigInt(byte),
+    BigInt(0),
   );
 }
 
@@ -263,13 +263,13 @@ function modPow(base: bigint, exponent: bigint, modulus: bigint): bigint {
   return bits.reduce((result, bit) => {
     const squared = (result * result) % modulus;
     return bit === '1' ? (squared * (base % modulus)) % modulus : squared;
-  }, 1n);
+  }, BigInt(1));
 }
 
 function bigIntToBytes(value: bigint, length: number): Uint8Array {
   return Uint8Array.from(
     range(length).map((index) =>
-      Number((value >> BigInt(8 * (length - 1 - index))) & 0xffn),
+      Number((value >> BigInt(8 * (length - 1 - index))) & BigInt(255)),
     ),
   );
 }
