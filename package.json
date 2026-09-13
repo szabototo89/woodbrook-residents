@@ -14,10 +14,12 @@
     "dev": "CONTENT_SOURCE=strapi concurrently -n web,cms -c cyan,green \"bun run --cwd apps/web dev\" \"bun run --cwd apps/cms develop\"",
     "dev:web": "CONTENT_SOURCE=strapi bun run --cwd apps/web dev",
     "dev:cms": "bun run --cwd apps/cms develop",
-    "build": "bun run lint && bun run build:cms && bun run build:web",
+    "dev:dashboard": "bun run --cwd apps/dashboard dev",
+    "build": "bun run lint && bun run build:cms && bun run build:web && bun run build:dashboard",
     "build:static": "bun run lint && bun run --cwd apps/web --env-file=../../.env build:static",
     "build:web": "bun run --cwd apps/web build",
     "build:cms": "bun run --cwd apps/cms build",
+    "build:dashboard": "bun run --cwd apps/dashboard build",
     "deploy": "bun scripts/deploy.ts",
     "sync:content": "bun scripts/sync-content.ts",
     "test:sync-content": "bun test scripts/sync-content.test.ts",
@@ -27,11 +29,11 @@
     "test:browser": "bun run --cwd apps/web test:browser",
     "test:e2e": "bun run --cwd apps/web test:e2e",
     "test:lighthouse": "bun run --cwd apps/web test:lighthouse",
-    "typecheck": "bun run --cwd apps/web typecheck && bun run --cwd apps/cms typecheck && bun run typecheck:sync-content",
+    "typecheck": "bun run --cwd apps/web typecheck && bun run --cwd apps/cms typecheck && bun run --cwd apps/dashboard typecheck && bun run typecheck:sync-content",
     "typecheck:sync-content": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --strict --noImplicitAny --noImplicitOverride --noImplicitReturns --noUncheckedIndexedAccess --skipLibCheck --types bun scripts/sync-content.ts scripts/sync-content.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "bun run format:check && eslint apps/web/src apps/web/tests scripts apps/cms/src && bun run typecheck"
+    "lint": "bun run format:check && eslint apps/web/src apps/web/tests apps/dashboard/src apps/dashboard/tests scripts apps/cms/src && bun run typecheck"
   },
   "dependencies": {
     "google-auth-library": "^11.0.2"
