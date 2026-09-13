@@ -15,10 +15,7 @@ export type EnvironmentStatus =
   | 'deleting';
 
 export type EnvironmentType =
-  | 'development'
-  | 'preview'
-  | 'staging'
-  | 'production';
+  'development' | 'preview' | 'staging' | 'production';
 
 export interface StatusMeta {
   label: string;
@@ -88,10 +85,7 @@ export function getWorkspaceEnvironments(
 }
 
 export type LifecycleFilter =
-  | 'expiring-24h'
-  | 'expiring-3d'
-  | 'no-ttl'
-  | 'inactive-7d';
+  'expiring-24h' | 'expiring-3d' | 'no-ttl' | 'inactive-7d';
 
 export interface EnvironmentFilters {
   search?: string;
@@ -124,7 +118,9 @@ export function filterEnvironments(
     }
     if (
       filters.template &&
-      !env.template.toLowerCase().includes(filters.template.trim().toLowerCase())
+      !env.template
+        .toLowerCase()
+        .includes(filters.template.trim().toLowerCase())
     ) {
       return false;
     }

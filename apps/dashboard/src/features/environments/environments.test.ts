@@ -60,18 +60,18 @@ test('environment filtering supports search, status, owner, and lifecycle', () =
     ),
   ).toBe(true);
   expect(filterEnvironments(envs, { status: 'running' })).toEqual([]);
-  expect(
-    filterEnvironments(envs, { status: 'stopped' }).length,
-  ).toBe(envs.length);
-  expect(
-    filterEnvironments(envs, { lifecycle: 'no-ttl' }).length,
-  ).toBe(envs.length);
+  expect(filterEnvironments(envs, { status: 'stopped' }).length).toBe(
+    envs.length,
+  );
+  expect(filterEnvironments(envs, { lifecycle: 'no-ttl' }).length).toBe(
+    envs.length,
+  );
   expect(filterEnvironments(envs, { lifecycle: 'expiring-24h' })).toEqual([]);
   expect(filterEnvironments(envs, { lifecycle: 'expiring-3d' })).toEqual([]);
   expect(filterEnvironments(envs, { lifecycle: 'inactive-7d' })).toEqual([]);
-  expect(
-    filterEnvironments(envs, { owner: '  ENGINEERING ' }).length,
-  ).toBe(envs.length);
+  expect(filterEnvironments(envs, { owner: '  ENGINEERING ' }).length).toBe(
+    envs.length,
+  );
   expect(filterEnvironments(envs, { owner: 'other' })).toEqual([]);
   expect(
     filterEnvironments(envs, { template: 'tanstack' }).length,
