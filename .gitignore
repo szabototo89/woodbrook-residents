@@ -15,4 +15,4 @@ test-results/
 apps/cms/public/uploads/*
 !apps/cms/public/uploads/.gitkeep
 *.log
-
+*.tsbuildinfo
