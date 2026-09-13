@@ -25,4 +25,6 @@ test('developer dashboard lists apps, infrastructure, and actions', async ({
   await expect(
     page.getByRole('link', { name: /Cloudflare/ }).first(),
   ).toBeVisible();
+  await page.keyboard.press('Tab');
+  await expect(page.locator('.skip-link')).toBeFocused();
 });

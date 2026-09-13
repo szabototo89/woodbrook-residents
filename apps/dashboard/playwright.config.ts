@@ -16,7 +16,16 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   projects: [
-    { name: 'desktop-chromium', use: { ...devices['Desktop Chrome'] } },
+    {
+      name: 'desktop-chromium',
+      testIgnore: '**/*.mobile.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'mobile-chromium',
+      testMatch: '**/*.mobile.spec.ts',
+      use: { ...devices['Pixel 7'] },
+    },
   ],
   webServer: [
     {

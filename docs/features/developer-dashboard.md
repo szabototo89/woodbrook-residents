@@ -9,8 +9,8 @@ As a Woodbrook software engineer, I can open one local dashboard to see every wo
 ## Visible behavior
 
 - `/` shows `Workspace status and actions` with Applications, Infrastructure, and Build actions sections.
-- Applications lists `web`, `cms`, and `dashboard` with descriptions, stacks, localhost URLs, and key scripts.
-- Infrastructure links to the GitHub repository and Actions, Cloudflare Pages/Workers and deploy-hook docs, Strapi admin docs, and Microsoft Clarity.
+- Applications lists `web`, `cms`, and `dashboard` as Astryx cards with descriptions, stacks, localhost URLs, and copyable per-app script blocks.
+- Infrastructure links render as Astryx list rows grouped by source, hosting, cms, and analytics.
 - Build actions show runnable `bun run` commands for install, lint, builds, and tests.
 - New apps, links, and actions are added as data in `src/features/dashboard/registry.ts` and validated by `registrySchema.ts`; no layout change is needed.
 
@@ -19,6 +19,8 @@ As a Woodbrook software engineer, I can open one local dashboard to see every wo
 - Unit tests validate registry completeness and extendability.
 - Browser test renders app headings and infrastructure links.
 - E2E test loads `/` and verifies section headings plus the GitHub repository URL.
+- Mobile E2E test verifies no horizontal overflow on a phone viewport.
+- UI is built on Astryx (@astryxdesign/core 0.6.0, neutral theme) and verified with Playwright desktop and mobile screenshots plus keyboard skip-link focus.
 - `bun run build:dashboard`, typecheck, lint, and dashboard unit/browser/e2e suites pass.
 
 ## Scope

@@ -11,7 +11,7 @@ const config = defineConfig(({ mode }) => {
     define: {
       __STATIC_SITE_BUILD__: JSON.stringify(isStaticSiteBuild),
     },
-    resolve: { tsconfigPaths: true },
+    resolve: { tsconfigPaths: true, dedupe: ['react', 'react-dom'] },
     plugins: [
       tanstackStart(
         isStaticSiteBuild
