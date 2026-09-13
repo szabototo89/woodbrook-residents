@@ -9,77 +9,61 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
-import { Route as ShellIndexRouteImport } from './routes/_shell.index'
-import { Route as ShellActionsRouteImport } from './routes/_shell.actions'
-import { Route as ShellApplicationsRouteImport } from './routes/_shell.applications'
-import { Route as ShellInfrastructureRouteImport } from './routes/_shell.infrastructure'
+import { Route as ShellAppAppNameRouteImport } from './routes/_shell.app.$appName'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ShellIndexRoute = ShellIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ShellRoute,
-} as any)
-const ShellActionsRoute = ShellActionsRouteImport.update({
-  id: '/actions',
-  path: '/actions',
-  getParentRoute: () => ShellRoute,
-} as any)
-const ShellApplicationsRoute = ShellApplicationsRouteImport.update({
-  id: '/applications',
-  path: '/applications',
-  getParentRoute: () => ShellRoute,
-} as any)
-const ShellInfrastructureRoute = ShellInfrastructureRouteImport.update({
-  id: '/infrastructure',
-  path: '/infrastructure',
+const ShellAppAppNameRoute = ShellAppAppNameRouteImport.update({
+  id: '/app/$appName',
+  path: '/app/$appName',
   getParentRoute: () => ShellRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof ShellIndexRoute
-  '/actions': typeof ShellActionsRoute
-  '/applications': typeof ShellApplicationsRoute
-  '/infrastructure': typeof ShellInfrastructureRoute
+  '/': typeof IndexRoute
+  '/app/$appName': typeof ShellAppAppNameRoute
 }
 export interface FileRoutesByTo {
-  '/actions': typeof ShellActionsRoute
-  '/applications': typeof ShellApplicationsRoute
-  '/infrastructure': typeof ShellInfrastructureRoute
-  '/': typeof ShellIndexRoute
+  '/': typeof IndexRoute
+  '/app/$appName': typeof ShellAppAppNameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_shell': typeof ShellRouteWithChildren
-  '/_shell/actions': typeof ShellActionsRoute
-  '/_shell/applications': typeof ShellApplicationsRoute
-  '/_shell/infrastructure': typeof ShellInfrastructureRoute
-  '/_shell/': typeof ShellIndexRoute
+  '/_shell/app/$appName': typeof ShellAppAppNameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/actions' | '/applications' | '/infrastructure'
+  fullPaths: '/' | '/app/$appName'
   fileRoutesByTo: FileRoutesByTo
-  to: '/actions' | '/applications' | '/infrastructure' | '/'
-  id:
-    | '__root__'
-    | '/_shell'
-    | '/_shell/actions'
-    | '/_shell/applications'
-    | '/_shell/infrastructure'
-    | '/_shell/'
+  to: '/' | '/app/$appName'
+  id: '__root__' | '/' | '/_shell' | '/_shell/app/$appName'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   ShellRoute: typeof ShellRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_shell': {
       id: '/_shell'
       path: ''
@@ -87,54 +71,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_shell/': {
-      id: '/_shell/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof ShellIndexRouteImport
-      parentRoute: typeof ShellRoute
-    }
-    '/_shell/actions': {
-      id: '/_shell/actions'
-      path: '/actions'
-      fullPath: '/actions'
-      preLoaderRoute: typeof ShellActionsRouteImport
-      parentRoute: typeof ShellRoute
-    }
-    '/_shell/applications': {
-      id: '/_shell/applications'
-      path: '/applications'
-      fullPath: '/applications'
-      preLoaderRoute: typeof ShellApplicationsRouteImport
-      parentRoute: typeof ShellRoute
-    }
-    '/_shell/infrastructure': {
-      id: '/_shell/infrastructure'
-      path: '/infrastructure'
-      fullPath: '/infrastructure'
-      preLoaderRoute: typeof ShellInfrastructureRouteImport
+    '/_shell/app/$appName': {
+      id: '/_shell/app/$appName'
+      path: '/app/$appName'
+      fullPath: '/app/$appName'
+      preLoaderRoute: typeof ShellAppAppNameRouteImport
       parentRoute: typeof ShellRoute
     }
   }
 }
 
 interface ShellRouteChildren {
-  ShellActionsRoute: typeof ShellActionsRoute
-  ShellApplicationsRoute: typeof ShellApplicationsRoute
-  ShellInfrastructureRoute: typeof ShellInfrastructureRoute
-  ShellIndexRoute: typeof ShellIndexRoute
+  ShellAppAppNameRoute: typeof ShellAppAppNameRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
-  ShellActionsRoute: ShellActionsRoute,
-  ShellApplicationsRoute: ShellApplicationsRoute,
-  ShellInfrastructureRoute: ShellInfrastructureRoute,
-  ShellIndexRoute: ShellIndexRoute,
+  ShellAppAppNameRoute: ShellAppAppNameRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   ShellRoute: ShellRouteWithChildren,
 }
 export const routeTree = rootRouteImport

@@ -4,22 +4,20 @@ Status: Available
 
 ## Job to be done
 
-As a Woodbrook software engineer, I can open one local dashboard to see every workspace application, reach infrastructure consoles, and run standard build actions.
+As a Woodbrook software engineer, I can select one workspace application and see everything about it in one focused place.
 
 ## Visible behavior
 
-- A persistent sidebar navigates Overview, Applications, Infrastructure, and Build actions with the current view marked; on phones it collapses to a top bar with a navigation menu.
-- `/` shows an Overview with status tiles (tracked applications, infrastructure links, build actions) and start-here links.
-- `/applications` lists `web`, `cms`, and `dashboard` as Astryx cards with descriptions, stacks, localhost URLs, and copyable per-app script blocks.
-- `/infrastructure` links to the GitHub repository and Actions, Cloudflare Pages/Workers and deploy-hook docs, Strapi admin docs, and Microsoft Clarity as Astryx list rows grouped by source, hosting, cms, and analytics.
-- `/actions` shows runnable `bun run` commands for install, lint, builds, and tests.
+- A persistent application selector lists `web`, `cms`, and `dashboard`; the active app is marked and every view shows only that app's context.
+- `/` redirects to the last-selected app, defaulting to `web`, so the dashboard always focuses one application.
+- `/app/<name>` is deep-linkable per application and shows its description, stack, local URL, copyable script block, relevant infrastructure links, app actions, and workspace actions.
 - New apps, links, and actions are added as data in `src/features/dashboard/registry.ts` and validated by `registrySchema.ts`; no layout change is needed.
 
 ## Acceptance criteria
 
-- Unit tests validate registry completeness and extendability.
-- Browser test renders app headings and infrastructure links.
-- E2E test tours every view through the sidebar and verifies the GitHub repository URL.
+- Unit tests validate registry completeness, extendability, and per-app link/action filtering.
+- Browser tests render an app workspace and prove per-app context.
+- E2E test redirects `/` to the focused app, switches apps through the selector, and verifies per-app content plus the GitHub repository URL.
 - Mobile E2E test verifies no horizontal overflow on a phone viewport.
 - UI is built on Astryx (@astryxdesign/core 0.6.0, neutral theme) and verified with Playwright desktop and mobile screenshots plus keyboard skip-link focus.
 - `bun run build:dashboard`, typecheck, lint, and dashboard unit/browser/e2e suites pass.
