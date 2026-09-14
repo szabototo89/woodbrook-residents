@@ -1,68 +1,100 @@
 import { AppShell } from '@astryxdesign/core/AppShell';
-import { Selector } from '@astryxdesign/core/Selector';
+import { Button } from '@astryxdesign/core/Button';
 import {
   SideNav,
   SideNavHeading,
   SideNavItem,
   SideNavSection,
 } from '@astryxdesign/core/SideNav';
+import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import {
-  Outlet,
-  useLocation,
-  useNavigate,
-  useParams,
-} from '@tanstack/react-router';
-import { Globe, ListTree, ScrollText, SlidersHorizontal } from 'lucide-react';
-import { useEffect, type JSX } from 'react';
+  Activity,
+  Boxes,
+  FolderKanban,
+  LayoutDashboard,
+  LayoutTemplate,
+  ListTree,
+  SlidersHorizontal,
+} from 'lucide-react';
+import { useEffect, useState, type JSX } from 'react';
 
-import type { AppSection } from '../features/dashboard/appFocus';
-import {
-  getSectionFromPath,
-  persistSelectedApp,
-} from '../features/dashboard/appFocus';
+import { getWorkspaceEnvironments } from '../features/environments/environments';
 import { apps } from '../features/dashboard/registry';
+import { CommandMenu } from './CommandMenu';
 
-const SECTION_ITEMS: Array<{
-  section: AppSection;
+const PRIMARY_ITEMS: Array<{ path: string; label: string; icon: JSX.Element }> =
+  [
+    {
+      path: '/overview',
+      label: 'Overview',
+      icon: <LayoutDashboard size={16} />,
+    },
+    { path: '/environments', label: 'Environments', icon: <Boxes size={16} /> },
+    {
+      path: '/templates',
+      label: 'Templates',
+      icon: <LayoutTemplate size={16} />,
+    },
+    { path: '/projects', label: 'Projects', icon: <FolderKanban size={16} /> },
+    { path: '/activity', label: 'Activity', icon: <Activity size={16} /> },
+  ];
+
+const WORKSPACE_ITEMS: Array<{
+  path: string;
   label: string;
   icon: JSX.Element;
 }> = [
-  { section: 'overview', label: 'Overview', icon: <Globe size={16} /> },
-  { section: 'scripts', label: 'Scripts', icon: <ScrollText size={16} /> },
   {
-    section: 'infrastructure',
+    path: '/infrastructure',
     label: 'Infrastructure',
     icon: <ListTree size={16} />,
   },
-  {
-    section: 'actions',
-    label: 'Actions',
-    icon: <SlidersHorizontal size={16} />,
-  },
+  { path: '/actions', label: 'Actions', icon: <SlidersHorizontal size={16} /> },
 ];
+
+function isActive(pathname: string, path: string) {
+  return pathname === path || pathname.startsWith(`${path}/`);
+}
 
 export function AdminShell() {
   const location = useLocation();
   const navigate = useNavigate();
-  const params = useParams({ strict: false });
-  const activeApp = typeof params.appName === 'string' ? params.appName : 'web';
-  const activeSection = getSectionFromPath(location.pathname);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
+  const environments = getWorkspaceEnvironments(apps);
 
   useEffect(() => {
-    if (apps.some((app) => app.name === activeApp)) {
-      persistSelectedApp(activeApp);
+    function onKeyDown(event: KeyboardEvent) {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setIsPaletteOpen((open) => !open);
+      }
     }
-  }, [activeApp]);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
-  function goToSection(appName: string, section: AppSection) {
-    if (section === 'overview') {
-      void navigate({ to: '/app/$appName', params: { appName } });
-      return;
-    }
-    void navigate({
-      to: '/app/$appName/$section',
-      params: { appName, section },
-    });
+  function goTo(path: string) {
+    void navigate({ to: path });
+  }
+
+  function renderItem(item: {
+    path: string;
+    label: string;
+    icon: JSX.Element;
+  }) {
+    return (
+      <SideNavItem
+        key={item.path}
+        label={item.label}
+        icon={item.icon}
+        href={item.path}
+        isSelected={isActive(location.pathname, item.path)}
+        onClick={(event) => {
+          event.preventDefault();
+          goTo(item.path);
+        }}
+      />
+    );
   }
 
   return (
@@ -72,46 +104,34 @@ export function AdminShell() {
       sideNav={
         <SideNav
           collapsible
-          header={<SideNavHeading heading="Workspace" headingHref="/" />}
+          header={
+            <SideNavHeading heading="Workspace" headingHref="/environments" />
+          }
           topContent={
-            <Selector
-              label="Application"
-              options={apps.map((app) => ({
-                value: app.name,
-                label: app.name,
-                description: app.localUrl,
-              }))}
-              value={activeApp}
-              onChange={(value) => goToSection(value, activeSection)}
-              presentation="adaptive"
+            <Button
+              label="Search or jump to…  ⌘K"
+              variant="secondary"
+              width="100%"
+              onClick={() => setIsPaletteOpen(true)}
             />
           }
         >
           <SideNavSection title="Sections" isHeaderHidden>
-            {SECTION_ITEMS.map((item) => {
-              const path =
-                item.section === 'overview'
-                  ? `/app/${activeApp}`
-                  : `/app/${activeApp}/${item.section}`;
-              return (
-                <SideNavItem
-                  key={item.section}
-                  label={item.label}
-                  icon={item.icon}
-                  href={path}
-                  isSelected={activeSection === item.section}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    goToSection(activeApp, item.section);
-                  }}
-                />
-              );
-            })}
+            {PRIMARY_ITEMS.map(renderItem)}
+          </SideNavSection>
+          <SideNavSection title="Workspace">
+            {WORKSPACE_ITEMS.map(renderItem)}
           </SideNavSection>
         </SideNav>
       }
     >
       <Outlet />
+      <CommandMenu
+        isOpen={isPaletteOpen}
+        onOpenChange={setIsPaletteOpen}
+        environments={environments}
+        onNavigate={goTo}
+      />
     </AppShell>
   );
 }

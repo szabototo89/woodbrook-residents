@@ -3,6 +3,7 @@ import './styles.css';
 import { useEffect, useState } from '@lynx-js/react';
 
 import { AppHeader } from './components/AppHeader.js';
+import { OfflineNotice } from './components/OfflineNotice.js';
 import { StatusScreen } from './components/StatusScreen.js';
 import { CollectionScreen } from './features/content/CollectionScreen.js';
 import { DetailScreen } from './features/content/DetailScreen.js';
@@ -19,6 +20,14 @@ import { HomeScreen } from './features/home/HomeScreen.js';
 
 type Props = { loadContent?: () => Promise<ContentSnapshot> };
 
+const emptySnapshot: ContentSnapshot = {
+  updates: [],
+  projects: [],
+  events: [],
+  surveys: [],
+  resources: [],
+};
+
 export function App({ loadContent = loadMobileContent }: Props) {
   const [route, setRoute] = useState<Route>({ name: 'home' });
   const [content, setContent] = useState<ContentSnapshot>();
@@ -28,17 +37,15 @@ export function App({ loadContent = loadMobileContent }: Props) {
   useEffect(() => {
     setFailed(false);
     loadContent()
-      .then(setContent)
-      .catch(() => setFailed(true));
+      .then((snapshot) => setContent(snapshot))
+      .catch(() => {
+        setContent(emptySnapshot);
+        setFailed(true);
+      });
   }, [attempt, loadContent]);
 
   if (!content) {
-    return (
-      <StatusScreen
-        failed={failed}
-        retry={() => setAttempt((value) => value + 1)}
-      />
-    );
+    return <StatusScreen />;
   }
 
   const page =
@@ -67,6 +74,9 @@ export function App({ loadContent = loadMobileContent }: Props) {
   return (
     <view className="app">
       <AppHeader navigate={setRoute} />
+      {failed ? (
+        <OfflineNotice retry={() => setAttempt((value) => value + 1)} />
+      ) : null}
       {page}
     </view>
   );

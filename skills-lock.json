@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "lynx-devtool": {
+      "source": "lynx-community/skills",
+      "sourceType": "github",
+      "skillPath": "skills/lynx-devtool/SKILL.md",
+      "computedHash": "e549c14f1cd42311eb66bc42b8b819afcba973d17eb4727d7dd39eac1db4d1ea"
+    },
+    "lynx-typescript": {
+      "source": "lynx-community/skills",
+      "sourceType": "github",
+      "skillPath": "skills/lynx-typescript/SKILL.md",
+      "computedHash": "15576a4f45dc2a117b54fd34e50649133ae5508a8d3544ca0d700d836ae5b3c8"
+    },
+    "reactlynx-best-practices": {
+      "source": "lynx-community/skills",
+      "sourceType": "github",
+      "skillPath": "skills/reactlynx-best-practices/SKILL.md",
+      "computedHash": "8861f37a35cb4b5bb2fa5f819f82705ed2cd57e0448d5bee7989fe63ba6a8606"
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
 
 test('dashboard mobile has no horizontal overflow', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/environments');
   await expect(
-    page.getByRole('heading', { name: 'web', exact: true }),
+    page.getByRole('heading', { name: 'Environments' }),
   ).toBeVisible();
   const overflow = await page.evaluate(
     () =>

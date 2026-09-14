@@ -18,16 +18,29 @@ From the repository root:
 
 ```sh
 bun install
-bun run dev:mobile-content
 bun run dev:mobile
 ```
-
-Run the two development commands in separate terminals. The web process provides the read-only runtime content endpoint at `http://localhost:3000/api/mobile-content`; it reads the configured Google Sheet on each request. Start Lynx Explorer in the iOS Simulator, then paste the bundle URL printed by Rspeedy into Explorer. The QR-code configuration adds fullscreen mode automatically.
 
 `bun run dev:mobile` starts both mobile renderers: Rspeedy serves the native and
 web Lynx bundles on port 3202, and the browser host runs at
 `http://localhost:3203`. Open that browser URL for the web renderer. The iOS
 renderer continues to use the native bundle URL printed by Rspeedy.
+
+By default, the app loads content at runtime from the public Woodbrook Worker.
+To use the repository's local Google Sheets-backed API, run these commands in
+separate terminals:
+
+```sh
+bun run dev:mobile-content
+WOODBROOK_API_URL=http://localhost:3000 bun run dev:mobile
+```
+
+Google service-account credentials stay in the web server or Cloudflare Worker
+and are never embedded in either mobile bundle. Configure `CONTENT_SOURCE` and
+the existing Google variables in the repository `.env` file for the local
+content process. Start Lynx Explorer in the iOS Simulator, then paste the native
+bundle URL printed by Rspeedy into Explorer. The QR-code configuration adds
+fullscreen mode automatically.
 
 Renderer-specific commands are also available from `apps/mobile`:
 
@@ -47,7 +60,9 @@ Set `WOODBROOK_API_URL` when building the bundle for a device or production. It 
 WOODBROOK_API_URL=https://woodbrook.shankill.workers.dev bun run build:mobile
 ```
 
-Google service-account credentials stay in the web server or Cloudflare Worker and are never embedded in the mobile bundle. For local development, configure `CONTENT_SOURCE=google-sheets` and the existing Google variables in the repository `.env` file.
+When the content API cannot be reached, the app stays usable: navigation, empty
+sections, and a "Try again" notice remain available, and retrying requests a new
+runtime snapshot.
 
 ## Quality checks
 

@@ -273,6 +273,23 @@
   background-color: #f7f4ed;
 }
 
+.offline-notice {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+  background-color: #e5ece6;
+}
+
+.offline-copy {
+  color: #162e2a;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.offline-notice .button {
+  margin-top: 8px;
+}
+
 .button {
   margin-top: 24px;
 }

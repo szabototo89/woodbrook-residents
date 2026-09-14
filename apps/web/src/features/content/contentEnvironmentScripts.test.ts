@@ -41,6 +41,6 @@ test('mobile content development loads Google Sheets credentials from the reposi
     'CONTENT_SOURCE=google-sheets bun run --cwd apps/web --env-file=../../.env dev',
   );
   expect(rootPackage.scripts['dev:mobile']).toBe(
-    'WOODBROOK_API_URL=http://localhost:3000 bun run --cwd apps/mobile dev',
+    'bun run --cwd apps/mobile --env-file=../../.env dev',
   );
 });

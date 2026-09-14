@@ -1,60 +1,110 @@
 import { expect, test } from 'vitest';
 import { render } from 'vitest-browser-react';
 
-import { apps } from '../../src/features/dashboard/registry';
 import { getAppByName } from '../../src/features/dashboard/appFocus';
-import { AppActionsSection } from '../../src/features/workspace/AppActionsSection';
-import { AppInfrastructureSection } from '../../src/features/workspace/AppInfrastructureSection';
-import { AppOverviewSection } from '../../src/features/workspace/AppOverviewSection';
-import { AppScriptsSection } from '../../src/features/workspace/AppScriptsSection';
+import { apps } from '../../src/features/dashboard/registry';
+import { CostIndicator } from '../../src/features/environments/CostIndicator';
+import { EnvironmentDetailPage } from '../../src/features/environments/EnvironmentDetailPage';
+import { EnvironmentsView } from '../../src/features/environments/EnvironmentsView';
+import { getWorkspaceEnvironments } from '../../src/features/environments/environments';
+import { StatusBadge } from '../../src/features/environments/StatusBadge';
+import { TTLIndicator } from '../../src/features/environments/TTLIndicator';
 
-function cmsApp() {
-  const app = getAppByName(apps, 'cms');
-  if (!app) throw new Error('cms app missing from registry');
+function webEnv() {
+  const env = getWorkspaceEnvironments(apps).find(
+    (entry) => entry.id === 'web-local',
+  );
+  if (!env) throw new Error('web-local environment missing');
+  return env;
+}
+
+function webApp() {
+  const app = getAppByName(apps, 'web');
+  if (!app) throw new Error('web app missing from registry');
   return app;
 }
 
-test('dashboard overview section renders the selected app', async () => {
-  const screen = await render(<AppOverviewSection app={cmsApp()} />);
+test('environments view renders the operational inventory', async () => {
+  const screen = await render(
+    <EnvironmentsView
+      environments={getWorkspaceEnvironments(apps)}
+      filters={{}}
+      onFiltersChange={() => {}}
+    />,
+  );
 
   await expect
-    .element(screen.getByRole('heading', { name: 'cms', exact: true }))
+    .element(screen.getByRole('heading', { name: 'Environments' }))
     .toBeVisible();
   await expect
-    .element(screen.getByRole('link', { name: 'http://localhost:1337' }))
+    .element(screen.getByRole('link', { name: 'web-local' }))
     .toBeVisible();
-});
-
-test('dashboard scripts section renders copyable commands', async () => {
-  const screen = await render(<AppScriptsSection app={cmsApp()} />);
-
+  await expect.element(screen.getByText('3 stopped')).toBeVisible();
   await expect
-    .element(screen.getByRole('heading', { name: 'Scripts' }))
-    .toBeVisible();
-  await expect
-    .element(screen.getByText('bun run --cwd apps/cms develop'))
-    .toBeVisible();
-});
-
-test('dashboard infrastructure section filters per app', async () => {
-  const screen = await render(<AppInfrastructureSection app={cmsApp()} />);
-
-  await expect
-    .element(screen.getByRole('heading', { name: 'Infrastructure' }))
-    .toBeVisible();
-  await expect
-    .element(screen.getByRole('link', { name: /Strapi local admin/ }))
+    .element(screen.getByRole('columnheader', { name: 'TTL' }))
     .toBeVisible();
 });
 
-test('dashboard actions section shows app and workspace actions', async () => {
-  const web = getAppByName(apps, 'web');
-  if (!web) throw new Error('web app missing from registry');
-  const screen = await render(<AppActionsSection app={web} />);
+test('ttl and cost indicators stay honest without a backend', async () => {
+  const ttlScreen = await render(<TTLIndicator ttl={null} />);
+  await expect.element(ttlScreen.getByText('No TTL')).toBeVisible();
+  const costScreen = await render(<CostIndicator cost={null} />);
+  await expect.element(costScreen.getByText('—')).toBeVisible();
+});
+
+test('environments view offers recovery when filters match nothing', async () => {
+  const screen = await render(
+    <EnvironmentsView
+      environments={getWorkspaceEnvironments(apps)}
+      filters={{ search: 'no-such-environment' }}
+      onFiltersChange={() => {}}
+    />,
+  );
 
   await expect
-    .element(screen.getByRole('heading', { name: 'Actions', exact: true }))
+    .element(screen.getByText('No environments match these filters'))
     .toBeVisible();
-  await expect.element(screen.getByText('bun run build:web')).toBeVisible();
-  await expect.element(screen.getByText('bun run lint')).toBeVisible();
+  await expect
+    .element(screen.getByRole('button', { name: 'Clear filters' }).nth(1))
+    .toBeVisible();
+});
+
+test('status badge never communicates through color alone', async () => {
+  const screen = await render(<StatusBadge status="stopped" />);
+  await expect.element(screen.getByText('Stopped')).toBeVisible();
+});
+
+test('environment detail shows header, tabs, and start guidance', async () => {
+  const screen = await render(
+    <EnvironmentDetailPage
+      env={webEnv()}
+      app={webApp()}
+      tab="overview"
+      onTabChange={() => {}}
+    />,
+  );
+
+  await expect
+    .element(screen.getByRole('heading', { name: 'web-local' }))
+    .toBeVisible();
+  await expect
+    .element(screen.getByRole('link', { name: 'Open locally' }))
+    .toBeVisible();
+  await expect
+    .element(screen.getByRole('link', { name: 'Logs' }))
+    .toBeVisible();
+  await expect.element(screen.getByText('Start locally')).toBeVisible();
+});
+
+test('environment detail logs tab explains the honest empty state', async () => {
+  const screen = await render(
+    <EnvironmentDetailPage
+      env={webEnv()}
+      app={webApp()}
+      tab="logs"
+      onTabChange={() => {}}
+    />,
+  );
+
+  await expect.element(screen.getByText('No live logs')).toBeVisible();
 });
