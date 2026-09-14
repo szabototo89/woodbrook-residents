@@ -4,6 +4,22 @@ import { defineConfig } from '@lynx-js/rspeedy';
 import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
 
 export default defineConfig({
+  environments: {
+    lynx: {
+      output: {
+        distPath: {
+          root: 'dist/ios',
+        },
+      },
+    },
+    web: {
+      output: {
+        distPath: {
+          root: 'dist/web-lynx',
+        },
+      },
+    },
+  },
   source: {
     define: {
       __WOODBROOK_API_URL__: JSON.stringify(
@@ -13,7 +29,12 @@ export default defineConfig({
     },
   },
   output: {
-    filename: 'woodbrook.lynx.bundle',
+    filename: {
+      bundle: 'woodbrook.[platform].bundle',
+    },
+  },
+  server: {
+    port: 3202,
   },
   plugins: [
     pluginQRCode({

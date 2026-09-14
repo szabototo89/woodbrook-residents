@@ -76,7 +76,10 @@
       "name": "mobile",
       "version": "0.1.0",
       "dependencies": {
+        "@lynx-js/lynx-core": "0.1.4",
         "@lynx-js/react": "^0.126.1",
+        "@lynx-js/web-core": "0.26.1",
+        "tslib": "^2.8.1",
       },
       "devDependencies": {
         "@lynx-js/preact-devtools": "^5.0.1-20260827072047-5f77e12",
@@ -84,11 +87,14 @@
         "@lynx-js/react-rsbuild-plugin": "^0.20.2",
         "@lynx-js/rspeedy": "^0.17.2",
         "@lynx-js/types": "^4.1.0",
+        "@playwright/test": "1.63.0",
+        "@rsbuild/core": "2.2.4",
         "@rsbuild/plugin-type-check": "^1.6.0",
         "@testing-library/dom": "^10.4.1",
         "@testing-library/jest-dom": "^7.0.0",
         "@types/react": "^19.2.18",
         "@vitest/coverage-v8": "4.1.11",
+        "concurrently": "^9.2.1",
         "jsdom": "^27.4.0",
         "typescript": "^6.0.3",
         "vitest": "^4.1.10",
@@ -589,6 +595,8 @@
     "@lynx-js/debug-metadata": ["@lynx-js/debug-metadata@0.1.0", "", { "bin": { "debug-metadata": "./dist/cli.js" } }, "sha512-3N+Wgc/kIc4/aG5KpdPWKsC9MsNngygeyg9JS6IOayS8AQJ37xjVEzlz1U3aYzT9al0RJKL7w4poa0tGaXBv1g=="],
 
     "@lynx-js/debug-metadata-rsbuild-plugin": ["@lynx-js/debug-metadata-rsbuild-plugin@0.2.3", "", { "dependencies": { "@lynx-js/debug-metadata": "^0.1.0" }, "peerDependencies": { "@rsbuild/core": "^2.0.0" }, "optionalPeers": ["@rsbuild/core"] }, "sha512-fsSN9lGYHjmnL94rI9T8/HnOAM1VHAIGBgH6Stv+uUrAa7GiKuaytIu2dO6wZ0oGGzHFHPXmCmMNVbw5yQRWlQ=="],
+
+    "@lynx-js/lynx-core": ["@lynx-js/lynx-core@0.1.4", "", {}, "sha512-JxpAoDhpR8dJ6PFR2KOsFQyWt6SKiU+Bp701/miy5exqZHd+SlCd3UCfMtJy3nRlz3gy1O1xsObK7+x+jArdAQ=="],
 
     "@lynx-js/preact-devtools": ["@lynx-js/preact-devtools@5.0.1-20260827072047-5f77e12", "", { "dependencies": { "errorstacks": "^2.4.1", "htm": "^3.1.1" } }, "sha512-S4zV+qtL+M8MBT9G4I2jkeaDsbLVyX4kt5m+XyS9w7drBSrJlgOdxZ/lMtG3ngZVhpo7TuE6UODZGexB0QbZdA=="],
 

@@ -1,6 +1,8 @@
 # Woodbrook mobile
 
-An iOS-focused ReactLynx and TypeScript version of the Woodbrook Residents public hub.
+A ReactLynx and TypeScript version of the Woodbrook Residents public hub. The
+same application source renders in Lynx on iOS and through Lynx for Web in a
+browser.
 
 ## Requirements
 
@@ -8,8 +10,9 @@ An iOS-focused ReactLynx and TypeScript version of the Woodbrook Residents publi
 - Node.js 20.19 or later (Node.js 22.12 or later is also supported by the Lynx toolchain)
 - Xcode and the iOS Simulator
 - [Lynx Explorer for iOS](https://lynxjs.org/guide/start/quick-start.html)
+- Chrome 92+, Safari 16.4+, or a compatible newer browser
 
-## Develop on iOS
+## Develop on iOS and web
 
 From the repository root:
 
@@ -20,6 +23,23 @@ bun run dev:mobile
 ```
 
 Run the two development commands in separate terminals. The web process provides the read-only runtime content endpoint at `http://localhost:3000/api/mobile-content`; it reads the configured Google Sheet on each request. Start Lynx Explorer in the iOS Simulator, then paste the bundle URL printed by Rspeedy into Explorer. The QR-code configuration adds fullscreen mode automatically.
+
+`bun run dev:mobile` starts both mobile renderers: Rspeedy serves the native and
+web Lynx bundles on port 3202, and the browser host runs at
+`http://localhost:3203`. Open that browser URL for the web renderer. The iOS
+renderer continues to use the native bundle URL printed by Rspeedy.
+
+Renderer-specific commands are also available from `apps/mobile`:
+
+```sh
+bun run dev:ios
+bun run dev:web
+bun run dev:all
+```
+
+`dev:web` starts the web-target bundle server as well as the browser host because
+the host loads that bundle at runtime. `dev:all` adds the native bundle used by
+Lynx Explorer.
 
 Set `WOODBROOK_API_URL` when building the bundle for a device or production. It must be the HTTPS origin hosting the Woodbrook Worker, for example:
 
@@ -38,8 +58,32 @@ bun run --cwd apps/mobile test
 bun run --cwd apps/mobile build
 ```
 
-The test command renders ReactLynx components in the official ReactLynx Testing Library and fails unless statements, branches, functions, and lines each reach at least 90% coverage.
+Install the browser engines once before the full mobile test suite:
+
+```sh
+bun run --cwd apps/mobile test:web:install
+```
+
+The test command renders ReactLynx components in the official ReactLynx Testing
+Library and fails unless statements, branches, functions, and lines each reach
+at least 90% coverage. It also builds the production artifacts and verifies
+runtime content loading and navigation in Chromium and WebKit.
+
+The production outputs are separate and can be built explicitly:
+
+```sh
+bun run --cwd apps/mobile build:ios
+bun run --cwd apps/mobile build:web
+bun run --cwd apps/mobile build:all
+```
+
+The native artifact is written to `dist/ios`. The browser host is written to
+`dist/web` and includes its web-target Lynx bundle under `dist/web/lynx`.
 
 ## Current scope
 
-The app loads live, validated content at runtime and provides native in-app navigation for updates, projects, events, consultations, local information, their detail views, and ways to help. Local information includes search, category, and out-of-hours filters. No accounts, submissions, social features, or other mobile-only capabilities are included.
+The app loads live, validated content at runtime and provides shared in-app
+navigation for updates, projects, events, consultations, local information,
+their detail views, and ways to help. Local information includes search,
+category, and out-of-hours filters. No accounts, submissions, social features,
+or other mobile-only capabilities are included.

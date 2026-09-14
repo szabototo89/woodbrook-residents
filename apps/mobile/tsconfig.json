@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
+    "isolatedModules": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@lynx-js/react",
     "types": ["@lynx-js/rspeedy/client"],
@@ -19,6 +20,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "lynx.config.ts",
+    "rsbuild.web.config.ts",
+    "web/**/*.ts",
     "vitest.config.ts"
   ]
 }
