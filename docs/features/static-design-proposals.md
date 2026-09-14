@@ -1,0 +1,54 @@
+# Static design proposals
+
+Status: Available
+
+## Job to be done
+
+When I want to pitch a website redesign or compare directions, I want a simple
+gallery of high-fidelity static concepts, so I can share and review the idea
+without creating a production application.
+
+## User-visible behavior
+
+- A standalone welcome screen lists every available website proposal.
+- Each proposal opens as an independent static website concept.
+- The first proposal presents a persuasive redesign direction for The Dog Salon
+  in Bray, including services, proof, care positioning, FAQs, location, and an
+  appointment-request experience.
+- A discreet proposal layer explains which production inputs still require the
+  business owner's confirmation.
+- The Dog Salon concept uses sourced business details and licensed concept
+  photography instead of invented local facts or outcomes.
+- The concepts adapt for desktop and mobile review.
+- The appointment form demonstrates the intended interaction without sending or
+  storing personal information.
+
+## Acceptance criteria
+
+- Given the proposal server is running, when a reviewer opens its root URL, then
+  an independent welcome screen links to The Dog Salon concept.
+- Given a reviewer opens The Dog Salon concept, when the first viewport appears,
+  then the salon identity, one-to-one value proposition, phone number, primary
+  navigation, appointment action, and professional grooming imagery are visible.
+- Given a reviewer scans the concept, when they reach services, then inclusions,
+  durations, published prices, and appointment actions are easy to compare.
+- Given a reviewer uses a narrow screen, when they open navigation, then the main
+  destinations remain usable and a persistent appointment action remains visible.
+- Given a reviewer submits the concept form, when validation succeeds, then the
+  page confirms the demonstration without transmitting or retaining the entered
+  information.
+- Given a reviewer opens proposal notes or sources, when they inspect caveats,
+  then production dependencies and source URLs are explicit.
+
+## Scope
+
+### Included
+
+- Plain HTML, CSS, and browser JavaScript under `apps/design-proposals`.
+- A proposal-gallery landing page and the first Dog Salon concept.
+- Local review through `bun run dev:proposals`.
+
+### Not included
+
+- Hosting, deployment, production forms, data storage, analytics, CMS integration,
+  verified client photography, or final legal copy.

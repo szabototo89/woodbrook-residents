@@ -19,6 +19,14 @@ bun run dev
 - Website: `http://localhost:3000`
 - Strapi admin: `http://localhost:1337/admin`
 
+To review the separate static website concepts gallery, run:
+
+```bash
+bun run dev:proposals
+```
+
+The proposal server is independent of the Woodbrook website and CMS.
+
 The CMS creates researched starter content on its first run. Create the first Strapi administrator in the admin screen; public content read permissions are configured automatically.
 
 `bun install` also configures the repository's pre-commit hook. Every commit runs

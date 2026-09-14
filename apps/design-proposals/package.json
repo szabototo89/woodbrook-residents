@@ -1,0 +1,7 @@
+{
+  "name": "@woodbrook/design-proposals",
+  "private": true,
+  "scripts": {
+    "dev": "bunx serve ."
+  }
+}
