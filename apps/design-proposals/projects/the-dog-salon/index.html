@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A proposed redesign for The Dog Salon: gentle, one-to-one dog grooming in Bray."
+    />
+    <title>The Dog Salon — Redesign proposal</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="site.js" defer></script>
+  </head>
+  <body>
+    <div class="proposal-bar">
+      <a href="../../index.html">← All proposals</a>
+      <span>Concept 01 · The Dog Salon</span>
+      <button type="button" data-notes-toggle>Proposal notes</button>
+    </div>
+
+    <div class="proposal-notes" data-notes hidden>
+      <div>
+        <p class="eyebrow">Before production</p>
+        <h2>A polished direction, with honest placeholders.</h2>
+        <p>
+          This static concept demonstrates hierarchy, tone and conversion flow.
+          Replace licensed concept photography with authentic salon photography,
+          obtain current Google review permission, confirm opening hours, add
+          team bios, and complete a privacy review before launch.
+        </p>
+        <button
+          type="button"
+          data-notes-close
+          aria-label="Close proposal notes"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <header class="site-header" data-header>
+      <div class="wrap header-inner">
+        <a class="brand" href="#top" aria-label="The Dog Salon home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" role="img">
+              <path
+                d="M15 23c-5-2-7-8-4-12 4 0 8 4 9 8m13 4c5-2 7-8 4-12-4 0-8 4-9 8"
+              />
+              <path
+                d="M14 24c0-8 4-13 10-13s10 5 10 13c0 9-4 14-10 14S14 33 14 24Z"
+              />
+              <path d="M20 28c2 2 6 2 8 0M21 22h.01M27 22h.01" />
+            </svg>
+          </span>
+          <span
+            ><strong>The Dog Salon</strong
+            ><small>Dog grooming · Bray</small></span
+          >
+        </a>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          data-menu-toggle
+        >
+          <span></span><span></span><span></span>
+          <span class="sr-only">Open navigation</span>
+        </button>
+
+        <nav
+          id="site-nav"
+          class="site-nav"
+          aria-label="Primary navigation"
+          data-menu
+        >
+          <a href="#services">Services</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#about">About</a>
+          <a href="#faqs">FAQs</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="phone-link" href="tel:+353867922276">086 792 2276</a>
+          <a class="button button-small" href="#appointment"
+            >Request appointment</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">One-to-one grooming · Bray</p>
+            <h1>Gentle care.<br /><em>Beautiful grooms.</em></h1>
+            <p class="hero-intro">
+              Professional grooming for small and medium dogs in a calm, caring
+              environment—one dog and one groomer at a time.
+            </p>
+            <div class="button-row">
+              <a class="button" href="#appointment">Request an appointment</a>
+              <a class="text-link" href="#services"
+                >Explore services <span>↓</span></a
+              >
+            </div>
+            <div class="rating-line">
+              <span class="stars" aria-label="4.9 out of 5 stars">★★★★★</span>
+              <strong>4.9 average rating</strong>
+              <span>Across recent public listings</span>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="image-frame">
+              <img
+                src="https://images.pexels.com/photos/6816863/pexels-photo-6816863.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1400"
+                alt="A professional groomer carefully trimming a small dog's coat"
+              />
+            </div>
+            <div class="care-note">
+              <span aria-hidden="true">♥</span>
+              <p>
+                <strong>Focused care</strong>Your dog has our full attention.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-strip" aria-label="Why choose The Dog Salon">
+        <div class="wrap trust-grid">
+          <div><span>01</span><strong>One-to-one care</strong></div>
+          <div><span>02</span><strong>Natural products</strong></div>
+          <div><span>03</span><strong>Calm environment</strong></div>
+          <div>
+            <span>04</span><strong>Professional association member</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section services" id="services">
+        <div class="wrap">
+          <div class="section-intro split-heading">
+            <div>
+              <p class="eyebrow">Services & pricing</p>
+              <h2>A groom for<br /><em>every stage.</em></h2>
+            </div>
+            <p>
+              Every appointment is tailored to your dog’s breed, size, coat
+              condition and preferred style. We’ll confirm the final price with
+              you.
+            </p>
+          </div>
+
+          <div class="service-grid">
+            <article class="service-card featured-card">
+              <div class="card-topline">
+                <span>Most complete</span><span>2–2½ hours</span>
+              </div>
+              <h3>Full Groom</h3>
+              <p>Complete coat care and styling, tailored to your dog.</p>
+              <ul>
+                <li>Brush out</li>
+                <li>Ear clean & nail trim</li>
+                <li>Wash & blow dry</li>
+                <li>Style trim or full clip</li>
+                <li>Finishing spritz</li>
+              </ul>
+              <div class="card-action">
+                <strong>Price varies by breed & style</strong>
+                <a href="#appointment">Request full groom →</a>
+              </div>
+            </article>
+
+            <article class="service-card">
+              <div class="card-topline">
+                <span>Freshen up</span><span>1½–2 hours</span>
+              </div>
+              <h3>Basic Groom</h3>
+              <p>A thorough wash and tidy without a style trim or clip.</p>
+              <ul>
+                <li>Brush out</li>
+                <li>Ear clean & nail trim</li>
+                <li>Wash & blow dry</li>
+                <li>Finishing spritz</li>
+              </ul>
+              <div class="card-action">
+                <strong>Price varies by breed & size</strong>
+                <a href="#appointment">Request basic groom →</a>
+              </div>
+            </article>
+
+            <article class="service-card puppy-card">
+              <div class="card-topline">
+                <span>Up to 6 months</span><span>1–2 hours</span>
+              </div>
+              <h3>Puppy Pamper</h3>
+              <p>
+                A slow, reassuring introduction to a lifetime of positive
+                grooming.
+              </p>
+              <ul>
+                <li>Gentle brush, wash & dry</li>
+                <li>Nails & ears checked</li>
+                <li>Calm equipment introduction</li>
+                <li>Lots of reassurance</li>
+              </ul>
+              <div class="card-action">
+                <strong>From €40</strong>
+                <a href="#appointment">Request puppy pamper →</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="small-services">
+            <div>
+              <span>Maintenance Groom</span><strong>€15 · 15 mins</strong>
+            </div>
+            <div><span>Nail Trim</span><strong>€10</strong></div>
+            <div><span>Dematting</span><strong>€5 per 15 mins</strong></div>
+          </div>
+
+          <details class="policy">
+            <summary>
+              Cancellation & additional handling policies <span>+</span>
+            </summary>
+            <div class="policy-content">
+              <div>
+                <h3>Cancellation policy</h3>
+                <ul>
+                  <li><strong>12–24 hours:</strong> 50% of the groom cost.</li>
+                  <li>
+                    <strong>Under 12 hours:</strong> 100% of the groom cost.
+                  </li>
+                  <li>
+                    <strong>No-show:</strong> full payment before another
+                    booking.
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3>Dogs requiring additional handling</h3>
+                <p>
+                  Some nervous or reactive dogs need extra time and handling so
+                  they can be groomed safely and comfortably. An additional
+                  charge may apply; we’ll always discuss this with you.
+                </p>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section gallery" id="gallery">
+        <div class="wrap">
+          <div class="section-intro gallery-heading">
+            <div>
+              <p class="eyebrow">Fresh from the salon</p>
+              <h2>Looking <em>good.</em></h2>
+            </div>
+            <p class="photo-note">
+              Concept photography · replace with real client grooms
+            </p>
+          </div>
+          <div class="gallery-grid">
+            <figure class="gallery-tall">
+              <img
+                src="https://images.pexels.com/photos/9360433/pexels-photo-9360433.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"
+                alt="Freshly groomed white Pomeranian looking happy"
+                loading="lazy"
+              />
+              <figcaption>Fresh finish</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="https://images.pexels.com/photos/19145897/pexels-photo-19145897.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"
+                alt="Groomer gently washing a curly-coated dog"
+                loading="lazy"
+              />
+              <figcaption>Calm care</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="https://images.pexels.com/photos/6816863/pexels-photo-6816863.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"
+                alt="Careful coat trimming during a professional groom"
+                loading="lazy"
+              />
+              <figcaption>Finishing touches</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section one-to-one" id="about">
+        <div class="wrap care-grid">
+          <div class="care-image">
+            <img
+              src="https://images.pexels.com/photos/19145897/pexels-photo-19145897.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"
+              alt="A dog receiving a gentle wash from a groomer"
+              loading="lazy"
+            />
+            <span>Bray, Co. Wicklow</span>
+          </div>
+          <div class="care-copy">
+            <p class="eyebrow">A quieter kind of salon</p>
+            <h2>One dog.<br />One groomer.<br /><em>Full attention.</em></h2>
+            <p>
+              Your dog is cared for individually from start to finish in a warm,
+              relaxing environment. Coat-specific natural shampoos and patient
+              handling keep every appointment personal.
+            </p>
+            <div class="care-points">
+              <div><strong>01</strong><span>Safe & caring handling</span></div>
+              <div><strong>02</strong><span>Coat-specific products</span></div>
+              <div><strong>03</strong><span>Focused appointments</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reviews" aria-labelledby="reviews-title">
+        <div class="wrap reviews-grid">
+          <div>
+            <p class="eyebrow">Kind words</p>
+            <h2 id="reviews-title">Trusted by local dog owners.</h2>
+            <div class="rating-large">
+              <span>4.9</span>
+              <div><b>★★★★★</b><small>Public listing average</small></div>
+            </div>
+          </div>
+          <blockquote>
+            <span class="quote-mark">“</span>
+            <p>
+              Very professional groomers. Did exactly what I asked to be done.
+              Definitely returning for the next groom!
+            </p>
+            <footer>A recent public review</footer>
+          </blockquote>
+        </div>
+      </section>
+
+      <section class="section team" aria-labelledby="team-title">
+        <div class="wrap team-grid">
+          <div>
+            <p class="eyebrow">Meet your groomers</p>
+            <h2 id="team-title">People your dog can get to know.</h2>
+          </div>
+          <div class="team-members">
+            <article class="team-member">
+              <span aria-hidden="true">K</span>
+              <div>
+                <h3>Karen</h3>
+                <p>Professional groomer</p>
+              </div>
+            </article>
+            <article class="team-member">
+              <span aria-hidden="true">J</span>
+              <div>
+                <h3>Jennifer</h3>
+                <p>Professional groomer</p>
+              </div>
+            </article>
+            <p class="team-caption">
+              Real portraits and personal bios would make this introduction even
+              stronger.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section puppy-feature">
+        <div class="wrap puppy-grid">
+          <div class="puppy-number">01</div>
+          <div>
+            <p class="eyebrow">A positive beginning</p>
+            <h2>Their first groom matters.</h2>
+            <p>
+              Puppy Pamper introduces brushing, washing, drying and salon
+              equipment slowly, calmly and with plenty of reassurance.
+            </p>
+          </div>
+          <div class="puppy-action">
+            <strong>From €40</strong
+            ><span>For fully vaccinated puppies up to 6 months</span
+            ><a class="button" href="#appointment">Request puppy pamper</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faqs" id="faqs">
+        <div class="wrap faq-grid">
+          <div class="faq-heading">
+            <p class="eyebrow">Good to know</p>
+            <h2>Before their visit.</h2>
+            <p>
+              Simple answers to help the appointment feel easy for you and your
+              dog.
+            </p>
+          </div>
+          <div class="accordion" data-accordion>
+            <details open>
+              <summary>How should I prepare my dog?<span>+</span></summary>
+              <p>
+                Exercise your dog where possible and give them time to toilet
+                before arriving. Please use a secure lead and collar.
+              </p>
+            </details>
+            <details>
+              <summary>When should I collect my dog?<span>+</span></summary>
+              <p>
+                We’ll call as soon as your dog is ready. Please wait until you
+                hear from us before arriving—seeing you early can make it
+                difficult to safely finish their trim.
+              </p>
+            </details>
+            <details>
+              <summary>How is the final price decided?<span>+</span></summary>
+              <p>
+                It depends on breed, size, coat condition, required styling and
+                any additional handling or dematting time. We’ll discuss it with
+                you.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Can you groom a nervous or reactive dog?<span>+</span>
+              </summary>
+              <p>
+                Tell us what your dog needs when requesting an appointment. Some
+                dogs need extra time and handling; we’ll discuss what is safe
+                and comfortable.
+              </p>
+            </details>
+            <details>
+              <summary>
+                How do I care for their coat between grooms?<span>+</span>
+              </summary>
+              <p>
+                Regular brushing and combing helps prevent matting. Your groomer
+                can recommend the right tools and frequency for your dog’s coat.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section visit" id="contact">
+        <div class="wrap visit-grid">
+          <div class="visit-details">
+            <p class="eyebrow">Visit us</p>
+            <h2>Right here<br />in Bray.</h2>
+            <address>
+              92 Clover Hill<br />Bray, Co. Wicklow<br />A98 T104
+            </address>
+            <a
+              class="text-link"
+              href="https://www.google.com/maps/search/?api=1&amp;query=92+Clover+Hill+Bray+A98+T104"
+              >Get directions ↗</a
+            >
+            <div class="hours">
+              <h3>Opening hours</h3>
+              <dl>
+                <div>
+                  <dt>Tuesday–Saturday</dt>
+                  <dd>09:45–17:30</dd>
+                </div>
+                <div>
+                  <dt>Sunday–Monday</dt>
+                  <dd>Closed</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+          <div class="map-frame">
+            <iframe
+              title="Map showing The Dog Salon at 92 Clover Hill, Bray"
+              src="https://www.google.com/maps?q=92+Clover+Hill+Bray+A98+T104&amp;output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section class="section appointment" id="appointment">
+        <div class="wrap appointment-grid">
+          <div>
+            <p class="eyebrow">Request an appointment</p>
+            <h2>Ready for their next groom?</h2>
+            <p>
+              Tell us a little about your dog and what they need. We’ll call to
+              confirm availability, timing and price.
+            </p>
+            <a class="call-card" href="tel:+353867922276"
+              ><span>Prefer to call?</span><strong>086 792 2276</strong></a
+            >
+          </div>
+          <form class="appointment-form" data-appointment-form>
+            <div class="field-row">
+              <label
+                >Your name<input name="name" autocomplete="name" required
+              /></label>
+              <label
+                >Mobile number<input
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  required
+              /></label>
+            </div>
+            <div class="field-row">
+              <label>Dog’s name<input name="dog-name" required /></label>
+              <label>Breed<input name="breed" required /></label>
+            </div>
+            <div class="field-row">
+              <label>Age<input name="age" /></label>
+              <label
+                >Service required
+                <select name="service" required>
+                  <option value="">Choose a service</option>
+                  <option>Full Groom</option>
+                  <option>Basic Groom</option>
+                  <option>Puppy Pamper</option>
+                  <option>Maintenance Groom</option>
+                  <option>Nail Trim</option>
+                  <option>Not sure yet</option>
+                </select>
+              </label>
+            </div>
+            <div class="field-row">
+              <label>Preferred date<input name="date" type="date" /></label>
+              <label
+                >New or existing customer?
+                <select name="customer-type">
+                  <option>New customer</option>
+                  <option>Existing customer</option>
+                </select>
+              </label>
+            </div>
+            <label
+              >Anything we should know?<textarea
+                name="notes"
+                rows="4"
+                placeholder="Temperament, coat condition, preferred style or anything that helps us care for your dog."
+              ></textarea>
+            </label>
+            <button class="button submit-button" type="submit">
+              Request appointment
+            </button>
+            <p class="form-note">
+              This proposal form does not send or store personal information.
+            </p>
+            <p class="form-success" role="status" data-form-success hidden>
+              Thanks—this is how a successful request will feel. No information
+              was sent.
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-grid">
+        <div class="footer-brand">
+          <a class="brand brand-light" href="#top">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 48 48" role="img">
+                <path
+                  d="M15 23c-5-2-7-8-4-12 4 0 8 4 9 8m13 4c5-2 7-8 4-12-4 0-8 4-9 8"
+                />
+                <path
+                  d="M14 24c0-8 4-13 10-13s10 5 10 13c0 9-4 14-10 14S14 33 14 24Z"
+                />
+                <path d="M20 28c2 2 6 2 8 0M21 22h.01M27 22h.01" />
+              </svg>
+            </span>
+            <span
+              ><strong>The Dog Salon</strong
+              ><small>Dog grooming · Bray</small></span
+            >
+          </a>
+          <p>Gentle one-to-one grooming in Bray.</p>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <a href="tel:+353867922276">086 792 2276</a
+          ><a href="mailto:info@thedogsalon.ie">info@thedogsalon.ie</a>
+        </div>
+        <div>
+          <h3>Visit</h3>
+          <p>92 Clover Hill<br />Bray, Co. Wicklow<br />A98 T104</p>
+        </div>
+        <div>
+          <h3>Explore</h3>
+          <a href="#services">Services</a><a href="#gallery">Gallery</a
+          ><a href="#faqs">FAQs</a><a href="#appointment">Appointments</a>
+        </div>
+      </div>
+      <div class="wrap footer-bottom">
+        <span>© The Dog Salon</span>
+        <span>Privacy policy requires review before launch</span>
+      </div>
+    </footer>
+
+    <details class="sources">
+      <summary>Proposal sources & image credits</summary>
+      <div class="wrap source-grid">
+        <div>
+          <h2>Business information</h2>
+          <p>
+            Business proposition, association membership, contact details and
+            address:
+            <a href="https://thedogsalon.ie/">thedogsalon.ie</a>.
+          </p>
+          <p>
+            Service inclusions, durations, published prices and policies:
+            <a href="https://thedogsalon.ie/services">thedogsalon.ie/services</a
+            >.
+          </p>
+          <p>
+            Customer preparation guidance:
+            <a href="https://thedogsalon.ie/owners-tips"
+              >thedogsalon.ie/owners-tips</a
+            >.
+          </p>
+          <p>
+            Rating, hours and review excerpt are presentation placeholders
+            compiled from public listings and must be confirmed against the
+            owner’s current Google Business Profile before production.
+          </p>
+          <strong>Accessed 14 September 2026</strong>
+          <p>
+            Public team names:
+            <a href="https://www.bizireland.com/the-dog-salon-086-792-2276"
+              >BizIreland listing</a
+            >.
+          </p>
+        </div>
+        <div>
+          <h2>Concept photography</h2>
+          <p>
+            Licensed concept images from Pexels by
+            <a href="https://www.pexels.com/photo/dog-at-a-groomer-6816863/"
+              >Gustavo Fring</a
+            >,
+            <a
+              href="https://www.pexels.com/photo/groomer-standing-and-washing-dog-19145897/"
+              >Goochie Poochie Grooming</a
+            >, and
+            <a
+              href="https://www.pexels.com/photo/close-up-shot-of-pomeranian-dog-on-pink-table-9360433/"
+              >Nguyễn Viết Lễ</a
+            >.
+          </p>
+          <p>
+            Replace all three with authentic salon, team and client photographs
+            before launch.
+          </p>
+        </div>
+      </div>
+    </details>
+
+    <a class="mobile-book" href="#appointment">Request appointment</a>
+  </body>
+</html>

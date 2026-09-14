@@ -8,3 +8,4 @@
 - [Build-time content sources](build-time-content-sources.md) — Available
 - [Developer dashboard](developer-dashboard.md) — Available
 - [Issue reporting](issue-reporting.md) — Removed
+- [Static design proposals](static-design-proposals.md) — Available
