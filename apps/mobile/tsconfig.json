@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
+    "isolatedModules": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@lynx-js/react",
     "types": ["@lynx-js/rspeedy/client"],
@@ -19,11 +20,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "lynx.config.ts",
-    "vitest.config.ts",
-    "../web/src/features/content/googleSheetsParsing.ts",
-    "../web/src/features/content/contentTaxonomy.ts",
-    "../web/src/features/content/contentTypes.ts",
-    "../web/src/features/content/contentSource.ts",
-    "../web/src/features/content/contentSchemas.ts"
+    "rsbuild.web.config.ts",
+    "web/**/*.ts",
+    "vitest.config.ts"
   ]
 }

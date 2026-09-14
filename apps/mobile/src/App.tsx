@@ -8,7 +8,7 @@ import { StatusScreen } from './components/StatusScreen.js';
 import { CollectionScreen } from './features/content/CollectionScreen.js';
 import { DetailScreen } from './features/content/DetailScreen.js';
 import { LocalInfoScreen } from './features/content/LocalInfoScreen.js';
-import { loadSheetsSnapshot } from './features/content/sheetsContentSource.js';
+import { loadMobileContent } from './features/content/contentClient.js';
 import {
   getCollectionModel,
   getDetailModel,
@@ -28,7 +28,7 @@ const emptySnapshot: ContentSnapshot = {
   resources: [],
 };
 
-export function App({ loadContent = loadSheetsSnapshot }: Props) {
+export function App({ loadContent = loadMobileContent }: Props) {
   const [route, setRoute] = useState<Route>({ name: 'home' });
   const [content, setContent] = useState<ContentSnapshot>();
   const [failed, setFailed] = useState(false);
