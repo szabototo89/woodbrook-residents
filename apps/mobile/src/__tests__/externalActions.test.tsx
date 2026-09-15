@@ -45,11 +45,12 @@ const helpContent: ContentSnapshot = {
 
 test('detail actions open external URLs instead of rendering dead text', async () => {
   const onOpenUrl = vi.fn();
+  const goBack = vi.fn();
   render(
     <DetailScreen
       collection="events"
       model={model}
-      navigate={() => undefined}
+      goBack={goBack}
       onOpenUrl={onOpenUrl}
     />,
   );
@@ -68,6 +69,17 @@ test('detail actions open external URLs instead of rendering dead text', async (
 
   fireEvent.tap(screen.getByText('visit.example.org'));
   expect(onOpenUrl).toHaveBeenCalledWith('https://visit.example.org/info');
+});
+
+test('detail back returns to the previous screen', async () => {
+  const goBack = vi.fn();
+  render(<DetailScreen collection="events" model={model} goBack={goBack} />);
+
+  fireEvent.tap(await screen.findByText('Back to events'));
+  expect(goBack).toHaveBeenCalledWith({
+    name: 'collection',
+    collection: 'events',
+  });
 });
 
 test('ways to help contacts the community and navigates to live sections', async () => {

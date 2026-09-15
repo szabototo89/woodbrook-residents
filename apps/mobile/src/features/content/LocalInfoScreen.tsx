@@ -1,5 +1,3 @@
-import { useState } from '@lynx-js/react';
-
 import {
   filterResources,
   getCollectionModel,
@@ -8,15 +6,26 @@ import {
 import type { Route } from './contentModels.js';
 import type { ContentSnapshot } from './contentTypes.js';
 
+export type LocalInfoFilters = {
+  query: string;
+  category: string;
+  outOfHoursOnly: boolean;
+};
+
 type Props = {
   content: ContentSnapshot;
   navigate: (route: Route) => void;
+  filters: LocalInfoFilters;
+  onFiltersChange: (filters: LocalInfoFilters) => void;
 };
 
-export function LocalInfoScreen({ content, navigate }: Props) {
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState('all');
-  const [outOfHoursOnly, setOutOfHoursOnly] = useState(false);
+export function LocalInfoScreen({
+  content,
+  navigate,
+  filters,
+  onFiltersChange,
+}: Props) {
+  const { query, category, outOfHoursOnly } = filters;
   const copy = getCollectionModel(content, 'resources');
   const resources = filterResources(
     content.resources,
@@ -41,12 +50,18 @@ export function LocalInfoScreen({ content, navigate }: Props) {
           <input
             className="search-input"
             placeholder="Try plumber, GP, pharmacy…"
-            bindinput={(event) => setQuery(event.detail.value)}
+            default-value={query}
+            bindinput={(event) =>
+              onFiltersChange({ ...filters, query: event.detail.value })
+            }
           />
           <scroll-view className="filter-row" scroll-orientation="horizontal">
             <text
               className={`filter-chip ${category === 'all' ? 'filter-chip-active' : ''}`}
-              bindtap={() => setCategory('all')}
+              accessibility-element={true}
+              accessibility-trait="button"
+              accessibility-label={category === 'all' ? 'All, selected' : 'All'}
+              bindtap={() => onFiltersChange({ ...filters, category: 'all' })}
             >
               All
             </text>
@@ -54,7 +69,12 @@ export function LocalInfoScreen({ content, navigate }: Props) {
               <text
                 className={`filter-chip ${category === value ? 'filter-chip-active' : ''}`}
                 key={value}
-                bindtap={() => setCategory(value)}
+                accessibility-element={true}
+                accessibility-trait="button"
+                accessibility-label={
+                  category === value ? `${value}, selected` : value
+                }
+                bindtap={() => onFiltersChange({ ...filters, category: value })}
               >
                 {value}
               </text>
@@ -62,7 +82,16 @@ export function LocalInfoScreen({ content, navigate }: Props) {
           </scroll-view>
           <text
             className={`filter-chip ${outOfHoursOnly ? 'filter-chip-active' : ''}`}
-            bindtap={() => setOutOfHoursOnly((value) => !value)}
+            accessibility-element={true}
+            accessibility-trait="button"
+            accessibility-label={
+              outOfHoursOnly
+                ? 'Out-of-hours only, selected'
+                : 'Out-of-hours only'
+            }
+            bindtap={() =>
+              onFiltersChange({ ...filters, outOfHoursOnly: !outOfHoursOnly })
+            }
           >
             Out-of-hours only
           </text>

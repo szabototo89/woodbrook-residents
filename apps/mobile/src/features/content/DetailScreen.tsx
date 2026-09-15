@@ -5,24 +5,22 @@ import { domainOf, openExternalUrl, type OpenUrl } from './externalUrl.js';
 type Props = {
   collection: CollectionKey;
   model?: DetailModel;
-  navigate: (route: Route) => void;
+  goBack: (fallback: Route) => void;
   onOpenUrl?: OpenUrl;
 };
 
 export function DetailScreen({
   collection,
   model,
-  navigate,
+  goBack,
   onOpenUrl = openExternalUrl,
 }: Props) {
+  const collectionRoute: Route = { name: 'collection', collection };
   if (!model) {
     return (
       <view className="status-screen">
         <text className="page-title">This item is unavailable.</text>
-        <text
-          className="button"
-          bindtap={() => navigate({ name: 'collection', collection })}
-        >
+        <text className="button" bindtap={() => goBack(collectionRoute)}>
           Back
         </text>
       </view>
@@ -32,10 +30,7 @@ export function DetailScreen({
   const hasContact = Boolean(contact?.phone ?? contact?.email ?? contact?.url);
   return (
     <scroll-view className="page" scroll-orientation="vertical">
-      <text
-        className="back-link"
-        bindtap={() => navigate({ name: 'collection', collection })}
-      >
+      <text className="back-link" bindtap={() => goBack(collectionRoute)}>
         {model.backLabel}
       </text>
       <view className="page-intro">

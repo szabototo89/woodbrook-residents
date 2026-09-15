@@ -46,6 +46,38 @@
   font-weight: 700;
 }
 
+.tab-bar {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid rgba(22, 46, 42, 0.14);
+  background-color: #fffefa;
+}
+
+.tab-item {
+  display: flex;
+  flex: 1;
+  min-height: 56px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+}
+
+.tab-item-active {
+  border-top: 3px solid #173d35;
+  padding-top: 5px;
+}
+
+.tab-label {
+  color: #4f615d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tab-item-active .tab-label {
+  color: #173d35;
+}
+
 .header {
   display: flex;
   flex-direction: row;

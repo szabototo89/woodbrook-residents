@@ -6,7 +6,7 @@ test('long local information detail can be scrolled to the source note', async (
   await page.goto('/');
   await expect(page.getByText('What would you like to do?')).toBeVisible();
 
-  await page.getByText('Local information', { exact: true }).click();
+  await page.getByText('Browse local information', { exact: true }).click();
   await page.getByText('Tall health service').click();
   await expect(page.getByText('Official source')).toBeAttached();
 

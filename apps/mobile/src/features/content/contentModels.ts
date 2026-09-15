@@ -6,6 +6,7 @@ export type CollectionKey =
 export type Route =
   | { name: 'home' }
   | { name: 'help' }
+  | { name: 'more' }
   | { name: 'collection'; collection: CollectionKey }
   | { name: 'detail'; collection: CollectionKey; slug: string };
 
