@@ -263,6 +263,22 @@ test('local information shows no-match and empty-directory states', async () => 
   ).toBeInTheDocument();
 });
 
+test('out-of-hours filter sizes to its content instead of stretching', async () => {
+  const { container } = render(
+    <LocalInfoScreen
+      content={snapshot}
+      navigate={vi.fn()}
+      filters={defaultFilters}
+      onFiltersChange={vi.fn()}
+    />,
+  );
+
+  await screen.findByText('Out-of-hours only');
+  const toggle = container.querySelector('.filter-chip-solo');
+  expect(toggle).toBeInTheDocument();
+  expect(toggle?.textContent).toContain('Out-of-hours only');
+});
+
 test('missing detail state returns to its collection', async () => {
   const goBack = vi.fn();
   render(

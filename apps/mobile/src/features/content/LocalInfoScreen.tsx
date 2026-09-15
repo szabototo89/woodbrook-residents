@@ -82,7 +82,7 @@ export function LocalInfoScreen({
             ))}
           </scroll-view>
           <text
-            className={`filter-chip ${outOfHoursOnly ? 'filter-chip-active' : ''}`}
+            className={`filter-chip filter-chip-solo ${outOfHoursOnly ? 'filter-chip-active' : ''}`}
             accessibility-element={true}
             accessibility-trait="button"
             accessibility-label={
