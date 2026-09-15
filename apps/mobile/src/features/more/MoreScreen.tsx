@@ -9,17 +9,17 @@ const rows: ReadonlyArray<{
 }> = [
   {
     title: 'Projects',
-    description: 'What is proposed, active, completed, or being monitored.',
+    description: 'Proposed, active and monitored projects.',
     route: { name: 'collection', collection: 'projects' },
   },
   {
     title: 'Consultations',
-    description: 'Open chances to respond, plus closed records.',
+    description: 'Open opportunities and previous consultations.',
     route: { name: 'collection', collection: 'surveys' },
   },
   {
     title: 'Ways to help',
-    description: 'What residents can do now and what is coming soon.',
+    description: 'How residents can contribute.',
     route: { name: 'help' },
   },
 ];
@@ -33,22 +33,25 @@ export function MoreScreen({ navigate }: Props) {
           Projects, consultations, and ways to contribute.
         </text>
       </view>
-      <view className="card-list">
+      <view className="more-list">
         {rows.map((row) => (
           <view
-            className="content-card"
+            className="browse-row more-row"
             key={row.title}
             accessibility-element={true}
             accessibility-trait="button"
             accessibility-label={`${row.title}. ${row.description}`}
             bindtap={() => navigate(row.route)}
           >
-            <text className="card-title">{row.title}</text>
-            <text className="card-copy">{row.description}</text>
-            <text className="card-action">Open →</text>
+            <view className="list-row-copy">
+              <text className="browse-title">{row.title}</text>
+              <text className="card-meta">{row.description}</text>
+            </view>
+            <text className="browse-arrow">›</text>
           </view>
         ))}
       </view>
+      <view className="scroll-spacer" />
     </scroll-view>
   );
 }

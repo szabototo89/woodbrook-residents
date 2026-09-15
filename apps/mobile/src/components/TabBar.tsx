@@ -13,26 +13,29 @@ export function topTabFor(route: Route): TabKey {
   return 'more';
 }
 
-type Tab = { key: TabKey; label: string; target: Route };
+type Tab = { key: TabKey; label: string; icon: string; target: Route };
 
 const tabs: readonly Tab[] = [
-  { key: 'home', label: 'Home', target: { name: 'home' } },
+  { key: 'home', label: 'Home', icon: '⌂', target: { name: 'home' } },
   {
     key: 'updates',
     label: 'Updates',
+    icon: '◉',
     target: { name: 'collection', collection: 'updates' },
   },
   {
     key: 'events',
     label: 'Events',
+    icon: '◫',
     target: { name: 'collection', collection: 'events' },
   },
   {
     key: 'local',
     label: 'Local',
+    icon: '⌖',
     target: { name: 'collection', collection: 'resources' },
   },
-  { key: 'more', label: 'More', target: { name: 'more' } },
+  { key: 'more', label: 'More', icon: '•••', target: { name: 'more' } },
 ];
 
 type Props = {
@@ -58,7 +61,9 @@ export function TabBar({ route, navigateTab }: Props) {
             }
             bindtap={() => navigateTab(tab.target)}
           >
+            <text className="tab-icon">{tab.icon}</text>
             <text className="tab-label">{tab.label}</text>
+            {selected ? <view className="tab-indicator" /> : null}
           </view>
         );
       })}

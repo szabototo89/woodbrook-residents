@@ -129,7 +129,7 @@ export function App({ loadContent = loadMobileContent }: Props) {
 
   return (
     <view className="app">
-      <AppHeader navigate={navigateTab} />
+      <AppHeader navigate={navigateTab} compact={route.name === 'detail'} />
       {failed ? (
         <OfflineNotice retry={() => setAttempt((value) => value + 1)} />
       ) : null}

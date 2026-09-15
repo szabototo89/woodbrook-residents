@@ -23,8 +23,7 @@ export function WaysToHelpScreen({
           Community contributions are coming soon.
         </text>
         <text className="page-copy">
-          This is a read-only public resource for now. Public submissions are
-          not available yet.
+          For now, this is a read-only public resource.
         </text>
       </view>
       <view className="card-list">
@@ -89,6 +88,7 @@ export function WaysToHelpScreen({
           <text className="card-action">View consultations →</text>
         </view>
       </view>
+      <view className="scroll-spacer" />
     </scroll-view>
   );
 }

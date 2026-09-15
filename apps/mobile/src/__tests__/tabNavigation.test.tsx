@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@lynx-js/react/testing-library';
 import { expect, test, vi } from 'vitest';
 
 import { App } from '../App.js';
+import { AppHeader } from '../components/AppHeader.js';
 import { TabBar, topTabFor } from '../components/TabBar.js';
 import { MoreScreen } from '../features/more/MoreScreen.js';
 import type { ContentSnapshot } from '../features/content/contentTypes.js';
@@ -96,6 +97,15 @@ test('tab bar switches top-level sections with a visible selected state', async 
   expect(
     container.querySelector('[accessibility-label="Home, selected"]'),
   ).toBeInTheDocument();
+  // Line icons + labels for all five destinations.
+  expect(screen.getByText('⌂')).toBeInTheDocument();
+  expect(screen.getByText('◉')).toBeInTheDocument();
+  expect(screen.getByText('◫')).toBeInTheDocument();
+  expect(screen.getByText('⌖')).toBeInTheDocument();
+  expect(screen.getByText('•••')).toBeInTheDocument();
+  // Compact active indicator instead of a full-width underline.
+  expect(container.querySelector('.tab-indicator')).toBeInTheDocument();
+  expect(container.querySelector('.tab-item-active')).toBeInTheDocument();
   fireEvent.tap(screen.getByText('Events'));
   expect(navigateTab).toHaveBeenCalledWith({
     name: 'collection',
@@ -103,9 +113,13 @@ test('tab bar switches top-level sections with a visible selected state', async 
   });
 });
 
-test('more screen opens projects, consultations, and ways to help', async () => {
+test('more screen uses compact navigation rows', async () => {
   const navigate = vi.fn();
-  render(<MoreScreen navigate={navigate} />);
+  const { container } = render(<MoreScreen navigate={navigate} />);
+
+  expect(container.querySelector('.content-card')).not.toBeInTheDocument();
+  expect(container.querySelectorAll('.browse-row').length).toBe(3);
+  expect(screen.getAllByText('›').length).toBe(3);
 
   fireEvent.tap(await screen.findByText('Projects'));
   expect(navigate).toHaveBeenCalledWith({
@@ -139,6 +153,33 @@ test('back returns through visited screens instead of a fixed parent', async () 
       'Confirmed local dates from organisers and public bodies. Always check the linked organiser page before travelling.',
     ),
   ).toBeInTheDocument();
+});
+
+test('detail screens use a compact header without the subtitle', async () => {
+  const { container } = render(
+    <App loadContent={() => Promise.resolve(snapshot)} />,
+  );
+  expect(
+    await screen.findByText('Local information and ways to take part.'),
+  ).toBeInTheDocument();
+  expect(screen.getByText('Community hub · Shankill')).toBeInTheDocument();
+
+  fireEvent.tap(container.querySelector('[accessibility-label="Events"]')!);
+  fireEvent.tap(await screen.findByText('Residents meeting'));
+  expect(await screen.findByText('Shankill Library')).toBeInTheDocument();
+  expect(container.querySelector('.brand-row-compact')).toBeInTheDocument();
+  expect(
+    screen.queryByText('Community hub · Shankill'),
+  ).not.toBeInTheDocument();
+});
+
+test('compact header hides the subtitle while keeping the brand', () => {
+  const { container } = render(<AppHeader navigate={vi.fn()} compact />);
+  expect(container.querySelector('.brand-row-compact')).toBeInTheDocument();
+  expect(screen.getByText('Woodbrook Residents')).toBeInTheDocument();
+  expect(
+    screen.queryByText('Community hub · Shankill'),
+  ).not.toBeInTheDocument();
 });
 
 test('local information keeps its filters when returning from a contact', async () => {

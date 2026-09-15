@@ -9,6 +9,10 @@ type Props = {
   onOpenUrl?: OpenUrl;
 };
 
+function mapsUrl(query: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
 export function DetailScreen({
   collection,
   model,
@@ -32,12 +36,18 @@ export function DetailScreen({
   }
   const contact = model.contact;
   const hasContact = Boolean(contact?.phone ?? contact?.email ?? contact?.url);
+  const addressFact = model.facts.find((fact) => /address/i.test(fact.label));
+  const eventLocationFact =
+    collection === 'events'
+      ? model.facts.find((fact) => fact.label === 'Location')
+      : undefined;
+  const hasActions = hasContact || addressFact || eventLocationFact;
   return (
     <scroll-view className="page" scroll-orientation="vertical">
       <text className="back-link" bindtap={() => goBack(collectionRoute)}>
         {model.backLabel}
       </text>
-      <view className="page-intro">
+      <view className="page-intro page-intro-detail">
         <text className="eyebrow">{model.eyebrow}</text>
         <text className="page-title">{model.title}</text>
         <text className="page-copy">{model.summary}</text>
@@ -54,13 +64,13 @@ export function DetailScreen({
             {paragraph}
           </text>
         ))}
-        {hasContact ? (
+        {hasActions ? (
           <view className="contact-group">
             <text className="fact-label">Contact</text>
             {contact?.phone ? (
               <ExternalLink
                 url={`tel:${contact.phone}`}
-                label={contact.phone}
+                label={`Call ${contact.phone}`}
                 containerClassName="contact-link"
                 labelClassName="contact-link-label"
                 onOpenUrl={onOpenUrl}
@@ -69,7 +79,7 @@ export function DetailScreen({
             {contact?.email ? (
               <ExternalLink
                 url={`mailto:${contact.email}`}
-                label={contact.email}
+                label={`Email ${contact.email}`}
                 containerClassName="contact-link"
                 labelClassName="contact-link-label"
                 onOpenUrl={onOpenUrl}
@@ -78,9 +88,33 @@ export function DetailScreen({
             {contact?.url ? (
               <ExternalLink
                 url={contact.url}
-                label={domainOf(contact.url)}
+                label={`Visit ${domainOf(contact.url)} ↗`}
+                detail={contact.url}
                 containerClassName="contact-link"
                 labelClassName="contact-link-label"
+                detailClassName="source-link-detail"
+                onOpenUrl={onOpenUrl}
+              />
+            ) : null}
+            {addressFact ? (
+              <ExternalLink
+                url={mapsUrl(addressFact.value)}
+                label="Get directions ↗"
+                detail={addressFact.value}
+                containerClassName="contact-link"
+                labelClassName="contact-link-label"
+                detailClassName="source-link-detail"
+                onOpenUrl={onOpenUrl}
+              />
+            ) : null}
+            {eventLocationFact && !addressFact ? (
+              <ExternalLink
+                url={mapsUrl(eventLocationFact.value)}
+                label="Get directions ↗"
+                detail="Open in Maps"
+                containerClassName="contact-link"
+                labelClassName="contact-link-label"
+                detailClassName="source-link-detail"
                 onOpenUrl={onOpenUrl}
               />
             ) : null}
@@ -102,8 +136,8 @@ export function DetailScreen({
           <text className="source-name">{model.sourceName}</text>
           <ExternalLink
             url={model.sourceUrl}
-            label={domainOf(model.sourceUrl)}
-            detail={`Verified ${model.reviewedOn}`}
+            label={`${domainOf(model.sourceUrl)} ↗`}
+            detail={`Checked ${model.reviewedOn}`}
             containerClassName="source-link"
             labelClassName="source-link-label"
             detailClassName="source-link-detail"
@@ -111,6 +145,7 @@ export function DetailScreen({
           />
         </view>
       </view>
+      <view className="scroll-spacer" />
     </scroll-view>
   );
 }
