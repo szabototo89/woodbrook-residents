@@ -25,6 +25,7 @@ test('mobile content response returns the live validated snapshot without cachin
   expect(response.headers.get('cache-control')).toBe(
     'public, max-age=60, stale-while-revalidate=300',
   );
+  expect(response.headers.get('access-control-allow-origin')).toBe('*');
   expect(await response.json()).toEqual(snapshot);
   expect(loadSnapshot).toHaveBeenCalledOnce();
 });
@@ -37,6 +38,7 @@ test('mobile content response does not expose an upstream error', async () => {
   }, reportError);
 
   expect(response.status).toBe(503);
+  expect(response.headers.get('access-control-allow-origin')).toBe('*');
   expect(await response.json()).toEqual({
     error: 'Content is temporarily unavailable.',
   });
