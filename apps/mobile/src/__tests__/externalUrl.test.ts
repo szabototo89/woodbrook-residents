@@ -39,6 +39,17 @@ test('openExternalUrl opens a new tab when a window opener exists', () => {
   );
 });
 
+test('openExternalUrl reports whether the tap was handled', () => {
+  const open = vi.fn();
+  vi.stubGlobal('open', open);
+  expect(openExternalUrl('https://example.com/book')).toBe(true);
+
+  vi.stubGlobal('open', undefined);
+  vi.stubGlobal('document', undefined);
+  vi.stubGlobal('CustomEvent', undefined);
+  expect(openExternalUrl('https://example.com/book')).toBe(false);
+});
+
 test('openExternalUrl notifies the browser host when no window opener exists', () => {
   vi.stubGlobal('open', undefined);
   const seen: Array<string> = [];
@@ -52,4 +63,21 @@ test('openExternalUrl notifies the browser host when no window opener exists', (
 
   document.removeEventListener(OPEN_URL_EVENT, onEvent);
   expect(seen).toEqual(['https://example.com/respond']);
+});
+
+test('openExternalUrl uses a native module when one exists', () => {
+  vi.stubGlobal('open', undefined);
+  const openUrl = vi.fn();
+  vi.stubGlobal('NativeModules', { openUrl });
+  expect(openExternalUrl('https://example.com/book')).toBe(true);
+  expect(openUrl).toHaveBeenCalledWith('https://example.com/book');
+
+  const call = vi.fn();
+  vi.stubGlobal('NativeModules', { bridge: { call } });
+  expect(openExternalUrl('https://example.com/book')).toBe(true);
+  expect(call).toHaveBeenCalledWith(
+    'openUrl',
+    { url: 'https://example.com/book' },
+    expect.any(Function),
+  );
 });
