@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600;700&display=swap');
 :root {
   color-scheme: light;
-  --cream: #fff9e9;
-  --yellow: #f7d653;
-  --green: #193f36;
-  --red: #e95232;
-  --pink: #f4b7a7;
+  --cream: #f7f2e7;
+  --yellow: #f2d45c;
+  --green: #173f36;
+  --coral: #d9785f;
+  --sage: #dce7d0;
+  --line: #d8d1c2;
   --ink: #17372f;
-  --white: #fffdf6;
+  --white: #fffdf8;
 }
 * {
   box-sizing: border-box;
@@ -93,8 +94,8 @@ textarea {
   width: min(660px, 100%);
   padding: clamp(30px, 5vw, 60px);
   border-radius: 32px 32px 8px 32px;
-  background: var(--yellow);
-  box-shadow: 12px 12px 0 var(--red);
+  background: var(--cream);
+  box-shadow: 12px 12px 0 var(--yellow);
 }
 .proposal-notes h2 {
   margin: 0 0 20px;
@@ -111,7 +112,7 @@ textarea {
   top: 0;
   z-index: 15;
   background: rgba(255, 249, 233, 0.95);
-  border-bottom: 1px solid var(--green);
+  border-bottom: 1px solid var(--line);
   backdrop-filter: blur(10px);
 }
 .header-inner {
@@ -181,7 +182,8 @@ textarea {
   cursor: pointer;
 }
 .pill-red {
-  background: var(--red);
+  border-color: var(--coral);
+  background: var(--coral);
   color: white;
 }
 .pill-yellow {
@@ -212,8 +214,8 @@ textarea {
 }
 .hero {
   overflow: hidden;
-  background: var(--yellow);
-  border-bottom: 1px solid var(--green);
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
 }
 .hero-grid {
   min-height: min(760px, calc(100vh - 132px));
@@ -222,6 +224,21 @@ textarea {
   gap: clamp(40px, 7vw, 90px);
   align-items: center;
   padding-block: clamp(60px, 8vw, 110px);
+}
+.hero-copy {
+  position: relative;
+  z-index: 1;
+}
+.hero-copy::before {
+  position: absolute;
+  z-index: -1;
+  top: -38px;
+  left: -58px;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--yellow) 42%, transparent);
+  content: '';
 }
 .eyebrow {
   margin: 0 0 20px;
@@ -234,12 +251,12 @@ textarea {
 .section h2 {
   margin: 0;
   font:
-    800 clamp(3.7rem, 7.2vw, 7.8rem)/0.87 'Bricolage Grotesque',
+    800 clamp(3.7rem, 6.5vw, 7rem)/0.9 'Bricolage Grotesque',
     sans-serif;
   letter-spacing: -0.075em;
 }
 .hero h1 em {
-  color: var(--red);
+  color: var(--coral);
   font-style: normal;
 }
 .hero-intro {
@@ -267,9 +284,9 @@ textarea {
   width: fit-content;
   margin-top: 40px;
   padding: 14px 18px;
-  border: 1px solid var(--green);
+  border: 1px solid var(--line);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.62);
 }
 .google-note strong {
   font-size: 1.3rem;
@@ -285,12 +302,20 @@ textarea {
   position: relative;
   margin: 0;
 }
+.hero-photo::before {
+  position: absolute;
+  inset: -28px -40px 22% 20%;
+  border-radius: 50% 50% 20px 20px;
+  background: var(--yellow);
+  content: '';
+}
 .hero-photo img {
+  position: relative;
   width: 100%;
   aspect-ratio: 4/5;
   object-fit: cover;
   object-position: 38% center;
-  border: 1.5px solid var(--green);
+  border: 1px solid var(--line);
   border-radius: 48% 48% 18px 18px;
 }
 .hero-photo figcaption {
@@ -305,33 +330,39 @@ textarea {
   width: 100px;
   height: 100px;
   place-items: center;
-  border: 1.5px solid var(--green);
+  border: 1px solid var(--green);
   border-radius: 50%;
-  background: var(--pink);
+  background: var(--sage);
   font:
     800 1rem/1 'Bricolage Grotesque',
     sans-serif;
   text-align: center;
   transform: rotate(11deg);
 }
-.ticker {
-  display: flex;
-  width: max-content;
-  border-top: 1px solid var(--green);
-  font:
-    800 1rem 'Bricolage Grotesque',
-    sans-serif;
-  letter-spacing: 0.08em;
+.care-strip {
+  width: min(1240px, calc(100% - 56px));
+  margin: 0 auto;
+  padding: 18px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line);
+  color: #49665f;
+  font-size: 0.69rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-align: center;
+  text-transform: uppercase;
 }
-.ticker span {
-  padding: 15px;
+.care-strip span + span {
+  border-left: 1px solid var(--line);
 }
 .section {
   padding: clamp(80px, 10vw, 145px) 0;
-  border-bottom: 1px solid var(--green);
+  border-bottom: 1px solid var(--line);
 }
 .section h2 {
-  font-size: clamp(3.2rem, 6vw, 6.5rem);
+  font-size: clamp(2.8rem, 4.7vw, 5.1rem);
+  line-height: 0.94;
 }
 .section-intro {
   display: grid;
@@ -355,17 +386,17 @@ textarea {
 }
 .care-cards article {
   min-height: 340px;
-  padding: 34px;
-  border: 1.5px solid var(--green);
+  padding: 42px;
+  border: 1px solid var(--line);
   border-radius: 26px 26px 6px 26px;
   background: var(--white);
+  box-shadow: 0 16px 45px rgba(23, 63, 54, 0.07);
 }
 .care-cards article:nth-child(2) {
-  background: var(--pink);
-  transform: translateY(24px) rotate(-1deg);
+  transform: translateY(18px);
 }
 .care-cards article:nth-child(3) {
-  background: #cddfba;
+  background: color-mix(in srgb, var(--sage) 32%, var(--white));
 }
 .care-cards span {
   display: grid;
@@ -377,7 +408,7 @@ textarea {
   font-size: 1.3rem;
 }
 .care-cards h3 {
-  margin: 70px 0 12px;
+  margin: 76px 0 12px;
   font:
     800 1.85rem/1 'Bricolage Grotesque',
     sans-serif;
@@ -393,6 +424,9 @@ textarea {
 .groom {
   background: var(--green);
   color: white;
+}
+.groom h2 {
+  font-size: clamp(3.2rem, 5.6vw, 6rem);
 }
 .groom-grid {
   display: grid;
@@ -432,7 +466,7 @@ textarea {
   line-height: 1.55;
 }
 .stephanie {
-  background: var(--pink);
+  background: var(--cream);
 }
 .stephanie-grid {
   display: grid;
@@ -440,28 +474,35 @@ textarea {
   gap: clamp(55px, 9vw, 130px);
   align-items: center;
 }
-.story-card {
-  min-height: 570px;
-  padding: 42px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1.5px solid var(--green);
-  border-radius: 220px 220px 16px 16px;
-  background: var(--red);
-  color: white;
+.story-photo {
+  position: relative;
+  margin: 0;
 }
-.story-card span {
-  font:
-    800 clamp(2.7rem, 5vw, 5rem)/0.88 'Bricolage Grotesque',
-    sans-serif;
-  letter-spacing: -0.06em;
-  text-align: center;
+.story-photo img {
+  width: 100%;
+  min-height: 530px;
+  border-radius: 210px 210px 18px 18px;
+  object-fit: cover;
 }
-.story-card p {
-  max-width: 240px;
-  margin: 0 auto;
-  text-align: center;
+.story-photo figcaption {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  left: 22px;
+  padding: 20px 24px;
+  display: grid;
+  gap: 4px;
+  border-radius: 18px;
+  background: rgba(247, 242, 231, 0.92);
+  backdrop-filter: blur(9px);
+}
+.story-photo figcaption strong {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.25rem;
+}
+.story-photo figcaption span {
+  color: #49665f;
+  font-size: 0.82rem;
 }
 .stephanie-grid > div:last-child > p:not(.eyebrow) {
   max-width: 650px;
@@ -472,7 +513,7 @@ textarea {
   margin-top: 20px;
 }
 .voices {
-  background: var(--yellow);
+  background: var(--cream);
 }
 .voice-grid {
   display: grid;
@@ -482,9 +523,13 @@ textarea {
 .voice-grid blockquote {
   margin: 0;
   padding: 30px;
-  border: 1.5px solid var(--green);
+  border: 1px solid var(--line);
   border-radius: 8px 28px 28px 28px;
-  background: var(--cream);
+  background: var(--white);
+  box-shadow: 0 14px 38px rgba(23, 63, 54, 0.06);
+}
+.voice-grid blockquote:nth-child(2) {
+  background: color-mix(in srgb, var(--yellow) 20%, var(--white));
 }
 .voice-grid p {
   margin: 0;
@@ -501,7 +546,7 @@ textarea {
   text-transform: uppercase;
 }
 .appointment {
-  background: #d7e8c4;
+  background: var(--sage);
 }
 .appointment-grid {
   display: grid;
@@ -514,7 +559,7 @@ textarea {
 }
 .appointment form {
   padding: clamp(28px, 5vw, 52px);
-  border: 1.5px solid var(--green);
+  border: 1px solid #bcc9b2;
   border-radius: 28px;
   background: var(--cream);
 }
@@ -657,8 +702,8 @@ footer > .wrap > a:last-child {
   .care-cards h3 {
     margin-top: 45px;
   }
-  .story-card {
-    min-height: 470px;
+  .story-photo img {
+    min-height: 440px;
   }
   .visit-grid {
     grid-template-columns: 1fr 1fr;
@@ -709,7 +754,15 @@ footer > .wrap > a:last-child {
     height: 82px;
   }
   .section h2 {
-    font-size: clamp(3rem, 14vw, 4.8rem);
+    font-size: clamp(2.65rem, 12vw, 4.25rem);
+  }
+  .care-strip {
+    width: calc(100% - 28px);
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 0;
+  }
+  .care-strip span:nth-child(3) {
+    border-left: 0;
   }
   .voice-grid,
   .visit-grid {
