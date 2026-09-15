@@ -6,6 +6,7 @@ export type CollectionKey =
 export type Route =
   | { name: 'home' }
   | { name: 'help' }
+  | { name: 'more' }
   | { name: 'collection'; collection: CollectionKey }
   | { name: 'detail'; collection: CollectionKey; slug: string };
 
@@ -35,6 +36,7 @@ export type DetailModel = {
   sourceUrl: string;
   reviewedOn: string;
   action?: { label: string; url: string };
+  contact?: { phone?: string; email?: string; url?: string };
 };
 
 const collectionCopy: Record<CollectionKey, Omit<CollectionModel, 'cards'>> = {
@@ -80,11 +82,15 @@ const readableDate = (value: string) =>
     new Date(value),
   );
 
+export { readableDate };
+
 const readableDateTime = (value: string) =>
   new Intl.DateTimeFormat('en-IE', {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(new Date(value));
+
+export { readableDateTime };
 
 export function getResourceCategories(resources: Resource[]) {
   return [...new Set(resources.map((resource) => resource.category))].sort();
@@ -276,14 +282,16 @@ export function getDetailModel(
             label: stream === 'recycling' ? 'Recycling' : 'Waste & compost',
             value: readableDate(date),
           })),
-          ...(item.phone ? [{ label: 'Phone', value: item.phone }] : []),
-          ...(item.email ? [{ label: 'Email', value: item.email }] : []),
-          ...(item.url ? [{ label: 'Website', value: item.url }] : []),
         ],
         paragraphs: [],
         sourceName: item.sourceName,
         sourceUrl: item.sourceUrl,
         reviewedOn: readableDate(item.sourceReviewedOn),
+        contact: {
+          ...(item.phone ? { phone: item.phone } : {}),
+          ...(item.email ? { email: item.email } : {}),
+          ...(item.url ? { url: item.url } : {}),
+        },
       }
     : undefined;
 }

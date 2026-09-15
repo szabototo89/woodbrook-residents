@@ -19,6 +19,13 @@ export default defineConfig({
             from: './dist/web-lynx',
             to: './lynx',
           },
+          // The web bundle references image assets relative to the page
+          // (e.g. /static/image/…), so the emitted bundle assets must also
+          // exist at the host root.
+          {
+            from: './dist/web-lynx/static',
+            to: './static',
+          },
         ]
       : undefined,
     distPath: {

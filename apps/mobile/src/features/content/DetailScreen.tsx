@@ -1,31 +1,40 @@
+import { ExternalLink } from '../../components/ExternalLink.js';
 import type { CollectionKey, DetailModel, Route } from './contentModels.js';
+import { domainOf, openExternalUrl, type OpenUrl } from './externalUrl.js';
 
 type Props = {
   collection: CollectionKey;
   model?: DetailModel;
-  navigate: (route: Route) => void;
+  goBack: (fallback: Route) => void;
+  onOpenUrl?: OpenUrl;
 };
 
-export function DetailScreen({ collection, model, navigate }: Props) {
+export function DetailScreen({
+  collection,
+  model,
+  goBack,
+  onOpenUrl = openExternalUrl,
+}: Props) {
+  const collectionRoute: Route = { name: 'collection', collection };
   if (!model) {
     return (
       <view className="status-screen">
-        <text className="page-title">This item is unavailable.</text>
-        <text
-          className="button"
-          bindtap={() => navigate({ name: 'collection', collection })}
-        >
+        <text className="status-title">This item is unavailable.</text>
+        <text className="status-copy">
+          It may have been removed or the link is out of date. Try the
+          collection instead.
+        </text>
+        <text className="button" bindtap={() => goBack(collectionRoute)}>
           Back
         </text>
       </view>
     );
   }
+  const contact = model.contact;
+  const hasContact = Boolean(contact?.phone ?? contact?.email ?? contact?.url);
   return (
     <scroll-view className="page" scroll-orientation="vertical">
-      <text
-        className="back-link"
-        bindtap={() => navigate({ name: 'collection', collection })}
-      >
+      <text className="back-link" bindtap={() => goBack(collectionRoute)}>
         {model.backLabel}
       </text>
       <view className="page-intro">
@@ -45,17 +54,61 @@ export function DetailScreen({ collection, model, navigate }: Props) {
             {paragraph}
           </text>
         ))}
-        {model.action ? (
-          <view className="primary-action">
-            <text className="primary-action-label">{model.action.label}</text>
-            <text className="primary-action-url">{model.action.url}</text>
+        {hasContact ? (
+          <view className="contact-group">
+            <text className="fact-label">Contact</text>
+            {contact?.phone ? (
+              <ExternalLink
+                url={`tel:${contact.phone}`}
+                label={contact.phone}
+                containerClassName="contact-link"
+                labelClassName="contact-link-label"
+                onOpenUrl={onOpenUrl}
+              />
+            ) : null}
+            {contact?.email ? (
+              <ExternalLink
+                url={`mailto:${contact.email}`}
+                label={contact.email}
+                containerClassName="contact-link"
+                labelClassName="contact-link-label"
+                onOpenUrl={onOpenUrl}
+              />
+            ) : null}
+            {contact?.url ? (
+              <ExternalLink
+                url={contact.url}
+                label={domainOf(contact.url)}
+                containerClassName="contact-link"
+                labelClassName="contact-link-label"
+                onOpenUrl={onOpenUrl}
+              />
+            ) : null}
           </view>
+        ) : null}
+        {model.action ? (
+          <ExternalLink
+            url={model.action.url}
+            label={model.action.label}
+            detail={domainOf(model.action.url)}
+            containerClassName="primary-action"
+            labelClassName="primary-action-label"
+            detailClassName="primary-action-url"
+            onOpenUrl={onOpenUrl}
+          />
         ) : null}
         <view className="source-note">
           <text className="fact-label">Official source</text>
           <text className="source-name">{model.sourceName}</text>
-          <text className="source-url">{model.sourceUrl}</text>
-          <text className="source-review">Checked {model.reviewedOn}</text>
+          <ExternalLink
+            url={model.sourceUrl}
+            label={domainOf(model.sourceUrl)}
+            detail={`Verified ${model.reviewedOn}`}
+            containerClassName="source-link"
+            labelClassName="source-link-label"
+            detailClassName="source-link-detail"
+            onOpenUrl={onOpenUrl}
+          />
         </view>
       </view>
     </scroll-view>

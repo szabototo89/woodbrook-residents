@@ -4,7 +4,9 @@ test('long local information detail can be scrolled to the source note', async (
   page,
 }) => {
   await page.goto('/');
-  await expect(page.getByText('What would you like to do?')).toBeVisible();
+  await expect(
+    page.getByText('Local information and ways to take part.'),
+  ).toBeVisible();
 
   await page.getByText('Local information', { exact: true }).click();
   await page.getByText('Tall health service').click();

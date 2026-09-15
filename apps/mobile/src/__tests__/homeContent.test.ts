@@ -1,38 +1,87 @@
 import { expect, test } from 'vitest';
 
-import { homeActions } from '../features/home/homeContent.js';
+import type { ContentSnapshot } from '../features/content/contentTypes.js';
+import {
+  browseTargets,
+  latestUpdate,
+  openConsultation,
+  upcomingEvent,
+} from '../features/home/homeContent.js';
 
-test('home actions match the existing web destinations without adding features', () => {
-  expect(homeActions).toEqual([
+const content: ContentSnapshot = {
+  updates: [
     {
-      eyebrow: 'Find practical help',
-      title: 'Browse local information',
-      description:
-        'Useful places, services, contacts, and everyday essentials.',
-      destination: '/local-info',
-      route: { name: 'collection', collection: 'resources' },
+      documentId: 'u',
+      title: 'Update',
+      slug: 'update',
+      kind: 'Planning',
+      summary: 'Summary',
+      body: 'Body',
+      publishedOn: '2026-09-01',
+      sourceName: 'Source',
+      sourceUrl: 'https://example.com/u',
+      sourceReviewedOn: '2026-09-02',
+      featured: false,
+    },
+  ],
+  projects: [],
+  events: [
+    {
+      documentId: 'e',
+      title: 'Event',
+      slug: 'event',
+      summary: 'Summary',
+      startsAt: '2026-10-01T18:00:00.000Z',
+      location: 'Woodbrook',
+      sourceUrl: 'https://example.com/e',
+      sourceReviewedOn: '2026-09-10',
+    },
+  ],
+  surveys: [
+    {
+      documentId: 's-open',
+      title: 'Open survey',
+      slug: 'open-survey',
+      stage: 'Open',
+      summary: 'Summary',
+      sourceName: 'Council',
+      sourceUrl: 'https://example.com/s',
+      sourceReviewedOn: '2026-09-10',
     },
     {
-      eyebrow: 'Stay informed',
-      title: 'Read local updates',
-      description: 'Source-linked local updates and practical next steps.',
-      destination: '/updates',
-      route: { name: 'collection', collection: 'updates' },
+      documentId: 's-closed',
+      title: 'Closed survey',
+      slug: 'closed-survey',
+      stage: 'Closed',
+      summary: 'Summary',
+      sourceName: 'Council',
+      sourceUrl: 'https://example.com/c',
+      sourceReviewedOn: '2026-09-10',
     },
-    {
-      eyebrow: 'Take part',
-      title: 'Find upcoming events',
-      description: 'Local dates and ways to take part.',
-      destination: '/events',
-      route: { name: 'collection', collection: 'events' },
-    },
-    {
-      eyebrow: 'Have your say',
-      title: 'View public consultations',
-      description:
-        'Current opportunities to respond and an archive of closed consultations.',
-      destination: '/surveys',
-      route: { name: 'collection', collection: 'surveys' },
-    },
+  ],
+  resources: [],
+};
+
+test('home selectors surface the latest update, next event, and open consultation', () => {
+  expect(latestUpdate(content)?.slug).toBe('update');
+  expect(upcomingEvent(content)?.slug).toBe('event');
+  expect(openConsultation(content)?.slug).toBe('open-survey');
+  expect(
+    openConsultation({ ...content, surveys: [content.surveys[1]!] }),
+  ).toBeUndefined();
+  expect(latestUpdate({ ...content, updates: [] })).toBeUndefined();
+  expect(upcomingEvent({ ...content, events: [] })).toBeUndefined();
+});
+
+test('home browse targets cover every section without adding features', () => {
+  expect(browseTargets.map((target) => target.title)).toEqual([
+    'Updates',
+    'Projects',
+    'Events',
+    'Consultations',
+    'Local information',
   ]);
+  expect(browseTargets.every((target) => target.description.length > 0)).toBe(
+    true,
+  );
 });
