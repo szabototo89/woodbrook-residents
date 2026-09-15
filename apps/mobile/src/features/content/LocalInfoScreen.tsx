@@ -80,22 +80,22 @@ export function LocalInfoScreen({
                 {value}
               </text>
             ))}
+            <text
+              className={`filter-chip ${outOfHoursOnly ? 'filter-chip-active' : ''}`}
+              accessibility-element={true}
+              accessibility-trait="button"
+              accessibility-label={
+                outOfHoursOnly
+                  ? 'Out-of-hours only, selected'
+                  : 'Out-of-hours only'
+              }
+              bindtap={() =>
+                onFiltersChange({ ...filters, outOfHoursOnly: !outOfHoursOnly })
+              }
+            >
+              Out-of-hours only
+            </text>
           </scroll-view>
-          <text
-            className={`filter-chip filter-chip-solo ${outOfHoursOnly ? 'filter-chip-active' : ''}`}
-            accessibility-element={true}
-            accessibility-trait="button"
-            accessibility-label={
-              outOfHoursOnly
-                ? 'Out-of-hours only, selected'
-                : 'Out-of-hours only'
-            }
-            bindtap={() =>
-              onFiltersChange({ ...filters, outOfHoursOnly: !outOfHoursOnly })
-            }
-          >
-            Out-of-hours only
-          </text>
           <text
             className="results-count"
             accessibility-element={true}

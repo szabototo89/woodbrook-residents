@@ -263,7 +263,7 @@ test('local information shows no-match and empty-directory states', async () => 
   ).toBeInTheDocument();
 });
 
-test('out-of-hours filter sizes to its content instead of stretching', async () => {
+test('out-of-hours filter shares the chip row so it matches sibling heights', async () => {
   const { container } = render(
     <LocalInfoScreen
       content={snapshot}
@@ -274,9 +274,9 @@ test('out-of-hours filter sizes to its content instead of stretching', async () 
   );
 
   await screen.findByText('Out-of-hours only');
-  const toggle = container.querySelector('.filter-chip-solo');
-  expect(toggle).toBeInTheDocument();
-  expect(toggle?.textContent).toContain('Out-of-hours only');
+  const row = container.querySelector('.filter-row');
+  expect(row?.textContent).toContain('Out-of-hours only');
+  expect(row?.textContent).toContain('All');
 });
 
 test('missing detail state returns to its collection', async () => {
