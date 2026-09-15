@@ -4,6 +4,7 @@ import {
   getResourceCategories,
 } from './contentModels.js';
 import type { Route } from './contentModels.js';
+import { CardFeed } from './CardFeed.js';
 import type { ContentSnapshot } from './contentTypes.js';
 
 export type LocalInfoFilters = {
@@ -38,7 +39,6 @@ export function LocalInfoScreen({
   return (
     <scroll-view className="page" scroll-orientation="vertical">
       <view className="page-intro">
-        <text className="eyebrow">{copy.eyebrow}</text>
         <text className="page-title">{copy.title}</text>
         <text className="page-copy">{copy.intro}</text>
       </view>
@@ -98,45 +98,36 @@ export function LocalInfoScreen({
           <text className="results-count">{countLabel}</text>
         </view>
       )}
-      <view className="card-list">
-        {content.resources.length > 0 && resources.length === 0 ? (
+      <CardFeed
+        cards={resources.map((resource) => ({
+          slug: resource.slug,
+          title: resource.title,
+          summary: resource.description,
+          meta: `${resource.category} · ${resource.serviceType}`,
+        }))}
+        actionLabel="View contact →"
+        emptyLabel=""
+        onSelect={(slug) =>
+          navigate({ name: 'detail', collection: 'resources', slug })
+        }
+      />
+      {content.resources.length > 0 && resources.length === 0 ? (
+        <view className="card-list">
           <view className="content-card">
             <text className="card-title">No matching contacts</text>
             <text className="card-copy">
               Try a broader search or clear one of the filters.
             </text>
           </view>
-        ) : null}
-        {resources.map((resource) => (
-          <view
-            className="content-card"
-            key={resource.slug}
-            bindtap={() =>
-              navigate({
-                name: 'detail',
-                collection: 'resources',
-                slug: resource.slug,
-              })
-            }
-            accessibility-element={true}
-            accessibility-trait="button"
-          >
-            <text className="card-meta">
-              {resource.category} · {resource.serviceType}
-            </text>
-            <text className="card-title">{resource.title}</text>
-            <text className="card-copy">{resource.description}</text>
-            <text className="card-action">View contact →</text>
-          </view>
-        ))}
-        {content.resources.length > 0 ? (
-          <text className="disclaimer">
-            This is a curated starting set, not a complete directory or a
-            recommendation. Listings are unpaid. Check availability,
-            qualifications, and costs with the provider.
-          </text>
-        ) : null}
-      </view>
+        </view>
+      ) : null}
+      {content.resources.length > 0 ? (
+        <text className="disclaimer directory-padding">
+          This is a curated starting set, not a complete directory or a
+          recommendation. Listings are unpaid. Check availability,
+          qualifications, and costs with the provider.
+        </text>
+      ) : null}
     </scroll-view>
   );
 }

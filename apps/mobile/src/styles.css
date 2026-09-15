@@ -201,6 +201,61 @@
   padding: 0 20px 38px;
 }
 
+.featured-card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+  padding: 24px 22px;
+  border-radius: 20px;
+  background-color: #e5ece6;
+}
+
+.featured-title {
+  margin-top: 8px;
+  color: #162e2a;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+.featured-card .card-copy {
+  color: #334f49;
+}
+
+.list-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  padding: 14px 4px;
+  border-bottom: 1px solid rgba(22, 46, 42, 0.12);
+}
+
+.list-row-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding-right: 12px;
+}
+
+.list-row-title {
+  color: #162e2a;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.list-row-title + .card-meta {
+  margin-top: 4px;
+}
+
+.list-row-arrow {
+  color: #173d35;
+  font-size: 17px;
+  font-weight: 700;
+}
+
 .content-card {
   display: flex;
   flex-direction: column;

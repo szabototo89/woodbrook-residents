@@ -122,27 +122,47 @@ test('app loads runtime content and navigates through every resident section', a
 
   fireEvent.tap(screen.getByText('More'));
   fireEvent.tap(await screen.findByText('Projects'));
-  expect(await screen.findByText('Follow local change')).toBeInTheDocument();
+  expect(
+    await screen.findByText(
+      'A simple record of what is proposed, active, completed, or still being monitored — with the latest known next step and an official source.',
+    ),
+  ).toBeInTheDocument();
   fireEvent.tap(screen.getByText('Green space project'));
   expect(await screen.findByText('Project details.')).toBeInTheDocument();
   fireEvent.tap(screen.getByText('Back to projects'));
-  expect(await screen.findByText('Follow local change')).toBeInTheDocument();
+  expect(
+    await screen.findByText(
+      'A simple record of what is proposed, active, completed, or still being monitored — with the latest known next step and an official source.',
+    ),
+  ).toBeInTheDocument();
 
   fireEvent.tap(screen.getByText('Events'));
-  expect(await screen.findByText('Meet and take part')).toBeInTheDocument();
+  expect(
+    await screen.findByText(
+      'Confirmed local dates from organisers and public bodies. Always check the linked organiser page before travelling.',
+    ),
+  ).toBeInTheDocument();
   fireEvent.tap(screen.getByText('Residents meeting'));
   expect(await screen.findByText('Shankill Library')).toBeInTheDocument();
 
   fireEvent.tap(screen.getByText('More'));
   fireEvent.tap(await screen.findByText('Consultations'));
-  expect(await screen.findByText('Have your say')).toBeInTheDocument();
+  expect(
+    await screen.findByText(
+      'Open opportunities to respond, plus a record of relevant closed consultations so important context does not disappear.',
+    ),
+  ).toBeInTheDocument();
   fireEvent.tap(screen.getByText('Transport consultation'));
   expect(
     await screen.findByText('Respond on the official site'),
   ).toBeInTheDocument();
 
   fireEvent.tap(screen.getByText('Local'));
-  expect(await screen.findByText('Useful nearby')).toBeInTheDocument();
+  expect(
+    await screen.findByText(
+      'Find a curated starting set of nearby public services, community contacts, and businesses—then check the source and contact the provider directly.',
+    ),
+  ).toBeInTheDocument();
   expect(screen.getByText('1 contact')).toBeInTheDocument();
   fireEvent.tap(screen.getAllByText('Health')[0]!);
   fireEvent.tap(screen.getByText('Out-of-hours only'));
@@ -151,7 +171,11 @@ test('app loads runtime content and navigates through every resident section', a
   expect(await screen.findByText('Monday–Friday')).toBeInTheDocument();
 
   fireEvent.tap(screen.getByText('Updates'));
-  expect(await screen.findByText('Stay informed')).toBeInTheDocument();
+  expect(
+    await screen.findByText(
+      'Clear, source-linked notes on transport, planning, public spaces, and the practical changes residents need to know about.',
+    ),
+  ).toBeInTheDocument();
   fireEvent.tap(screen.getByText('Bus route update'));
   expect(await screen.findByText('Second paragraph.')).toBeInTheDocument();
 

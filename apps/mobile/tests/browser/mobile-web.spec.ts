@@ -17,7 +17,9 @@ test('browser renderer loads shared runtime content and navigates', async ({
 
   await page.getByText('More', { exact: true }).click();
   await page.getByText('Projects', { exact: true }).click();
-  await expect(page.getByText('Follow local change')).toBeVisible();
+  await expect(
+    page.getByText('A simple record of what is proposed'),
+  ).toBeVisible();
   await page.getByText('Green space project').click();
   await expect(page.getByText('Project details.')).toBeVisible();
 });

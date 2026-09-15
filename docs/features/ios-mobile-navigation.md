@@ -12,6 +12,7 @@ When I use Woodbrook Residents on an iPhone, I want to browse the same current r
 - A persistent bottom tab bar switches the top-level sections Home, Updates, Events, Local, and More, and always marks the selected tab.
 - The More screen opens Projects, Consultations, and Ways to help; open consultations are also surfaced from Home and Updates.
 - Each collection shows the same purpose, public records, summaries, and source-backed content semantics as the corresponding website section.
+- Collection pages lead with one featured record and list the rest as lightweight divider rows so more fits on a phone screen.
 - Tapping a record opens its detail view with the applicable dates, location, stage, next step, contact details, collection schedule, official source, and source review date.
 - Back controls return through visited screens instead of jumping to a fixed parent.
 - Local information supports text search, category filtering, and an out-of-hours-only filter, keeps those filters when returning from a contact, and retains the website's directory disclaimer.

@@ -134,7 +134,11 @@ test('back returns through visited screens instead of a fixed parent', async () 
   expect(await screen.findByText('Shankill Library')).toBeInTheDocument();
 
   fireEvent.tap(screen.getByText('Back to events'));
-  expect(await screen.findByText('Meet and take part')).toBeInTheDocument();
+  expect(
+    await screen.findByText(
+      'Confirmed local dates from organisers and public bodies. Always check the linked organiser page before travelling.',
+    ),
+  ).toBeInTheDocument();
 });
 
 test('local information keeps its filters when returning from a contact', async () => {
