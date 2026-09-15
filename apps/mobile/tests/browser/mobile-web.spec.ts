@@ -55,3 +55,36 @@ test('home screen image assets load without failed requests', async ({
 
   expect(failures).toEqual([]);
 });
+
+test('filter chips share a compact uniform height', async ({ page }) => {
+  await page.goto('/');
+  await expect(
+    page.getByText('Local information and ways to take part.'),
+  ).toBeVisible();
+  await page.getByText('Local information', { exact: true }).click();
+  await expect(page.getByText('1 contact')).toBeVisible();
+
+  const heights = await page.evaluate(() => {
+    const collect = (root: ParentNode, out: Element[] = []): Element[] => {
+      for (const element of root.querySelectorAll('*')) {
+        out.push(element);
+        if (element.shadowRoot) collect(element.shadowRoot, out);
+      }
+      return out;
+    };
+    return collect(document)
+      .filter(
+        (element) =>
+          element.childElementCount === 0 &&
+          (element.textContent?.trim() === 'All' ||
+            element.textContent?.trim() === 'Out-of-hours only'),
+      )
+      .map((chip) => Math.round(chip.getBoundingClientRect().height));
+  });
+
+  expect(heights).toHaveLength(2);
+  for (const height of heights) {
+    expect(height).toBeLessThanOrEqual(46);
+  }
+  expect(new Set(heights).size).toBe(1);
+});
