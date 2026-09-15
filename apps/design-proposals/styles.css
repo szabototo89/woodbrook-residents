@@ -166,11 +166,11 @@ h1 {
 }
 
 .proposal-preview.warm-preview {
-  background: #ddb842;
+  background: #ddd6c8;
 }
 
 .mini-site.warm-mini {
-  background: #f7d653;
+  background: #f7f2e7;
 }
 
 .warm-mini-header {
@@ -209,7 +209,7 @@ h1 {
 .warm-mini-header > strong {
   padding: 8px 11px;
   border-radius: 999px;
-  background: #e95232;
+  background: #d9785f;
   color: white;
 }
 
@@ -219,6 +219,9 @@ h1 {
   grid-template-columns: 1.05fr 0.95fr;
   gap: 26px;
   align-items: center;
+  background:
+    radial-gradient(circle at 88% 20%, #f2d45c 0 18%, transparent 18.2%),
+    #f7f2e7;
 }
 
 .warm-mini-hero > div {
@@ -245,7 +248,7 @@ h1 {
 }
 
 .warm-mini-hero em {
-  color: #e95232;
+  color: #d9785f;
   font-style: normal;
 }
 
