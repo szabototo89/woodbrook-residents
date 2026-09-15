@@ -444,7 +444,6 @@ h2 em {
   border: 1px solid rgba(68, 36, 63, 0.16);
   border-radius: 4px 18px 4px 4px;
   background: rgba(255, 254, 250, 0.96);
-  box-shadow: 0 12px 32px rgba(43, 24, 41, 0.18);
   backdrop-filter: blur(8px);
 }
 
