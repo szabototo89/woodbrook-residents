@@ -392,8 +392,8 @@
 
 .hero-image {
   width: 100%;
-  height: 238px;
-  margin-top: 28px;
+  height: 180px;
+  margin-top: 24px;
   border-radius: 22px;
 }
 
@@ -406,6 +406,64 @@
 .directory {
   padding: 38px 20px 42px;
   background-color: #e5ece6;
+}
+
+.home-section {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px 14px;
+  padding: 20px 22px;
+  border: 1px solid rgba(22, 46, 42, 0.14);
+  border-radius: 20px;
+  background-color: #fffefa;
+}
+
+.home-section .eyebrow {
+  margin-bottom: 7px;
+}
+
+.home-item-title {
+  color: #162e2a;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.home-item-title + .card-meta {
+  margin-top: 7px;
+}
+
+.home-browse {
+  display: flex;
+  flex-direction: column;
+  margin: 14px 20px 28px;
+}
+
+.home-browse .section-title {
+  margin-bottom: 6px;
+  font-size: 24px;
+}
+
+.browse-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 12px 4px;
+  border-bottom: 1px solid rgba(22, 46, 42, 0.12);
+}
+
+.browse-title {
+  color: #162e2a;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.browse-arrow {
+  color: #173d35;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .section-title {

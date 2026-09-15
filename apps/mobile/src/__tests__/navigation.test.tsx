@@ -116,7 +116,7 @@ test('app loads runtime content and navigates through every resident section', a
   render(<App loadContent={loadContent} />);
 
   expect(
-    await screen.findByText('What would you like to do?'),
+    await screen.findByText('Local information and ways to take part.'),
   ).toBeInTheDocument();
   expect(loadContent).toHaveBeenCalledOnce();
 
@@ -163,15 +163,17 @@ test('app loads runtime content and navigates through every resident section', a
 
   fireEvent.tap(screen.getByText('Woodbrook Residents'));
   expect(
-    await screen.findByText('What would you like to do?'),
+    await screen.findByText('Local information and ways to take part.'),
   ).toBeInTheDocument();
 });
 
 test('collection and detail screens explain empty or missing content', async () => {
   const empty = { ...snapshot, updates: [] };
-  render(<App loadContent={() => Promise.resolve(empty)} />);
-  await screen.findByText('What would you like to do?');
-  fireEvent.tap(screen.getByText('Updates'));
+  const { container } = render(
+    <App loadContent={() => Promise.resolve(empty)} />,
+  );
+  await screen.findByText('Local information and ways to take part.');
+  fireEvent.tap(container.querySelector('[accessibility-label="Updates"]')!);
   expect(
     await screen.findByText('No updates are available right now.'),
   ).toBeInTheDocument();
@@ -182,16 +184,16 @@ test('app stays usable with empty sections when loading fails, then recovers on 
     .fn()
     .mockRejectedValueOnce(new Error('offline'))
     .mockResolvedValueOnce(snapshot);
-  render(<App loadContent={loadContent} />);
+  const { container } = render(<App loadContent={loadContent} />);
 
   expect(
-    await screen.findByText('What would you like to do?'),
+    await screen.findByText('Local information and ways to take part.'),
   ).toBeInTheDocument();
   expect(
     screen.getByText('Content is temporarily unavailable.'),
   ).toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('Updates'));
+  fireEvent.tap(container.querySelector('[accessibility-label="Updates"]')!);
   expect(
     await screen.findByText('No updates are available right now.'),
   ).toBeInTheDocument();

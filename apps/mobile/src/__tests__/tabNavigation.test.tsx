@@ -122,12 +122,14 @@ test('more screen opens projects, consultations, and ways to help', async () => 
 });
 
 test('back returns through visited screens instead of a fixed parent', async () => {
-  render(<App loadContent={() => Promise.resolve(snapshot)} />);
+  const { container } = render(
+    <App loadContent={() => Promise.resolve(snapshot)} />,
+  );
   expect(
-    await screen.findByText('What would you like to do?'),
+    await screen.findByText('Local information and ways to take part.'),
   ).toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('Events'));
+  fireEvent.tap(container.querySelector('[accessibility-label="Events"]')!);
   fireEvent.tap(await screen.findByText('Residents meeting'));
   expect(await screen.findByText('Shankill Library')).toBeInTheDocument();
 
@@ -140,7 +142,7 @@ test('local information keeps its filters when returning from a contact', async 
     <App loadContent={() => Promise.resolve(snapshot)} />,
   );
   expect(
-    await screen.findByText('What would you like to do?'),
+    await screen.findByText('Local information and ways to take part.'),
   ).toBeInTheDocument();
 
   fireEvent.tap(screen.getByText('Local'));

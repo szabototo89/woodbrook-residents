@@ -82,11 +82,15 @@ const readableDate = (value: string) =>
     new Date(value),
   );
 
+export { readableDate };
+
 const readableDateTime = (value: string) =>
   new Intl.DateTimeFormat('en-IE', {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(new Date(value));
+
+export { readableDateTime };
 
 export function getResourceCategories(resources: Resource[]) {
   return [...new Set(resources.map((resource) => resource.category))].sort();

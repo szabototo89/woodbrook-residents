@@ -81,7 +81,7 @@ export function App({ loadContent = loadMobileContent }: Props) {
 
   const page =
     route.name === 'home' ? (
-      <HomeScreen navigate={navigate} />
+      <HomeScreen content={content} navigate={navigate} />
     ) : route.name === 'help' ? (
       <WaysToHelpScreen content={content} navigate={navigate} />
     ) : route.name === 'more' ? (

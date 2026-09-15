@@ -11,7 +11,9 @@ test('browser renderer loads shared runtime content and navigates', async ({
     'aria-label',
     'Woodbrook Residents mobile application',
   );
-  await expect(page.getByText('What would you like to do?')).toBeVisible();
+  await expect(
+    page.getByText('Local information and ways to take part.'),
+  ).toBeVisible();
 
   await page.getByText('More', { exact: true }).click();
   await page.getByText('Projects', { exact: true }).click();
@@ -44,7 +46,9 @@ test('home screen image assets load without failed requests', async ({
   });
 
   await page.goto('/');
-  await expect(page.getByText('What would you like to do?')).toBeVisible();
+  await expect(
+    page.getByText('Local information and ways to take part.'),
+  ).toBeVisible();
   await page.waitForTimeout(2_000);
 
   expect(failures).toEqual([]);

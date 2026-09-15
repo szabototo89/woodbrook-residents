@@ -9,15 +9,15 @@ When I open Woodbrook Residents on an iPhone, I want the same clear starting poi
 ## User-visible behavior
 
 - The iOS-focused ReactLynx screen identifies itself as Woodbrook Residents with Community hub · Shankill as supporting context.
-- The screen states that it provides local information and ways to take part.
-- The current four homepage starting points appear in a single, touch-friendly mobile sequence and navigate to their mobile sections.
-- The current Ways to help panel appears after the starting points.
+- A compact hero states that it provides local information and ways to take part, with a single supporting sentence.
+- The screen surfaces live content first: the latest update, the next event, nearby essentials, and the current open consultation, each opening its detail view. Empty sections stay hidden.
+- A browse list links to all five sections — Updates, Projects, Events, Consultations, and Local information — followed by the Ways to help panel.
 - The existing Woodbrook coastal image is bundled with accessible descriptive text and its existing source attribution.
 - Content is presented in a vertically scrollable layout sized for a phone.
 
 ## Acceptance criteria
 
-- Given a resident opens the Lynx bundle on iOS, when the home screen renders, then the Woodbrook Residents identity, Shankill context, purpose statement, and four current starting points are visible.
+- Given a resident opens the Lynx bundle on iOS, when the home screen renders, then the Woodbrook Residents identity, Shankill context, purpose statement, live content sections, and browse list are visible.
 - Given a resident uses assistive technology, when the coastal image and starting-point cards receive focus, then descriptive image text and button traits describe them.
 - Given the mobile test suite runs, when coverage is calculated, then statements, branches, functions, and lines each meet or exceed 90%.
 - Given the mobile app is built, when Rspeedy completes, then it emits an iOS-consumable `woodbrook.lynx.bundle`.
@@ -28,7 +28,7 @@ When I open Woodbrook Residents on an iPhone, I want the same clear starting poi
 
 - ReactLynx, React, and TypeScript project setup under `apps/mobile`.
 - A native, vertically scrollable rendering of the current Woodbrook homepage hierarchy and visual language.
-- The four existing homepage destinations as accessible navigation cards.
+- Content-first home sections (latest, upcoming, nearby, have-your-say) plus a browse list covering all five sections.
 - iOS Simulator development through Lynx Explorer.
 - Prettier, strict TypeScript, rendered component tests, and a 90% coverage gate.
 

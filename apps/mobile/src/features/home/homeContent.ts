@@ -1,41 +1,55 @@
 import type { Route } from '../content/contentModels.js';
+import type {
+  CommunityEvent,
+  ContentSnapshot,
+  Survey,
+  Update,
+} from '../content/contentTypes.js';
 
-export type HomeAction = Readonly<{
-  eyebrow: string;
+export function latestUpdate(content: ContentSnapshot): Update | undefined {
+  return content.updates[0];
+}
+
+export function upcomingEvent(
+  content: ContentSnapshot,
+): CommunityEvent | undefined {
+  return content.events[0];
+}
+
+export function openConsultation(content: ContentSnapshot): Survey | undefined {
+  return content.surveys.find((survey) => survey.stage !== 'Closed');
+}
+
+export type BrowseTarget = Readonly<{
   title: string;
   description: string;
-  destination: string;
   route: Route;
 }>;
 
-export const homeActions: readonly HomeAction[] = [
+export const browseTargets: readonly BrowseTarget[] = [
   {
-    eyebrow: 'Find practical help',
-    title: 'Browse local information',
-    description: 'Useful places, services, contacts, and everyday essentials.',
-    destination: '/local-info',
-    route: { name: 'collection', collection: 'resources' },
-  },
-  {
-    eyebrow: 'Stay informed',
-    title: 'Read local updates',
-    description: 'Source-linked local updates and practical next steps.',
-    destination: '/updates',
+    title: 'Updates',
+    description: 'Source-linked local changes and next steps.',
     route: { name: 'collection', collection: 'updates' },
   },
   {
-    eyebrow: 'Take part',
-    title: 'Find upcoming events',
-    description: 'Local dates and ways to take part.',
-    destination: '/events',
+    title: 'Projects',
+    description: 'What is proposed, active, completed, or monitored.',
+    route: { name: 'collection', collection: 'projects' },
+  },
+  {
+    title: 'Events',
+    description: 'Confirmed local dates and ways to take part.',
     route: { name: 'collection', collection: 'events' },
   },
   {
-    eyebrow: 'Have your say',
-    title: 'View public consultations',
-    description:
-      'Current opportunities to respond and an archive of closed consultations.',
-    destination: '/surveys',
+    title: 'Consultations',
+    description: 'Open chances to respond, plus closed records.',
     route: { name: 'collection', collection: 'surveys' },
+  },
+  {
+    title: 'Local information',
+    description: 'Nearby services, contacts, and everyday essentials.',
+    route: { name: 'collection', collection: 'resources' },
   },
 ];
