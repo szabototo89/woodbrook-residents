@@ -274,4 +274,9 @@ test('missing detail state returns to its collection', async () => {
     name: 'collection',
     collection: 'events',
   });
+  expect(
+    screen.getByText(
+      'It may have been removed or the link is out of date. Try the collection instead.',
+    ),
+  ).toBeInTheDocument();
 });

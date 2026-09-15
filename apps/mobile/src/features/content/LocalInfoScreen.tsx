@@ -51,6 +51,7 @@ export function LocalInfoScreen({
             className="search-input"
             placeholder="Try plumber, GP, pharmacy…"
             default-value={query}
+            accessibility-label="Search local services and contacts"
             bindinput={(event) =>
               onFiltersChange({ ...filters, query: event.detail.value })
             }
@@ -95,7 +96,13 @@ export function LocalInfoScreen({
           >
             Out-of-hours only
           </text>
-          <text className="results-count">{countLabel}</text>
+          <text
+            className="results-count"
+            accessibility-element={true}
+            accessibility-label={`${countLabel} shown`}
+          >
+            {countLabel}
+          </text>
         </view>
       )}
       <CardFeed

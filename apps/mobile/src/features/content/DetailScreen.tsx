@@ -19,7 +19,11 @@ export function DetailScreen({
   if (!model) {
     return (
       <view className="status-screen">
-        <text className="page-title">This item is unavailable.</text>
+        <text className="status-title">This item is unavailable.</text>
+        <text className="status-copy">
+          It may have been removed or the link is out of date. Try the
+          collection instead.
+        </text>
         <text className="button" bindtap={() => goBack(collectionRoute)}>
           Back
         </text>

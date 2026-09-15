@@ -17,7 +17,8 @@ When I use Woodbrook Residents on an iPhone, I want to browse the same current r
 - Back controls return through visited screens instead of jumping to a fixed parent.
 - Local information supports text search, category filtering, and an out-of-hours-only filter, keeps those filters when returning from a contact, and retains the website's directory disclaimer.
 - Booking, response, source, phone, email, and website actions are tappable buttons that open the official destination; source and action rows show a short host name instead of a full URL.
-- The app fetches a validated public content snapshot from `/api/mobile-content` at runtime. Loading, offline, empty, no-match, and missing-detail states are explicit.
+- The app fetches a validated public content snapshot from `/api/mobile-content` at runtime. Loading shows skeleton placeholders, and offline, empty, no-match, and missing-detail states are explicit.
+- If loading takes longer than 12 seconds, the app offers the same offline notice and retry instead of hanging on a spinner.
 - When the content API cannot be reached, the app stays usable: navigation and empty sections remain available with an offline notice and a "Try again" control that requests a new snapshot.
 - Ways to help explains that community contributions are coming soon, offers a tappable community contact, and navigates to live events, projects, and consultations sections. Public submissions are not introduced.
 

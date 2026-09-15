@@ -35,6 +35,8 @@ const emptySnapshot: ContentSnapshot = {
 
 const homeRoute: Route = { name: 'home' };
 
+export const LOAD_TIMEOUT_MS = 12_000;
+
 const initialFilters: LocalInfoFilters = {
   query: '',
   category: 'all',
@@ -54,12 +56,28 @@ export function App({ loadContent = loadMobileContent }: Props) {
 
   useEffect(() => {
     setFailed(false);
+    const request = { current: false };
+    const timer = setTimeout(() => {
+      if (!request.current) {
+        request.current = true;
+        setContent(emptySnapshot);
+        setFailed(true);
+      }
+    }, LOAD_TIMEOUT_MS);
     loadContent()
-      .then((snapshot) => setContent(snapshot))
+      .then((snapshot) => {
+        request.current = true;
+        clearTimeout(timer);
+        setContent(snapshot);
+        setFailed(false);
+      })
       .catch(() => {
+        request.current = true;
+        clearTimeout(timer);
         setContent(emptySnapshot);
         setFailed(true);
       });
+    return () => clearTimeout(timer);
   }, [attempt, loadContent]);
 
   if (!content) {
