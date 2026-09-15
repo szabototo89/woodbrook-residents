@@ -6,7 +6,8 @@ test('browser renderer loads shared runtime content and navigates', async ({
   await page.goto('/');
 
   const lynxView = page.locator('lynx-view');
-  await expect(lynxView).toHaveAttribute(
+  await expect(lynxView).toHaveAttribute('url', /woodbrook\.web\.bundle/);
+  await expect(page.locator('main')).toHaveAttribute(
     'aria-label',
     'Woodbrook Residents mobile application',
   );

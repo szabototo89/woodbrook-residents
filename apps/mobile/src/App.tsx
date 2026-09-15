@@ -52,7 +52,7 @@ export function App({ loadContent = loadMobileContent }: Props) {
     route.name === 'home' ? (
       <HomeScreen navigate={setRoute} />
     ) : route.name === 'help' ? (
-      <WaysToHelpScreen content={content} />
+      <WaysToHelpScreen content={content} navigate={setRoute} />
     ) : route.name === 'collection' ? (
       route.collection === 'resources' ? (
         <LocalInfoScreen content={content} navigate={setRoute} />

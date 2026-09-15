@@ -112,6 +112,35 @@ test('content models preserve optional and closed content behavior', () => {
   ).toBeUndefined();
 });
 
+test('resource details expose tappable contact links instead of plain facts', () => {
+  const withContact: ContentSnapshot = {
+    ...optionalContent,
+    resources: [
+      {
+        ...optionalContent.resources[0]!,
+        slug: 'health',
+        phone: '012345678',
+        email: 'hello@example.com',
+        url: 'https://example.com/visit',
+      },
+    ],
+  };
+  const detail = getDetailModel(withContact, 'resources', 'health');
+  expect(detail?.contact).toEqual({
+    phone: '012345678',
+    email: 'hello@example.com',
+    url: 'https://example.com/visit',
+  });
+  expect(
+    detail?.facts.some(
+      (fact) =>
+        fact.label === 'Phone' ||
+        fact.label === 'Email' ||
+        fact.label === 'Website',
+    ),
+  ).toBe(false);
+});
+
 test('local information filters by search, category, and out-of-hours support', () => {
   const resources = [
     ...optionalContent.resources,
