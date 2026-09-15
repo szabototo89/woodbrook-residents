@@ -18,6 +18,8 @@ consistent without maintaining two product implementations.
   existing home, collection, detail, filtering, loading, and retry behavior.
 - Content is requested from the configured public `/api/mobile-content` endpoint
   when the application runs; it is not embedded during either build.
+- The public content endpoint allows cross-origin reads so the browser renderer
+  can load live content regardless of the host origin.
 
 ## Acceptance criteria
 
