@@ -1,0 +1,46 @@
+name: Deploy design proposals
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/design-proposals/**'
+      - '.github/workflows/deploy-design-proposals.yml'
+      - 'scripts/design-proposal-sites.*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy ${{ matrix.project }} to Cloudflare Pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: woodbrook-design-gallery
+            directory: apps/design-proposals
+          - project: woodbrook-dog-salon-concept
+            directory: apps/design-proposals/projects/the-dog-salon
+          - project: woodbrook-spotless-concept
+            directory: apps/design-proposals/projects/spotless-dog-grooming
+          - project: woodbrook-spotless-warm-concept
+            directory: apps/design-proposals/projects/spotless-dog-grooming-warm
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+
+      - name: Deploy ${{ matrix.project }} to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy ${{ matrix.directory }} --project-name=${{ matrix.project }} --branch=main --commit-hash=${{ github.sha }}

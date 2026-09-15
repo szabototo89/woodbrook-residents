@@ -1,5 +1,6 @@
 .DS_Store
 .opencode/
+.wrangler/
 .env
 .env.*
 !.env.example
