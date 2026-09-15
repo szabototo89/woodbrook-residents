@@ -135,6 +135,7 @@ export function LocalInfoScreen({
           qualifications, and costs with the provider.
         </text>
       ) : null}
+      <view className="scroll-spacer" />
     </scroll-view>
   );
 }

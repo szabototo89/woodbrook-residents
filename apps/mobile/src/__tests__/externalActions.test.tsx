@@ -58,17 +58,24 @@ test('detail actions open external URLs instead of rendering dead text', async (
   fireEvent.tap(await screen.findByText('Book on the organiser site'));
   expect(onOpenUrl).toHaveBeenCalledWith('https://example.com/book');
 
-  fireEvent.tap(screen.getByText('dlrcoco.ie'));
+  fireEvent.tap(screen.getByText('dlrcoco.ie ↗'));
   expect(onOpenUrl).toHaveBeenCalledWith('https://www.dlrcoco.ie/en/news');
+  expect(await screen.findByText('Checked 5 Sept 2026')).toBeInTheDocument();
+  expect(screen.queryByText(/Verified/)).not.toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('012345678'));
+  fireEvent.tap(screen.getByText('Call 012345678'));
   expect(onOpenUrl).toHaveBeenCalledWith('tel:012345678');
 
-  fireEvent.tap(screen.getByText('hello@example.com'));
+  fireEvent.tap(screen.getByText('Email hello@example.com'));
   expect(onOpenUrl).toHaveBeenCalledWith('mailto:hello@example.com');
 
-  fireEvent.tap(screen.getByText('visit.example.org'));
+  fireEvent.tap(screen.getByText('Visit visit.example.org ↗'));
   expect(onOpenUrl).toHaveBeenCalledWith('https://visit.example.org/info');
+
+  fireEvent.tap(screen.getByText('Get directions ↗'));
+  expect(onOpenUrl).toHaveBeenCalledWith(
+    'https://www.google.com/maps/search/?api=1&query=Shankill%20Library',
+  );
 });
 
 test('detail back returns to the previous screen', async () => {
@@ -96,6 +103,12 @@ test('ways to help contacts the community and navigates to live sections', async
   expect(
     await screen.findByText('Community contributions are coming soon.'),
   ).toBeInTheDocument();
+  expect(
+    screen.getByText('For now, this is a read-only public resource.'),
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByText(/Public submissions are\s*not available yet/),
+  ).not.toBeInTheDocument();
 
   fireEvent.tap(screen.getByText('hello@example.com'));
   expect(onOpenUrl).toHaveBeenCalledWith('mailto:hello@example.com');

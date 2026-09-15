@@ -20,6 +20,7 @@ export function CollectionScreen({ collection, model, navigate }: Props) {
         emptyLabel={model.empty}
         onSelect={(slug) => navigate({ name: 'detail', collection, slug })}
       />
+      <view className="scroll-spacer" />
     </scroll-view>
   );
 }

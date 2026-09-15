@@ -151,11 +151,31 @@ test('home screen identifies its source-backed Woodbrook image', async () => {
   const { container } = render(<HomeScreen content={content} />);
 
   expect(
-    await screen.findByText('Image: Woodbrook Shankill'),
+    await screen.findByText('Woodbrook and the Shankill coastline'),
   ).toBeInTheDocument();
+  expect(
+    screen.queryByText('Image: Woodbrook Shankill'),
+  ).not.toBeInTheDocument();
   expect(
     container.querySelector(
       '[accessibility-label="Aerial view across Woodbrook toward the coast, Bray and the Wicklow Mountains"]',
     ),
   ).toBeInTheDocument();
+});
+
+test('home cards show tap affordances and view-all links', async () => {
+  const navigate = vi.fn();
+  render(<HomeScreen content={content} navigate={navigate} />);
+
+  expect(await screen.findByText('Bus route update')).toBeInTheDocument();
+  expect(screen.getAllByText('›').length).toBeGreaterThanOrEqual(3);
+  expect(screen.getByText('View all updates →')).toBeInTheDocument();
+  expect(screen.getByText('View all events →')).toBeInTheDocument();
+  expect(screen.getByText('View all consultations →')).toBeInTheDocument();
+
+  fireEvent.tap(screen.getByText('View all updates →'));
+  expect(navigate).toHaveBeenCalledWith({
+    name: 'collection',
+    collection: 'updates',
+  });
 });

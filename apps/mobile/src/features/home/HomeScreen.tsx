@@ -40,85 +40,140 @@ export function HomeScreen({ content, navigate = () => undefined }: Props) {
           accessibility-element={true}
           accessibility-label={imageDescription}
         />
-        <text className="image-credit">Image: Woodbrook Shankill</text>
+        <text className="image-credit">
+          Woodbrook and the Shankill coastline
+        </text>
       </view>
 
       {latest ? (
-        <view
-          className="home-section"
-          accessibility-element={true}
-          accessibility-trait="button"
-          accessibility-label={`Latest update. ${latest.title}`}
-          bindtap={() =>
-            navigate({
-              name: 'detail',
-              collection: 'updates',
-              slug: latest.slug,
-            })
-          }
-        >
-          <text className="eyebrow">Latest</text>
-          <text className="home-item-title">{latest.title}</text>
-          <text className="card-meta">{`${latest.kind} · ${readableDate(latest.publishedOn)}`}</text>
+        <view>
+          <view
+            className="home-section"
+            accessibility-element={true}
+            accessibility-trait="button"
+            accessibility-label={`Latest update. ${latest.title}`}
+            bindtap={() =>
+              navigate({
+                name: 'detail',
+                collection: 'updates',
+                slug: latest.slug,
+              })
+            }
+          >
+            <view className="home-section-copy">
+              <text className="eyebrow">Latest</text>
+              <text className="home-item-title">{latest.title}</text>
+              <text className="card-meta">{`${latest.kind} · ${readableDate(latest.publishedOn)}`}</text>
+            </view>
+            <text className="home-chevron">›</text>
+          </view>
+          <text
+            className="home-view-all"
+            accessibility-element={true}
+            accessibility-trait="button"
+            accessibility-label="View all updates"
+            bindtap={() =>
+              navigate({ name: 'collection', collection: 'updates' })
+            }
+          >
+            View all updates →
+          </text>
         </view>
       ) : null}
 
       {upcoming ? (
-        <view
-          className="home-section"
-          accessibility-element={true}
-          accessibility-trait="button"
-          accessibility-label={`Upcoming event. ${upcoming.title}`}
-          bindtap={() =>
-            navigate({
-              name: 'detail',
-              collection: 'events',
-              slug: upcoming.slug,
-            })
-          }
-        >
-          <text className="eyebrow">Upcoming</text>
-          <text className="home-item-title">{upcoming.title}</text>
-          <text className="card-meta">{`${readableDateTime(upcoming.startsAt)} · ${upcoming.location}`}</text>
+        <view>
+          <view
+            className="home-section"
+            accessibility-element={true}
+            accessibility-trait="button"
+            accessibility-label={`Upcoming event. ${upcoming.title}`}
+            bindtap={() =>
+              navigate({
+                name: 'detail',
+                collection: 'events',
+                slug: upcoming.slug,
+              })
+            }
+          >
+            <view className="home-section-copy">
+              <text className="eyebrow">Upcoming</text>
+              <text className="home-item-title">{upcoming.title}</text>
+              <text className="card-meta">{`${readableDateTime(upcoming.startsAt)} · ${upcoming.location}`}</text>
+            </view>
+            <text className="home-chevron">›</text>
+          </view>
+          <text
+            className="home-view-all"
+            accessibility-element={true}
+            accessibility-trait="button"
+            accessibility-label="View all events"
+            bindtap={() =>
+              navigate({ name: 'collection', collection: 'events' })
+            }
+          >
+            View all events →
+          </text>
         </view>
       ) : null}
 
-      <view
-        className="home-section"
-        accessibility-element={true}
-        accessibility-trait="button"
-        accessibility-label="Nearby essentials. Find GPs, schools, pharmacies, and transport."
-        bindtap={() =>
-          navigate({ name: 'collection', collection: 'resources' })
-        }
-      >
-        <text className="eyebrow">Nearby</text>
-        <text className="home-item-title">Find nearby essentials</text>
-        <text className="card-meta">
-          GPs, schools, pharmacies, and transport
-        </text>
-      </view>
-
-      {consultation ? (
+      <view>
         <view
           className="home-section"
           accessibility-element={true}
           accessibility-trait="button"
-          accessibility-label={`Have your say. ${consultation.title}`}
+          accessibility-label="Nearby essentials. Find GPs, schools, pharmacies, and transport."
           bindtap={() =>
-            navigate({
-              name: 'detail',
-              collection: 'surveys',
-              slug: consultation.slug,
-            })
+            navigate({ name: 'collection', collection: 'resources' })
           }
         >
-          <text className="eyebrow">Have your say</text>
-          <text className="home-item-title">{consultation.title}</text>
-          <text className="card-meta">
-            {consultation.closesOn
-              ? `Closes ${readableDate(consultation.closesOn)}`
-              : consultation.stage}
+          <view className="home-section-copy">
+            <text className="eyebrow">Nearby</text>
+            <text className="home-item-title">Find nearby essentials</text>
+            <text className="card-meta">
+              GPs, schools, pharmacies, and transport
+            </text>
+          </view>
+          <text className="home-chevron">›</text>
+        </view>
+      </view>
+
+      {consultation ? (
+        <view>
+          <view
+            className="home-section"
+            accessibility-element={true}
+            accessibility-trait="button"
+            accessibility-label={`Have your say. ${consultation.title}`}
+            bindtap={() =>
+              navigate({
+                name: 'detail',
+                collection: 'surveys',
+                slug: consultation.slug,
+              })
+            }
+          >
+            <view className="home-section-copy">
+              <text className="eyebrow">Have your say</text>
+              <text className="home-item-title">{consultation.title}</text>
+              <text className="card-meta">
+                {consultation.closesOn
+                  ? `Closes ${readableDate(consultation.closesOn)}`
+                  : consultation.stage}
+              </text>
+            </view>
+            <text className="home-chevron">›</text>
+          </view>
+          <text
+            className="home-view-all"
+            accessibility-element={true}
+            accessibility-trait="button"
+            accessibility-label="View all consultations"
+            bindtap={() =>
+              navigate({ name: 'collection', collection: 'surveys' })
+            }
+          >
+            View all consultations →
           </text>
         </view>
       ) : null}
