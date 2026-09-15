@@ -27,3 +27,23 @@ test('production host serves the Lynx bundle from the same origin', async ({
   expect(response.headers()['access-control-allow-origin']).toBeUndefined();
   expect((await response.body()).byteLength).toBeGreaterThan(1_000);
 });
+
+test('home screen image assets load without failed requests', async ({
+  page,
+}) => {
+  const failures: Array<string> = [];
+  page.on('response', (response) => {
+    if (response.status() >= 400) {
+      failures.push(`${response.status()} ${response.url()}`);
+    }
+  });
+  page.on('requestfailed', (request) => {
+    failures.push(`failed ${request.url()}`);
+  });
+
+  await page.goto('/');
+  await expect(page.getByText('What would you like to do?')).toBeVisible();
+  await page.waitForTimeout(2_000);
+
+  expect(failures).toEqual([]);
+});
