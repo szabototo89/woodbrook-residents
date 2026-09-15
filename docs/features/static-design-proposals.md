@@ -69,5 +69,7 @@ without creating a production application.
 
 ### Not included
 
-- Hosting, deployment, production forms, data storage, analytics, CMS integration,
+- Production forms, data storage, analytics, CMS integration,
   verified client photography, or final legal copy.
+- Hosting itself is specified separately in
+  `docs/features/design-proposal-hosting.md`.
