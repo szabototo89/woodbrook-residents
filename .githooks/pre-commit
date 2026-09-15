@@ -3,4 +3,9 @@
 set -eu
 
 cd "$(git rev-parse --show-toplevel)"
+# Auto-format design-proposals only; never touches web/cms/dashboard/mobile.
+if git diff --cached --name-only | grep -q "^apps/design-proposals/"; then
+  bun run --cwd apps/design-proposals format
+  git add apps/design-proposals
+fi
 exec bun run precommit
