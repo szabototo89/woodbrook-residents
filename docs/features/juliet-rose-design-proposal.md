@@ -16,14 +16,17 @@ clear.
   current durations and prices.
 - Client trust, Diana's approach, studio details, contact information, gift
   cards, and the booking policy are included in the customer journey.
-- The layout adapts to desktop and mobile, with an accessible mobile menu and a
-  persistent mobile booking action.
+- The layout adapts to desktop and mobile, with an accessible mobile menu and
+  booking actions placed at the key decision points shown in the references.
 - Booking, gift card, telephone, email, Instagram, and directions actions use
   the business's public destinations and contact details.
 
 ## Acceptance criteria
 
 - The design is implemented under `apps/design-proposal`.
+- The finished proposal is also copied to
+  `apps/design-proposals/projects/juliet-rose`, shown as the newest card on the
+  design-proposals homepage, and reachable through that card's link.
 - The page contains no evaluator notes, placeholder labels, or invented local
   outcomes.
 - Real Juliet Rose services, prices, address, opening hours, telephone number,

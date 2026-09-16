@@ -165,6 +165,121 @@ h1 {
   margin-top: 56px;
 }
 
+.proposal-preview.juliet-preview {
+  background: #d8ccc7;
+}
+
+.mini-site.juliet-mini {
+  background: #f9f5f0;
+}
+
+.juliet-mini-header {
+  min-height: 52px;
+  padding-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  color: #1d1917;
+  font-family: Arial, sans-serif;
+  font-size: 0.58rem;
+}
+
+.juliet-mini-header b {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+  color: #a65c61;
+  font-family: Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 0.8;
+}
+
+.juliet-mini-header b small {
+  margin-top: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 0.38rem;
+  letter-spacing: 0.23em;
+}
+
+.juliet-mini-header > strong {
+  padding: 10px 18px;
+  border-radius: 3px;
+  background: #a65c61;
+  color: #fff;
+  font-weight: 500;
+}
+
+.juliet-mini-hero {
+  position: relative;
+  min-height: 350px;
+  overflow: hidden;
+  background: #eadcd3;
+}
+
+.juliet-mini-hero::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(249, 245, 240, 0.96),
+    transparent 66%
+  );
+  content: '';
+}
+
+.juliet-mini-hero > div {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 54%;
+  min-height: 350px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6%;
+}
+
+.juliet-mini-hero small {
+  color: #99565b;
+  font-size: 0.48rem;
+  letter-spacing: 0.17em;
+}
+
+.juliet-mini-hero strong {
+  display: block;
+  margin: 14px 0 10px;
+  font-family: Georgia, serif;
+  font-size: clamp(1.7rem, 4vw, 3.7rem);
+  font-weight: 400;
+  line-height: 0.9;
+}
+
+.juliet-mini-hero span {
+  max-width: 260px;
+  font-size: 0.7rem;
+}
+
+.juliet-mini-hero i {
+  width: fit-content;
+  margin-top: 20px;
+  padding: 9px 14px;
+  border-radius: 3px;
+  background: #a65c61;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 0.58rem;
+  font-style: normal;
+}
+
+.juliet-mini-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .proposal-preview.warm-preview {
   background: #ddd6c8;
 }
@@ -606,6 +721,17 @@ h1 {
   .warm-mini-header > span,
   .warm-mini-header > strong {
     display: none;
+  }
+
+  .juliet-mini-header > span,
+  .juliet-mini-header > strong {
+    display: none;
+  }
+
+  .juliet-mini-hero > div {
+    width: 72%;
+    min-height: 360px;
+    padding: 8%;
   }
 
   .warm-mini-hero {
