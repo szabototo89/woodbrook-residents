@@ -12,6 +12,9 @@ without creating a production application.
 
 - A standalone welcome screen lists every available website proposal.
 - Each proposal opens as an independent static website concept.
+- The Juliet Rose Beauty Studio proposal appears first in the gallery and opens
+  a responsive, booking-focused concept grounded in the business's published
+  services, pricing, location, and one-to-one experience.
 - The first proposal presents a persuasive redesign direction for The Dog Salon
   in Bray, including services, proof, care positioning, FAQs, location, and an
   appointment-request experience.
@@ -35,7 +38,11 @@ without creating a production application.
 ## Acceptance criteria
 
 - Given the proposal server is running, when a reviewer opens its root URL, then
-  an independent welcome screen links to The Dog Salon concept.
+  an independent welcome screen links to every available concept, including
+  Juliet Rose Beauty Studio.
+- Given a reviewer opens the Juliet Rose gallery card, when they select “Open
+  proposal”, then the complete Juliet Rose concept opens from the gallery's own
+  `projects/juliet-rose/` directory.
 - Given a reviewer opens The Dog Salon concept, when the first viewport appears,
   then the salon identity, one-to-one value proposition, phone number, primary
   navigation, appointment action, and professional grooming imagery are visible.
@@ -57,14 +64,19 @@ without creating a production application.
 - Given a reviewer compares the two Spotless directions, when they read the
   review research, then the warm direction is clearly identified as the closer
   fit for the public customer sentiment.
+- Given a new proposal is marked `Available`, when its implementation is
+  reviewed, then it also has a self-contained folder under `projects/`, a
+  newest-first gallery card, an accurate proposal count, and a verified link
+  from the gallery homepage.
 
 ## Scope
 
 ### Included
 
 - Plain HTML, CSS, and browser JavaScript under `apps/design-proposals`.
-- A proposal-gallery landing page, The Dog Salon concept, two distinct Spotless
-  Dog Grooming directions, and a shared research document.
+- A proposal-gallery landing page, the Juliet Rose Beauty Studio concept, The
+  Dog Salon concept, two distinct Spotless Dog Grooming directions, and a
+  shared research document.
 - Local review through `bun run dev:proposals`.
 
 ### Not included
