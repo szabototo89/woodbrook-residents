@@ -3,6 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      if (
+        !window.location.pathname.endsWith('/') &&
+        !window.location.pathname.endsWith('.html')
+      ) {
+        window.location.replace(
+          `${window.location.pathname}/${window.location.search}${window.location.hash}`,
+        );
+      }
+    </script>
     <meta
       name="description"
       content="Personalised facials, advanced skin treatments and massage with Diana at Juliet Rose Beauty Studio in Stillorgan, South Dublin."

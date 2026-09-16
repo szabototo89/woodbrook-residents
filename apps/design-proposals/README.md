@@ -34,6 +34,11 @@ not complete on its own. Before marking a proposal available:
 5. Start the gallery locally and confirm both the preview card and its “Open
    proposal” link work on desktop and mobile.
 
+Gallery links must target the proposal directory with a trailing slash
+(`projects/<proposal-slug>/`), not its `index.html` file. The trailing slash
+keeps relative stylesheets, scripts, and images anchored to the proposal folder
+when the static server normalizes URLs.
+
 If a proposal is also kept in a standalone app directory, copy the same
 finished files into `projects/<proposal-slug>/`; the gallery copy is required
 because the gallery is deployed as its own static directory.
