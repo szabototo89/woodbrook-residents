@@ -10,7 +10,7 @@ When I open Woodbrook Residents on an iPhone, I want the same clear starting poi
 
 - The iOS-focused ReactLynx screen identifies itself as Woodbrook Residents with Community hub · Shankill as supporting context.
 - A compact hero states that it provides local information and ways to take part, with a single supporting sentence.
-- The screen surfaces live content first: the latest update, the next event, nearby essentials, and the current open consultation, each opening its detail view. Empty sections stay hidden.
+- The screen surfaces live content first: a hero carousel card for the latest update with pill, overlay copy and pager dots, an upcoming-event card with See all link, a 2x2 quick-access grid (Updates, Events, Local, More), nearby essentials, and the current open consultation, each opening its detail view. Empty sections stay hidden.
 - A browse list links to all five sections — Updates, Projects, Events, Consultations, and Local information — followed by the Ways to help panel.
 - The existing Woodbrook coastal image is bundled with accessible descriptive text and its existing source attribution.
 - Content is presented in a vertically scrollable layout sized for a phone.
