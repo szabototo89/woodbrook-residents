@@ -18,6 +18,38 @@ type Props = {
   navigate?: (route: Route) => void;
 };
 
+const quickAccess: ReadonlyArray<{
+  title: string;
+  icon: string;
+  description: string;
+  route: Route;
+}> = [
+  {
+    title: 'Updates',
+    icon: '📰',
+    description: 'Source-linked local changes',
+    route: { name: 'collection', collection: 'updates' },
+  },
+  {
+    title: 'Events',
+    icon: '📅',
+    description: 'Confirmed local dates',
+    route: { name: 'collection', collection: 'events' },
+  },
+  {
+    title: 'Local',
+    icon: '📍',
+    description: 'Nearby services and contacts',
+    route: { name: 'collection', collection: 'resources' },
+  },
+  {
+    title: 'More',
+    icon: '•••',
+    description: 'Projects, consultations and help',
+    route: { name: 'more' },
+  },
+];
+
 export function HomeScreen({ content, navigate = () => undefined }: Props) {
   const latest = latestUpdate(content);
   const upcoming = upcomingEvent(content);
@@ -33,22 +65,12 @@ export function HomeScreen({ content, navigate = () => undefined }: Props) {
           Keep up with local changes, find practical information, and take part
           in community life.
         </text>
-        <image
-          className="hero-image"
-          src={woodbrookImage}
-          mode="aspectFill"
-          accessibility-element={true}
-          accessibility-label={imageDescription}
-        />
-        <text className="image-credit">
-          Woodbrook and the Shankill coastline
-        </text>
       </view>
 
       {latest ? (
-        <view>
+        <view className="hero-wrap">
           <view
-            className="home-section"
+            className="hero-card"
             accessibility-element={true}
             accessibility-trait="button"
             accessibility-label={`Latest update. ${latest.title}`}
@@ -60,31 +82,72 @@ export function HomeScreen({ content, navigate = () => undefined }: Props) {
               })
             }
           >
-            <view className="home-section-copy">
-              <text className="eyebrow">Latest</text>
-              <text className="home-item-title">{latest.title}</text>
-              <text className="card-meta">{`${latest.kind} · ${readableDate(latest.publishedOn)}`}</text>
+            <image
+              className="hero-card-image"
+              src={woodbrookImage}
+              mode="aspectFill"
+              accessibility-element={true}
+              accessibility-label={imageDescription}
+            />
+            <view className="hero-card-overlay">
+              <view className="hero-pill">
+                <text className="hero-pill-text">Latest update</text>
+              </view>
+              <view className="hero-card-bottom">
+                <view className="hero-card-copy">
+                  <text className="hero-card-title">{latest.title}</text>
+                  <text className="hero-card-subtitle">{latest.summary}</text>
+                </view>
+                <view className="hero-go">
+                  <text className="hero-go-arrow">›</text>
+                </view>
+              </view>
             </view>
-            <text className="home-chevron">›</text>
           </view>
-          <text
-            className="home-view-all"
-            accessibility-element={true}
-            accessibility-trait="button"
-            accessibility-label="View all updates"
-            bindtap={() =>
-              navigate({ name: 'collection', collection: 'updates' })
-            }
-          >
-            View all updates →
+          <view className="hero-dots">
+            <view className="hero-dot hero-dot-active" />
+            <view className="hero-dot" />
+            <view className="hero-dot" />
+            <view className="hero-dot" />
+            <view className="hero-dot" />
+          </view>
+          <text className="image-credit">
+            Woodbrook and the Shankill coastline
           </text>
         </view>
-      ) : null}
+      ) : (
+        <view className="hero-wrap">
+          <image
+            className="hero-image"
+            src={woodbrookImage}
+            mode="aspectFill"
+            accessibility-element={true}
+            accessibility-label={imageDescription}
+          />
+          <text className="image-credit">
+            Woodbrook and the Shankill coastline
+          </text>
+        </view>
+      )}
 
       {upcoming ? (
         <view>
+          <view className="section-header">
+            <text className="section-title">Upcoming event</text>
+            <text
+              className="section-link"
+              accessibility-element={true}
+              accessibility-trait="button"
+              accessibility-label="See all events"
+              bindtap={() =>
+                navigate({ name: 'collection', collection: 'events' })
+              }
+            >
+              See all →
+            </text>
+          </view>
           <view
-            className="home-section"
+            className="upcoming-card"
             accessibility-element={true}
             accessibility-trait="button"
             accessibility-label={`Upcoming event. ${upcoming.title}`}
@@ -96,12 +159,17 @@ export function HomeScreen({ content, navigate = () => undefined }: Props) {
               })
             }
           >
-            <view className="home-section-copy">
-              <text className="eyebrow">Upcoming</text>
-              <text className="home-item-title">{upcoming.title}</text>
-              <text className="card-meta">{`${readableDateTime(upcoming.startsAt)} · ${upcoming.location}`}</text>
+            <view className="upcoming-icon">
+              <text className="upcoming-icon-text">📅</text>
             </view>
-            <text className="home-chevron">›</text>
+            <view className="upcoming-copy">
+              <text className="card-meta">{`${readableDate(upcoming.startsAt)}, ${readableDateTime(upcoming.startsAt).split(',')[1]?.trim() ?? ''}`}</text>
+              <text className="upcoming-title">{upcoming.title}</text>
+              <text className="upcoming-location">📍 {upcoming.location}</text>
+            </view>
+            <view className="chevron-circle">
+              <text className="chevron-text">›</text>
+            </view>
           </view>
           <text
             className="home-view-all"
@@ -116,6 +184,27 @@ export function HomeScreen({ content, navigate = () => undefined }: Props) {
           </text>
         </view>
       ) : null}
+
+      <view>
+        <text className="section-title quick-title">Quick access</text>
+        <view className="quick-grid">
+          {quickAccess.map((item) => (
+            <view
+              className="quick-item"
+              key={item.title}
+              accessibility-element={true}
+              accessibility-trait="button"
+              accessibility-label={`${item.title}. ${item.description}`}
+              bindtap={() => navigate(item.route)}
+            >
+              <view className="quick-icon">
+                <text className="quick-icon-text">{item.icon}</text>
+              </view>
+              <text className="quick-label">{item.title}</text>
+            </view>
+          ))}
+        </view>
+      </view>
 
       <view>
         <view

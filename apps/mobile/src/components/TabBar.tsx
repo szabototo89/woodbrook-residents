@@ -61,8 +61,14 @@ export function TabBar({ route, navigateTab }: Props) {
             }
             bindtap={() => navigateTab(tab.target)}
           >
-            <text className="tab-icon">{tab.icon}</text>
-            <text className="tab-label">{tab.label}</text>
+            <view className={`tab-pill ${selected ? 'tab-pill-active' : ''}`}>
+              <text className={`tab-icon ${selected ? 'tab-icon-active' : ''}`}>
+                {tab.icon}
+              </text>
+            </view>
+            <text className={`tab-label ${selected ? 'tab-label-active' : ''}`}>
+              {tab.label}
+            </text>
             {selected ? <view className="tab-indicator" /> : null}
           </view>
         );

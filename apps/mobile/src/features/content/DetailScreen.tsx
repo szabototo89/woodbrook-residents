@@ -1,3 +1,5 @@
+import woodbrookImage from '../../../../web/public/images/woodbrook-coast-aerial-768.jpg';
+
 import { ExternalLink } from '../../components/ExternalLink.js';
 import type { CollectionKey, DetailModel, Route } from './contentModels.js';
 import { domainOf, openExternalUrl, type OpenUrl } from './externalUrl.js';
@@ -11,6 +13,15 @@ type Props = {
 
 function mapsUrl(query: string): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+function factIconFor(label: string): string {
+  const normalized = label.toLowerCase();
+  if (normalized.includes('open') || normalized.includes('close')) return '📅';
+  if (normalized.includes('location') || normalized.includes('address'))
+    return '📍';
+  if (normalized.includes('start') || normalized.includes('end')) return '🕒';
+  return 'ℹ️';
 }
 
 export function DetailScreen({
@@ -42,21 +53,47 @@ export function DetailScreen({
       ? model.facts.find((fact) => fact.label === 'Location')
       : undefined;
   const hasActions = hasContact || addressFact || eventLocationFact;
+  const showHero = collection === 'surveys' || collection === 'events';
+  const statusPill = model.eyebrow.split('·')[0]?.trim() ?? model.eyebrow;
   return (
     <scroll-view className="page" scroll-orientation="vertical">
-      <text className="back-link" bindtap={() => goBack(collectionRoute)}>
-        {model.backLabel}
+      <text
+        className="back-link"
+        accessibility-element={true}
+        accessibility-trait="button"
+        accessibility-label={model.backLabel}
+        bindtap={() => goBack(collectionRoute)}
+      >
+        ← {model.backLabel}
       </text>
       <view className="page-intro page-intro-detail">
+        <view className="status-pill">
+          <text className="status-pill-text">{statusPill}</text>
+        </view>
         <text className="eyebrow">{model.eyebrow}</text>
         <text className="page-title">{model.title}</text>
         <text className="page-copy">{model.summary}</text>
       </view>
+      {showHero ? (
+        <view className="detail-hero-wrap">
+          <image
+            className="detail-hero"
+            src={woodbrookImage}
+            mode="aspectFill"
+            accessibility-element={false}
+          />
+        </view>
+      ) : null}
       <view className="detail-body">
         {model.facts.map((fact) => (
-          <view className="fact" key={`${fact.label}-${fact.value}`}>
-            <text className="fact-label">{fact.label}</text>
-            <text className="fact-value">{fact.value}</text>
+          <view className="fact-row" key={`${fact.label}-${fact.value}`}>
+            <view className="fact-icon">
+              <text className="fact-icon-text">{factIconFor(fact.label)}</text>
+            </view>
+            <view className="fact-copy">
+              <text className="fact-label">{fact.label}</text>
+              <text className="fact-value">{fact.value}</text>
+            </view>
           </view>
         ))}
         {model.paragraphs.map((paragraph) => (

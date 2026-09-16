@@ -1,22 +1,162 @@
+import woodbrookImage from '../../../../web/public/images/woodbrook-coast-aerial-768.jpg';
+
 import type { CardModel } from './contentModels.js';
+
+export type FeedVariant = 'updates' | 'events' | 'services' | 'default';
 
 type Props = {
   cards: CardModel[];
   actionLabel: string;
   emptyLabel: string;
   onSelect: (slug: string) => void;
+  variant?: FeedVariant;
 };
 
+function eventDateBadge(meta: string): { day: string; month: string } {
+  const dayMatch = meta.match(/(\d{1,2})\s+([A-Za-z]{3,})/);
+  if (dayMatch?.[1] && dayMatch?.[2]) {
+    return { day: dayMatch[1], month: dayMatch[2].slice(0, 3).toUpperCase() };
+  }
+  return { day: '•', month: 'DATE' };
+}
+
+function serviceIconFor(title: string, meta: string): string {
+  const haystack = `${title} ${meta}`.toLowerCase();
+  if (haystack.includes('health') || haystack.includes('gp')) return '♡';
+  if (haystack.includes('council') || haystack.includes('bin')) return '🏛';
+  if (haystack.includes('transport') || haystack.includes('bus')) return '🚌';
+  if (haystack.includes('park') || haystack.includes('green')) return '🍃';
+  if (haystack.includes('community') || haystack.includes('support'))
+    return '👥';
+  return '📍';
+}
+
 /**
- * A scannable mobile feed: one featured card for the first record and
- * lightweight divider rows for the rest.
+ * Reference-aligned feed: thumbnail rows for updates, image cards with date
+ * badges for events, icon rows for services, divider rows as fallback.
  */
-export function CardFeed({ cards, actionLabel, emptyLabel, onSelect }: Props) {
+export function CardFeed({
+  cards,
+  actionLabel,
+  emptyLabel,
+  onSelect,
+  variant = 'default',
+}: Props) {
+  if (cards.length === 0 && emptyLabel) {
+    return (
+      <view className="card-list">
+        <text className="empty-copy">{emptyLabel}</text>
+      </view>
+    );
+  }
+
+  if (variant === 'updates') {
+    return (
+      <view className="card-list">
+        {cards.map((card) => (
+          <view
+            className="thumb-row"
+            key={card.slug}
+            accessibility-element={true}
+            accessibility-trait="button"
+            accessibility-label={`${card.title}. ${card.meta}`}
+            bindtap={() => onSelect(card.slug)}
+          >
+            <image
+              className="thumb"
+              src={woodbrookImage}
+              mode="aspectFill"
+              accessibility-element={false}
+            />
+            <view className="thumb-copy">
+              <text className="card-meta card-meta-uppercase">{card.meta}</text>
+              <text className="thumb-title">{card.title}</text>
+              <text className="thumb-summary">{card.summary}</text>
+            </view>
+            <view className="chevron-circle">
+              <text className="chevron-text">›</text>
+            </view>
+          </view>
+        ))}
+      </view>
+    );
+  }
+
+  if (variant === 'events') {
+    return (
+      <view className="card-list">
+        {cards.map((card) => {
+          const badge = eventDateBadge(card.meta);
+          return (
+            <view
+              className="event-card"
+              key={card.slug}
+              accessibility-element={true}
+              accessibility-trait="button"
+              accessibility-label={`${card.title}. ${card.summary}`}
+              bindtap={() => onSelect(card.slug)}
+            >
+              <view className="event-image-wrap">
+                <image
+                  className="event-image"
+                  src={woodbrookImage}
+                  mode="aspectFill"
+                  accessibility-element={false}
+                />
+                <view className="date-badge">
+                  <text className="date-day">{badge.day}</text>
+                  <text className="date-month">{badge.month}</text>
+                </view>
+              </view>
+              <view className="event-body">
+                <view className="event-copy">
+                  <text className="event-title">{card.title}</text>
+                  <text className="event-summary">{card.summary}</text>
+                  <text className="event-meta">🕒 {card.meta}</text>
+                </view>
+                <view className="chevron-circle">
+                  <text className="chevron-text">›</text>
+                </view>
+              </view>
+            </view>
+          );
+        })}
+      </view>
+    );
+  }
+
+  if (variant === 'services') {
+    return (
+      <view className="card-list">
+        {cards.map((card) => (
+          <view
+            className="service-row"
+            key={card.slug}
+            accessibility-element={true}
+            accessibility-trait="button"
+            accessibility-label={`${card.title}. ${card.meta}`}
+            bindtap={() => onSelect(card.slug)}
+          >
+            <view className="service-icon">
+              <text className="service-icon-text">
+                {serviceIconFor(card.title, card.meta)}
+              </text>
+            </view>
+            <view className="service-copy">
+              <text className="service-title">{card.title}</text>
+              <text className="service-subtitle">{card.summary}</text>
+            </view>
+            <view className="chevron-circle">
+              <text className="chevron-text">›</text>
+            </view>
+          </view>
+        ))}
+      </view>
+    );
+  }
+
   return (
     <view className="card-list">
-      {cards.length === 0 && emptyLabel ? (
-        <text className="empty-copy">{emptyLabel}</text>
-      ) : null}
       {cards.map((card, index) =>
         index === 0 ? (
           <view

@@ -20,6 +20,9 @@ type Props = {
   onFiltersChange: (filters: LocalInfoFilters) => void;
 };
 
+const quickCategories = ['Health', 'Council', 'Transport'] as const;
+const extraCategories = ['Parks', 'Safety', 'Community'] as const;
+
 export function LocalInfoScreen({
   content,
   navigate,
@@ -35,6 +38,19 @@ export function LocalInfoScreen({
     outOfHoursOnly,
   );
   const countLabel = `${resources.length} ${resources.length === 1 ? 'contact' : 'contacts'}`;
+  const knownCategories: readonly string[] = [
+    ...quickCategories,
+    ...extraCategories,
+    'all',
+  ];
+  const dynamicCategories = getResourceCategories(content.resources).filter(
+    (value) => !knownCategories.includes(value),
+  );
+  const visibleCategories = [
+    ...quickCategories,
+    ...extraCategories,
+    ...dynamicCategories,
+  ];
 
   return (
     <scroll-view className="page" scroll-orientation="vertical">
@@ -46,16 +62,18 @@ export function LocalInfoScreen({
         <text className="empty-copy directory-padding">{copy.empty}</text>
       ) : (
         <view className="directory-tools-mobile">
-          <text className="fact-label">What do you need?</text>
-          <input
-            className="search-input"
-            placeholder="Try plumber, GP, pharmacy…"
-            default-value={query}
-            accessibility-label="Search local services and contacts"
-            bindinput={(event) =>
-              onFiltersChange({ ...filters, query: event.detail.value })
-            }
-          />
+          <view className="search-wrap">
+            <text className="search-icon">🔍</text>
+            <input
+              className="search-field"
+              placeholder="Try plumber, GP, pharmacy…"
+              default-value={query}
+              accessibility-label="Search local services and contacts"
+              bindinput={(event) =>
+                onFiltersChange({ ...filters, query: event.detail.value })
+              }
+            />
+          </view>
           <scroll-view className="filter-row" scroll-orientation="horizontal">
             <text
               className={`filter-chip ${category === 'all' ? 'filter-chip-active' : ''}`}
@@ -66,7 +84,7 @@ export function LocalInfoScreen({
             >
               All
             </text>
-            {getResourceCategories(content.resources).map((value) => (
+            {visibleCategories.map((value) => (
               <text
                 className={`filter-chip ${category === value ? 'filter-chip-active' : ''}`}
                 key={value}
@@ -114,6 +132,7 @@ export function LocalInfoScreen({
         }))}
         actionLabel="View contact →"
         emptyLabel=""
+        variant="services"
         onSelect={(slug) =>
           navigate({ name: 'detail', collection: 'resources', slug })
         }
