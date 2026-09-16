@@ -113,14 +113,20 @@ const defaultFilters = {
 
 test('app loads runtime content and navigates through every resident section', async () => {
   const loadContent = vi.fn().mockResolvedValue(snapshot);
-  render(<App loadContent={loadContent} />);
+  const { container } = render(<App loadContent={loadContent} />);
 
   expect(
     await screen.findByText('Local information and ways to take part.'),
   ).toBeInTheDocument();
   expect(loadContent).toHaveBeenCalledOnce();
 
-  fireEvent.tap(screen.getByText('More'));
+  const tapTab = (label: string) => {
+    const tab = container.querySelector(`[accessibility-label="${label}"]`);
+    if (!tab) throw new Error(`Missing tab ${label}`);
+    fireEvent.tap(tab);
+  };
+
+  tapTab('More');
   fireEvent.tap(await screen.findByText('Projects'));
   expect(
     await screen.findByText(
@@ -136,7 +142,7 @@ test('app loads runtime content and navigates through every resident section', a
     ),
   ).toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('Events'));
+  tapTab('Events');
   expect(
     await screen.findByText(
       'Confirmed local dates from organisers and public bodies. Always check the linked organiser page before travelling.',
@@ -145,7 +151,7 @@ test('app loads runtime content and navigates through every resident section', a
   fireEvent.tap(screen.getByText('Residents meeting'));
   expect(await screen.findByText('Shankill Library')).toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('More'));
+  tapTab('More');
   fireEvent.tap(await screen.findByText('Consultations'));
   expect(
     await screen.findByText(
@@ -157,7 +163,7 @@ test('app loads runtime content and navigates through every resident section', a
     await screen.findByText('Respond on the official site'),
   ).toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('Local'));
+  tapTab('Local');
   expect(
     await screen.findByText(
       'Find a curated starting set of nearby public services, community contacts, and businesses—then check the source and contact the provider directly.',
@@ -170,7 +176,7 @@ test('app loads runtime content and navigates through every resident section', a
   fireEvent.tap(screen.getByText('Local health service'));
   expect(await screen.findByText('Monday–Friday')).toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('Updates'));
+  tapTab('Updates');
   expect(
     await screen.findByText(
       'Clear, source-linked notes on transport, planning, public spaces, and the practical changes residents need to know about.',
@@ -179,7 +185,7 @@ test('app loads runtime content and navigates through every resident section', a
   fireEvent.tap(screen.getByText('Bus route update'));
   expect(await screen.findByText('Second paragraph.')).toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('More'));
+  tapTab('More');
   fireEvent.tap(await screen.findByText('Ways to help'));
   expect(
     await screen.findByText('How residents can contribute'),

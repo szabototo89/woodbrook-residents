@@ -15,8 +15,8 @@ test('browser renderer loads shared runtime content and navigates', async ({
     page.getByText('Local information and ways to take part.'),
   ).toBeVisible();
 
-  await page.getByText('More', { exact: true }).click();
-  await page.getByText('Projects', { exact: true }).click();
+  await page.getByText('More', { exact: true }).first().click();
+  await page.getByText('Projects', { exact: true }).first().click();
   await expect(
     page.getByText('A simple record of what is proposed'),
   ).toBeVisible();
@@ -61,7 +61,7 @@ test('filter chips share a compact uniform height', async ({ page }) => {
   await expect(
     page.getByText('Local information and ways to take part.'),
   ).toBeVisible();
-  await page.getByText('Local information', { exact: true }).click();
+  await page.getByText('Local information', { exact: true }).first().click();
   await expect(page.getByText('1 contact')).toBeVisible();
 
   const heights = await page.evaluate(() => {

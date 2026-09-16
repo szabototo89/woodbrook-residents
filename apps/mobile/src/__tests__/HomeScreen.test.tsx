@@ -82,9 +82,10 @@ test('home screen surfaces live content and browses every section', async () => 
   const navigate = vi.fn();
   render(<HomeScreen content={content} navigate={navigate} />);
 
-  expect(await screen.findByText('Latest')).toBeInTheDocument();
+  expect(await screen.findByText('Latest update')).toBeInTheDocument();
   expect(screen.getByText('Bus route update')).toBeInTheDocument();
-  expect(screen.getByText('Upcoming')).toBeInTheDocument();
+  expect(screen.getByText('Upcoming event')).toBeInTheDocument();
+  expect(screen.getByText('Quick access')).toBeInTheDocument();
   expect(screen.getByText('Have your say')).toBeInTheDocument();
   expect(screen.getByText('Find nearby essentials')).toBeInTheDocument();
   expect(
@@ -137,8 +138,8 @@ test('home screen stays useful with empty sections', async () => {
   );
 
   expect(await screen.findByText('Browse all sections')).toBeInTheDocument();
-  expect(screen.queryByText('Latest')).not.toBeInTheDocument();
-  expect(screen.queryByText('Upcoming')).not.toBeInTheDocument();
+  expect(screen.queryByText('Latest update')).not.toBeInTheDocument();
+  expect(screen.queryByText('Upcoming event')).not.toBeInTheDocument();
   expect(screen.getByText('Find nearby essentials')).toBeInTheDocument();
 });
 
@@ -169,13 +170,13 @@ test('home cards show tap affordances and view-all links', async () => {
 
   expect(await screen.findByText('Bus route update')).toBeInTheDocument();
   expect(screen.getAllByText('›').length).toBeGreaterThanOrEqual(3);
-  expect(screen.getByText('View all updates →')).toBeInTheDocument();
+  expect(screen.getByText('See all →')).toBeInTheDocument();
   expect(screen.getByText('View all events →')).toBeInTheDocument();
   expect(screen.getByText('View all consultations →')).toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('View all updates →'));
+  fireEvent.tap(screen.getByText('See all →'));
   expect(navigate).toHaveBeenCalledWith({
     name: 'collection',
-    collection: 'updates',
+    collection: 'events',
   });
 });

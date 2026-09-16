@@ -190,7 +190,7 @@ test('local information keeps its filters when returning from a contact', async 
     await screen.findByText('Local information and ways to take part.'),
   ).toBeInTheDocument();
 
-  fireEvent.tap(screen.getByText('Local'));
+  fireEvent.tap(container.querySelector('[accessibility-label="Local"]')!);
   expect(await screen.findByText('2 contacts')).toBeInTheDocument();
 
   fireEvent.tap(screen.getAllByText('Health')[0]!);
