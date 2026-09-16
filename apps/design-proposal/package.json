@@ -1,0 +1,10 @@
+{
+  "name": "@woodbrook/design-proposal",
+  "private": true,
+  "scripts": {
+    "dev": "bunx serve .",
+    "build": "bun -e \"import { existsSync } from 'node:fs'; for (const file of ['index.html', 'styles.css', 'script.js']) if (!existsSync(file)) throw new Error('Missing ' + file)\"",
+    "format": "bunx prettier --write .",
+    "format:check": "bunx prettier --check ."
+  }
+}
