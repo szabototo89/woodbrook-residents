@@ -10,7 +10,7 @@ import { SiteStructuredData } from './SiteStructuredData';
 
 export function RootDocument({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en-IE">
       <head>
         <HeadContent />
         <SiteStructuredData />

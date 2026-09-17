@@ -103,6 +103,7 @@ test('collectSeoPaths lists static routes plus every published detail slug', () 
       '/events/first-event',
       '/surveys/first-survey',
       '/local-info/first-resource',
+      '/documents/thorntons-bin-collection-schedule-2026.pdf',
     ]),
   );
 });

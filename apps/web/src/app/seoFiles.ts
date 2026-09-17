@@ -16,6 +16,10 @@ export const STATIC_SEO_ROUTES: string[] = [
   '/get-involved',
 ];
 
+export const STATIC_SEO_DOCUMENTS: string[] = [
+  '/documents/thorntons-bin-collection-schedule-2026.pdf',
+];
+
 function cleanSlug(slug: unknown): string | undefined {
   if (typeof slug !== 'string') {
     return undefined;
@@ -40,9 +44,12 @@ function dateOnly(value: unknown): string | undefined {
 }
 
 export function collectSeoPaths(snapshot: ContentSnapshot): SeoPath[] {
-  const staticPaths: SeoPath[] = STATIC_SEO_ROUTES.map((route) => ({
-    path: route,
-  }));
+  const staticPaths: SeoPath[] = [
+    ...STATIC_SEO_ROUTES.map((route) => ({ path: route })),
+    ...STATIC_SEO_DOCUMENTS.map((documentPath) => ({
+      path: documentPath,
+    })),
+  ];
 
   const updatePaths: SeoPath[] = snapshot.updates
     .map((update) => ({
