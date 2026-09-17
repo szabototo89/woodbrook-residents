@@ -232,10 +232,31 @@ async function fetchRoute(
   return parsePagespeedResult(payload);
 }
 
-async function runPagespeedCheck(): Promise<void> {
+async function checkRoute(
+  route: string,
+  config: PagespeedConfig,
+): Promise<boolean> {
+  console.log(`Checking PageSpeed (${config.strategy}) for ${route}...`);
+  try {
+    const result = await fetchRoute(config.siteUrl, route, config);
+    const line = formatRouteSummary(route, result);
+    console.log(line);
+    return line.startsWith('FAIL');
+  } catch (error) {
+    console.error(
+      `FAIL ${route}: ${error instanceof Error ? error.message : error}`,
+    );
+    return true;
+  }
+}
+
+export async function runPagespeedCheck(
+  argv: string[] = Bun.argv.slice(2),
+  env: Record<string, string | undefined> = process.env,
+): Promise<void> {
   let config: PagespeedConfig;
   try {
-    config = resolvePagespeedConfig(Bun.argv.slice(2), process.env);
+    config = resolvePagespeedConfig(argv, env);
   } catch (error) {
     console.error(error instanceof Error ? error.message : error);
     process.exitCode = 2;
@@ -251,20 +272,7 @@ async function runPagespeedCheck(): Promise<void> {
   }
   let failed = false;
   for (const route of config.routes) {
-    console.log(`Checking PageSpeed (${config.strategy}) for ${route}...`);
-    try {
-      const result = await fetchRoute(config.siteUrl, route, config);
-      const line = formatRouteSummary(route, result);
-      console.log(line);
-      if (line.startsWith('FAIL')) {
-        failed = true;
-      }
-    } catch (error) {
-      console.error(
-        `FAIL ${route}: ${error instanceof Error ? error.message : error}`,
-      );
-      failed = true;
-    }
+    failed = (await checkRoute(route, config)) || failed;
   }
   process.exitCode = failed ? 1 : 0;
 }
