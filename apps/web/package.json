@@ -11,6 +11,7 @@
     "build": "vite build",
     "build:static": "bun scripts/build-static.ts",
     "check:search-console": "bun scripts/check-search-console.ts",
+    "check:pagespeed": "bun scripts/check-pagespeed.ts",
     "preview": "vite preview",
     "test:unit": "vitest run --coverage src --exclude 'src/**/*.browser.test.tsx'",
     "test:browser": "vitest run --config vitest.browser.config.ts",
