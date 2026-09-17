@@ -31,13 +31,40 @@ function getSocialImageUrl(siteUrl: string): string {
   return new URL(SOCIAL_IMAGE_PATH, `${siteUrl}/`).toString();
 }
 
+function toIsoDateTime(value: unknown): string | undefined {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  const parsed = new Date(trimmed);
+  if (Number.isNaN(parsed.getTime())) {
+    return undefined;
+  }
+  return parsed.toISOString();
+}
+
 type PageMetadata = {
   title: string;
   description: string;
   path: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: unknown;
+  modifiedTime?: unknown;
+  jsonLd?: unknown;
 };
 
-export function createPageHead({ title, description, path }: PageMetadata) {
+export function createPageHead({
+  title,
+  description,
+  path,
+  ogType,
+  publishedTime,
+  modifiedTime,
+  jsonLd,
+}: PageMetadata) {
   const siteUrl = getSiteUrl();
   const socialImageUrl = getSocialImageUrl(siteUrl);
   const fullTitle =
@@ -45,6 +72,11 @@ export function createPageHead({ title, description, path }: PageMetadata) {
       ? 'Woodbrook Residents | Shankill'
       : `${title} | Woodbrook Residents`;
   const canonicalUrl = new URL(path, `${siteUrl}/`).toString();
+  const resolvedOgType = ogType ?? 'website';
+  const publishedIso =
+    resolvedOgType === 'article' ? toIsoDateTime(publishedTime) : undefined;
+  const modifiedIso =
+    resolvedOgType === 'article' ? toIsoDateTime(modifiedTime) : undefined;
 
   return {
     meta: [
@@ -52,7 +84,7 @@ export function createPageHead({ title, description, path }: PageMetadata) {
       { name: 'description', content: description },
       { property: 'og:title', content: fullTitle },
       { property: 'og:description', content: description },
-      { property: 'og:type', content: 'website' },
+      { property: 'og:type', content: resolvedOgType },
       { property: 'og:url', content: canonicalUrl },
       { property: 'og:site_name', content: SITE_NAME },
       { property: 'og:locale', content: SITE_LOCALE },
@@ -60,6 +92,12 @@ export function createPageHead({ title, description, path }: PageMetadata) {
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:image:alt', content: fullTitle },
+      ...(publishedIso
+        ? [{ property: 'article:published_time', content: publishedIso }]
+        : []),
+      ...(modifiedIso
+        ? [{ property: 'article:modified_time', content: modifiedIso }]
+        : []),
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: fullTitle },
       { name: 'twitter:description', content: description },
@@ -67,5 +105,9 @@ export function createPageHead({ title, description, path }: PageMetadata) {
       { name: 'twitter:image:alt', content: fullTitle },
     ],
     links: [{ rel: 'canonical', href: canonicalUrl }],
+    scripts:
+      jsonLd === undefined || jsonLd === null
+        ? []
+        : [{ type: 'application/ld+json', children: JSON.stringify(jsonLd) }],
   };
 }

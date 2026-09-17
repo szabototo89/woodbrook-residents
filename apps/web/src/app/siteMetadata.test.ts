@@ -67,6 +67,53 @@ test('createPageHead emits canonical, Open Graph site name/locale, and image alt
   });
 });
 
+test('createPageHead emits article metadata and JSON-LD script when provided', () => {
+  vi.stubEnv('VITE_PUBLIC_SITE_URL', 'https://example.com');
+
+  const head = createPageHead({
+    title: 'First update',
+    description: 'Summary.',
+    path: '/updates/first-update',
+    ogType: 'article',
+    publishedTime: '2026-09-05',
+    modifiedTime: '2026-09-06',
+    jsonLd: { '@type': 'Article', headline: 'First update' },
+  });
+
+  const metaByKey = new Map(
+    head.meta.map((entry) => [
+      entry.name ?? entry.property ?? 'unknown',
+      entry,
+    ]),
+  );
+
+  expect(metaByKey.get('og:type')).toMatchObject({ content: 'article' });
+  expect(metaByKey.get('article:published_time')).toMatchObject({
+    content: '2026-09-05T00:00:00.000Z',
+  });
+  expect(metaByKey.get('article:modified_time')).toMatchObject({
+    content: '2026-09-06T00:00:00.000Z',
+  });
+  expect(head.scripts).toHaveLength(1);
+  expect(head.scripts[0]).toMatchObject({ type: 'application/ld+json' });
+});
+
+test('createPageHead omits article dates when invalid and scripts when absent', () => {
+  vi.stubEnv('VITE_PUBLIC_SITE_URL', 'https://example.com');
+
+  const head = createPageHead({
+    title: 'First update',
+    description: 'Summary.',
+    path: '/updates/first-update',
+    ogType: 'article',
+    publishedTime: 'not-a-date',
+  });
+
+  const keys = head.meta.map((entry) => entry.name ?? entry.property ?? '');
+  expect(keys).not.toContain('article:published_time');
+  expect(keys).not.toContain('article:modified_time');
+  expect(head.scripts).toEqual([]);
+});
 test('createPageHead never emits a localhost canonical when the env value is missing', () => {
   vi.stubEnv('VITE_PUBLIC_SITE_URL', '');
 
