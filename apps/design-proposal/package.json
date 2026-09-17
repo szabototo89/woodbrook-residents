@@ -2,9 +2,15 @@
   "name": "@woodbrook/design-proposal",
   "private": true,
   "scripts": {
+    "assets:generate": "node scripts/render-brand-assets.mjs",
+    "screenshots:capture": "node scripts/capture-review.mjs",
     "dev": "bunx serve .",
     "build": "bun -e \"import { existsSync } from 'node:fs'; for (const file of ['index.html', 'styles.css', 'script.js']) if (!existsSync(file)) throw new Error('Missing ' + file)\"",
+    "test": "playwright test",
     "format": "bunx prettier --write .",
     "format:check": "bunx prettier --check ."
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
   }
 }

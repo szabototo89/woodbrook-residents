@@ -3,523 +3,435 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script>
-      if (
-        !window.location.pathname.endsWith('/') &&
-        !window.location.pathname.endsWith('.html')
-      ) {
-        window.location.replace(
-          `${window.location.pathname}/${window.location.search}${window.location.hash}`,
-        );
-      }
-    </script>
     <meta
       name="description"
-      content="Personalised facials, advanced skin treatments and massage with Diana at Juliet Rose Beauty Studio in Stillorgan, South Dublin."
+      content="Beauty treatments in Stillorgan, South Dublin. Explore personalised facials, advanced skin treatments, massage, beauty essentials and treatment packages at Juliet Rose Beauty Studio."
     />
-    <title>Juliet Rose Beauty Studio | Stillorgan</title>
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%239f565b'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='serif' font-size='31' fill='white'%3EJR%3C/text%3E%3C/svg%3E"
-    />
+    <title>Juliet Rose Beauty Studio | Relax and Revitalize</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&amp;family=DM+Sans:wght@300;400;500&amp;display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main-content">Skip to content</a>
 
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="Juliet Rose Beauty Studio home">
-        <span>Juliet Rose</span>
-        <small>Beauty Studio</small>
-      </a>
-      <nav class="desktop-nav" aria-label="Main navigation">
-        <a class="active" href="#top">Home</a>
-        <a href="#treatments">Treatments</a>
-        <a href="#gift-cards">Gift Cards</a>
-        <a href="#visit">Contact</a>
-      </nav>
-      <a
-        class="button button-filled header-book"
-        href="https://www.julietrosebeauty.com/book-online"
-        >Book an appointment <span aria-hidden="true">→</span></a
-      >
-      <button
-        class="menu-toggle"
-        type="button"
-        aria-label="Open navigation"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
-      >
-        <span></span><span></span><span></span>
-      </button>
-      <nav class="mobile-nav" id="mobile-menu" aria-label="Mobile navigation">
-        <a href="#top">Home</a>
-        <a href="#treatments">Treatments</a>
-        <a href="#gift-cards">Gift Cards</a>
-        <a href="#about">Meet Diana</a>
-        <a href="#visit">Contact</a>
+      <div class="header-inner">
         <a
-          class="button button-filled"
-          href="https://www.julietrosebeauty.com/book-online"
-          >Book an appointment</a
-        >
-      </nav>
-    </header>
-
-    <main id="main">
-      <section class="hero" id="top" aria-labelledby="hero-title">
-        <img
-          class="hero-image"
-          src="assets/facial-hero.jpg"
-          alt="A client enjoying a calm facial treatment"
-          fetchpriority="high"
-        />
-        <div class="hero-shade"></div>
-        <div class="hero-content page-shell">
-          <p class="eyebrow">Skin · Wellbeing · You</p>
-          <h1 id="hero-title">Relax and Revitalize</h1>
-          <p class="hero-intro">
-            A wide range of personalised beauty treatments and products, all in
-            one place.
-          </p>
-          <div class="hero-actions">
-            <a
-              class="button button-filled"
-              href="https://www.julietrosebeauty.com/book-online"
-              >Book an appointment <span aria-hidden="true">→</span></a
-            >
-            <a class="button button-outline" href="#treatments"
-              >Find your treatment</a
-            >
-          </div>
-          <a class="policy-link" href="#booking-policy">
-            <span class="leaf-icon" aria-hidden="true">⌁</span> Booking policy
-          </a>
-        </div>
-        <p class="hero-note" aria-hidden="true">Time<br />for you</p>
-      </section>
-
-      <section class="trust-strip" aria-label="Studio highlights">
-        <div class="page-shell trust-grid">
-          <div>
-            <span aria-hidden="true">✦</span>
-            <p><b>One-to-one</b> appointments</p>
-          </div>
-          <div>
-            <span aria-hidden="true">⌖</span>
-            <p><b>Stillorgan</b>, South Dublin</p>
-          </div>
-          <div>
-            <span aria-hidden="true">◷</span>
-            <p>A calm, <b>private studio</b></p>
-          </div>
-          <div>
-            <span aria-hidden="true">★★★★★</span>
-            <p><b>5.0</b> Google rating</p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="section treatment-finder"
-        id="treatments"
-        aria-labelledby="treatment-title"
-      >
-        <div class="page-shell">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Our treatments</p>
-              <h2 id="treatment-title">Find the right treatment for you</h2>
-            </div>
-            <a
-              class="text-link desktop-only"
-              href="https://www.julietrosebeauty.com/book-online"
-              >View all treatments <span aria-hidden="true">→</span></a
-            >
-          </div>
-
-          <div class="category-grid">
-            <a class="category-card category-skin" href="#featured">
-              <div class="category-image">
-                <img
-                  src="assets/facial-mask.jpg"
-                  alt="A nourishing facial mask being applied"
-                />
-              </div>
-              <div class="category-copy">
-                <p class="category-kicker">Healthier, brighter skin</p>
-                <h3>Facials &amp; Skin</h3>
-                <p>
-                  Personalised treatments shaped around your skin, not trends.
-                </p>
-                <span>Explore facials <b aria-hidden="true">→</b></span>
-              </div>
-            </a>
-            <a class="category-card category-advanced" href="#featured">
-              <div class="category-image crop-detail">
-                <img
-                  src="assets/facial-hero.jpg"
-                  alt="A precise one-to-one facial treatment"
-                />
-              </div>
-              <div class="category-copy">
-                <p class="category-kicker">Target a specific concern</p>
-                <h3>Advanced Skin</h3>
-                <p>
-                  Knowledge-led treatments including microneedling and skin
-                  peels.
-                </p>
-                <span>Explore treatments <b aria-hidden="true">→</b></span>
-              </div>
-            </a>
-            <a class="category-card category-massage" href="#featured">
-              <div class="category-image soft-gradient" aria-hidden="true">
-                <span>Relax<br />&amp; reset</span>
-              </div>
-              <div class="category-copy">
-                <p class="category-kicker">Release tension</p>
-                <h3>Massage</h3>
-                <p>
-                  Swedish, aromatherapy and targeted massage in a calm setting.
-                </p>
-                <span>Explore massage <b aria-hidden="true">→</b></span>
-              </div>
-            </a>
-            <a class="category-card category-packages" href="#gift-cards">
-              <div class="category-image">
-                <img
-                  src="assets/studio-interior.jpg"
-                  alt="A calm, private treatment room"
-                />
-              </div>
-              <div class="category-copy">
-                <p class="category-kicker">A little more time</p>
-                <h3>Packages</h3>
-                <p>A combination of treatments for the complete experience.</p>
-                <span>Explore packages <b aria-hidden="true">→</b></span>
-              </div>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="section featured"
-        id="featured"
-        aria-labelledby="featured-title"
-      >
-        <div class="page-shell">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Popular choices</p>
-              <h2 id="featured-title">Featured treatments</h2>
-            </div>
-            <a
-              class="text-link desktop-only"
-              href="https://www.julietrosebeauty.com/book-online"
-              >View all treatments <span aria-hidden="true">→</span></a
-            >
-          </div>
-
-          <div class="treatment-grid">
-            <article class="treatment-card signature-card">
-              <img
-                src="assets/facial-mask.jpg"
-                alt="Juliet Rose Signature Facial"
-              />
-              <div class="treatment-content">
-                <p class="eyebrow">The best place to start</p>
-                <h3>Juliet Rose Signature Facial</h3>
-                <p>
-                  A personalised facial with consultation, skin analysis and
-                  products chosen for what your skin needs now.
-                </p>
-                <div class="treatment-meta">
-                  <span><i aria-hidden="true">◷</i> 1 hour</span
-                  ><strong>€95</strong>
-                </div>
-                <a
-                  class="button button-filled"
-                  href="https://www.julietrosebeauty.com/book-online"
-                  >Book now <span aria-hidden="true">→</span></a
-                >
-              </div>
-            </article>
-
-            <article class="treatment-card">
-              <div class="treatment-image treatment-image-micro">
-                <img
-                  src="assets/facial-hero.jpg"
-                  alt="A focused advanced skin treatment"
-                />
-              </div>
-              <div class="treatment-content">
-                <h3>Microneedling</h3>
-                <p>For smoother-looking texture and a refreshed complexion.</p>
-                <div class="treatment-meta">
-                  <span><i aria-hidden="true">◷</i> 1 hour</span
-                  ><strong>€130</strong>
-                </div>
-                <a
-                  class="button button-filled"
-                  href="https://www.julietrosebeauty.com/book-online"
-                  >Book now <span aria-hidden="true">→</span></a
-                >
-              </div>
-            </article>
-
-            <article class="treatment-card">
-              <div class="treatment-image">
-                <img
-                  src="assets/facial-mask.jpg"
-                  alt="A deeply hydrating facial"
-                />
-              </div>
-              <div class="treatment-content">
-                <h3>Deep Hydration 6 Step Facial</h3>
-                <p>
-                  Six carefully chosen steps to comfort and replenish the skin.
-                </p>
-                <div class="treatment-meta">
-                  <span><i aria-hidden="true">◷</i> 1 hour</span
-                  ><strong>€110</strong>
-                </div>
-                <a
-                  class="button button-filled"
-                  href="https://www.julietrosebeauty.com/book-online"
-                  >Book now <span aria-hidden="true">→</span></a
-                >
-              </div>
-            </article>
-
-            <article class="treatment-card">
-              <div class="treatment-image treatment-image-massage">
-                <img
-                  src="assets/facial-hero.jpg"
-                  alt="A relaxing hands-on treatment"
-                />
-              </div>
-              <div class="treatment-content">
-                <h3>Swedish Massage</h3>
-                <p>
-                  A calming full-body treatment to ease tension and help you
-                  reset.
-                </p>
-                <div class="treatment-meta">
-                  <span><i aria-hidden="true">◷</i> 1 hour</span
-                  ><strong>€80</strong>
-                </div>
-                <a
-                  class="button button-filled"
-                  href="https://www.julietrosebeauty.com/book-online"
-                  >Book now <span aria-hidden="true">→</span></a
-                >
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="gift-card" id="gift-cards" aria-labelledby="gift-title">
-        <div class="page-shell gift-inner">
-          <div class="gift-visual" aria-hidden="true">
-            <div class="gift-envelope"></div>
-            <div class="gift-note">
-              <span>♡</span><b>A gift for you</b><small>Juliet Rose</small>
-            </div>
-          </div>
-          <div class="gift-copy">
-            <p class="eyebrow">Gift cards</p>
-            <h2 id="gift-title">The perfect gift</h2>
-            <p>
-              Choose a treatment or an amount and let them decide what they need
-              most.
-            </p>
-          </div>
-          <a
-            class="button button-outline"
-            href="https://www.julietrosebeauty.com/gift-card"
-            >Buy a gift card <span aria-hidden="true">→</span></a
-          >
-        </div>
-      </section>
-
-      <section class="section about" id="about" aria-labelledby="about-title">
-        <div class="page-shell about-grid">
-          <div class="about-image-wrap">
-            <img
-              src="assets/studio-interior.jpg"
-              alt="The private treatment room at Juliet Rose"
-            />
-            <p>Quietly tucked away<br />in Stillorgan</p>
-          </div>
-          <div class="about-copy">
-            <p class="eyebrow">Meet Diana</p>
-            <h2 id="about-title">A place to feel your best.</h2>
-            <p class="large-copy">
-              I believe good skincare starts with understanding your skin—not
-              following every new trend.
-            </p>
-            <p>
-              Your appointment is entirely one-to-one, with time to talk through
-              your concerns and understand every step. I’ll explain what I’m
-              using, why I’m using it and how it can support your skin at home.
-            </p>
-            <div class="values">
-              <div>
-                <b>Personal</b><span>Every treatment begins with you.</span>
-              </div>
-              <div>
-                <b>Knowledge-led</b
-                ><span>Clear advice, without the jargon.</span>
-              </div>
-              <div>
-                <b>Unhurried</b><span>Time to ask, understand and relax.</span>
-              </div>
-            </div>
-            <a class="text-link" href="mailto:denizzza1@gmail.com"
-              >Ask Diana a question <span aria-hidden="true">→</span></a
-            >
-          </div>
-        </div>
-      </section>
-
-      <section class="reviews" aria-labelledby="reviews-title">
-        <div class="page-shell reviews-grid">
-          <div class="review-heading">
-            <p class="eyebrow">Client words</p>
-            <h2 id="reviews-title">What clients say</h2>
-            <p class="rating"><span>★★★★★</span> 5.0 on Google</p>
-          </div>
-          <figure class="review-card">
-            <div class="quote-mark" aria-hidden="true">“</div>
-            <blockquote>
-              A truly unique one-to-one experience with Diana. She is so
-              knowledgeable, kind and professional. My skin has never looked
-              better!
-            </blockquote>
-            <figcaption>Google review</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section class="studio-benefits" aria-label="Studio benefits">
-        <div class="page-shell benefits-list">
-          <div><span aria-hidden="true">⌁</span>Wide range of treatments</div>
-          <div><span aria-hidden="true">▣</span>Gift cards available</div>
-          <div><span aria-hidden="true">▰</span>Free parking nearby</div>
-          <div>
-            <span aria-hidden="true">⌖</span>Easy to reach in Stillorgan
-          </div>
-        </div>
-      </section>
-
-      <section class="section visit" id="visit" aria-labelledby="visit-title">
-        <div class="page-shell visit-grid">
-          <div class="visit-copy">
-            <p class="eyebrow">Visit us</p>
-            <h2 id="visit-title">Visit us</h2>
-            <p>
-              A calm, welcoming space for one-to-one appointments, with free
-              parking nearby.
-            </p>
-            <address>
-              <a
-                href="https://maps.google.com/?q=10+Merville+Road+Stillorgan+Dublin+A94YV78"
-              >
-                <span aria-hidden="true">⌖</span>
-                <span>10 Merville Road<br />Stillorgan, Dublin, A94 YV78</span>
-              </a>
-              <div>
-                <span aria-hidden="true">◷</span
-                ><span>Monday – Friday<br />10.00am – 8.00pm</span>
-              </div>
-              <a href="tel:+353852867059"
-                ><span aria-hidden="true">⌕</span><span>085 286 7059</span></a
-              >
-              <a href="mailto:denizzza1@gmail.com"
-                ><span aria-hidden="true">✉</span
-                ><span>denizzza1@gmail.com</span></a
-              >
-            </address>
-            <a
-              class="button button-filled"
-              href="https://maps.google.com/?q=10+Merville+Road+Stillorgan+Dublin+A94YV78"
-              >Get directions <span aria-hidden="true">→</span></a
-            >
-          </div>
-          <div class="visit-image">
-            <img
-              src="assets/studio-interior.jpg"
-              alt="A warm, private treatment studio"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="booking-note"
-        id="booking-policy"
-        aria-labelledby="policy-title"
-      >
-        <div class="page-shell booking-note-inner">
-          <p class="eyebrow">Good to know</p>
-          <h2 id="policy-title">A little note about appointments.</h2>
-          <p>
-            Please arrive on time and come to your appointment alone. If you
-            need to cancel or rearrange, 24 hours’ notice is required; late
-            cancellations or missed appointments may be charged.
-          </p>
-          <a class="text-link" href="https://www.julietrosebeauty.com/"
-            >Read the full booking policy <span aria-hidden="true">→</span></a
-          >
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="page-shell footer-top">
-        <a
-          class="brand footer-brand"
+          class="brand"
           href="#top"
           aria-label="Juliet Rose Beauty Studio home"
         >
           <span>Juliet Rose</span>
           <small>Beauty Studio</small>
         </a>
-        <nav aria-label="Footer navigation">
-          <a href="#top">Home</a>
+
+        <nav class="desktop-navigation" aria-label="Main navigation">
+          <a class="is-current" href="#top">Home</a>
           <a href="#treatments">Treatments</a>
           <a href="#gift-cards">Gift Cards</a>
-          <a href="#visit">Contact</a>
+          <a href="#contact">Contact</a>
         </nav>
-        <div class="social-links">
-          <a
-            href="https://www.instagram.com/julietrosebeautystudio/"
-            aria-label="Instagram"
-            >◎</a
-          >
-          <a href="tel:+353852867059" aria-label="Call Juliet Rose">☎</a>
-        </div>
+
+        <a
+          class="primary-button header-booking"
+          href="https://www.julietrosebeauty.com/book-online"
+        >
+          Book an appointment
+          <span class="icon-arrow" aria-hidden="true"></span>
+        </a>
+
+        <button
+          class="menu-button"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-navigation"
+        >
+          <span></span><span></span><span></span>
+        </button>
       </div>
-      <div class="page-shell footer-bottom">
-        <p>© 2026 Juliet Rose Beauty Studio. All rights reserved.</p>
-        <div>
-          <a href="#booking-policy">Booking policy</a><a href="#top">Privacy</a
-          ><a href="#top">Terms</a>
+
+      <nav
+        class="mobile-navigation"
+        id="mobile-navigation"
+        aria-label="Mobile navigation"
+        hidden
+      >
+        <a href="#top">Home</a>
+        <a href="#treatments">Treatments</a>
+        <a href="#gift-cards">Gift Cards</a>
+        <a href="#contact">Contact</a>
+        <a
+          class="primary-button"
+          href="https://www.julietrosebeauty.com/book-online"
+          >Book an appointment
+          <span class="icon-arrow" aria-hidden="true"></span
+        ></a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="top" aria-labelledby="hero-heading">
+        <img
+          class="hero-image"
+          src="assets/facial-hero.jpg"
+          alt="A relaxing facial treatment at Juliet Rose Beauty Studio"
+          fetchpriority="high"
+        />
+        <div class="hero-wash" aria-hidden="true"></div>
+        <div class="hero-inner page-width">
+          <p class="eyebrow">
+            Beauty&nbsp;&nbsp;·&nbsp;&nbsp; Wellbeing&nbsp;&nbsp;·&nbsp;&nbsp;
+            You
+          </p>
+          <h1 id="hero-heading">Relax and Revitalize</h1>
+          <p class="hero-location">
+            Beauty treatments in Stillorgan, South Dublin.
+          </p>
+          <p class="hero-copy">
+            A wide range of beauty treatments and products, <br />all in one
+            place.
+          </p>
+          <div class="hero-actions">
+            <a
+              class="primary-button"
+              href="https://www.julietrosebeauty.com/book-online"
+              >Book an appointment
+              <span class="icon-arrow" aria-hidden="true"></span
+            ></a>
+            <a class="secondary-button" href="#treatments">View treatments</a>
+          </div>
+          <a class="policy-link" href="#booking-policy">
+            <span class="booking-icon" aria-hidden="true"></span>
+            Booking policy
+          </a>
         </div>
+      </section>
+
+      <section
+        class="treatments-section"
+        id="treatments"
+        aria-labelledby="treatments-heading"
+      >
+        <div class="page-width">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Our treatments</p>
+              <h2 id="treatments-heading">Find the right treatment for you</h2>
+            </div>
+            <a
+              class="section-link"
+              href="https://www.julietrosebeauty.com/book-online"
+            >
+              View all treatments
+              <span class="icon-arrow" aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <div class="category-grid">
+            <article class="category-card">
+              <img
+                src="assets/facial-mask.jpg"
+                alt="A facial mask being carefully applied"
+              />
+              <div class="category-copy">
+                <h3>Facials &amp; Skin</h3>
+                <p>From our signature facial to advanced skin treatments.</p>
+                <a href="https://www.julietrosebeauty.com/book-online"
+                  >View treatments
+                  <span class="icon-arrow" aria-hidden="true"></span
+                ></a>
+              </div>
+            </article>
+
+            <article class="category-card">
+              <img src="assets/massage.jpg" alt="A calm massage treatment" />
+              <div class="category-copy">
+                <h3>Massage</h3>
+                <p>Relaxing and therapeutic massage treatments.</p>
+                <a href="https://www.julietrosebeauty.com/book-online"
+                  >View treatments
+                  <span class="icon-arrow" aria-hidden="true"></span
+                ></a>
+              </div>
+            </article>
+
+            <article class="category-card">
+              <img
+                src="assets/manicure.jpg"
+                alt="Blush gel polish being applied"
+              />
+              <div class="category-copy">
+                <h3>Beauty Essentials</h3>
+                <p>Nails, brows, lashes and more.</p>
+                <a href="https://www.julietrosebeauty.com/book-online"
+                  >View treatments
+                  <span class="icon-arrow" aria-hidden="true"></span
+                ></a>
+              </div>
+            </article>
+
+            <article class="category-card">
+              <img
+                src="assets/packages.jpg"
+                alt="Towels and treatment products"
+              />
+              <div class="category-copy">
+                <h3>Packages</h3>
+                <p>A combination of treatments for the ultimate experience.</p>
+                <a href="https://www.julietrosebeauty.com/book-online"
+                  >View packages
+                  <span class="icon-arrow" aria-hidden="true"></span
+                ></a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="featured-section"
+        id="featured"
+        aria-labelledby="featured-heading"
+      >
+        <div class="page-width">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Popular choices</p>
+              <h2 id="featured-heading">Featured treatments</h2>
+            </div>
+            <a
+              class="section-link"
+              href="https://www.julietrosebeauty.com/book-online"
+            >
+              View all treatments
+              <span class="icon-arrow" aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <div class="featured-grid">
+            <article class="treatment-card">
+              <img
+                src="assets/facial-mask.jpg"
+                alt="Juliet Rose Signature Facial treatment"
+              />
+              <div class="treatment-copy">
+                <h3>Juliet Rose Signature Facial</h3>
+                <div class="treatment-meta">
+                  <span class="duration">
+                    <span class="icon-clock" aria-hidden="true"></span>
+                    1 hour
+                  </span>
+                  <strong>€95</strong>
+                </div>
+                <a
+                  class="primary-button"
+                  href="https://www.julietrosebeauty.com/book-online"
+                >
+                  Book now <span class="icon-arrow" aria-hidden="true"></span>
+                </a>
+              </div>
+            </article>
+
+            <article class="treatment-card">
+              <img
+                src="assets/microneedling.jpg"
+                alt="Microneedling skincare treatment"
+              />
+              <div class="treatment-copy">
+                <h3>Microneedling</h3>
+                <div class="treatment-meta">
+                  <span class="duration">
+                    <span class="icon-clock" aria-hidden="true"></span>
+                    1 hour
+                  </span>
+                  <strong>€130</strong>
+                </div>
+                <a
+                  class="primary-button"
+                  href="https://www.julietrosebeauty.com/book-online"
+                >
+                  Book now <span class="icon-arrow" aria-hidden="true"></span>
+                </a>
+              </div>
+            </article>
+
+            <article class="treatment-card">
+              <img
+                src="assets/facial-mask.jpg"
+                alt="Deep hydration facial treatment"
+              />
+              <div class="treatment-copy">
+                <h3>Deep hydration 6 step facial</h3>
+                <div class="treatment-meta">
+                  <span class="duration">
+                    <span class="icon-clock" aria-hidden="true"></span>
+                    1 hour
+                  </span>
+                  <strong>€110</strong>
+                </div>
+                <a
+                  class="primary-button"
+                  href="https://www.julietrosebeauty.com/book-online"
+                >
+                  Book now <span class="icon-arrow" aria-hidden="true"></span>
+                </a>
+              </div>
+            </article>
+
+            <article class="treatment-card">
+              <img src="assets/massage.jpg" alt="Swedish massage treatment" />
+              <div class="treatment-copy">
+                <h3>Swedish massage</h3>
+                <div class="treatment-meta">
+                  <span class="duration">
+                    <span class="icon-clock" aria-hidden="true"></span>
+                    1 hour
+                  </span>
+                  <strong>€80</strong>
+                </div>
+                <a
+                  class="primary-button"
+                  href="https://www.julietrosebeauty.com/book-online"
+                >
+                  Book now <span class="icon-arrow" aria-hidden="true"></span>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="gift-section"
+        id="gift-cards"
+        aria-labelledby="gift-heading"
+      >
+        <div class="gift-visual" aria-hidden="true"></div>
+        <div class="gift-copy">
+          <p class="eyebrow">Gift cards</p>
+          <h2 id="gift-heading">The perfect gift</h2>
+          <p>
+            Treat someone special to a Juliet Rose gift card.<br />Available for
+            any treatment or amount.
+          </p>
+        </div>
+        <a
+          class="secondary-button"
+          href="https://www.julietrosebeauty.com/gift-card"
+        >
+          Buy a gift card <span class="icon-arrow" aria-hidden="true"></span>
+        </a>
+      </section>
+
+      <section
+        class="visit-section"
+        id="contact"
+        aria-labelledby="visit-heading"
+      >
+        <div class="visit-copy">
+          <p class="eyebrow">Visit us</p>
+          <h2 id="visit-heading">Juliet Rose beauty studio</h2>
+          <p class="address">
+            10 Merville road, Stillorgan, Dublin, Ireland, A94YV78
+          </p>
+
+          <div class="contact-row">
+            <span class="contact-item opening-hours">
+              <span class="icon-clock" aria-hidden="true"></span>
+              <span>Monday – Friday<br />10.00am – 8.00pm</span>
+            </span>
+            <a class="contact-item" href="tel:+353852867059">
+              <span class="icon-phone" aria-hidden="true"></span>
+              0852867059
+            </a>
+            <a class="contact-item" href="mailto:denizzza1@gmail.com">
+              <span class="icon-email" aria-hidden="true"></span>
+              denizzza1@gmail.com
+            </a>
+            <a
+              class="primary-button contact-button"
+              href="mailto:denizzza1@gmail.com"
+            >
+              Contact Diana <span class="icon-arrow" aria-hidden="true"></span>
+            </a>
+            <a class="policy-link contact-policy" href="#booking-policy">
+              <span class="booking-icon" aria-hidden="true"></span>
+              Booking policy
+            </a>
+          </div>
+        </div>
+        <img
+          class="studio-image"
+          src="assets/studio-interior.jpg"
+          alt="The warm and private Juliet Rose treatment studio"
+        />
+      </section>
+
+      <section
+        class="booking-policy"
+        id="booking-policy"
+        aria-labelledby="policy-heading"
+      >
+        <div>
+          <p class="eyebrow">Before your appointment</p>
+          <h2 id="policy-heading">Booking policy</h2>
+        </div>
+        <p>
+          Please arrive on time and attend your appointment alone. If you need
+          to cancel or rearrange, please give at least 24 hours’ notice. Late
+          cancellations and no-shows may be charged.
+        </p>
+        <a href="https://www.julietrosebeauty.com/">Read the full policy</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-main page-width">
+        <a class="brand footer-brand" href="#top" aria-label="Back to the top">
+          <span>Juliet Rose</span>
+          <small>Beauty Studio</small>
+        </a>
+        <nav class="footer-navigation" aria-label="Footer navigation">
+          <a class="is-current" href="#top">Home</a>
+          <a href="#treatments">Treatments</a>
+          <a href="#gift-cards">Gift Cards</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="social-links" aria-label="Social media">
+          <a href="https://www.instagram.com/" aria-label="Instagram">
+            <span class="icon-instagram" aria-hidden="true"></span>
+          </a>
+          <a href="https://www.facebook.com/" aria-label="Facebook">
+            <span class="icon-facebook" aria-hidden="true"></span>
+          </a>
+        </div>
+        <span class="footer-rule" aria-hidden="true"></span>
+        <p class="tagline">Relax and Revitalize</p>
+      </div>
+
+      <div class="footer-bottom page-width">
+        <p>© 2026 Juliet Rose beauty studio. All rights reserved.</p>
+        <p>
+          <a href="#">Privacy</a><span aria-hidden="true">|</span
+          ><a href="#">Terms</a>
+        </p>
       </div>
     </footer>
 
-    <a class="mobile-book" href="https://www.julietrosebeauty.com/book-online"
-      >Book an appointment <span aria-hidden="true">→</span></a
+    <a
+      class="mobile-booking"
+      href="https://www.julietrosebeauty.com/book-online"
+      aria-hidden="true"
+      tabindex="-1"
     >
+      Book an appointment <span class="icon-arrow" aria-hidden="true"></span>
+    </a>
   </body>
 </html>
