@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://woodbrook.shankill.workers.dev/sitemap.xml

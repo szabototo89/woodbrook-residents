@@ -154,6 +154,49 @@ if (await fileExists(path.join(outputRoot, 'report', 'index.html'))) {
   );
 }
 
+const robotsPath = path.join(outputRoot, 'robots.txt');
+if (!(await fileExists(robotsPath))) {
+  throw new Error('Static build is missing robots.txt for search indexing.');
+}
+const robotsTxt = await readFile(robotsPath, 'utf8');
+if (!robotsTxt.includes('User-agent: *') || !robotsTxt.includes('Allow: /')) {
+  throw new Error('Static build robots.txt must allow crawling.');
+}
+if (!robotsTxt.includes('/sitemap.xml')) {
+  throw new Error(
+    'Static build robots.txt must point crawlers at sitemap.xml.',
+  );
+}
+
+const sitemapPath = path.join(outputRoot, 'sitemap.xml');
+if (!(await fileExists(sitemapPath))) {
+  throw new Error('Static build is missing sitemap.xml for search indexing.');
+}
+const sitemapXml = await readFile(sitemapPath, 'utf8');
+if (
+  !sitemapXml.includes('<urlset') ||
+  !sitemapXml.includes('<loc>') ||
+  !sitemapXml.includes('</urlset>')
+) {
+  throw new Error('Static build sitemap.xml is not a valid URL set.');
+}
+for (const pathname of requiredPages) {
+  const absolute = `/${pathname.replace(/^\//, '')}`;
+  const normalized = absolute === '/' ? '/' : absolute.replace(/\/$/, '');
+  const candidates = [`${normalized === '/' ? '' : normalized}`, normalized];
+  const found = candidates.some(
+    (candidate) =>
+      sitemapXml.includes(`<loc>`) &&
+      (sitemapXml.includes(`${candidate}</loc>`) ||
+        sitemapXml.includes(`${candidate}/</loc>`)),
+  );
+  if (!found && normalized !== '/') {
+    throw new Error(
+      `Static build sitemap.xml is missing required page: ${pathname}`,
+    );
+  }
+}
+
 console.log(
   `Verified ${htmlFiles.length} HTML files, ${cacheFiles.length} static CMS data files, and every generated internal link.`,
 );

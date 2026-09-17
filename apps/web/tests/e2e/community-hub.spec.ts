@@ -315,7 +315,7 @@ test('provides page-specific titles and canonical URLs', async ({ page }) => {
   await expect(page).toHaveTitle('Woodbrook Residents | Shankill');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    'http://localhost:3000/',
+    'https://woodbrook.shankill.workers.dev/',
   );
 
   await page.goto('/events');
@@ -326,7 +326,7 @@ test('provides page-specific titles and canonical URLs', async ({ page }) => {
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    'http://localhost:3000/events',
+    'https://woodbrook.shankill.workers.dev/events',
   );
 
   const canonicalEventLink = page
@@ -339,7 +339,7 @@ test('provides page-specific titles and canonical URLs', async ({ page }) => {
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    'http://localhost:3000/events/dlr-household-hazardous-waste-day-2026',
+    'https://woodbrook.shankill.workers.dev/events/dlr-household-hazardous-waste-day-2026',
   );
 });
 
