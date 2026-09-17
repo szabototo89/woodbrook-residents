@@ -1,0 +1,43 @@
+name: Daily Search Console check
+
+on:
+  schedule:
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  search-console:
+    name: Search Console sitemap and index check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+
+      - name: Install web dependencies
+        run: bun install
+        working-directory: apps/web
+
+      - name: Write Search Console credentials
+        env:
+          GSC_READER_KEY_JSON: ${{ secrets.GSC_READER_KEY_JSON }}
+        run: |
+          if [ -z "$GSC_READER_KEY_JSON" ]; then
+            echo "::error::GSC_READER_KEY_JSON secret is not set. Add the service-account JSON key in Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          printf '%s' "$GSC_READER_KEY_JSON" > "$RUNNER_TEMP/gsc-reader.json"
+
+      - name: Run Search Console check
+        env:
+          GSC_CLI_CREDENTIALS_FILE: ${{ runner.temp }}/gsc-reader.json
+        run: bun run check:search-console
+        working-directory: apps/web
