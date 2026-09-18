@@ -129,6 +129,35 @@ test('makes each featured treatment card one accessible booking link', async ({
   }
 });
 
+test('makes each treatment category card one accessible treatments link', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop');
+  await page.goto('./');
+
+  const treatments = page.locator('#treatments');
+  const cards = treatments.locator('.category-card');
+  await expect(cards).toHaveCount(4);
+
+  for (const [name, action] of [
+    ['Facials & Skin', 'View treatments'],
+    ['Massage', 'View treatments'],
+    ['Beauty Essentials', 'View treatments'],
+    ['Packages', 'View packages'],
+  ]) {
+    const accessibleName =
+      name === 'Packages' ? 'View Packages' : `View ${name} treatments`;
+    const card = treatments.getByRole('link', { name: accessibleName });
+    await expect(card).toHaveClass(/category-card/);
+    await expect(card).toHaveAttribute(
+      'href',
+      'https://www.julietrosebeauty.com/book-online',
+    );
+    await expect(card.getByText(action)).toBeVisible();
+    await expect(card.locator('a')).toHaveCount(0);
+  }
+});
+
 test('matches the compact desktop geometry of the proposal', async ({
   page,
 }, testInfo) => {

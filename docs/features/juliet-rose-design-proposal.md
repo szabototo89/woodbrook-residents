@@ -19,6 +19,8 @@ clear.
   while headings and brand text retain the proposal's editorial serif style.
 - Each featured treatment card is one large booking link, with visible hover
   and keyboard-focus feedback across the full card.
+- Each treatment category card is also one large link to the treatment list,
+  so its image, title, description, and visible action share one target.
 - Studio details, contact information, gift cards, and the booking policy are
   included in the customer journey.
 - The layout adapts to desktop and mobile, with an accessible mobile menu and
@@ -50,6 +52,8 @@ clear.
   copy.
 - Every featured treatment card has a treatment-specific accessible name and
   links to the existing Juliet Rose booking flow without nested links.
+- Every treatment category card has a category-specific accessible name and
+  links to the existing treatment list without nested links.
 - The proposal can be built and served independently with Bun workspace
   scripts.
 

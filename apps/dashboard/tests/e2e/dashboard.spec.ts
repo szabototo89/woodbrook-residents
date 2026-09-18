@@ -65,10 +65,19 @@ test('sidebar navigates the operational sections', async ({ page }) => {
 
 test('command palette opens with the keyboard shortcut', async ({ page }) => {
   await page.goto('/environments');
+  const commandPalette = page.getByRole('dialog', {
+    name: 'Command palette',
+  });
+
+  // Opening once through React guarantees hydration has attached the global
+  // keyboard listener before the shortcut behavior is exercised.
+  await page.getByRole('button', { name: /Search or jump to/ }).click();
+  await expect(commandPalette).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(commandPalette).toBeHidden();
+
   await page.keyboard.press('Control+k');
-  await expect(
-    page.getByRole('dialog', { name: 'Command palette' }),
-  ).toBeVisible();
+  await expect(commandPalette).toBeVisible();
   await page.keyboard.press('Escape');
 });
 
