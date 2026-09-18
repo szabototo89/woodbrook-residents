@@ -1158,6 +1158,10 @@ summary:focus-visible {
   box-shadow: 0 12px 40px rgba(27, 46, 40, 0.18);
 }
 
+body:has(.cookie-consent) .site-footer {
+  padding-bottom: 120px;
+}
+
 .cookie-consent p {
   margin: 0 0 14px;
   font-size: 0.88rem;
@@ -2669,7 +2673,7 @@ p {
 
 .room-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -2702,6 +2706,10 @@ p {
 .room-workshop {
   min-height: 320px;
   background: var(--gorse-soft);
+}
+
+.room-build {
+  background: #e4e8d8;
 }
 
 .room-icon {

@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router';
 import {
   ArrowRight,
   CalendarDays,
+  Hammer,
   HandHeart,
   House,
   Megaphone,
@@ -160,6 +161,22 @@ export function HomePage() {
               </div>
               <span className="room-link">
                 View consultations <ArrowRight size={15} aria-hidden="true" />
+              </span>
+            </Link>
+
+            <Link className="room-card room-build" to="/projects">
+              <span className="room-icon">
+                <Hammer size={21} aria-hidden="true" />
+              </span>
+              <div>
+                <small>Follow change</small>
+                <h3>Track local projects</h3>
+                <p>
+                  Proposed, active, and completed projects shaping Woodbrook.
+                </p>
+              </div>
+              <span className="room-link">
+                View projects <ArrowRight size={15} aria-hidden="true" />
               </span>
             </Link>
           </div>

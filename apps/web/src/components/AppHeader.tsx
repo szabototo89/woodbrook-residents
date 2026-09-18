@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useRouterState } from '@tanstack/react-router';
 import { Menu } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -14,6 +14,11 @@ export function AppHeader() {
   const [isMobileNavigationOpen, setIsMobileNavigationOpen] = useState(false);
   const mobileNavigationRef = useRef<HTMLDivElement>(null);
   const mobileNavigationButtonRef = useRef<HTMLButtonElement>(null);
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+
+  useEffect(() => {
+    setIsMobileNavigationOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!isMobileNavigationOpen) {

@@ -197,6 +197,36 @@ for (const pathname of requiredPages) {
   }
 }
 
+const sitemapLocs = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)]
+  .map((match) => {
+    const loc = match[1];
+    if (!loc) {
+      return undefined;
+    }
+    try {
+      return new URL(loc).pathname;
+    } catch {
+      return undefined;
+    }
+  })
+  .filter(
+    (pathname): pathname is string =>
+      typeof pathname === 'string' && !pathname.startsWith('/documents/'),
+  );
+
+const missingSitemapTargets: string[] = [];
+for (const pathname of sitemapLocs) {
+  if (!(await fileExists(outputPathForUrl(pathname)))) {
+    missingSitemapTargets.push(pathname);
+  }
+}
+
+if (missingSitemapTargets.length > 0) {
+  throw new Error(
+    `Static build is missing prerendered pages for sitemap URLs: ${missingSitemapTargets.join(', ')}`,
+  );
+}
+
 console.log(
   `Verified ${htmlFiles.length} HTML files, ${cacheFiles.length} static CMS data files, and every generated internal link.`,
 );
