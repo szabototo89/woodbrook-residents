@@ -1,6 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { createEventJsonLd } from '../../app/seoStructuredData';
+import {
+  createBreadcrumbJsonLd,
+  createEventJsonLd,
+} from '../../app/seoStructuredData';
 import { createPageHead, resolveSiteUrl } from '../../app/siteMetadata';
 import { getEventBySlug } from '../../features/content/contentApi';
 import { EventDetailPage } from '../../features/events/EventDetailPage';
@@ -14,6 +17,7 @@ export const Route = createFileRoute('/events/$slug')({
         title: 'Event unavailable',
         description: 'This Woodbrook Residents event is unavailable.',
         path,
+        robots: 'noindex',
       });
     }
     const siteUrl = resolveSiteUrl(import.meta.env);
@@ -21,15 +25,25 @@ export const Route = createFileRoute('/events/$slug')({
       title: loaderData.title,
       description: loaderData.summary,
       path,
-      jsonLd: createEventJsonLd({
-        siteUrl,
-        path,
-        name: loaderData.title,
-        description: loaderData.summary,
-        startDate: loaderData.startsAt,
-        endDate: loaderData.endsAt,
-        locationName: loaderData.location,
-      }),
+      jsonLd: [
+        createBreadcrumbJsonLd({
+          siteUrl,
+          items: [
+            { name: 'Home', path: '/' },
+            { name: 'Events', path: '/events' },
+            { name: loaderData.title, path },
+          ],
+        }),
+        createEventJsonLd({
+          siteUrl,
+          path,
+          name: loaderData.title,
+          description: loaderData.summary,
+          startDate: loaderData.startsAt,
+          endDate: loaderData.endsAt,
+          locationName: loaderData.location,
+        }),
+      ],
     });
   },
   component: EventDetailPage,

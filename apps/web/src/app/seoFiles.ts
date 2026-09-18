@@ -196,7 +196,7 @@ export function buildSitemapXml(paths: SeoPath[], siteUrl: string): string {
 
 export function buildRobotsTxt(siteUrl: string): string {
   const origin = resolveSeoSiteUrl(siteUrl);
-  return `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`;
+  return `User-agent: *\nAllow: /\nDisallow: /concepts/\nSitemap: ${origin}/sitemap.xml\n`;
 }
 
 export function createWebsiteJsonLd(siteUrl: string) {

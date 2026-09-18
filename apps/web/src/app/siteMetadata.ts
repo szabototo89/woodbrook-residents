@@ -58,6 +58,7 @@ type PageMetadata = {
   publishedTime?: unknown;
   modifiedTime?: unknown;
   jsonLd?: unknown;
+  robots?: 'noindex';
 };
 
 export function createPageHead({
@@ -68,6 +69,7 @@ export function createPageHead({
   publishedTime,
   modifiedTime,
   jsonLd,
+  robots,
 }: PageMetadata) {
   const siteUrl = getSiteUrl();
   const socialImageUrl = getSocialImageUrl(siteUrl);
@@ -86,6 +88,7 @@ export function createPageHead({
     meta: [
       { title: fullTitle },
       { name: 'description', content: description },
+      ...(robots === 'noindex' ? [{ name: 'robots', content: 'noindex' }] : []),
       { property: 'og:title', content: fullTitle },
       { property: 'og:description', content: description },
       { property: 'og:type', content: resolvedOgType },
@@ -112,6 +115,9 @@ export function createPageHead({
     scripts:
       jsonLd === undefined || jsonLd === null
         ? []
-        : [{ type: 'application/ld+json', children: JSON.stringify(jsonLd) }],
+        : (Array.isArray(jsonLd) ? jsonLd : [jsonLd]).map((entry) => ({
+            type: 'application/ld+json',
+            children: JSON.stringify(entry),
+          })),
   };
 }

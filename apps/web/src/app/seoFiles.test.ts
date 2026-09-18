@@ -236,6 +236,7 @@ test('buildRobotsTxt allows crawling and points crawlers at the sitemap', () => 
 
   expect(robots).toContain('User-agent: *');
   expect(robots).toContain('Allow: /');
+  expect(robots).toContain('Disallow: /concepts/');
   expect(robots).toContain('Sitemap: https://example.com/sitemap.xml');
 });
 
