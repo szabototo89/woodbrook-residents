@@ -17,7 +17,7 @@
 - When the requested work is complete and verified, automatically merge the session branch back into local `main`; do not stop after merely committing or handing off the branch.
 - Before merging, confirm that the primary checkout is on `main` and has no unrelated uncommitted changes. Never overwrite, discard, reset, or include user-owned changes.
 - Use a non-interactive merge without rewriting existing history. If `main` cannot be merged cleanly, stop and report the conflict instead of forcing the merge.
-- After a successful merge, remove the session worktree and delete the merged session branch.
+- After a successful merge, remove the session worktree with `scripts/worktree-remove.sh <path>` (it closes the linked Herdr workspace; raw `git worktree remove` fires no hook) and delete the merged session branch.
 
 ## Product behavior
 

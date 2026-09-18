@@ -26,6 +26,7 @@
     "build:dashboard": "bun run --cwd apps/dashboard build",
     "build:mobile": "bun run --cwd apps/mobile build",
     "deploy": "bun scripts/deploy.ts",
+    "worktree:remove": "scripts/worktree-remove.sh",
     "sync:content": "bun scripts/sync-content.ts",
     "test:sync-content": "bun test scripts/sync-content.test.ts",
     "test": "bun run test:sync-content && bun run test:unit && bun run test:browser && bun run test:e2e",
