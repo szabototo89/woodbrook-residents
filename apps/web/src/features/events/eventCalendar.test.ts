@@ -18,6 +18,7 @@ const event: CommunityEvent = {
   bookingUrl: 'https://example.com/book',
   sourceUrl: 'https://example.com/event',
   sourceReviewedOn: '2026-09-05',
+  featured: false,
 };
 
 test('event calendar actions creates an importable calendar event with UTC dates and escaped text', () => {

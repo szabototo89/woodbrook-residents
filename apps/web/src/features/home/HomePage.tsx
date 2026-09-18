@@ -15,11 +15,14 @@ import { SectionHeading } from '../../components/SectionHeading';
 import { SurveyCard } from '../../components/SurveyCard';
 import { UpdateCard } from '../../components/UpdateCard';
 import { Route } from '../../routes/index';
+import { getUpcomingEvents, selectHomeEvent } from '../events/homeEvent';
 
 const estateImageSource = 'https://www.woodbrookshankill.ie/south-coast';
 
 export function HomePage() {
   const content = Route.useLoaderData();
+  const upcomingEvents = getUpcomingEvents(content.events);
+  const homeEvent = selectHomeEvent(content.events);
 
   return (
     <main className="home-page" id="main-content">
@@ -130,8 +133,8 @@ export function HomePage() {
                 <h3>Find upcoming events</h3>
                 <p>
                   {content.availability === 'ready'
-                    ? `${content.events.length} ${
-                        content.events.length === 1
+                    ? `${upcomingEvents.length} ${
+                        upcomingEvents.length === 1
                           ? 'upcoming date'
                           : 'upcoming dates'
                       } and ways to take part.`
@@ -187,31 +190,33 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {content.events.length > 0 || content.surveys.length > 0 ? (
+      {homeEvent || content.surveys.length > 0 ? (
         <section className="section table-section">
           <div className="shell split-section">
-            <div>
-              <SectionHeading
-                eyebrow="Meet and join in"
-                title="Coming up nearby"
-                linkLabel="View all events"
-                linkTo="/events"
-              />
-              {content.events.slice(0, 1).map((event) => (
-                <EventCard key={event.documentId} event={event} />
-              ))}
-            </div>
-            <div>
-              <SectionHeading
-                eyebrow="Have your say"
-                title="Public consultations"
-                linkLabel="View all consultations"
-                linkTo="/surveys"
-              />
-              {content.surveys.slice(0, 1).map((survey) => (
-                <SurveyCard key={survey.documentId} survey={survey} />
-              ))}
-            </div>
+            {homeEvent ? (
+              <div>
+                <SectionHeading
+                  eyebrow="Meet and join in"
+                  title="Coming up nearby"
+                  linkLabel="View all events"
+                  linkTo="/events"
+                />
+                <EventCard event={homeEvent} />
+              </div>
+            ) : null}
+            {content.surveys.length > 0 ? (
+              <div>
+                <SectionHeading
+                  eyebrow="Have your say"
+                  title="Public consultations"
+                  linkLabel="View all consultations"
+                  linkTo="/surveys"
+                />
+                {content.surveys.slice(0, 1).map((survey) => (
+                  <SurveyCard key={survey.documentId} survey={survey} />
+                ))}
+              </div>
+            ) : null}
           </div>
         </section>
       ) : null}

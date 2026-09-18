@@ -6,7 +6,7 @@ import {
   getHomeContentFromSnapshot,
   getSiteSettingFromSnapshot,
 } from './contentQueries';
-import type { ContentSnapshot, Update } from './contentTypes';
+import type { CommunityEvent, ContentSnapshot, Update } from './contentTypes';
 
 const update = (index: number): Update => ({
   documentId: `update-${index}`,
@@ -22,6 +22,22 @@ const update = (index: number): Update => ({
   featured: false,
 });
 
+const homeEvent = (
+  documentId: string,
+  startsAt: string,
+  featured = false,
+): CommunityEvent => ({
+  documentId,
+  title: `Event ${documentId}`,
+  slug: `event-${documentId}`,
+  summary: 'Summary',
+  startsAt,
+  location: 'Shankill',
+  sourceUrl: 'https://example.com',
+  sourceReviewedOn: '2026-09-10',
+  featured,
+});
+
 const snapshot: ContentSnapshot = {
   updates: Array.from({ length: 30 }, (_, index) => update(index)),
   projects: [],
@@ -32,6 +48,26 @@ const snapshot: ContentSnapshot = {
 
 test('content queries selects the first three items for homepage collections', () => {
   expect(getHomeContentFromSnapshot(snapshot).updates).toHaveLength(3);
+});
+
+test('content queries keeps only future events for the homepage', () => {
+  const now = '2026-09-18T12:00:00.000Z';
+  const home = getHomeContentFromSnapshot(
+    {
+      ...snapshot,
+      events: [
+        homeEvent('past', '2026-09-12T18:00:00.000Z'),
+        homeEvent('later', '2026-09-25T18:00:00.000Z'),
+        homeEvent('next', '2026-09-20T18:00:00.000Z'),
+      ],
+    },
+    now,
+  );
+
+  expect(home.events.map((event) => event.documentId)).toEqual([
+    'next',
+    'later',
+  ]);
 });
 
 test('content queries limits public collection responses without changing the snapshot', () => {

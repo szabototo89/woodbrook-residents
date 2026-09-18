@@ -45,6 +45,10 @@
     "sourceReviewedOn": {
       "type": "date",
       "required": true
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

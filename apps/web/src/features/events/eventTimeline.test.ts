@@ -13,6 +13,7 @@ function event(documentId: string, startsAt: string): CommunityEvent {
     location: 'Shankill',
     sourceUrl: 'https://example.com/event',
     sourceReviewedOn: '2026-09-10',
+    featured: false,
   };
 }
 

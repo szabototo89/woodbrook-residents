@@ -1002,6 +1002,20 @@ test('parseGoogleSheetsContent event handling requires a location name or addres
   );
 });
 
+test('parseGoogleSheetsContent event handling maps the featured flag', () => {
+  const snapshot = parseEvents([
+    eventRow({ 0: 'featured', 1: 'featured', 3: true }),
+    eventRow({ 0: 'plain', 1: 'plain', 3: false }),
+  ]);
+
+  expect(
+    snapshot.events.map((event) => [event.documentId, event.featured]),
+  ).toEqual([
+    ['featured', true],
+    ['plain', false],
+  ]);
+});
+
 const consultationHeaders = [
   'record_id',
   'slug',

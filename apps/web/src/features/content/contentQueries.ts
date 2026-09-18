@@ -1,14 +1,16 @@
+import { getUpcomingEvents } from '../events/homeEvent';
 import type { ContentSnapshot, HomeContent, SiteSetting } from './contentTypes';
 
 export function getHomeContentFromSnapshot(
   snapshot: ContentSnapshot,
+  now: string | Date = new Date(),
 ): HomeContent {
   return {
     availability: 'ready',
     siteSetting: snapshot.siteSetting,
     updates: snapshot.updates.slice(0, 3),
     projects: snapshot.projects.slice(0, 3),
-    events: snapshot.events,
+    events: getUpcomingEvents(snapshot.events, now),
     surveys: snapshot.surveys,
   };
 }

@@ -371,6 +371,7 @@ export const contentCollections: CollectionDescriptor[] = [
         bookingUrl: text(row, 'registration_url') ?? text(row, 'organiser_url'),
         sourceUrl: text(row, 'source_url'),
         sourceReviewedOn: spreadsheetDate(row, 'source_checked_on'),
+        featured: bool(row, 'featured'),
       }),
     strapiToSheet: ({ documentId, data }) =>
       compact({
@@ -383,6 +384,7 @@ export const contentCollections: CollectionDescriptor[] = [
         timezone: 'Europe/Dublin',
         location_name: data.location,
         registration_url: data.bookingUrl,
+        featured: data.featured ?? false,
         source_url: data.sourceUrl,
         source_checked_on: data.sourceReviewedOn,
       }),
