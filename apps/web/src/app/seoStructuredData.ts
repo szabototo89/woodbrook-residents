@@ -118,3 +118,142 @@ export function createEventJsonLd(input: EventJsonLdInput) {
     ...(image ? { image } : {}),
   };
 }
+
+type BreadcrumbItem = {
+  name: string;
+  path: string;
+};
+
+export function createBreadcrumbJsonLd(input: {
+  siteUrl: string;
+  items: BreadcrumbItem[];
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: input.items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(input.siteUrl, item.path),
+    })),
+  };
+}
+
+type ProjectJsonLdInput = {
+  siteUrl: string;
+  path: string;
+  headline: string;
+  description: string;
+  imagePath?: unknown;
+  dateModified?: unknown;
+};
+
+export function createProjectJsonLd(input: ProjectJsonLdInput) {
+  const origin = resolveSeoSiteUrl(input.siteUrl);
+  const image = resolveImageUrl(input.siteUrl, input.imagePath);
+  const dateModified = toIsoDateTime(input.dateModified);
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: input.headline,
+    description: input.description,
+    mainEntityOfPage: absoluteUrl(input.siteUrl, input.path),
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: `${origin}/`,
+    },
+    ...(image ? { image } : {}),
+    ...(dateModified ? { dateModified } : {}),
+  };
+}
+
+type SurveyJsonLdInput = {
+  siteUrl: string;
+  path: string;
+  headline: string;
+  description: string;
+  imagePath?: unknown;
+  datePublished?: unknown;
+  dateModified?: unknown;
+};
+
+export function createSurveyJsonLd(input: SurveyJsonLdInput) {
+  const origin = resolveSeoSiteUrl(input.siteUrl);
+  const image = resolveImageUrl(input.siteUrl, input.imagePath);
+  const datePublished = toIsoDateTime(input.datePublished);
+  const dateModified = toIsoDateTime(input.dateModified);
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: input.headline,
+    description: input.description,
+    mainEntityOfPage: absoluteUrl(input.siteUrl, input.path),
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: `${origin}/`,
+    },
+    ...(image ? { image } : {}),
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
+  };
+}
+
+type LocalServiceJsonLdInput = {
+  siteUrl: string;
+  path: string;
+  name: string;
+  description: string;
+  phone?: unknown;
+  address?: unknown;
+  url?: unknown;
+};
+
+export function createLocalServiceJsonLd(input: LocalServiceJsonLdInput) {
+  const phone = cleanText(input.phone);
+  const address = cleanText(input.address);
+  const providerUrl = cleanText(input.url);
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'GovernmentOffice',
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.siteUrl, input.path),
+    ...(phone ? { telephone: phone } : {}),
+    ...(address
+      ? { address: { '@type': 'PostalAddress', streetAddress: address } }
+      : {}),
+    ...(providerUrl ? { sameAs: providerUrl } : {}),
+  };
+}
+
+function ensurePeriod(text: string): string {
+  return text.endsWith('.') ? text : `${text}.`;
+}
+
+export function composeLocalInfoDescription(input: {
+  description: string;
+  phone?: unknown;
+  address?: unknown;
+}): string {
+  const base = ensurePeriod(input.description.trim());
+  const phone = cleanText(input.phone);
+  const address = cleanText(input.address);
+  const parts = [base];
+  if (phone) {
+    parts.push(`Call ${ensurePeriod(phone)}`);
+  }
+  if (address && !base.includes(address)) {
+    parts.push(`Visit ${ensurePeriod(address)}`);
+  }
+  const composed = parts.join(' ').replace(/\s+/g, ' ').trim();
+  if (composed.length > 155) {
+    return `${composed.slice(0, 152).trimEnd()}...`;
+  }
+  return composed;
+}

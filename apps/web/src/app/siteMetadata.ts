@@ -1,7 +1,11 @@
 export const PRODUCTION_SITE_URL = 'https://woodbrook.shankill.workers.dev';
 export const SITE_NAME = 'Woodbrook Residents';
+export const SITE_ALTERNATE_NAME = 'Woodbrook Residents Shankill';
 export const SITE_LOCALE = 'en_IE';
 export const SOCIAL_IMAGE_PATH = '/images/woodbrook-residents-social-v3.png';
+export const FAVICON_PNG_PATH = '/favicon-48.png';
+export const APPLE_TOUCH_ICON_PATH = '/apple-touch-icon.png';
+export const ORGANIZATION_LOGO_PATH = APPLE_TOUCH_ICON_PATH;
 
 export function resolveSiteUrl(env: Record<string, unknown>): string {
   const raw = env['VITE_PUBLIC_SITE_URL'];
@@ -54,6 +58,7 @@ type PageMetadata = {
   publishedTime?: unknown;
   modifiedTime?: unknown;
   jsonLd?: unknown;
+  robots?: 'noindex';
 };
 
 export function createPageHead({
@@ -64,6 +69,7 @@ export function createPageHead({
   publishedTime,
   modifiedTime,
   jsonLd,
+  robots,
 }: PageMetadata) {
   const siteUrl = getSiteUrl();
   const socialImageUrl = getSocialImageUrl(siteUrl);
@@ -82,6 +88,7 @@ export function createPageHead({
     meta: [
       { title: fullTitle },
       { name: 'description', content: description },
+      ...(robots === 'noindex' ? [{ name: 'robots', content: 'noindex' }] : []),
       { property: 'og:title', content: fullTitle },
       { property: 'og:description', content: description },
       { property: 'og:type', content: resolvedOgType },
@@ -108,6 +115,9 @@ export function createPageHead({
     scripts:
       jsonLd === undefined || jsonLd === null
         ? []
-        : [{ type: 'application/ld+json', children: JSON.stringify(jsonLd) }],
+        : (Array.isArray(jsonLd) ? jsonLd : [jsonLd]).map((entry) => ({
+            type: 'application/ld+json',
+            children: JSON.stringify(entry),
+          })),
   };
 }

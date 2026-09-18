@@ -128,3 +128,35 @@ test('createPageHead never emits a localhost canonical when the env value is mis
     href: 'https://woodbrook.shankill.workers.dev/',
   });
 });
+
+test('createPageHead emits noindex robots meta when requested', () => {
+  vi.stubEnv('VITE_PUBLIC_SITE_URL', 'https://example.com');
+
+  const head = createPageHead({
+    title: 'Missing',
+    description: 'Not found.',
+    path: '/missing',
+    robots: 'noindex',
+  });
+
+  expect(head.meta).toContainEqual({
+    name: 'robots',
+    content: 'noindex',
+  });
+});
+
+test('createPageHead emits multiple JSON-LD scripts for breadcrumb plus entity', () => {
+  vi.stubEnv('VITE_PUBLIC_SITE_URL', 'https://example.com');
+
+  const head = createPageHead({
+    title: 'Detail',
+    description: 'Detail summary.',
+    path: '/local-info/detail',
+    jsonLd: [
+      { '@type': 'BreadcrumbList' },
+      { '@type': 'GovernmentOffice' },
+    ],
+  });
+
+  expect(head.scripts).toHaveLength(2);
+});

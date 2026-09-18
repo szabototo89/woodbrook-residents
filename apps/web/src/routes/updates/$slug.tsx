@@ -1,6 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { createArticleJsonLd } from '../../app/seoStructuredData';
+import {
+  createArticleJsonLd,
+  createBreadcrumbJsonLd,
+} from '../../app/seoStructuredData';
 import { createPageHead, resolveSiteUrl } from '../../app/siteMetadata';
 import { getUpdateBySlug } from '../../features/content/contentApi';
 import { UpdateDetailPage } from '../../features/updates/UpdateDetailPage';
@@ -14,6 +17,7 @@ export const Route = createFileRoute('/updates/$slug')({
         title: 'Update unavailable',
         description: 'This Woodbrook Residents update is unavailable.',
         path,
+        robots: 'noindex',
       });
     }
     const siteUrl = resolveSiteUrl(import.meta.env);
@@ -24,15 +28,25 @@ export const Route = createFileRoute('/updates/$slug')({
       ogType: 'article',
       publishedTime: loaderData.publishedOn,
       modifiedTime: loaderData.sourceReviewedOn,
-      jsonLd: createArticleJsonLd({
-        siteUrl,
-        path,
-        headline: loaderData.title,
-        description: loaderData.summary,
-        imagePath: loaderData.imagePath,
-        datePublished: loaderData.publishedOn,
-        dateModified: loaderData.sourceReviewedOn,
-      }),
+      jsonLd: [
+        createBreadcrumbJsonLd({
+          siteUrl,
+          items: [
+            { name: 'Home', path: '/' },
+            { name: 'Updates', path: '/updates' },
+            { name: loaderData.title, path },
+          ],
+        }),
+        createArticleJsonLd({
+          siteUrl,
+          path,
+          headline: loaderData.title,
+          description: loaderData.summary,
+          imagePath: loaderData.imagePath,
+          datePublished: loaderData.publishedOn,
+          dateModified: loaderData.sourceReviewedOn,
+        }),
+      ],
     });
   },
   component: UpdateDetailPage,

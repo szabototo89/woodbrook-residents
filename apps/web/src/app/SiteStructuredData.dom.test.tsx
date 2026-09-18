@@ -17,9 +17,18 @@ test('structured data exposes the website entity for search engines', () => {
   const payload = JSON.parse(script?.textContent ?? '{}');
   expect(payload).toMatchObject({
     '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Woodbrook Residents',
-    url: 'https://example.com/',
+    '@graph': expect.arrayContaining([
+      expect.objectContaining({
+        '@type': 'WebSite',
+        name: 'Woodbrook Residents',
+        url: 'https://example.com/',
+      }),
+      expect.objectContaining({
+        '@type': 'Organization',
+        name: 'Woodbrook Residents',
+        logo: 'https://example.com/apple-touch-icon.png',
+      }),
+    ]),
   });
   unmount();
 });

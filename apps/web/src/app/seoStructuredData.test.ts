@@ -1,6 +1,14 @@
 import { expect, test } from 'vitest';
 
-import { createArticleJsonLd, createEventJsonLd } from './seoStructuredData';
+import {
+  composeLocalInfoDescription,
+  createArticleJsonLd,
+  createBreadcrumbJsonLd,
+  createEventJsonLd,
+  createLocalServiceJsonLd,
+  createProjectJsonLd,
+  createSurveyJsonLd,
+} from './seoStructuredData';
 
 test('createArticleJsonLd describes a published update for rich results', () => {
   const jsonLd = createArticleJsonLd({
@@ -143,4 +151,87 @@ test('createEventJsonLd falls back to the production origin for invalid inputs',
     url: 'https://woodbrook.shankill.workers.dev/events/first-event',
   });
   expect(jsonLd).not.toHaveProperty('startDate');
+});
+
+test('createBreadcrumbJsonLd lists home, section, and detail with absolute urls', () => {
+  const jsonLd = createBreadcrumbJsonLd({
+    siteUrl: 'https://example.com',
+    items: [
+      { name: 'Home', path: '/' },
+      { name: 'Local information', path: '/local-info' },
+      { name: 'Shankill Garda Station', path: '/local-info/shankill-garda' },
+    ],
+  });
+
+  expect(jsonLd).toMatchObject({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { position: 1, name: 'Home', item: 'https://example.com/' },
+      { position: 2, name: 'Local information' },
+      { position: 3, name: 'Shankill Garda Station' },
+    ],
+  });
+});
+
+test('createProjectJsonLd describes project without inventing facts', () => {
+  const jsonLd = createProjectJsonLd({
+    siteUrl: 'https://example.com',
+    path: '/projects/first-project',
+    headline: 'First project',
+    description: 'Summary.',
+    dateModified: '2026-09-06',
+  });
+
+  expect(jsonLd).toMatchObject({
+    '@type': 'Article',
+    headline: 'First project',
+    mainEntityOfPage: 'https://example.com/projects/first-project',
+  });
+});
+
+test('createSurveyJsonLd describes consultation with dates only when valid', () => {
+  const jsonLd = createSurveyJsonLd({
+    siteUrl: 'https://example.com',
+    path: '/surveys/first-survey',
+    headline: 'First survey',
+    description: 'Summary.',
+    datePublished: '2026-06-26',
+    dateModified: '2026-07-24',
+  });
+
+  expect(jsonLd).toMatchObject({ '@type': 'Article' });
+  expect(jsonLd).not.toHaveProperty('image');
+});
+
+test('createLocalServiceJsonLd uses only provided phone and address', () => {
+  const jsonLd = createLocalServiceJsonLd({
+    siteUrl: 'https://example.com',
+    path: '/local-info/shankill-garda',
+    name: 'Shankill Garda Station',
+    description: 'Local Garda station.',
+    phone: '01 666 5900',
+    address: 'Dorney Court, Shankill',
+    url: 'https://www.garda.ie/shankill.html',
+  });
+
+  expect(jsonLd).toMatchObject({
+    '@type': 'GovernmentOffice',
+    telephone: '01 666 5900',
+  });
+  expect(JSON.stringify(jsonLd)).not.toContain('999');
+});
+
+test('composeLocalInfoDescription prevents button concatenation with complete sentence', () => {
+  const description = composeLocalInfoDescription({
+    description: 'Local Garda station at Dorney Court, Shankill.',
+    phone: '01 666 5900',
+    address: 'Dorney Court, Shankill, Co. Dublin, D18 CD50',
+  });
+
+  expect(description.length).toBeLessThanOrEqual(155);
+  expect(description.endsWith('.')).toBe(true);
+  expect(description).toContain('01 666 5900.');
+  expect(description).not.toContain('5900Visit');
+  expect(description).toContain('Call 01 666 5900.');
 });
