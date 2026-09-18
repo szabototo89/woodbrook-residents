@@ -1,0 +1,23 @@
+#!/bin/sh
+# Register new linked worktrees in Herdr so they show up in Spaces.
+# Git runs this hook after `git worktree add` with cwd inside the new checkout.
+set -eu
+
+old="$1"
+zero=0000000000000000000000000000000000000000
+
+# Only initial checkouts (worktree add). Branch switches carry a real old ref.
+[ "$old" = "$zero" ] || exit 0
+
+# Only linked worktrees, never the main checkout or a fresh clone.
+gitdir="$(git rev-parse --absolute-git-dir 2>/dev/null || true)"
+case "$gitdir" in
+*/worktrees/*) ;;
+*) exit 0 ;;
+esac
+
+herdr_bin="${HERDR_BIN:-herdr}"
+command -v "$herdr_bin" >/dev/null 2>&1 || exit 0
+
+# Never block git, never fail the checkout, never steal focus.
+"$herdr_bin" worktree open --path "$PWD" --no-focus >/dev/null 2>&1 &
