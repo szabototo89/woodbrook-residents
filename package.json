@@ -13,6 +13,7 @@
     "precommit": "bun run lint && bun run test",
     "dev": "CONTENT_SOURCE=strapi concurrently -n web,cms -c cyan,green \"bun run --cwd apps/web dev\" \"bun run --cwd apps/cms develop\"",
     "dev:web": "CONTENT_SOURCE=strapi bun run --cwd apps/web dev",
+    "dev:web:sheets": "CONTENT_SOURCE=google-sheets bun run --cwd apps/web --env-file=../../.env dev:sheets",
     "dev:cms": "bun run --cwd apps/cms develop",
     "dev:dashboard": "bun run --cwd apps/dashboard dev",
     "dev:proposals": "bun run --cwd apps/design-proposals dev",
