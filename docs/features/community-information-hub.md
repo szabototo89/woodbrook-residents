@@ -18,8 +18,8 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - The home page states plainly that it provides local information and ways to take part.
 - Navigation, page headings, and calls to action consistently use Updates, Events, Projects, Consultations, and Local information.
 - The home page Have your say starting point links to Consultations rather than Projects.
-- The home page presents its four resident starting points as one balanced row on wide screens and a compact single-column sequence on phones.
-- The four resident starting points align their titles consistently on wide screens.
+- The home page presents its five resident starting points as one balanced row on wide screens and a compact single-column sequence on phones.
+- The five resident starting points align their titles consistently on wide screens.
 - Featured event and consultation cards share a horizontal starting line even when their headings wrap differently.
 - The home page grounds the hub in a high-resolution, source-attributed photograph of Woodbrook's coastal setting.
 - Dates and times use conventional, unslashed numerals throughout the resident-facing interface.
@@ -31,7 +31,9 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Local service cards show their source and checked date, support direct contact actions, and do not present listings as endorsements.
 - Empty and unavailable states explain what happened without showing invented content.
 - The experience works on mobile and desktop and supports keyboard navigation.
-- On phones, the navigation menu closes when a resident taps outside it, presses Escape, follows a link, or activates the menu button again. Escape returns focus to the menu button, whose accessible expanded state stays in sync.
+- On phones, the navigation menu closes when a resident taps outside it, presses Escape, follows a link, changes route, or activates the menu button again. Escape returns focus to the menu button, whose accessible expanded state stays in sync.
+- Listing cards make their whole surface clickable to the detail page while keeping direct contact actions reachable.
+- The events listing renders the same date-grouped timeline on the server and client to avoid content swapping after load.
 
 ## Acceptance criteria
 
@@ -48,8 +50,8 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Given an unknown, unpublished, or unavailable project, event, or survey slug, when a resident opens its detail URL, then a useful unavailable state links back to the relevant listing.
 - Given the selected content source cannot be reached during a static build, when the build attempts to prerender content routes, then the build fails instead of producing an empty deployment.
 - Given a narrow mobile viewport, when a resident browses primary routes, then navigation and main content remain usable without horizontal overflow.
-- Given the mobile navigation is open, when a resident taps outside it, presses Escape, follows a link, or activates the menu button again, then the menu closes; Escape returns focus to the menu button and its expanded state is announced accurately.
-- Given a wide desktop viewport, when a resident reaches the homepage starting points, then all four paths have equal visual weight with no empty grid quadrant.
+- Given the mobile navigation is open, when a resident taps outside it, presses Escape, follows a link, changes route, or activates the menu button again, then the menu closes; Escape returns focus to the menu button and its expanded state is announced accurately.
+- Given a wide desktop viewport, when a resident reaches the homepage starting points, then all five paths have equal visual weight with no empty grid quadrant.
 - Given a wide desktop viewport, when resident starting points, featured cards, and contribution actions are shown, then related elements align consistently without being displaced by differing copy lengths.
 - Given resident-facing content contains a date or time, when it is rendered, then its numerals use conventional unslashed forms.
 
