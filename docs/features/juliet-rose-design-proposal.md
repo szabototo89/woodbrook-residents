@@ -15,6 +15,10 @@ clear.
   immediately locates the studio in Stillorgan.
 - Visitors can browse treatment categories and real featured services with
   current durations and prices.
+- Body copy and interface text use a consistent, readable sans-serif scale,
+  while headings and brand text retain the proposal's editorial serif style.
+- Each featured treatment card is one large booking link, with visible hover
+  and keyboard-focus feedback across the full card.
 - Studio details, contact information, gift cards, and the booking policy are
   included in the customer journey.
 - The layout adapts to desktop and mobile, with an accessible mobile menu and
@@ -41,6 +45,11 @@ clear.
 - Laptop, desktop, tablet, and mobile layouts preserve readable content,
   visible calls to action, and usable controls without horizontal page
   overflow.
+- Main body copy renders at 16px, recurring controls and supporting text at
+  14px or larger, and 12px text is reserved for secondary labels and legal
+  copy.
+- Every featured treatment card has a treatment-specific accessible name and
+  links to the existing Juliet Rose booking flow without nested links.
 - The proposal can be built and served independently with Bun workspace
   scripts.
 

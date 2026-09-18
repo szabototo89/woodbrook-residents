@@ -9,6 +9,13 @@
   --line: #e7ddd6;
   --serif: 'Cormorant Garamond', 'Iowan Old Style', Baskerville, Georgia, serif;
   --sans: 'DM Sans', Inter, 'Helvetica Neue', Arial, sans-serif;
+  --text-secondary: 0.75rem;
+  --text-interface: 0.875rem;
+  --text-body: 1rem;
+  --text-lead: 1.125rem;
+  --text-card-title: 1.125rem;
+  --text-category-title: 1.25rem;
+  --text-section-title: 2rem;
 }
 
 * {
@@ -26,8 +33,8 @@ body {
   background: var(--ivory);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 14px;
-  line-height: 1.35;
+  font-size: var(--text-body);
+  line-height: 1.5;
 }
 
 body.menu-open {
@@ -111,7 +118,7 @@ a {
 .brand small {
   margin-top: 8px;
   padding-left: 20px;
-  font-size: 9px;
+  font-size: var(--text-secondary);
   font-weight: 500;
   letter-spacing: 3.4px;
   line-height: 1;
@@ -130,7 +137,7 @@ a {
 .footer-navigation a {
   position: relative;
   padding: 5px 0;
-  font-size: 12px;
+  font-size: var(--text-interface);
   text-decoration: none;
 }
 
@@ -155,7 +162,7 @@ a {
   gap: 8px;
   border: 1px solid var(--rose);
   border-radius: 4px;
-  font-size: 12px;
+  font-size: var(--text-interface);
   font-weight: 400;
   text-decoration: none;
   white-space: nowrap;
@@ -241,7 +248,7 @@ a {
 .eyebrow {
   margin: 0;
   color: var(--rose-dark);
-  font-size: 9.5px;
+  font-size: var(--text-secondary);
   font-weight: 500;
   letter-spacing: 2.8px;
   text-transform: uppercase;
@@ -270,7 +277,7 @@ h1 {
 
 h2 {
   margin: 2px 0 0;
-  font-size: 32px;
+  font-size: var(--text-section-title);
   letter-spacing: -1px;
   line-height: 1;
 }
@@ -281,13 +288,13 @@ h3 {
 
 .hero-location {
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: var(--text-lead);
   letter-spacing: -0.3px;
 }
 
 .hero-copy {
   margin-bottom: 17px;
-  font-size: 16px;
+  font-size: var(--text-body);
   line-height: 1.35;
 }
 
@@ -315,7 +322,7 @@ h3 {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-size: 12px;
+  font-size: var(--text-interface);
 }
 
 .booking-icon {
@@ -405,7 +412,7 @@ h3 {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: var(--text-interface);
 }
 
 .category-grid,
@@ -420,6 +427,25 @@ h3 {
   overflow: hidden;
   background: rgba(255, 255, 255, 0.63);
   border-radius: 4px;
+}
+
+.treatment-card {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.treatment-card:hover {
+  box-shadow: 0 8px 24px rgba(135, 66, 71, 0.12);
+  transform: translateY(-2px);
+}
+
+.treatment-card:hover .primary-button,
+.treatment-card:focus-visible .primary-button {
+  background: var(--rose-dark);
 }
 
 .category-card {
@@ -449,7 +475,7 @@ h3 {
 }
 
 .category-copy {
-  height: 109px;
+  height: 126px;
   padding: 9px 15px 8px;
   display: flex;
   flex-direction: column;
@@ -457,7 +483,7 @@ h3 {
 
 .category-copy h3 {
   margin: 0 0 3px;
-  font-size: 20px;
+  font-size: var(--text-category-title);
   line-height: 1;
 }
 
@@ -465,7 +491,7 @@ h3 {
   min-height: 37px;
   margin: 0;
   color: var(--muted);
-  font-size: 12.2px;
+  font-size: var(--text-interface);
   line-height: 1.42;
 }
 
@@ -476,7 +502,7 @@ h3 {
   align-items: center;
   gap: 6px;
   color: var(--rose-dark);
-  font-size: 12px;
+  font-size: var(--text-interface);
   text-underline-offset: 2px;
 }
 
@@ -508,19 +534,19 @@ h3 {
 }
 
 .treatment-copy {
-  height: 118px;
+  height: 142px;
   padding: 10px 15px 12px;
   display: flex;
   flex-direction: column;
 }
 
 .treatment-copy h3 {
-  min-height: 26px;
+  min-height: 38px;
   margin: 0;
   overflow: hidden;
-  font-size: 16px;
+  font-size: var(--text-card-title);
   line-height: 1.05;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .treatment-meta {
@@ -530,7 +556,7 @@ h3 {
   align-items: center;
   justify-content: space-between;
   color: var(--muted);
-  font-size: 11.5px;
+  font-size: var(--text-interface);
 }
 
 .duration {
@@ -541,7 +567,7 @@ h3 {
 
 .treatment-meta strong {
   color: var(--ink);
-  font-size: 13px;
+  font-size: var(--text-interface);
   font-weight: 500;
 }
 
@@ -550,7 +576,7 @@ h3 {
   min-height: 33px;
   margin-top: auto;
   padding-inline: 12px;
-  font-size: 11px;
+  font-size: var(--text-interface);
 }
 
 .gift-section {
@@ -596,13 +622,13 @@ h3 {
 
 .gift-copy h2 {
   margin-bottom: 8px;
-  font-size: 29px;
+  font-size: var(--text-section-title);
 }
 
 .gift-copy p {
   margin: 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--text-interface);
   line-height: 1.35;
 }
 
@@ -626,7 +652,7 @@ h3 {
 .visit-section {
   position: relative;
   width: min(906px, calc(100% - 118px));
-  height: 204px;
+  min-height: 244px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 63% 37%;
@@ -643,20 +669,20 @@ h3 {
 
 .visit-copy h2 {
   margin-bottom: 7px;
-  font-size: 31px;
+  font-size: var(--text-section-title);
 }
 
 .address {
   margin-bottom: 25px;
   color: var(--muted);
-  font-size: 12.5px;
+  font-size: var(--text-interface);
 }
 
 .contact-row {
   display: flex;
   align-items: center;
-  gap: 14px;
-  white-space: nowrap;
+  flex-wrap: wrap;
+  gap: 8px 12px;
 }
 
 .contact-item {
@@ -667,7 +693,7 @@ h3 {
   gap: 8px;
   border-right: 1px solid rgba(164, 84, 88, 0.42);
   color: var(--ink);
-  font-size: 9.5px;
+  font-size: var(--text-interface);
   line-height: 1.3;
   text-decoration: none;
 }
@@ -685,7 +711,7 @@ h3 {
   min-height: 35px;
   margin-left: 4px;
   padding-inline: 15px;
-  font-size: 10px;
+  font-size: var(--text-interface);
 }
 
 .contact-policy {
@@ -695,7 +721,7 @@ h3 {
   padding: 0 20px;
   background: rgba(251, 248, 244, 0.96);
   border-radius: 4px;
-  font-size: 10px;
+  font-size: var(--text-interface);
 }
 
 .contact-policy .booking-icon {
@@ -728,13 +754,13 @@ h3 {
 }
 
 .booking-policy h2 {
-  font-size: 28px;
+  font-size: var(--text-section-title);
 }
 
 .booking-policy p {
   margin: 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--text-interface);
 }
 
 .booking-policy a {
@@ -765,15 +791,15 @@ h3 {
 
 .footer-navigation {
   display: flex;
-  gap: 27px;
+  gap: 18px;
 }
 
 .footer-navigation a {
-  font-size: 10px;
+  font-size: var(--text-interface);
 }
 
 .social-links {
-  margin-left: 110px;
+  margin-left: auto;
   display: flex;
   gap: 16px;
 }
@@ -800,14 +826,14 @@ h3 {
 .tagline {
   margin: 0;
   font-family: var(--serif);
-  font-size: 13px;
+  font-size: var(--text-interface);
 }
 
 .footer-bottom {
   display: flex;
   justify-content: space-between;
   color: #5a5551;
-  font-size: 9px;
+  font-size: var(--text-secondary);
 }
 
 .footer-bottom p {
@@ -848,50 +874,54 @@ h3 {
   }
 
   .category-copy {
-    height: 126px;
+    height: 132px;
   }
 
   .category-copy p {
     min-height: 42px;
-    font-size: 14px;
+    font-size: var(--text-interface);
   }
 
   .category-copy a,
   .section-link {
-    font-size: 13px;
+    font-size: var(--text-interface);
   }
 
   .treatment-copy {
-    height: 126px;
+    height: 142px;
   }
 
   .treatment-copy h3 {
-    font-size: 17px;
+    font-size: var(--text-card-title);
   }
 
   .treatment-meta {
-    font-size: 13px;
+    font-size: var(--text-interface);
   }
 
   .treatment-meta strong {
-    font-size: 14px;
+    font-size: var(--text-interface);
   }
 
   .treatment-copy .primary-button {
-    font-size: 12px;
+    font-size: var(--text-interface);
   }
 
   .gift-copy p,
   .address {
-    font-size: 14px;
+    font-size: var(--text-interface);
   }
 
   .contact-item {
-    font-size: 10.5px;
+    font-size: var(--text-interface);
   }
 }
 
 @media (max-width: 900px) {
+  :root {
+    --text-section-title: 2.25rem;
+  }
+
   .page-width,
   .header-inner,
   .visit-section,
@@ -943,7 +973,7 @@ h3 {
   .brand small {
     margin-top: 7px;
     padding-left: 15px;
-    font-size: 7.5px;
+    font-size: var(--text-secondary);
     letter-spacing: 3px;
   }
 
@@ -1059,12 +1089,12 @@ h3 {
   .hero-location {
     max-width: 315px;
     margin-top: 14px;
-    font-size: 17px;
+    font-size: var(--text-lead);
   }
 
   .hero-copy {
     max-width: 290px;
-    font-size: 14px;
+    font-size: var(--text-body);
   }
 
   .hero-copy br {
@@ -1097,7 +1127,7 @@ h3 {
 
   .section-heading h2 {
     max-width: 300px;
-    font-size: 36px;
+    font-size: var(--text-section-title);
     line-height: 0.96;
   }
 
@@ -1142,7 +1172,7 @@ h3 {
 
   .treatment-copy h3 {
     min-height: 38px;
-    font-size: 17px;
+    font-size: var(--text-card-title);
     white-space: normal;
   }
 
@@ -1169,7 +1199,7 @@ h3 {
   }
 
   .gift-copy h2 {
-    font-size: 32px;
+    font-size: var(--text-section-title);
   }
 
   .gift-section > .secondary-button {
@@ -1189,7 +1219,7 @@ h3 {
   }
 
   .visit-copy h2 {
-    font-size: 34px;
+    font-size: var(--text-section-title);
   }
 
   .contact-row {
@@ -1203,7 +1233,7 @@ h3 {
     padding: 7px 0;
     border-right: 0;
     border-bottom: 1px solid var(--line);
-    font-size: 12px;
+    font-size: var(--text-interface);
   }
 
   .contact-button {
@@ -1246,7 +1276,7 @@ h3 {
   }
 
   .footer-navigation a {
-    font-size: 11px;
+    font-size: var(--text-interface);
   }
 
   .social-links {
@@ -1262,7 +1292,7 @@ h3 {
     margin-top: 42px;
     flex-direction: column;
     gap: 12px;
-    font-size: 10px;
+    font-size: var(--text-secondary);
   }
 
   .site-footer::after {
@@ -1284,7 +1314,7 @@ h3 {
     gap: 8px;
     background: var(--rose);
     color: white;
-    font-size: 13px;
+    font-size: var(--text-interface);
     text-decoration: none;
     visibility: hidden;
     opacity: 0;
@@ -1350,12 +1380,12 @@ h3 {
   .hero-location {
     max-width: 430px;
     margin-top: 8px;
-    font-size: 17px;
+    font-size: var(--text-lead);
   }
 
   .hero-copy {
     max-width: 410px;
-    font-size: 15px;
+    font-size: var(--text-body);
   }
 
   .hero-copy br {
