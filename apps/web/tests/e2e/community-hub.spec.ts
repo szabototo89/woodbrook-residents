@@ -232,8 +232,9 @@ test('shows the qualified Thorntons bin schedule and PDF actions', async ({
     name: 'Good to know locally',
   });
   await expect(localHighlight).toBeVisible();
-  await expect(localHighlight.getByText('15 September 2026')).toBeVisible();
-  await expect(localHighlight.getByText('22 September 2026')).toBeVisible();
+  // The exact upcoming dates depend on the current date, so assert structure:
+  // one date per collection stream. Exact date logic is pinned by unit tests.
+  await expect(localHighlight.locator('time')).toHaveCount(2);
   await expect(
     localHighlight.getByText(
       /applies to: Thorntons customers who received this 2026 schedule/i,
@@ -259,8 +260,7 @@ test('shows the qualified Thorntons bin schedule and PDF actions', async ({
   await expect(
     page.getByRole('heading', { name: 'Next collection dates' }),
   ).toBeVisible();
-  await expect(page.getByText('15 September 2026')).toBeVisible();
-  await expect(page.getByText('22 September 2026')).toBeVisible();
+  await expect(page.locator('.collection-schedule time')).toHaveCount(2);
   await expect(
     page.getByText(/collection arrangements can vary by route/i),
   ).toBeVisible();

@@ -21,8 +21,7 @@ import {
 export function LocalInfoPage() {
   const { content, today } = Route.useLoaderData();
   const rawSearch = Route.useSearch();
-  const { query, category, outOfHoursOnly } =
-    parseLocalInfoSearch(rawSearch);
+  const { query, category, outOfHoursOnly } = parseLocalInfoSearch(rawSearch);
   const navigate = Route.useNavigate();
 
   function updateFilters(next: Partial<LocalInfoFilters>) {
@@ -32,7 +31,7 @@ export function LocalInfoPage() {
         category,
         outOfHoursOnly,
         ...next,
-      }) as never,
+      }),
       replace: true,
     });
   }
@@ -50,7 +49,7 @@ export function LocalInfoPage() {
   }
 
   function clearFilters() {
-    navigate({ search: {} as never, replace: true });
+    navigate({ search: {}, replace: true });
   }
   const categories = useMemo(
     () => getAvailableResourceCategories(content.items),
@@ -154,12 +153,9 @@ export function LocalInfoPage() {
                 <p>
                   Nothing matches
                   {query ? ` “${query}”` : ''}
-                  {category !== 'all'
-                    ? ` in ${formatLabel(category)}`
-                    : ''}
-                  {outOfHoursOnly ? ' with an out-of-hours contact' : ''}. Try
-                  a broader search or clear the filters to browse every
-                  contact.
+                  {category !== 'all' ? ` in ${formatLabel(category)}` : ''}
+                  {outOfHoursOnly ? ' with an out-of-hours contact' : ''}. Try a
+                  broader search or clear the filters to browse every contact.
                 </p>
                 <button
                   type="button"

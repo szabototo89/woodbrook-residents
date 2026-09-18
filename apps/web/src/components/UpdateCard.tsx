@@ -8,7 +8,11 @@ export function UpdateCard({ update }: { update: Update }) {
   return (
     <article className="content-card update-card">
       {update.imagePath ? (
-        <img src={update.imagePath} alt={update.imageAlt ?? ''} loading="lazy" />
+        <img
+          src={update.imagePath}
+          alt={update.imageAlt ?? ''}
+          loading="lazy"
+        />
       ) : null}
       <div className="card-body">
         <div className="card-meta">

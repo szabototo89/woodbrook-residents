@@ -1,25 +1,41 @@
 // @vitest-environment happy-dom
 import { expect, test, vi } from 'vitest';
+import type { ReactNode } from 'react';
 
 import { renderUi } from '../test-utils/renderUi';
 import { UpdateCard } from './UpdateCard';
 import type { Update } from '../features/content/contentTypes';
 
+type FakeLinkProps = {
+  to: string;
+  params?: { slug?: string };
+  children?: ReactNode;
+  className?: string;
+  'aria-label'?: string;
+};
+
+function FakeLink({
+  to,
+  params,
+  children,
+  className,
+  'aria-label': ariaLabel,
+}: FakeLinkProps) {
+  const slug = params?.slug;
+  const href = slug ? to.replace('$slug', slug) : to;
+  return (
+    <a href={href} className={className} aria-label={ariaLabel}>
+      {children}
+    </a>
+  );
+}
+
 vi.mock('@tanstack/react-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@tanstack/react-router')>();
+  const actual =
+    await importOriginal<typeof import('@tanstack/react-router')>();
   return {
     ...actual,
-    Link: ({ to, params, children, className, ...rest }: any) => {
-      const href =
-        typeof to === 'string' && (params as any)?.slug
-          ? (to as string).replace('$slug', (params as any).slug)
-          : to;
-      return (
-        <a href={href} className={className} {...rest}>
-          {children}
-        </a>
-      );
-    },
+    Link: FakeLink,
   };
 });
 
@@ -42,5 +58,31 @@ test('update card title link covers the whole card', () => {
   const titleLink = container.querySelector('h3 a');
   expect(titleLink?.getAttribute('href')).toContain('test-update');
   expect(titleLink?.className ?? '').toMatch(/card-stretched-link/);
+  unmount();
+});
+
+test('update card shows its image when provided', () => {
+  const { container, unmount } = renderUi(
+    <UpdateCard
+      update={{
+        ...update,
+        imagePath: '/images/example.jpg',
+        imageAlt: 'Example',
+      }}
+    />,
+  );
+
+  expect(container.querySelector('article img')?.getAttribute('src')).toBe(
+    '/images/example.jpg',
+  );
+  unmount();
+});
+
+test('update card leaves image alt empty when none is provided', () => {
+  const { container, unmount } = renderUi(
+    <UpdateCard update={{ ...update, imagePath: '/images/example.jpg' }} />,
+  );
+
+  expect(container.querySelector('article img')?.getAttribute('alt')).toBe('');
   unmount();
 });

@@ -235,3 +235,95 @@ test('composeLocalInfoDescription prevents button concatenation with complete se
   expect(description).not.toContain('5900Visit');
   expect(description).toContain('Call 01 666 5900.');
 });
+
+test('composeLocalInfoDescription handles plain and overlong descriptions', () => {
+  expect(composeLocalInfoDescription({ description: 'Helpful service' })).toBe(
+    'Helpful service.',
+  );
+
+  const long = composeLocalInfoDescription({
+    description: `${'Very helpful local service. '.repeat(10)} Call us anytime.`,
+    address: 'Somewhere else entirely',
+  });
+  expect(long.length).toBeLessThanOrEqual(155);
+  expect(long.endsWith('...')).toBe(true);
+});
+
+test('composeLocalInfoDescription skips the visit note when already mentioned', () => {
+  const description = composeLocalInfoDescription({
+    description: 'Visit us at Main Street during opening hours',
+    address: 'Main Street',
+  });
+
+  expect(description).not.toContain('Visit Main Street.');
+});
+
+test('createLocalServiceJsonLd omits missing contact details', () => {
+  const jsonLd = createLocalServiceJsonLd({
+    siteUrl: 'https://example.com',
+    path: '/local-info/example',
+    name: 'Example',
+    description: 'Example service.',
+  });
+
+  expect(jsonLd).not.toHaveProperty('telephone');
+  expect(jsonLd).not.toHaveProperty('address');
+  expect(jsonLd).not.toHaveProperty('sameAs');
+});
+
+test('createProjectJsonLd keeps images and drops invalid dates', () => {
+  const jsonLd = createProjectJsonLd({
+    siteUrl: 'https://example.com',
+    path: '/projects/example',
+    headline: 'Example',
+    description: 'Summary.',
+    imagePath: '/images/example.jpg',
+    dateModified: 'not-a-date',
+  });
+
+  expect(jsonLd).toMatchObject({
+    image: 'https://example.com/images/example.jpg',
+  });
+  expect(jsonLd).not.toHaveProperty('dateModified');
+});
+
+test('createSurveyJsonLd keeps images alongside valid dates', () => {
+  const jsonLd = createSurveyJsonLd({
+    siteUrl: 'https://example.com',
+    path: '/surveys/example',
+    headline: 'Example',
+    description: 'Summary.',
+    imagePath: 'https://cdn.example.com/survey.jpg',
+    datePublished: '2026-06-26',
+    dateModified: '2026-07-24',
+  });
+
+  expect(jsonLd).toMatchObject({
+    image: 'https://cdn.example.com/survey.jpg',
+    datePublished: '2026-06-26T00:00:00.000Z',
+  });
+});
+
+test('structured data helpers ignore non-string inputs', () => {
+  const jsonLd = createArticleJsonLd({
+    siteUrl: 'https://example.com',
+    path: '/updates/example',
+    headline: 'Example',
+    description: 'Summary.',
+    imagePath: 123,
+    datePublished: 123,
+    dateModified: '   ',
+  });
+
+  expect(jsonLd).not.toHaveProperty('image');
+  expect(jsonLd).not.toHaveProperty('datePublished');
+  expect(jsonLd).not.toHaveProperty('dateModified');
+
+  expect(
+    composeLocalInfoDescription({
+      description: 'Helpful service.',
+      phone: 123,
+      address: 123,
+    }),
+  ).toBe('Helpful service.');
+});

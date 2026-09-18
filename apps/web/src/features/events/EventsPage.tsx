@@ -25,13 +25,6 @@ export function EventsPage() {
             message="The calendar is ready for verified community meetings, clean-ups, and local events."
           />
         ) : null}
-        {timeline.length === 0 && content.items.length > 0 ? (
-          <div className="stack-list">
-            {content.items.map((event) => (
-              <EventCard key={event.documentId} event={event} />
-            ))}
-          </div>
-        ) : null}
         {timeline.length > 0 ? (
           <div className="event-timeline" aria-label="Events by date">
             {timeline.map((period) => (
