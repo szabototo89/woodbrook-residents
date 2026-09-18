@@ -429,6 +429,7 @@ h3 {
   border-radius: 4px;
 }
 
+.category-card,
 .treatment-card {
   color: inherit;
   cursor: pointer;
@@ -438,9 +439,15 @@ h3 {
     transform 160ms ease;
 }
 
+.category-card:hover,
 .treatment-card:hover {
   box-shadow: 0 8px 24px rgba(135, 66, 71, 0.12);
   transform: translateY(-2px);
+}
+
+.category-card:hover .category-link,
+.category-card:focus-visible .category-link {
+  color: var(--rose);
 }
 
 .treatment-card:hover .primary-button,
@@ -495,7 +502,7 @@ h3 {
   line-height: 1.42;
 }
 
-.category-copy a {
+.category-link {
   width: fit-content;
   margin-top: auto;
   display: inline-flex;
@@ -503,6 +510,7 @@ h3 {
   gap: 6px;
   color: var(--rose-dark);
   font-size: var(--text-interface);
+  text-decoration: underline;
   text-underline-offset: 2px;
 }
 
