@@ -73,6 +73,7 @@ export type CommunityEvent = {
   bookingUrl?: string;
   sourceUrl: string;
   sourceReviewedOn: string;
+  featured: boolean;
 };
 
 export type Survey = {

@@ -419,6 +419,7 @@ function mapEvents(values: unknown[][]): CommunityEvent[] {
         bookingUrl: row.url('registration_url') ?? row.url('organiser_url'),
         sourceUrl: requiredUrl(row, 'source_url'),
         sourceReviewedOn: row.date('source_checked_on', true)!,
+        featured: row.boolean('featured'),
       };
     },
     (left, right) => left.startsAt.localeCompare(right.startsAt),

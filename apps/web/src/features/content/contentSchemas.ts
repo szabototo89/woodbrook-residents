@@ -101,6 +101,10 @@ export const eventSchema = z.object({
   sourceReviewedOn: z
     .string()
     .describe('ISO date when the event source was last checked.'),
+  featured: z
+    .boolean()
+    .default(false)
+    .describe('Whether the event is eligible for prominent placement.'),
 });
 
 export const surveySchema = z.object({

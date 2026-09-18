@@ -51,6 +51,7 @@ const snapshot: ContentSnapshot = {
       location: 'Park',
       sourceUrl: 'https://example.com/source',
       sourceReviewedOn: '2026-09-09',
+      featured: false,
     },
   ],
   surveys: [
