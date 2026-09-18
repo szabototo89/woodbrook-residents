@@ -1,5 +1,5 @@
 import { Search, X } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { CmsUnavailable } from '../../components/CmsUnavailable';
 import { EmptyState } from '../../components/EmptyState';
@@ -9,16 +9,49 @@ import { formatLabel } from '../content/contentFormatting';
 import { LocalHighlights } from './LocalHighlights';
 import { LocalServiceCard } from './LocalServiceCard';
 import {
+  parseLocalInfoSearch,
+  serializeLocalInfoSearch,
+  type LocalInfoFilters,
+} from './localInfoSearch';
+import {
   filterResources,
   getAvailableResourceCategories,
-  type ResourceCategoryFilter,
 } from './resourceDirectory';
 
 export function LocalInfoPage() {
   const { content, today } = Route.useLoaderData();
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState<ResourceCategoryFilter>('all');
-  const [outOfHoursOnly, setOutOfHoursOnly] = useState(false);
+  const rawSearch = Route.useSearch();
+  const { query, category, outOfHoursOnly } =
+    parseLocalInfoSearch(rawSearch);
+  const navigate = Route.useNavigate();
+
+  function updateFilters(next: Partial<LocalInfoFilters>) {
+    navigate({
+      search: serializeLocalInfoSearch({
+        query,
+        category,
+        outOfHoursOnly,
+        ...next,
+      }) as never,
+      replace: true,
+    });
+  }
+
+  function setQuery(value: string) {
+    updateFilters({ query: value.slice(0, 120) });
+  }
+
+  function setCategory(nextCategory: typeof category) {
+    updateFilters({ category: nextCategory });
+  }
+
+  function setOutOfHoursOnly(value: boolean) {
+    updateFilters({ outOfHoursOnly: value });
+  }
+
+  function clearFilters() {
+    navigate({ search: {} as never, replace: true });
+  }
   const categories = useMemo(
     () => getAvailableResourceCategories(content.items),
     [content.items],
@@ -100,14 +133,7 @@ export function LocalInfoPage() {
                 {visibleResources.length === 1 ? 'contact' : 'contacts'}
               </p>
               {hasFilters ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setQuery('');
-                    setCategory('all');
-                    setOutOfHoursOnly(false);
-                  }}
-                >
+                <button type="button" onClick={clearFilters}>
                   <X size={15} aria-hidden="true" /> Clear filters
                 </button>
               ) : null}
@@ -125,7 +151,23 @@ export function LocalInfoPage() {
             ) : (
               <div className="directory-no-results">
                 <h2>No matching contacts</h2>
-                <p>Try a broader search or clear one of the filters.</p>
+                <p>
+                  Nothing matches
+                  {query ? ` “${query}”` : ''}
+                  {category !== 'all'
+                    ? ` in ${formatLabel(category)}`
+                    : ''}
+                  {outOfHoursOnly ? ' with an out-of-hours contact' : ''}. Try
+                  a broader search or clear the filters to browse every
+                  contact.
+                </p>
+                <button
+                  type="button"
+                  className="button button-secondary"
+                  onClick={clearFilters}
+                >
+                  <X size={15} aria-hidden="true" /> Clear filters
+                </button>
               </div>
             )}
 

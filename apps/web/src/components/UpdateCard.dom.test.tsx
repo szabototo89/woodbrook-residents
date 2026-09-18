@@ -28,11 +28,13 @@ const update: Update = {
   title: 'Test update',
   slug: 'test-update',
   summary: 'Summary text',
-  kind: 'notice',
+  body: 'Body text',
+  kind: 'news',
   publishedOn: '2026-09-10',
   sourceName: 'Council',
   sourceUrl: 'https://example.com',
   sourceReviewedOn: '2026-09-10',
+  featured: false,
 };
 
 test('update card title link covers the whole card', () => {

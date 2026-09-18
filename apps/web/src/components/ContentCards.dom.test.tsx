@@ -32,11 +32,14 @@ const project: Project = {
   title: 'Test project',
   slug: 'test-project',
   summary: 'Summary',
+  details: 'Details',
+  updatedOn: '2026-09-10',
   stage: 'active',
   category: 'housing',
   sourceName: 'Council',
   sourceUrl: 'https://example.com',
   sourceReviewedOn: '2026-09-10',
+  featured: false,
 };
 
 const event: CommunityEvent = {
