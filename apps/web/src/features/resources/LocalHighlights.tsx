@@ -61,7 +61,7 @@ export function LocalHighlights({
               ) : null}
             </div>
             <Link
-              className="text-link local-highlight-action"
+              className="text-link local-highlight-action card-stretched-link"
               to="/local-info/$slug"
               params={{ slug: resource.slug }}
               aria-label={`${actionLabel}: ${resource.title}`}

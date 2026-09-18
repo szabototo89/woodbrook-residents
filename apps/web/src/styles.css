@@ -578,12 +578,32 @@ summary:focus-visible {
 
 .content-card,
 .survey-card,
+.resource-card,
+.event-card,
+.local-highlight {
+  position: relative;
+}
+
+.content-card,
+.survey-card,
 .resource-card {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--white);
   box-shadow: 0 8px 26px rgba(27, 46, 40, 0.05);
+}
+
+.card-stretched-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.card-secondary-link,
+.resource-actions {
+  position: relative;
+  z-index: 1;
 }
 
 .content-card {

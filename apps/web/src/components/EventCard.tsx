@@ -31,7 +31,11 @@ export function EventCard({
       </div>
       <div>
         <Heading>
-          <Link to="/events/$slug" params={{ slug: event.slug }}>
+          <Link
+            className="card-stretched-link"
+            to="/events/$slug"
+            params={{ slug: event.slug }}
+          >
             {event.title}
           </Link>
         </Heading>
@@ -47,7 +51,7 @@ export function EventCard({
           </span>
         </div>
         <Link
-          className="text-link"
+          className="text-link card-secondary-link"
           to="/events/$slug"
           params={{ slug: event.slug }}
           aria-label={`View event: ${event.title}`}

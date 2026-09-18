@@ -11,7 +11,11 @@ export function SurveyCard({ survey }: { survey: Survey }) {
         {formatLabel(survey.stage)}
       </span>
       <h2>
-        <Link to="/surveys/$slug" params={{ slug: survey.slug }}>
+        <Link
+          className="card-stretched-link"
+          to="/surveys/$slug"
+          params={{ slug: survey.slug }}
+        >
           {survey.title}
         </Link>
       </h2>
@@ -23,7 +27,7 @@ export function SurveyCard({ survey }: { survey: Survey }) {
         </p>
       ) : null}
       <Link
-        className="text-link"
+        className="text-link card-secondary-link"
         to="/surveys/$slug"
         params={{ slug: survey.slug }}
         aria-label={`View details: ${survey.title}`}

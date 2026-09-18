@@ -8,13 +8,7 @@ export function UpdateCard({ update }: { update: Update }) {
   return (
     <article className="content-card update-card">
       {update.imagePath ? (
-        <Link to="/updates/$slug" params={{ slug: update.slug }} tabIndex={-1}>
-          <img
-            src={update.imagePath}
-            alt={update.imageAlt ?? ''}
-            loading="lazy"
-          />
-        </Link>
+        <img src={update.imagePath} alt={update.imageAlt ?? ''} loading="lazy" />
       ) : null}
       <div className="card-body">
         <div className="card-meta">
@@ -25,13 +19,17 @@ export function UpdateCard({ update }: { update: Update }) {
           </span>
         </div>
         <h3>
-          <Link to="/updates/$slug" params={{ slug: update.slug }}>
+          <Link
+            className="card-stretched-link"
+            to="/updates/$slug"
+            params={{ slug: update.slug }}
+          >
             {update.title}
           </Link>
         </h3>
         <p>{update.summary}</p>
         <Link
-          className="text-link"
+          className="text-link card-secondary-link"
           to="/updates/$slug"
           params={{ slug: update.slug }}
           aria-label={`Read ${update.title}`}

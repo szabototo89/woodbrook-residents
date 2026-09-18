@@ -19,7 +19,11 @@ export function LocalServiceCard({ resource }: { resource: Resource }) {
       </div>
       <p className="resource-type">{resource.serviceType}</p>
       <h2>
-        <Link to="/local-info/$slug" params={{ slug: resource.slug }}>
+        <Link
+          className="card-stretched-link"
+          to="/local-info/$slug"
+          params={{ slug: resource.slug }}
+        >
           {resource.title}
         </Link>
       </h2>
@@ -40,12 +44,15 @@ export function LocalServiceCard({ resource }: { resource: Resource }) {
 
       <div className="resource-actions">
         {resource.phone ? (
-          <a className="button" href={toTelephoneHref(resource.phone)}>
+          <a
+            className="button card-secondary-link"
+            href={toTelephoneHref(resource.phone)}
+          >
             <Phone size={16} aria-hidden="true" /> Call {resource.phone}
           </a>
         ) : null}
         <Link
-          className="button button-secondary"
+          className="button button-secondary card-secondary-link"
           to="/local-info/$slug"
           params={{ slug: resource.slug }}
           aria-label={`View details: ${resource.title}`}

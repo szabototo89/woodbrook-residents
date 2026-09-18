@@ -8,17 +8,11 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="content-card project-card">
       {project.imagePath ? (
-        <Link
-          to="/projects/$slug"
-          params={{ slug: project.slug }}
-          tabIndex={-1}
-        >
-          <img
-            src={project.imagePath}
-            alt={project.imageAlt ?? ''}
-            loading="lazy"
-          />
-        </Link>
+        <img
+          src={project.imagePath}
+          alt={project.imageAlt ?? ''}
+          loading="lazy"
+        />
       ) : null}
       <div className="card-body">
         <div className="card-meta">
@@ -28,7 +22,11 @@ export function ProjectCard({ project }: { project: Project }) {
           <span>{formatLabel(project.category)}</span>
         </div>
         <h3>
-          <Link to="/projects/$slug" params={{ slug: project.slug }}>
+          <Link
+            className="card-stretched-link"
+            to="/projects/$slug"
+            params={{ slug: project.slug }}
+          >
             {project.title}
           </Link>
         </h3>
@@ -39,7 +37,7 @@ export function ProjectCard({ project }: { project: Project }) {
           </p>
         ) : null}
         <Link
-          className="text-link"
+          className="text-link card-secondary-link"
           to="/projects/$slug"
           params={{ slug: project.slug }}
           aria-label={`View project: ${project.title}`}
