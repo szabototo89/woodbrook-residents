@@ -62,3 +62,11 @@ When the community hub is visited, I want privacy-friendly counts of visitors, p
 1. In the Clarity dashboard, open the project and copy its project ID.
 2. Set `VITE_CLARITY_PROJECT_ID=<project-id>` in the Pages/Workers production environment and rebuild.
 3. Visit the deployed site once; sessions and heatmaps appear in Clarity within a few hours.
+4. For API reads, a project admin opens Clarity Settings → Data Export → Generate new API token (4–32 chars, unique per project) and stores it as `CLARITY_API_TOKEN`. Never commit the token; `opencode.json` reads it via `{env:CLARITY_API_TOKEN}`.
+5. Limits: 10 Data Export requests per project per day, `numOfDays` 1–3 only (last 24/48/72 hours, UTC), max 3 dimensions and 1,000 rows per response.
+
+## Clarity MCP for OpenCode
+
+- `opencode.json` declares a `clarity` local MCP server running `npx -y @microsoft/clarity-mcp-server` with `CLARITY_API_TOKEN` from the environment.
+- Tools: `query-analytics-dashboard`, `list-session-recordings`, `query-documentation-resources` (all read-only).
+- Without `CLARITY_API_TOKEN` set, tools start but return a missing-token message; no live dashboard data is returned.
