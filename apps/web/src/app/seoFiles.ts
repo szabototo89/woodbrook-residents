@@ -1,5 +1,10 @@
 import type { ContentSnapshot } from '../features/content/contentTypes';
-import { PRODUCTION_SITE_URL, SITE_NAME } from './siteMetadata';
+import {
+  ORGANIZATION_LOGO_PATH,
+  PRODUCTION_SITE_URL,
+  SITE_ALTERNATE_NAME,
+  SITE_NAME,
+} from './siteMetadata';
 
 export type SeoPath = {
   path: string;
@@ -200,9 +205,31 @@ export function createWebsiteJsonLd(siteUrl: string) {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: SITE_NAME,
+    alternateName: SITE_ALTERNATE_NAME,
     url: `${origin}/`,
     inLanguage: 'en-IE',
     description:
       'Local updates, services, events, projects, and public consultations for Woodbrook residents in Shankill.',
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: `${origin}/`,
+    },
   };
+}
+
+export function createOrganizationJsonLd(siteUrl: string) {
+  const origin = resolveSeoSiteUrl(siteUrl);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    alternateName: SITE_ALTERNATE_NAME,
+    url: `${origin}/`,
+    logo: new URL(ORGANIZATION_LOGO_PATH, `${origin}/`).toString(),
+  };
+}
+
+export function createSiteJsonLdGraph(siteUrl: string) {
+  return [createWebsiteJsonLd(siteUrl), createOrganizationJsonLd(siteUrl)];
 }

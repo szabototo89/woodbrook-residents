@@ -1,7 +1,11 @@
 export const PRODUCTION_SITE_URL = 'https://woodbrook.shankill.workers.dev';
 export const SITE_NAME = 'Woodbrook Residents';
+export const SITE_ALTERNATE_NAME = 'Woodbrook Residents Shankill';
 export const SITE_LOCALE = 'en_IE';
 export const SOCIAL_IMAGE_PATH = '/images/woodbrook-residents-social-v3.png';
+export const FAVICON_PNG_PATH = '/favicon-48.png';
+export const APPLE_TOUCH_ICON_PATH = '/apple-touch-icon.png';
+export const ORGANIZATION_LOGO_PATH = APPLE_TOUCH_ICON_PATH;
 
 export function resolveSiteUrl(env: Record<string, unknown>): string {
   const raw = env['VITE_PUBLIC_SITE_URL'];

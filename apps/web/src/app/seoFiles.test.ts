@@ -5,6 +5,8 @@ import {
   buildRobotsTxt,
   buildSitemapXml,
   collectSeoPaths,
+  createOrganizationJsonLd,
+  createSiteJsonLdGraph,
   createWebsiteJsonLd,
   resolveSeoSiteUrl,
 } from './seoFiles';
@@ -258,4 +260,24 @@ test('createWebsiteJsonLd falls back to production origin for invalid site URLs'
   expect(createWebsiteJsonLd('')).toMatchObject({
     url: 'https://woodbrook.shankill.workers.dev/',
   });
+});
+
+test('createOrganizationJsonLd exposes brand entity with absolute logo', () => {
+  const jsonLd = createOrganizationJsonLd('https://example.com');
+
+  expect(jsonLd).toMatchObject({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Woodbrook Residents',
+    url: 'https://example.com/',
+    logo: 'https://example.com/apple-touch-icon.png',
+  });
+});
+
+test('createSiteJsonLdGraph links website publisher to organization', () => {
+  const graph = createSiteJsonLdGraph('https://example.com');
+
+  expect(graph).toHaveLength(2);
+  expect(graph[0]).toMatchObject({ '@type': 'WebSite' });
+  expect(graph[1]).toMatchObject({ '@type': 'Organization' });
 });

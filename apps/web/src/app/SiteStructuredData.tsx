@@ -1,9 +1,12 @@
-import { createWebsiteJsonLd } from './seoFiles';
+import { createSiteJsonLdGraph } from './seoFiles';
 import { resolveSiteUrl } from './siteMetadata';
 
 export function SiteStructuredData() {
   const siteUrl = resolveSiteUrl(import.meta.env);
-  const jsonLd = createWebsiteJsonLd(siteUrl);
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': createSiteJsonLdGraph(siteUrl),
+  };
 
   return (
     <script
