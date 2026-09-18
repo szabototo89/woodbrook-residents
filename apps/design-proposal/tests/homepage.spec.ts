@@ -33,12 +33,12 @@ test('presents the business and its real booking choices', async ({ page }) => {
     ['Deep hydration 6 step facial', '€110'],
     ['Swedish massage', '€80'],
   ]) {
-    const card = featured
-      .getByRole('article')
-      .filter({ hasText: treatment[0] });
+    const card = featured.getByRole('link', {
+      name: `Book ${treatment[0]}`,
+    });
     await expect(card).toContainText('1 hour');
     await expect(card).toContainText(treatment[1]);
-    await expect(card.getByRole('link', { name: /Book now/ })).toHaveAttribute(
+    await expect(card).toHaveAttribute(
       'href',
       /julietrosebeauty\.com\/book-online/,
     );
@@ -54,6 +54,79 @@ test('presents the business and its real booking choices', async ({ page }) => {
   await expect(
     page.getByRole('link', { name: /denizzza1@gmail.com/ }),
   ).toHaveAttribute('href', 'mailto:denizzza1@gmail.com');
+});
+
+test('uses a consistent and readable typography system', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop');
+  await page.goto('./');
+
+  await expect(page.locator('body')).toHaveCSS('font-size', '16px');
+
+  const sansText = page.locator(
+    '.desktop-navigation a, .primary-button, .section-link, .category-copy p, .category-copy a, .treatment-meta, .gift-copy p, .address, .contact-item',
+  );
+  const sansStyles = await sansText.evaluateAll((elements) =>
+    elements.map((element) => {
+      const style = getComputedStyle(element);
+      return {
+        family: style.fontFamily,
+        size: Number.parseFloat(style.fontSize),
+      };
+    }),
+  );
+
+  expect(sansStyles.length).toBeGreaterThan(0);
+  for (const style of sansStyles) {
+    expect(style.family).toContain('DM Sans');
+    expect(style.size).toBe(14);
+  }
+
+  const headingFamilies = await page
+    .locator('.brand span, h1, h2, h3, .tagline')
+    .evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element).fontFamily),
+    );
+  expect(new Set(headingFamilies)).toEqual(
+    new Set([
+      '"Cormorant Garamond", "Iowan Old Style", Baskerville, Georgia, serif',
+    ]),
+  );
+
+  const sectionHeadingSizes = await page
+    .getByRole('heading', { level: 2 })
+    .evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element).fontSize),
+    );
+  expect(new Set(sectionHeadingSizes)).toEqual(new Set(['32px']));
+});
+
+test('makes each featured treatment card one accessible booking link', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop');
+  await page.goto('./');
+
+  const featured = page.locator('#featured');
+  const cards = featured.locator('.treatment-card');
+  await expect(cards).toHaveCount(4);
+
+  for (const name of [
+    'Juliet Rose Signature Facial',
+    'Microneedling',
+    'Deep hydration 6 step facial',
+    'Swedish massage',
+  ]) {
+    const card = featured.getByRole('link', { name: `Book ${name}` });
+    await expect(card).toHaveClass(/treatment-card/);
+    await expect(card).toHaveAttribute(
+      'href',
+      'https://www.julietrosebeauty.com/book-online',
+    );
+    await expect(card.getByText('Book now')).toBeVisible();
+    await expect(card.locator('a')).toHaveCount(0);
+  }
 });
 
 test('matches the compact desktop geometry of the proposal', async ({
