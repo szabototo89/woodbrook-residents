@@ -4,6 +4,29 @@ The TanStack Start public website supports dynamic local development and a fully
 
 Run the development server from the repository root with `bun run dev:web`.
 
+## Development content sources
+
+The dev server reads every page from the configured `CONTENT_SOURCE`
+(`strapi` or `google-sheets`) on each request, so content edits do not
+require a restart.
+
+- Strapi (default): `bun run dev:web` from the repository root. Requires a
+  reachable CMS at `STRAPI_URL` (defaults to `http://localhost:1337`).
+- Google Sheets: `bun run dev:web:sheets` from the repository root. It sets
+  `CONTENT_SOURCE=google-sheets`, loads repository credentials from
+  `../../.env` (relative to `apps/web`), and starts `apps/web` via its
+  `dev:sheets` script.
+- From inside `apps/web`: `bun run dev:sheets` starts the same Sheets-backed
+  server. Provide `GOOGLE_SHEETS_SPREADSHEET_ID` (optional, defaults to the
+  Woodbrook workbook), `GOOGLE_SERVICE_ACCOUNT_EMAIL`, and
+  `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` via `apps/web/.env` or exported
+  variables; the repository-root command above supplies them from the root
+  `.env` instead.
+
+Without Sheets credentials the pages still render with an unavailable-content
+state in dev; static builds fail instead so a broken snapshot cannot replace
+a working deployment.
+
 ## Static build
 
 The repository-level command runs quality checks before producing and verifying the Cloudflare Pages artifact:
