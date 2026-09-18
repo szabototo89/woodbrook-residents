@@ -1,4 +1,7 @@
-import { resourceCategoryOrder, type ResourceCategoryFilter } from './resourceDirectory';
+import {
+  resourceCategoryOrder,
+  type ResourceCategoryFilter,
+} from './resourceDirectory';
 
 export type LocalInfoFilters = {
   query: string;
@@ -6,10 +9,10 @@ export type LocalInfoFilters = {
   outOfHoursOnly: boolean;
 };
 
-export const defaultLocalInfoFilters: LocalInfoFilters = {
-  query: '',
-  category: 'all',
-  outOfHoursOnly: false,
+export type LocalInfoSearchParams = {
+  q?: string;
+  category?: string;
+  ooh?: '1';
 };
 
 function parseQuery(value: unknown): string {
@@ -20,13 +23,8 @@ function parseCategory(value: unknown): ResourceCategoryFilter {
   if (value === 'all') {
     return 'all';
   }
-  if (
-    typeof value === 'string' &&
-    (resourceCategoryOrder as string[]).includes(value)
-  ) {
-    return value as ResourceCategoryFilter;
-  }
-  return 'all';
+  const match = resourceCategoryOrder.find((entry) => entry === value);
+  return match ?? 'all';
 }
 
 function parseOutOfHours(value: unknown): boolean {
@@ -43,11 +41,10 @@ export function parseLocalInfoSearch(
   };
 }
 
-export function serializeLocalInfoSearch(filters: LocalInfoFilters): Record<
-  string,
-  string
-> {
-  const search: Record<string, string> = {};
+export function serializeLocalInfoSearch(
+  filters: LocalInfoFilters,
+): LocalInfoSearchParams {
+  const search: LocalInfoSearchParams = {};
   const query = filters.query.slice(0, 120);
   if (query) {
     search.q = query;

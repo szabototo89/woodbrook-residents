@@ -57,7 +57,15 @@ function runHook(args: Array<string>, env = {}): number {
     });
     return 0;
   } catch (e: unknown) {
-    return (e as { status?: number }).status ?? 1;
+    if (
+      typeof e === 'object' &&
+      e !== null &&
+      'status' in e &&
+      typeof e.status === 'number'
+    ) {
+      return e.status;
+    }
+    return 1;
   }
 }
 

@@ -152,10 +152,7 @@ test('createPageHead emits multiple JSON-LD scripts for breadcrumb plus entity',
     title: 'Detail',
     description: 'Detail summary.',
     path: '/local-info/detail',
-    jsonLd: [
-      { '@type': 'BreadcrumbList' },
-      { '@type': 'GovernmentOffice' },
-    ],
+    jsonLd: [{ '@type': 'BreadcrumbList' }, { '@type': 'GovernmentOffice' }],
   });
 
   expect(head.scripts).toHaveLength(2);

@@ -1,5 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "permissions": [
+    {
+      "action": "shell",
+      "resource": "*--no-verify*",
+      "effect": "deny"
+    }
+  ],
   "mcp": {
     "clarity": {
       "type": "local",

@@ -14,7 +14,9 @@ export function AppHeader() {
   const [isMobileNavigationOpen, setIsMobileNavigationOpen] = useState(false);
   const mobileNavigationRef = useRef<HTMLDivElement>(null);
   const mobileNavigationButtonRef = useRef<HTMLButtonElement>(null);
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
 
   useEffect(() => {
     setIsMobileNavigationOpen(false);
