@@ -162,6 +162,9 @@ const robotsTxt = await readFile(robotsPath, 'utf8');
 if (!robotsTxt.includes('User-agent: *') || !robotsTxt.includes('Allow: /')) {
   throw new Error('Static build robots.txt must allow crawling.');
 }
+if (!robotsTxt.includes('Disallow: /concepts/')) {
+  throw new Error('Static build robots.txt must disallow concept drafts.');
+}
 if (!robotsTxt.includes('/sitemap.xml')) {
   throw new Error(
     'Static build robots.txt must point crawlers at sitemap.xml.',

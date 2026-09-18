@@ -1,6 +1,6 @@
 # Search appearance for Woodbrook residents
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
