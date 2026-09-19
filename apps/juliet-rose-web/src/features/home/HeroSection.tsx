@@ -29,7 +29,7 @@ export function HeroSection() {
             Book an appointment{' '}
             <span className="icon-arrow" aria-hidden="true" />
           </a>
-          <a className="secondary-button" href="#treatments">
+          <a className="secondary-button" href="/treatments">
             View treatments
           </a>
         </div>

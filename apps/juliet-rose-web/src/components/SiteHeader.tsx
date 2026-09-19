@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { BOOKING_URL } from '../features/home/content';
 
 const navigationItems = [
-  { label: 'Home', href: '#top' },
-  { label: 'Treatments', href: '#treatments' },
-  { label: 'Gift Cards', href: '#gift-cards' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'Treatments', href: '/treatments' },
+  { label: 'Gift Cards', href: '/#gift-cards' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 export function SiteHeader() {
@@ -28,18 +28,14 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="header-inner">
-        <a className="brand" href="#top">
+        <a className="brand" href="/">
           <span>Juliet Rose</span>
           <small>Beauty Studio</small>
         </a>
 
         <nav className="desktop-navigation" aria-label="Main navigation">
-          {navigationItems.map((item, index) => (
-            <a
-              className={index === 0 ? 'is-current' : undefined}
-              href={item.href}
-              key={item.href}
-            >
+          {navigationItems.map((item) => (
+            <a href={item.href} key={item.href}>
               {item.label}
             </a>
           ))}

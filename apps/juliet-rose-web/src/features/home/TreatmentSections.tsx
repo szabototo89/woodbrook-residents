@@ -26,7 +26,7 @@ export function TreatmentSections() {
             {treatmentCategories.map((category) => (
               <a
                 className="category-card"
-                href={BOOKING_URL}
+                href={category.href}
                 key={category.name}
               >
                 <img
@@ -69,7 +69,7 @@ export function TreatmentSections() {
             {featuredTreatments.map((treatment) => (
               <a
                 className="treatment-card"
-                href={BOOKING_URL}
+                href={`${BOOKING_URL}?service=${treatment.slug}`}
                 key={treatment.name}
               >
                 <img

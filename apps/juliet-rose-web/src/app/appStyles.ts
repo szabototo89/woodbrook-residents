@@ -1,5 +1,6 @@
 import cormorantGaramondUrl from '@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-wght-normal.woff2?url';
 import dmSansUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
+import dayPickerStyles from 'react-day-picker/style.css?raw';
 
 import pageStyles from '../styles.css?raw';
 
@@ -21,4 +22,4 @@ const fontStyles = `
 }
 `;
 
-export const appStyles = `${fontStyles}\n${pageStyles}`;
+export const appStyles = `${fontStyles}\n${dayPickerStyles}\n${pageStyles}`;
