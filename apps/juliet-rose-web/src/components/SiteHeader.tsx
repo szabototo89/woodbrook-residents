@@ -5,7 +5,7 @@ import { BOOKING_URL } from '../features/home/content';
 const navigationItems = [
   { label: 'Home', href: '/' },
   { label: 'Treatments', href: '/treatments' },
-  { label: 'Gift Cards', href: '/#gift-cards' },
+  { label: 'Gift Cards', href: '/gift-cards' },
   { label: 'Contact', href: '/#contact' },
 ];
 

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookRouteImport } from './routes/book'
+import { Route as GiftCardsRouteImport } from './routes/gift-cards'
 import { Route as TreatmentsRouteImport } from './routes/treatments'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const BookRoute = BookRouteImport.update({
   path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GiftCardsRoute = GiftCardsRouteImport.update({
+  id: '/gift-cards',
+  path: '/gift-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TreatmentsRoute = TreatmentsRouteImport.update({
   id: '/treatments',
   path: '/treatments',
@@ -32,30 +38,34 @@ const TreatmentsRoute = TreatmentsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
+  '/gift-cards': typeof GiftCardsRoute
   '/treatments': typeof TreatmentsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
+  '/gift-cards': typeof GiftCardsRoute
   '/treatments': typeof TreatmentsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/book': typeof BookRoute
+  '/gift-cards': typeof GiftCardsRoute
   '/treatments': typeof TreatmentsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/book' | '/treatments'
+  fullPaths: '/' | '/book' | '/gift-cards' | '/treatments'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/book' | '/treatments'
-  id: '__root__' | '/' | '/book' | '/treatments'
+  to: '/' | '/book' | '/gift-cards' | '/treatments'
+  id: '__root__' | '/' | '/book' | '/gift-cards' | '/treatments'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookRoute: typeof BookRoute
+  GiftCardsRoute: typeof GiftCardsRoute
   TreatmentsRoute: typeof TreatmentsRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gift-cards': {
+      id: '/gift-cards'
+      path: '/gift-cards'
+      fullPath: '/gift-cards'
+      preLoaderRoute: typeof GiftCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/treatments': {
       id: '/treatments'
       path: '/treatments'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookRoute: BookRoute,
+  GiftCardsRoute: GiftCardsRoute,
   TreatmentsRoute: TreatmentsRoute,
 }
 export const routeTree = rootRouteImport

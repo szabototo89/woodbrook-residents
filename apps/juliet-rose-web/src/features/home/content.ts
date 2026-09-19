@@ -4,7 +4,7 @@ import {
 } from '../treatments/treatmentCatalog';
 
 export const BOOKING_URL = '/book';
-export const GIFT_CARD_URL = 'https://www.julietrosebeauty.com/gift-card';
+export const GIFT_CARD_URL = '/gift-cards';
 
 export type TreatmentCategory = {
   name: string;
