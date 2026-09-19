@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const bookingUrl = 'https://www.julietrosebeauty.com/book-online';
+const bookingUrl = '/book';
 
 test('presents the Juliet Rose design and booking journey', async ({
   page,
@@ -30,18 +30,26 @@ test('presents the Juliet Rose design and booking journey', async ({
 test('makes every treatment category one accessible link', async ({ page }) => {
   await page.goto('/');
 
-  const categoryNames = [
-    /Facials & Skin.*signature facial/,
-    /Massage.*therapeutic massage/,
-    /Beauty Essentials.*brows/,
-    /Packages.*combination of treatments/,
+  const categories = [
+    {
+      name: /Facials & Skin.*signature facial/,
+      href: '/treatments#facials-and-skin',
+    },
+    { name: /Massage.*therapeutic massage/, href: '/treatments#massage' },
+    {
+      name: /Beauty Essentials.*brows/,
+      href: '/treatments#beauty-essentials',
+    },
+    {
+      name: /Packages.*combination of treatments/,
+      href: '/treatments#packages',
+    },
   ];
 
-  for (const name of categoryNames) {
-    await expect(page.getByRole('link', { name })).toHaveAttribute(
-      'href',
-      bookingUrl,
-    );
+  for (const category of categories) {
+    await expect(
+      page.getByRole('link', { name: category.name }),
+    ).toHaveAttribute('href', category.href);
   }
 });
 

@@ -36,3 +36,29 @@ test('keeps booking available from the mobile viewport', async ({ page }) => {
     page.getByRole('link', { name: 'Book an appointment' }).last(),
   ).toBeVisible();
 });
+
+test('keeps treatment browsing and booking controls usable on a phone', async ({
+  page,
+}) => {
+  await page.goto('/treatments');
+
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Treatments & prices' }),
+  ).toBeVisible();
+  await expect(page.locator('html')).toHaveJSProperty(
+    'scrollWidth',
+    await page.locator('html').evaluate((element) => element.clientWidth),
+  );
+
+  await page.goto('/book?service=swedish-massage');
+  await expect(page.getByRole('combobox', { name: 'Treatment' })).toHaveValue(
+    'swedish-massage',
+  );
+  await expect(
+    page.getByRole('heading', { name: 'Choose a date' }),
+  ).toBeVisible();
+  await expect(page.locator('html')).toHaveJSProperty(
+    'scrollWidth',
+    await page.locator('html').evaluate((element) => element.clientWidth),
+  );
+});
