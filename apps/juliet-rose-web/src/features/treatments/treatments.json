@@ -1,0 +1,170 @@
+[
+  {
+    "slug": "luxurious-espa-massage",
+    "name": "Luxurious Espa massage",
+    "category": "Massage",
+    "durationMinutes": 90,
+    "priceCents": 10000
+  },
+  {
+    "slug": "swedish-massage",
+    "name": "Swedish massage",
+    "category": "Massage",
+    "durationMinutes": 60,
+    "priceCents": 8000
+  },
+  {
+    "slug": "goodbye-stress",
+    "name": "Goodbye stress!",
+    "category": "Massage",
+    "durationMinutes": 60,
+    "priceCents": 7000
+  },
+  {
+    "slug": "aromatherapy-massage",
+    "name": "Aromatherapy massage",
+    "category": "Massage",
+    "durationMinutes": 40,
+    "priceCents": 5500
+  },
+  {
+    "slug": "lymphatic-face-massage",
+    "name": "Lymphatic Face massage",
+    "category": "Massage",
+    "durationMinutes": 30,
+    "priceCents": 4500
+  },
+  {
+    "slug": "back-massage",
+    "name": "Back massage",
+    "category": "Massage",
+    "durationMinutes": 30,
+    "priceCents": 4500
+  },
+  {
+    "slug": "juliet-rose-signature-facial",
+    "name": "Juliet Rose Signature Facial",
+    "category": "Facials & skin",
+    "durationMinutes": 60,
+    "priceCents": 9500
+  },
+  {
+    "slug": "anti-aging-facial",
+    "name": "Anti aging facial",
+    "category": "Facials & skin",
+    "durationMinutes": 60,
+    "priceCents": 8000
+  },
+  {
+    "slug": "rejuvenation-facial",
+    "name": "Rejuvenation facial",
+    "category": "Facials & skin",
+    "durationMinutes": 60,
+    "priceCents": 8000
+  },
+  {
+    "slug": "anti-blemish-facial",
+    "name": "Anti blemish facial",
+    "category": "Facials & skin",
+    "durationMinutes": 60,
+    "priceCents": 8000
+  },
+  {
+    "slug": "teenage-facial",
+    "name": "Teenage facial",
+    "category": "Facials & skin",
+    "durationMinutes": 60,
+    "priceCents": 5000
+  },
+  {
+    "slug": "microneedling",
+    "name": "Microneedling",
+    "category": "Facials & skin",
+    "durationMinutes": 60,
+    "priceCents": 13000
+  },
+  {
+    "slug": "deep-hydration-6-step-facial",
+    "name": "Deep hydration 6 step facial",
+    "category": "Facials & skin",
+    "durationMinutes": 60,
+    "priceCents": 11000
+  },
+  {
+    "slug": "mini-facial",
+    "name": "Mini facial",
+    "category": "Facials & skin",
+    "durationMinutes": 30,
+    "priceCents": 4500
+  },
+  {
+    "slug": "back-facial",
+    "name": "Back facial",
+    "category": "Facials & skin",
+    "durationMinutes": 60,
+    "priceCents": 7500
+  },
+  {
+    "slug": "gel-polish-pedicure",
+    "name": "Gel polish pedicure",
+    "category": "Beauty essentials",
+    "durationMinutes": 70,
+    "priceCents": 6000
+  },
+  {
+    "slug": "file-and-paint-with-gel-polish",
+    "name": "File and paint with gel polish",
+    "category": "Beauty essentials",
+    "durationMinutes": 45,
+    "priceCents": 4000
+  },
+  {
+    "slug": "eyelash-tint",
+    "name": "Eyelash tint (add to facial only)",
+    "category": "Beauty essentials",
+    "durationMinutes": 20,
+    "priceCents": 1800
+  },
+  {
+    "slug": "eyebrow-shape-and-tint",
+    "name": "Eyebrow shape / tint (add to facial only)",
+    "category": "Beauty essentials",
+    "durationMinutes": 30,
+    "priceCents": 1800
+  },
+  {
+    "slug": "eyelash-and-eyebrow-tint",
+    "name": "Eyelash tint + eyebrow shape / tint",
+    "category": "Beauty essentials",
+    "durationMinutes": 45,
+    "priceCents": 3300
+  },
+  {
+    "slug": "purity-perfection",
+    "name": "Purity Perfection",
+    "category": "Packages",
+    "durationMinutes": 120,
+    "priceCents": 12000
+  },
+  {
+    "slug": "ethereal-elegance",
+    "name": "Ethereal Elegance",
+    "category": "Packages",
+    "durationMinutes": 100,
+    "priceCents": 11000
+  },
+  {
+    "slug": "gentle-glow",
+    "name": "Gentle Glow",
+    "category": "Packages",
+    "durationMinutes": 100,
+    "priceCents": 13500
+  },
+  {
+    "slug": "touch-of-tranquility",
+    "name": "Touch of Tranquility",
+    "category": "Packages",
+    "durationMinutes": 90,
+    "priceCents": 10000
+  }
+]
