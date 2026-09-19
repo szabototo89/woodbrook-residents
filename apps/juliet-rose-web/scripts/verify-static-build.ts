@@ -1,0 +1,188 @@
+import { readdir, readFile, stat } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const appRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+);
+const outputRoot = path.join(appRoot, 'dist', 'client');
+
+async function collectFiles(directory: string): Promise<string[]> {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = await Promise.all(
+    entries.map((entry) => {
+      const entryPath = path.join(directory, entry.name);
+      return entry.isDirectory() ? collectFiles(entryPath) : [entryPath];
+    }),
+  );
+
+  return files.flat();
+}
+
+async function fileExists(filePath: string) {
+  try {
+    return (await stat(filePath)).isFile();
+  } catch {
+    return false;
+  }
+}
+
+async function pathExists(entryPath: string) {
+  try {
+    await stat(entryPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function outputPathForUrl(pathname: string) {
+  const decodedPath = decodeURIComponent(pathname);
+
+  if (decodedPath === '/') {
+    return path.join(outputRoot, 'index.html');
+  }
+
+  if (path.extname(decodedPath)) {
+    return path.join(outputRoot, decodedPath);
+  }
+
+  return path.join(outputRoot, decodedPath, 'index.html');
+}
+
+const requiredPages = ['/'];
+
+const missingRequiredPages = [];
+for (const pathname of requiredPages) {
+  if (!(await fileExists(outputPathForUrl(pathname)))) {
+    missingRequiredPages.push(pathname);
+  }
+}
+
+if (missingRequiredPages.length > 0) {
+  throw new Error(
+    `Static build is missing required pages: ${missingRequiredPages.join(', ')}`,
+  );
+}
+
+const files = await collectFiles(outputRoot);
+const htmlFiles = files.filter((file) => file.endsWith('.html'));
+const missingLinks = new Set<string>();
+
+for (const htmlFile of htmlFiles) {
+  const html = await readFile(htmlFile, 'utf8');
+  const links = html.matchAll(/\bhref=["']([^"']+)["']/g);
+  const pagePath = path
+    .relative(outputRoot, htmlFile)
+    .split(path.sep)
+    .join('/');
+  const pageUrl = new URL(pagePath, 'https://static-build.local/');
+
+  for (const [, href] of links) {
+    if (!href) {
+      continue;
+    }
+    const url = new URL(href, pageUrl);
+
+    if (url.origin !== 'https://static-build.local') {
+      continue;
+    }
+
+    if (!(await fileExists(outputPathForUrl(url.pathname)))) {
+      missingLinks.add(url.pathname);
+    }
+  }
+}
+
+if (missingLinks.size > 0) {
+  throw new Error(
+    `Static build contains links without generated targets: ${[...missingLinks].join(', ')}`,
+  );
+}
+
+const runtimeBackendPaths = ['_worker.js', '_routes.json', '_serverFn'];
+for (const runtimePath of runtimeBackendPaths) {
+  if (await pathExists(path.join(outputRoot, runtimePath))) {
+    throw new Error(
+      `Static build unexpectedly contains runtime backend output: ${runtimePath}`,
+    );
+  }
+}
+
+const robotsPath = path.join(outputRoot, 'robots.txt');
+if (!(await fileExists(robotsPath))) {
+  throw new Error('Static build is missing robots.txt for search indexing.');
+}
+const robotsTxt = await readFile(robotsPath, 'utf8');
+if (!robotsTxt.includes('User-agent: *') || !robotsTxt.includes('Allow: /')) {
+  throw new Error('Static build robots.txt must allow crawling.');
+}
+if (!robotsTxt.includes('/sitemap.xml')) {
+  throw new Error(
+    'Static build robots.txt must point crawlers at sitemap.xml.',
+  );
+}
+
+const sitemapPath = path.join(outputRoot, 'sitemap.xml');
+if (!(await fileExists(sitemapPath))) {
+  throw new Error('Static build is missing sitemap.xml for search indexing.');
+}
+const sitemapXml = await readFile(sitemapPath, 'utf8');
+if (
+  !sitemapXml.includes('<urlset') ||
+  !sitemapXml.includes('<loc>') ||
+  !sitemapXml.includes('</urlset>')
+) {
+  throw new Error('Static build sitemap.xml is not a valid URL set.');
+}
+for (const pathname of requiredPages) {
+  const absolute = `/${pathname.replace(/^\//, '')}`;
+  const normalized = absolute === '/' ? '/' : absolute.replace(/\/$/, '');
+  const candidates = [`${normalized === '/' ? '' : normalized}`, normalized];
+  const found = candidates.some(
+    (candidate) =>
+      sitemapXml.includes(`<loc>`) &&
+      (sitemapXml.includes(`${candidate}</loc>`) ||
+        sitemapXml.includes(`${candidate}/</loc>`)),
+  );
+  if (!found && normalized !== '/') {
+    throw new Error(
+      `Static build sitemap.xml is missing required page: ${pathname}`,
+    );
+  }
+}
+
+const sitemapLocs = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)]
+  .map((match) => {
+    const loc = match[1];
+    if (!loc) {
+      return undefined;
+    }
+    try {
+      return new URL(loc).pathname;
+    } catch {
+      return undefined;
+    }
+  })
+  .filter(
+    (pathname): pathname is string =>
+      typeof pathname === 'string' && !pathname.startsWith('/documents/'),
+  );
+
+const missingSitemapTargets: string[] = [];
+for (const pathname of sitemapLocs) {
+  if (!(await fileExists(outputPathForUrl(pathname)))) {
+    missingSitemapTargets.push(pathname);
+  }
+}
+
+if (missingSitemapTargets.length > 0) {
+  throw new Error(
+    `Static build is missing prerendered pages for sitemap URLs: ${missingSitemapTargets.join(', ')}`,
+  );
+}
+
+console.log(
+  `Verified ${htmlFiles.length} HTML files and every generated internal link.`,
+);

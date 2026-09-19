@@ -3,6 +3,7 @@
 ## Architecture
 
 - `apps/web` is the TanStack Start public website.
+- `apps/juliet-rose-web` is the independent TanStack Start skeleton for the Juliet Rose Beauty Studio proposal.
 - `apps/cms` is the Strapi headless CMS.
 - Use Bun for dependency management and repository scripts.
 - Keep route files focused on routing and loading. Put product UI and domain logic under `apps/web/src/features/`.
