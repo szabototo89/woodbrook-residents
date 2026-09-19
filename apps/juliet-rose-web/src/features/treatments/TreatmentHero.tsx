@@ -1,6 +1,11 @@
 import { Flower2, Heart, Leaf } from 'lucide-react';
 
-const treatmentPromises = [
+import {
+  EditorialPageHero,
+  type EditorialPageHeroHighlight,
+} from '../../components/EditorialPageHero';
+
+const treatmentHighlights = [
   {
     title: 'Relax & unwind',
     description: 'Expert care, tailored to you',
@@ -16,41 +21,20 @@ const treatmentPromises = [
     description: 'Because you deserve it',
     Icon: Heart,
   },
-] as const;
+] as const satisfies readonly [
+  EditorialPageHeroHighlight,
+  EditorialPageHeroHighlight,
+  EditorialPageHeroHighlight,
+];
 
 export function TreatmentHero() {
   return (
-    <section className="treatment-hero">
-      <div className="treatment-hero-content page-width">
-        <header className="treatment-hero-heading">
-          <p className="eyebrow">Our services</p>
-          <h1>Treatments &amp; prices</h1>
-          <p>
-            Choose a treatment and send an appointment request at a date and
-            time that suits you.
-          </p>
-        </header>
-
-        <p className="treatment-hero-script" aria-hidden="true">
-          Relax
-          <br />
-          and
-          <br />
-          Rejuvenate
-        </p>
-
-        <ul className="treatment-promises">
-          {treatmentPromises.map(({ title, description, Icon }) => (
-            <li key={title}>
-              <Icon aria-hidden="true" strokeWidth={1.5} />
-              <span>
-                <strong>{title}</strong>
-                <small>{description}</small>
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
+    <EditorialPageHero
+      eyebrow="Our services"
+      title="Treatments & prices"
+      description="Choose a treatment and send an appointment request at a date and time that suits you."
+      scriptLines={['Relax', 'and', 'Rejuvenate']}
+      highlights={treatmentHighlights}
+    />
   );
 }
