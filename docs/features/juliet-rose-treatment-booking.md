@@ -16,6 +16,9 @@ website.
   with a softly overlaid treatment photograph, reassurance cues, category
   descriptions, Lucide icons, and a contact prompt for customers who need help
   choosing.
+- The treatment photograph fades into the page before the catalog, while
+  mobile headings stay centered and treatment prices remain aligned beside
+  their booking actions.
 - Each treatment has a booking action that carries the selected service into
   the appointment journey.
 - The booking page lets a customer choose a treatment, weekday, preferred time,

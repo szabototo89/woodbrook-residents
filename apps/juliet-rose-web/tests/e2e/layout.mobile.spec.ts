@@ -45,6 +45,36 @@ test('keeps treatment browsing and booking controls usable on a phone', async ({
   await expect(
     page.getByRole('heading', { level: 1, name: 'Treatments & prices' }),
   ).toBeVisible();
+  await page.evaluate(() => document.fonts?.ready);
+
+  const catalogLayout = await page.evaluate(() => {
+    const hero = document.querySelector<HTMLElement>('.treatment-hero')!;
+    const title = hero.querySelector<HTMLElement>('h1')!;
+    const catalog = document.querySelector<HTMLElement>('.treatment-catalog')!;
+    const firstTreatment =
+      catalog.querySelector<HTMLElement>('.catalog-treatment')!;
+    const price = firstTreatment.querySelector<HTMLElement>('strong')!;
+    const bookingLink = firstTreatment.querySelector<HTMLElement>('a')!;
+    const heroBox = hero.getBoundingClientRect();
+    const titleBox = title.getBoundingClientRect();
+    const catalogBox = catalog.getBoundingClientRect();
+    const priceBox = price.getBoundingClientRect();
+    const bookingBox = bookingLink.getBoundingClientRect();
+
+    return {
+      catalogGap: catalogBox.top - heroBox.bottom,
+      titleCenterOffset:
+        titleBox.left + titleBox.width / 2 - (heroBox.left + heroBox.width / 2),
+      actionCenterOffset:
+        priceBox.top +
+        priceBox.height / 2 -
+        (bookingBox.top + bookingBox.height / 2),
+    };
+  });
+
+  expect(Math.abs(catalogLayout.titleCenterOffset)).toBeLessThanOrEqual(2);
+  expect(catalogLayout.catalogGap).toBeGreaterThanOrEqual(20);
+  expect(Math.abs(catalogLayout.actionCenterOffset)).toBeLessThanOrEqual(2);
   await expect(page.locator('html')).toHaveJSProperty(
     'scrollWidth',
     await page.locator('html').evaluate((element) => element.clientWidth),

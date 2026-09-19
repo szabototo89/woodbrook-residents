@@ -10,6 +10,7 @@ test('uses treatment imagery behind the catalog introduction', async ({
     .evaluate((element) => getComputedStyle(element).backgroundImage);
 
   expect(heroBackground).toContain('/images/facial-hero.jpg');
+  expect(heroBackground.match(/linear-gradient/g)).toHaveLength(2);
 });
 
 test('browses sourced treatments and starts the matching booking', async ({
