@@ -1,0 +1,42 @@
+import { defineConfig, devices } from '@playwright/test';
+
+const isContinuousIntegration = Boolean(process.env.CI);
+
+export default defineConfig({
+  testDir: './tests/e2e',
+  fullyParallel: true,
+  forbidOnly: isContinuousIntegration,
+  retries: isContinuousIntegration ? 2 : 1,
+  workers: isContinuousIntegration ? 1 : undefined,
+  timeout: 45_000,
+  expect: { timeout: 10_000 },
+  reporter: isContinuousIntegration ? 'line' : 'list',
+  use: {
+    baseURL: 'http://127.0.0.1:4175',
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure',
+    video: 'off',
+    actionTimeout: 10_000,
+    navigationTimeout: 15_000,
+  },
+  projects: [
+    {
+      name: 'desktop-chromium',
+      testIgnore: '**/*.mobile.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'mobile-chromium',
+      testMatch: '**/*.mobile.spec.ts',
+      use: { ...devices['Pixel 7'] },
+    },
+  ],
+  webServer: [
+    {
+      command: 'bun run preview -- --host 127.0.0.1 --port 4175',
+      url: 'http://127.0.0.1:4175',
+      reuseExistingServer: !isContinuousIntegration,
+      timeout: 120_000,
+    },
+  ],
+});

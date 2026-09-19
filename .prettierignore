@@ -6,6 +6,8 @@ apps/cms/.strapi-updater.json
 apps/cms/types/generated/
 apps/web/lighthouse-reports/
 apps/web/src/routeTree.gen.ts
+apps/juliet-rose-web/lighthouse-reports/
+apps/juliet-rose-web/src/routeTree.gen.ts
 apps/dashboard/src/routeTree.gen.ts
 # Google Search Console verification file must stay byte-identical.
 apps/web/public/google*.html
