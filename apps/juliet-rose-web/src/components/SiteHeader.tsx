@@ -24,7 +24,7 @@ export function toActiveNavigationItem(
   return undefined;
 }
 
-export function SiteHeader({ activeNavigationItem }: SiteHeaderProps) {
+export function SiteHeader(props: SiteHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -52,10 +52,12 @@ export function SiteHeader({ activeNavigationItem }: SiteHeaderProps) {
           {navigationItems.map((item) => (
             <a
               aria-current={
-                item.href === activeNavigationItem ? 'page' : undefined
+                item.href === props.activeNavigationItem ? 'page' : undefined
               }
               className={
-                item.href === activeNavigationItem ? 'is-current' : undefined
+                item.href === props.activeNavigationItem
+                  ? 'is-current'
+                  : undefined
               }
               href={item.href}
               key={item.href}
@@ -92,10 +94,12 @@ export function SiteHeader({ activeNavigationItem }: SiteHeaderProps) {
         {navigationItems.map((item) => (
           <a
             aria-current={
-              item.href === activeNavigationItem ? 'page' : undefined
+              item.href === props.activeNavigationItem ? 'page' : undefined
             }
             className={
-              item.href === activeNavigationItem ? 'is-current' : undefined
+              item.href === props.activeNavigationItem
+                ? 'is-current'
+                : undefined
             }
             href={item.href}
             key={item.href}

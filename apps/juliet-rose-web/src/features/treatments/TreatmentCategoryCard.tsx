@@ -10,12 +10,9 @@ type TreatmentCategoryCardProps = {
   treatments: Treatment[];
 };
 
-export function TreatmentCategoryCard({
-  category,
-  treatments,
-}: TreatmentCategoryCardProps) {
-  const id = categoryId(category);
-  const { description, Icon } = treatmentCategoryPresentation[category];
+export function TreatmentCategoryCard(props: TreatmentCategoryCardProps) {
+  const id = categoryId(props.category);
+  const { description, Icon } = treatmentCategoryPresentation[props.category];
 
   return (
     <section
@@ -28,15 +25,15 @@ export function TreatmentCategoryCard({
           <Icon strokeWidth={1.5} />
         </span>
         <div>
-          <h2 id={`category-${id}`}>{category}</h2>
+          <h2 id={`category-${id}`}>{props.category}</h2>
           <p>{description}</p>
         </div>
         <span className="catalog-category-count">
-          {treatments.length} treatments
+          {props.treatments.length} treatments
         </span>
       </div>
       <ul>
-        {treatments.map((treatment) => (
+        {props.treatments.map((treatment) => (
           <TreatmentRow treatment={treatment} key={treatment.slug} />
         ))}
       </ul>
