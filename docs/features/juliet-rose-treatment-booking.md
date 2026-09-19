@@ -13,8 +13,9 @@ website.
 - The treatments page groups the current Juliet Rose services and shows each
   treatment's duration and price.
 - The treatments page presents the services in a responsive editorial layout
-  with reassurance cues, category descriptions, Lucide icons, and a contact
-  prompt for customers who need help choosing.
+  with a softly overlaid treatment photograph, reassurance cues, category
+  descriptions, Lucide icons, and a contact prompt for customers who need help
+  choosing.
 - Each treatment has a booking action that carries the selected service into
   the appointment journey.
 - The booking page lets a customer choose a treatment, weekday, preferred time,

@@ -1,5 +1,17 @@
 import { expect, test } from '@playwright/test';
 
+test('uses treatment imagery behind the catalog introduction', async ({
+  page,
+}) => {
+  await page.goto('/treatments');
+
+  const heroBackground = await page
+    .locator('.treatment-hero')
+    .evaluate((element) => getComputedStyle(element).backgroundImage);
+
+  expect(heroBackground).toContain('/images/facial-hero.jpg');
+});
+
 test('browses sourced treatments and starts the matching booking', async ({
   page,
 }) => {
