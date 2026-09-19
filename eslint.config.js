@@ -2,6 +2,7 @@ import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
 import { reactOneComponentConfig } from './eslint.react-one-component.js';
+import { reactPropsParamConfig } from './eslint.react-props-param.js';
 
 export default tseslint.config(
   {
@@ -19,6 +20,7 @@ export default tseslint.config(
     files: ['**/*.{ts,tsx}'],
     plugins: {
       ...reactOneComponentConfig.plugins,
+      ...reactPropsParamConfig.plugins,
     },
     settings: reactOneComponentConfig.settings,
     rules: {
@@ -68,6 +70,7 @@ export default tseslint.config(
         { assertionStyle: 'never' },
       ],
       ...reactOneComponentConfig.rules,
+      ...reactPropsParamConfig.rules,
     },
   },
   {
