@@ -52,9 +52,6 @@ test('browses sourced treatments and starts the matching booking', async ({
     'href',
     '/#contact',
   );
-  await expect(
-    page.getByText('Information checked 19 September 2026'),
-  ).toBeVisible();
 
   await page
     .getByRole('listitem')

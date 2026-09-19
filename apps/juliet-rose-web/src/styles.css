@@ -1637,7 +1637,6 @@ h3 {
 }
 
 .catalog-category-count,
-.catalog-source,
 .booking-hint,
 .selected-treatment,
 .booking-reference {
@@ -1765,20 +1764,6 @@ h3 {
 .treatment-guidance .primary-button svg {
   width: 17px;
   height: 17px;
-}
-
-.catalog-source {
-  margin-block: 22px 42px;
-  text-align: center;
-}
-
-.catalog-source p {
-  margin: 0;
-}
-
-.catalog-source a {
-  color: var(--rose-dark);
-  text-underline-offset: 3px;
 }
 
 .booking-flow {
