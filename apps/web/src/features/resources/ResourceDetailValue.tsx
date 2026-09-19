@@ -7,10 +7,10 @@ export function isAddressDetail(detail: ResourceDetail) {
   return detail.label.trim().toLocaleLowerCase('en-IE') === 'address';
 }
 
-export function ResourceDetailValue({ detail }: { detail: ResourceDetail }) {
-  if (isAddressDetail(detail)) {
-    return <GoogleMapsLink location={detail.value} />;
+export function ResourceDetailValue(props: { detail: ResourceDetail }) {
+  if (isAddressDetail(props.detail)) {
+    return <GoogleMapsLink location={props.detail.value} />;
   }
 
-  return detail.value;
+  return props.detail.value;
 }

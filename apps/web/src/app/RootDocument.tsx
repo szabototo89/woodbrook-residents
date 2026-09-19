@@ -8,7 +8,7 @@ import { ClarityAnalytics } from '../components/ClarityAnalytics';
 import { CookieConsentBanner } from '../components/CookieConsent';
 import { SiteStructuredData } from './SiteStructuredData';
 
-export function RootDocument({ children }: { children: ReactNode }) {
+export function RootDocument(props: { children: ReactNode }) {
   return (
     <html lang="en-IE">
       <head>
@@ -22,7 +22,7 @@ export function RootDocument({ children }: { children: ReactNode }) {
           Skip to main content
         </a>
         <AppHeader />
-        {children}
+        {props.children}
         <AppFooter />
         <CookieConsentBanner />
         <Scripts />

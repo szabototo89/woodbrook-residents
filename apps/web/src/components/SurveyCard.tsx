@@ -4,33 +4,33 @@ import { ArrowRight } from 'lucide-react';
 import { formatDate, formatLabel } from '../features/content/contentFormatting';
 import type { Survey } from '../features/content/contentTypes';
 
-export function SurveyCard({ survey }: { survey: Survey }) {
+export function SurveyCard(props: { survey: Survey }) {
   return (
     <article className="survey-card">
-      <span className={`tag status-${survey.stage}`}>
-        {formatLabel(survey.stage)}
+      <span className={`tag status-${props.survey.stage}`}>
+        {formatLabel(props.survey.stage)}
       </span>
       <h2>
         <Link
           className="card-stretched-link"
           to="/surveys/$slug"
-          params={{ slug: survey.slug }}
+          params={{ slug: props.survey.slug }}
         >
-          {survey.title}
+          {props.survey.title}
         </Link>
       </h2>
-      <p>{survey.summary}</p>
-      {survey.closesOn ? (
+      <p>{props.survey.summary}</p>
+      {props.survey.closesOn ? (
         <p className="survey-date">
-          {survey.stage === 'closed' ? 'Closed' : 'Closes'}{' '}
-          {formatDate(survey.closesOn)}
+          {props.survey.stage === 'closed' ? 'Closed' : 'Closes'}{' '}
+          {formatDate(props.survey.closesOn)}
         </p>
       ) : null}
       <Link
         className="text-link card-secondary-link"
         to="/surveys/$slug"
-        params={{ slug: survey.slug }}
-        aria-label={`View details: ${survey.title}`}
+        params={{ slug: props.survey.slug }}
+        aria-label={`View details: ${props.survey.title}`}
       >
         View details <ArrowRight size={15} aria-hidden="true" />
       </Link>

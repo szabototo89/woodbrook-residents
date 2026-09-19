@@ -1,17 +1,11 @@
 import { CalendarClock } from 'lucide-react';
 
-export function EmptyState({
-  title,
-  message,
-}: {
-  title: string;
-  message: string;
-}) {
+export function EmptyState(props: { title: string; message: string }) {
   return (
     <div className="empty-state">
       <CalendarClock size={24} aria-hidden="true" />
-      <h2>{title}</h2>
-      <p>{message}</p>
+      <h2>{props.title}</h2>
+      <p>{props.message}</p>
     </div>
   );
 }

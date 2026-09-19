@@ -4,13 +4,11 @@ import { ArrowRight, CalendarDays, MapPin } from 'lucide-react';
 import { formatDateTime } from '../features/content/contentFormatting';
 import type { CommunityEvent } from '../features/content/contentTypes';
 
-export function EventCard({
-  event,
-  headingLevel = 2,
-}: {
+export function EventCard(props: {
   event: CommunityEvent;
   headingLevel?: 2 | 3;
 }) {
+  const headingLevel = props.headingLevel ?? 2;
   const Heading = `h${headingLevel}` as const;
 
   return (
@@ -20,13 +18,13 @@ export function EventCard({
           {new Intl.DateTimeFormat('en-IE', {
             day: '2-digit',
             timeZone: 'Europe/Dublin',
-          }).format(new Date(event.startsAt))}
+          }).format(new Date(props.event.startsAt))}
         </strong>
         <span>
           {new Intl.DateTimeFormat('en-IE', {
             month: 'short',
             timeZone: 'Europe/Dublin',
-          }).format(new Date(event.startsAt))}
+          }).format(new Date(props.event.startsAt))}
         </span>
       </div>
       <div>
@@ -34,27 +32,27 @@ export function EventCard({
           <Link
             className="card-stretched-link"
             to="/events/$slug"
-            params={{ slug: event.slug }}
+            params={{ slug: props.event.slug }}
           >
-            {event.title}
+            {props.event.title}
           </Link>
         </Heading>
-        <p>{event.summary}</p>
+        <p>{props.event.summary}</p>
         <div className="event-meta">
           <span>
             <CalendarDays size={16} aria-hidden="true" />
-            {formatDateTime(event.startsAt)}
+            {formatDateTime(props.event.startsAt)}
           </span>
           <span>
             <MapPin size={16} aria-hidden="true" />
-            {event.location}
+            {props.event.location}
           </span>
         </div>
         <Link
           className="text-link card-secondary-link"
           to="/events/$slug"
-          params={{ slug: event.slug }}
-          aria-label={`View event: ${event.title}`}
+          params={{ slug: props.event.slug }}
+          aria-label={`View event: ${props.event.title}`}
         >
           View event <ArrowRight size={15} aria-hidden="true" />
         </Link>

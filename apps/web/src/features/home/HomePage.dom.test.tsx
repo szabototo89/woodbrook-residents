@@ -13,18 +13,12 @@ type FakeLinkProps = {
   'aria-label'?: string;
 };
 
-function FakeLink({
-  to,
-  params,
-  children,
-  className,
-  'aria-label': ariaLabel,
-}: FakeLinkProps) {
-  const slug = params?.slug;
-  const href = slug ? to.replace('$slug', slug) : to;
+function FakeLink(props: FakeLinkProps) {
+  const slug = props.params?.slug;
+  const href = slug ? props.to.replace('$slug', slug) : props.to;
   return (
-    <a href={href} className={className} aria-label={ariaLabel}>
-      {children}
+    <a href={href} className={props.className} aria-label={props['aria-label']}>
+      {props.children}
     </a>
   );
 }

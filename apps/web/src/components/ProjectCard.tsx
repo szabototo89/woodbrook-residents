@@ -4,47 +4,47 @@ import { ArrowRight } from 'lucide-react';
 import { formatDate, formatLabel } from '../features/content/contentFormatting';
 import type { Project } from '../features/content/contentTypes';
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard(props: { project: Project }) {
   return (
     <article className="content-card project-card">
-      {project.imagePath ? (
+      {props.project.imagePath ? (
         <img
-          src={project.imagePath}
-          alt={project.imageAlt ?? ''}
+          src={props.project.imagePath}
+          alt={props.project.imageAlt ?? ''}
           loading="lazy"
         />
       ) : null}
       <div className="card-body">
         <div className="card-meta">
-          <span className={`tag status-${project.stage}`}>
-            {formatLabel(project.stage)}
+          <span className={`tag status-${props.project.stage}`}>
+            {formatLabel(props.project.stage)}
           </span>
-          <span>{formatLabel(project.category)}</span>
+          <span>{formatLabel(props.project.category)}</span>
         </div>
         <h3>
           <Link
             className="card-stretched-link"
             to="/projects/$slug"
-            params={{ slug: project.slug }}
+            params={{ slug: props.project.slug }}
           >
-            {project.title}
+            {props.project.title}
           </Link>
         </h3>
-        <p>{project.summary}</p>
-        {project.nextStep ? (
+        <p>{props.project.summary}</p>
+        {props.project.nextStep ? (
           <p className="next-step">
-            <strong>Next:</strong> {project.nextStep}
+            <strong>Next:</strong> {props.project.nextStep}
           </p>
         ) : null}
         <Link
           className="text-link card-secondary-link"
           to="/projects/$slug"
-          params={{ slug: project.slug }}
-          aria-label={`View project: ${project.title}`}
+          params={{ slug: props.project.slug }}
+          aria-label={`View project: ${props.project.title}`}
         >
           View project <ArrowRight size={15} aria-hidden="true" />
         </Link>
-        <small>Reviewed {formatDate(project.sourceReviewedOn)}</small>
+        <small>Reviewed {formatDate(props.project.sourceReviewedOn)}</small>
       </div>
     </article>
   );

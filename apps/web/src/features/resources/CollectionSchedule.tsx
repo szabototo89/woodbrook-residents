@@ -16,27 +16,22 @@ type CollectionScheduleProps = Pick<
   today?: string;
 };
 
-export function CollectionSchedule({
-  collectionDates,
-  documentLabel,
-  documentUrl,
-  today: suppliedToday,
-}: CollectionScheduleProps) {
-  const [today, setToday] = useState(suppliedToday);
+export function CollectionSchedule(props: CollectionScheduleProps) {
+  const [today, setToday] = useState(props.today);
 
   useEffect(() => {
-    if (!suppliedToday) {
+    if (!props.today) {
       setToday(getDublinCalendarDate());
     }
-  }, [suppliedToday]);
+  }, [props.today]);
 
   const upcomingCollections = today
-    ? getNextCollectionDates(collectionDates, today)
+    ? getNextCollectionDates(props.collectionDates, today)
     : [];
   const hasUpcomingCollection = upcomingCollections.some(
     (collection) => collection.date,
   );
-  const downloadName = documentUrl?.split('/').at(-1);
+  const downloadName = props.documentUrl?.split('/').at(-1);
 
   return (
     <section
@@ -72,20 +67,20 @@ export function CollectionSchedule({
         </p>
       )}
 
-      {documentUrl ? (
+      {props.documentUrl ? (
         <div className="button-row collection-schedule-actions">
           <a
             className="button"
-            href={documentUrl}
+            href={props.documentUrl}
             target="_blank"
             rel="noreferrer"
           >
-            View {documentLabel ?? 'collection schedule'}{' '}
+            View {props.documentLabel ?? 'collection schedule'}{' '}
             <ExternalLink size={16} aria-hidden="true" />
           </a>
           <a
             className="button button-secondary"
-            href={documentUrl}
+            href={props.documentUrl}
             download={downloadName}
           >
             Download PDF <Download size={16} aria-hidden="true" />
