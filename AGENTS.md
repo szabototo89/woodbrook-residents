@@ -21,6 +21,13 @@
 - Never use `--no-verify` (or any hook-bypass flag) when committing. If hooks fail, fix the cause instead of bypassing them.
 - After a successful merge, remove the session worktree with `scripts/worktree-remove.sh <path>` (it closes the linked Herdr workspace; raw `git worktree remove` fires no hook) and delete the merged session branch.
 
+## Herdr tab title
+
+- Load skill `herdr-tab-title` at session start.
+- Always keep the Herdr tab title in sync with the current task.
+- Update the title when the topic changes.
+- If not running inside Herdr, skip silently.
+
 ## Product behavior
 
 - The site is a public information and action hub for Woodbrook residents in Shankill, Ireland.
