@@ -23,7 +23,6 @@ export function AppointmentDatePicker(props: AppointmentDatePickerProps) {
       endMonth={addMonths(today, 6)}
       disabled={(date) => !isBookableDate(date, today)}
       locale={enIE}
-      showOutsideDays
       today={today}
     />
   );

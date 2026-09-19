@@ -47,6 +47,7 @@ export function CustomerDetailsForm(props: CustomerDetailsFormProps) {
               <input
                 name={field.name}
                 autoComplete="name"
+                placeholder="Your full name"
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(event) => field.handleChange(event.target.value)}
@@ -77,6 +78,7 @@ export function CustomerDetailsForm(props: CustomerDetailsFormProps) {
                 name={field.name}
                 type="email"
                 autoComplete="email"
+                placeholder="you@example.com"
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(event) => field.handleChange(event.target.value)}
@@ -105,6 +107,7 @@ export function CustomerDetailsForm(props: CustomerDetailsFormProps) {
                 name={field.name}
                 type="tel"
                 autoComplete="tel"
+                placeholder="085 123 4567"
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(event) => field.handleChange(event.target.value)}
@@ -123,9 +126,12 @@ export function CustomerDetailsForm(props: CustomerDetailsFormProps) {
       <form.Field name="notes">
         {(field) => (
           <label>
-            Notes <span>(optional)</span>
+            <span className="field-label">
+              Notes <span>(optional)</span>
+            </span>
             <textarea
               name={field.name}
+              placeholder="Is there anything we should know?"
               value={field.state.value}
               onBlur={field.handleBlur}
               onChange={(event) => field.handleChange(event.target.value)}

@@ -68,3 +68,75 @@ test('submits an appointment request through the reusable booking journey', asyn
     'Request reference: JR-',
   );
 });
+
+test('matches the booking concept at a mobile viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/book?service=luxurious-espa-massage');
+
+  const intro = page.locator('.booking-intro');
+  await expect(intro).toHaveCSS('background-image', /studio-interior\.jpg/);
+
+  const firstStepLayout = await page
+    .locator('.booking-step')
+    .first()
+    .evaluate((step) => {
+      const number = step
+        .querySelector('.step-number')!
+        .getBoundingClientRect();
+      const heading = step.querySelector('h2')!.getBoundingClientRect();
+      return {
+        numberRight: number.right,
+        numberTop: number.top,
+        headingLeft: heading.left,
+        headingTop: heading.top,
+      };
+    });
+  expect(firstStepLayout.numberRight).toBeLessThan(firstStepLayout.headingLeft);
+  expect(
+    Math.abs(firstStepLayout.numberTop - firstStepLayout.headingTop),
+  ).toBeLessThan(8);
+
+  const customerColumns = await page
+    .locator('.customer-fields')
+    .evaluate((fields) => {
+      const labels = fields.querySelectorAll('label');
+      const email = labels[1]!.getBoundingClientRect();
+      const phone = labels[2]!.getBoundingClientRect();
+      return {
+        emailTop: email.top,
+        phoneTop: phone.top,
+        columns: getComputedStyle(fields).gridTemplateColumns,
+      };
+    });
+  expect(customerColumns.emailTop).toBe(customerColumns.phoneTop);
+  expect(customerColumns.columns.split(' ')).toHaveLength(2);
+
+  const hasHorizontalOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > window.innerWidth,
+  );
+  expect(hasHorizontalOverflow).toBe(false);
+});
+
+test('uses the concept layout without over-stretching on desktop', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/book?service=luxurious-espa-massage');
+
+  const layout = await page.evaluate(() => {
+    const intro = document
+      .querySelector('.booking-intro')!
+      .getBoundingClientRect();
+    const steps = document
+      .querySelector('.booking-steps')!
+      .getBoundingClientRect();
+    const promises = getComputedStyle(
+      document.querySelector('.booking-reassurance ul')!,
+    ).gridTemplateColumns;
+    return { introWidth: intro.width, stepsWidth: steps.width, promises };
+  });
+
+  expect(layout.introWidth).toBeGreaterThan(1100);
+  expect(layout.stepsWidth).toBeLessThanOrEqual(900);
+  expect(layout.promises.split(' ')).toHaveLength(3);
+});

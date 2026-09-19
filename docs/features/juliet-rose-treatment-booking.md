@@ -23,6 +23,13 @@ website.
   the appointment journey.
 - The booking page lets a customer choose a treatment, weekday, preferred time,
   and provide their name, email, phone number, and optional notes.
+- The booking journey follows the supplied Juliet Rose visual concept with a
+  softly overlaid studio photograph, numbered steps, a spacious calendar,
+  three-column time choices, clear field prompts, and a three-part reassurance
+  strip.
+- The booking composition adapts from a compact phone layout to a constrained
+  desktop reading column without horizontal overflow or over-stretched form
+  controls.
 - The final step clearly describes the booking as a request until Juliet Rose
   confirms it.
 - Treatment content is stored in a local JSON catalog with its source URL and
@@ -41,6 +48,9 @@ website.
 - The treatment and booking pages work at mobile and desktop widths and expose
   labels, roles, visible copy, URLs, and submitted outcomes to assistive
   technology and automated tests.
+- At compact widths, step numbers remain beside their headings, email and phone
+  share a practical row where space allows, and the time options retain three
+  equal columns.
 - The Treatments navigation item exposes its current-page state on the
   treatment catalog route.
 

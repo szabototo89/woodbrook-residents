@@ -9,7 +9,7 @@ type TreatmentPickerProps = {
 export function TreatmentPicker(props: TreatmentPickerProps) {
   return (
     <label className="booking-select">
-      Treatment
+      <span className="visually-hidden">Treatment</span>
       <select
         value={props.value}
         onChange={(event) => props.onChange(event.target.value)}

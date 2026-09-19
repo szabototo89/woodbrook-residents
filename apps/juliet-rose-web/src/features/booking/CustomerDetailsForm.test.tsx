@@ -77,3 +77,25 @@ test('disables all customer fields until an appointment is selected', () => {
   ).toBe(true);
   view.unmount();
 });
+
+test('gives each customer field concept-aligned guidance', () => {
+  const view = renderUi(<CustomerDetailsForm onSubmit={vi.fn()} />);
+
+  expect(
+    view.container.querySelector<HTMLInputElement>('[name="name"]')
+      ?.placeholder,
+  ).toBe('Your full name');
+  expect(
+    view.container.querySelector<HTMLInputElement>('[name="email"]')
+      ?.placeholder,
+  ).toBe('you@example.com');
+  expect(
+    view.container.querySelector<HTMLInputElement>('[name="phone"]')
+      ?.placeholder,
+  ).toBe('085 123 4567');
+  expect(
+    view.container.querySelector<HTMLTextAreaElement>('[name="notes"]')
+      ?.placeholder,
+  ).toBe('Is there anything we should know?');
+  view.unmount();
+});

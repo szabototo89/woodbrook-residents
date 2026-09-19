@@ -8,6 +8,7 @@ import {
 import { AppointmentDatePicker } from './AppointmentDatePicker';
 import { formatBookingDate } from './availability';
 import type { BookingConfirmation, BookingProvider } from './bookingProvider';
+import { BookingReassurance } from './BookingReassurance';
 import {
   CustomerDetailsForm,
   type CustomerDetails,
@@ -90,63 +91,85 @@ export function BookingJourney(props: BookingJourneyProps) {
   return (
     <div className="booking-journey">
       <header className="booking-intro">
-        <p className="eyebrow">Book your visit</p>
-        <h1>Request an appointment</h1>
-        <p>
-          Choose your treatment, preferred weekday and time. Your appointment is
-          confirmed when Juliet Rose gets back to you.
+        <div className="booking-intro-copy">
+          <p className="eyebrow">Book your visit</p>
+          <h1>Request an appointment</h1>
+          <p>
+            Choose your treatment, preferred weekday and time. Your appointment
+            is confirmed when Juliet Rose gets back to you.
+          </p>
+        </div>
+        <p className="booking-intro-script" aria-hidden="true">
+          Relax
+          <br />
+          and
+          <br />
+          Rejuvenate
         </p>
       </header>
 
-      <section className="booking-step" aria-labelledby="treatment-step">
-        <span className="step-number">1</span>
-        <div>
-          <h2 id="treatment-step">Choose a treatment</h2>
-          <TreatmentPicker
-            treatments={listTreatments()}
-            value={treatmentSlug}
-            onChange={selectTreatment}
-          />
-          {treatment ? (
-            <p className="selected-treatment">
-              {treatment.durationMinutes} minutes · €
-              {treatment.priceCents / 100}
+      <div className="booking-steps">
+        <section className="booking-step" aria-labelledby="treatment-step">
+          <span className="step-number">1</span>
+          <div>
+            <h2 id="treatment-step">Choose a treatment</h2>
+            <TreatmentPicker
+              treatments={listTreatments()}
+              value={treatmentSlug}
+              onChange={selectTreatment}
+            />
+            {treatment ? (
+              <p className="selected-treatment">
+                {treatment.durationMinutes} minutes · €
+                {treatment.priceCents / 100}
+              </p>
+            ) : null}
+          </div>
+        </section>
+
+        <section className="booking-step" aria-labelledby="date-step">
+          <span className="step-number">2</span>
+          <div>
+            <h2 id="date-step">Choose a date</h2>
+            <p className="booking-hint">Appointments are Monday to Friday.</p>
+            <AppointmentDatePicker
+              selected={date}
+              onSelect={selectDate}
+              today={props.today}
+            />
+          </div>
+        </section>
+
+        <section className="booking-step" aria-labelledby="time-step">
+          <span className="step-number">3</span>
+          <div>
+            <h2 id="time-step">Choose a preferred time</h2>
+            {date ? (
+              <p className="booking-hint">
+                Available times for {formatBookingDate(date)}.
+              </p>
+            ) : null}
+            <TimeSlotPicker times={times} value={time} onChange={setTime} />
+          </div>
+        </section>
+
+        <section className="booking-step" aria-labelledby="details-step">
+          <span className="step-number">4</span>
+          <div>
+            <h2 id="details-step">Your details</h2>
+            <p className="booking-hint">
+              Please provide your contact information so we can confirm your
+              appointment.
             </p>
-          ) : null}
-        </div>
-      </section>
+            <CustomerDetailsForm
+              disabled={!treatmentSlug || !date || !time}
+              onSubmit={submit}
+            />
+          </div>
+        </section>
+      </div>
 
-      <section className="booking-step" aria-labelledby="date-step">
-        <span className="step-number">2</span>
-        <div>
-          <h2 id="date-step">Choose a date</h2>
-          <p className="booking-hint">Appointments are Monday to Friday.</p>
-          <AppointmentDatePicker
-            selected={date}
-            onSelect={selectDate}
-            today={props.today}
-          />
-        </div>
-      </section>
-
-      <section className="booking-step" aria-labelledby="time-step">
-        <span className="step-number">3</span>
-        <div>
-          <h2 id="time-step">Choose a preferred time</h2>
-          <TimeSlotPicker times={times} value={time} onChange={setTime} />
-        </div>
-      </section>
-
-      <section className="booking-step" aria-labelledby="details-step">
-        <span className="step-number">4</span>
-        <div>
-          <h2 id="details-step">Your details</h2>
-          <CustomerDetailsForm
-            disabled={!treatmentSlug || !date || !time}
-            onSubmit={submit}
-          />
-        </div>
-      </section>
+      <BookingReassurance />
     </div>
   );
 }
