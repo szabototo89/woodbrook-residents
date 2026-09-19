@@ -3,7 +3,7 @@ import { butterTheme } from '@astryxdesign/theme-butter/built';
 import { HeadContent, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 
-export function RootDocument({ children }: { children: ReactNode }) {
+export function RootDocument(props: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -11,7 +11,7 @@ export function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body>
         <Theme theme={butterTheme}>
-          <>{children}</>
+          <>{props.children}</>
         </Theme>
         <Scripts />
       </body>

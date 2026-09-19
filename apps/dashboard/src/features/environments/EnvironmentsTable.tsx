@@ -10,16 +10,13 @@ import { StatusBadge } from './StatusBadge';
 import { TTLIndicator } from './TTLIndicator';
 import type { WorkspaceEnvironment } from './environments';
 
-export function EnvironmentsTable({
-  environments,
-  onClearFilters,
-}: {
+export function EnvironmentsTable(props: {
   environments: WorkspaceEnvironment[];
   onClearFilters?: () => void;
 }) {
   return (
     <Table
-      data={environments}
+      data={props.environments}
       idKey="id"
       density="compact"
       dividers="rows"
@@ -29,8 +26,8 @@ export function EnvironmentsTable({
           title="No environments match these filters"
           description="Try adjusting the search or clearing the filters."
           actions={
-            onClearFilters ? (
-              <Button label="Clear filters" onClick={onClearFilters} />
+            props.onClearFilters ? (
+              <Button label="Clear filters" onClick={props.onClearFilters} />
             ) : undefined
           }
         />

@@ -5,7 +5,7 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { DashboardAction } from '../dashboard/registry';
 
-export function ActionsPage({ actions }: { actions: DashboardAction[] }) {
+export function ActionsPage(props: { actions: DashboardAction[] }) {
   return (
     <Stack gap={3}>
       <Heading level={1}>Actions</Heading>
@@ -14,7 +14,7 @@ export function ActionsPage({ actions }: { actions: DashboardAction[] }) {
         executes remotely.
       </Text>
       <List hasDividers>
-        {actions.map((action) => (
+        {props.actions.map((action) => (
           <ListItem
             key={action.label}
             label={action.label}

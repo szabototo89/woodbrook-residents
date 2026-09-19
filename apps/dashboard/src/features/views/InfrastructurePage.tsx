@@ -5,7 +5,7 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { InfraLink } from '../dashboard/registry';
 
-export function InfrastructurePage({ links }: { links: InfraLink[] }) {
+export function InfrastructurePage(props: { links: InfraLink[] }) {
   return (
     <Stack gap={3}>
       <Heading level={1}>Infrastructure</Heading>
@@ -13,7 +13,7 @@ export function InfrastructurePage({ links }: { links: InfraLink[] }) {
         Consoles and docs discovered from repository config and docs.
       </Text>
       <List hasDividers>
-        {links.map((link) => (
+        {props.links.map((link) => (
           <ListItem
             key={link.label}
             label={link.label}

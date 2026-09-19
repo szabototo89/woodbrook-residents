@@ -20,12 +20,7 @@ const PAGES: Array<{ page: string; label: string }> = [
   { page: 'actions', label: 'Go to actions' },
 ];
 
-export function CommandMenu({
-  isOpen,
-  onOpenChange,
-  environments,
-  onNavigate,
-}: {
+export function CommandMenu(props: {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   environments: WorkspaceEnvironment[];
@@ -33,7 +28,7 @@ export function CommandMenu({
 }) {
   const { searchSource, hrefById } = useMemo(() => {
     const items: CommandItem[] = [
-      ...environments.map((env) => ({
+      ...props.environments.map((env) => ({
         id: `env-${env.id}`,
         label: `Open ${env.name}`,
         auxiliaryData: {
@@ -55,19 +50,19 @@ export function CommandMenu({
         items.map((item) => [item.id, item.auxiliaryData.href]),
       ),
     };
-  }, [environments]);
+  }, [props.environments]);
 
   return (
     <CommandPalette
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
+      isOpen={props.isOpen}
+      onOpenChange={props.onOpenChange}
       searchSource={searchSource}
       label="Command palette"
       onValueChange={(value) => {
         const href = hrefById.get(value);
         if (!href) return;
-        onOpenChange(false);
-        onNavigate(href);
+        props.onOpenChange(false);
+        props.onNavigate(href);
       }}
     />
   );

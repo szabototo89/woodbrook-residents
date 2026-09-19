@@ -4,10 +4,7 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { EnvironmentSummary } from './environments';
 
-export function EnvironmentSummaryBar({
-  summary,
-  onSelectStatus,
-}: {
+export function EnvironmentSummaryBar(props: {
   summary: EnvironmentSummary;
   onSelectStatus: (
     status: 'running' | 'stopped' | 'failed' | 'expiring',
@@ -16,28 +13,28 @@ export function EnvironmentSummaryBar({
   return (
     <HStack gap={2} align="center">
       <Button
-        label={`${summary.running} running`}
+        label={`${props.summary.running} running`}
         variant="secondary"
         size="sm"
-        onClick={() => onSelectStatus('running')}
+        onClick={() => props.onSelectStatus('running')}
       />
       <Button
-        label={`${summary.stopped} stopped`}
+        label={`${props.summary.stopped} stopped`}
         variant="secondary"
         size="sm"
-        onClick={() => onSelectStatus('stopped')}
+        onClick={() => props.onSelectStatus('stopped')}
       />
       <Button
-        label={`${summary.failed} failed`}
+        label={`${props.summary.failed} failed`}
         variant="secondary"
         size="sm"
-        onClick={() => onSelectStatus('failed')}
+        onClick={() => props.onSelectStatus('failed')}
       />
       <Button
-        label={`${summary.expiring} expiring soon`}
+        label={`${props.summary.expiring} expiring soon`}
         variant="secondary"
         size="sm"
-        onClick={() => onSelectStatus('expiring')}
+        onClick={() => props.onSelectStatus('expiring')}
       />
       <Text type="supporting">Cost tracking is not configured.</Text>
     </HStack>

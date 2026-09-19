@@ -6,7 +6,7 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { DashboardApp } from '../dashboard/registry';
 
-export function TemplatesPage({ apps }: { apps: DashboardApp[] }) {
+export function TemplatesPage(props: { apps: DashboardApp[] }) {
   return (
     <Stack gap={3}>
       <Heading level={1}>Templates</Heading>
@@ -15,7 +15,7 @@ export function TemplatesPage({ apps }: { apps: DashboardApp[] }) {
         the registry.
       </Text>
       <List hasDividers>
-        {apps.map((app) => (
+        {props.apps.map((app) => (
           <ListItem
             key={app.name}
             label={app.stack}
