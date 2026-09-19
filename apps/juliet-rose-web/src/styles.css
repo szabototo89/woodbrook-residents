@@ -1,5 +1,6 @@
 @import '@fontsource/instrument-serif';
-@import '@fontsource-variable/manrope';
+@import '@fontsource-variable/newsreader';
+@import '@fontsource-variable/dm-sans';
 
 :root {
   color-scheme: light;
@@ -10,15 +11,19 @@
   --ivory: #fbf8f4;
   --blush: #f1e2de;
   --line: #e7ddd6;
-  --serif: 'Instrument Serif', 'Iowan Old Style', Baskerville, Georgia, serif;
-  --sans: 'Manrope Variable', Manrope, 'Helvetica Neue', Arial, sans-serif;
+  --brand-serif:
+    'Instrument Serif', 'Iowan Old Style', Baskerville, Georgia, serif;
+  --serif:
+    'Newsreader Variable', Newsreader, 'Iowan Old Style', Baskerville, Georgia,
+    serif;
+  --sans: 'DM Sans Variable', 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
   --text-secondary: 0.75rem;
   --text-interface: 0.875rem;
-  --text-body: 1rem;
+  --text-body: 1.0625rem;
   --text-lead: 1.125rem;
-  --text-card-title: 1.125rem;
-  --text-category-title: 1.25rem;
-  --text-section-title: 2rem;
+  --text-card-title: 1.55rem;
+  --text-category-title: 1.55rem;
+  --text-section-title: clamp(2.4rem, 3vw, 3.3rem);
 }
 
 * {
@@ -37,7 +42,7 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   font-size: var(--text-body);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 body.menu-open {
@@ -112,7 +117,7 @@ a {
 }
 
 .brand span {
-  font-family: var(--serif);
+  font-family: var(--brand-serif);
   font-size: 36px;
   font-weight: 400;
   letter-spacing: -1.7px;
@@ -252,8 +257,8 @@ a {
   margin: 0;
   color: var(--rose-dark);
   font-size: var(--text-secondary);
-  font-weight: 500;
-  letter-spacing: 2.8px;
+  font-weight: 600;
+  letter-spacing: 0.17em;
   text-transform: uppercase;
 }
 
@@ -273,20 +278,20 @@ h3 {
 
 h1 {
   margin: 13px 0 3px;
-  font-size: 55px;
-  letter-spacing: -2.2px;
+  font-size: clamp(3rem, 4.2vw, 4.25rem);
+  letter-spacing: -0.025em;
   line-height: 0.98;
 }
 
 h2 {
   margin: 2px 0 0;
   font-size: var(--text-section-title);
-  letter-spacing: -1px;
-  line-height: 1;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
 }
 
 h3 {
-  letter-spacing: -0.35px;
+  letter-spacing: -0.015em;
 }
 
 .hero-location {
@@ -494,7 +499,8 @@ h3 {
 .category-copy h3 {
   margin: 0 0 3px;
   font-size: var(--text-category-title);
-  line-height: 1;
+  font-weight: 500;
+  line-height: 1.1;
 }
 
 .category-copy p {
@@ -545,18 +551,19 @@ h3 {
 }
 
 .treatment-copy {
-  height: 142px;
+  height: 162px;
   padding: 10px 15px 12px;
   display: flex;
   flex-direction: column;
 }
 
 .treatment-copy h3 {
-  min-height: 38px;
+  min-height: 55px;
   margin: 0;
   overflow: hidden;
   font-size: var(--text-card-title);
-  line-height: 1.05;
+  font-weight: 500;
+  line-height: 1.1;
   white-space: normal;
 }
 
@@ -899,7 +906,7 @@ h3 {
   }
 
   .treatment-copy {
-    height: 142px;
+    height: 162px;
   }
 
   .treatment-copy h3 {
@@ -929,10 +936,6 @@ h3 {
 }
 
 @media (max-width: 900px) {
-  :root {
-    --text-section-title: 2.25rem;
-  }
-
   .page-width,
   .header-inner,
   .visit-section,
@@ -1093,8 +1096,6 @@ h3 {
   h1 {
     max-width: 330px;
     margin-top: 16px;
-    font-size: 50px;
-    line-height: 0.93;
   }
 
   .hero-location {
@@ -1139,7 +1140,7 @@ h3 {
   .section-heading h2 {
     max-width: 300px;
     font-size: var(--text-section-title);
-    line-height: 0.96;
+    line-height: 1.02;
   }
 
   .section-link {
@@ -1177,12 +1178,12 @@ h3 {
   }
 
   .treatment-copy {
-    height: 134px;
+    height: 158px;
     padding: 12px;
   }
 
   .treatment-copy h3 {
-    min-height: 38px;
+    min-height: 55px;
     font-size: var(--text-card-title);
     white-space: normal;
   }
@@ -1383,7 +1384,6 @@ h3 {
   h1 {
     max-width: 520px;
     margin-top: 14px;
-    font-size: 50px;
     line-height: 0.98;
     white-space: nowrap;
   }

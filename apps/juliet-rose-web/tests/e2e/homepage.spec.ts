@@ -45,15 +45,41 @@ test('makes every treatment category one accessible link', async ({ page }) => {
   }
 });
 
-test('uses the selected typography consistently', async ({ page }) => {
+test('uses the selected brand, display, and interface typography consistently', async ({
+  page,
+}) => {
   await page.goto('/');
   await page.evaluate(() => document.fonts?.ready);
 
-  const fonts = await page.evaluate(() => ({
-    body: getComputedStyle(document.body).fontFamily,
-    heading: getComputedStyle(document.querySelector('h1')!).fontFamily,
-  }));
+  const typography = await page.evaluate(() => {
+    const stylesFor = (selector: string) =>
+      getComputedStyle(document.querySelector(selector)!);
+    const body = stylesFor('body');
+    const hero = stylesFor('h1');
+    const section = stylesFor('.section-heading h2');
+    const card = stylesFor('.category-card h3');
+    const eyebrow = stylesFor('.eyebrow');
 
-  expect(fonts.body).toContain('Manrope');
-  expect(fonts.heading).toContain('Instrument Serif');
+    return {
+      bodyFamily: body.fontFamily,
+      bodySize: body.fontSize,
+      brandFamily: stylesFor('.brand span').fontFamily,
+      heroFamily: hero.fontFamily,
+      heroWeight: hero.fontWeight,
+      sectionSize: Number.parseFloat(section.fontSize),
+      cardSize: card.fontSize,
+      cardWeight: card.fontWeight,
+      eyebrowWeight: eyebrow.fontWeight,
+    };
+  });
+
+  expect(typography.bodyFamily).toContain('DM Sans');
+  expect(typography.bodySize).toBe('17px');
+  expect(typography.brandFamily).toContain('Instrument Serif');
+  expect(typography.heroFamily).toContain('Newsreader');
+  expect(typography.heroWeight).toBe('400');
+  expect(typography.sectionSize).toBeGreaterThanOrEqual(38.4);
+  expect(typography.cardSize).toBe('24.8px');
+  expect(typography.cardWeight).toBe('500');
+  expect(typography.eyebrowWeight).toBe('600');
 });
