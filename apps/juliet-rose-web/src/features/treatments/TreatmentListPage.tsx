@@ -4,6 +4,8 @@ import { TreatmentCategoryCard } from './TreatmentCategoryCard';
 import { TreatmentGuidance } from './TreatmentGuidance';
 import { TreatmentHero } from './TreatmentHero';
 
+import './treatments.css';
+
 const categories: TreatmentCategory[] = [
   'Massage',
   'Facials & skin',
