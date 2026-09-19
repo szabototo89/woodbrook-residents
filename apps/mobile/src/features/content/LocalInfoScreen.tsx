@@ -23,16 +23,11 @@ type Props = {
 const quickCategories = ['Health', 'Council', 'Transport'] as const;
 const extraCategories = ['Parks', 'Safety', 'Community'] as const;
 
-export function LocalInfoScreen({
-  content,
-  navigate,
-  filters,
-  onFiltersChange,
-}: Props) {
-  const { query, category, outOfHoursOnly } = filters;
-  const copy = getCollectionModel(content, 'resources');
+export function LocalInfoScreen(props: Props) {
+  const { query, category, outOfHoursOnly } = props.filters;
+  const copy = getCollectionModel(props.content, 'resources');
   const resources = filterResources(
-    content.resources,
+    props.content.resources,
     query,
     category,
     outOfHoursOnly,
@@ -43,9 +38,9 @@ export function LocalInfoScreen({
     ...extraCategories,
     'all',
   ];
-  const dynamicCategories = getResourceCategories(content.resources).filter(
-    (value) => !knownCategories.includes(value),
-  );
+  const dynamicCategories = getResourceCategories(
+    props.content.resources,
+  ).filter((value) => !knownCategories.includes(value));
   const visibleCategories = [
     ...quickCategories,
     ...extraCategories,
@@ -58,7 +53,7 @@ export function LocalInfoScreen({
         <text className="page-title">{copy.title}</text>
         <text className="page-copy">{copy.intro}</text>
       </view>
-      {content.resources.length === 0 ? (
+      {props.content.resources.length === 0 ? (
         <text className="empty-copy directory-padding">{copy.empty}</text>
       ) : (
         <view className="directory-tools-mobile">
@@ -70,7 +65,10 @@ export function LocalInfoScreen({
               default-value={query}
               accessibility-label="Search local services and contacts"
               bindinput={(event) =>
-                onFiltersChange({ ...filters, query: event.detail.value })
+                props.onFiltersChange({
+                  ...props.filters,
+                  query: event.detail.value,
+                })
               }
             />
           </view>
@@ -80,7 +78,9 @@ export function LocalInfoScreen({
               accessibility-element={true}
               accessibility-trait="button"
               accessibility-label={category === 'all' ? 'All, selected' : 'All'}
-              bindtap={() => onFiltersChange({ ...filters, category: 'all' })}
+              bindtap={() =>
+                props.onFiltersChange({ ...props.filters, category: 'all' })
+              }
             >
               All
             </text>
@@ -93,7 +93,9 @@ export function LocalInfoScreen({
                 accessibility-label={
                   category === value ? `${value}, selected` : value
                 }
-                bindtap={() => onFiltersChange({ ...filters, category: value })}
+                bindtap={() =>
+                  props.onFiltersChange({ ...props.filters, category: value })
+                }
               >
                 {value}
               </text>
@@ -108,7 +110,10 @@ export function LocalInfoScreen({
                   : 'Out-of-hours only'
               }
               bindtap={() =>
-                onFiltersChange({ ...filters, outOfHoursOnly: !outOfHoursOnly })
+                props.onFiltersChange({
+                  ...props.filters,
+                  outOfHoursOnly: !outOfHoursOnly,
+                })
               }
             >
               Out-of-hours only
@@ -134,10 +139,10 @@ export function LocalInfoScreen({
         emptyLabel=""
         variant="services"
         onSelect={(slug) =>
-          navigate({ name: 'detail', collection: 'resources', slug })
+          props.navigate({ name: 'detail', collection: 'resources', slug })
         }
       />
-      {content.resources.length > 0 && resources.length === 0 ? (
+      {props.content.resources.length > 0 && resources.length === 0 ? (
         <view className="card-list">
           <view className="content-card">
             <text className="card-title">No matching contacts</text>
@@ -147,7 +152,7 @@ export function LocalInfoScreen({
           </view>
         </view>
       ) : null}
-      {content.resources.length > 0 ? (
+      {props.content.resources.length > 0 ? (
         <text className="disclaimer directory-padding">
           This is a curated starting set, not a complete directory or a
           recommendation. Listings are unpaid. Check availability,

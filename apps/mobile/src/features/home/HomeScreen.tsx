@@ -50,10 +50,11 @@ const quickAccess: ReadonlyArray<{
   },
 ];
 
-export function HomeScreen({ content, navigate = () => undefined }: Props) {
-  const latest = latestUpdate(content);
-  const upcoming = upcomingEvent(content);
-  const consultation = openConsultation(content);
+export function HomeScreen(props: Props) {
+  const navigate = props.navigate ?? (() => undefined);
+  const latest = latestUpdate(props.content);
+  const upcoming = upcomingEvent(props.content);
+  const consultation = openConsultation(props.content);
 
   return (
     <scroll-view className="screen" scroll-orientation="vertical">

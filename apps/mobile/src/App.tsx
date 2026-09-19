@@ -47,7 +47,8 @@ function sameRoute(left: Route, right: Route): boolean {
   return JSON.stringify(left) === JSON.stringify(right);
 }
 
-export function App({ loadContent = loadMobileContent }: Props) {
+export function App(props: Props) {
+  const loadContent = props.loadContent ?? loadMobileContent;
   const [history, setHistory] = useState<Route[]>([homeRoute]);
   const [content, setContent] = useState<ContentSnapshot>();
   const [failed, setFailed] = useState(false);

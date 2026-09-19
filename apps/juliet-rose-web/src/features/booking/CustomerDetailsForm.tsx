@@ -13,10 +13,8 @@ function fieldError(errors: unknown[]): string | undefined {
   return errors.find((error): error is string => typeof error === 'string');
 }
 
-export function CustomerDetailsForm({
-  disabled = false,
-  onSubmit,
-}: CustomerDetailsFormProps) {
+export function CustomerDetailsForm(props: CustomerDetailsFormProps) {
+  const disabled = props.disabled ?? false;
   const form = useForm({
     defaultValues: {
       name: '',
@@ -24,7 +22,7 @@ export function CustomerDetailsForm({
       phone: '',
       notes: '',
     },
-    onSubmit: async ({ value }) => onSubmit(value),
+    onSubmit: async ({ value }) => props.onSubmit(value),
   });
 
   return (

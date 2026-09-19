@@ -28,3 +28,12 @@ test('lets a customer choose an available weekday', () => {
   expect(sunday?.disabled).toBe(true);
   view.unmount();
 });
+
+test('defaults the calendar month to today when no date is given', () => {
+  const view = renderUi(
+    <AppointmentDatePicker onSelect={() => undefined} selected={undefined} />,
+  );
+
+  expect(view.container.querySelector('.booking-calendar')).not.toBeNull();
+  view.unmount();
+});

@@ -3,15 +3,11 @@ import { createLocalBookingProvider } from './localBookingProvider';
 
 const bookingProvider = createLocalBookingProvider();
 
-export function BookingPage({
-  initialTreatmentSlug,
-}: {
-  initialTreatmentSlug?: string;
-}) {
+export function BookingPage(props: { initialTreatmentSlug?: string }) {
   return (
     <main id="main-content" className="booking-page page-width">
       <BookingJourney
-        initialTreatmentSlug={initialTreatmentSlug}
+        initialTreatmentSlug={props.initialTreatmentSlug}
         provider={bookingProvider}
       />
     </main>

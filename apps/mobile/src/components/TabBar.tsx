@@ -44,8 +44,8 @@ type Props = {
   navigateTab: (route: Route) => void;
 };
 
-export function TabBar({ route, navigateTab }: Props) {
-  const current = topTabFor(route);
+export function TabBar(props: Props) {
+  const current = topTabFor(props.route);
   return (
     <view className="tab-bar">
       {tabs.map((tab) => {
@@ -59,7 +59,7 @@ export function TabBar({ route, navigateTab }: Props) {
             accessibility-label={
               selected ? `${tab.label}, selected` : tab.label
             }
-            bindtap={() => navigateTab(tab.target)}
+            bindtap={() => props.navigateTab(tab.target)}
           >
             <view className={`tab-pill ${selected ? 'tab-pill-active' : ''}`}>
               <text className={`tab-icon ${selected ? 'tab-icon-active' : ''}`}>

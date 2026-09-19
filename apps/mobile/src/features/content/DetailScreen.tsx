@@ -24,14 +24,13 @@ function factIconFor(label: string): string {
   return 'ℹ️';
 }
 
-export function DetailScreen({
-  collection,
-  model,
-  goBack,
-  onOpenUrl = openExternalUrl,
-}: Props) {
-  const collectionRoute: Route = { name: 'collection', collection };
-  if (!model) {
+export function DetailScreen(props: Props) {
+  const onOpenUrl = props.onOpenUrl ?? openExternalUrl;
+  const collectionRoute: Route = {
+    name: 'collection',
+    collection: props.collection,
+  };
+  if (!props.model) {
     return (
       <view className="status-screen">
         <text className="status-title">This item is unavailable.</text>
@@ -39,40 +38,44 @@ export function DetailScreen({
           It may have been removed or the link is out of date. Try the
           collection instead.
         </text>
-        <text className="button" bindtap={() => goBack(collectionRoute)}>
+        <text className="button" bindtap={() => props.goBack(collectionRoute)}>
           Back
         </text>
       </view>
     );
   }
-  const contact = model.contact;
+  const contact = props.model.contact;
   const hasContact = Boolean(contact?.phone ?? contact?.email ?? contact?.url);
-  const addressFact = model.facts.find((fact) => /address/i.test(fact.label));
+  const addressFact = props.model.facts.find((fact) =>
+    /address/i.test(fact.label),
+  );
   const eventLocationFact =
-    collection === 'events'
-      ? model.facts.find((fact) => fact.label === 'Location')
+    props.collection === 'events'
+      ? props.model.facts.find((fact) => fact.label === 'Location')
       : undefined;
   const hasActions = hasContact || addressFact || eventLocationFact;
-  const showHero = collection === 'surveys' || collection === 'events';
-  const statusPill = model.eyebrow.split('·')[0]?.trim() ?? model.eyebrow;
+  const showHero =
+    props.collection === 'surveys' || props.collection === 'events';
+  const statusPill =
+    props.model.eyebrow.split('·')[0]?.trim() ?? props.model.eyebrow;
   return (
     <scroll-view className="page" scroll-orientation="vertical">
       <text
         className="back-link"
         accessibility-element={true}
         accessibility-trait="button"
-        accessibility-label={model.backLabel}
-        bindtap={() => goBack(collectionRoute)}
+        accessibility-label={props.model.backLabel}
+        bindtap={() => props.goBack(collectionRoute)}
       >
-        ← {model.backLabel}
+        ← {props.model.backLabel}
       </text>
       <view className="page-intro page-intro-detail">
         <view className="status-pill">
           <text className="status-pill-text">{statusPill}</text>
         </view>
-        <text className="eyebrow">{model.eyebrow}</text>
-        <text className="page-title">{model.title}</text>
-        <text className="page-copy">{model.summary}</text>
+        <text className="eyebrow">{props.model.eyebrow}</text>
+        <text className="page-title">{props.model.title}</text>
+        <text className="page-copy">{props.model.summary}</text>
       </view>
       {showHero ? (
         <view className="detail-hero-wrap">
@@ -85,7 +88,7 @@ export function DetailScreen({
         </view>
       ) : null}
       <view className="detail-body">
-        {model.facts.map((fact) => (
+        {props.model.facts.map((fact) => (
           <view className="fact-row" key={`${fact.label}-${fact.value}`}>
             <view className="fact-icon">
               <text className="fact-icon-text">{factIconFor(fact.label)}</text>
@@ -96,7 +99,7 @@ export function DetailScreen({
             </view>
           </view>
         ))}
-        {model.paragraphs.map((paragraph) => (
+        {props.model.paragraphs.map((paragraph) => (
           <text className="body-copy" key={paragraph}>
             {paragraph}
           </text>
@@ -157,11 +160,11 @@ export function DetailScreen({
             ) : null}
           </view>
         ) : null}
-        {model.action ? (
+        {props.model.action ? (
           <ExternalLink
-            url={model.action.url}
-            label={model.action.label}
-            detail={domainOf(model.action.url)}
+            url={props.model.action.url}
+            label={props.model.action.label}
+            detail={domainOf(props.model.action.url)}
             containerClassName="primary-action"
             labelClassName="primary-action-label"
             detailClassName="primary-action-url"
@@ -170,11 +173,11 @@ export function DetailScreen({
         ) : null}
         <view className="source-note">
           <text className="fact-label">Official source</text>
-          <text className="source-name">{model.sourceName}</text>
+          <text className="source-name">{props.model.sourceName}</text>
           <ExternalLink
-            url={model.sourceUrl}
-            label={`${domainOf(model.sourceUrl)} ↗`}
-            detail={`Checked ${model.reviewedOn}`}
+            url={props.model.sourceUrl}
+            label={`${domainOf(props.model.sourceUrl)} ↗`}
+            detail={`Checked ${props.model.reviewedOn}`}
             containerClassName="source-link"
             labelClassName="source-link-label"
             detailClassName="source-link-detail"

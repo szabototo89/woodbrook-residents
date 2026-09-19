@@ -5,7 +5,7 @@ import { SiteFooter } from '../components/SiteFooter';
 import { SiteHeader, toActiveNavigationItem } from '../components/SiteHeader';
 import { appStyles } from './appStyles';
 
-export function RootDocument({ children }: { children: ReactNode }) {
+export function RootDocument(props: { children: ReactNode }) {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
@@ -24,7 +24,7 @@ export function RootDocument({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         <SiteHeader activeNavigationItem={toActiveNavigationItem(pathname)} />
-        {children}
+        {props.children}
         <SiteFooter />
         <Scripts />
       </body>

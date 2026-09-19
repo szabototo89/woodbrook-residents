@@ -1,18 +1,18 @@
 import type { Treatment } from './treatmentCatalog';
 import { formatTreatmentDuration } from './treatmentCatalog';
 
-export function TreatmentRow({ treatment }: { treatment: Treatment }) {
+export function TreatmentRow(props: { treatment: Treatment }) {
   return (
     <li className="catalog-treatment">
       <div>
-        <h3>{treatment.name}</h3>
-        <p>{formatTreatmentDuration(treatment.durationMinutes)}</p>
+        <h3>{props.treatment.name}</h3>
+        <p>{formatTreatmentDuration(props.treatment.durationMinutes)}</p>
       </div>
       <div className="catalog-treatment-action">
-        <strong>€{treatment.priceCents / 100}</strong>
+        <strong>€{props.treatment.priceCents / 100}</strong>
         <a
-          aria-label={`Book ${treatment.name}`}
-          href={`/book?service=${treatment.slug}`}
+          aria-label={`Book ${props.treatment.name}`}
+          href={`/book?service=${props.treatment.slug}`}
         >
           Book
         </a>

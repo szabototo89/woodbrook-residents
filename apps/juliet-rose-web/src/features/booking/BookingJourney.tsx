@@ -21,13 +21,9 @@ type BookingJourneyProps = {
   today?: Date;
 };
 
-export function BookingJourney({
-  initialTreatmentSlug,
-  provider,
-  today,
-}: BookingJourneyProps) {
-  const initialTreatment = initialTreatmentSlug
-    ? getTreatmentBySlug(initialTreatmentSlug)
+export function BookingJourney(props: BookingJourneyProps) {
+  const initialTreatment = props.initialTreatmentSlug
+    ? getTreatmentBySlug(props.initialTreatmentSlug)
     : undefined;
   const [treatmentSlug, setTreatmentSlug] = useState(
     initialTreatment?.slug ?? '',
@@ -50,7 +46,7 @@ export function BookingJourney({
     setTime('');
     setTimes([]);
     if (!nextDate || !treatmentSlug) return;
-    void provider
+    void props.provider
       .listAvailableTimes({
         treatmentSlug,
         date: format(nextDate, 'yyyy-MM-dd'),
@@ -60,7 +56,7 @@ export function BookingJourney({
 
   async function submit(details: CustomerDetails) {
     if (!date || !time || !treatmentSlug) return;
-    const result = await provider.createBooking({
+    const result = await props.provider.createBooking({
       treatmentSlug,
       date: format(date, 'yyyy-MM-dd'),
       time,
@@ -128,7 +124,7 @@ export function BookingJourney({
           <AppointmentDatePicker
             selected={date}
             onSelect={selectDate}
-            today={today}
+            today={props.today}
           />
         </div>
       </section>
