@@ -33,6 +33,7 @@ export function LocalInfoPage() {
         ...next,
       }),
       replace: true,
+      resetScroll: false,
     });
   }
 
@@ -49,7 +50,7 @@ export function LocalInfoPage() {
   }
 
   function clearFilters() {
-    navigate({ search: {}, replace: true });
+    navigate({ search: {}, replace: true, resetScroll: false });
   }
   const categories = useMemo(
     () => getAvailableResourceCategories(content.items),
