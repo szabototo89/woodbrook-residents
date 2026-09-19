@@ -1,6 +1,7 @@
 import eslint from '@eslint/js';
-import reactPlugin from 'eslint-plugin-react';
 import tseslint from 'typescript-eslint';
+
+import { reactOneComponentConfig } from './eslint.react-one-component.js';
 
 export default tseslint.config(
   {
@@ -17,13 +18,9 @@ export default tseslint.config(
   {
     files: ['**/*.{ts,tsx}'],
     plugins: {
-      react: reactPlugin,
+      ...reactOneComponentConfig.plugins,
     },
-    settings: {
-      react: {
-        version: '19.2.0',
-      },
-    },
+    settings: reactOneComponentConfig.settings,
     rules: {
       'no-var': 'error',
       'prefer-const': 'error',
@@ -70,7 +67,7 @@ export default tseslint.config(
         'error',
         { assertionStyle: 'never' },
       ],
-      'react/no-multi-comp': ['error', { ignoreStateless: false }],
+      ...reactOneComponentConfig.rules,
     },
   },
   {
