@@ -12,7 +12,9 @@ When developing the Juliet Rose website, start from the approved proposal in a d
 - Treatment category and featured treatment cards are full-card booking links whose visible copy provides their accessible names.
 - Desktop and mobile navigation expose the same page sections, and the mobile menu reports its open state to assistive technology.
 - Booking and gift-card actions continue to the existing Juliet Rose booking service.
-- The Juliet Rose wordmark keeps its existing face, Newsreader gives display headings a calm editorial character, and DM Sans keeps body copy and controls warm and direct.
+- Cormorant Garamond matches the approved proposal across the Juliet Rose wordmark and display headings, while DM Sans keeps body copy and controls warm and direct.
+- Headings use warm charcoal, body copy uses a slightly softer charcoal, and burgundy remains reserved for accents and actions.
+- Treatment sections use content-sized heading rows and consistent spacing between labels, headings, card grids, and card copy.
 
 ## Acceptance criteria
 

@@ -3,12 +3,17 @@ import type { ReactNode } from 'react';
 
 import { SiteFooter } from '../components/SiteFooter';
 import { SiteHeader } from '../components/SiteHeader';
+import { appStyles } from './appStyles';
 
 export function RootDocument({ children }: { children: ReactNode }) {
   return (
     <html lang="en-IE">
       <head>
         <HeadContent />
+        <style
+          data-app-styles
+          dangerouslySetInnerHTML={{ __html: appStyles }}
+        />
       </head>
       <body>
         <a className="skip-link" href="#main-content">

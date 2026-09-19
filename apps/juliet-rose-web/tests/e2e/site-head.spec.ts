@@ -18,3 +18,12 @@ test('publishes Juliet Rose metadata without inherited branding', async ({
   );
   await expect(page.locator('meta[property="og:image"]')).toHaveCount(0);
 });
+
+test('inlines the small stylesheet to avoid a render-blocking request', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  await expect(page.locator('head style[data-app-styles]')).toHaveCount(1);
+  await expect(page.locator('link[rel="stylesheet"]')).toHaveCount(0);
+});

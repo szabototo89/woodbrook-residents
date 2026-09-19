@@ -1,21 +1,17 @@
-@import '@fontsource/instrument-serif';
-@import '@fontsource-variable/newsreader';
-@import '@fontsource-variable/dm-sans';
-
 :root {
   color-scheme: light;
   --rose: #a45458;
   --rose-dark: #874247;
-  --ink: #181716;
-  --muted: #605b58;
+  --heading-ink: #2d2926;
+  --body-ink: #332f2c;
+  --muted: #625956;
   --ivory: #fbf8f4;
   --blush: #f1e2de;
   --line: #e7ddd6;
-  --brand-serif:
-    'Instrument Serif', 'Iowan Old Style', Baskerville, Georgia, serif;
   --serif:
-    'Newsreader Variable', Newsreader, 'Iowan Old Style', Baskerville, Georgia,
-    serif;
+    'Cormorant Garamond Variable', 'Cormorant Garamond', 'Iowan Old Style',
+    Baskerville, Georgia, serif;
+  --brand-serif: var(--serif);
   --sans: 'DM Sans Variable', 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
   --text-secondary: 0.75rem;
   --text-interface: 0.875rem;
@@ -39,7 +35,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   background: var(--ivory);
-  color: var(--ink);
+  color: var(--body-ink);
   font-family: var(--sans);
   font-size: var(--text-body);
   line-height: 1.55;
@@ -67,7 +63,7 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--heading-ink);
   outline-offset: 3px;
 }
 
@@ -78,7 +74,7 @@ a {
   left: 8px;
   transform: translateY(-150%);
   padding: 10px 14px;
-  background: var(--ink);
+  background: var(--heading-ink);
   color: white;
 }
 
@@ -272,8 +268,9 @@ p {
 h1,
 h2,
 h3 {
+  color: var(--heading-ink);
   font-family: var(--serif);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 h1 {
@@ -390,7 +387,7 @@ h3 {
 
 .treatments-section,
 .featured-section {
-  padding: 20px 0 18px;
+  padding: 48px 0 44px;
 }
 
 .treatments-section {
@@ -398,25 +395,23 @@ h3 {
 }
 
 .featured-section {
-  padding-top: 16px;
-  padding-bottom: 17px;
   background: #f8f5f1;
   border-top: 1px solid #efe9e4;
 }
 
 .section-heading {
-  height: 64px;
+  margin-bottom: 32px;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-between;
 }
 
 .section-heading .eyebrow {
-  margin-bottom: 7px;
+  margin-bottom: 10px;
 }
 
 .section-link {
-  margin-top: 31px;
+  margin-bottom: 6px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -490,14 +485,14 @@ h3 {
 }
 
 .category-copy {
-  height: 126px;
-  padding: 9px 15px 8px;
+  height: 150px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
 }
 
 .category-copy h3 {
-  margin: 0 0 3px;
+  margin: 0 0 10px;
   font-size: var(--text-category-title);
   font-weight: 500;
   line-height: 1.1;
@@ -521,10 +516,6 @@ h3 {
   font-size: var(--text-interface);
   text-decoration: underline;
   text-underline-offset: 2px;
-}
-
-.featured-section .section-heading {
-  height: 64px;
 }
 
 .treatment-card > img {
@@ -584,7 +575,7 @@ h3 {
 }
 
 .treatment-meta strong {
-  color: var(--ink);
+  color: var(--heading-ink);
   font-size: var(--text-interface);
   font-weight: 500;
 }
@@ -710,7 +701,7 @@ h3 {
   align-items: center;
   gap: 8px;
   border-right: 1px solid rgba(164, 84, 88, 0.42);
-  color: var(--ink);
+  color: var(--body-ink);
   font-size: var(--text-interface);
   line-height: 1.3;
   text-decoration: none;
@@ -892,7 +883,7 @@ h3 {
   }
 
   .category-copy {
-    height: 132px;
+    height: 158px;
   }
 
   .category-copy p {
@@ -1013,7 +1004,7 @@ h3 {
     width: 22px;
     height: 1px;
     display: block;
-    background: var(--ink);
+    background: var(--heading-ink);
     transition: transform 150ms ease;
   }
 
@@ -1129,12 +1120,13 @@ h3 {
 
   .treatments-section,
   .featured-section {
-    padding: 42px 0;
+    padding: 48px 0;
   }
 
   .section-heading {
     height: auto;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
+    align-items: flex-start;
   }
 
   .section-heading h2 {
