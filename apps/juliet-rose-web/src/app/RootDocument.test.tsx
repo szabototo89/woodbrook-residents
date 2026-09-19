@@ -2,7 +2,9 @@
 
 import { act } from 'react';
 import type { ReactElement, ReactNode } from 'react';
-import { expect, test, vi } from 'vitest';
+import { hydrateRoot } from 'react-dom/client';
+import { renderToString } from 'react-dom/server';
+import { afterEach, expect, test, vi } from 'vitest';
 
 vi.mock('@tanstack/react-router', () => ({
   HeadContent: () => null,
@@ -127,4 +129,73 @@ test('opens and closes the mobile navigation from the shell', () => {
 
   view.unmount();
   expect(document.body.classList.contains('menu-open')).toBe(false);
+});
+
+afterEach(() => {
+  document.head.innerHTML = '';
+  document.body.innerHTML = '';
+});
+
+function hydrateAndCapture(node: ReactNode): Array<string> {
+  const messages: Array<string> = [];
+  const original = console.error;
+  console.error = (...args: Array<unknown>) => {
+    messages.push(args.map((part) => String(part)).join(' '));
+  };
+  try {
+    let root: ReturnType<typeof hydrateRoot> | undefined;
+    act(() => {
+      root = hydrateRoot(document, node);
+    });
+    act(() => {
+      root?.unmount();
+    });
+  } finally {
+    console.error = original;
+  }
+  return messages.filter((message) => /hydrat/i.test(message));
+}
+
+function serveShell(): void {
+  const html = renderToString(
+    <RootDocument>
+      <div>page body content</div>
+    </RootDocument>,
+  );
+  const inner = html.replace(/^<html[^>]*>/, '').replace(/<\/html>$/, '');
+  document.documentElement.innerHTML = inner;
+  // serveShell replaces the children of <html>; the real browser parses the
+  // SSR <html lang="en-IE"> tag itself, so restore that attribute here.
+  document.documentElement.setAttribute('lang', 'en-IE');
+}
+
+test('hydration warns about unexpected body attributes without suppression', () => {
+  serveShell();
+  document.body.setAttribute('data-gr-ext-installed', '');
+
+  const messages = hydrateAndCapture(
+    <html lang="en-IE">
+      <head />
+      <body>
+        <div>page body content</div>
+      </body>
+    </html>,
+  );
+
+  expect(messages.length).toBeGreaterThan(0);
+});
+
+test('hydration tolerates extension attributes on the suppressed body', () => {
+  serveShell();
+  document.body.setAttribute('cz-shortcut-listen', 'true');
+  document.body.setAttribute('data-new-gr-c-s-check-loaded', '14.1330.0');
+  document.body.setAttribute('data-gr-ext-installed', '');
+
+  const messages = hydrateAndCapture(
+    <RootDocument>
+      <div>page body content</div>
+    </RootDocument>,
+  );
+
+  expect(messages).toEqual([]);
 });
