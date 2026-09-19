@@ -12,6 +12,9 @@ website.
 
 - The treatments page groups the current Juliet Rose services and shows each
   treatment's duration and price.
+- The treatments page presents the services in a responsive editorial layout
+  with reassurance cues, category descriptions, Lucide icons, and a contact
+  prompt for customers who need help choosing.
 - Each treatment has a booking action that carries the selected service into
   the appointment journey.
 - The booking page lets a customer choose a treatment, weekday, preferred time,
@@ -34,6 +37,8 @@ website.
 - The treatment and booking pages work at mobile and desktop widths and expose
   labels, roles, visible copy, URLs, and submitted outcomes to assistive
   technology and automated tests.
+- The Treatments navigation item exposes its current-page state on the
+  treatment catalog route.
 
 ## Scope
 
