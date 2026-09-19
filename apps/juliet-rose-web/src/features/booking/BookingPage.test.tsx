@@ -15,3 +15,14 @@ test('introduces the booking journey with the shared editorial header', () => {
   expect(markup).toContain('Await confirmation');
   expect(markup).toContain('lucide-calendar-days');
 });
+
+test('renders the booking calendar for the provided today snapshot', () => {
+  const markup = renderToStaticMarkup(
+    <BookingPage
+      initialTreatmentSlug="swedish-massage"
+      today={new Date(2026, 9, 15)}
+    />,
+  );
+
+  expect(markup).toContain('>October 2026</span>');
+});
