@@ -6,11 +6,29 @@ test('uses treatment imagery behind the catalog introduction', async ({
   await page.goto('/treatments');
 
   const heroBackground = await page
-    .locator('.treatment-hero')
+    .locator('.editorial-page-hero')
     .evaluate((element) => getComputedStyle(element).backgroundImage);
 
   expect(heroBackground).toContain('/images/facial-hero.jpg');
   expect(heroBackground.match(/linear-gradient/g)).toHaveLength(2);
+});
+
+test('uses the editorial introduction on the booking journey', async ({
+  page,
+}) => {
+  await page.goto('/book');
+
+  const hero = page.locator('.editorial-page-hero');
+  await expect(
+    hero.getByRole('heading', { level: 1, name: 'Request an appointment' }),
+  ).toBeVisible();
+  await expect(hero.getByText('Pick a preferred date')).toBeVisible();
+  await expect(hero.getByText('Await confirmation')).toBeVisible();
+
+  const heroBackground = await hero.evaluate(
+    (element) => getComputedStyle(element).backgroundImage,
+  );
+  expect(heroBackground).toContain('/images/facial-hero.jpg');
 });
 
 test('browses sourced treatments and starts the matching booking', async ({

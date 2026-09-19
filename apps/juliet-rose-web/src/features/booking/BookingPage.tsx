@@ -5,7 +5,7 @@ const bookingProvider = createLocalBookingProvider();
 
 export function BookingPage(props: { initialTreatmentSlug?: string }) {
   return (
-    <main id="main-content" className="booking-page page-width">
+    <main id="main-content" className="booking-page">
       <BookingJourney
         initialTreatmentSlug={props.initialTreatmentSlug}
         provider={bookingProvider}
