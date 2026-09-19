@@ -90,6 +90,7 @@
         "@tanstack/react-router": "latest",
         "@tanstack/react-start": "latest",
         "date-fns": "^4.4.0",
+        "lucide-react": "^0.544.0",
         "react": "^19.2.0",
         "react-day-picker": "^10.0.1",
         "react-dom": "^19.2.0",

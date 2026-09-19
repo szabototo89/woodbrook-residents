@@ -7,9 +7,24 @@ const navigationItems = [
   { label: 'Treatments', href: '/treatments' },
   { label: 'Gift Cards', href: '/#gift-cards' },
   { label: 'Contact', href: '/#contact' },
-];
+] as const;
 
-export function SiteHeader() {
+type NavigationHref = (typeof navigationItems)[number]['href'];
+type ActiveNavigationItem = Extract<NavigationHref, '/' | '/treatments'>;
+
+type SiteHeaderProps = {
+  activeNavigationItem?: ActiveNavigationItem;
+};
+
+export function toActiveNavigationItem(
+  pathname: string,
+): ActiveNavigationItem | undefined {
+  if (pathname === '/') return '/';
+  if (pathname === '/treatments') return '/treatments';
+  return undefined;
+}
+
+export function SiteHeader({ activeNavigationItem }: SiteHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -35,7 +50,16 @@ export function SiteHeader() {
 
         <nav className="desktop-navigation" aria-label="Main navigation">
           {navigationItems.map((item) => (
-            <a href={item.href} key={item.href}>
+            <a
+              aria-current={
+                item.href === activeNavigationItem ? 'page' : undefined
+              }
+              className={
+                item.href === activeNavigationItem ? 'is-current' : undefined
+              }
+              href={item.href}
+              key={item.href}
+            >
               {item.label}
             </a>
           ))}
@@ -67,6 +91,12 @@ export function SiteHeader() {
       >
         {navigationItems.map((item) => (
           <a
+            aria-current={
+              item.href === activeNavigationItem ? 'page' : undefined
+            }
+            className={
+              item.href === activeNavigationItem ? 'is-current' : undefined
+            }
             href={item.href}
             key={item.href}
             onClick={() => setIsMenuOpen(false)}
