@@ -1,5 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 
+import './EditorialPageHero.css';
+
 export type EditorialPageHeroHighlight = Readonly<{
   title: string;
   description: string;

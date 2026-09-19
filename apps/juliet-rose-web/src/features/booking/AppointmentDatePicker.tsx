@@ -1,6 +1,7 @@
 import { addMonths } from 'date-fns';
 import { enIE } from 'date-fns/locale';
 import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/style.css';
 
 import { isBookableDate } from './availability';
 
