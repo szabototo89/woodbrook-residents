@@ -19,3 +19,17 @@ test('opens and closes the mobile navigation accessibly', async () => {
   await closeMenu.click();
   await expect.element(openMenu).toHaveAttribute('aria-expanded', 'false');
 });
+
+test('identifies the current treatments page in both navigation menus', async () => {
+  const screen = await render(
+    <SiteHeader activeNavigationItem="/treatments" />,
+  );
+  const treatmentLinks = screen.getByRole('link', { name: 'Treatments' });
+
+  await expect
+    .element(treatmentLinks.first())
+    .toHaveAttribute('aria-current', 'page');
+  await expect
+    .element(treatmentLinks.last())
+    .toHaveAttribute('aria-current', 'page');
+});

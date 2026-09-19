@@ -10,7 +10,12 @@ export function TreatmentRow({ treatment }: { treatment: Treatment }) {
       </div>
       <div className="catalog-treatment-action">
         <strong>€{treatment.priceCents / 100}</strong>
-        <a href={`/book?service=${treatment.slug}`}>Book</a>
+        <a
+          aria-label={`Book ${treatment.name}`}
+          href={`/book?service=${treatment.slug}`}
+        >
+          Book
+        </a>
       </div>
     </li>
   );

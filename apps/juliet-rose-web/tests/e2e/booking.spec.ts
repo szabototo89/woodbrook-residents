@@ -11,6 +11,16 @@ test('browses sourced treatments and starts the matching booking', async ({
   await expect(
     page.getByRole('heading', { name: 'Facials & skin' }),
   ).toBeVisible();
+  await expect(page.getByText('Relax & unwind')).toBeVisible();
+  await expect(page.getByText('Natural radiance')).toBeVisible();
+  await expect(page.getByText('A more confident you')).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Not sure what to choose?' }),
+  ).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Contact us' })).toHaveAttribute(
+    'href',
+    '/#contact',
+  );
   await expect(
     page.getByText('Information checked 19 September 2026'),
   ).toBeVisible();
