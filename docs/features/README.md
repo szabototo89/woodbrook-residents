@@ -7,5 +7,6 @@
 - [Mobile iOS and web renderers](mobile-ios-web-renderers.md) — Available
 - [Build-time content sources](build-time-content-sources.md) — Available
 - [Developer dashboard](developer-dashboard.md) — Available
+- [One React component per file](react-one-component.md) — Available
 - [Issue reporting](issue-reporting.md) — Removed
 - [Static design proposals](static-design-proposals.md) — Available
