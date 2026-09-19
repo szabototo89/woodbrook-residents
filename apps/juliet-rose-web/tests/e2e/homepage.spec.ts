@@ -45,7 +45,7 @@ test('makes every treatment category one accessible link', async ({ page }) => {
   }
 });
 
-test('uses the selected brand, display, and interface typography consistently', async ({
+test('uses the proposal display serif and selected interface typography consistently', async ({
   page,
 }) => {
   await page.goto('/');
@@ -61,9 +61,13 @@ test('uses the selected brand, display, and interface typography consistently', 
     const eyebrow = stylesFor('.eyebrow');
 
     return {
+      bodyColor: body.color,
       bodyFamily: body.fontFamily,
       bodySize: body.fontSize,
       brandFamily: stylesFor('.brand span').fontFamily,
+      cardCopyColor: stylesFor('.category-copy p').color,
+      eyebrowColor: eyebrow.color,
+      heroColor: hero.color,
       heroFamily: hero.fontFamily,
       heroWeight: hero.fontWeight,
       sectionSize: Number.parseFloat(section.fontSize),
@@ -73,11 +77,15 @@ test('uses the selected brand, display, and interface typography consistently', 
     };
   });
 
+  expect(typography.bodyColor).toBe('rgb(51, 47, 44)');
   expect(typography.bodyFamily).toContain('DM Sans');
   expect(typography.bodySize).toBe('17px');
-  expect(typography.brandFamily).toContain('Instrument Serif');
-  expect(typography.heroFamily).toContain('Newsreader');
-  expect(typography.heroWeight).toBe('400');
+  expect(typography.brandFamily).toContain('Cormorant Garamond');
+  expect(typography.cardCopyColor).toBe('rgb(98, 89, 86)');
+  expect(typography.eyebrowColor).toBe('rgb(135, 66, 71)');
+  expect(typography.heroColor).toBe('rgb(45, 41, 38)');
+  expect(typography.heroFamily).toContain('Cormorant Garamond');
+  expect(typography.heroWeight).toBe('500');
   expect(typography.sectionSize).toBeGreaterThanOrEqual(38.4);
   expect(typography.cardSize).toBe('24.8px');
   expect(typography.cardWeight).toBe('500');
