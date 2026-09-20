@@ -7,6 +7,7 @@ import {
 } from '../treatments/treatmentCatalog';
 import { AppointmentDatePicker } from './AppointmentDatePicker';
 import { formatBookingDate } from './availability';
+import { BookingHero } from './BookingHero';
 import type { BookingConfirmation, BookingProvider } from './bookingProvider';
 import { BookingReassurance } from './BookingReassurance';
 import {
@@ -90,25 +91,9 @@ export function BookingJourney(props: BookingJourneyProps) {
 
   return (
     <div className="booking-journey">
-      <header className="booking-intro">
-        <div className="booking-intro-copy">
-          <p className="eyebrow">Book your visit</p>
-          <h1>Request an appointment</h1>
-          <p>
-            Choose your treatment, preferred weekday and time. Your appointment
-            is confirmed when Juliet Rose gets back to you.
-          </p>
-        </div>
-        <p className="booking-intro-script" aria-hidden="true">
-          Relax
-          <br />
-          and
-          <br />
-          Rejuvenate
-        </p>
-      </header>
+      <BookingHero />
 
-      <div className="booking-steps">
+      <div className="booking-flow page-width">
         <section className="booking-step" aria-labelledby="treatment-step">
           <span className="step-number">1</span>
           <div>

@@ -1434,7 +1434,6 @@ h3 {
   min-height: 70vh;
 }
 
-.booking-intro h1,
 .booking-confirmation h1 {
   margin: 8px 0 14px;
   color: var(--heading-ink);
@@ -1444,7 +1443,6 @@ h3 {
   line-height: 0.98;
 }
 
-.booking-intro > p:last-child,
 .booking-confirmation > p {
   max-width: 660px;
   margin-inline: auto;
@@ -1461,7 +1459,7 @@ h3 {
     linear-gradient(180deg, #fcf9f6 0%, #fbf8f4 100%);
 }
 
-.treatment-hero {
+.editorial-page-hero {
   position: relative;
   overflow: hidden;
   padding-block: 58px 48px;
@@ -1477,8 +1475,8 @@ h3 {
   isolation: isolate;
 }
 
-.treatment-hero::before,
-.treatment-hero::after {
+.editorial-page-hero::before,
+.editorial-page-hero::after {
   position: absolute;
   z-index: -1;
   width: 260px;
@@ -1489,27 +1487,27 @@ h3 {
   pointer-events: none;
 }
 
-.treatment-hero::before {
+.editorial-page-hero::before {
   bottom: -74px;
   left: -74px;
   transform: rotate(152deg);
 }
 
-.treatment-hero::after {
+.editorial-page-hero::after {
   top: -112px;
   right: -60px;
   transform: rotate(-20deg);
 }
 
-.treatment-hero-content {
+.editorial-page-hero-content {
   position: relative;
 }
 
-.treatment-hero-heading {
+.editorial-page-hero-heading {
   text-align: center;
 }
 
-.treatment-hero-heading h1 {
+.editorial-page-hero-heading h1 {
   margin: 8px 0 12px;
   color: var(--heading-ink);
   font-family: var(--serif);
@@ -1519,7 +1517,7 @@ h3 {
   line-height: 0.92;
 }
 
-.treatment-hero-heading > p:last-child {
+.editorial-page-hero-heading > p:last-child {
   max-width: 560px;
   margin: 0 auto;
   color: var(--muted);
@@ -1527,7 +1525,7 @@ h3 {
   line-height: 1.4;
 }
 
-.treatment-hero-script {
+.editorial-page-hero-script {
   position: absolute;
   top: 40px;
   right: 0;
@@ -1541,7 +1539,7 @@ h3 {
   transform: rotate(-8deg);
 }
 
-.treatment-promises {
+.editorial-page-hero-highlights {
   max-width: 780px;
   margin: 42px auto 0;
   padding: 0;
@@ -1551,30 +1549,30 @@ h3 {
   list-style: none;
 }
 
-.treatment-promises li {
+.editorial-page-hero-highlights li {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.treatment-promises svg {
+.editorial-page-hero-highlights svg {
   width: 35px;
   height: 35px;
   flex: 0 0 auto;
   color: var(--rose);
 }
 
-.treatment-promises span {
+.editorial-page-hero-highlights span {
   display: grid;
 }
 
-.treatment-promises strong {
+.editorial-page-hero-highlights strong {
   color: var(--heading-ink);
   font-size: 0.9rem;
   font-weight: 500;
 }
 
-.treatment-promises small {
+.editorial-page-hero-highlights small {
   color: var(--muted);
   font-size: 0.75rem;
   line-height: 1.35;
@@ -1789,12 +1787,14 @@ h3 {
   background: #fcfaf7;
 }
 
-.booking-intro {
-  position: relative;
+.booking-journey {
+  width: 100%;
+}
+
+.booking-page .editorial-page-hero {
   min-height: 310px;
-  margin: 0;
-  overflow: hidden;
-  background-image:
+  padding: 0;
+  background:
     linear-gradient(
       90deg,
       rgba(252, 249, 246, 0.99) 0%,
@@ -1802,30 +1802,35 @@ h3 {
       rgba(252, 249, 246, 0.54) 59%,
       rgba(252, 249, 246, 0.08) 79%
     ),
-    url('/images/studio-interior.jpg');
-  background-position:
-    center,
-    center 52%;
-  background-size: cover;
+    url('/images/studio-interior.jpg') center 52% / cover no-repeat;
   border-bottom: 1px solid rgba(231, 221, 214, 0.7);
 }
 
-.booking-intro-copy {
-  position: relative;
-  z-index: 1;
+.booking-page .editorial-page-hero::before,
+.booking-page .editorial-page-hero::after {
+  display: none;
+}
+
+.booking-page .editorial-page-hero-content {
   width: min(880px, calc(100% - 118px));
   margin-inline: auto;
   padding-block: 55px 50px;
 }
 
-.booking-intro h1 {
+.booking-page .editorial-page-hero-heading {
+  text-align: left;
+}
+
+.booking-page .editorial-page-hero-heading h1 {
+  width: auto;
   max-width: 580px;
   margin: 12px 0 14px;
   font-size: clamp(3.6rem, 6vw, 5.25rem);
   letter-spacing: -0.035em;
+  text-align: left;
 }
 
-.booking-intro-copy > p:last-child {
+.booking-page .editorial-page-hero-heading > p:last-child {
   max-width: 590px;
   margin: 0;
   color: var(--muted);
@@ -1833,21 +1838,18 @@ h3 {
   line-height: 1.5;
 }
 
-.booking-intro-script {
-  position: absolute;
+.booking-page .editorial-page-hero-script {
   top: 92px;
   right: max(44px, calc((100vw - 1100px) / 2));
-  margin: 0;
   color: rgba(77, 57, 48, 0.65);
-  font-family: var(--serif);
-  font-size: 2rem;
-  font-style: italic;
-  line-height: 0.9;
-  text-align: center;
   transform: rotate(-5deg);
 }
 
-.booking-steps {
+.booking-page .editorial-page-hero-highlights {
+  display: none;
+}
+
+.booking-flow {
   width: min(880px, calc(100% - 118px));
   margin-inline: auto;
   padding-top: 30px;
@@ -2082,7 +2084,7 @@ h3 {
 }
 
 .booking-confirmation {
-  width: min(800px, calc(100% - 40px));
+  width: min(800px, calc(100% - 118px));
   margin: 70px auto 90px;
   padding: 70px 40px;
   border: 1px solid var(--line);
@@ -2143,15 +2145,15 @@ h3 {
 }
 
 @media (max-width: 780px) {
-  .treatment-hero {
+  .editorial-page-hero {
     padding-block: 46px 38px;
   }
 
-  .treatment-hero-script {
+  .editorial-page-hero-script {
     display: none;
   }
 
-  .treatment-hero-heading h1 {
+  .editorial-page-hero-heading h1 {
     width: fit-content;
     max-width: 100%;
     margin-inline: auto;
@@ -2160,7 +2162,7 @@ h3 {
     white-space: normal;
   }
 
-  .treatment-promises {
+  .editorial-page-hero-highlights {
     gap: 20px;
   }
 
@@ -2168,37 +2170,38 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .booking-page {
-    width: 100%;
+  .booking-flow,
+  .booking-confirmation {
+    width: min(calc(100% - 50px), 880px);
   }
 
-  .booking-intro-copy,
-  .booking-steps {
-    width: calc(100% - 50px);
+  .booking-flow {
+    padding-top: 24px;
   }
 }
 
 @media (max-width: 560px) {
-  .treatment-hero {
+  .editorial-page-hero {
     padding-block: 38px 30px;
   }
 
-  .treatment-hero-heading h1 {
+  .editorial-page-hero-heading h1 {
     font-size: clamp(3rem, 15vw, 4rem);
   }
 
-  .treatment-hero-heading > p:last-child {
+  .editorial-page-hero-heading > p:last-child {
     font-size: 1rem;
   }
 
-  .treatment-promises {
-    width: min(100%, 280px);
+  .editorial-page-hero-highlights {
+    width: fit-content;
+    max-width: 100%;
     margin-top: 30px;
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  .treatment-promises svg {
+  .editorial-page-hero-highlights svg {
     width: 30px;
     height: 30px;
   }
@@ -2238,6 +2241,7 @@ h3 {
 
   .catalog-treatment-action a {
     min-width: 58px;
+    min-height: 44px;
     padding-inline: 12px;
   }
 
@@ -2257,9 +2261,9 @@ h3 {
     width: 100%;
   }
 
-  .booking-intro {
+  .booking-page .editorial-page-hero {
     min-height: 252px;
-    background-image:
+    background:
       linear-gradient(
         90deg,
         rgba(252, 249, 246, 0.99) 0%,
@@ -2267,36 +2271,39 @@ h3 {
         rgba(252, 249, 246, 0.6) 67%,
         rgba(252, 249, 246, 0.1) 100%
       ),
-      url('/images/studio-interior.jpg');
-    background-position:
-      center,
-      57% center;
+      url('/images/studio-interior.jpg') 57% center / cover no-repeat;
   }
 
-  .booking-intro-copy {
+  .booking-page .editorial-page-hero-content {
+    width: calc(100% - 50px);
     padding-block: 36px 28px;
   }
 
-  .booking-intro h1 {
+  .booking-page .editorial-page-hero-heading h1 {
+    width: auto;
     max-width: 315px;
     margin-block: 10px 13px;
+    margin-inline: 0;
     font-size: clamp(2.75rem, 12.5vw, 3.5rem);
+    text-align: left;
   }
 
-  .booking-intro-copy > p:last-child {
+  .booking-page .editorial-page-hero-heading > p:last-child {
     max-width: 305px;
+    margin-inline: 0;
     font-size: 0.9rem;
     line-height: 1.55;
   }
 
-  .booking-intro-script {
+  .booking-page .editorial-page-hero-script {
     top: 86px;
     right: -9px;
+    display: block;
     font-size: 1.3rem;
     opacity: 0.58;
   }
 
-  .booking-steps {
+  .booking-flow {
     padding-top: 22px;
   }
 
@@ -2352,8 +2359,8 @@ h3 {
 }
 
 @media (max-width: 370px) {
-  .booking-intro-copy,
-  .booking-steps {
+  .booking-page .editorial-page-hero-content,
+  .booking-flow {
     width: calc(100% - 36px);
   }
 

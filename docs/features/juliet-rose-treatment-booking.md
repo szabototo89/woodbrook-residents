@@ -17,8 +17,11 @@ website.
   descriptions, Lucide icons, and a contact prompt for customers who need help
   choosing.
 - The treatment photograph fades into the page before the catalog, while
-  mobile headings stay centered and treatment prices remain aligned beside
-  their booking actions.
+  mobile headings and reassurance cues stay visually centered and treatment
+  prices remain aligned beside comfortable booking touch targets.
+- The treatments and booking pages reuse the same typed editorial header
+  component with page-specific copy and script text. Treatment highlights stay
+  in the catalog introduction, while booking reassurance closes the form.
 - Each treatment has a booking action that carries the selected service into
   the appointment journey.
 - The booking page lets a customer choose a treatment, weekday, preferred time,
@@ -51,6 +54,8 @@ website.
 - At compact widths, step numbers remain beside their headings, email and phone
   share a practical row where space allows, and the time options retain three
   equal columns.
+- Treatment booking actions provide at least a 44-pixel touch target on phone
+  layouts.
 - The Treatments navigation item exposes its current-page state on the
   treatment catalog route.
 

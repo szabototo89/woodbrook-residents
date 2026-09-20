@@ -6,11 +6,30 @@ test('uses treatment imagery behind the catalog introduction', async ({
   await page.goto('/treatments');
 
   const heroBackground = await page
-    .locator('.treatment-hero')
+    .locator('.editorial-page-hero')
     .evaluate((element) => getComputedStyle(element).backgroundImage);
 
   expect(heroBackground).toContain('/images/facial-hero.jpg');
   expect(heroBackground.match(/linear-gradient/g)).toHaveLength(2);
+});
+
+test('uses the editorial introduction on the booking journey', async ({
+  page,
+}) => {
+  await page.goto('/book');
+
+  const hero = page.locator('.editorial-page-hero');
+  await expect(
+    hero.getByRole('heading', { level: 1, name: 'Request an appointment' }),
+  ).toBeVisible();
+  await expect(page.getByText('Professional & friendly care')).toBeVisible();
+  await expect(page.getByText('Relaxing environment')).toBeVisible();
+  await expect(page.getByText('Tailored to your needs')).toBeVisible();
+
+  const heroBackground = await hero.evaluate(
+    (element) => getComputedStyle(element).backgroundImage,
+  );
+  expect(heroBackground).toContain('/images/studio-interior.jpg');
 });
 
 test('browses sourced treatments and starts the matching booking', async ({
@@ -73,7 +92,7 @@ test('matches the booking concept at a mobile viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/book?service=luxurious-espa-massage');
 
-  const intro = page.locator('.booking-intro');
+  const intro = page.locator('.editorial-page-hero');
   await expect(intro).toHaveCSS('background-image', /studio-interior\.jpg/);
 
   const firstStepLayout = await page
@@ -125,10 +144,10 @@ test('uses the concept layout without over-stretching on desktop', async ({
 
   const layout = await page.evaluate(() => {
     const intro = document
-      .querySelector('.booking-intro')!
+      .querySelector('.editorial-page-hero')!
       .getBoundingClientRect();
     const steps = document
-      .querySelector('.booking-steps')!
+      .querySelector('.booking-flow')!
       .getBoundingClientRect();
     const promises = getComputedStyle(
       document.querySelector('.booking-reassurance ul')!,
