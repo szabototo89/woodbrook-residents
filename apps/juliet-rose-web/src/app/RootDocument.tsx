@@ -19,7 +19,9 @@ export function RootDocument(props: { children: ReactNode }) {
           dangerouslySetInnerHTML={{ __html: appStyles }}
         />
       </head>
-      <body>
+      {/* Browser extensions (Grammarly, etc.) add body attributes before
+          React hydrates; ignore those to avoid hydration mismatch noise. */}
+      <body suppressHydrationWarning>
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>

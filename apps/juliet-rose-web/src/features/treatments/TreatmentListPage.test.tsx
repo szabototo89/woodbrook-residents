@@ -26,5 +26,7 @@ test('shows the sourced treatment catalog with internal booking links', () => {
   expect(markup).toContain('lucide-heart');
   expect(markup).toContain('lucide-flower-2');
   expect(markup).toContain('lucide-gift');
-  expect(markup).toContain('Information checked 19 September 2026');
+  expect(markup).not.toContain('Information checked');
+  expect(markup).not.toContain('Source accessed');
+  expect(markup).not.toContain('catalog-source');
 });

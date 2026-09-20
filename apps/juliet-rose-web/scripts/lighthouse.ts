@@ -9,6 +9,7 @@ import {
   type LighthouseCategory,
 } from './lighthouse-config';
 import { lighthouseArgs, resolveChromePath } from './lighthouse-chrome';
+import { startCompressedProxy } from './compressed-preview';
 import {
   evaluateLighthouseScores,
   failedCombinations,
@@ -179,7 +180,6 @@ async function runLighthouse() {
     parseArg('port') ?? String(LIGHTHOUSE_PREVIEW_PORT),
     10,
   );
-  const baseUrl = parseArg('base-url') ?? `http://127.0.0.1:${port}`;
 
   const formFactors = resolveFormFactors(parseArg('form-factor'));
   const routes = routeFilter
@@ -196,34 +196,47 @@ async function runLighthouse() {
     await runChecked(['bun', 'run', 'build']);
   }
 
-  console.log(`Starting preview server at ${baseUrl}...`);
-  const preview = Bun.spawn(
-    [
-      'bun',
-      'run',
-      'preview',
-      '--',
-      '--host',
-      '127.0.0.1',
-      '--port',
-      String(port),
-    ],
-    {
-      cwd: appRoot,
-      env: process.env,
-      stdin: 'ignore',
-      stdout: 'ignore',
-      stderr: 'inherit',
-    },
-  );
+  const externalBaseUrl = parseArg('base-url');
+  const preview =
+    externalBaseUrl === undefined
+      ? Bun.spawn(
+          // Spawn vite directly (not `bun run preview`) so Bun's script
+          // runner does not treat the expected SIGTERM on cleanup as a
+          // script failure.
+          [
+            'bunx',
+            'vite',
+            'preview',
+            '--host',
+            '127.0.0.1',
+            '--port',
+            String(port),
+          ],
+          {
+            cwd: appRoot,
+            env: process.env,
+            stdin: 'ignore',
+            stdout: 'ignore',
+            stderr: 'inherit',
+          },
+        )
+      : undefined;
+  // `vite preview` serves without compression while production hosts
+  // compress text. Audit through a gzip proxy so scores reflect delivery.
+  const upstream = externalBaseUrl ?? `http://127.0.0.1:${port}`;
+  const proxy =
+    preview === undefined ? undefined : startCompressedProxy(upstream);
+  const auditBaseUrl = proxy?.url ?? upstream;
+
+  console.log(`Starting preview server at ${auditBaseUrl}...`);
 
   try {
-    await waitForServer(baseUrl);
+    await waitForServer(auditBaseUrl);
 
     const combinations = routes.flatMap((route) =>
       formFactors.map((formFactor) => ({ route, formFactor })),
     );
-    const results = await runWithRetries(baseUrl, combinations, retries);
+    const results = await runWithRetries(auditBaseUrl, combinations, retries);
 
     const summaryLines = results.map((result) => {
       const evaluation = evaluateLighthouseScores(
@@ -242,7 +255,7 @@ async function runLighthouse() {
     );
 
     const summary = {
-      baseUrl,
+      baseUrl: auditBaseUrl,
       minimums: LIGHTHOUSE_MIN_SCORES,
       results,
     };
@@ -262,8 +275,11 @@ async function runLighthouse() {
     }
     console.log('All Lighthouse checks passed.');
   } finally {
-    preview.kill();
-    await preview.exited.catch(() => undefined);
+    proxy?.stop();
+    if (preview !== undefined) {
+      preview.kill();
+      await preview.exited.catch(() => undefined);
+    }
   }
 }
 
