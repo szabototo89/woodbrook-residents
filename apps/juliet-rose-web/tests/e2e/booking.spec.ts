@@ -13,6 +13,29 @@ test('uses treatment imagery behind the catalog introduction', async ({
   expect(heroBackground.match(/linear-gradient/g)).toHaveLength(2);
 });
 
+test('centers the treatments title against the full hero', async ({ page }) => {
+  await page.setViewportSize({ width: 885, height: 800 });
+  await page.goto('/treatments');
+  await page.evaluate(() => document.fonts?.ready);
+
+  const centerOffset = await page
+    .locator('.editorial-page-hero')
+    .evaluate((hero) => {
+      const title = hero.querySelector('h1')!;
+      const titleRange = document.createRange();
+      titleRange.selectNodeContents(title);
+      const titleBounds = titleRange.getBoundingClientRect();
+      const heroBounds = hero.getBoundingClientRect();
+      return Math.abs(
+        titleBounds.left +
+          titleBounds.width / 2 -
+          (heroBounds.left + heroBounds.width / 2),
+      );
+    });
+
+  expect(centerOffset).toBeLessThanOrEqual(4);
+});
+
 test('uses the editorial introduction on the booking journey', async ({
   page,
 }) => {
@@ -30,6 +53,42 @@ test('uses the editorial introduction on the booking journey', async ({
     (element) => getComputedStyle(element).backgroundImage,
   );
   expect(heroBackground).toContain('/images/studio-interior.jpg');
+});
+
+test('keeps booking hero copy inside its light backdrop at intermediate widths', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 700, height: 900 });
+  await page.goto('/book?service=luxurious-espa-massage');
+
+  const titleLines = page.locator(
+    '.editorial-page-hero-heading h1 > .booking-hero-title-line',
+  );
+  await expect(titleLines).toHaveCount(2);
+
+  const copyLayout = await page
+    .locator('.editorial-page-hero')
+    .evaluate((hero) => {
+      const heroBounds = hero.getBoundingClientRect();
+      const titleLineBounds = Array.from(
+        hero.querySelectorAll('.booking-hero-title-line'),
+      ).map((line) => line.getBoundingClientRect());
+      const descriptionBounds = hero
+        .querySelector('.editorial-page-hero-heading > p:last-child')!
+        .getBoundingClientRect();
+      return {
+        titleLineTops: titleLineBounds.map((line) => line.top),
+        descriptionRightRatio:
+          (descriptionBounds.right - heroBounds.left) / heroBounds.width,
+        background: getComputedStyle(hero).backgroundImage,
+      };
+    });
+
+  expect(copyLayout.titleLineTops[1]).toBeGreaterThan(
+    copyLayout.titleLineTops[0]!,
+  );
+  expect(copyLayout.descriptionRightRatio).toBeLessThanOrEqual(0.68);
+  expect(copyLayout.background).toContain('rgba(252, 249, 246, 0.82)');
 });
 
 test('browses sourced treatments and starts the matching booking', async ({
@@ -206,6 +265,16 @@ test('uses the concept two-column booking layout on desktop', async ({
   expect(editorialTreatment.fontSize).toBeLessThanOrEqual(22);
   expect(editorialTreatment.textShadow).not.toBe('none');
   expect(editorialTreatment.rightInset).toBeGreaterThanOrEqual(24);
+  await expect(page.locator('.booking-editorial-lead > span')).toHaveCount(2);
+  await expect(page.locator('.booking-editorial-detail > span')).toHaveCount(2);
+  await expect(page.locator('.booking-editorial-card figcaption')).toHaveCSS(
+    'text-align',
+    'center',
+  );
+  await expect(page.locator('.booking-editorial-card figcaption')).toHaveCSS(
+    'color',
+    'rgb(255, 250, 243)',
+  );
 });
 
 test('keeps desktop-only booking context out of the compact mobile flow', async ({

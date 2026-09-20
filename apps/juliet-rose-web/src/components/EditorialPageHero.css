@@ -142,6 +142,15 @@
   }
 }
 
+@media (min-width: 781px) and (max-width: 900px) {
+  .editorial-page-hero-heading h1 {
+    width: 100%;
+    max-width: none;
+    margin-inline: auto;
+    white-space: normal;
+  }
+}
+
 @media (max-width: 560px) {
   .editorial-page-hero {
     padding-block: 38px 30px;

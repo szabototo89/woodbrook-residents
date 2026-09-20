@@ -31,7 +31,12 @@ export function BookingHero() {
   return (
     <EditorialPageHero
       eyebrow="Book your visit"
-      title="Request an appointment"
+      title={
+        <>
+          <span className="booking-hero-title-line">Request an</span>{' '}
+          <span className="booking-hero-title-line">appointment</span>
+        </>
+      }
       description="Choose your treatment, preferred weekday and time. Your appointment is confirmed when Juliet Rose gets back to you."
       scriptLines={['Relax', 'Restore', 'Rejuvenate']}
       highlights={bookingHighlights}

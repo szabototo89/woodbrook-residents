@@ -74,13 +74,12 @@ export function BookingSidebar(props: BookingSidebarProps) {
           height="533"
         />
         <figcaption>
-          <span className="booking-editorial-lead">More than a treatment</span>
-          <br />
-          <span className="booking-editorial-detail">
-            &mdash; a little time
+          <span className="booking-editorial-lead">
+            <span>More than a</span> <span>treatment</span>
           </span>
-          <br />
-          for you.
+          <span className="booking-editorial-detail">
+            <span>&mdash; a little time</span> <span>for you.</span>
+          </span>
         </figcaption>
       </figure>
     </aside>

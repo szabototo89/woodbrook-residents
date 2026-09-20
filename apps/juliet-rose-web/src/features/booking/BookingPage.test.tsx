@@ -9,7 +9,10 @@ test('introduces the booking journey with the shared editorial header', () => {
   );
 
   expect(markup).toContain('class="editorial-page-hero"');
-  expect(markup).toContain('Request an appointment');
+  expect(markup).toContain('class="booking-hero-title-line">Request an</span>');
+  expect(markup).toContain(
+    'class="booking-hero-title-line">appointment</span>',
+  );
   expect(markup).toContain('Choose a treatment');
   expect(markup).toContain('Professional &amp; friendly care');
   expect(markup).toContain('Relaxing environment');

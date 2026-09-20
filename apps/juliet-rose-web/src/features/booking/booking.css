@@ -19,9 +19,11 @@
     linear-gradient(
       90deg,
       rgba(252, 249, 246, 0.99) 0%,
-      rgba(252, 249, 246, 0.96) 40%,
-      rgba(252, 249, 246, 0.54) 59%,
-      rgba(252, 249, 246, 0.08) 79%
+      rgba(252, 249, 246, 0.98) 38%,
+      rgba(252, 249, 246, 0.92) 48%,
+      rgba(252, 249, 246, 0.82) 58%,
+      rgba(252, 249, 246, 0.24) 72%,
+      rgba(252, 249, 246, 0.05) 82%
     ),
     url('/images/studio-interior.jpg') center 52% / cover no-repeat;
   border-bottom: 1px solid rgba(231, 221, 214, 0.7);
@@ -44,15 +46,19 @@
 
 .booking-page .editorial-page-hero-heading h1 {
   width: auto;
-  max-width: 580px;
+  max-width: 450px;
   margin: 12px 0 14px;
   font-size: clamp(3.6rem, 6vw, 5.25rem);
   letter-spacing: -0.035em;
   text-align: left;
 }
 
+.booking-hero-title-line {
+  display: block;
+}
+
 .booking-page .editorial-page-hero-heading > p:last-child {
-  max-width: 590px;
+  max-width: 400px;
   margin: 0;
   color: var(--muted);
   font-size: 1rem;
@@ -877,27 +883,59 @@
   .booking-editorial-card figcaption {
     position: relative;
     z-index: 1;
-    margin: 48px 26px 0 auto;
-    color: white;
+    width: 170px;
+    margin: 48px 24px 0 auto;
+    color: #fffaf3;
     font-family: var(--serif);
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-style: italic;
     line-height: 1.24;
-    text-align: right;
-    text-shadow: 0 1px 8px rgba(45, 28, 20, 0.2);
+    text-align: center;
+    text-shadow: 0 1px 7px rgba(45, 28, 20, 0.16);
   }
 
   .booking-editorial-lead {
-    display: inline-block;
-    max-width: 165px;
+    display: block;
   }
 
-  .booking-editorial-card figcaption .booking-editorial-detail {
+  .booking-editorial-lead > span,
+  .booking-editorial-detail > span {
+    display: block;
+  }
+
+  .booking-editorial-card .booking-editorial-detail {
+    margin-top: 8px;
+    display: block;
     font-size: 1.08rem;
   }
 
   .booking-reassurance {
     display: none;
+  }
+}
+
+@media (min-width: 561px) and (max-width: 900px) {
+  .booking-page .editorial-page-hero {
+    min-height: 310px;
+  }
+
+  .booking-page .editorial-page-hero-content {
+    width: calc(100% - 50px);
+    padding-block: 38px 32px;
+  }
+
+  .booking-page .editorial-page-hero-heading {
+    width: 62%;
+  }
+
+  .booking-page .editorial-page-hero-heading h1 {
+    max-width: none;
+    font-size: clamp(3.25rem, 8vw, 4rem);
+    white-space: normal;
+  }
+
+  .booking-page .editorial-page-hero-heading > p:last-child {
+    max-width: 390px;
   }
 }
 

@@ -1,4 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 import './EditorialPageHero.css';
 
@@ -10,7 +11,7 @@ export type EditorialPageHeroHighlight = Readonly<{
 
 type EditorialPageHeroProps = Readonly<{
   eyebrow: string;
-  title: string;
+  title: ReactNode;
   description: string;
   scriptLines: readonly [string, ...string[]];
   highlights: readonly [
