@@ -142,17 +142,25 @@ export function CustomerDetailsForm(props: CustomerDetailsFormProps) {
         )}
       </form.Field>
 
-      <form.Subscribe selector={(state) => [state.isSubmitting]}>
-        {([isSubmitting]) => (
-          <button
-            className="primary-button booking-submit"
-            type="submit"
-            disabled={disabled || isSubmitting}
-          >
-            {isSubmitting ? 'Sending request…' : 'Request appointment'}
-          </button>
-        )}
-      </form.Subscribe>
+      <div className="booking-submit-row">
+        <label className="booking-consent">
+          <input type="checkbox" disabled={disabled} />
+          <span>I agree to be contacted about my appointment request.</span>
+        </label>
+
+        <form.Subscribe selector={(state) => [state.isSubmitting]}>
+          {([isSubmitting]) => (
+            <button
+              className="primary-button booking-submit"
+              type="submit"
+              disabled={disabled || isSubmitting}
+            >
+              {isSubmitting ? 'Sending request…' : 'Request appointment'}
+              <span aria-hidden="true">→</span>
+            </button>
+          )}
+        </form.Subscribe>
+      </div>
     </form>
   );
 }

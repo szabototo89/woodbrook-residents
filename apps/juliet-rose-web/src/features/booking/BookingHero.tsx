@@ -7,18 +7,18 @@ import {
 
 const bookingHighlights = [
   {
-    title: 'Choose a treatment',
-    description: 'Compare services and prices',
+    title: 'Professional & friendly care',
+    description: '',
     Icon: Sparkles,
   },
   {
-    title: 'Pick a preferred date',
-    description: 'Monday to Friday availability',
+    title: 'Relaxing environment',
+    description: '',
     Icon: CalendarDays,
   },
   {
-    title: 'Await confirmation',
-    description: 'Juliet Rose confirms with you',
+    title: 'Tailored to your needs',
+    description: '',
     Icon: CircleCheck,
   },
 ] as const satisfies readonly [
@@ -33,7 +33,7 @@ export function BookingHero() {
       eyebrow="Book your visit"
       title="Request an appointment"
       description="Choose your treatment, preferred weekday and time. Your appointment is confirmed when Juliet Rose gets back to you."
-      scriptLines={['Relax', 'and', 'Rejuvenate']}
+      scriptLines={['Relax', 'Restore', 'Rejuvenate']}
       highlights={bookingHighlights}
     />
   );

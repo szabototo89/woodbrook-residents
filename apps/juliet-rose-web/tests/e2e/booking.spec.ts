@@ -22,9 +22,9 @@ test('uses the editorial introduction on the booking journey', async ({
   await expect(
     hero.getByRole('heading', { level: 1, name: 'Request an appointment' }),
   ).toBeVisible();
-  await expect(page.getByText('Professional & friendly care')).toBeVisible();
-  await expect(page.getByText('Relaxing environment')).toBeVisible();
-  await expect(page.getByText('Tailored to your needs')).toBeVisible();
+  await expect(hero.getByText('Professional & friendly care')).toBeVisible();
+  await expect(hero.getByText('Relaxing environment')).toBeVisible();
+  await expect(hero.getByText('Tailored to your needs')).toBeVisible();
 
   const heroBackground = await hero.evaluate(
     (element) => getComputedStyle(element).backgroundImage,
@@ -133,7 +133,7 @@ test('matches the booking concept at a mobile viewport', async ({ page }) => {
   expect(hasHorizontalOverflow).toBe(false);
 });
 
-test('uses the concept layout without over-stretching on desktop', async ({
+test('uses the concept two-column booking layout on desktop', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
@@ -146,13 +146,55 @@ test('uses the concept layout without over-stretching on desktop', async ({
     const steps = document
       .querySelector('.booking-flow')!
       .getBoundingClientRect();
+    const firstStep = document
+      .querySelector('.booking-step')!
+      .getBoundingClientRect();
+    const sidebar = document
+      .querySelector('.booking-sidebar')!
+      .getBoundingClientRect();
     const promises = getComputedStyle(
-      document.querySelector('.booking-reassurance ul')!,
+      document.querySelector('.editorial-page-hero-highlights')!,
     ).gridTemplateColumns;
-    return { introWidth: intro.width, stepsWidth: steps.width, promises };
+    return {
+      introWidth: intro.width,
+      stepsWidth: steps.width,
+      firstStepBorder: getComputedStyle(
+        document.querySelector('.booking-step')!,
+      ).borderTopWidth,
+      firstStepRadius: getComputedStyle(
+        document.querySelector('.booking-step')!,
+      ).borderRadius,
+      sidebarLeft: sidebar.left,
+      stepsRight: steps.right,
+      sidebarWidth: sidebar.width,
+      firstStepWidth: firstStep.width,
+      promises,
+    };
   });
 
   expect(layout.introWidth).toBeGreaterThan(1100);
-  expect(layout.stepsWidth).toBeLessThanOrEqual(900);
+  expect(layout.stepsWidth).toBeLessThan(760);
+  expect(layout.firstStepWidth).toBe(layout.stepsWidth);
+  expect(layout.sidebarLeft).toBeGreaterThanOrEqual(layout.stepsRight);
+  expect(layout.sidebarWidth).toBeGreaterThan(240);
+  expect(layout.firstStepBorder).toBe('1px');
+  expect(Number.parseFloat(layout.firstStepRadius)).toBeGreaterThan(0);
   expect(layout.promises.split(' ')).toHaveLength(3);
+
+  await expect(
+    page.getByRole('complementary', { name: 'Your booking summary' }),
+  ).toBeVisible();
+  await expect(page.getByText('More than a treatment')).toBeVisible();
+});
+
+test('keeps desktop-only booking context out of the compact mobile flow', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/book?service=luxurious-espa-massage');
+
+  await expect(
+    page.getByRole('complementary', { name: 'Your booking summary' }),
+  ).toBeHidden();
+  await expect(page.getByText('More than a treatment')).toBeHidden();
 });

@@ -55,6 +55,44 @@ test('describes available times for the selected date', async () => {
   view.unmount();
 });
 
+test('keeps a live appointment summary beside the desktop booking journey', async () => {
+  const view = renderUi(
+    <BookingJourney
+      initialTreatmentSlug="swedish-massage"
+      provider={createLocalBookingProvider()}
+      today={new Date(2026, 8, 19)}
+    />,
+  );
+
+  const summary = view.container.querySelector<HTMLElement>(
+    '[aria-label="Your booking summary"]',
+  );
+  expect(summary).not.toBeNull();
+  expect(summary?.textContent).toContain('Your booking');
+  expect(summary?.textContent).toContain('Swedish massage');
+  expect(summary?.textContent).toContain('60 minutes');
+  expect(summary?.textContent).toContain('€80');
+  expect(summary?.textContent).toContain('What happens next?');
+
+  await act(async () => {
+    view.container
+      .querySelector<HTMLButtonElement>('[data-day="2026-09-21"] button')!
+      .click();
+    await Promise.resolve();
+  });
+  act(() =>
+    view.container
+      .querySelector<HTMLInputElement>(
+        'input[name="appointment-time"][value="10:00"]',
+      )!
+      .click(),
+  );
+
+  expect(summary?.textContent).toContain('Monday, 21 September 2026');
+  expect(summary?.textContent).toContain('10:00');
+  view.unmount();
+});
+
 test('completes an appointment request through the provider boundary', async () => {
   const provider = createLocalBookingProvider();
   const createBooking = vi.spyOn(provider, 'createBooking');

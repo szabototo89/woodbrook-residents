@@ -11,8 +11,10 @@ test('introduces the booking journey with the shared editorial header', () => {
   expect(markup).toContain('class="editorial-page-hero"');
   expect(markup).toContain('Request an appointment');
   expect(markup).toContain('Choose a treatment');
-  expect(markup).toContain('Pick a preferred date');
-  expect(markup).toContain('Await confirmation');
+  expect(markup).toContain('Professional &amp; friendly care');
+  expect(markup).toContain('Relaxing environment');
+  expect(markup).toContain('Tailored to your needs');
+  expect(markup).toContain('Your booking');
   expect(markup).toContain('lucide-calendar-days');
 });
 
