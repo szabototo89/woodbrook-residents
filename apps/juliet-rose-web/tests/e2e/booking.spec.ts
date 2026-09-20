@@ -185,6 +185,27 @@ test('uses the concept two-column booking layout on desktop', async ({
     page.getByRole('complementary', { name: 'Your booking summary' }),
   ).toBeVisible();
   await expect(page.getByText('More than a treatment')).toBeVisible();
+
+  const editorialTreatment = await page
+    .locator('.booking-editorial-card')
+    .evaluate((card) => {
+      const caption = card.querySelector('figcaption')!;
+      const captionStyle = getComputedStyle(caption);
+      const cardBounds = card.getBoundingClientRect();
+      const captionBounds = caption.getBoundingClientRect();
+      return {
+        overlay: getComputedStyle(card, '::after').backgroundImage,
+        fontSize: Number.parseFloat(captionStyle.fontSize),
+        textShadow: captionStyle.textShadow,
+        rightInset: cardBounds.right - captionBounds.right,
+      };
+    });
+
+  expect(editorialTreatment.overlay).toContain('90deg');
+  expect(editorialTreatment.overlay).toContain('rgba(62, 40, 29');
+  expect(editorialTreatment.fontSize).toBeLessThanOrEqual(22);
+  expect(editorialTreatment.textShadow).not.toBe('none');
+  expect(editorialTreatment.rightInset).toBeGreaterThanOrEqual(24);
 });
 
 test('keeps desktop-only booking context out of the compact mobile flow', async ({

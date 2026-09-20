@@ -857,9 +857,10 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      180deg,
-      rgba(65, 45, 38, 0.02),
-      rgba(54, 35, 29, 0.3)
+      90deg,
+      transparent 35%,
+      rgba(62, 40, 29, 0.08) 55%,
+      rgba(62, 40, 29, 0.3) 100%
     );
     content: '';
   }
@@ -876,22 +877,23 @@
   .booking-editorial-card figcaption {
     position: relative;
     z-index: 1;
-    margin: 51px 22px 0 auto;
+    margin: 48px 26px 0 auto;
     color: white;
     font-family: var(--serif);
-    font-size: 1.55rem;
+    font-size: 1.35rem;
     font-style: italic;
-    line-height: 1.2;
+    line-height: 1.24;
     text-align: right;
+    text-shadow: 0 1px 8px rgba(45, 28, 20, 0.2);
   }
 
   .booking-editorial-lead {
     display: inline-block;
-    max-width: 180px;
+    max-width: 165px;
   }
 
   .booking-editorial-card figcaption .booking-editorial-detail {
-    font-size: 1.25rem;
+    font-size: 1.08rem;
   }
 
   .booking-reassurance {
