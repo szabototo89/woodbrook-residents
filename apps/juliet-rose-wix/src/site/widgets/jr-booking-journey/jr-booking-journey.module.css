@@ -843,6 +843,7 @@
     font-size: 1.55rem;
     font-weight: 500;
     letter-spacing: -0.02em;
+    line-height: 1.02;
   }
 
   .summaryCard > p {

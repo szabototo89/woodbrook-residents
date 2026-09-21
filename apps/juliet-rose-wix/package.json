@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite dev --port 3003",
     "cosmos": "cosmos",
+    "css:parity": "bun scripts/css-parity.mjs",
     "typecheck": "tsc --noEmit",
     "test:unit": "vitest run --coverage src"
   },

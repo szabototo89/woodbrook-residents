@@ -36,7 +36,16 @@ bun run dev:juliet-rose-wix
 ```
 
 This opens the Cosmos playground with one fixture per widget
-(`JrHero`, `JrStudioSections`, `JrTreatmentCards` in all/home/catalog
-displays, `JrBookingJourney` default and preselected). Imagery resolves
+(`Hero`, `GiftCard`, `VisitUs`, `BookingPolicy`, `CategoryGrid`,
+`FeaturedGrid`, `TreatmentCatalog`, `TreatmentGuidance`, `BookingJourney`
+default and preselected). Imagery resolves
 from `../juliet-rose-web/public` for local review only; Wix Media URLs
 replace those paths at install time.
+
+## CSS parity
+
+`bun run --cwd apps/juliet-rose-wix css:parity` compares computed styles of
+the original site against widget fixtures at identical CSS widths (needs
+the original dev server on `:3003` plus Cosmos on `:5005`/`:5054`).
+Text widths allow 8px for font shaping across DOM contexts; image widths
+allow 20px for the Cosmos renderer body margin. Anything else fails.
