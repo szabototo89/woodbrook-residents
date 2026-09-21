@@ -1,0 +1,67 @@
+.root {
+  --jr-hero-backdrop: #fbf8f4;
+  position: relative;
+  overflow: hidden;
+  background: var(--jr-hero-backdrop);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.location {
+  font-weight: 600;
+}
+
+.copy {
+  max-width: 36rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 999px;
+}
+
+.primaryButton {
+  background: #2f2a26;
+  color: #fff;
+}
+
+.secondaryButton {
+  border: 1px solid currentColor;
+}
+
+.policyLink {
+  display: inline-block;
+  margin-top: 1rem;
+}
