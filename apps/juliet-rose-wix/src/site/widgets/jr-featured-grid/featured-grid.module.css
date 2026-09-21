@@ -1,0 +1,245 @@
+.root {
+  --jr-rose: #a45458;
+  --jr-rose-dark: #874247;
+  --jr-heading-ink: #2d2926;
+  --jr-body-ink: #332f2c;
+  --jr-muted: #625956;
+  --jr-serif:
+    'Cormorant Garamond', 'Iowan Old Style', Baskerville, Georgia, serif;
+  --jr-sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--jr-body-ink);
+  font-family: var(--jr-sans);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+.root a {
+  color: inherit;
+}
+
+.featuredSection {
+  padding: 48px 0 44px;
+  background: #f8f5f1;
+  border-top: 1px solid #efe9e4;
+}
+
+.sectionHeading {
+  margin-bottom: 32px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.sectionHeading .eyebrow {
+  margin-bottom: 10px;
+}
+
+.sectionHeading h2 {
+  margin: 0;
+  color: var(--jr-heading-ink);
+  font-family: var(--jr-serif);
+  font-weight: 500;
+}
+
+.sectionLink {
+  margin-bottom: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--jr-rose-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.treatmentCard {
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.63);
+  border-radius: 4px;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.treatmentCard:hover {
+  box-shadow: 0 8px 24px rgba(135, 66, 71, 0.12);
+  transform: translateY(-2px);
+}
+
+.treatmentCard:hover .cardButton {
+  background: var(--jr-rose-dark);
+}
+
+.treatmentCard > img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.treatmentCard:nth-child(1) > img {
+  object-position: 45% 36%;
+}
+
+.treatmentCard:nth-child(2) > img {
+  object-position: 52% 34%;
+}
+
+.treatmentCard:nth-child(3) > img {
+  object-position: 67% 48%;
+  transform: scaleX(-1);
+}
+
+.treatmentCard:nth-child(4) > img {
+  object-position: 52% 48%;
+}
+
+.treatmentCopy {
+  height: 162px;
+  padding: 10px 15px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.treatmentCopy h3 {
+  min-height: 55px;
+  margin: 0;
+  overflow: hidden;
+  font-size: 1.55rem;
+  font-weight: 500;
+  line-height: 1.1;
+  white-space: normal;
+}
+
+.treatmentMeta {
+  margin-top: 7px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--jr-muted);
+  font-size: 0.875rem;
+}
+
+.duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.iconClock {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  display: inline-block;
+  background: url('/images/icon-clock.png') center / contain no-repeat;
+}
+
+.treatmentMeta strong {
+  color: var(--jr-heading-ink);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.cardButton {
+  width: 100%;
+  min-height: 33px;
+  margin-top: auto;
+  padding: 0 25px;
+  padding-inline: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--jr-rose);
+  border-radius: 4px;
+  background: var(--jr-rose);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.cardButton .iconArrow {
+  background-image: url('/images/icon-arrow-white.png');
+}
+
+.iconArrow {
+  width: 14px;
+  height: 8px;
+  flex: 0 0 auto;
+  display: inline-block;
+  background: url('/images/icon-arrow-rose.png') center / contain no-repeat;
+}
+
+@media (min-width: 1200px) {
+  .treatmentCopy {
+    height: 162px;
+  }
+}
+
+@media (max-width: 900px) {
+  .sectionHeading {
+    height: auto;
+    margin-bottom: 28px;
+    align-items: flex-start;
+  }
+
+  .sectionHeading h2 {
+    max-width: 300px;
+    font-size: clamp(2.4rem, 3vw, 3.3rem);
+    line-height: 1.02;
+  }
+
+  .sectionLink {
+    display: none;
+  }
+
+  .featuredGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .treatmentCard > img {
+    height: 118px;
+  }
+
+  .treatmentCopy {
+    height: 158px;
+    padding: 12px;
+  }
+
+  .treatmentCopy h3 {
+    min-height: 55px;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 430px) {
+  .featuredGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .treatmentCard {
+    display: grid;
+    grid-template-columns: 43% 1fr;
+  }
+
+  .treatmentCard > img {
+    height: 100%;
+  }
+}

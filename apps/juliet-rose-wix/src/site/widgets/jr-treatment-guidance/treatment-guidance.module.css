@@ -1,0 +1,101 @@
+.root {
+  --jr-rose: #a45458;
+  --jr-rose-dark: #874247;
+  --jr-heading-ink: #2d2926;
+  --jr-body-ink: #332f2c;
+  --jr-muted: #625956;
+  --jr-serif:
+    'Cormorant Garamond', 'Iowan Old Style', Baskerville, Georgia, serif;
+  --jr-sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--jr-body-ink);
+  font-family: var(--jr-sans);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+.root a {
+  color: inherit;
+}
+
+.guidance {
+  min-height: 116px;
+  margin-top: 26px;
+  padding: 24px 44px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 28px;
+  border-radius: 12px;
+  background: linear-gradient(100deg, #f7eeeb 0%, #f4e8e5 100%);
+}
+
+.guidance > svg {
+  width: 64px;
+  height: 64px;
+  color: rgba(164, 84, 88, 0.4);
+}
+
+.guidance h2 {
+  margin: 0;
+  color: var(--jr-heading-ink);
+  font-family: var(--jr-serif);
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.guidance p {
+  margin: 4px 0 0;
+  color: var(--jr-muted);
+  font-size: 0.9rem;
+}
+
+.guidanceButton {
+  min-width: 154px;
+  min-height: 40px;
+  padding: 0 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--jr-rose);
+  border-radius: 4px;
+  background: var(--jr-rose);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.guidanceButton:hover {
+  background: var(--jr-rose-dark);
+  transform: translateY(-1px);
+}
+
+.guidanceButton svg {
+  width: 17px;
+  height: 17px;
+}
+
+@media (max-width: 560px) {
+  .guidance {
+    padding: 26px 22px;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+  }
+
+  .guidance > svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  .guidanceButton {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}

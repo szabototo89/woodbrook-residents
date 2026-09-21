@@ -5,7 +5,10 @@ import { siteWidgetExtensions } from './extensions';
 test('site widget registry lists every Juliet Rose widget once', () => {
   expect(siteWidgetExtensions.map((widget) => widget.tagName)).toEqual([
     'jr-hero',
-    'jr-treatment-cards',
+    'jr-category-grid',
+    'jr-featured-grid',
+    'jr-treatment-catalog',
+    'jr-treatment-guidance',
     'jr-studio-sections',
     'jr-booking-journey',
   ]);
