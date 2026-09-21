@@ -5,6 +5,7 @@ import {
   type BookingService,
   type TimeSlot,
 } from './booking';
+import styles from './jr-booking-journey.module.css';
 
 type JrBookingSummaryProps = Readonly<{
   service: BookingService | undefined;
@@ -14,12 +15,12 @@ type JrBookingSummaryProps = Readonly<{
 
 export function JrBookingSummary(props: JrBookingSummaryProps) {
   return (
-    <aside className="booking-sidebar" aria-label="Your booking summary">
-      <section className="booking-summary-card">
+    <aside className={styles.sidebar} aria-label="Your booking summary">
+      <section className={styles.summaryCard}>
         <h2>Your booking</h2>
         <p>Here&rsquo;s a summary of your appointment request.</p>
 
-        <dl className="booking-summary-list">
+        <dl className={styles.summaryList}>
           <div>
             <Flower2 aria-hidden="true" strokeWidth={1.5} />
             <dt>Treatment</dt>
@@ -57,7 +58,7 @@ export function JrBookingSummary(props: JrBookingSummaryProps) {
           </div>
         </dl>
 
-        <div className="booking-next-step">
+        <div className={styles.nextStep}>
           <Mail aria-hidden="true" strokeWidth={1.5} />
           <div>
             <h3>What happens next?</h3>
@@ -69,7 +70,7 @@ export function JrBookingSummary(props: JrBookingSummaryProps) {
         </div>
       </section>
 
-      <figure className="booking-editorial-card">
+      <figure className={styles.editorialCard}>
         <img
           src="/images/studio-interior.jpg"
           alt=""
@@ -77,10 +78,10 @@ export function JrBookingSummary(props: JrBookingSummaryProps) {
           height="533"
         />
         <figcaption>
-          <span className="booking-editorial-lead">
+          <span className={styles.editorialLead}>
             <span>More than a</span> <span>treatment</span>
           </span>
-          <span className="booking-editorial-detail">
+          <span className={styles.editorialDetail}>
             <span>&mdash; a little time</span> <span>for you.</span>
           </span>
         </figcaption>

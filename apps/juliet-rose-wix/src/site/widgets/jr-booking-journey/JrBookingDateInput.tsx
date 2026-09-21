@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { isBookableDateString } from './booking';
+import styles from './jr-booking-journey.module.css';
 
 type JrBookingDateInputProps = Readonly<{
   value?: string;
@@ -14,6 +15,7 @@ export function JrBookingDateInput(props: JrBookingDateInputProps) {
   return (
     <div>
       <input
+        className={styles.dateInput}
         type="date"
         aria-label="Preferred date"
         value={props.value ?? ''}
@@ -35,7 +37,11 @@ export function JrBookingDateInput(props: JrBookingDateInputProps) {
           props.onSelect(next);
         }}
       />
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? (
+        <p className={styles.dateError} role="alert">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

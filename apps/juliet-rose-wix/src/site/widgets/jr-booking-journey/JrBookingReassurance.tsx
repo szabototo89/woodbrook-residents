@@ -1,5 +1,7 @@
 import { Flower2, Heart, Leaf } from 'lucide-react';
 
+import styles from './jr-booking-journey.module.css';
+
 const REASSURANCE_ITEMS = [
   { Icon: Leaf, label: 'Professional & friendly care' },
   { Icon: Heart, label: 'Relaxing environment' },
@@ -8,7 +10,7 @@ const REASSURANCE_ITEMS = [
 
 export function JrBookingReassurance() {
   return (
-    <aside className="booking-reassurance" aria-label="What to expect">
+    <aside className={styles.reassurance} aria-label="What to expect">
       <ul>
         {REASSURANCE_ITEMS.map(({ Icon, label }) => (
           <li key={label}>

@@ -5,6 +5,7 @@ import {
   type CustomerDetails,
   type CustomerErrors,
 } from './booking';
+import styles from './jr-booking-journey.module.css';
 
 type JrCustomerFormProps = Readonly<{
   disabled?: boolean;
@@ -45,13 +46,13 @@ export function JrCustomerForm(props: JrCustomerFormProps) {
 
   return (
     <form
-      className="customer-form"
+      className={styles.form}
       noValidate
       onSubmit={(event) => {
         void handleSubmit(event);
       }}
     >
-      <div className="customer-fields">
+      <div className={styles.fields}>
         <label>
           Name
           <input
@@ -64,7 +65,7 @@ export function JrCustomerForm(props: JrCustomerFormProps) {
             disabled={disabled}
             required
           />
-          <span className="field-error">{errors.name}</span>
+          <span className={styles.fieldError}>{errors.name}</span>
         </label>
 
         <label>
@@ -80,7 +81,7 @@ export function JrCustomerForm(props: JrCustomerFormProps) {
             disabled={disabled}
             required
           />
-          <span className="field-error">{errors.email}</span>
+          <span className={styles.fieldError}>{errors.email}</span>
         </label>
 
         <label>
@@ -96,12 +97,12 @@ export function JrCustomerForm(props: JrCustomerFormProps) {
             disabled={disabled}
             required
           />
-          <span className="field-error">{errors.phone}</span>
+          <span className={styles.fieldError}>{errors.phone}</span>
         </label>
       </div>
 
       <label>
-        <span className="field-label">
+        <span className={styles.fieldLabel}>
           Notes <span>(optional)</span>
         </span>
         <textarea
@@ -114,14 +115,14 @@ export function JrCustomerForm(props: JrCustomerFormProps) {
         />
       </label>
 
-      <div className="booking-submit-row">
-        <label className="booking-consent">
+      <div className={styles.submitRow}>
+        <label className={styles.consent}>
           <input type="checkbox" disabled={disabled} />
           <span>I agree to be contacted about my appointment request.</span>
         </label>
 
         <button
-          className="primary-button booking-submit"
+          className={`${styles.primaryButton} ${styles.submit}`}
           type="submit"
           disabled={disabled || submitting}
         >

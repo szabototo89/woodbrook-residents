@@ -1,4 +1,5 @@
 import type { TimeSlot } from './booking';
+import styles from './jr-booking-journey.module.css';
 
 type JrBookingTimeSlotsProps = Readonly<{
   slots: readonly TimeSlot[];
@@ -8,16 +9,18 @@ type JrBookingTimeSlotsProps = Readonly<{
 
 export function JrBookingTimeSlots(props: JrBookingTimeSlotsProps) {
   if (props.slots.length === 0) {
-    return (
-      <p className="booking-hint">Choose a date to see preferred times.</p>
-    );
+    return <p className={styles.hint}>Choose a date to see preferred times.</p>;
   }
 
   return (
-    <div className="time-grid" role="radiogroup" aria-label="Preferred time">
+    <div
+      className={styles.timeGrid}
+      role="radiogroup"
+      aria-label="Preferred time"
+    >
       {props.slots.map((slot) => (
         <label
-          className={props.value === slot.start ? 'is-selected' : undefined}
+          className={props.value === slot.start ? styles.isSelected : undefined}
           key={slot.start}
         >
           <input

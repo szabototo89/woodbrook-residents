@@ -25,6 +25,7 @@ import { JrBookingSummary } from './JrBookingSummary';
 import { JrBookingTimeSlots } from './JrBookingTimeSlots';
 import { JrCustomerForm } from './JrCustomerForm';
 import { JrTreatmentPicker } from './JrTreatmentPicker';
+import styles from './jr-booking-journey.module.css';
 
 export type BookingJourneyViewMode = 'Editor' | 'Preview' | 'Site';
 
@@ -116,140 +117,146 @@ export function JrBookingJourney(props: JrBookingJourneyProps) {
 
   if (confirmation && service && date && slot) {
     return (
-      <section className="booking-confirmation" role="status">
-        <p className="eyebrow">Request received</p>
-        <h1>Thank you</h1>
-        <p>
-          Your request for <strong>{service.name}</strong> on{' '}
-          <strong>{formatBookingDate(date)}</strong> at{' '}
-          <strong>{slot.label}</strong> has been sent. Juliet Rose will confirm
-          your appointment using the contact details provided.
-        </p>
-        <p className="booking-reference">
-          Request reference: {confirmation.reference}
-        </p>
-        <a className="secondary-button" href="/treatments">
-          Back to treatments
-        </a>
-      </section>
+      <div className={styles.page}>
+        <section className={styles.confirmation} role="status">
+          <p className={styles.eyebrow}>Request received</p>
+          <h1>Thank you</h1>
+          <p>
+            Your request for <strong>{service.name}</strong> on{' '}
+            <strong>{formatBookingDate(date)}</strong> at{' '}
+            <strong>{slot.label}</strong> has been sent. Juliet Rose will
+            confirm your appointment using the contact details provided.
+          </p>
+          <p className={styles.reference}>
+            Request reference: {confirmation.reference}
+          </p>
+          <a className={styles.secondaryButton} href="/treatments">
+            Back to treatments
+          </a>
+        </section>
+      </div>
     );
   }
 
   return (
-    <div className="booking-journey">
-      <JrBookingHero />
+    <div className={styles.page}>
+      <div className={styles.journey}>
+        <JrBookingHero />
 
-      <div className="booking-workspace page-width">
-        <div className="booking-flow">
-          <section className="booking-step" aria-labelledby="treatment-step">
-            <span className="step-number">1</span>
-            <div>
-              <h2 id="treatment-step">Choose a treatment</h2>
-              <p className="booking-hint">
-                Select the treatment you&rsquo;d like to book.
-              </p>
-              <div className="booking-treatment-layout">
-                <div>
-                  <span className="booking-field-label">Treatment</span>
-                  <JrTreatmentPicker
-                    services={services ?? []}
-                    value={serviceSlug}
-                    onChange={selectService}
-                  />
-                  {service ? (
-                    <p className="selected-treatment">
-                      {service.durationMinutes} minutes · €
-                      {service.priceCents / 100}
-                    </p>
-                  ) : null}
-                </div>
-                <figure className="booking-treatment-editorial">
-                  <img
-                    src="/images/gift-card.jpg"
-                    alt=""
-                    width="800"
-                    height="347"
-                  />
-                  <figcaption>
-                    &ldquo;Take time for
-                    <br />
-                    yourself. You deserve it.&rdquo;
-                  </figcaption>
-                </figure>
-              </div>
-            </div>
-          </section>
-
-          <section className="booking-step" aria-labelledby="date-step">
-            <span className="step-number">2</span>
-            <div>
-              <h2 id="date-step">Choose a date</h2>
-              <p className="booking-hint">Appointments are Monday to Friday.</p>
-              <div className="booking-calendar-layout">
-                <JrBookingDateInput
-                  value={date}
-                  min={today}
-                  max={maxDateString(today)}
-                  onSelect={selectDate}
-                />
-                <aside
-                  className="booking-calendar-key"
-                  aria-label="Calendar key"
-                >
-                  <ul>
-                    <li className="is-selected">Selected date</li>
-                    <li className="is-available">Available date</li>
-                    <li className="is-unavailable">Unavailable date</li>
-                  </ul>
-                  <p>
-                    <CalendarDays aria-hidden="true" strokeWidth={1.5} />
-                    <span>
-                      If you can&rsquo;t find a suitable date, please get in
-                      touch and we&rsquo;ll do our best to help.
-                    </span>
-                  </p>
-                </aside>
-              </div>
-            </div>
-          </section>
-
-          <section className="booking-step" aria-labelledby="time-step">
-            <span className="step-number">3</span>
-            <div>
-              <h2 id="time-step">Choose a preferred time</h2>
-              {date ? (
-                <p className="booking-hint">
-                  Available times for {formatBookingDate(date)}.
+        <div className={styles.workspace}>
+          <div className={styles.flow}>
+            <section className={styles.step} aria-labelledby="treatment-step">
+              <span className={styles.stepNumber}>1</span>
+              <div>
+                <h2 id="treatment-step">Choose a treatment</h2>
+                <p className={styles.hint}>
+                  Select the treatment you&rsquo;d like to book.
                 </p>
-              ) : null}
-              <JrBookingTimeSlots
-                slots={slots}
-                value={slotStart}
-                onChange={setSlotStart}
-              />
-            </div>
-          </section>
+                <div className={styles.treatmentLayout}>
+                  <div>
+                    <span className={styles.fieldLabel}>Treatment</span>
+                    <JrTreatmentPicker
+                      services={services ?? []}
+                      value={serviceSlug}
+                      onChange={selectService}
+                    />
+                    {service ? (
+                      <p className={styles.selectedTreatment}>
+                        {service.durationMinutes} minutes · €
+                        {service.priceCents / 100}
+                      </p>
+                    ) : null}
+                  </div>
+                  <figure className={styles.treatmentEditorial}>
+                    <img
+                      src="/images/gift-card.jpg"
+                      alt=""
+                      width="800"
+                      height="347"
+                    />
+                    <figcaption>
+                      &ldquo;Take time for
+                      <br />
+                      yourself. You deserve it.&rdquo;
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
+            </section>
 
-          <section className="booking-step" aria-labelledby="details-step">
-            <span className="step-number">4</span>
-            <div>
-              <h2 id="details-step">Your details</h2>
-              <p className="booking-hint">
-                Please provide your contact information so we can confirm your
-                appointment.
-              </p>
-              <JrCustomerForm
-                disabled={!service || !date || !slot}
-                onSubmit={submit}
-              />
-            </div>
-          </section>
+            <section className={styles.step} aria-labelledby="date-step">
+              <span className={styles.stepNumber}>2</span>
+              <div>
+                <h2 id="date-step">Choose a date</h2>
+                <p className={styles.hint}>
+                  Appointments are Monday to Friday.
+                </p>
+                <div className={styles.calendarLayout}>
+                  <JrBookingDateInput
+                    value={date}
+                    min={today}
+                    max={maxDateString(today)}
+                    onSelect={selectDate}
+                  />
+                  <aside
+                    className={styles.calendarKey}
+                    aria-label="Calendar key"
+                  >
+                    <ul>
+                      <li className={styles.isSelected}>Selected date</li>
+                      <li className={styles.isAvailable}>Available date</li>
+                      <li className={styles.isUnavailable}>Unavailable date</li>
+                    </ul>
+                    <p>
+                      <CalendarDays aria-hidden="true" strokeWidth={1.5} />
+                      <span>
+                        If you can&rsquo;t find a suitable date, please get in
+                        touch and we&rsquo;ll do our best to help.
+                      </span>
+                    </p>
+                  </aside>
+                </div>
+              </div>
+            </section>
+
+            <section className={styles.step} aria-labelledby="time-step">
+              <span className={styles.stepNumber}>3</span>
+              <div>
+                <h2 id="time-step">Choose a preferred time</h2>
+                {date ? (
+                  <p className={styles.hint}>
+                    Available times for {formatBookingDate(date)}.
+                  </p>
+                ) : null}
+                <JrBookingTimeSlots
+                  slots={slots}
+                  value={slotStart}
+                  onChange={setSlotStart}
+                />
+              </div>
+            </section>
+
+            <section className={styles.step} aria-labelledby="details-step">
+              <span className={styles.stepNumber}>4</span>
+              <div>
+                <h2 id="details-step">Your details</h2>
+                <p className={styles.hint}>
+                  Please provide your contact information so we can confirm your
+                  appointment.
+                </p>
+                <JrCustomerForm
+                  disabled={!service || !date || !slot}
+                  onSubmit={submit}
+                />
+              </div>
+            </section>
+          </div>
+
+          <JrBookingSummary service={service} date={date} slot={slot} />
         </div>
 
-        <JrBookingSummary service={service} date={date} slot={slot} />
+        <JrBookingReassurance />
       </div>
-
-      <JrBookingReassurance />
     </div>
   );
 }
