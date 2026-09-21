@@ -1,8 +1,10 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, test } from 'vitest';
 
-import JrHeroFixture from './site/widgets/jr-hero/Hero.fixture';
-import JrStudioSectionsFixture from './site/widgets/jr-studio-sections/StudioSections.fixture';
+import HeroFixture from './site/widgets/jr-hero/Hero.fixture';
+import GiftCardFixture from './site/widgets/jr-gift-card/GiftCard.fixture';
+import VisitUsFixture from './site/widgets/jr-visit-us/VisitUs.fixture';
+import BookingPolicyFixture from './site/widgets/jr-booking-policy/BookingPolicy.fixture';
 import CategoryGridFixture from './site/widgets/jr-category-grid/CategoryGrid.fixture';
 import FeaturedGridFixture from './site/widgets/jr-featured-grid/FeaturedGrid.fixture';
 import TreatmentCatalogFixture from './site/widgets/jr-treatment-catalog/TreatmentCatalog.fixture';
@@ -10,18 +12,31 @@ import TreatmentGuidanceFixture from './site/widgets/jr-treatment-guidance/Treat
 import BookingJourneyFixtures from './site/widgets/jr-booking-journey/BookingJourney.fixture';
 
 test('hero fixture renders the studio headline', () => {
-  const markup = renderToStaticMarkup(JrHeroFixture);
+  const markup = renderToStaticMarkup(HeroFixture);
 
   expect(markup).toContain('Relax and Revitalize');
   expect(markup).toContain('Book an appointment');
 });
 
-test('studio fixture renders gift, visit, and policy sections', () => {
-  const markup = renderToStaticMarkup(JrStudioSectionsFixture);
+test('gift card fixture renders the gift content', () => {
+  const markup = renderToStaticMarkup(GiftCardFixture);
 
   expect(markup).toContain('The perfect gift');
+  expect(markup).toContain('Buy a gift card');
+});
+
+test('visit us fixture renders the contact content', () => {
+  const markup = renderToStaticMarkup(VisitUsFixture);
+
   expect(markup).toContain('Juliet Rose beauty studio');
+  expect(markup).toContain('0852867059');
+});
+
+test('booking policy fixture renders the policy content', () => {
+  const markup = renderToStaticMarkup(BookingPolicyFixture);
+
   expect(markup).toContain('Booking policy');
+  expect(markup).toContain('Read the full policy');
 });
 
 test('category grid fixture renders every category card', () => {

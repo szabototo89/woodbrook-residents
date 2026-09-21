@@ -9,7 +9,9 @@ test('site widget registry lists every Juliet Rose widget once', () => {
     'jr-featured-grid',
     'jr-treatment-catalog',
     'jr-treatment-guidance',
-    'jr-studio-sections',
+    'jr-gift-card',
+    'jr-visit-us',
+    'jr-booking-policy',
     'jr-booking-journey',
   ]);
   const ids = siteWidgetExtensions.map((widget) => widget.id);

@@ -4,8 +4,6 @@
   --jr-heading-ink: #2d2926;
   --jr-body-ink: #332f2c;
   --jr-muted: #625956;
-  --jr-ivory: #fbf8f4;
-  --jr-blush: #f1e2de;
   --jr-line: #e7ddd6;
   --jr-serif:
     'Cormorant Garamond', 'Iowan Old Style', Baskerville, Georgia, serif;
@@ -42,104 +40,6 @@
   font-size: clamp(2.4rem, 3vw, 3.3rem);
   letter-spacing: -0.02em;
   line-height: 1.02;
-}
-
-.gift {
-  position: relative;
-  width: min(calc(100% - 68px), 1150px);
-  height: 149px;
-  margin: 0 auto;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 41% 1fr 195px;
-  align-items: center;
-  background: #f5e6e1;
-  border-radius: 4px;
-}
-
-.giftVisual {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      transparent 31%,
-      rgba(245, 230, 225, 0.14) 38%,
-      #f5e6e1 50%
-    ),
-    url('/images/gift-card.jpg') left center / 62% auto no-repeat;
-}
-
-.giftCopy {
-  position: relative;
-  z-index: 1;
-  grid-column: 2;
-}
-
-.giftCopy .eyebrow {
-  margin-bottom: 9px;
-}
-
-.giftCopy .sectionTitle {
-  margin-bottom: 8px;
-}
-
-.giftCopy p {
-  margin: 0;
-  color: var(--jr-muted);
-  font-size: 0.875rem;
-  line-height: 1.35;
-}
-
-.giftButton {
-  position: relative;
-  z-index: 1;
-  width: 160px;
-  min-height: 40px;
-  padding: 0 25px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  justify-self: center;
-  gap: 8px;
-  border: 1px solid var(--jr-rose);
-  border-radius: 4px;
-  background: rgba(251, 248, 244, 0.38);
-  color: var(--jr-rose-dark);
-  font-size: 0.875rem;
-  font-weight: 400;
-  text-decoration: none;
-  white-space: nowrap;
-  transition:
-    background-color 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
-}
-
-.iconArrow {
-  width: 14px;
-  height: 8px;
-  flex: 0 0 auto;
-  display: inline-block;
-  background: url('/images/icon-arrow-rose.png') center / contain no-repeat;
-}
-
-@media (hover: hover) {
-  .giftButton:hover {
-    background: var(--jr-rose);
-    color: white;
-    transform: translateY(-1px);
-  }
-
-  .giftButton:hover .iconArrow {
-    background-image: url('/images/icon-arrow-white.png');
-  }
-
-  .contactButton:hover {
-    background: var(--jr-rose-dark);
-    transform: translateY(-1px);
-  }
 }
 
 .visit {
@@ -222,6 +122,14 @@
   background-image: url('/images/icon-email.png');
 }
 
+.iconArrow {
+  width: 14px;
+  height: 8px;
+  flex: 0 0 auto;
+  display: inline-block;
+  background: url('/images/icon-arrow-rose.png') center / contain no-repeat;
+}
+
 .contactButton {
   min-width: 127px;
   min-height: 35px;
@@ -286,42 +194,21 @@
   border-radius: 4px;
 }
 
-.policy {
-  width: min(906px, calc(100% - 118px));
-  margin: 0 auto 35px;
-  padding: 25px 28px;
-  display: none;
-  grid-template-columns: 190px 1fr auto;
-  align-items: center;
-  gap: 30px;
-  background: var(--jr-blush);
-  border-radius: 4px;
-}
-
-.policy:target {
-  display: grid;
-}
-
-.policy p {
-  margin: 0;
-  color: var(--jr-muted);
-  font-size: 0.875rem;
-}
-
-.policy a {
-  color: var(--jr-rose-dark);
+@media (hover: hover) {
+  .contactButton:hover {
+    background: var(--jr-rose-dark);
+    transform: translateY(-1px);
+  }
 }
 
 @media (min-width: 1200px) {
-  .visit,
-  .policy {
+  .visit {
     width: min(1100px, calc(100% - 120px));
   }
 }
 
 @media (max-width: 900px) {
-  .visit,
-  .policy {
+  .visit {
     width: calc(100% - 48px);
   }
 
@@ -333,36 +220,8 @@
 }
 
 @media (max-width: 900px) {
-  .visit,
-  .policy {
+  .visit {
     width: calc(100% - 36px);
-  }
-
-  .gift {
-    width: calc(100% - 36px);
-    height: 310px;
-    padding: 35px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
-  }
-
-  .giftVisual {
-    background:
-      linear-gradient(
-        180deg,
-        transparent 0%,
-        rgba(245, 230, 225, 0.1) 25%,
-        rgba(245, 230, 225, 0.92) 45%,
-        #f5e6e1 63%
-      ),
-      url('/images/gift-card.jpg') 40% top / auto 77% no-repeat;
-  }
-
-  .giftButton {
-    margin-top: 18px;
-    align-self: flex-start;
   }
 
   .visit {
@@ -394,14 +253,5 @@
 
   .contactPolicy {
     border-bottom: 0;
-  }
-
-  .policy:target {
-    padding: 28px 22px;
-    display: block;
-  }
-
-  .policy p {
-    margin: 18px 0;
   }
 }
