@@ -41,6 +41,7 @@ type JrBookingJourneyProps = Readonly<{
     slot: TimeSlot;
     customer: CustomerDetails;
   }) => Promise<BookingConfirmation>;
+  redirect?: (url: string) => void;
 }>;
 
 function maxDateString(today: string): string {
@@ -117,9 +118,22 @@ export function JrBookingJourney(props: JrBookingJourneyProps) {
     const submitBooking =
       props.submitBooking ??
       (isLive ? submitBookingRequest : async () => mockConfirmation());
-    setConfirmation(
-      await submitBooking({ service, date, slot, customer: details }),
-    );
+    const confirmation = await submitBooking({
+      service,
+      date,
+      slot,
+      customer: details,
+    });
+    if (confirmation.checkoutUrl) {
+      const redirect =
+        props.redirect ??
+        ((url: string) => {
+          window.location.href = url;
+        });
+      redirect(confirmation.checkoutUrl);
+      return;
+    }
+    setConfirmation(confirmation);
   }
 
   if (confirmation && service && date && slot) {

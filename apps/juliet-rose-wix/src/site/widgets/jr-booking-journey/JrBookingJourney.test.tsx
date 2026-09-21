@@ -217,3 +217,63 @@ test('jr-booking-journey preselects the service from its initial slug', async ()
   expect(view.container.textContent).toContain('60 minutes · €130');
   view.unmount();
 });
+
+test('jr-booking-journey redirects to checkout when booking returns a url', async () => {
+  const redirect = vi.fn();
+  const submitBooking = vi.fn(async () => ({
+    reference: 'JR-1',
+    status: 'requested' as const,
+    checkoutUrl: 'https://checkout.example.com/pay',
+  }));
+  const view = renderUi(
+    <JrBookingJourney
+      viewMode="Editor"
+      today="2026-09-19"
+      submitBooking={submitBooking}
+      redirect={redirect}
+    />,
+  );
+  await act(async () => {
+    await Promise.resolve();
+  });
+
+  await act(async () => {
+    setSelectValue(view.container.querySelector('select')!, 'swedish-massage');
+    await Promise.resolve();
+  });
+  await act(async () => {
+    setInputValue(
+      view.container.querySelector('input[type="date"]')!,
+      '2026-09-21',
+    );
+    await Promise.resolve();
+  });
+  await act(async () => {
+    view.container
+      .querySelector('input[value="2026-09-21T10:00:00"]')!
+      .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await Promise.resolve();
+  });
+  await act(async () => {
+    setInputValue(view.container.querySelector('input[name="name"]')!, 'Diana');
+    setInputValue(
+      view.container.querySelector('input[name="email"]')!,
+      'diana@example.com',
+    );
+    setInputValue(
+      view.container.querySelector('input[name="phone"]')!,
+      '0851234567',
+    );
+    await Promise.resolve();
+  });
+  await act(async () => {
+    view.container
+      .querySelector('button[type="submit"]')!
+      .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await Promise.resolve();
+  });
+
+  expect(redirect).toHaveBeenCalledWith('https://checkout.example.com/pay');
+  expect(view.container.querySelector('[role="status"]')).toBeNull();
+  view.unmount();
+});

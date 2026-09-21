@@ -1,4 +1,5 @@
 import { availabilityTimeSlots, bookings, services } from '@wix/bookings';
+import { redirects } from '@wix/redirects';
 import { createClient } from '@wix/sdk';
 import { site } from '@wix/site';
 
@@ -50,7 +51,7 @@ function bookingsClient() {
   return createClient({
     host: site.host(),
     auth: site.auth(),
-    modules: { services, availabilityTimeSlots, bookings },
+    modules: { services, availabilityTimeSlots, bookings, redirects },
   });
 }
 
@@ -107,6 +108,7 @@ function toTimeSlot(slot: AvailabilitySlotShape): TimeSlot | null {
   }
   return {
     start,
+    end: slot.localEndDate ?? undefined,
     label: toTimeSlotLabel(start),
     scheduleId: undefined,
     resourceId: slot.availableResources?.[0]?.resources?.[0]?._id ?? undefined,
@@ -146,9 +148,44 @@ function ownerLocationType(
 }
 
 /**
- * Creates the booking in Wix Bookings and returns its reference.
- * Live-site and preview only. Paid services continue to Wix checkout,
- * which redirects the visitor away from the widget.
+ * Creates a Wix checkout session for a paid booking slot and returns its
+ * URL. The visitor completes payment on the Wix checkout page, which
+ * confirms the booking. Live-site and preview only.
+ */
+export async function createBookingCheckoutUrl(
+  request: BookingRequest,
+): Promise<string> {
+  const scheduleId = request.slot.scheduleId ?? request.service.scheduleId;
+  if (!scheduleId) {
+    throw new Error('The selected slot cannot be checked out yet.');
+  }
+  const response = await bookingsClient().redirects.createRedirectSession({
+    bookingsCheckout: {
+      slotAvailability: {
+        slot: {
+          serviceId: request.service.id,
+          scheduleId,
+          startDate: request.slot.start,
+          ...(request.slot.end ? { endDate: request.slot.end } : {}),
+          ...(request.slot.resourceId
+            ? { resource: { _id: request.slot.resourceId } }
+            : {}),
+        },
+      },
+      timezone: 'Europe/Dublin',
+    },
+  });
+  const url = response.redirectSession?.fullUrl;
+  if (!url) {
+    throw new Error('The checkout session did not return a URL.');
+  }
+  return url;
+}
+
+/**
+ * Creates the booking in Wix Bookings and returns its reference. Paid
+ * services also get a Wix checkout URL, which redirects the visitor away
+ * from the widget to complete payment. Live-site and preview only.
  */
 export async function submitBookingRequest(
   request: BookingRequest,
@@ -184,5 +221,8 @@ export async function submitBookingRequest(
   return {
     reference: response.booking?._id ?? request.slot.start,
     status: 'requested',
+    ...(request.service.priceCents > 0
+      ? { checkoutUrl: await createBookingCheckoutUrl(request) }
+      : {}),
   };
 }

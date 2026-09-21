@@ -79,4 +79,8 @@ test('editor mocks cover services and daily slots without backend calls', () => 
     '14:00',
     '16:30',
   ]);
+  expect(MOCK_SLOTS('2026-09-21')[0]).toMatchObject({
+    start: '2026-09-21T10:00:00',
+    end: '2026-09-21T11:00:00',
+  });
 });

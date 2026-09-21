@@ -9,6 +9,7 @@ export type BookingService = Readonly<{
 
 export type TimeSlot = Readonly<{
   start: string;
+  end?: string;
   label: string;
   scheduleId?: string;
   resourceId?: string;
@@ -38,6 +39,7 @@ export type BookingRequest = Readonly<{
 export type BookingConfirmation = Readonly<{
   reference: string;
   status: 'requested';
+  checkoutUrl?: string;
 }>;
 
 export function toDateString(date: Date): string {
@@ -115,10 +117,22 @@ export const MOCK_SERVICES: readonly BookingService[] = [
   },
 ];
 
+function addMinutes(label: string, minutes: number): string {
+  const [hours, mins] = label.split(':').map(Number);
+  const total = (hours ?? 0) * 60 + (mins ?? 0) + minutes;
+  const endHours = `${Math.floor(total / 60)}`.padStart(2, '0');
+  const endMinutes = `${total % 60}`.padStart(2, '0');
+  return `${endHours}:${endMinutes}`;
+}
+
 /** Editor preview slots for any date. Never booked from. */
-export function MOCK_SLOTS(date: string): readonly TimeSlot[] {
+export function MOCK_SLOTS(
+  date: string,
+  durationMinutes = 60,
+): readonly TimeSlot[] {
   return ['10:00', '11:30', '14:00', '16:30'].map((label) => ({
     start: `${date}T${label}:00`,
+    end: `${date}T${addMinutes(label, durationMinutes)}:00`,
     label,
   }));
 }
