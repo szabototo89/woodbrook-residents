@@ -1,0 +1,40 @@
+{
+  "name": "juliet-rose-wix",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --port 3003",
+    "cosmos": "cosmos",
+    "css:parity": "bun scripts/css-parity.mjs",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run --coverage src"
+  },
+  "dependencies": {
+    "@fontsource-variable/cormorant-garamond": "^5.3.0",
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@wix/bookings": "^1.0.1696",
+    "@wix/data": "^1.0.522",
+    "@wix/design-system": "^1.327.0",
+    "@wix/editor": "^1.863.0",
+    "@wix/redirects": "^1.0.129",
+    "@wix/sdk": "^1.21.16",
+    "@wix/site": "^1.68.0",
+    "@wix/site-window": "^1.59.0",
+    "lucide-react": "^0.544.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-to-webcomponent": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "happy-dom": "^20.14.5",
+    "playwright": "1.63.0",
+    "react-cosmos": "7.4.1",
+    "react-cosmos-plugin-vite": "7.4.0",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.10"
+  }
+}

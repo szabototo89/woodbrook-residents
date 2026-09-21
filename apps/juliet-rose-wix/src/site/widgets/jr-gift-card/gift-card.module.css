@@ -1,0 +1,162 @@
+.root {
+  --jr-rose: #a45458;
+  --jr-rose-dark: #874247;
+  --jr-heading-ink: #2d2926;
+  --jr-body-ink: #332f2c;
+  --jr-muted: #625956;
+  --jr-serif:
+    'Cormorant Garamond Variable', 'Cormorant Garamond', 'Iowan Old Style',
+    Baskerville, Georgia, serif;
+  --jr-sans: 'DM Sans Variable', 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--jr-body-ink);
+  font-family: var(--jr-sans);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--jr-rose-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.sectionTitle {
+  margin: 2px 0 0;
+  color: var(--jr-heading-ink);
+  font-family: var(--jr-serif);
+  font-weight: 500;
+  font-size: clamp(2.4rem, 3vw, 3.3rem);
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+.gift {
+  position: relative;
+  width: min(calc(100% - 68px), 1150px);
+  height: 149px;
+  margin: 0 auto;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 41% 1fr 195px;
+  align-items: center;
+  background: #f5e6e1;
+  border-radius: 4px;
+}
+
+.giftVisual {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 31%,
+      rgba(245, 230, 225, 0.14) 38%,
+      #f5e6e1 50%
+    ),
+    url('/images/gift-card.jpg') left center / 62% auto no-repeat;
+}
+
+.giftCopy {
+  position: relative;
+  z-index: 1;
+  grid-column: 2;
+}
+
+.giftCopy .eyebrow {
+  margin-bottom: 9px;
+}
+
+.giftCopy .sectionTitle {
+  margin-bottom: 8px;
+}
+
+.giftCopy p {
+  margin: 0;
+  color: var(--jr-muted);
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.giftButton {
+  position: relative;
+  z-index: 1;
+  width: 160px;
+  min-height: 40px;
+  padding: 0 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  gap: 8px;
+  border: 1px solid var(--jr-rose);
+  border-radius: 4px;
+  background: rgba(251, 248, 244, 0.38);
+  color: var(--jr-rose-dark);
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.iconArrow {
+  width: 14px;
+  height: 8px;
+  flex: 0 0 auto;
+  display: inline-block;
+  background: url('/images/icon-arrow-rose.png') center / contain no-repeat;
+}
+
+@media (hover: hover) {
+  .giftButton:hover {
+    background: var(--jr-rose);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  .giftButton:hover .iconArrow {
+    background-image: url('/images/icon-arrow-white.png');
+  }
+}
+
+@media (max-width: 900px) {
+  .gift {
+    width: calc(100% - 36px);
+    height: 310px;
+    padding: 35px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  .giftVisual {
+    background:
+      linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(245, 230, 225, 0.1) 25%,
+        rgba(245, 230, 225, 0.92) 45%,
+        #f5e6e1 63%
+      ),
+      url('/images/gift-card.jpg') 40% top / auto 77% no-repeat;
+  }
+
+  .giftButton {
+    margin-top: 18px;
+    align-self: flex-start;
+  }
+}
