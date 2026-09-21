@@ -14,13 +14,25 @@
   line-height: 1.55;
 }
 
-.root a {
-  color: inherit;
+.root img {
+  display: block;
+  max-width: 100%;
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
 }
 
 .homeSection {
   padding: 48px 0 44px;
   background: #fbf9f6;
+}
+
+.container {
+  width: min(906px, calc(100% - 118px));
+  margin-inline: auto;
 }
 
 .sectionHeading {
@@ -120,6 +132,8 @@
 
 .categoryCopy h3 {
   margin: 0 0 10px;
+  color: var(--jr-heading-ink);
+  font-family: var(--jr-serif);
   font-size: 1.55rem;
   font-weight: 500;
   line-height: 1.1;
@@ -154,6 +168,14 @@
 }
 
 @media (min-width: 1200px) {
+  .container {
+    width: min(1100px, calc(100% - 120px));
+  }
+
+  .categoryCard > img {
+    height: 120px;
+  }
+
   .categoryCopy {
     height: 158px;
   }
@@ -164,6 +186,10 @@
 }
 
 @media (max-width: 900px) {
+  .container {
+    width: calc(100% - 36px);
+  }
+
   .sectionHeading {
     height: auto;
     margin-bottom: 28px;

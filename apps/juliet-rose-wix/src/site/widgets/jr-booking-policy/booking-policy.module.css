@@ -14,8 +14,10 @@
   line-height: 1.55;
 }
 
-.root a {
-  color: inherit;
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
 }
 
 .eyebrow {

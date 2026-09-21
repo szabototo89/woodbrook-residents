@@ -17,15 +17,17 @@ export function TreatmentCatalog(props: TreatmentCatalogProps) {
   })).filter((section) => section.treatments.length > 0);
 
   return (
-    <div className={styles.catalog}>
-      {sections.map((section) => (
-        <CategorySection
-          meta={section.meta}
-          treatments={section.treatments}
-          bookingBaseUrl={bookingBaseUrl}
-          key={section.meta.id}
-        />
-      ))}
+    <div className={styles.root}>
+      <div className={styles.catalog}>
+        {sections.map((section) => (
+          <CategorySection
+            meta={section.meta}
+            treatments={section.treatments}
+            bookingBaseUrl={bookingBaseUrl}
+            key={section.meta.id}
+          />
+        ))}
+      </div>
     </div>
   );
 }

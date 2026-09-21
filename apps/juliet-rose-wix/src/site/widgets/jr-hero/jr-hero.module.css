@@ -18,6 +18,17 @@
   line-height: 1.55;
 }
 
+.root img {
+  display: block;
+  max-width: 100%;
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
 .image,
 .wash {
   position: absolute;
