@@ -5,12 +5,15 @@ import { BOOKING_URL } from '../features/home/content';
 const navigationItems = [
   { label: 'Home', href: '/' },
   { label: 'Treatments', href: '/treatments' },
-  { label: 'Gift Cards', href: '/#gift-cards' },
+  { label: 'Gift Cards', href: '/gift-cards' },
   { label: 'Contact', href: '/#contact' },
 ] as const;
 
 type NavigationHref = (typeof navigationItems)[number]['href'];
-type ActiveNavigationItem = Extract<NavigationHref, '/' | '/treatments'>;
+type ActiveNavigationItem = Extract<
+  NavigationHref,
+  '/' | '/treatments' | '/gift-cards'
+>;
 
 type SiteHeaderProps = {
   activeNavigationItem?: ActiveNavigationItem;
@@ -21,6 +24,7 @@ export function toActiveNavigationItem(
 ): ActiveNavigationItem | undefined {
   if (pathname === '/') return '/';
   if (pathname === '/treatments') return '/treatments';
+  if (pathname === '/gift-cards') return '/gift-cards';
   return undefined;
 }
 

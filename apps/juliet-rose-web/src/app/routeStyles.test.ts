@@ -22,12 +22,20 @@ const TREATMENT_SELECTORS = [
   '.treatment-guidance',
 ];
 
-test('global styles stay free of booking and treatment page rules', () => {
+const GIFT_CARD_SELECTORS = [
+  '.gift-card-page',
+  '.gift-card-hero',
+  '.gift-card-highlights',
+  '.gift-card-help',
+];
+
+test('global styles stay free of route-specific page rules', () => {
   const globalStyles = readSource('styles.css');
 
   for (const selector of [
     ...BOOKING_SELECTORS,
     ...TREATMENT_SELECTORS,
+    ...GIFT_CARD_SELECTORS,
     '.editorial-page-hero',
   ]) {
     expect(globalStyles).not.toContain(selector);
@@ -50,6 +58,16 @@ test('treatment page styles ship with the treatments route', () => {
     expect(treatmentStyles).toContain(selector);
   }
   expect(treatmentStyles).not.toContain('.customer-form');
+});
+
+test('gift-card page styles ship with the gift-card route', () => {
+  const giftCardStyles = readSource('features/gift-cards/gift-cards.css');
+
+  for (const selector of GIFT_CARD_SELECTORS) {
+    expect(giftCardStyles).toContain(selector);
+  }
+  expect(giftCardStyles).not.toContain('.customer-form');
+  expect(giftCardStyles).not.toContain('.treatment-catalog');
 });
 
 test('shared editorial hero styles ship with the editorial hero', () => {

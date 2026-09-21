@@ -12,6 +12,7 @@ test('Juliet Rose home page presents the studio and its primary booking paths', 
   expect(markup).toContain('The perfect gift');
   expect(markup).toContain('Juliet Rose beauty studio');
   expect(markup).toContain('href="/book"');
+  expect(markup).toContain('href="/gift-cards"');
 });
 
 test('Juliet Rose home page makes every treatment category a single visible booking link', () => {
