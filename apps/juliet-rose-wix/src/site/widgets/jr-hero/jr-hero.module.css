@@ -5,8 +5,9 @@
   --jr-body-ink: #332f2c;
   --jr-ivory: #fbf8f4;
   --jr-serif:
-    'Cormorant Garamond', 'Iowan Old Style', Baskerville, Georgia, serif;
-  --jr-sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+    'Cormorant Garamond Variable', 'Cormorant Garamond', 'Iowan Old Style',
+    Baskerville, Georgia, serif;
+  --jr-sans: 'DM Sans Variable', 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
   position: relative;
   height: 333px;
   overflow: hidden;

@@ -117,6 +117,8 @@
     "apps/juliet-rose-wix": {
       "name": "juliet-rose-wix",
       "dependencies": {
+        "@fontsource-variable/cormorant-garamond": "^5.3.0",
+        "@fontsource-variable/dm-sans": "^5.3.0",
         "@wix/bookings": "^1.0.1696",
         "@wix/data": "^1.0.522",
         "@wix/design-system": "^1.327.0",

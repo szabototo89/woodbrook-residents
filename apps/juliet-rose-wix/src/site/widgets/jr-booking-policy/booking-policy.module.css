@@ -5,8 +5,9 @@
   --jr-muted: #625956;
   --jr-blush: #f1e2de;
   --jr-serif:
-    'Cormorant Garamond', 'Iowan Old Style', Baskerville, Georgia, serif;
-  --jr-sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+    'Cormorant Garamond Variable', 'Cormorant Garamond', 'Iowan Old Style',
+    Baskerville, Georgia, serif;
+  --jr-sans: 'DM Sans Variable', 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
   color: var(--jr-body-ink);
   font-family: var(--jr-sans);
   font-size: 1.0625rem;
