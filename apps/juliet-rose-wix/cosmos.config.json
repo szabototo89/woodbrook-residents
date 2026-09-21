@@ -1,9 +1,9 @@
 {
   "plugins": ["react-cosmos-plugin-vite"],
-  "port": 5002,
-  "rendererUrl": "http://localhost:5051",
+  "port": 5005,
+  "rendererUrl": "http://localhost:5054",
   "staticPath": "../juliet-rose-web/public",
   "vite": {
-    "port": 5051
+    "port": 5054
   }
 }

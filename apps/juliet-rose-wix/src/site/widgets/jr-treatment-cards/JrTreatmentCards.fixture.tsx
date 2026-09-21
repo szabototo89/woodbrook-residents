@@ -1,7 +1,7 @@
 import { JrTreatmentCards } from './JrTreatmentCards';
 
-export default <JrTreatmentCards display="all" />;
-
-export const HomeDisplay = <JrTreatmentCards display="home" />;
-
-export const CatalogDisplay = <JrTreatmentCards display="catalog" />;
+export default {
+  All: <JrTreatmentCards display="all" />,
+  HomeDisplay: <JrTreatmentCards display="home" />,
+  CatalogDisplay: <JrTreatmentCards display="catalog" />,
+};
