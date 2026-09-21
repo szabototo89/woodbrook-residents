@@ -23,6 +23,7 @@ import BookingPageFixture from './features/booking/BookingPage.fixture';
 import BookingReassuranceFixture from './features/booking/BookingReassurance.fixture';
 import BookingSidebarFixtures from './features/booking/BookingSidebar.fixture';
 import CustomerDetailsFormFixtures from './features/booking/CustomerDetailsForm.fixture';
+import GiftCardPageFixture from './features/gift-cards/GiftCardPage.fixture';
 import TimeSlotPickerFixtures from './features/booking/TimeSlotPicker.fixture';
 import TreatmentPickerFixture from './features/booking/TreatmentPicker.fixture';
 import TreatmentCategoryCardFixture from './features/treatments/TreatmentCategoryCard.fixture';
@@ -55,6 +56,15 @@ test('site header active fixture marks treatments as current', () => {
 
   expect(markup).toContain('is-current');
   expect(markup).toContain('Treatments');
+});
+
+test('site header gift cards fixture marks gift cards as current', () => {
+  const markup = renderToStaticMarkup(
+    SiteHeaderFixtures.ActiveGiftCardsNavigation,
+  );
+
+  expect(markup).toContain('is-current');
+  expect(markup).toContain('Gift Cards');
 });
 
 test('site footer fixture renders the tagline', () => {
@@ -102,6 +112,13 @@ test('home page fixture composes hero and studio sections', () => {
 
   expect(markup).toContain('Relax and Revitalize');
   expect(markup).toContain('gift-cards');
+});
+
+test('gift card page fixture renders the purchase path', () => {
+  const markup = renderToStaticMarkup(GiftCardPageFixture);
+
+  expect(markup).toContain('Give the gift of time to unwind');
+  expect(markup).toContain('Continue to gift card checkout');
 });
 
 test('treatment hero fixture renders the catalog introduction', () => {
