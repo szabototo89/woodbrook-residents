@@ -61,6 +61,13 @@ export function JrBookingJourney(props: JrBookingJourneyProps) {
   const [confirmation, setConfirmation] = useState<BookingConfirmation>();
 
   useEffect(() => {
+    setServiceSlug(props.initialService ?? '');
+    setDate(undefined);
+    setSlotStart('');
+    setSlots([]);
+  }, [props.initialService]);
+
+  useEffect(() => {
     if (!isLive) {
       return;
     }
