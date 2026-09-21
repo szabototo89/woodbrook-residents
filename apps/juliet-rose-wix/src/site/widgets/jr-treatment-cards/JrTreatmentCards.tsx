@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react';
 
 import { queryBookingServices } from './bookingsServices';
 import styles from './jr-treatment-cards.module.css';
+import { JrCategoryGrid } from './JrCategoryGrid';
+import { JrFeaturedGrid } from './JrFeaturedGrid';
 import { JrTreatmentCatalog } from './JrTreatmentCatalog';
 import { JrTreatmentGuidance } from './JrTreatmentGuidance';
 import {
+  CATEGORY_CARDS,
   PREVIEW_TREATMENTS,
+  parseFeaturedSlugs,
+  resolveFeatured,
   toCardTreatment,
   type BookingsServiceSummary,
   type Treatment,
@@ -13,8 +18,12 @@ import {
 
 export type TreatmentCardsViewMode = 'Editor' | 'Preview' | 'Site';
 
+export type TreatmentCardsDisplay = 'catalog' | 'home' | 'all';
+
 type JrTreatmentCardsProps = Readonly<{
   viewMode?: TreatmentCardsViewMode;
+  display?: TreatmentCardsDisplay;
+  featuredSlugs?: string;
   listServices?: () => Promise<readonly BookingsServiceSummary[]>;
 }>;
 
@@ -54,7 +63,7 @@ export function JrTreatmentCards(props: JrTreatmentCardsProps) {
     return (
       <div className={styles.root}>
         <p role="status">Loading treatments…</p>
-        <JrTreatmentGuidance />
+        {props.display === 'home' ? null : <JrTreatmentGuidance />}
       </div>
     );
   }
@@ -63,15 +72,29 @@ export function JrTreatmentCards(props: JrTreatmentCardsProps) {
     return (
       <div className={styles.root}>
         <p role="alert">Treatments are unavailable right now.</p>
-        <JrTreatmentGuidance />
+        {props.display === 'home' ? null : <JrTreatmentGuidance />}
       </div>
     );
   }
 
+  const featured = resolveFeatured(
+    state.treatments,
+    parseFeaturedSlugs(props.featuredSlugs),
+  );
   return (
     <div className={styles.root}>
-      <JrTreatmentCatalog treatments={state.treatments} />
-      <JrTreatmentGuidance />
+      {props.display === 'catalog' ? null : (
+        <>
+          <JrCategoryGrid cards={CATEGORY_CARDS} />
+          <JrFeaturedGrid featured={featured} />
+        </>
+      )}
+      {props.display === 'home' ? null : (
+        <>
+          <JrTreatmentCatalog treatments={state.treatments} />
+          <JrTreatmentGuidance />
+        </>
+      )}
     </div>
   );
 }

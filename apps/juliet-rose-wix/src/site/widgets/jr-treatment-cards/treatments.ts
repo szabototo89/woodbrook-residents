@@ -67,6 +67,13 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     priceCents: 5500,
   },
   {
+    slug: 'microneedling',
+    name: 'Microneedling',
+    category: 'Facials & skin',
+    durationMinutes: 60,
+    priceCents: 13000,
+  },
+  {
     slug: 'juliet-rose-signature-facial',
     name: 'Juliet Rose Signature Facial',
     category: 'Facials & skin',
@@ -79,6 +86,13 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Facials & skin',
     durationMinutes: 60,
     priceCents: 8000,
+  },
+  {
+    slug: 'deep-hydration-6-step-facial',
+    name: 'Deep hydration 6 step facial',
+    category: 'Facials & skin',
+    durationMinutes: 60,
+    priceCents: 11000,
   },
   {
     slug: 'gel-polish-pedicure',
@@ -123,8 +137,119 @@ export function formatTreatmentPrice(priceCents: number): string {
   return `€${priceCents / 100}`;
 }
 
+export function formatFeaturedDuration(minutes: number): string {
+  return formatTreatmentDuration(minutes).replace('hr', 'hour');
+}
+
 export function bookTreatmentUrl(treatment: Treatment): string {
   return `/book?service=${treatment.slug}`;
+}
+
+export type CategoryCard = Readonly<{
+  category: TreatmentCategory;
+  description: string;
+  image: string;
+  action: string;
+  href: string;
+}>;
+
+export const CATEGORY_CARDS: readonly CategoryCard[] = [
+  {
+    category: 'Facials & skin',
+    description: 'From our signature facial to advanced skin treatments.',
+    image: '/images/facial-mask.jpg',
+    action: 'View treatments',
+    href: '/treatments#facials-and-skin',
+  },
+  {
+    category: 'Massage',
+    description: 'Relaxing and therapeutic massage treatments.',
+    image: '/images/massage.jpg',
+    action: 'View treatments',
+    href: '/treatments#massage',
+  },
+  {
+    category: 'Beauty essentials',
+    description: 'Nails, brows, lashes and more.',
+    image: '/images/manicure.jpg',
+    action: 'View treatments',
+    href: '/treatments#beauty-essentials',
+  },
+  {
+    category: 'Packages',
+    description: 'A combination of treatments for the ultimate experience.',
+    image: '/images/packages.jpg',
+    action: 'View packages',
+    href: '/treatments#packages',
+  },
+];
+
+export const DEFAULT_FEATURED_SLUGS: readonly string[] = [
+  'juliet-rose-signature-facial',
+  'microneedling',
+  'deep-hydration-6-step-facial',
+  'swedish-massage',
+];
+
+export function parseFeaturedSlugs(value?: string): readonly string[] {
+  if (!value) {
+    return DEFAULT_FEATURED_SLUGS;
+  }
+  return value
+    .split(',')
+    .map((slug) => slug.trim())
+    .filter((slug) => slug.length > 0);
+}
+
+export type FeaturedImage = Readonly<{
+  image: string;
+  imageAlt: string;
+}>;
+
+const FEATURED_IMAGES: Readonly<Record<string, FeaturedImage>> = {
+  'juliet-rose-signature-facial': {
+    image: '/images/facial-mask.jpg',
+    imageAlt: 'Juliet Rose Signature Facial treatment',
+  },
+  microneedling: {
+    image: '/images/microneedling.jpg',
+    imageAlt: 'Microneedling skincare treatment',
+  },
+  'deep-hydration-6-step-facial': {
+    image: '/images/facial-mask.jpg',
+    imageAlt: 'Deep hydration facial treatment',
+  },
+  'swedish-massage': {
+    image: '/images/massage.jpg',
+    imageAlt: 'Swedish massage treatment',
+  },
+};
+
+export type FeaturedTreatment = Readonly<{
+  treatment: Treatment;
+  image: string;
+  imageAlt: string;
+}>;
+
+export function resolveFeatured(
+  treatments: readonly Treatment[],
+  slugs: readonly string[],
+): readonly FeaturedTreatment[] {
+  const bySlug = new Map(treatments.map((item) => [item.slug, item]));
+  return slugs.flatMap((slug) => {
+    const treatment = bySlug.get(slug);
+    if (!treatment) {
+      return [];
+    }
+    const imagery = FEATURED_IMAGES[slug];
+    return [
+      {
+        treatment,
+        image: imagery?.image ?? '',
+        imageAlt: imagery?.imageAlt ?? treatment.name,
+      },
+    ];
+  });
 }
 
 export type BookingsServiceSummary = Readonly<{
