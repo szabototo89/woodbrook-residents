@@ -159,6 +159,12 @@
   background: url('/images/icon-arrow-white.png') center / contain no-repeat;
 }
 
+@media (min-width: 1200px) {
+  .inner {
+    width: min(1100px, calc(100% - 120px));
+  }
+}
+
 @media (max-width: 900px) {
   .root {
     height: 590px;
