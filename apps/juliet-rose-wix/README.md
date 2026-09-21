@@ -25,3 +25,18 @@ custom-element layout (`<name>.tsx`, `<name>.panel.tsx`, `<name>.module.css`,
 bun run --cwd apps/juliet-rose-wix test:unit
 bun run --cwd apps/juliet-rose-wix typecheck
 ```
+
+## Visual review
+
+React Cosmos fixtures live next to each widget (`*.fixture.tsx`) and run
+with Editor preview data, so every widget renders without Wix credentials:
+
+```bash
+bun run dev:juliet-rose-wix
+```
+
+This opens the Cosmos playground with one fixture per widget
+(`JrHero`, `JrStudioSections`, `JrTreatmentCards` in all/home/catalog
+displays, `JrBookingJourney` default and preselected). Imagery resolves
+from `../juliet-rose-web/public` for local review only; Wix Media URLs
+replace those paths at install time.
