@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "vite dev --port 3003",
+    "cosmos": "cosmos",
     "typecheck": "tsc --noEmit",
     "test:unit": "vitest run --coverage src"
   },
@@ -25,6 +27,8 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
     "happy-dom": "^20.14.5",
+    "react-cosmos": "7.4.1",
+    "react-cosmos-plugin-vite": "7.4.0",
     "typescript": "^6.0.2",
     "vite": "^8.0.0",
     "vitest": "^4.1.10"
