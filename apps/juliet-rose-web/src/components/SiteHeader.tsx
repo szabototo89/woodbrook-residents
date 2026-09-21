@@ -7,9 +7,28 @@ const navigationItems = [
   { label: 'Treatments', href: '/treatments' },
   { label: 'Gift Cards', href: '/gift-cards' },
   { label: 'Contact', href: '/#contact' },
-];
+] as const;
 
-export function SiteHeader() {
+type NavigationHref = (typeof navigationItems)[number]['href'];
+type ActiveNavigationItem = Extract<
+  NavigationHref,
+  '/' | '/treatments' | '/gift-cards'
+>;
+
+type SiteHeaderProps = {
+  activeNavigationItem?: ActiveNavigationItem;
+};
+
+export function toActiveNavigationItem(
+  pathname: string,
+): ActiveNavigationItem | undefined {
+  if (pathname === '/') return '/';
+  if (pathname === '/treatments') return '/treatments';
+  if (pathname === '/gift-cards') return '/gift-cards';
+  return undefined;
+}
+
+export function SiteHeader(props: SiteHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -35,7 +54,18 @@ export function SiteHeader() {
 
         <nav className="desktop-navigation" aria-label="Main navigation">
           {navigationItems.map((item) => (
-            <a href={item.href} key={item.href}>
+            <a
+              aria-current={
+                item.href === props.activeNavigationItem ? 'page' : undefined
+              }
+              className={
+                item.href === props.activeNavigationItem
+                  ? 'is-current'
+                  : undefined
+              }
+              href={item.href}
+              key={item.href}
+            >
               {item.label}
             </a>
           ))}
@@ -67,6 +97,14 @@ export function SiteHeader() {
       >
         {navigationItems.map((item) => (
           <a
+            aria-current={
+              item.href === props.activeNavigationItem ? 'page' : undefined
+            }
+            className={
+              item.href === props.activeNavigationItem
+                ? 'is-current'
+                : undefined
+            }
             href={item.href}
             key={item.href}
             onClick={() => setIsMenuOpen(false)}

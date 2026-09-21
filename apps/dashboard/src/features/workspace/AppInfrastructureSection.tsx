@@ -7,12 +7,12 @@ import type { DashboardApp } from '../dashboard/registry';
 import { infraLinks } from '../dashboard/registry';
 import { getAppInfraLinks } from '../dashboard/appFocus';
 
-export function AppInfrastructureSection({ app }: { app: DashboardApp }) {
-  const links = getAppInfraLinks(app, infraLinks);
+export function AppInfrastructureSection(props: { app: DashboardApp }) {
+  const links = getAppInfraLinks(props.app, infraLinks);
   return (
     <Stack gap={3}>
       <Heading level={1}>Infrastructure</Heading>
-      <Text type="large">Consoles and docs relevant to {app.name}.</Text>
+      <Text type="large">Consoles and docs relevant to {props.app.name}.</Text>
       <List hasDividers>
         {links.map((link) => (
           <ListItem

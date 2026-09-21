@@ -9,16 +9,16 @@ export function createGoogleMapsUrl(location: string) {
   return `https://www.google.com/maps/search/?${search.toString()}`;
 }
 
-export function GoogleMapsLink({ location }: GoogleMapsLinkProps) {
+export function GoogleMapsLink(props: GoogleMapsLinkProps) {
   return (
     <a
       className="detail-location-link"
-      href={createGoogleMapsUrl(location)}
+      href={createGoogleMapsUrl(props.location)}
       target="_blank"
       rel="noreferrer"
-      aria-label={`Open ${location} in Google Maps`}
+      aria-label={`Open ${props.location} in Google Maps`}
     >
-      {location}
+      {props.location}
       <ArrowUpRight size={15} aria-hidden="true" />
     </a>
   );

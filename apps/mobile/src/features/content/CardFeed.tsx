@@ -35,17 +35,12 @@ function serviceIconFor(title: string, meta: string): string {
  * Reference-aligned feed: thumbnail rows for updates, image cards with date
  * badges for events, icon rows for services, divider rows as fallback.
  */
-export function CardFeed({
-  cards,
-  actionLabel,
-  emptyLabel,
-  onSelect,
-  variant = 'default',
-}: Props) {
-  if (cards.length === 0 && emptyLabel) {
+export function CardFeed(props: Props) {
+  const variant = props.variant ?? 'default';
+  if (props.cards.length === 0 && props.emptyLabel) {
     return (
       <view className="card-list">
-        <text className="empty-copy">{emptyLabel}</text>
+        <text className="empty-copy">{props.emptyLabel}</text>
       </view>
     );
   }
@@ -53,14 +48,14 @@ export function CardFeed({
   if (variant === 'updates') {
     return (
       <view className="card-list">
-        {cards.map((card) => (
+        {props.cards.map((card) => (
           <view
             className="thumb-row"
             key={card.slug}
             accessibility-element={true}
             accessibility-trait="button"
             accessibility-label={`${card.title}. ${card.meta}`}
-            bindtap={() => onSelect(card.slug)}
+            bindtap={() => props.onSelect(card.slug)}
           >
             <image
               className="thumb"
@@ -85,7 +80,7 @@ export function CardFeed({
   if (variant === 'events') {
     return (
       <view className="card-list">
-        {cards.map((card) => {
+        {props.cards.map((card) => {
           const badge = eventDateBadge(card.meta);
           return (
             <view
@@ -94,7 +89,7 @@ export function CardFeed({
               accessibility-element={true}
               accessibility-trait="button"
               accessibility-label={`${card.title}. ${card.summary}`}
-              bindtap={() => onSelect(card.slug)}
+              bindtap={() => props.onSelect(card.slug)}
             >
               <view className="event-image-wrap">
                 <image
@@ -128,14 +123,14 @@ export function CardFeed({
   if (variant === 'services') {
     return (
       <view className="card-list">
-        {cards.map((card) => (
+        {props.cards.map((card) => (
           <view
             className="service-row"
             key={card.slug}
             accessibility-element={true}
             accessibility-trait="button"
             accessibility-label={`${card.title}. ${card.meta}`}
-            bindtap={() => onSelect(card.slug)}
+            bindtap={() => props.onSelect(card.slug)}
           >
             <view className="service-icon">
               <text className="service-icon-text">
@@ -157,7 +152,7 @@ export function CardFeed({
 
   return (
     <view className="card-list">
-      {cards.map((card, index) =>
+      {props.cards.map((card, index) =>
         index === 0 ? (
           <view
             className="featured-card"
@@ -165,12 +160,12 @@ export function CardFeed({
             accessibility-element={true}
             accessibility-trait="button"
             accessibility-label={`${card.title}. ${card.summary}`}
-            bindtap={() => onSelect(card.slug)}
+            bindtap={() => props.onSelect(card.slug)}
           >
             <text className="card-meta">{card.meta}</text>
             <text className="featured-title">{card.title}</text>
             <text className="card-copy">{card.summary}</text>
-            <text className="card-action">{actionLabel}</text>
+            <text className="card-action">{props.actionLabel}</text>
           </view>
         ) : (
           <view
@@ -179,7 +174,7 @@ export function CardFeed({
             accessibility-element={true}
             accessibility-trait="button"
             accessibility-label={`${card.title}. ${card.meta}`}
-            bindtap={() => onSelect(card.slug)}
+            bindtap={() => props.onSelect(card.slug)}
           >
             <view className="list-row-copy">
               <text className="list-row-title">{card.title}</text>

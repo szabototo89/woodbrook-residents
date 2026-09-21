@@ -23,10 +23,11 @@
 
 ## Herdr tab title
 
-- Load skill `herdr-tab-title` at session start.
-- Always keep the Herdr tab title in sync with the current task.
-- Update the title when the topic changes.
-- If not running inside Herdr, skip silently.
+- Keep the current Herdr tab title in sync with the task: set it once at session start after the topic is known, and again only when the topic pivots (new feature, different bug, different area, explicit redirect). Do not rename on every message.
+- First verify running inside Herdr: `test "${HERDR_ENV:-}" = 1`. If the check fails or `$HERDR_TAB_ID` is empty, stop silently.
+- Rename only the current tab: `herdr tab rename "$HERDR_TAB_ID" "<title>"`. Never rename other tabs.
+- Title: 2-5 words, max ~40 characters, plain text, no emoji, no secrets, no branch names with slashes. Describe the work, not the tool (e.g. `Fix login redirect`); optionally prefix with repo or area (e.g. `web: auth callback`).
+- On failure, continue without retrying. Title sync never blocks real work.
 
 ## Product behavior
 

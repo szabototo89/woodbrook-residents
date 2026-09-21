@@ -12,19 +12,19 @@ import {
   type WorkspaceEnvironment,
 } from './environments';
 
-export function EnvironmentsView({
-  environments,
-  filters,
-  onFiltersChange,
-}: {
+export function EnvironmentsView(props: {
   environments: WorkspaceEnvironment[];
   filters: EnvironmentFilters;
   onFiltersChange: (filters: EnvironmentFilters) => void;
 }) {
-  const visible = filterEnvironments(environments, filters);
-  const summary = summarizeEnvironments(environments);
-  const owners = [...new Set(environments.map((env) => env.owner))].sort();
-  const templates = [...new Set(environments.map((env) => env.project))].sort();
+  const visible = filterEnvironments(props.environments, props.filters);
+  const summary = summarizeEnvironments(props.environments);
+  const owners = [
+    ...new Set(props.environments.map((env) => env.owner)),
+  ].sort();
+  const templates = [
+    ...new Set(props.environments.map((env) => env.project)),
+  ].sort();
 
   return (
     <Stack gap={4}>
@@ -37,26 +37,29 @@ export function EnvironmentsView({
         summary={summary}
         onSelectStatus={(selection) => {
           if (selection === 'failed') {
-            onFiltersChange({ ...filters, status: 'failed' });
+            props.onFiltersChange({ ...props.filters, status: 'failed' });
             return;
           }
           if (selection === 'expiring') {
-            onFiltersChange({ ...filters, lifecycle: 'expiring-24h' });
+            props.onFiltersChange({
+              ...props.filters,
+              lifecycle: 'expiring-24h',
+            });
             return;
           }
-          onFiltersChange({ ...filters, status: selection });
+          props.onFiltersChange({ ...props.filters, status: selection });
         }}
       />
       <EnvironmentFilterBar
-        filters={filters}
+        filters={props.filters}
         owners={owners}
         templates={templates}
-        onChange={onFiltersChange}
-        onClear={() => onFiltersChange({})}
+        onChange={props.onFiltersChange}
+        onClear={() => props.onFiltersChange({})}
       />
       <EnvironmentsTable
         environments={visible}
-        onClearFilters={() => onFiltersChange({})}
+        onClearFilters={() => props.onFiltersChange({})}
       />
     </Stack>
   );

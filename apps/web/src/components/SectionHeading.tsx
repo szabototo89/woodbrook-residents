@@ -1,12 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
-export function SectionHeading({
-  eyebrow,
-  title,
-  linkLabel,
-  linkTo,
-}: {
+export function SectionHeading(props: {
   eyebrow: string;
   title: string;
   linkLabel?: string;
@@ -15,12 +10,12 @@ export function SectionHeading({
   return (
     <div className="section-heading">
       <div>
-        <p className="eyebrow">{eyebrow}</p>
-        <h2>{title}</h2>
+        <p className="eyebrow">{props.eyebrow}</p>
+        <h2>{props.title}</h2>
       </div>
-      {linkLabel && linkTo ? (
-        <Link className="text-link" to={linkTo}>
-          {linkLabel} <ArrowRight size={16} aria-hidden="true" />
+      {props.linkLabel && props.linkTo ? (
+        <Link className="text-link" to={props.linkTo}>
+          {props.linkLabel} <ArrowRight size={16} aria-hidden="true" />
         </Link>
       ) : null}
     </div>

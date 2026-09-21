@@ -5,14 +5,11 @@ import { formatDate } from '../content/contentFormatting';
 import type { Resource } from '../content/contentTypes';
 import { getLocalHighlights } from './localHighlightModel';
 
-export function LocalHighlights({
-  resources,
-  today,
-}: {
+export function LocalHighlights(props: {
   resources: Resource[];
   today: string;
 }) {
-  const highlights = getLocalHighlights(resources, today);
+  const highlights = getLocalHighlights(props.resources, props.today);
 
   if (highlights.length === 0) {
     return null;

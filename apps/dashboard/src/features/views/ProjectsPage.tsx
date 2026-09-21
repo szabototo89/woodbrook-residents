@@ -5,7 +5,7 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { DashboardApp } from '../dashboard/registry';
 
-export function ProjectsPage({ apps }: { apps: DashboardApp[] }) {
+export function ProjectsPage(props: { apps: DashboardApp[] }) {
   return (
     <Stack gap={3}>
       <Heading level={1}>Projects</Heading>
@@ -14,7 +14,7 @@ export function ProjectsPage({ apps }: { apps: DashboardApp[] }) {
         environment.
       </Text>
       <List hasDividers>
-        {apps.map((app) => (
+        {props.apps.map((app) => (
           <ListItem
             key={app.name}
             label={app.name}

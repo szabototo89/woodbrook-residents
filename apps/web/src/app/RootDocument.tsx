@@ -8,7 +8,7 @@ import { ClarityAnalytics } from '../components/ClarityAnalytics';
 import { CookieConsentBanner } from '../components/CookieConsent';
 import { SiteStructuredData } from './SiteStructuredData';
 
-export function RootDocument({ children }: { children: ReactNode }) {
+export function RootDocument(props: { children: ReactNode }) {
   return (
     <html lang="en-IE">
       <head>
@@ -17,12 +17,14 @@ export function RootDocument({ children }: { children: ReactNode }) {
         <CloudflareWebAnalytics />
         <ClarityAnalytics />
       </head>
-      <body>
+      {/* Browser extensions (Grammarly, etc.) add body attributes before
+          React hydrates; ignore those to avoid hydration mismatch noise. */}
+      <body suppressHydrationWarning>
         <a className="skip-link" href="#main-content">
           Skip to main content
         </a>
         <AppHeader />
-        {children}
+        {props.children}
         <AppFooter />
         <CookieConsentBanner />
         <Scripts />

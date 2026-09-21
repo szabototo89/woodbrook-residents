@@ -1,7 +1,7 @@
 import {
   formatTreatmentDuration,
   requireTreatmentBySlug,
-} from '../treatments/treatmentCatalog';
+} from '../treatments/treatmentData';
 
 export const BOOKING_URL = '/book';
 export const GIFT_CARD_URL = '/gift-cards';

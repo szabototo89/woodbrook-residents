@@ -18,25 +18,25 @@ function variantFor(collection: CollectionKey): FeedVariant {
   return 'default';
 }
 
-export function CollectionScreen({ collection, model, navigate }: Props) {
+export function CollectionScreen(props: Props) {
   const [updateFilter, setUpdateFilter] = useState<string>('All');
   const [eventTab, setEventTab] = useState<'upcoming' | 'past'>('upcoming');
 
   const visibleCards =
-    collection === 'updates' && updateFilter !== 'All'
-      ? model.cards.filter((card) =>
+    props.collection === 'updates' && updateFilter !== 'All'
+      ? props.model.cards.filter((card) =>
           card.meta.toLowerCase().includes(updateFilter.toLowerCase()),
         )
-      : model.cards;
+      : props.model.cards;
 
   return (
     <scroll-view className="page" scroll-orientation="vertical">
       <view className="page-intro">
-        <text className="page-title">{model.title}</text>
-        <text className="page-copy">{model.intro}</text>
+        <text className="page-title">{props.model.title}</text>
+        <text className="page-copy">{props.model.intro}</text>
       </view>
 
-      {collection === 'updates' ? (
+      {props.collection === 'updates' ? (
         <scroll-view className="filter-row" scroll-orientation="horizontal">
           {updateFilters.map((filter) => (
             <text
@@ -55,7 +55,7 @@ export function CollectionScreen({ collection, model, navigate }: Props) {
         </scroll-view>
       ) : null}
 
-      {collection === 'events' ? (
+      {props.collection === 'events' ? (
         <view className="segmented">
           <text
             className={`segment-option ${eventTab === 'upcoming' ? 'segment-option-active' : ''}`}
@@ -82,7 +82,7 @@ export function CollectionScreen({ collection, model, navigate }: Props) {
         </view>
       ) : null}
 
-      {collection === 'events' && eventTab === 'past' ? (
+      {props.collection === 'events' && eventTab === 'past' ? (
         <view className="card-list">
           <text className="empty-copy">Past events will appear here.</text>
         </view>
@@ -90,9 +90,15 @@ export function CollectionScreen({ collection, model, navigate }: Props) {
         <CardFeed
           cards={visibleCards}
           actionLabel="Read more →"
-          emptyLabel={model.empty}
-          variant={variantFor(collection)}
-          onSelect={(slug) => navigate({ name: 'detail', collection, slug })}
+          emptyLabel={props.model.empty}
+          variant={variantFor(props.collection)}
+          onSelect={(slug) =>
+            props.navigate({
+              name: 'detail',
+              collection: props.collection,
+              slug,
+            })
+          }
         />
       )}
       <view className="scroll-spacer" />

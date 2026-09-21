@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { CalendarDays } from 'lucide-react';
 import { useState } from 'react';
 
 import {
@@ -7,7 +8,10 @@ import {
 } from '../treatments/treatmentCatalog';
 import { AppointmentDatePicker } from './AppointmentDatePicker';
 import { formatBookingDate } from './availability';
+import { BookingHero } from './BookingHero';
 import type { BookingConfirmation, BookingProvider } from './bookingProvider';
+import { BookingReassurance } from './BookingReassurance';
+import { BookingSidebar } from './BookingSidebar';
 import {
   CustomerDetailsForm,
   type CustomerDetails,
@@ -21,13 +25,9 @@ type BookingJourneyProps = {
   today?: Date;
 };
 
-export function BookingJourney({
-  initialTreatmentSlug,
-  provider,
-  today,
-}: BookingJourneyProps) {
-  const initialTreatment = initialTreatmentSlug
-    ? getTreatmentBySlug(initialTreatmentSlug)
+export function BookingJourney(props: BookingJourneyProps) {
+  const initialTreatment = props.initialTreatmentSlug
+    ? getTreatmentBySlug(props.initialTreatmentSlug)
     : undefined;
   const [treatmentSlug, setTreatmentSlug] = useState(
     initialTreatment?.slug ?? '',
@@ -50,7 +50,7 @@ export function BookingJourney({
     setTime('');
     setTimes([]);
     if (!nextDate || !treatmentSlug) return;
-    void provider
+    void props.provider
       .listAvailableTimes({
         treatmentSlug,
         date: format(nextDate, 'yyyy-MM-dd'),
@@ -60,7 +60,7 @@ export function BookingJourney({
 
   async function submit(details: CustomerDetails) {
     if (!date || !time || !treatmentSlug) return;
-    const result = await provider.createBooking({
+    const result = await props.provider.createBooking({
       treatmentSlug,
       date: format(date, 'yyyy-MM-dd'),
       time,
@@ -93,64 +93,114 @@ export function BookingJourney({
 
   return (
     <div className="booking-journey">
-      <header className="booking-intro">
-        <p className="eyebrow">Book your visit</p>
-        <h1>Request an appointment</h1>
-        <p>
-          Choose your treatment, preferred weekday and time. Your appointment is
-          confirmed when Juliet Rose gets back to you.
-        </p>
-      </header>
+      <BookingHero />
 
-      <section className="booking-step" aria-labelledby="treatment-step">
-        <span className="step-number">1</span>
-        <div>
-          <h2 id="treatment-step">Choose a treatment</h2>
-          <TreatmentPicker
-            treatments={listTreatments()}
-            value={treatmentSlug}
-            onChange={selectTreatment}
-          />
-          {treatment ? (
-            <p className="selected-treatment">
-              {treatment.durationMinutes} minutes · €
-              {treatment.priceCents / 100}
-            </p>
-          ) : null}
-        </div>
-      </section>
+      <div className="booking-workspace page-width">
+        <div className="booking-flow">
+          <section className="booking-step" aria-labelledby="treatment-step">
+            <span className="step-number">1</span>
+            <div>
+              <h2 id="treatment-step">Choose a treatment</h2>
+              <p className="booking-hint">
+                Select the treatment you&rsquo;d like to book.
+              </p>
+              <div className="booking-treatment-layout">
+                <div>
+                  <span className="booking-field-label">Treatment</span>
+                  <TreatmentPicker
+                    treatments={listTreatments()}
+                    value={treatmentSlug}
+                    onChange={selectTreatment}
+                  />
+                  {treatment ? (
+                    <p className="selected-treatment">
+                      {treatment.durationMinutes} minutes · €
+                      {treatment.priceCents / 100}
+                    </p>
+                  ) : null}
+                </div>
+                <figure className="booking-treatment-editorial">
+                  <img
+                    src="/images/gift-card.jpg"
+                    alt=""
+                    width="800"
+                    height="347"
+                  />
+                  <figcaption>
+                    &ldquo;Take time for
+                    <br />
+                    yourself. You deserve it.&rdquo;
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          </section>
 
-      <section className="booking-step" aria-labelledby="date-step">
-        <span className="step-number">2</span>
-        <div>
-          <h2 id="date-step">Choose a date</h2>
-          <p className="booking-hint">Appointments are Monday to Friday.</p>
-          <AppointmentDatePicker
-            selected={date}
-            onSelect={selectDate}
-            today={today}
-          />
-        </div>
-      </section>
+          <section className="booking-step" aria-labelledby="date-step">
+            <span className="step-number">2</span>
+            <div>
+              <h2 id="date-step">Choose a date</h2>
+              <p className="booking-hint">Appointments are Monday to Friday.</p>
+              <div className="booking-calendar-layout">
+                <AppointmentDatePicker
+                  selected={date}
+                  onSelect={selectDate}
+                  today={props.today}
+                />
+                <aside
+                  className="booking-calendar-key"
+                  aria-label="Calendar key"
+                >
+                  <ul>
+                    <li className="is-selected">Selected date</li>
+                    <li className="is-available">Available date</li>
+                    <li className="is-unavailable">Unavailable date</li>
+                  </ul>
+                  <p>
+                    <CalendarDays aria-hidden="true" strokeWidth={1.5} />
+                    <span>
+                      If you can&rsquo;t find a suitable date, please get in
+                      touch and we&rsquo;ll do our best to help.
+                    </span>
+                  </p>
+                </aside>
+              </div>
+            </div>
+          </section>
 
-      <section className="booking-step" aria-labelledby="time-step">
-        <span className="step-number">3</span>
-        <div>
-          <h2 id="time-step">Choose a preferred time</h2>
-          <TimeSlotPicker times={times} value={time} onChange={setTime} />
-        </div>
-      </section>
+          <section className="booking-step" aria-labelledby="time-step">
+            <span className="step-number">3</span>
+            <div>
+              <h2 id="time-step">Choose a preferred time</h2>
+              {date ? (
+                <p className="booking-hint">
+                  Available times for {formatBookingDate(date)}.
+                </p>
+              ) : null}
+              <TimeSlotPicker times={times} value={time} onChange={setTime} />
+            </div>
+          </section>
 
-      <section className="booking-step" aria-labelledby="details-step">
-        <span className="step-number">4</span>
-        <div>
-          <h2 id="details-step">Your details</h2>
-          <CustomerDetailsForm
-            disabled={!treatmentSlug || !date || !time}
-            onSubmit={submit}
-          />
+          <section className="booking-step" aria-labelledby="details-step">
+            <span className="step-number">4</span>
+            <div>
+              <h2 id="details-step">Your details</h2>
+              <p className="booking-hint">
+                Please provide your contact information so we can confirm your
+                appointment.
+              </p>
+              <CustomerDetailsForm
+                disabled={!treatmentSlug || !date || !time}
+                onSubmit={submit}
+              />
+            </div>
+          </section>
         </div>
-      </section>
+
+        <BookingSidebar treatment={treatment} date={date} time={time} />
+      </div>
+
+      <BookingReassurance />
     </div>
   );
 }

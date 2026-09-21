@@ -9,11 +9,8 @@ type Props = {
   onOpenUrl?: OpenUrl;
 };
 
-export function WaysToHelpScreen({
-  content,
-  navigate,
-  onOpenUrl = openExternalUrl,
-}: Props) {
+export function WaysToHelpScreen(props: Props) {
+  const onOpenUrl = props.onOpenUrl ?? openExternalUrl;
   return (
     <scroll-view className="page" scroll-orientation="vertical">
       <view className="page-intro">
@@ -33,10 +30,10 @@ export function WaysToHelpScreen({
             Spotted outdated or incomplete information? Use the community
             contact below.
           </text>
-          {content.siteSetting?.contactEmail ? (
+          {props.content.siteSetting?.contactEmail ? (
             <ExternalLink
-              url={`mailto:${content.siteSetting.contactEmail}`}
-              label={content.siteSetting.contactEmail}
+              url={`mailto:${props.content.siteSetting.contactEmail}`}
+              label={props.content.siteSetting.contactEmail}
               containerClassName="contact-link"
               labelClassName="contact-link-label"
               onOpenUrl={onOpenUrl}
@@ -48,7 +45,9 @@ export function WaysToHelpScreen({
           accessibility-element={true}
           accessibility-trait="button"
           accessibility-label="Check upcoming events. Confirm dates with the organiser before travelling."
-          bindtap={() => navigate({ name: 'collection', collection: 'events' })}
+          bindtap={() =>
+            props.navigate({ name: 'collection', collection: 'events' })
+          }
         >
           <text className="card-title">Check upcoming events</text>
           <text className="card-copy">
@@ -62,7 +61,7 @@ export function WaysToHelpScreen({
           accessibility-trait="button"
           accessibility-label="Follow local projects. Use official sources to keep track of the next step."
           bindtap={() =>
-            navigate({ name: 'collection', collection: 'projects' })
+            props.navigate({ name: 'collection', collection: 'projects' })
           }
         >
           <text className="card-title">Follow local projects</text>
@@ -77,7 +76,7 @@ export function WaysToHelpScreen({
           accessibility-trait="button"
           accessibility-label="Respond to consultations. Current opportunities to respond and an archive of closed consultations."
           bindtap={() =>
-            navigate({ name: 'collection', collection: 'surveys' })
+            props.navigate({ name: 'collection', collection: 'surveys' })
           }
         >
           <text className="card-title">Respond to consultations</text>

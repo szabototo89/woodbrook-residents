@@ -1,3 +1,5 @@
+import './gift-cards.css';
+
 const GIFT_CARD_CHECKOUT_URL = 'https://www.julietrosebeauty.com/gift-card';
 
 const giftCardHighlights = [
@@ -28,8 +30,8 @@ export function GiftCardPage() {
               className="gift-card-photo"
               src="/images/gift-card.jpg"
               alt="A Juliet Rose gift card surrounded by soft florals"
-              width="1200"
-              height="520"
+              width="800"
+              height="347"
               fetchPriority="high"
             />
             <p className="gift-card-photo-caption">

@@ -8,12 +8,8 @@ import {
   type WorkspaceEnvironment,
 } from '../environments/environments';
 
-export function OverviewPage({
-  environments,
-}: {
-  environments: WorkspaceEnvironment[];
-}) {
-  const summary = summarizeEnvironments(environments);
+export function OverviewPage(props: { environments: WorkspaceEnvironment[] }) {
+  const summary = summarizeEnvironments(props.environments);
   return (
     <Stack gap={3}>
       <Heading level={1}>Overview</Heading>

@@ -24,6 +24,72 @@ test('starts a booking with the selected treatment and clear next steps', () => 
   ).toBe(true);
   expect(view.container.textContent).toContain('Choose a date');
   expect(view.container.textContent).toContain('Your details');
+  expect(view.container.textContent).toContain(
+    'Please provide your contact information so we can confirm your appointment.',
+  );
+  expect(view.container.textContent).toContain('Professional & friendly care');
+  expect(view.container.textContent).toContain('Relaxing environment');
+  expect(view.container.textContent).toContain('Tailored to your needs');
+  view.unmount();
+});
+
+test('describes available times for the selected date', async () => {
+  const view = renderUi(
+    <BookingJourney
+      initialTreatmentSlug="swedish-massage"
+      provider={createLocalBookingProvider()}
+      today={new Date(2026, 8, 19)}
+    />,
+  );
+
+  await act(async () => {
+    view.container
+      .querySelector<HTMLButtonElement>('[data-day="2026-09-21"] button')!
+      .click();
+    await Promise.resolve();
+  });
+
+  expect(view.container.textContent).toContain(
+    'Available times for Monday, 21 September 2026.',
+  );
+  view.unmount();
+});
+
+test('keeps a live appointment summary beside the desktop booking journey', async () => {
+  const view = renderUi(
+    <BookingJourney
+      initialTreatmentSlug="swedish-massage"
+      provider={createLocalBookingProvider()}
+      today={new Date(2026, 8, 19)}
+    />,
+  );
+
+  const summary = view.container.querySelector<HTMLElement>(
+    '[aria-label="Your booking summary"]',
+  );
+  expect(summary).not.toBeNull();
+  expect(summary?.textContent).toContain('Your booking');
+  expect(summary?.textContent).toContain('Swedish massage');
+  expect(summary?.textContent).toContain('60 minutes');
+  expect(summary?.textContent).toContain('€80');
+  expect(summary?.textContent).toContain('What happens next?');
+
+  await act(async () => {
+    view.container
+      .querySelector<HTMLButtonElement>('[data-day="2026-09-21"] button')!
+      .click();
+    await Promise.resolve();
+  });
+  act(() =>
+    view.container
+      .querySelector<HTMLInputElement>(
+        'input[name="appointment-time"][value="10:00"]',
+      )!
+      .click(),
+  );
+
+  expect(summary?.textContent).toContain('Monday, 21 September 2026');
+  expect(summary?.textContent).toContain('10:00');
   view.unmount();
 });
 

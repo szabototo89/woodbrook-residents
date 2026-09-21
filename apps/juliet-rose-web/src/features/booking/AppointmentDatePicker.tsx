@@ -1,6 +1,7 @@
 import { addMonths } from 'date-fns';
 import { enIE } from 'date-fns/locale';
 import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/style.css';
 
 import { isBookableDate } from './availability';
 
@@ -10,23 +11,19 @@ type AppointmentDatePickerProps = {
   today?: Date;
 };
 
-export function AppointmentDatePicker({
-  selected,
-  onSelect,
-  today = new Date(),
-}: AppointmentDatePickerProps) {
+export function AppointmentDatePicker(props: AppointmentDatePickerProps) {
+  const today = props.today ?? new Date();
   return (
     <DayPicker
       className="booking-calendar"
       mode="single"
-      selected={selected}
-      onSelect={(date) => onSelect(date)}
+      selected={props.selected}
+      onSelect={(date) => props.onSelect(date)}
       defaultMonth={today}
       startMonth={today}
       endMonth={addMonths(today, 6)}
       disabled={(date) => !isBookableDate(date, today)}
       locale={enIE}
-      showOutsideDays
       today={today}
     />
   );

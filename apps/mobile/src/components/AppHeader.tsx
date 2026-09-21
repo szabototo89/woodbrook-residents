@@ -2,7 +2,8 @@ import type { Route } from '../features/content/contentModels.js';
 
 type Props = { navigate: (route: Route) => void; compact?: boolean };
 
-export function AppHeader({ navigate, compact = false }: Props) {
+export function AppHeader(props: Props) {
+  const compact = props.compact ?? false;
   return (
     <view className="app-header">
       <view className={`brand-row ${compact ? 'brand-row-compact' : ''}`}>
@@ -11,7 +12,7 @@ export function AppHeader({ navigate, compact = false }: Props) {
           accessibility-element={true}
           accessibility-trait="button"
           accessibility-label="Woodbrook Residents home"
-          bindtap={() => navigate({ name: 'home' })}
+          bindtap={() => props.navigate({ name: 'home' })}
         >
           <view className="brand-mark">
             <text className="brand-initial">W</text>
@@ -29,7 +30,7 @@ export function AppHeader({ navigate, compact = false }: Props) {
           accessibility-trait="button"
           accessibility-label="Notifications, view updates"
           bindtap={() =>
-            navigate({ name: 'collection', collection: 'updates' })
+            props.navigate({ name: 'collection', collection: 'updates' })
           }
         >
           <text className="header-bell-icon">🔔</text>

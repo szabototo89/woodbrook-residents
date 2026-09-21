@@ -32,48 +32,47 @@ function toTab(value: string): EnvironmentTab {
   return found ? found.value : 'overview';
 }
 
-export function EnvironmentDetailPage({
-  env,
-  app,
-  tab,
-  onTabChange,
-}: {
+export function EnvironmentDetailPage(props: {
   env: WorkspaceEnvironment;
   app: DashboardApp;
   tab: EnvironmentTab;
   onTabChange: (tab: EnvironmentTab) => void;
 }) {
-  const devCommand = app.scripts.dev ?? Object.values(app.scripts)[0] ?? '';
+  const devCommand =
+    props.app.scripts.dev ?? Object.values(props.app.scripts)[0] ?? '';
   return (
     <Stack gap={4}>
       <Link href="/environments" isStandalone>
         ← Environments
       </Link>
       <HStack gap={3} align="center">
-        <Heading level={1}>{env.name}</Heading>
-        <StatusBadge status={env.status} />
+        <Heading level={1}>{props.env.name}</Heading>
+        <StatusBadge status={props.env.status} />
       </HStack>
       <Text type="supporting">
-        {env.type} · {env.project} · {env.region}
+        {props.env.type} · {props.env.project} · {props.env.region}
       </Text>
       <Text type="supporting">
-        {env.branch} · {env.owner}
+        {props.env.branch} · {props.env.owner}
       </Text>
       <HStack gap={2} align="center">
         <Text type="supporting">TTL:</Text>
-        <TTLIndicator ttl={env.ttl} />
+        <TTLIndicator ttl={props.env.ttl} />
         <Text type="supporting">Cost:</Text>
-        <CostIndicator cost={env.cost} />
+        <CostIndicator cost={props.env.cost} />
       </HStack>
       <HStack gap={3} align="center">
-        <Link href={env.localUrl} isStandalone>
+        <Link href={props.env.localUrl} isStandalone>
           Open locally
         </Link>
-        <Link href={env.repository} isStandalone>
+        <Link href={props.env.repository} isStandalone>
           View repository
         </Link>
       </HStack>
-      <TabList value={tab} onChange={(value) => onTabChange(toTab(value))}>
+      <TabList
+        value={props.tab}
+        onChange={(value) => props.onTabChange(toTab(value))}
+      >
         {TABS.map((entry) => (
           <Tab
             key={entry.value}
@@ -81,17 +80,17 @@ export function EnvironmentDetailPage({
             label={entry.label}
             href={
               entry.value === 'overview'
-                ? `/environments/${env.id}`
-                : `/environments/${env.id}?tab=${entry.value}`
+                ? `/environments/${props.env.id}`
+                : `/environments/${props.env.id}?tab=${entry.value}`
             }
             onClick={(event) => {
               event.preventDefault();
-              onTabChange(entry.value);
+              props.onTabChange(entry.value);
             }}
           />
         ))}
       </TabList>
-      {tab === 'overview' && (
+      {props.tab === 'overview' && (
         <Stack gap={4}>
           <Stack gap={2}>
             <Heading level={2}>Health</Heading>
@@ -109,7 +108,7 @@ export function EnvironmentDetailPage({
           <Stack gap={2}>
             <Heading level={2}>Start locally</Heading>
             <CodeBlock
-              title={`Start ${env.project}`}
+              title={`Start ${props.env.project}`}
               language="bash"
               size="sm"
               code={devCommand}
@@ -123,10 +122,12 @@ export function EnvironmentDetailPage({
           </Stack>
         </Stack>
       )}
-      {tab === 'scripts' && <AppScriptsSection app={app} />}
-      {tab === 'infrastructure' && <AppInfrastructureSection app={app} />}
-      {tab === 'actions' && <AppActionsSection app={app} />}
-      {tab === 'logs' && (
+      {props.tab === 'scripts' && <AppScriptsSection app={props.app} />}
+      {props.tab === 'infrastructure' && (
+        <AppInfrastructureSection app={props.app} />
+      )}
+      {props.tab === 'actions' && <AppActionsSection app={props.app} />}
+      {props.tab === 'logs' && (
         <EmptyState
           title="No live logs"
           description="Local targets stream no logs to this dashboard. Start the target locally to follow its output in your terminal."

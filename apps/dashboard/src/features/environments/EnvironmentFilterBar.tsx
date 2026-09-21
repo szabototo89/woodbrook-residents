@@ -59,13 +59,7 @@ const LIFECYCLE_OPTIONS = [
   { value: 'inactive-7d', label: 'Inactive over 7 days' },
 ];
 
-export function EnvironmentFilterBar({
-  filters,
-  owners,
-  templates,
-  onChange,
-  onClear,
-}: {
+export function EnvironmentFilterBar(props: {
   filters: EnvironmentFilters;
   owners: string[];
   templates: string[];
@@ -76,19 +70,19 @@ export function EnvironmentFilterBar({
     <HStack gap={3} align="end">
       <TextInput
         label="Search environments"
-        value={filters.search ?? ''}
+        value={props.filters.search ?? ''}
         onChange={(value) =>
-          onChange({ ...filters, search: value || undefined })
+          props.onChange({ ...props.filters, search: value || undefined })
         }
         placeholder="Search by name, project, or branch…"
       />
       <Selector
         label="Status"
         options={STATUS_OPTIONS}
-        value={filters.status ?? ''}
+        value={props.filters.status ?? ''}
         onChange={(value) =>
-          onChange({
-            ...filters,
+          props.onChange({
+            ...props.filters,
             status: toStatus(value),
           })
         }
@@ -98,14 +92,14 @@ export function EnvironmentFilterBar({
         label="Owner"
         options={[
           { value: '', label: 'Everyone' },
-          ...owners.map((owner) => ({
+          ...props.owners.map((owner) => ({
             value: owner.toLowerCase(),
             label: owner,
           })),
         ]}
-        value={filters.owner ?? ''}
+        value={props.filters.owner ?? ''}
         onChange={(value) =>
-          onChange({ ...filters, owner: value || undefined })
+          props.onChange({ ...props.filters, owner: value || undefined })
         }
         presentation="adaptive"
       />
@@ -113,30 +107,34 @@ export function EnvironmentFilterBar({
         label="Template"
         options={[
           { value: '', label: 'All templates' },
-          ...templates.map((template) => ({
+          ...props.templates.map((template) => ({
             value: template.toLowerCase(),
             label: template,
           })),
         ]}
-        value={filters.template ?? ''}
+        value={props.filters.template ?? ''}
         onChange={(value) =>
-          onChange({ ...filters, template: value || undefined })
+          props.onChange({ ...props.filters, template: value || undefined })
         }
         presentation="adaptive"
       />
       <Selector
         label="Lifecycle"
         options={LIFECYCLE_OPTIONS}
-        value={filters.lifecycle ?? ''}
+        value={props.filters.lifecycle ?? ''}
         onChange={(value) =>
-          onChange({
-            ...filters,
+          props.onChange({
+            ...props.filters,
             lifecycle: toLifecycle(value),
           })
         }
         presentation="adaptive"
       />
-      <Button label="Clear filters" variant="secondary" onClick={onClear} />
+      <Button
+        label="Clear filters"
+        variant="secondary"
+        onClick={props.onClear}
+      />
     </HStack>
   );
 }

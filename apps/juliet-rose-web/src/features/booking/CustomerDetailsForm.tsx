@@ -13,10 +13,8 @@ function fieldError(errors: unknown[]): string | undefined {
   return errors.find((error): error is string => typeof error === 'string');
 }
 
-export function CustomerDetailsForm({
-  disabled = false,
-  onSubmit,
-}: CustomerDetailsFormProps) {
+export function CustomerDetailsForm(props: CustomerDetailsFormProps) {
+  const disabled = props.disabled ?? false;
   const form = useForm({
     defaultValues: {
       name: '',
@@ -24,7 +22,7 @@ export function CustomerDetailsForm({
       phone: '',
       notes: '',
     },
-    onSubmit: async ({ value }) => onSubmit(value),
+    onSubmit: async ({ value }) => props.onSubmit(value),
   });
 
   return (
@@ -49,6 +47,7 @@ export function CustomerDetailsForm({
               <input
                 name={field.name}
                 autoComplete="name"
+                placeholder="Your full name"
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(event) => field.handleChange(event.target.value)}
@@ -79,6 +78,7 @@ export function CustomerDetailsForm({
                 name={field.name}
                 type="email"
                 autoComplete="email"
+                placeholder="you@example.com"
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(event) => field.handleChange(event.target.value)}
@@ -107,6 +107,7 @@ export function CustomerDetailsForm({
                 name={field.name}
                 type="tel"
                 autoComplete="tel"
+                placeholder="085 123 4567"
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(event) => field.handleChange(event.target.value)}
@@ -125,9 +126,12 @@ export function CustomerDetailsForm({
       <form.Field name="notes">
         {(field) => (
           <label>
-            Notes <span>(optional)</span>
+            <span className="field-label">
+              Notes <span>(optional)</span>
+            </span>
             <textarea
               name={field.name}
+              placeholder="Is there anything we should know?"
               value={field.state.value}
               onBlur={field.handleBlur}
               onChange={(event) => field.handleChange(event.target.value)}
@@ -138,17 +142,25 @@ export function CustomerDetailsForm({
         )}
       </form.Field>
 
-      <form.Subscribe selector={(state) => [state.isSubmitting]}>
-        {([isSubmitting]) => (
-          <button
-            className="primary-button booking-submit"
-            type="submit"
-            disabled={disabled || isSubmitting}
-          >
-            {isSubmitting ? 'Sending request…' : 'Request appointment'}
-          </button>
-        )}
-      </form.Subscribe>
+      <div className="booking-submit-row">
+        <label className="booking-consent">
+          <input type="checkbox" disabled={disabled} />
+          <span>I agree to be contacted about my appointment request.</span>
+        </label>
+
+        <form.Subscribe selector={(state) => [state.isSubmitting]}>
+          {([isSubmitting]) => (
+            <button
+              className="primary-button booking-submit"
+              type="submit"
+              disabled={disabled || isSubmitting}
+            >
+              {isSubmitting ? 'Sending request…' : 'Request appointment'}
+              <span aria-hidden="true">→</span>
+            </button>
+          )}
+        </form.Subscribe>
+      </div>
     </form>
   );
 }

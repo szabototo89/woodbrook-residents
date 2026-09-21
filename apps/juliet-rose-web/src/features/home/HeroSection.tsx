@@ -6,9 +6,11 @@ export function HeroSection() {
       <img
         className="hero-image"
         src="/images/facial-hero.jpg"
+        srcSet="/images/facial-hero-640.jpg 640w, /images/facial-hero.jpg 840w"
+        sizes="(max-width: 700px) 100vw, 840px"
         alt="A relaxing facial treatment at Juliet Rose Beauty Studio"
-        width="1774"
-        height="887"
+        width="840"
+        height="420"
         fetchPriority="high"
       />
       <div className="hero-wash" aria-hidden="true" />

@@ -1,18 +1,20 @@
 import { BookingJourney } from './BookingJourney';
 import { createLocalBookingProvider } from './localBookingProvider';
 
+import './booking.css';
+
 const bookingProvider = createLocalBookingProvider();
 
-export function BookingPage({
-  initialTreatmentSlug,
-}: {
+export function BookingPage(props: {
   initialTreatmentSlug?: string;
+  today?: Date;
 }) {
   return (
-    <main id="main-content" className="booking-page page-width">
+    <main id="main-content" className="booking-page">
       <BookingJourney
-        initialTreatmentSlug={initialTreatmentSlug}
+        initialTreatmentSlug={props.initialTreatmentSlug}
         provider={bookingProvider}
+        today={props.today}
       />
     </main>
   );

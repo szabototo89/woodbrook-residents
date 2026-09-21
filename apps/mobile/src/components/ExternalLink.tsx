@@ -14,25 +14,25 @@ type Props = {
 };
 
 /** A tappable external action with an accessible button label. */
-export function ExternalLink({
-  url,
-  label,
-  detail,
-  containerClassName = 'external-link',
-  labelClassName = 'external-link-label',
-  detailClassName = 'external-link-detail',
-  onOpenUrl = openExternalUrl,
-}: Props) {
+export function ExternalLink(props: Props) {
+  const containerClassName = props.containerClassName ?? 'external-link';
+  const labelClassName = props.labelClassName ?? 'external-link-label';
+  const detailClassName = props.detailClassName ?? 'external-link-detail';
+  const onOpenUrl = props.onOpenUrl ?? openExternalUrl;
   return (
     <view
       className={containerClassName}
-      bindtap={() => onOpenUrl(url)}
+      bindtap={() => onOpenUrl(props.url)}
       accessibility-element={true}
       accessibility-trait="button"
-      accessibility-label={detail ? `${label}. ${detail}` : label}
+      accessibility-label={
+        props.detail ? `${props.label}. ${props.detail}` : props.label
+      }
     >
-      <text className={labelClassName}>{label}</text>
-      {detail ? <text className={detailClassName}>{detail}</text> : null}
+      <text className={labelClassName}>{props.label}</text>
+      {props.detail ? (
+        <text className={detailClassName}>{props.detail}</text>
+      ) : null}
     </view>
   );
 }

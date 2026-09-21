@@ -24,7 +24,7 @@ const rows: ReadonlyArray<{
   },
 ];
 
-export function MoreScreen({ navigate }: Props) {
+export function MoreScreen(props: Props) {
   return (
     <scroll-view className="page" scroll-orientation="vertical">
       <view className="page-intro">
@@ -41,7 +41,7 @@ export function MoreScreen({ navigate }: Props) {
             accessibility-element={true}
             accessibility-trait="button"
             accessibility-label={`${row.title}. ${row.description}`}
-            bindtap={() => navigate(row.route)}
+            bindtap={() => props.navigate(row.route)}
           >
             <view className="list-row-copy">
               <text className="browse-title">{row.title}</text>

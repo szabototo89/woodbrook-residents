@@ -7,8 +7,11 @@ import type { DashboardApp } from '../dashboard/registry';
 import { actions } from '../dashboard/registry';
 import { getAppActions } from '../dashboard/appFocus';
 
-export function AppActionsSection({ app }: { app: DashboardApp }) {
-  const { appActions, workspaceActions } = getAppActions(app.name, actions);
+export function AppActionsSection(props: { app: DashboardApp }) {
+  const { appActions, workspaceActions } = getAppActions(
+    props.app.name,
+    actions,
+  );
   return (
     <Stack gap={6}>
       <Stack gap={3}>
