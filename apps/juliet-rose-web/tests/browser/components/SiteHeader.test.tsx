@@ -1,7 +1,10 @@
 import { expect, test } from 'vitest';
 import { render } from 'vitest-browser-react';
 
-import { SiteHeader } from '../../../src/components/SiteHeader';
+import {
+  SiteHeader,
+  toActiveNavigationItem,
+} from '../../../src/components/SiteHeader';
 
 test('opens and closes the mobile navigation accessibly', async () => {
   const screen = await render(<SiteHeader />);
@@ -32,4 +35,8 @@ test('identifies the current treatments page in both navigation menus', async ()
   await expect
     .element(treatmentLinks.last())
     .toHaveAttribute('aria-current', 'page');
+});
+
+test('identifies the gift-card page for navigation highlighting', () => {
+  expect(toActiveNavigationItem('/gift-cards')).toBe('/gift-cards');
 });

@@ -11,7 +11,7 @@ When developing the Juliet Rose website, start from the approved proposal in a d
 - The homepage implements the Juliet Rose proposal with hero, treatment categories, featured treatments, gift cards, studio details, and booking policy.
 - Treatment category and featured treatment cards are full-card booking links whose visible copy provides their accessible names.
 - Desktop and mobile navigation expose the same page sections, and the mobile menu reports its open state to assistive technology.
-- Booking and gift-card actions continue to the existing Juliet Rose booking service.
+- Booking actions stay in the app, while gift-card actions open the in-app gift-card guide before continuing to the existing Juliet Rose checkout.
 - Cormorant Garamond matches the approved proposal across the Juliet Rose wordmark and display headings, while DM Sans keeps body copy and controls warm and direct.
 - Headings use warm charcoal, body copy uses a slightly softer charcoal, and burgundy remains reserved for accents and actions.
 - Treatment sections use content-sized heading rows and consistent spacing between labels, headings, card grids, and card copy.
