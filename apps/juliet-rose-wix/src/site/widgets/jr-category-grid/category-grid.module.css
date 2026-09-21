@@ -47,10 +47,13 @@
 }
 
 .sectionHeading h2 {
-  margin: 0;
+  margin: 2px 0 0;
   color: var(--jr-heading-ink);
   font-family: var(--jr-serif);
   font-weight: 500;
+  font-size: clamp(2.4rem, 3vw, 3.3rem);
+  letter-spacing: -0.02em;
+  line-height: 1.02;
 }
 
 .sectionLink {
@@ -136,6 +139,7 @@
   font-family: var(--jr-serif);
   font-size: 1.55rem;
   font-weight: 500;
+  letter-spacing: -0.015em;
   line-height: 1.1;
 }
 

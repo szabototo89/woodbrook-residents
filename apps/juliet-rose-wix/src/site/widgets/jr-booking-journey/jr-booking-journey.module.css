@@ -170,6 +170,7 @@
   font-family: var(--jr-serif);
   font-size: 2.15rem;
   font-weight: 500;
+  letter-spacing: -0.02em;
   line-height: 1.1;
 }
 
@@ -431,6 +432,7 @@
   font-family: var(--jr-serif);
   font-size: clamp(3rem, 7vw, 5rem);
   font-weight: 500;
+  letter-spacing: -0.025em;
   line-height: 0.98;
 }
 
@@ -840,6 +842,7 @@
     font-family: var(--jr-serif);
     font-size: 1.55rem;
     font-weight: 500;
+    letter-spacing: -0.02em;
   }
 
   .summaryCard > p {
@@ -904,6 +907,7 @@
     color: var(--jr-heading-ink);
     font-family: var(--jr-serif);
     font-size: 0.72rem;
+    letter-spacing: -0.015em;
   }
 
   .nextStep p {

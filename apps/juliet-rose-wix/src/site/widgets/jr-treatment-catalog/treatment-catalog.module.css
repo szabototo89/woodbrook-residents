@@ -73,6 +73,7 @@
   font-family: var(--jr-serif);
   font-size: 2rem;
   font-weight: 500;
+  letter-spacing: -0.02em;
   line-height: 1.1;
 }
 
@@ -119,6 +120,7 @@
   font-family: var(--jr-serif);
   font-size: 1.15rem;
   font-weight: 550;
+  letter-spacing: -0.015em;
   line-height: 1.15;
 }
 
