@@ -98,6 +98,9 @@ test('treatment section link fixture renders its call to action', () => {
   const markup = renderToStaticMarkup(TreatmentSectionLinkFixture);
 
   expect(markup).toContain('View all treatments');
+  expect(markup).toContain(
+    'TreatmentSectionLink is hidden below 901px by design',
+  );
 });
 
 test('treatment sections fixture renders the category grid', () => {
@@ -210,6 +213,7 @@ test('booking sidebar fixture renders the selected summary', () => {
 
   expect(markup).toContain('Swedish massage');
   expect(markup).toContain('19 October 2026');
+  expect(markup).toContain('BookingSidebar is hidden below 901px by design');
 });
 
 test('empty booking sidebar fixture renders its placeholders', () => {

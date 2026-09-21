@@ -2,6 +2,7 @@ import '@fontsource-variable/cormorant-garamond';
 import '@fontsource-variable/dm-sans';
 import type { ReactNode } from 'react';
 
+import './cosmos.css';
 import './styles.css';
 
 type CosmosDecoratorProps = {

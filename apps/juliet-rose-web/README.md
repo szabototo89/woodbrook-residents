@@ -20,7 +20,7 @@ Every component has a React Cosmos fixture colocated with its source as `*.fixtu
 bun run cosmos
 ```
 
-Cosmos runs on port 5001 with its renderer on port 5050 (see `cosmos.config.json`). The shared decorator in `src/cosmos.decorator.tsx` applies the global stylesheet and fonts, and `src/cosmosRouter.tsx` provides a memory router for the fixtures that need router context (`NotFoundPage`, `RootDocument`). `RootDocument` renders the document shell as static markup because React cannot mount a nested `<html>` element inside the Cosmos container.
+Cosmos runs on port 5001 with its renderer on port 5050 (see `cosmos.config.json`). The shared decorator in `src/cosmos.decorator.tsx` applies the global stylesheet and fonts, and `src/cosmosRouter.tsx` provides a memory router for the fixtures that need router context (`NotFoundPage`, `RootDocument`). `RootDocument` renders the document shell as static markup because React cannot mount a nested `<html>` element inside the Cosmos container. `BookingSidebar` and `TreatmentSectionLink` are hidden below 901px by the responsive design, so their fixtures render an explanatory note at small widths instead of an empty preview (see `src/cosmos.css`).
 
 ## Verification
 

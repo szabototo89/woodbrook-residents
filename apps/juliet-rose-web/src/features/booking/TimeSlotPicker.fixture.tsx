@@ -1,5 +1,7 @@
 import { TimeSlotPicker } from './TimeSlotPicker';
 
+import './booking.css';
+
 export default {
   WithTimes: (
     <TimeSlotPicker

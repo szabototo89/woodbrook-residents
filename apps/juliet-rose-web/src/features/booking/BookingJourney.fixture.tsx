@@ -1,6 +1,8 @@
 import { BookingJourney } from './BookingJourney';
 import { createLocalBookingProvider } from './localBookingProvider';
 
+import './booking.css';
+
 const provider = createLocalBookingProvider();
 
 export default (
