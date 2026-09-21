@@ -1,0 +1,9 @@
+{
+  "plugins": ["react-cosmos-plugin-vite"],
+  "port": 5001,
+  "rendererUrl": "http://localhost:5050",
+  "staticPath": "public",
+  "vite": {
+    "port": 5050
+  }
+}
