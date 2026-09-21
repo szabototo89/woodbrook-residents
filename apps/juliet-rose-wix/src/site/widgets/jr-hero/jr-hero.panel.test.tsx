@@ -11,7 +11,7 @@ vi.mock('@wix/editor', () => ({
 }));
 
 import { widget } from '@wix/editor';
-import JrHeroPanel from './jr-hero.panel';
+import HeroPanel from './jr-hero.panel';
 
 const getProp = vi.mocked(widget.getProp);
 const setProp = vi.mocked(widget.setProp);
@@ -38,7 +38,7 @@ beforeEach(() => {
 
 test('jr-hero panel loads stored widget properties into its fields', async () => {
   getProp.mockImplementation(async (key: string) => STORED[key] ?? '');
-  const view = renderUi(<JrHeroPanel />);
+  const view = renderUi(<HeroPanel />);
   await act(async () => {
     await Promise.resolve();
   });
@@ -53,7 +53,7 @@ test('jr-hero panel loads stored widget properties into its fields', async () =>
 test('jr-hero panel writes field edits back to the widget property', async () => {
   getProp.mockImplementation(async () => '');
   setProp.mockResolvedValue(undefined);
-  const view = renderUi(<JrHeroPanel />);
+  const view = renderUi(<HeroPanel />);
   await act(async () => {
     await Promise.resolve();
   });

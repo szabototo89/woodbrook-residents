@@ -2,11 +2,11 @@ import { ArrowRight, Sprout } from 'lucide-react';
 
 import styles from './jr-treatment-cards.module.css';
 
-type JrTreatmentGuidanceProps = Readonly<{
+type TreatmentGuidanceProps = Readonly<{
   contactUrl?: string;
 }>;
 
-export function JrTreatmentGuidance(props: JrTreatmentGuidanceProps) {
+export function TreatmentGuidance(props: TreatmentGuidanceProps) {
   const contactUrl = props.contactUrl ?? '/#contact';
   return (
     <aside className={styles.guidance}>

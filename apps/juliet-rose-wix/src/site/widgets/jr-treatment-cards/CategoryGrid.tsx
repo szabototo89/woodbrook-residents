@@ -1,13 +1,13 @@
 import styles from './jr-treatment-cards.module.css';
 import type { CategoryCard } from './treatments';
 
-type JrCategoryGridProps = Readonly<{
+type CategoryGridProps = Readonly<{
   cards: readonly CategoryCard[];
   viewAllLabel?: string;
   viewAllHref?: string;
 }>;
 
-export function JrCategoryGrid(props: JrCategoryGridProps) {
+export function CategoryGrid(props: CategoryGridProps) {
   const viewAllLabel = props.viewAllLabel ?? 'View all treatments';
   const viewAllHref = props.viewAllHref ?? '/treatments';
   return (

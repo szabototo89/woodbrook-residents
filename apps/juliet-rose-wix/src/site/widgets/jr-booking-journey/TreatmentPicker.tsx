@@ -1,13 +1,13 @@
 import type { BookingService } from './booking';
 import styles from './jr-booking-journey.module.css';
 
-type JrTreatmentPickerProps = Readonly<{
+type TreatmentPickerProps = Readonly<{
   services: readonly BookingService[];
   value: string;
   onChange: (serviceSlug: string) => void;
 }>;
 
-export function JrTreatmentPicker(props: JrTreatmentPickerProps) {
+export function TreatmentPicker(props: TreatmentPickerProps) {
   return (
     <label className={styles.select}>
       <span className={styles.visuallyHidden}>Treatment</span>

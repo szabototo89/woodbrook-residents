@@ -27,7 +27,7 @@ const FIELDS: readonly PanelField[] = [
   { key: 'image-alt', label: 'Image alt text' },
 ];
 
-export default function JrHeroPanel() {
+export default function HeroPanel() {
   const [values, setValues] = useState<Readonly<Record<string, string>>>({});
 
   useEffect(() => {

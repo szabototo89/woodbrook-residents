@@ -39,7 +39,7 @@ const FIELDS: readonly PanelField[] = [
   { key: 'policy-full-label', label: 'Full policy label' },
 ];
 
-export default function JrStudioSectionsPanel() {
+export default function StudioSectionsPanel() {
   const [values, setValues] = useState<Readonly<Record<string, string>>>({});
 
   useEffect(() => {

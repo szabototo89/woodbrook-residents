@@ -1,12 +1,12 @@
 import { act } from 'react';
 import { afterEach, expect, test } from 'vitest';
 
-import JrHeroElement from './jr-hero';
+import HeroElement from './jr-hero';
 
 const TEST_TAG = 'jr-hero-test';
 
 if (!customElements.get(TEST_TAG)) {
-  customElements.define(TEST_TAG, JrHeroElement);
+  customElements.define(TEST_TAG, HeroElement);
 }
 
 function mountHero() {

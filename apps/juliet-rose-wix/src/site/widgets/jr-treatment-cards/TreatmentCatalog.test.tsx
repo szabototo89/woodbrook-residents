@@ -2,10 +2,10 @@ import { expect, test } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
 import { PREVIEW_TREATMENTS } from './treatments';
-import { JrTreatmentCatalog } from './JrTreatmentCatalog';
+import { TreatmentCatalog } from './TreatmentCatalog';
 
 test('jr-treatment-catalog renders one anchored section per category with counts', () => {
-  const view = renderUi(<JrTreatmentCatalog treatments={PREVIEW_TREATMENTS} />);
+  const view = renderUi(<TreatmentCatalog treatments={PREVIEW_TREATMENTS} />);
 
   const massage = view.container.querySelector('section[id="massage"]');
   expect(massage?.textContent).toContain('Massage');
@@ -22,7 +22,7 @@ test('jr-treatment-catalog renders one anchored section per category with counts
 });
 
 test('jr-treatment-catalog renders treatment rows with duration, price, and booking links', () => {
-  const view = renderUi(<JrTreatmentCatalog treatments={PREVIEW_TREATMENTS} />);
+  const view = renderUi(<TreatmentCatalog treatments={PREVIEW_TREATMENTS} />);
 
   expect(view.container.textContent).toContain('Swedish massage');
   expect(view.container.textContent).toContain('1 hr');
@@ -37,7 +37,7 @@ test('jr-treatment-catalog renders treatment rows with duration, price, and book
 
 test('jr-treatment-catalog skips categories without treatments', () => {
   const view = renderUi(
-    <JrTreatmentCatalog treatments={PREVIEW_TREATMENTS.slice(0, 2)} />,
+    <TreatmentCatalog treatments={PREVIEW_TREATMENTS.slice(0, 2)} />,
   );
 
   expect(view.container.querySelector('section[id="massage"]')).not.toBeNull();

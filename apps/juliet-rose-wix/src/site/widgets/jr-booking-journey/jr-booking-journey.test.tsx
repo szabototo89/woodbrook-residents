@@ -1,12 +1,12 @@
 import { act } from 'react';
 import { afterEach, expect, test } from 'vitest';
 
-import JrBookingJourneyElement from './jr-booking-journey';
+import BookingJourneyElement from './jr-booking-journey';
 
 const TEST_TAG = 'jr-booking-journey-test';
 
 if (!customElements.get(TEST_TAG)) {
-  customElements.define(TEST_TAG, JrBookingJourneyElement);
+  customElements.define(TEST_TAG, BookingJourneyElement);
 }
 
 function mountJourney() {

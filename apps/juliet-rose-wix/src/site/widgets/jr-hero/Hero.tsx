@@ -1,6 +1,6 @@
 import styles from './jr-hero.module.css';
 
-export type JrHeroProps = Readonly<{
+export type HeroProps = Readonly<{
   eyebrow?: string;
   title?: string;
   location?: string;
@@ -28,7 +28,7 @@ const defaultProps = {
   imageAlt: 'A relaxing facial treatment at Juliet Rose Beauty Studio',
 } as const;
 
-export function JrHero(props: JrHeroProps) {
+export function Hero(props: HeroProps) {
   const eyebrow = props.eyebrow ?? defaultProps.eyebrow;
   const title = props.title ?? defaultProps.title;
   const location = props.location ?? defaultProps.location;

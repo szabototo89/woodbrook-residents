@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
 import {
-  JrTreatmentCards,
+  TreatmentCards,
   type TreatmentCardsDisplay,
   type TreatmentCardsViewMode,
-} from './JrTreatmentCards';
+} from './TreatmentCards';
 
-const JrTreatmentCardsElement = reactToWebComponent(
-  JrTreatmentCards,
+const TreatmentCardsElement = reactToWebComponent(
+  TreatmentCards,
   React,
   ReactDOM,
   {
@@ -21,5 +21,5 @@ const JrTreatmentCardsElement = reactToWebComponent(
   },
 );
 
-export default JrTreatmentCardsElement;
+export default TreatmentCardsElement;
 export type { TreatmentCardsDisplay, TreatmentCardsViewMode };

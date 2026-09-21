@@ -7,7 +7,7 @@ import {
 } from './booking';
 import styles from './jr-booking-journey.module.css';
 
-type JrCustomerFormProps = Readonly<{
+type CustomerFormProps = Readonly<{
   disabled?: boolean;
   onSubmit: (details: CustomerDetails) => void | Promise<void>;
 }>;
@@ -19,7 +19,7 @@ const EMPTY_DETAILS: CustomerDetails = {
   notes: '',
 };
 
-export function JrCustomerForm(props: JrCustomerFormProps) {
+export function CustomerForm(props: CustomerFormProps) {
   const disabled = props.disabled ?? false;
   const [values, setValues] = useState<CustomerDetails>(EMPTY_DETAILS);
   const [errors, setErrors] = useState<CustomerErrors>({});

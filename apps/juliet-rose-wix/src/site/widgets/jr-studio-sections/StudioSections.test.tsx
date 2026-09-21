@@ -1,10 +1,10 @@
 import { expect, test } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
-import { JrStudioSections } from './JrStudioSections';
+import { StudioSections } from './StudioSections';
 
 test('jr-studio-sections renders gift, visit, and policy content by default', () => {
-  const view = renderUi(<JrStudioSections />);
+  const view = renderUi(<StudioSections />);
 
   const gift = view.container.querySelector('section[id="gift-cards"]');
   expect(gift?.getAttribute('aria-labelledby')).toBe('gift-heading');
@@ -51,7 +51,7 @@ test('jr-studio-sections renders gift, visit, and policy content by default', ()
 
 test('jr-studio-sections honours widget properties for links and imagery', () => {
   const view = renderUi(
-    <JrStudioSections
+    <StudioSections
       giftTitle="Custom gift title"
       giftCardUrl="https://example.com/gift"
       phoneHref="tel:+15551234567"

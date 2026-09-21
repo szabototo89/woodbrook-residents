@@ -2,7 +2,7 @@ import { act } from 'react';
 import { expect, test, vi } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
-import { JrCustomerForm } from './JrCustomerForm';
+import { CustomerForm } from './CustomerForm';
 
 function fillName(view: { container: HTMLElement }, value: string) {
   const field =
@@ -17,7 +17,7 @@ function fillName(view: { container: HTMLElement }, value: string) {
 
 test('jr-customer-form submits valid details', async () => {
   const onSubmit = vi.fn();
-  const view = renderUi(<JrCustomerForm onSubmit={onSubmit} />);
+  const view = renderUi(<CustomerForm onSubmit={onSubmit} />);
   await act(async () => {
     fillName(view, 'Diana');
     const email = view.container.querySelector<HTMLInputElement>(
@@ -55,7 +55,7 @@ test('jr-customer-form submits valid details', async () => {
 
 test('jr-customer-form shows field errors instead of submitting', async () => {
   const onSubmit = vi.fn();
-  const view = renderUi(<JrCustomerForm onSubmit={onSubmit} />);
+  const view = renderUi(<CustomerForm onSubmit={onSubmit} />);
   await act(async () => {
     view.container
       .querySelector('button[type="submit"]')!
@@ -69,7 +69,7 @@ test('jr-customer-form shows field errors instead of submitting', async () => {
 });
 
 test('jr-customer-form disables every control when the journey is incomplete', () => {
-  const view = renderUi(<JrCustomerForm disabled onSubmit={() => {}} />);
+  const view = renderUi(<CustomerForm disabled onSubmit={() => {}} />);
 
   expect(
     view.container.querySelector<HTMLButtonElement>('button[type="submit"]')

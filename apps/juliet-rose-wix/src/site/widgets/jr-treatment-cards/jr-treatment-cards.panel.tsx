@@ -18,7 +18,7 @@ const FIELDS: readonly PanelField[] = [
   { key: 'featured-slugs', label: 'Featured slugs (comma separated)' },
 ];
 
-export default function JrTreatmentCardsPanel() {
+export default function TreatmentCardsPanel() {
   const [values, setValues] = useState<Readonly<Record<string, string>>>({});
 
   useEffect(() => {

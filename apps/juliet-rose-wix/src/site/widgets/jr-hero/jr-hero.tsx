@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
-import { JrHero } from './JrHero';
+import { Hero } from './Hero';
 
-const JrHeroElement = reactToWebComponent(JrHero, React, ReactDOM, {
+const HeroElement = reactToWebComponent(Hero, React, ReactDOM, {
   props: {
     eyebrow: 'string',
     title: 'string',
@@ -20,4 +20,4 @@ const JrHeroElement = reactToWebComponent(JrHero, React, ReactDOM, {
   },
 });
 
-export default JrHeroElement;
+export default HeroElement;

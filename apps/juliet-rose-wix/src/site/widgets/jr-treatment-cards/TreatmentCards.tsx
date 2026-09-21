@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { queryBookingServices } from './bookingsServices';
 import styles from './jr-treatment-cards.module.css';
-import { JrCategoryGrid } from './JrCategoryGrid';
-import { JrFeaturedGrid } from './JrFeaturedGrid';
-import { JrTreatmentCatalog } from './JrTreatmentCatalog';
-import { JrTreatmentGuidance } from './JrTreatmentGuidance';
+import { CategoryGrid } from './CategoryGrid';
+import { FeaturedGrid } from './FeaturedGrid';
+import { TreatmentCatalog } from './TreatmentCatalog';
+import { TreatmentGuidance } from './TreatmentGuidance';
 import {
   CATEGORY_CARDS,
   PREVIEW_TREATMENTS,
@@ -20,7 +20,7 @@ export type TreatmentCardsViewMode = 'Editor' | 'Preview' | 'Site';
 
 export type TreatmentCardsDisplay = 'catalog' | 'home' | 'all';
 
-type JrTreatmentCardsProps = Readonly<{
+type TreatmentCardsProps = Readonly<{
   viewMode?: TreatmentCardsViewMode;
   display?: TreatmentCardsDisplay;
   featuredSlugs?: string;
@@ -33,7 +33,7 @@ type CardsState =
   | Readonly<{ status: 'ready'; treatments: readonly Treatment[] }>
   | Readonly<{ status: 'failed' }>;
 
-export function JrTreatmentCards(props: JrTreatmentCardsProps) {
+export function TreatmentCards(props: TreatmentCardsProps) {
   const [state, setState] = useState<CardsState>(() =>
     props.viewMode === 'Preview' || props.viewMode === 'Site'
       ? { status: 'loading' }
@@ -63,7 +63,7 @@ export function JrTreatmentCards(props: JrTreatmentCardsProps) {
     return (
       <div className={styles.root}>
         <p role="status">Loading treatments…</p>
-        {props.display === 'home' ? null : <JrTreatmentGuidance />}
+        {props.display === 'home' ? null : <TreatmentGuidance />}
       </div>
     );
   }
@@ -72,7 +72,7 @@ export function JrTreatmentCards(props: JrTreatmentCardsProps) {
     return (
       <div className={styles.root}>
         <p role="alert">Treatments are unavailable right now.</p>
-        {props.display === 'home' ? null : <JrTreatmentGuidance />}
+        {props.display === 'home' ? null : <TreatmentGuidance />}
       </div>
     );
   }
@@ -85,14 +85,14 @@ export function JrTreatmentCards(props: JrTreatmentCardsProps) {
     <div className={styles.root}>
       {props.display === 'catalog' ? null : (
         <>
-          <JrCategoryGrid cards={CATEGORY_CARDS} />
-          <JrFeaturedGrid featured={featured} />
+          <CategoryGrid cards={CATEGORY_CARDS} />
+          <FeaturedGrid featured={featured} />
         </>
       )}
       {props.display === 'home' ? null : (
         <>
-          <JrTreatmentCatalog treatments={state.treatments} />
-          <JrTreatmentGuidance />
+          <TreatmentCatalog treatments={state.treatments} />
+          <TreatmentGuidance />
         </>
       )}
     </div>

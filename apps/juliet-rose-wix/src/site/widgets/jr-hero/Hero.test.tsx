@@ -1,10 +1,10 @@
 import { expect, test } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
-import { JrHero } from './JrHero';
+import { Hero } from './Hero';
 
 test('jr-hero renders the default studio headline, copy, and calls to action', () => {
-  const view = renderUi(<JrHero />);
+  const view = renderUi(<Hero />);
   const heading = view.container.querySelector('h1');
   const image = view.container.querySelector('img');
   const bookingLink = view.container.querySelector('a[href="/book"]');
@@ -46,7 +46,7 @@ test('jr-hero renders the default studio headline, copy, and calls to action', (
 
 test('jr-hero honours widget properties for copy, links, and imagery', () => {
   const view = renderUi(
-    <JrHero
+    <Hero
       eyebrow="Custom eyebrow"
       title="Custom title"
       location="Custom location"

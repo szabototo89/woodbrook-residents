@@ -1,12 +1,12 @@
 import { act } from 'react';
 import { afterEach, expect, test } from 'vitest';
 
-import JrTreatmentCardsElement from './jr-treatment-cards';
+import TreatmentCardsElement from './jr-treatment-cards';
 
 const TEST_TAG = 'jr-treatment-cards-test';
 
 if (!customElements.get(TEST_TAG)) {
-  customElements.define(TEST_TAG, JrTreatmentCardsElement);
+  customElements.define(TEST_TAG, TreatmentCardsElement);
 }
 
 function mountCards() {

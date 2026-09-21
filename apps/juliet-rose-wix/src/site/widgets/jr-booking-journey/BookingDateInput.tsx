@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { isBookableDateString } from './booking';
 import styles from './jr-booking-journey.module.css';
 
-type JrBookingDateInputProps = Readonly<{
+type BookingDateInputProps = Readonly<{
   value?: string;
   min: string;
   max: string;
   onSelect: (date: string | undefined) => void;
 }>;
 
-export function JrBookingDateInput(props: JrBookingDateInputProps) {
+export function BookingDateInput(props: BookingDateInputProps) {
   const [error, setError] = useState<string>();
   return (
     <div>

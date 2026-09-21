@@ -8,7 +8,7 @@ const HERO_HIGHLIGHTS = [
   { title: 'Tailored to your needs', Icon: CircleCheck },
 ] as const;
 
-export function JrBookingHero() {
+export function BookingHero() {
   return (
     <section className={styles.hero}>
       <div className={styles.heroContent}>

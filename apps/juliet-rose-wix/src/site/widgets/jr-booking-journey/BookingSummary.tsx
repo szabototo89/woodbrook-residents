@@ -7,13 +7,13 @@ import {
 } from './booking';
 import styles from './jr-booking-journey.module.css';
 
-type JrBookingSummaryProps = Readonly<{
+type BookingSummaryProps = Readonly<{
   service: BookingService | undefined;
   date: string | undefined;
   slot: TimeSlot | undefined;
 }>;
 
-export function JrBookingSummary(props: JrBookingSummaryProps) {
+export function BookingSummary(props: BookingSummaryProps) {
   return (
     <aside className={styles.sidebar} aria-label="Your booking summary">
       <section className={styles.summaryCard}>

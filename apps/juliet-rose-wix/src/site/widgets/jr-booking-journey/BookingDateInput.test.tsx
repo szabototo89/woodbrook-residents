@@ -2,15 +2,11 @@ import { act } from 'react';
 import { expect, test, vi } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
-import { JrBookingDateInput } from './JrBookingDateInput';
+import { BookingDateInput } from './BookingDateInput';
 
 test('jr-booking-date-input constrains the range to six months', () => {
   const view = renderUi(
-    <JrBookingDateInput
-      min="2026-09-19"
-      max="2027-03-19"
-      onSelect={() => {}}
-    />,
+    <BookingDateInput min="2026-09-19" max="2027-03-19" onSelect={() => {}} />,
   );
 
   const input = view.container.querySelector('input[type="date"]')!;
@@ -22,11 +18,7 @@ test('jr-booking-date-input constrains the range to six months', () => {
 test('jr-booking-date-input reports a chosen weekday', async () => {
   const onSelect = vi.fn();
   const view = renderUi(
-    <JrBookingDateInput
-      min="2026-09-19"
-      max="2027-03-19"
-      onSelect={onSelect}
-    />,
+    <BookingDateInput min="2026-09-19" max="2027-03-19" onSelect={onSelect} />,
   );
 
   await act(async () => {
@@ -47,11 +39,7 @@ test('jr-booking-date-input reports a chosen weekday', async () => {
 test('jr-booking-date-input rejects weekends with guidance', async () => {
   const onSelect = vi.fn();
   const view = renderUi(
-    <JrBookingDateInput
-      min="2026-09-19"
-      max="2027-03-19"
-      onSelect={onSelect}
-    />,
+    <BookingDateInput min="2026-09-19" max="2027-03-19" onSelect={onSelect} />,
   );
 
   await act(async () => {

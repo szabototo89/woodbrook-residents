@@ -1,6 +1,6 @@
 import styles from './jr-studio-sections.module.css';
 
-export type JrStudioSectionsProps = Readonly<{
+export type StudioSectionsProps = Readonly<{
   giftEyebrow?: string;
   giftTitle?: string;
   giftCopyLead?: string;
@@ -53,7 +53,7 @@ const defaultProps = {
   policyFullLabel: 'Read the full policy',
 } as const;
 
-export function JrStudioSections(props: JrStudioSectionsProps) {
+export function StudioSections(props: StudioSectionsProps) {
   const giftEyebrow = props.giftEyebrow ?? defaultProps.giftEyebrow;
   const giftTitle = props.giftTitle ?? defaultProps.giftTitle;
   const giftCopyLead = props.giftCopyLead ?? defaultProps.giftCopyLead;

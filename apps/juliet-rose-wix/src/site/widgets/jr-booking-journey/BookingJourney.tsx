@@ -18,18 +18,18 @@ import {
   queryDaySlots,
   submitBookingRequest,
 } from './bookingGateway';
-import { JrBookingDateInput } from './JrBookingDateInput';
-import { JrBookingHero } from './JrBookingHero';
-import { JrBookingReassurance } from './JrBookingReassurance';
-import { JrBookingSummary } from './JrBookingSummary';
-import { JrBookingTimeSlots } from './JrBookingTimeSlots';
-import { JrCustomerForm } from './JrCustomerForm';
-import { JrTreatmentPicker } from './JrTreatmentPicker';
+import { BookingDateInput } from './BookingDateInput';
+import { BookingHero } from './BookingHero';
+import { BookingReassurance } from './BookingReassurance';
+import { BookingSummary } from './BookingSummary';
+import { BookingTimeSlots } from './BookingTimeSlots';
+import { CustomerForm } from './CustomerForm';
+import { TreatmentPicker } from './TreatmentPicker';
 import styles from './jr-booking-journey.module.css';
 
 export type BookingJourneyViewMode = 'Editor' | 'Preview' | 'Site';
 
-type JrBookingJourneyProps = Readonly<{
+type BookingJourneyProps = Readonly<{
   viewMode?: BookingJourneyViewMode;
   initialService?: string;
   today?: string;
@@ -49,7 +49,7 @@ function maxDateString(today: string): string {
   return toDateString(new Date(year ?? 0, (month ?? 1) - 1 + 6, day ?? 1));
 }
 
-export function JrBookingJourney(props: JrBookingJourneyProps) {
+export function BookingJourney(props: BookingJourneyProps) {
   const today = props.today ?? toDateString(new Date());
   const isLive = props.viewMode === 'Preview' || props.viewMode === 'Site';
   const [services, setServices] = useState<
@@ -162,7 +162,7 @@ export function JrBookingJourney(props: JrBookingJourneyProps) {
   return (
     <div className={styles.page}>
       <div className={styles.journey}>
-        <JrBookingHero />
+        <BookingHero />
 
         <div className={styles.workspace}>
           <div className={styles.flow}>
@@ -176,7 +176,7 @@ export function JrBookingJourney(props: JrBookingJourneyProps) {
                 <div className={styles.treatmentLayout}>
                   <div>
                     <span className={styles.fieldLabel}>Treatment</span>
-                    <JrTreatmentPicker
+                    <TreatmentPicker
                       services={services ?? []}
                       value={serviceSlug}
                       onChange={selectService}
@@ -213,7 +213,7 @@ export function JrBookingJourney(props: JrBookingJourneyProps) {
                   Appointments are Monday to Friday.
                 </p>
                 <div className={styles.calendarLayout}>
-                  <JrBookingDateInput
+                  <BookingDateInput
                     value={date}
                     min={today}
                     max={maxDateString(today)}
@@ -249,7 +249,7 @@ export function JrBookingJourney(props: JrBookingJourneyProps) {
                     Available times for {formatBookingDate(date)}.
                   </p>
                 ) : null}
-                <JrBookingTimeSlots
+                <BookingTimeSlots
                   slots={slots}
                   value={slotStart}
                   onChange={setSlotStart}
@@ -265,7 +265,7 @@ export function JrBookingJourney(props: JrBookingJourneyProps) {
                   Please provide your contact information so we can confirm your
                   appointment.
                 </p>
-                <JrCustomerForm
+                <CustomerForm
                   disabled={!service || !date || !slot}
                   onSubmit={submit}
                 />
@@ -273,10 +273,10 @@ export function JrBookingJourney(props: JrBookingJourneyProps) {
             </section>
           </div>
 
-          <JrBookingSummary service={service} date={date} slot={slot} />
+          <BookingSummary service={service} date={date} slot={slot} />
         </div>
 
-        <JrBookingReassurance />
+        <BookingReassurance />
       </div>
     </div>
   );

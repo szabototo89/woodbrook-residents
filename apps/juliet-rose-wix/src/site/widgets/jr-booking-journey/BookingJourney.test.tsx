@@ -2,7 +2,7 @@ import { act } from 'react';
 import { expect, test, vi } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
-import { JrBookingJourney } from './JrBookingJourney';
+import { BookingJourney } from './BookingJourney';
 
 function setInputValue(field: HTMLInputElement, value: string) {
   const setter = Object.getOwnPropertyDescriptor(
@@ -25,7 +25,7 @@ function setSelectValue(field: HTMLSelectElement, value: string) {
 test('jr-booking-journey renders the hero, steps, and mock services without fetching', async () => {
   const listServices = vi.fn(async () => []);
   const view = renderUi(
-    <JrBookingJourney
+    <BookingJourney
       viewMode="Editor"
       today="2026-09-19"
       listServices={listServices}
@@ -50,7 +50,7 @@ test('jr-booking-journey renders the hero, steps, and mock services without fetc
 
 test('jr-booking-journey completes a mock booking from treatment to confirmation', async () => {
   const view = renderUi(
-    <JrBookingJourney viewMode="Editor" today="2026-09-19" />,
+    <BookingJourney viewMode="Editor" today="2026-09-19" />,
   );
   await act(async () => {
     await Promise.resolve();
@@ -109,7 +109,7 @@ test('jr-booking-journey completes a mock booking from treatment to confirmation
 
 test('jr-booking-journey resets the date and time when the treatment changes', async () => {
   const view = renderUi(
-    <JrBookingJourney viewMode="Editor" today="2026-09-19" />,
+    <BookingJourney viewMode="Editor" today="2026-09-19" />,
   );
   await act(async () => {
     await Promise.resolve();
@@ -146,7 +146,7 @@ test('jr-booking-journey resets the date and time when the treatment changes', a
 test('jr-booking-journey rejects weekend dates without loading slots', async () => {
   const listSlots = vi.fn(async () => []);
   const view = renderUi(
-    <JrBookingJourney
+    <BookingJourney
       viewMode="Editor"
       today="2026-09-19"
       listSlots={listSlots}
@@ -182,7 +182,7 @@ test('jr-booking-journey lists live services on the live site', async () => {
     },
   ]);
   const view = renderUi(
-    <JrBookingJourney
+    <BookingJourney
       viewMode="Site"
       today="2026-09-19"
       listServices={listServices}
@@ -201,7 +201,7 @@ test('jr-booking-journey lists live services on the live site', async () => {
 
 test('jr-booking-journey preselects the service from its initial slug', async () => {
   const view = renderUi(
-    <JrBookingJourney
+    <BookingJourney
       viewMode="Editor"
       today="2026-09-19"
       initialService="microneedling"
@@ -226,7 +226,7 @@ test('jr-booking-journey redirects to checkout when booking returns a url', asyn
     checkoutUrl: 'https://checkout.example.com/pay',
   }));
   const view = renderUi(
-    <JrBookingJourney
+    <BookingJourney
       viewMode="Editor"
       today="2026-09-19"
       submitBooking={submitBooking}

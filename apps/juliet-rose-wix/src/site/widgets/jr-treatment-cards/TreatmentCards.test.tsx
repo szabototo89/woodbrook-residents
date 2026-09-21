@@ -2,12 +2,12 @@ import { act } from 'react';
 import { expect, test, vi } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
-import { JrTreatmentCards } from './JrTreatmentCards';
+import { TreatmentCards } from './TreatmentCards';
 
 test('jr-treatment-cards renders preview treatments in the editor without fetching', async () => {
   const listServices = vi.fn(async () => []);
   const view = renderUi(
-    <JrTreatmentCards viewMode="Editor" listServices={listServices} />,
+    <TreatmentCards viewMode="Editor" listServices={listServices} />,
   );
   await act(async () => {
     await Promise.resolve();
@@ -22,7 +22,7 @@ test('jr-treatment-cards renders preview treatments in the editor without fetchi
 
 test('jr-treatment-cards renders preview treatments when the mode is unknown', async () => {
   const listServices = vi.fn(async () => []);
-  const view = renderUi(<JrTreatmentCards listServices={listServices} />);
+  const view = renderUi(<TreatmentCards listServices={listServices} />);
   await act(async () => {
     await Promise.resolve();
   });
@@ -44,7 +44,7 @@ test('jr-treatment-cards lists live bookings services on the live site', async (
     },
   ]);
   const view = renderUi(
-    <JrTreatmentCards viewMode="Site" listServices={listServices} />,
+    <TreatmentCards viewMode="Site" listServices={listServices} />,
   );
   await act(async () => {
     await Promise.resolve();
@@ -61,7 +61,7 @@ test('jr-treatment-cards explains when live treatments cannot load', async () =>
     throw new Error('offline');
   });
   const view = renderUi(
-    <JrTreatmentCards viewMode="Preview" listServices={listServices} />,
+    <TreatmentCards viewMode="Preview" listServices={listServices} />,
   );
   await act(async () => {
     await Promise.resolve();
@@ -76,7 +76,7 @@ test('jr-treatment-cards explains when live treatments cannot load', async () =>
 test('jr-treatment-cards shows home grids without the catalog on display home', async () => {
   const listServices = vi.fn(async () => []);
   const view = renderUi(
-    <JrTreatmentCards
+    <TreatmentCards
       viewMode="Editor"
       display="home"
       listServices={listServices}
@@ -98,7 +98,7 @@ test('jr-treatment-cards shows home grids without the catalog on display home', 
 test('jr-treatment-cards shows the catalog without home grids on display catalog', async () => {
   const listServices = vi.fn(async () => []);
   const view = renderUi(
-    <JrTreatmentCards
+    <TreatmentCards
       viewMode="Editor"
       display="catalog"
       listServices={listServices}
@@ -126,7 +126,7 @@ test('jr-treatment-cards resolves featured treatments from live services', async
     },
   ]);
   const view = renderUi(
-    <JrTreatmentCards
+    <TreatmentCards
       viewMode="Site"
       display="home"
       featuredSlugs="swedish-massage"

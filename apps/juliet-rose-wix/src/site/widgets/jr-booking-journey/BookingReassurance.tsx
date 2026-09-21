@@ -8,7 +8,7 @@ const REASSURANCE_ITEMS = [
   { Icon: Flower2, label: 'Tailored to your needs' },
 ] as const;
 
-export function JrBookingReassurance() {
+export function BookingReassurance() {
   return (
     <aside className={styles.reassurance} aria-label="What to expect">
       <ul>

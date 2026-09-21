@@ -18,7 +18,7 @@ const FIELDS: readonly PanelField[] = [
   { key: 'today', label: 'Today override (YYYY-MM-DD)' },
 ];
 
-export default function JrBookingJourneyPanel() {
+export default function BookingJourneyPanel() {
   const [values, setValues] = useState<Readonly<Record<string, string>>>({});
 
   useEffect(() => {

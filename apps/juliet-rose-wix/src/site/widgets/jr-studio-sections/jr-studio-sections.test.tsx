@@ -1,12 +1,12 @@
 import { act } from 'react';
 import { afterEach, expect, test } from 'vitest';
 
-import JrStudioSectionsElement from './jr-studio-sections';
+import StudioSectionsElement from './jr-studio-sections';
 
 const TEST_TAG = 'jr-studio-sections-test';
 
 if (!customElements.get(TEST_TAG)) {
-  customElements.define(TEST_TAG, JrStudioSectionsElement);
+  customElements.define(TEST_TAG, StudioSectionsElement);
 }
 
 function mountSections() {

@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
-import { JrStudioSections } from './JrStudioSections';
+import { StudioSections } from './StudioSections';
 
-const JrStudioSectionsElement = reactToWebComponent(
-  JrStudioSections,
+const StudioSectionsElement = reactToWebComponent(
+  StudioSections,
   React,
   ReactDOM,
   {
@@ -37,4 +37,4 @@ const JrStudioSectionsElement = reactToWebComponent(
   },
 );
 
-export default JrStudioSectionsElement;
+export default StudioSectionsElement;

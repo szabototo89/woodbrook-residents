@@ -2,13 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
-import {
-  JrBookingJourney,
-  type BookingJourneyViewMode,
-} from './JrBookingJourney';
+import { BookingJourney, type BookingJourneyViewMode } from './BookingJourney';
 
-const JrBookingJourneyElement = reactToWebComponent(
-  JrBookingJourney,
+const BookingJourneyElement = reactToWebComponent(
+  BookingJourney,
   React,
   ReactDOM,
   {
@@ -20,5 +17,5 @@ const JrBookingJourneyElement = reactToWebComponent(
   },
 );
 
-export default JrBookingJourneyElement;
+export default BookingJourneyElement;
 export type { BookingJourneyViewMode };

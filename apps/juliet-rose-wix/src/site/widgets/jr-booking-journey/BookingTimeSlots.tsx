@@ -1,13 +1,13 @@
 import type { TimeSlot } from './booking';
 import styles from './jr-booking-journey.module.css';
 
-type JrBookingTimeSlotsProps = Readonly<{
+type BookingTimeSlotsProps = Readonly<{
   slots: readonly TimeSlot[];
   value: string;
   onChange: (start: string) => void;
 }>;
 
-export function JrBookingTimeSlots(props: JrBookingTimeSlotsProps) {
+export function BookingTimeSlots(props: BookingTimeSlotsProps) {
   if (props.slots.length === 0) {
     return <p className={styles.hint}>Choose a date to see preferred times.</p>;
   }

@@ -6,13 +6,13 @@ import {
   type FeaturedTreatment,
 } from './treatments';
 
-type JrFeaturedGridProps = Readonly<{
+type FeaturedGridProps = Readonly<{
   featured: readonly FeaturedTreatment[];
   viewAllLabel?: string;
   viewAllHref?: string;
 }>;
 
-export function JrFeaturedGrid(props: JrFeaturedGridProps) {
+export function FeaturedGrid(props: FeaturedGridProps) {
   const viewAllLabel = props.viewAllLabel ?? 'View all treatments';
   const viewAllHref = props.viewAllHref ?? '/treatments';
   return (

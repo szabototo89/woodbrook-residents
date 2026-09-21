@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
-import { JrFeaturedGrid } from './JrFeaturedGrid';
+import { FeaturedGrid } from './FeaturedGrid';
 import { resolveFeatured } from './treatments';
 
 const PREVIEW = [
@@ -27,7 +27,7 @@ const FEATURED = resolveFeatured(PREVIEW, [
 ]);
 
 test('jr-featured-grid renders featured cards with meta and booking links', () => {
-  const view = renderUi(<JrFeaturedGrid featured={FEATURED} />);
+  const view = renderUi(<FeaturedGrid featured={FEATURED} />);
 
   expect(view.container.textContent).toContain('Popular choices');
   expect(view.container.textContent).toContain('Featured treatments');
@@ -46,7 +46,7 @@ test('jr-featured-grid renders featured cards with meta and booking links', () =
 
 test('jr-featured-grid skips imagery missing from the image map', () => {
   const view = renderUi(
-    <JrFeaturedGrid
+    <FeaturedGrid
       featured={[
         {
           treatment: {

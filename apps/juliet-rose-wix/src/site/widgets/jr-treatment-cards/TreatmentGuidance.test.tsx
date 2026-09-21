@@ -1,10 +1,10 @@
 import { expect, test } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
-import { JrTreatmentGuidance } from './JrTreatmentGuidance';
+import { TreatmentGuidance } from './TreatmentGuidance';
 
 test('jr-treatment-guidance links to the contact section by default', () => {
-  const view = renderUi(<JrTreatmentGuidance />);
+  const view = renderUi(<TreatmentGuidance />);
 
   expect(view.container.textContent).toContain('Not sure what to choose?');
   expect(view.container.textContent).toContain(
@@ -17,7 +17,7 @@ test('jr-treatment-guidance links to the contact section by default', () => {
 });
 
 test('jr-treatment-guidance honours a custom contact url', () => {
-  const view = renderUi(<JrTreatmentGuidance contactUrl="/custom-contact" />);
+  const view = renderUi(<TreatmentGuidance contactUrl="/custom-contact" />);
 
   expect(
     view.container.querySelector('a[href="/custom-contact"]'),

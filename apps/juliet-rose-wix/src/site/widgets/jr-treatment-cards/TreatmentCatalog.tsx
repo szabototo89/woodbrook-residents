@@ -7,11 +7,11 @@ import {
   type Treatment,
 } from './treatments';
 
-type JrTreatmentCatalogProps = Readonly<{
+type TreatmentCatalogProps = Readonly<{
   treatments: readonly Treatment[];
 }>;
 
-export function JrTreatmentCatalog(props: JrTreatmentCatalogProps) {
+export function TreatmentCatalog(props: TreatmentCatalogProps) {
   const sections = CATEGORIES.map((meta) => ({
     meta,
     treatments: props.treatments.filter(

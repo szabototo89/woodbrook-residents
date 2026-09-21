@@ -2,10 +2,10 @@ import { expect, test } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
 import { CATEGORY_CARDS } from './treatments';
-import { JrCategoryGrid } from './JrCategoryGrid';
+import { CategoryGrid } from './CategoryGrid';
 
 test('jr-category-grid renders every category card with researched links', () => {
-  const view = renderUi(<JrCategoryGrid cards={CATEGORY_CARDS} />);
+  const view = renderUi(<CategoryGrid cards={CATEGORY_CARDS} />);
 
   expect(view.container.textContent).toContain('Our treatments');
   expect(view.container.textContent).toContain(
@@ -29,7 +29,7 @@ test('jr-category-grid renders every category card with researched links', () =>
 
 test('jr-category-grid honours a custom view-all link', () => {
   const view = renderUi(
-    <JrCategoryGrid
+    <CategoryGrid
       cards={CATEGORY_CARDS.slice(0, 1)}
       viewAllLabel="Custom link"
       viewAllHref="/custom-treatments"
