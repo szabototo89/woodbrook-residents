@@ -10,6 +10,7 @@ const JrHeroElement = reactToWebComponent(JrHero, React, ReactDOM, {
     title: 'string',
     location: 'string',
     copy: 'string',
+    copySecondLine: 'string',
     bookingUrl: 'string',
     treatmentsUrl: 'string',
     policyUrl: 'string',

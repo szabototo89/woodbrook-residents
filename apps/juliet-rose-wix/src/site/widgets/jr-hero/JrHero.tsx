@@ -5,6 +5,7 @@ export type JrHeroProps = Readonly<{
   title?: string;
   location?: string;
   copy?: string;
+  copySecondLine?: string;
   bookingUrl?: string;
   treatmentsUrl?: string;
   policyUrl?: string;
@@ -14,10 +15,11 @@ export type JrHeroProps = Readonly<{
 }>;
 
 const defaultProps = {
-  eyebrow: 'Beauty · Wellbeing · You',
+  eyebrow: 'Beauty · Wellbeing · You',
   title: 'Relax and Revitalize',
   location: 'Beauty treatments in Stillorgan, South Dublin.',
-  copy: 'A wide range of beauty treatments and products, all in one place.',
+  copy: 'A wide range of beauty treatments and products,',
+  copySecondLine: 'all in one place.',
   bookingUrl: '/book',
   treatmentsUrl: '/treatments',
   policyUrl: '#booking-policy',
@@ -31,6 +33,7 @@ export function JrHero(props: JrHeroProps) {
   const title = props.title ?? defaultProps.title;
   const location = props.location ?? defaultProps.location;
   const copy = props.copy ?? defaultProps.copy;
+  const copySecondLine = props.copySecondLine ?? defaultProps.copySecondLine;
   const bookingUrl = props.bookingUrl ?? defaultProps.bookingUrl;
   const treatmentsUrl = props.treatmentsUrl ?? defaultProps.treatmentsUrl;
   const policyUrl = props.policyUrl ?? defaultProps.policyUrl;
@@ -53,19 +56,26 @@ export function JrHero(props: JrHeroProps) {
       <div className={styles.wash} aria-hidden="true" />
       <div className={styles.inner}>
         <p className={styles.eyebrow}>{eyebrow}</p>
-        <h1 id="hero-heading">{title}</h1>
+        <h1 className={styles.title} id="hero-heading">
+          {title}
+        </h1>
         <p className={styles.location}>{location}</p>
-        <p className={styles.copy}>{copy}</p>
+        <p className={styles.copy}>
+          {copy} <br />
+          {copySecondLine}
+        </p>
         <div className={styles.actions}>
           <a className={styles.primaryButton} href={bookingUrl}>
-            Book an appointment
+            Book an appointment{' '}
+            <span className={styles.iconArrow} aria-hidden="true" />
           </a>
           <a className={styles.secondaryButton} href={treatmentsUrl}>
             View treatments
           </a>
         </div>
         <a className={styles.policyLink} href={policyUrl}>
-          Booking policy
+          <span className={styles.bookingIcon} aria-hidden="true" /> Booking
+          policy
         </a>
       </div>
     </section>
