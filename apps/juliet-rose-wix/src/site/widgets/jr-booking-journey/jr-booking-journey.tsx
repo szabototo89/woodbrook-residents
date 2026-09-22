@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
-import { BookingJourney, type BookingJourneyViewMode } from './BookingJourney';
+import { type BookingJourneyViewMode } from './BookingJourney';
+import { BookingJourneyWidget } from './BookingJourneyWidget';
 
 const BookingJourneyElement = reactToWebComponent(
-  BookingJourney,
+  BookingJourneyWidget,
   React,
   ReactDOM,
   {

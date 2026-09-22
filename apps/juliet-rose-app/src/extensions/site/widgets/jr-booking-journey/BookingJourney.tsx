@@ -29,7 +29,7 @@ import styles from './jr-booking-journey.module.css';
 
 export type BookingJourneyViewMode = 'Editor' | 'Preview' | 'Site';
 
-type BookingJourneyProps = Readonly<{
+export type BookingJourneyProps = Readonly<{
   viewMode?: BookingJourneyViewMode;
   initialService?: string;
   today?: string;

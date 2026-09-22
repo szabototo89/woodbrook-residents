@@ -13,7 +13,7 @@ import {
   type ServicesViewMode,
 } from '../../treatments/useServices';
 
-type LiveFeaturedGridProps = Readonly<{
+export type LiveFeaturedGridProps = Readonly<{
   viewMode?: ServicesViewMode;
   featuredSlugs?: string;
   bookingBaseUrl?: string;

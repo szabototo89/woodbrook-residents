@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
-import { LiveFeaturedGrid } from './LiveFeaturedGrid';
+import { FeaturedGridWidget } from './FeaturedGridWidget';
 
 const JrFeaturedGridElement = reactToWebComponent(
-  LiveFeaturedGrid,
+  FeaturedGridWidget,
   React,
   ReactDOM,
   {
