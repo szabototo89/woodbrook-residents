@@ -2,7 +2,17 @@ import { act } from 'react';
 import { expect, test, vi } from 'vitest';
 
 import { renderUi } from '../../../test-utils/renderUi';
+
+vi.mock('@wix/site-window', () => ({
+  window: {
+    viewMode: vi.fn(),
+  },
+}));
+
+import { window as wixWindow } from '@wix/site-window';
 import { BookingJourney } from './BookingJourney';
+
+const viewMode = vi.mocked(wixWindow.viewMode);
 
 function setInputValue(field: HTMLInputElement, value: string) {
   const setter = Object.getOwnPropertyDescriptor(
@@ -275,5 +285,30 @@ test('jr-booking-journey redirects to checkout when booking returns a url', asyn
 
   expect(redirect).toHaveBeenCalledWith('https://checkout.example.com/pay');
   expect(view.container.querySelector('[role="status"]')).toBeNull();
+  view.unmount();
+});
+
+test('jr-booking-journey detects preview mode without a viewMode prop', async () => {
+  viewMode.mockResolvedValueOnce('Site');
+  const listServices = vi.fn(async () => [
+    {
+      id: 'live-id',
+      slug: 'swedish-massage',
+      name: 'Swedish massage',
+      durationMinutes: 60,
+      priceCents: 8000,
+    },
+  ]);
+  const view = renderUi(
+    <BookingJourney today="2026-09-19" listServices={listServices} />,
+  );
+  await act(async () => {
+    await Promise.resolve();
+  });
+  await act(async () => {
+    await Promise.resolve();
+  });
+
+  expect(listServices).toHaveBeenCalledTimes(1);
   view.unmount();
 });

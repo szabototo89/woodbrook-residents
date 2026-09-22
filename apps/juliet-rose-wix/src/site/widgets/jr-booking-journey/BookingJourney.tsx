@@ -26,6 +26,7 @@ import { BookingTimeSlots } from './BookingTimeSlots';
 import { CustomerForm } from './CustomerForm';
 import { TreatmentPicker } from './TreatmentPicker';
 import styles from './jr-booking-journey.module.css';
+import { useViewMode } from '../../viewMode';
 
 export type BookingJourneyViewMode = 'Editor' | 'Preview' | 'Site';
 
@@ -51,10 +52,15 @@ function maxDateString(today: string): string {
 
 export function BookingJourney(props: BookingJourneyProps) {
   const today = props.today ?? toDateString(new Date());
-  const isLive = props.viewMode === 'Preview' || props.viewMode === 'Site';
+  const viewMode = useViewMode(props.viewMode);
+  const isLive = viewMode === 'Preview' || viewMode === 'Site';
   const [services, setServices] = useState<
     readonly BookingService[] | undefined
-  >(() => (isLive ? undefined : MOCK_SERVICES));
+  >(() =>
+    props.viewMode === 'Preview' || props.viewMode === 'Site'
+      ? undefined
+      : MOCK_SERVICES,
+  );
   const [serviceSlug, setServiceSlug] = useState(props.initialService ?? '');
   const [date, setDate] = useState<string>();
   const [slots, setSlots] = useState<readonly TimeSlot[]>([]);
