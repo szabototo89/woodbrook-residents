@@ -4,6 +4,8 @@ import { siteWidgetExtensions } from './extensions';
 
 test('site widget registry lists every Juliet Rose widget once', () => {
   expect(siteWidgetExtensions.map((widget) => widget.tagName)).toEqual([
+    'jr-site-header',
+    'jr-site-footer',
     'jr-hero',
     'jr-category-grid',
     'jr-featured-grid',

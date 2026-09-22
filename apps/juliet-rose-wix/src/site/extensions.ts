@@ -6,6 +6,8 @@ import { jrGiftCardExtension } from './widgets/jr-gift-card/jr-gift-card.extensi
 import { jrHeroExtension } from './widgets/jr-hero/jr-hero.extension';
 import { jrHomePageExtension } from './widgets/jr-home-page/jr-home-page.extension';
 import { jrGiftCardPageExtension } from './widgets/jr-gift-card-page/jr-gift-card-page.extension';
+import { jrSiteFooterExtension } from './widgets/jr-site-footer/jr-site-footer.extension';
+import { jrSiteHeaderExtension } from './widgets/jr-site-header/jr-site-header.extension';
 import { jrStudioSectionsExtension } from './widgets/jr-studio-sections/jr-studio-sections.extension';
 import { jrTreatmentCatalogExtension } from './widgets/jr-treatment-catalog/jr-treatment-catalog.extension';
 import { jrTreatmentGuidanceExtension } from './widgets/jr-treatment-guidance/jr-treatment-guidance.extension';
@@ -15,6 +17,8 @@ import { jrVisitUsExtension } from './widgets/jr-visit-us/jr-visit-us.extension'
 import type { SiteWidgetExtension } from './siteWidgetExtension';
 
 export const siteWidgetExtensions: readonly SiteWidgetExtension[] = [
+  jrSiteHeaderExtension,
+  jrSiteFooterExtension,
   jrHeroExtension,
   jrCategoryGridExtension,
   jrFeaturedGridExtension,
