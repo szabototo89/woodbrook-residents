@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
-import { LiveTreatmentCatalog } from './LiveTreatmentCatalog';
+import { TreatmentCatalogWidget } from './TreatmentCatalogWidget';
 
 const JrTreatmentCatalogElement = reactToWebComponent(
-  LiveTreatmentCatalog,
+  TreatmentCatalogWidget,
   React,
   ReactDOM,
   {

@@ -30,7 +30,7 @@ import { useViewMode } from '../../viewMode';
 
 export type BookingJourneyViewMode = 'Editor' | 'Preview' | 'Site';
 
-type BookingJourneyProps = Readonly<{
+export type BookingJourneyProps = Readonly<{
   viewMode?: BookingJourneyViewMode;
   initialService?: string;
   today?: string;

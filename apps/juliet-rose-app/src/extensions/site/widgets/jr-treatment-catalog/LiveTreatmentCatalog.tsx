@@ -11,7 +11,7 @@ import {
   type ServicesViewMode,
 } from '../../treatments/useServices';
 
-type LiveTreatmentCatalogProps = Readonly<{
+export type LiveTreatmentCatalogProps = Readonly<{
   viewMode?: ServicesViewMode;
   bookingBaseUrl?: string;
   listServices?: () => Promise<readonly BookingsServiceSummary[]>;

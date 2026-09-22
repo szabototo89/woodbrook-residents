@@ -13,6 +13,11 @@ test('site widget registry lists every Juliet Rose widget once', () => {
     'jr-visit-us',
     'jr-booking-policy',
     'jr-booking-journey',
+    'jr-treatment-hero',
+    'jr-gift-card-page',
+    'jr-studio-sections',
+    'jr-home-page',
+    'jr-treatments-page',
   ]);
   const ids = siteWidgetExtensions.map((widget) => widget.id);
   expect(new Set(ids).size).toBe(ids.length);
