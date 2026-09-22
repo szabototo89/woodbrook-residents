@@ -2,6 +2,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, test } from 'vitest';
 
 import HeroFixture from './site/widgets/jr-hero/Hero.fixture';
+import SiteHeaderFixture from './site/widgets/jr-site-header/SiteHeader.fixture';
+import SiteFooterFixture from './site/widgets/jr-site-footer/SiteFooter.fixture';
 import GiftCardFixture from './site/widgets/jr-gift-card/GiftCard.fixture';
 import VisitUsFixture from './site/widgets/jr-visit-us/VisitUs.fixture';
 import BookingPolicyFixture from './site/widgets/jr-booking-policy/BookingPolicy.fixture';
@@ -15,6 +17,16 @@ import HomePageFixture from './site/widgets/jr-home-page/HomePage.fixture';
 import StudioSectionsFixture from './site/widgets/jr-studio-sections/StudioSections.fixture';
 import TreatmentHeroFixture from './site/widgets/jr-treatment-hero/TreatmentHero.fixture';
 import TreatmentsPageFixture from './site/widgets/jr-treatments-page/TreatmentsPage.fixture';
+
+test('site chrome fixtures render the menu and footer', () => {
+  const headerMarkup = renderToStaticMarkup(SiteHeaderFixture);
+  const footerMarkup = renderToStaticMarkup(SiteFooterFixture);
+
+  expect(headerMarkup).toContain('Juliet Rose');
+  expect(headerMarkup).toContain('Book an appointment');
+  expect(footerMarkup).toContain('Relax and Revitalize');
+  expect(footerMarkup).toContain('All rights reserved.');
+});
 
 test('hero fixture renders the studio headline', () => {
   const markup = renderToStaticMarkup(HeroFixture);
