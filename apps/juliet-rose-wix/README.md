@@ -35,10 +35,12 @@ with Editor preview data, so every widget renders without Wix credentials:
 bun run dev:juliet-rose-wix
 ```
 
-This opens the Cosmos playground with one fixture per widget
-(`Hero`, `GiftCard`, `VisitUs`, `BookingPolicy`, `CategoryGrid`,
-`FeaturedGrid`, `TreatmentCatalog`, `TreatmentGuidance`, `BookingJourney`
-default and preselected). Imagery resolves
+This opens the Cosmos playground with one fixture per widget. In addition to
+the focused sections (`Hero`, `GiftCard`, `VisitUs`, `BookingPolicy`,
+`CategoryGrid`, `FeaturedGrid`, `TreatmentCatalog`, `TreatmentGuidance`, and
+`BookingJourney`), it includes `TreatmentHero`, `GiftCardPage`,
+`StudioSections`, `HomePage`, and `TreatmentsPage` fixtures for larger Studio
+building blocks. Imagery resolves
 from `../juliet-rose-web/public` for local review only; Wix Media URLs
 replace those paths at install time.
 
@@ -54,7 +56,7 @@ allow 20px for the Cosmos renderer body margin. Anything else fails.
 
 The deployable app lives at `apps/juliet-rose-app` in this monorepo
 (scaffolded 2026-09-22, appId `db3d875b-8e5c-40d3-b509-622ab612ec51`,
-namespace `@szabototo89/juliet-rose-app`). It is a Wix CLI app whose nine
+namespace `@szabototo89/juliet-rose-app`). It is a Wix CLI app whose fourteen
 `CUSTOM_ELEMENT` site widget extensions are wired from
 `apps/juliet-rose-wix` sources. Direction is one-way: the scaffold keeps its
 own `wix.config.json`, dashboard-registered extension UUIDs, and
@@ -90,7 +92,7 @@ npm run preview  # prints Editor + Dashboard installer links
 Test-site checklist (Bookings app installed, one `APPOINTMENT` service per
 treatment with the researched slug as its custom slug):
 
-- Editor shows mock preview content for all 9 widgets, no SDK errors.
+- Editor shows mock preview content for all 14 widgets, no SDK errors.
 - Preview/published: TreatmentCatalog lists live services; BookingJourney
   loads real slots, creates a booking, and redirects paid bookings to Wix
   checkout.

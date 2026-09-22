@@ -10,6 +10,11 @@ import FeaturedGridFixture from './site/widgets/jr-featured-grid/FeaturedGrid.fi
 import TreatmentCatalogFixture from './site/widgets/jr-treatment-catalog/TreatmentCatalog.fixture';
 import TreatmentGuidanceFixture from './site/widgets/jr-treatment-guidance/TreatmentGuidance.fixture';
 import BookingJourneyFixtures from './site/widgets/jr-booking-journey/BookingJourney.fixture';
+import GiftCardPageFixture from './site/widgets/jr-gift-card-page/GiftCardPage.fixture';
+import HomePageFixture from './site/widgets/jr-home-page/HomePage.fixture';
+import StudioSectionsFixture from './site/widgets/jr-studio-sections/StudioSections.fixture';
+import TreatmentHeroFixture from './site/widgets/jr-treatment-hero/TreatmentHero.fixture';
+import TreatmentsPageFixture from './site/widgets/jr-treatments-page/TreatmentsPage.fixture';
 
 test('hero fixture renders the studio headline', () => {
   const markup = renderToStaticMarkup(HeroFixture);
@@ -72,4 +77,21 @@ test('booking journey fixture renders the mock flow', () => {
   expect(markup).toContain('Request an');
   expect(markup).toContain('Choose a treatment');
   expect(markup).toContain('Swedish massage');
+});
+
+test('new page-level fixtures render missing and aggregate widgets', () => {
+  const markup = [
+    TreatmentHeroFixture,
+    GiftCardPageFixture,
+    StudioSectionsFixture,
+    HomePageFixture,
+    TreatmentsPageFixture,
+  ]
+    .map((fixture) => renderToStaticMarkup(fixture))
+    .join(' ');
+
+  expect(markup).toContain('Treatments &amp; prices');
+  expect(markup).toContain('Give the gift of time to unwind');
+  expect(markup).toContain('Featured treatments');
+  expect(markup).toContain('Not sure what to choose?');
 });

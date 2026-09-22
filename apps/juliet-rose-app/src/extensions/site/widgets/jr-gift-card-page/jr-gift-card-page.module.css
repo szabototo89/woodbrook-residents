@@ -1,0 +1,254 @@
+.root {
+  --jr-rose: #a45458;
+  --jr-rose-dark: #874247;
+  --jr-heading-ink: #2d2926;
+  --jr-muted: #665c56;
+  --jr-line: #e3d7cf;
+  --jr-blush: #f2e2de;
+  --jr-serif:
+    'Cormorant Garamond Variable', 'Cormorant Garamond', 'Iowan Old Style',
+    Baskerville, Georgia, serif;
+  --jr-sans: 'DM Sans Variable', 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  min-height: 70vh;
+  background: #fbf9f6;
+  color: var(--jr-heading-ink);
+  font-family: var(--jr-sans);
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+.root h1,
+.root h2,
+.root h3,
+.root p {
+  margin-top: 0;
+}
+
+.hero {
+  padding: 62px 24px 70px;
+  overflow: hidden;
+  background: linear-gradient(118deg, #f6e9e4 0%, #f9f1ed 50%, #f3e1dc 100%);
+}
+
+.heroInner,
+.details,
+.help {
+  width: min(1100px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+  align-items: center;
+  gap: clamp(42px, 6vw, 82px);
+}
+
+.photoWrap {
+  position: relative;
+}
+
+.photoWrap::before {
+  position: absolute;
+  inset: -18px 18px 18px -18px;
+  border: 1px solid rgba(164, 84, 88, 0.24);
+  border-radius: 4px;
+  content: '';
+}
+
+.photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.16;
+  display: block;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 20px 48px rgba(104, 67, 62, 0.14);
+}
+
+.caption {
+  position: absolute;
+  right: -20px;
+  bottom: 24px;
+  margin: 0;
+  padding: 12px 18px;
+  background: rgba(251, 248, 244, 0.94);
+  border: 1px solid rgba(164, 84, 88, 0.16);
+  color: var(--jr-rose-dark);
+  font-family: var(--jr-serif);
+  font-size: 1.15rem;
+  font-style: italic;
+}
+
+.eyebrow {
+  margin-bottom: 10px;
+  color: var(--jr-rose-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.heroCopy h1 {
+  max-width: 570px;
+  margin-bottom: 22px;
+  font-family: var(--jr-serif);
+  font-size: clamp(3.4rem, 5.4vw, 5.6rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.9;
+}
+
+.lead {
+  max-width: 510px;
+  margin-bottom: 28px;
+  color: var(--jr-muted);
+  font-size: 1.125rem;
+  line-height: 1.55;
+}
+
+.primaryButton {
+  min-width: 280px;
+  min-height: 50px;
+  padding: 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--jr-rose);
+  border-radius: 4px;
+  color: white;
+  text-decoration: none;
+}
+
+.handoff {
+  max-width: 420px;
+  margin: 14px 0 0;
+  color: var(--jr-muted);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.details {
+  padding-block: 76px 82px;
+}
+
+.detailsHeading {
+  margin-bottom: 38px;
+}
+
+.detailsHeading h2,
+.help h2 {
+  margin-bottom: 0;
+  font-family: var(--jr-serif);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 500;
+}
+
+.highlights {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  list-style: none;
+}
+
+.highlights li {
+  min-height: 216px;
+  padding: 26px 24px;
+  background: white;
+  border: 1px solid var(--jr-line);
+  border-radius: 4px;
+}
+
+.number {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 28px;
+  display: grid;
+  place-items: center;
+  background: var(--jr-blush);
+  border-radius: 50%;
+  color: var(--jr-rose-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.highlights h3 {
+  margin-bottom: 10px;
+  font-family: var(--jr-serif);
+  font-size: 1.55rem;
+  font-weight: 500;
+}
+
+.highlights p,
+.help p {
+  margin-bottom: 0;
+  color: var(--jr-muted);
+  line-height: 1.5;
+}
+
+.help {
+  margin-bottom: 82px;
+  padding: 34px 38px;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  align-items: center;
+  gap: 50px;
+  background: var(--jr-blush);
+  border-radius: 4px;
+}
+
+.help a {
+  color: var(--jr-rose-dark);
+  font-weight: 600;
+}
+
+@media (max-width: 780px) {
+  .heroInner,
+  .help {
+    grid-template-columns: 1fr;
+  }
+
+  .heroCopy {
+    grid-row: 1;
+  }
+
+  .highlights {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero {
+    padding: 42px 18px 48px;
+  }
+
+  .heroInner,
+  .details,
+  .help {
+    width: 100%;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(3.2rem, 15vw, 4.2rem);
+  }
+
+  .primaryButton {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .details {
+    padding: 58px 18px 64px;
+  }
+
+  .help {
+    margin-bottom: 54px;
+    padding: 28px 22px;
+  }
+}

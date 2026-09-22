@@ -19,6 +19,16 @@ import jrBookingPolicy from './extensions/site/widgets/jr-booking-policy/jr-book
 
 import jrBookingJourney from './extensions/site/widgets/jr-booking-journey/jr-booking-journey.extension.ts';
 
+import jrTreatmentHero from './extensions/site/widgets/jr-treatment-hero/jr-treatment-hero.extension.ts';
+
+import jrGiftCardPage from './extensions/site/widgets/jr-gift-card-page/jr-gift-card-page.extension.ts';
+
+import jrStudioSections from './extensions/site/widgets/jr-studio-sections/jr-studio-sections.extension.ts';
+
+import jrHomePage from './extensions/site/widgets/jr-home-page/jr-home-page.extension.ts';
+
+import jrTreatmentsPage from './extensions/site/widgets/jr-treatments-page/jr-treatments-page.extension.ts';
+
 export default app()
   .use(myPage)
   .use(jrHero)
@@ -29,4 +39,9 @@ export default app()
   .use(jrGiftCard)
   .use(jrVisitUs)
   .use(jrBookingPolicy)
-  .use(jrBookingJourney);
+  .use(jrBookingJourney)
+  .use(jrTreatmentHero)
+  .use(jrGiftCardPage)
+  .use(jrStudioSections)
+  .use(jrHomePage)
+  .use(jrTreatmentsPage);
