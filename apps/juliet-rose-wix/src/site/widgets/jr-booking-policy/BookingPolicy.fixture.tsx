@@ -1,19 +1,13 @@
-import { useEffect, type ReactNode } from 'react';
-
 import { BookingPolicy } from './BookingPolicy';
 
-function RevealOnMount(props: Readonly<{ children: ReactNode }>) {
-  useEffect(() => {
-    if (window.location.hash !== '#booking-policy') {
-      window.location.hash = 'booking-policy';
-    }
-  }, []);
-
-  return <>{props.children}</>;
-}
-
+// The policy section is hidden by default (`display: none` until
+// `#booking-policy` is `:target`). Cosmos previews each fixture without a URL
+// hash, so without this fixture-scoped override the preview is blank.
+// `section[id=...]` plus `!important` beats both `.policy` and
+// `.policy:target` without touching production styles or the Cosmos URL.
 export default (
-  <RevealOnMount>
+  <>
+    <style>{'section[id="booking-policy"]{display:grid !important}'}</style>
     <BookingPolicy />
-  </RevealOnMount>
+  </>
 );
