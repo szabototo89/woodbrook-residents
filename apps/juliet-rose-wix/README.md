@@ -52,31 +52,39 @@ allow 20px for the Cosmos renderer body margin. Anything else fails.
 
 ## Deploy to Wix (reusable app)
 
-Prerequisites: a Wix account plus either an interactive browser login or a
-Wix API key (Dev Center → API keys). This repo has no Wix credentials; every
-command below that touches Wix Cloud fails without them.
+The deployable app lives at `apps/juliet-rose-app` in this monorepo
+(scaffolded 2026-09-22, appId `db3d875b-8e5c-40d3-b509-622ab612ec51`,
+namespace `@szabototo89/juliet-rose-app`). It is a Wix CLI app whose nine
+`CUSTOM_ELEMENT` site widget extensions are wired from
+`apps/juliet-rose-wix` sources. Direction is one-way: the scaffold keeps its
+own `wix.config.json`, dashboard-registered extension UUIDs, and
+`package-lock.json`; nothing account-specific flows back into
+`apps/juliet-rose-wix`.
 
 ```bash
-# 1. Authenticate (interactive browser flow, or headless with a key)
+# 1. Authenticate (token lands in ~/.wix, shared across runners)
 npx -y @wix/cli@1.1.247 login
-# headless alternative — never commit the key:
-wix login --api-key "$WIX_API_KEY"
-wix whoami  # expect your Wix account email
+npx -y @wix/cli@1.1.247 whoami  # szabototo89@gmail.com
 
-# 2. Scaffold the deployable app shell (requires login; creates the
-#    dashboard-linked app that hosts the widget extensions)
-npm create @wix/app@0.0.252 -- --app-name juliet-rose-deploy
-# app names: 1–30 chars, must not contain "wix"
+# 2. Scaffold (interactive; basic app; namespace must not contain "wix")
+cd ~/Development && npm create @wix/new@latest app
+# app: Juliet Rose Widgets, folder: juliet-rose-app,
+# namespace: juliet-rose-app (accepted as @szabototo89/juliet-rose-app)
 
-# 3. Copy src/site/widgets/*, src/site/treatments/*, and
-#    src/site/extensions.ts into the scaffolded app's src/, keeping the
-#    per-widget folder layout (<tag>/<tag>.tsx, .panel.tsx, .module.css,
-#    .extension.ts), then install and build from the scaffold:
+# 3. Register one extension per widget (non-interactive)
+npm run generate -- --params '{"extensionType":"CUSTOM_ELEMENT","name":"<tag>"}'
+
+# 4. Wire implementations: copy components, panels, styles, and shared
+#    data modules over the generated templates, keeping the CLI-generated
+#    extension/preset UUIDs and rewriting manifest paths to
+#    ./extensions/site/widgets/<tag>/. Extension manifests must stay in the
+#    scaffold's `export default extensions.customElement({...})` shape —
+#    plain objects crash `wix build` in isBaseExtension.
+
+# 5. Build, then cut a preview version
 npm install
-wix app build
-
-# 4. Install the preview version on a Wix test site from the site
-#    Dashboard → Apps → Custom apps, then verify each widget.
+npm run build    # wix build
+npm run preview  # prints Editor + Dashboard installer links
 ```
 
 Test-site checklist (Bookings app installed, one `APPOINTMENT` service per
