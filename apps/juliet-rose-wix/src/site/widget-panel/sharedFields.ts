@@ -129,7 +129,12 @@ export function longTextField(
 
 export function viewAllFields(): readonly PanelField[] {
   return [
-    { key: 'view-all-label', label: 'View-all label', kind: 'text' },
+    {
+      key: 'view-all-label',
+      label: 'View-all label',
+      kind: 'text',
+      help: 'Label of the view-all button.',
+    },
     bookingLinkField('view-all-href'),
   ];
 }
