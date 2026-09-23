@@ -1,71 +1,71 @@
-import { widget } from '@wix/editor';
-import {
-  FormField,
-  Input,
-  SidePanel,
-  WixDesignSystemProvider,
-} from '@wix/design-system';
-import '@wix/design-system/styles.global.css';
-import { useEffect, useState } from 'react';
-
-type PanelField = Readonly<{
-  key: string;
-  label: string;
-}>;
-
-const FIELDS: readonly PanelField[] = [
-  { key: 'eyebrow', label: 'Eyebrow' },
-  { key: 'title', label: 'Title' },
-  { key: 'address', label: 'Address' },
-  { key: 'hours-days', label: 'Opening days' },
-  { key: 'hours-time', label: 'Opening hours' },
-  { key: 'phone-href', label: 'Phone link' },
-  { key: 'phone-label', label: 'Phone label' },
-  { key: 'email-href', label: 'Email link' },
-  { key: 'email-label', label: 'Email label' },
-  { key: 'contact-button-label', label: 'Contact button label' },
-  { key: 'studio-image-url', label: 'Studio image URL' },
-  { key: 'studio-image-alt', label: 'Studio image alt text' },
-];
+import { SettingsPanel } from '../../widget-panel/SettingsPanel';
+import { contactField, imageField } from '../../widget-panel/sharedFields';
 
 export default function JrVisitUsPanel() {
-  const [values, setValues] = useState<Readonly<Record<string, string>>>({});
-
-  useEffect(() => {
-    async function loadProps() {
-      const entries = await Promise.all(
-        FIELDS.map(async (field) => {
-          const value = await widget.getProp(field.key);
-          return [field.key, value ?? ''] as const;
-        }),
-      );
-      setValues(Object.fromEntries(entries));
-    }
-    void loadProps();
-  }, []);
-
-  async function handleChange(key: string, value: string) {
-    setValues((current) => ({ ...current, [key]: value }));
-    await widget.setProp(key, value);
-  }
-
   return (
-    <WixDesignSystemProvider>
-      <SidePanel>
-        <SidePanel.Content>
-          {FIELDS.map((field) => (
-            <FormField key={field.key} label={field.label}>
-              <Input
-                dataHook={`jr-visit-us-panel-${field.key}`}
-                value={values[field.key] ?? ''}
-                onChange={(event) => {
-                  void handleChange(field.key, event.target.value);
-                }}
-              />
-            </FormField>
-          ))}
-        </SidePanel.Content>
-      </SidePanel>
-    </WixDesignSystemProvider>
+    <SettingsPanel
+      dataHookPrefix="jr-visit-us-panel"
+      title="Visit us settings"
+      subtitle="Studio address, hours, contact and photo"
+      sections={[
+        {
+          title: 'Content',
+          fields: [
+            {
+              key: 'eyebrow',
+              label: 'Eyebrow',
+              kind: 'text',
+              help: 'Short kicker above the title.',
+            },
+            {
+              key: 'title',
+              label: 'Title',
+              kind: 'text',
+              help: 'Section heading.',
+            },
+            {
+              key: 'address',
+              label: 'Address',
+              kind: 'longText',
+              help: 'Full studio address shown to visitors.',
+            },
+            {
+              key: 'hours-days',
+              label: 'Opening days',
+              kind: 'text',
+              help: 'e.g. Monday – Friday.',
+            },
+            {
+              key: 'hours-time',
+              label: 'Opening hours',
+              kind: 'text',
+              help: 'e.g. 10.00am – 8.00pm.',
+            },
+            {
+              key: 'contact-button-label',
+              label: 'Contact button label',
+              kind: 'text',
+              help: 'Label of the contact button.',
+            },
+          ],
+        },
+        {
+          title: 'Contact',
+          fields: [
+            contactField('phone-href'),
+            contactField('phone-label'),
+            contactField('email-href'),
+            contactField('email-label'),
+          ],
+        },
+        {
+          title: 'Media',
+          fields: [
+            imageField('studio-image-url'),
+            imageField('studio-image-alt'),
+          ],
+        },
+      ]}
+    />
   );
 }

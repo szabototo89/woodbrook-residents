@@ -1,63 +1,33 @@
-import { widget } from '@wix/editor';
+import { SettingsPanel } from '../../widget-panel/SettingsPanel';
 import {
-  FormField,
-  Input,
-  SidePanel,
-  WixDesignSystemProvider,
-} from '@wix/design-system';
-import '@wix/design-system/styles.global.css';
-import { useEffect, useState } from 'react';
-
-type PanelField = Readonly<{
-  key: string;
-  label: string;
-}>;
-
-const FIELDS: readonly PanelField[] = [
-  { key: 'featured-slugs', label: 'Featured slugs (comma separated)' },
-  { key: 'booking-base-url', label: 'Booking base URL' },
-  { key: 'view-all-label', label: 'View-all label' },
-  { key: 'view-all-href', label: 'View-all link' },
-];
+  bookingLinkField,
+  viewAllFields,
+} from '../../widget-panel/sharedFields';
 
 export default function JrFeaturedGridPanel() {
-  const [values, setValues] = useState<Readonly<Record<string, string>>>({});
-
-  useEffect(() => {
-    async function loadProps() {
-      const entries = await Promise.all(
-        FIELDS.map(async (field) => {
-          const value = await widget.getProp(field.key);
-          return [field.key, value ?? ''] as const;
-        }),
-      );
-      setValues(Object.fromEntries(entries));
-    }
-    void loadProps();
-  }, []);
-
-  async function handleChange(key: string, value: string) {
-    setValues((current) => ({ ...current, [key]: value }));
-    await widget.setProp(key, value);
-  }
-
   return (
-    <WixDesignSystemProvider>
-      <SidePanel>
-        <SidePanel.Content>
-          {FIELDS.map((field) => (
-            <FormField key={field.key} label={field.label}>
-              <Input
-                dataHook={`jr-featured-grid-panel-${field.key}`}
-                value={values[field.key] ?? ''}
-                onChange={(event) => {
-                  void handleChange(field.key, event.target.value);
-                }}
-              />
-            </FormField>
-          ))}
-        </SidePanel.Content>
-      </SidePanel>
-    </WixDesignSystemProvider>
+    <SettingsPanel
+      dataHookPrefix="jr-featured-grid-panel"
+      title="Featured treatments settings"
+      subtitle="Which treatments to feature and where buttons link"
+      sections={[
+        {
+          title: 'Content',
+          fields: [
+            {
+              key: 'featured-slugs',
+              label: 'Featured slugs',
+              kind: 'text',
+              help: 'Comma-separated treatment slugs, e.g. swedish-massage, microneedling. Leave empty for automatic selection.',
+              placeholder: 'swedish-massage, microneedling',
+            },
+          ],
+        },
+        {
+          title: 'Links',
+          fields: [bookingLinkField('booking-base-url'), ...viewAllFields()],
+        },
+      ]}
+    />
   );
 }

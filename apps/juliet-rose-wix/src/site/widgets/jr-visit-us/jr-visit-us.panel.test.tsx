@@ -26,9 +26,19 @@ function fieldValue(view: { container: HTMLElement }, key: string) {
   return field;
 }
 
-function editField(field: HTMLInputElement, value: string) {
+function longFieldValue(view: { container: HTMLElement }, key: string) {
+  const field = view.container.querySelector<HTMLTextAreaElement>(
+    `[data-hook="jr-visit-us-panel-${key}"] textarea`,
+  );
+  if (!field) {
+    throw new Error(`Expected a long panel field for "${key}"`);
+  }
+  return field;
+}
+
+function editLongField(field: HTMLTextAreaElement, value: string) {
   const nativeSetter = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
+    HTMLTextAreaElement.prototype,
     'value',
   )?.set;
   nativeSetter?.call(field, value);
@@ -63,9 +73,9 @@ test('jr-visit-us panel writes field edits back to the widget property', async (
     await Promise.resolve();
   });
 
-  const field = fieldValue(view, 'address');
+  const field = longFieldValue(view, 'address');
   await act(async () => {
-    editField(field, 'Custom address');
+    editLongField(field, 'Custom address');
     await Promise.resolve();
   });
 
