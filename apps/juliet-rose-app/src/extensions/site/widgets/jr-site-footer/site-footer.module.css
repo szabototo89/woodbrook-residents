@@ -24,7 +24,8 @@
   box-sizing: border-box;
 }
 
-.root a {
+.footerNav a,
+.socialLinks a {
   color: inherit;
 }
 
