@@ -3,6 +3,7 @@ import { FeaturedGrid } from './FeaturedGrid';
 import {
   parseFeaturedSlugs,
   PREVIEW_TREATMENTS,
+  resolveAutomaticFeatured,
   resolveFeatured,
   toCardTreatment,
   type BookingsServiceSummary,
@@ -39,10 +40,9 @@ export function LiveFeaturedGrid(props: LiveFeaturedGridProps) {
         .map(toCardTreatment)
         .filter((treatment): treatment is Treatment => treatment !== null)
     : PREVIEW_TREATMENTS;
-  const featured = resolveFeatured(
-    treatments,
-    parseFeaturedSlugs(props.featuredSlugs),
-  );
+  const featured = props.featuredSlugs?.trim()
+    ? resolveFeatured(treatments, parseFeaturedSlugs(props.featuredSlugs))
+    : resolveAutomaticFeatured(treatments);
   return (
     <div className={styles.root}>
       <FeaturedGrid

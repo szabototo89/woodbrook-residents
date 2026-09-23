@@ -27,7 +27,7 @@ export default function HomePagePanel() {
               key: 'featured-slugs',
               label: 'Featured slugs',
               kind: 'text',
-              help: 'Comma-separated slugs of the treatments featured on the home page, e.g. swedish-massage, microneedling. Leave empty for automatic selection.',
+              help: 'Comma-separated slugs of the treatments featured on the home page, e.g. swedish-massage, microneedling. Leave empty to feature treatments flagged in the Treatments collection.',
               placeholder: 'swedish-massage, microneedling',
             },
           ],
