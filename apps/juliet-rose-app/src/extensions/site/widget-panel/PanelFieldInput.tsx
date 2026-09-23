@@ -25,11 +25,26 @@ export function PanelFieldInput(props: PanelFieldInputProps) {
     );
   }
   if (props.field.kind === 'choice') {
+    // Wix DS Dropdown bundles an older React copy incompatible with this
+    // app's React 19 runtime, so a styled native select keeps full-width
+    // DS-like layout without breaking panel rendering.
     return (
       <select
         data-hook={dataHook}
         aria-label={props.field.label}
         value={props.value}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          boxSizing: 'border-box',
+          font: 'inherit',
+          padding: '8px 12px',
+          border: '1px solid #c9c9c9',
+          borderRadius: '6px',
+          backgroundColor: '#fff',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
         onChange={(event) => {
           props.onSave(event.target.value);
         }}
