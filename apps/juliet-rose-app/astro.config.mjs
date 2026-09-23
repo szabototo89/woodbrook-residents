@@ -6,7 +6,7 @@ import wixHostingAdapter from '@wix/astro-wix-hosting-adapter';
 
 export default defineConfig({
   output: 'server',
-  adapter: wixHostingAdapter(),
+  adapter: wixHostingAdapter({ imageService: 'passthrough' }),
   integrations: [wix(), react()],
   image: { domains: ['static.wixstatic.com'] },
   security: { checkOrigin: false },

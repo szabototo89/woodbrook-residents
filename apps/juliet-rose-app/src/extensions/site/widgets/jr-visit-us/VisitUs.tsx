@@ -43,7 +43,8 @@ export function VisitUs(props: VisitUsProps) {
   const emailLabel = props.emailLabel ?? defaultProps.emailLabel;
   const contactButtonLabel =
     props.contactButtonLabel ?? defaultProps.contactButtonLabel;
-  const studioImageUrl = props.studioImageUrl ?? defaultProps.studioImageUrl;
+  const studioImageUrl =
+    props.studioImageUrl?.trim() || defaultProps.studioImageUrl;
   const studioImageAlt = props.studioImageAlt ?? defaultProps.studioImageAlt;
 
   return (
