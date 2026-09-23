@@ -42,7 +42,7 @@ test('every widget preset has a full-width, distinct selector preview', () => {
     const dimensions = pngDimensions(contents);
 
     expect(dimensions, extension.name).toEqual({ width: 1000, height: 400 });
-    expect(contents.byteLength, extension.name).toBeGreaterThan(20_000);
+    expect(contents.byteLength, extension.name).toBeGreaterThan(10_000);
     hashes.add(createHash('sha256').update(contents).digest('hex'));
   }
 

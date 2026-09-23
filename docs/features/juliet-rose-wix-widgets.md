@@ -10,7 +10,7 @@ the approved design one element at a time.
 
 ## Visible behavior
 
-- Wix Studio exposes fourteen Juliet Rose custom widgets.
+- Wix Studio exposes sixteen Juliet Rose custom widgets.
 - Every widget card in the Studio selector shows a full-width preview of the
   real Juliet Rose component instead of the generated placeholder icon.
 - Focused widgets cover the homepage hero, category grid, featured treatments,

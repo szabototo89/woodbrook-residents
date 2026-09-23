@@ -9,6 +9,7 @@ const thumbnailDirectory = fileURLToPath(
 );
 
 const previews = [
+  ['jr-site-header', 'jr-site-header/SiteHeader.fixture.tsx'],
   ['jr-hero', 'jr-hero/Hero.fixture.tsx'],
   ['jr-category-grid', 'jr-category-grid/CategoryGrid.fixture.tsx'],
   ['jr-featured-grid', 'jr-featured-grid/FeaturedGrid.fixture.tsx'],
@@ -31,6 +32,7 @@ const previews = [
   ],
   ['jr-treatment-hero', 'jr-treatment-hero/TreatmentHero.fixture.tsx'],
   ['jr-gift-card-page', 'jr-gift-card-page/GiftCardPage.fixture.tsx'],
+  ['jr-site-footer', 'jr-site-footer/SiteFooter.fixture.tsx'],
   [
     'jr-studio-sections',
     'jr-studio-sections/StudioSections.fixture.tsx',
