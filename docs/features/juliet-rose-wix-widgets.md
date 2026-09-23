@@ -11,6 +11,8 @@ the approved design one element at a time.
 ## Visible behavior
 
 - Wix Studio exposes fourteen Juliet Rose custom widgets.
+- Every widget card in the Studio selector shows a full-width preview of the
+  real Juliet Rose component instead of the generated placeholder icon.
 - Focused widgets cover the homepage hero, category grid, featured treatments,
   treatment catalog, treatment guidance, gift-card callout, visit details,
   booking policy, booking journey, treatments hero, and full gift-card page.
@@ -38,6 +40,8 @@ the approved design one element at a time.
 
 - Every widget has a unique CLI-generated extension ID, an Editor settings
   panel, a stretchable preset, and opt-in installation.
+- Every preset thumbnail is a distinct, non-blank 1000 by 400 PNG captured
+  from its corresponding component fixture.
 - The treatments hero and full gift-card page preserve the visible content and
   accessible heading/link structure of the standalone Juliet Rose web app.
 - Focused widgets remain independently installable after aggregate widgets are
