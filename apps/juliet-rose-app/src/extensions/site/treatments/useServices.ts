@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { queryBookingServices } from './bookingsServices';
+import { queryTreatmentSummaries } from './treatmentsServices';
 import type { BookingsServiceSummary } from './treatments';
 import { useViewMode } from '../viewMode';
 
@@ -20,7 +20,7 @@ export function useServices(
     if (!isLive) {
       return;
     }
-    const list = listServices ?? queryBookingServices;
+    const list = listServices ?? queryTreatmentSummaries;
     async function loadServices() {
       try {
         setServices(await list());
