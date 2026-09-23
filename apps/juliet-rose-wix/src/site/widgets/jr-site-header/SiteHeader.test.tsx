@@ -1,8 +1,20 @@
+import { readFileSync } from 'node:fs';
+import { basename, resolve } from 'node:path';
 import { act } from 'react';
 import { expect, test } from 'vitest';
 
+import { blanketRootAnchorColor } from '../../../test-utils/cssCascade';
 import { renderUi } from '../../../test-utils/renderUi';
 import { SiteHeader, toActiveNavigationItem } from './SiteHeader';
+
+const workingDirectory = process.cwd();
+const cssPath = resolve(
+  basename(workingDirectory) === 'juliet-rose-wix'
+    ? workingDirectory
+    : resolve(workingDirectory, 'apps/juliet-rose-wix'),
+  'src/site/widgets/jr-site-header/jr-site-header.module.css',
+);
+const headerCss = readFileSync(cssPath, 'utf8');
 
 test('site header renders the studio brand, navigation, and booking link', () => {
   const view = renderUi(<SiteHeader />);
@@ -86,4 +98,19 @@ test('toActiveNavigationItem maps studio routes to navigation state', () => {
   expect(toActiveNavigationItem('/treatments')).toBe('/treatments');
   expect(toActiveNavigationItem('/gift-cards')).toBe('/gift-cards');
   expect(toActiveNavigationItem('/book')).toBeUndefined();
+});
+
+test('header booking buttons keep white text over the anchor reset', () => {
+  // A blanket `.root a` color rule (0,1,1) would beat `.primaryButton`
+  // (0,1,0) and turn the booking button text dark, as reported. The reset
+  // must stay scoped to plain navigation links so the white button wins.
+  expect(headerCss).toMatch(/\.primaryButton\s*\{[^}]*color:\s*white/);
+  expect(blanketRootAnchorColor(headerCss)).toBeNull();
+});
+
+test('header brand keeps the rose studio color over the anchor reset', () => {
+  // Same root cause as the button text: a blanket `.root a` color rule
+  // would also beat `.brand` and turn the studio name dark.
+  expect(headerCss).toMatch(/\.brand\s*\{[^}]*color:\s*var\(--jr-rose\)/);
+  expect(blanketRootAnchorColor(headerCss)).toBeNull();
 });

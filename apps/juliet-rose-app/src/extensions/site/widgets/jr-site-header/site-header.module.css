@@ -26,7 +26,8 @@
   box-sizing: border-box;
 }
 
-.root a {
+.desktopNav a,
+.mobileNav a:not(.primaryButton) {
   color: inherit;
 }
 
