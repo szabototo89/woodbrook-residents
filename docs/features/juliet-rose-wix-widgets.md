@@ -28,6 +28,10 @@ the approved design one element at a time.
   widget to its child sections.
 - Data-backed widgets show safe sample content in the Editor and resolve Wix's
   runtime view mode so Preview and published sites use Wix Bookings data.
+- `JR Site Header` supplies the Juliet Rose top-bar menu (brand, Main
+  navigation, booking action, and mobile navigation) as an opt-in page
+  widget, and `JR Site Footer` supplies the matching footer chrome the
+  same way.
 
 ## Composition model
 
@@ -62,9 +66,11 @@ the approved design one element at a time.
 
 ## Scope
 
-This capability supplies page content widgets and settings panels. The Wix
-site's global header, footer, SEO settings, page creation, Bookings service
-configuration, schedules, staff, payment setup, and custom media uploads remain Wix
-Studio or Wix Dashboard responsibilities. Header and footer are intentionally
-not page widgets because custom-element extensions cannot install into Wix's
-global theme chrome.
+This capability supplies page content widgets and settings panels, including
+opt-in `JR Site Header` and `JR Site Footer` page widgets that expose the
+Juliet Rose top-bar menu and footer chrome through the Studio Add panel.
+Custom-element extensions install onto pages rather than into Wix's global
+theme chrome, so the site-wide theme header/footer, SEO settings, page
+creation, Bookings service configuration, schedules, staff, payment setup,
+and custom media uploads remain Wix Studio or Wix Dashboard
+responsibilities.
