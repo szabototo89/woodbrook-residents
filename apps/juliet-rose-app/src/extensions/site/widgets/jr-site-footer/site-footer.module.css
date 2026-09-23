@@ -1,0 +1,203 @@
+.root {
+  --jr-rose: #a45458;
+  --jr-rose-dark: #874247;
+  --jr-heading-ink: #2d2926;
+  --jr-body-ink: #332f2c;
+  --jr-serif:
+    'Cormorant Garamond Variable', 'Cormorant Garamond', 'Iowan Old Style',
+    Baskerville, Georgia, serif;
+  --jr-sans: 'DM Sans Variable', 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  min-height: 156px;
+  overflow: hidden;
+  background: linear-gradient(110deg, #faf6f1 0%, #fbf8f5 60%, #f4e6e1 100%);
+  border-top: 1px solid rgba(231, 221, 214, 0.55);
+  color: var(--jr-body-ink);
+  font-family: var(--jr-sans);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+.root a {
+  color: inherit;
+}
+
+.root::after {
+  position: absolute;
+  top: -96px;
+  right: -5px;
+  width: 190px;
+  height: 280px;
+  background: url('../../../../assets/images/footer-rose.png?inline') center /
+    contain no-repeat;
+  content: '';
+  pointer-events: none;
+}
+
+.pageWidth {
+  width: min(906px, calc(100% - 118px));
+  margin-inline: auto;
+}
+
+.main {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  width: 170px;
+  display: inline-flex;
+  flex-direction: column;
+  color: var(--jr-rose);
+  line-height: 0.78;
+  text-decoration: none;
+}
+
+.brand span {
+  font-family: var(--jr-serif);
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: -1.7px;
+}
+
+.brand small {
+  margin-top: 8px;
+  padding-left: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 3.4px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.footerBrand {
+  width: 260px;
+}
+
+.footerBrand span {
+  font-size: 34px;
+}
+
+.footerNav {
+  display: flex;
+  gap: 18px;
+}
+
+.footerNav a {
+  position: relative;
+  padding: 5px 0;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.socialLinks {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+.socialLinks a {
+  width: 19px;
+  height: 19px;
+  display: block;
+}
+
+.iconInstagram {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  flex: 0 0 auto;
+  background: url('../../../../assets/images/icon-instagram.png?inline')
+    center / contain no-repeat;
+}
+
+.footerRule {
+  width: 1px;
+  height: 35px;
+  margin: 0 29px;
+  background: rgba(164, 84, 88, 0.45);
+}
+
+.tagline {
+  margin: 0;
+  font-family: var(--jr-serif);
+  font-size: 0.875rem;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  color: #5a5551;
+  font-size: 0.75rem;
+}
+
+.bottom p {
+  margin: 0;
+}
+
+@media (min-width: 1200px) {
+  .pageWidth {
+    width: min(1100px, calc(100% - 120px));
+  }
+}
+
+@media (max-width: 900px) {
+  .pageWidth {
+    width: calc(100% - 36px);
+  }
+
+  .root {
+    min-height: 280px;
+    padding: 38px 0;
+  }
+
+  .main {
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+  }
+
+  .footerBrand {
+    width: auto;
+  }
+
+  .footerNav {
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+    gap: 22px;
+  }
+
+  .footerNav a {
+    font-size: 0.875rem;
+  }
+
+  .socialLinks {
+    margin-left: 0;
+  }
+
+  .footerRule,
+  .tagline {
+    display: none;
+  }
+
+  .bottom {
+    margin-top: 42px;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 0.75rem;
+  }
+
+  .root::after {
+    top: auto;
+    right: -45px;
+    bottom: -30px;
+  }
+}

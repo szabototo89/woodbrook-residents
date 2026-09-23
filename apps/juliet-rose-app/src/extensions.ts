@@ -31,6 +31,8 @@ import jrTreatmentsPage from './extensions/site/widgets/jr-treatments-page/jr-tr
 
 import jrSiteHeader from './extensions/site/widgets/jr-site-header/jr-site-header.extension.ts';
 
+import jrSiteFooter from './extensions/site/widgets/jr-site-footer/jr-site-footer.extension.ts';
+
 export default app()
   .use(myPage)
   .use(jrHero)
@@ -47,4 +49,5 @@ export default app()
   .use(jrStudioSections)
   .use(jrHomePage)
   .use(jrTreatmentsPage)
-  .use(jrSiteHeader);
+  .use(jrSiteHeader)
+  .use(jrSiteFooter);
