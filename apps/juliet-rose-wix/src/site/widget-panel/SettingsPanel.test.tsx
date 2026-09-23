@@ -52,7 +52,7 @@ test('SettingsPanel renders title, sections, help and mixed controls', async () 
               key: 'initial-service',
               label: 'Preselected service',
               kind: 'choice',
-              help: ' Preselects the booking treatment',
+              help: 'Choice visitors see before any service is picked. Shows when the widget loads and after a reset.',
               options: [
                 { id: '', value: 'No preselection' },
                 { id: 'swedish-massage', value: 'Swedish massage' },

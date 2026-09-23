@@ -18,7 +18,7 @@ export default function JrFeaturedGridPanel() {
               key: 'featured-slugs',
               label: 'Featured slugs',
               kind: 'text',
-              help: 'Comma-separated treatment slugs, e.g. swedish-massage, microneedling. Leave empty for automatic selection.',
+              help: 'Comma-separated slugs of the treatments shown in this grid, e.g. swedish-massage, microneedling. Leave empty for automatic selection.',
               placeholder: 'swedish-massage, microneedling',
             },
           ],
