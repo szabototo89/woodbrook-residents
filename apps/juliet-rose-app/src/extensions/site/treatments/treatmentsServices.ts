@@ -12,6 +12,7 @@ export type TreatmentsItemShape = Readonly<{
   readonly _id?: string | null;
   readonly slug?: string | null;
   readonly name?: string | null;
+  readonly title?: string | null;
   readonly category?: string | null;
   readonly durationMinutes?: number | null;
   readonly priceCents?: number | null;
@@ -23,7 +24,7 @@ export function toTreatmentSummary(
   item: TreatmentsItemShape,
 ): BookingsServiceSummary | null {
   const id = item._id ?? item.slug ?? '';
-  const name = item.name ?? '';
+  const name = item.name ?? item.title ?? '';
   if (!id || !name) {
     return null;
   }

@@ -87,6 +87,26 @@ test('treatments CMS query preserves CMS category values exactly', () => {
 test('treatments CMS query drops rows missing id or name', () => {
   expect(toTreatmentSummary({ _id: '', name: '', slug: 'x' })).toBeNull();
   expect(toTreatmentSummary({ _id: 'x', slug: 'x' })).toBeNull();
+  expect(toTreatmentSummary({ _id: 'x', slug: 'x', title: '' })).toBeNull();
+});
+
+test('treatments CMS query falls back to the system title field for names', () => {
+  expect(
+    toTreatmentSummary({
+      _id: 'swedish-massage',
+      slug: 'swedish-massage',
+      title: 'Swedish massage',
+      category: 'Massage',
+    }),
+  ).toMatchObject({ id: 'swedish-massage', name: 'Swedish massage' });
+  expect(
+    toTreatmentSummary({
+      _id: 'swedish-massage',
+      slug: 'swedish-massage',
+      name: 'Custom name',
+      title: 'System title',
+    }),
+  ).toMatchObject({ name: 'Custom name' });
 });
 
 test('treatments CMS query returns mapped summaries from the fetcher', async () => {
