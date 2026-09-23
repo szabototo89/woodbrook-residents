@@ -1,6 +1,6 @@
 # Juliet Rose Wix widget library
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
