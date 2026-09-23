@@ -55,7 +55,8 @@ the approved design one element at a time.
 - Editor mode never calls Wix Bookings; Preview and Site modes may load live
   services and availability.
 - Default widget images render in the Editor and are embedded in the Wix widget
-  bundle; configured image URLs may still override the defaults.
+  bundle; configured image URLs may still override the defaults. Blank image
+  settings fall back to the embedded photo.
 - Unit tests, strict TypeScript checks, the Wix build, and the repository build
   pass before this capability is marked `Available`.
 
