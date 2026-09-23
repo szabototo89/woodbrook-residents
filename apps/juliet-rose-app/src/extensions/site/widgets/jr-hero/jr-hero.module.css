@@ -160,7 +160,8 @@
   height: 22px;
   flex: 0 0 auto;
   display: inline-block;
-  background: url('/images/icon-booking.png') center / contain no-repeat;
+  background: url('../../../../assets/images/icon-booking.png?inline') center /
+    contain no-repeat;
 }
 
 .iconArrow {
@@ -168,7 +169,8 @@
   height: 8px;
   flex: 0 0 auto;
   display: inline-block;
-  background: url('/images/icon-arrow-white.png') center / contain no-repeat;
+  background: url('../../../../assets/images/icon-arrow-white.png?inline')
+    center / contain no-repeat;
 }
 
 @media (min-width: 1200px) {

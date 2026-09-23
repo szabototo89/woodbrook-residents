@@ -4,6 +4,7 @@
 apps/cms/.strapi/
 apps/cms/.strapi-updater.json
 apps/cms/types/generated/
+apps/juliet-rose-app/.astro/
 apps/web/lighthouse-reports/
 apps/web/src/routeTree.gen.ts
 apps/juliet-rose-web/lighthouse-reports/

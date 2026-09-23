@@ -1,5 +1,6 @@
 import { CalendarDays } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { giftCardImage } from '../../imageAssets';
 
 import {
   MOCK_SERVICES,
@@ -195,12 +196,7 @@ export function BookingJourney(props: BookingJourneyProps) {
                     ) : null}
                   </div>
                   <figure className={styles.treatmentEditorial}>
-                    <img
-                      src="/images/gift-card.jpg"
-                      alt=""
-                      width="800"
-                      height="347"
-                    />
+                    <img src={giftCardImage} alt="" width="800" height="347" />
                     <figcaption>
                       &ldquo;Take time for
                       <br />

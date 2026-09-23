@@ -168,7 +168,8 @@
   height: 8px;
   flex: 0 0 auto;
   display: inline-block;
-  background: url('/images/icon-arrow-rose.png') center / contain no-repeat;
+  background: url('../../../../assets/images/icon-arrow-rose.png?inline')
+    center / contain no-repeat;
 }
 
 @media (min-width: 1200px) {

@@ -1,4 +1,5 @@
 import styles from './visit-us.module.css';
+import { studioInteriorImage } from '../../imageAssets';
 
 export type VisitUsProps = Readonly<{
   eyebrow?: string;
@@ -26,7 +27,7 @@ const defaultProps = {
   emailHref: 'mailto:denizzza1@gmail.com',
   emailLabel: 'denizzza1@gmail.com',
   contactButtonLabel: 'Contact Diana',
-  studioImageUrl: '/images/studio-interior.jpg',
+  studioImageUrl: studioInteriorImage,
   studioImageAlt: 'The warm and private Juliet Rose treatment studio',
 } as const;
 

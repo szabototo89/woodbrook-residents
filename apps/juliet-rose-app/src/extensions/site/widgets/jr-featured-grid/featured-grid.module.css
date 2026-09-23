@@ -165,7 +165,8 @@
   height: 18px;
   flex: 0 0 auto;
   display: inline-block;
-  background: url('/images/icon-clock.png') center / contain no-repeat;
+  background: url('../../../../assets/images/icon-clock.png?inline') center /
+    contain no-repeat;
 }
 
 .treatmentMeta strong {
@@ -194,7 +195,7 @@
 }
 
 .cardButton .iconArrow {
-  background-image: url('/images/icon-arrow-white.png');
+  background-image: url('../../../../assets/images/icon-arrow-white.png?inline');
 }
 
 .iconArrow {
@@ -202,7 +203,8 @@
   height: 8px;
   flex: 0 0 auto;
   display: inline-block;
-  background: url('/images/icon-arrow-rose.png') center / contain no-repeat;
+  background: url('../../../../assets/images/icon-arrow-rose.png?inline')
+    center / contain no-repeat;
 }
 
 @media (min-width: 1200px) {

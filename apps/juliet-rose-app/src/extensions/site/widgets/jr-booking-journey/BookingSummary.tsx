@@ -1,4 +1,5 @@
 import { CalendarDays, Clock3, Coins, Flower2, Mail } from 'lucide-react';
+import { studioInteriorImage } from '../../imageAssets';
 
 import {
   formatBookingDate,
@@ -71,12 +72,7 @@ export function BookingSummary(props: BookingSummaryProps) {
       </section>
 
       <figure className={styles.editorialCard}>
-        <img
-          src="/images/studio-interior.jpg"
-          alt=""
-          width="800"
-          height="533"
-        />
+        <img src={studioInteriorImage} alt="" width="800" height="533" />
         <figcaption>
           <span className={styles.editorialLead}>
             <span>More than a</span> <span>treatment</span>

@@ -2,6 +2,7 @@ import { Flower2, Heart, Leaf } from 'lucide-react';
 import type { CSSProperties } from 'react';
 
 import styles from './jr-treatment-hero.module.css';
+import { facialHeroImage } from '../../imageAssets';
 
 export type TreatmentHeroProps = Readonly<{
   eyebrow?: string;
@@ -21,7 +22,7 @@ const defaults = {
   scriptFirstLine: 'Relax',
   scriptSecondLine: 'and',
   scriptThirdLine: 'Rejuvenate',
-  imageUrl: '/images/facial-hero.jpg',
+  imageUrl: facialHeroImage,
 } as const;
 
 const highlights = [

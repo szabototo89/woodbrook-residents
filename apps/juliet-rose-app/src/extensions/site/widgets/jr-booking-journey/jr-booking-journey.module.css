@@ -65,7 +65,8 @@
       rgba(252, 249, 246, 0.24) 72%,
       rgba(252, 249, 246, 0.05) 82%
     ),
-    url('/images/studio-interior.jpg') center 52% / cover no-repeat;
+    url('../../../../assets/images/studio-interior.jpg?inline') center 52% /
+      cover no-repeat;
   border-bottom: 1px solid rgba(231, 221, 214, 0.7);
   isolation: isolate;
 }
@@ -490,7 +491,8 @@
     bottom: 26px;
     width: 230px;
     height: 340px;
-    background: url('/images/footer-rose.png') center / contain no-repeat;
+    background: url('../../../../assets/images/footer-rose.png?inline') center /
+      contain no-repeat;
     content: '';
     opacity: 0.2;
     pointer-events: none;
@@ -506,7 +508,8 @@
         rgba(252, 249, 246, 0.58) 57%,
         rgba(252, 249, 246, 0.05) 78%
       ),
-      url('/images/studio-interior.jpg') center 57% / cover no-repeat;
+      url('../../../../assets/images/studio-interior.jpg?inline') center 57% /
+        cover no-repeat;
   }
 
   .hero::before {
@@ -517,7 +520,8 @@
     height: 320px;
     position: absolute;
     z-index: -1;
-    background: url('/images/footer-rose.png') center / contain no-repeat;
+    background: url('../../../../assets/images/footer-rose.png?inline') center /
+      contain no-repeat;
     content: '';
     opacity: 0.12;
     pointer-events: none;
@@ -1033,7 +1037,8 @@
         rgba(252, 249, 246, 0.6) 67%,
         rgba(252, 249, 246, 0.1) 100%
       ),
-      url('/images/studio-interior.jpg') 57% center / cover no-repeat;
+      url('../../../../assets/images/studio-interior.jpg?inline') 57% center /
+        cover no-repeat;
   }
 
   .heroContent {

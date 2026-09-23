@@ -63,7 +63,8 @@
       rgba(245, 230, 225, 0.14) 38%,
       #f5e6e1 50%
     ),
-    url('/images/gift-card.jpg') left center / 62% auto no-repeat;
+    url('../../../../assets/images/gift-card.jpg?inline') left center / 62% auto
+      no-repeat;
 }
 
 .giftCopy {
@@ -117,7 +118,8 @@
   height: 8px;
   flex: 0 0 auto;
   display: inline-block;
-  background: url('/images/icon-arrow-rose.png') center / contain no-repeat;
+  background: url('../../../../assets/images/icon-arrow-rose.png?inline')
+    center / contain no-repeat;
 }
 
 @media (hover: hover) {
@@ -128,7 +130,7 @@
   }
 
   .giftButton:hover .iconArrow {
-    background-image: url('/images/icon-arrow-white.png');
+    background-image: url('../../../../assets/images/icon-arrow-white.png?inline');
   }
 }
 
@@ -152,7 +154,8 @@
         rgba(245, 230, 225, 0.92) 45%,
         #f5e6e1 63%
       ),
-      url('/images/gift-card.jpg') 40% top / auto 77% no-repeat;
+      url('../../../../assets/images/gift-card.jpg?inline') 40% top / auto 77%
+        no-repeat;
   }
 
   .giftButton {

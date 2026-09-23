@@ -34,7 +34,7 @@
     "test:sync-content": "bun test scripts/sync-content.test.ts",
     "test": "bun run test:sync-content && bun run test:unit && bun run test:browser && bun run test:e2e",
     "test:install-browser": "bun run --cwd apps/web playwright install chromium",
-    "test:unit": "bun run --cwd apps/web test:unit && bun run --cwd apps/juliet-rose-web test:unit && bun run --cwd apps/juliet-rose-wix test:unit && bun run --cwd apps/dashboard test:unit && bun run --cwd apps/mobile test",
+    "test:unit": "bun run --cwd apps/web test:unit && bun run --cwd apps/juliet-rose-web test:unit && bun run --cwd apps/juliet-rose-wix test:unit && bun run --cwd apps/juliet-rose-app test:unit && bun run --cwd apps/dashboard test:unit && bun run --cwd apps/mobile test",
     "test:browser": "bun run --cwd apps/web test:browser && bun run --cwd apps/juliet-rose-web test:browser && bun run --cwd apps/dashboard test:browser",
     "test:e2e": "bun run --cwd apps/web test:e2e && bun run --cwd apps/juliet-rose-web test:e2e && bun run --cwd apps/dashboard test:e2e",
     "test:lighthouse": "bun run --cwd apps/web test:lighthouse",

@@ -1,5 +1,12 @@
 import type { LucideIcon } from 'lucide-react';
 import { Flower2, Gift, Leaf, Sparkles } from 'lucide-react';
+import {
+  facialMaskImage,
+  manicureImage,
+  massageImage,
+  microneedlingImage,
+  packagesImage,
+} from '../imageAssets';
 
 export type TreatmentCategory =
   'Massage' | 'Facials & skin' | 'Beauty essentials' | 'Packages';
@@ -160,28 +167,28 @@ export const CATEGORY_CARDS: readonly CategoryCard[] = [
   {
     category: 'Facials & skin',
     description: 'From our signature facial to advanced skin treatments.',
-    image: '/images/facial-mask.jpg',
+    image: facialMaskImage,
     action: 'View treatments',
     href: '/treatments#facials-and-skin',
   },
   {
     category: 'Massage',
     description: 'Relaxing and therapeutic massage treatments.',
-    image: '/images/massage.jpg',
+    image: massageImage,
     action: 'View treatments',
     href: '/treatments#massage',
   },
   {
     category: 'Beauty essentials',
     description: 'Nails, brows, lashes and more.',
-    image: '/images/manicure.jpg',
+    image: manicureImage,
     action: 'View treatments',
     href: '/treatments#beauty-essentials',
   },
   {
     category: 'Packages',
     description: 'A combination of treatments for the ultimate experience.',
-    image: '/images/packages.jpg',
+    image: packagesImage,
     action: 'View packages',
     href: '/treatments#packages',
   },
@@ -211,19 +218,19 @@ export type FeaturedImage = Readonly<{
 
 const FEATURED_IMAGES: Readonly<Record<string, FeaturedImage>> = {
   'juliet-rose-signature-facial': {
-    image: '/images/facial-mask.jpg',
+    image: facialMaskImage,
     imageAlt: 'Juliet Rose Signature Facial treatment',
   },
   microneedling: {
-    image: '/images/microneedling.jpg',
+    image: microneedlingImage,
     imageAlt: 'Microneedling skincare treatment',
   },
   'deep-hydration-6-step-facial': {
-    image: '/images/facial-mask.jpg',
+    image: facialMaskImage,
     imageAlt: 'Deep hydration facial treatment',
   },
   'swedish-massage': {
-    image: '/images/massage.jpg',
+    image: massageImage,
     imageAlt: 'Swedish massage treatment',
   },
 };

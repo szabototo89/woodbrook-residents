@@ -1,4 +1,5 @@
 import styles from './jr-gift-card-page.module.css';
+import { giftCardImage } from '../../imageAssets';
 
 export type GiftCardPageProps = Readonly<{
   checkoutUrl?: string;
@@ -12,7 +13,7 @@ export type GiftCardPageProps = Readonly<{
 
 const defaults = {
   checkoutUrl: 'https://www.julietrosebeauty.com/gift-card',
-  imageUrl: '/images/gift-card.jpg',
+  imageUrl: giftCardImage,
   imageAlt: 'A Juliet Rose gift card surrounded by soft florals',
   phoneHref: 'tel:+353852867059',
   phoneLabel: '085 286 7059',

@@ -107,7 +107,7 @@
 .iconClock {
   width: 18px;
   height: 18px;
-  background-image: url('/images/icon-clock.png');
+  background-image: url('../../../../assets/images/icon-clock.png?inline');
 }
 
 .contactItem .iconClock,
@@ -118,11 +118,11 @@
 }
 
 .iconPhone {
-  background-image: url('/images/icon-phone.png');
+  background-image: url('../../../../assets/images/icon-phone.png?inline');
 }
 
 .iconEmail {
-  background-image: url('/images/icon-email.png');
+  background-image: url('../../../../assets/images/icon-email.png?inline');
 }
 
 .iconArrow {
@@ -130,7 +130,8 @@
   height: 8px;
   flex: 0 0 auto;
   display: inline-block;
-  background: url('/images/icon-arrow-rose.png') center / contain no-repeat;
+  background: url('../../../../assets/images/icon-arrow-rose.png?inline')
+    center / contain no-repeat;
 }
 
 .contactButton {
@@ -158,7 +159,7 @@
 }
 
 .contactButton .iconArrow {
-  background-image: url('/images/icon-arrow-white.png');
+  background-image: url('../../../../assets/images/icon-arrow-white.png?inline');
 }
 
 .contactPolicy {
@@ -181,7 +182,8 @@
   height: 22px;
   flex: 0 0 auto;
   display: inline-block;
-  background: url('/images/icon-booking.png') center / contain no-repeat;
+  background: url('../../../../assets/images/icon-booking.png?inline') center /
+    contain no-repeat;
 }
 
 .contactPolicy .bookingIcon {

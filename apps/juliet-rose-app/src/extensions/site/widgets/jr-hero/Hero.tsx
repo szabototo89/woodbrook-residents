@@ -1,4 +1,5 @@
 import styles from './jr-hero.module.css';
+import { facialHeroImage } from '../../imageAssets';
 
 export type HeroProps = Readonly<{
   eyebrow?: string;
@@ -23,8 +24,7 @@ const defaultProps = {
   bookingUrl: '/book',
   treatmentsUrl: '/treatments',
   policyUrl: '#booking-policy',
-  imageUrl: '/images/facial-hero.jpg',
-  imageSrcSet: '/images/facial-hero-640.jpg 640w, /images/facial-hero.jpg 840w',
+  imageUrl: facialHeroImage,
   imageAlt: 'A relaxing facial treatment at Juliet Rose Beauty Studio',
 } as const;
 
@@ -38,7 +38,7 @@ export function Hero(props: HeroProps) {
   const treatmentsUrl = props.treatmentsUrl ?? defaultProps.treatmentsUrl;
   const policyUrl = props.policyUrl ?? defaultProps.policyUrl;
   const imageUrl = props.imageUrl ?? defaultProps.imageUrl;
-  const imageSrcSet = props.imageSrcSet ?? defaultProps.imageSrcSet;
+  const imageSrcSet = props.imageSrcSet;
   const imageAlt = props.imageAlt ?? defaultProps.imageAlt;
 
   return (

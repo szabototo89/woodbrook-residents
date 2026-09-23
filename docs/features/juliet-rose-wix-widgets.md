@@ -13,6 +13,8 @@ the approved design one element at a time.
 - Wix Studio exposes sixteen Juliet Rose custom widgets.
 - Every widget card in the Studio selector shows a full-width preview of the
   real Juliet Rose component instead of the generated placeholder icon.
+- Default treatment photos and decorative images load inside Wix Studio widgets
+  without requiring matching files on the Wix site's `/images` route.
 - Focused widgets cover the homepage hero, category grid, featured treatments,
   treatment catalog, treatment guidance, gift-card callout, visit details,
   booking policy, booking journey, treatments hero, and full gift-card page.
@@ -52,6 +54,8 @@ the approved design one element at a time.
   element boundary.
 - Editor mode never calls Wix Bookings; Preview and Site modes may load live
   services and availability.
+- Default widget images render in the Editor and are embedded in the Wix widget
+  bundle; configured image URLs may still override the defaults.
 - Unit tests, strict TypeScript checks, the Wix build, and the repository build
   pass before this capability is marked `Available`.
 
@@ -59,7 +63,7 @@ the approved design one element at a time.
 
 This capability supplies page content widgets and settings panels. The Wix
 site's global header, footer, SEO settings, page creation, Bookings service
-configuration, schedules, staff, payment setup, and media uploads remain Wix
+configuration, schedules, staff, payment setup, and custom media uploads remain Wix
 Studio or Wix Dashboard responsibilities. Header and footer are intentionally
 not page widgets because custom-element extensions cannot install into Wix's
 global theme chrome.
