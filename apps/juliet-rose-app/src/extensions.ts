@@ -29,6 +29,8 @@ import jrHomePage from './extensions/site/widgets/jr-home-page/jr-home-page.exte
 
 import jrTreatmentsPage from './extensions/site/widgets/jr-treatments-page/jr-treatments-page.extension.ts';
 
+import jrSiteHeader from './extensions/site/widgets/jr-site-header/jr-site-header.extension.ts';
+
 export default app()
   .use(myPage)
   .use(jrHero)
@@ -44,4 +46,5 @@ export default app()
   .use(jrGiftCardPage)
   .use(jrStudioSections)
   .use(jrHomePage)
-  .use(jrTreatmentsPage);
+  .use(jrTreatmentsPage)
+  .use(jrSiteHeader);
