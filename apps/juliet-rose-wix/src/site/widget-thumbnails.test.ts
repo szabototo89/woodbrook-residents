@@ -1,12 +1,20 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 
 import { expect, test } from 'vitest';
 
 import { siteWidgetExtensions } from './extensions';
 
-const thumbnailDirectory = resolve(process.cwd(), '../juliet-rose-app/public');
+const workingDirectory = process.cwd();
+const workspaceDirectory =
+  basename(workingDirectory) === 'juliet-rose-wix'
+    ? resolve(workingDirectory, '../..')
+    : workingDirectory;
+const thumbnailDirectory = resolve(
+  workspaceDirectory,
+  'apps/juliet-rose-app/public',
+);
 
 function thumbnailName(thumbnailUrl: string): string {
   const name = thumbnailUrl.split('/').at(-1);
