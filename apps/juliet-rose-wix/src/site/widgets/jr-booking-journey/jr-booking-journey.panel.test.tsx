@@ -41,8 +41,19 @@ test('jr-booking-journey panel loads stored widget properties into its fields', 
   });
 
   expect(getProp).toHaveBeenCalledWith('initial-service');
-  expect(getProp).toHaveBeenCalledWith('today');
+  expect(getProp).not.toHaveBeenCalledWith('today');
   expect(fieldValue(view, 'initial-service').value).toBe('swedish-massage');
+  expect(view.container.textContent).toMatch(/Booking journey settings/);
+  expect(
+    view.container.querySelector(
+      '[data-hook="jr-booking-journey-panel-initial-service-help"]',
+    )?.textContent,
+  ).toMatch(/slug/);
+  expect(
+    view.container.querySelector(
+      '[data-hook="jr-booking-journey-panel-today"]',
+    ),
+  ).toBe(null);
   view.unmount();
 });
 
