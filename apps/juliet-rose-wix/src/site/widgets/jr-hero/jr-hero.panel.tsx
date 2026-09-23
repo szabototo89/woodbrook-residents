@@ -1,70 +1,61 @@
-import { widget } from '@wix/editor';
-import {
-  FormField,
-  Input,
-  SidePanel,
-  WixDesignSystemProvider,
-} from '@wix/design-system';
-import '@wix/design-system/styles.global.css';
-import { useEffect, useState } from 'react';
-
-type PanelField = Readonly<{
-  key: string;
-  label: string;
-}>;
-
-const FIELDS: readonly PanelField[] = [
-  { key: 'eyebrow', label: 'Eyebrow' },
-  { key: 'title', label: 'Title' },
-  { key: 'location', label: 'Location' },
-  { key: 'copy', label: 'Copy first line' },
-  { key: 'copy-second-line', label: 'Copy second line' },
-  { key: 'booking-url', label: 'Booking link' },
-  { key: 'treatments-url', label: 'Treatments link' },
-  { key: 'policy-url', label: 'Policy link' },
-  { key: 'image-url', label: 'Image URL' },
-  { key: 'image-src-set', label: 'Image srcset' },
-  { key: 'image-alt', label: 'Image alt text' },
-];
+import { SettingsPanel } from '../../widget-panel/SettingsPanel';
+import { bookingLinkField, imageField } from '../../widget-panel/sharedFields';
 
 export default function HeroPanel() {
-  const [values, setValues] = useState<Readonly<Record<string, string>>>({});
-
-  useEffect(() => {
-    async function loadProps() {
-      const entries = await Promise.all(
-        FIELDS.map(async (field) => {
-          const value = await widget.getProp(field.key);
-          return [field.key, value ?? ''] as const;
-        }),
-      );
-      setValues(Object.fromEntries(entries));
-    }
-    void loadProps();
-  }, []);
-
-  async function handleChange(key: string, value: string) {
-    setValues((current) => ({ ...current, [key]: value }));
-    await widget.setProp(key, value);
-  }
-
   return (
-    <WixDesignSystemProvider>
-      <SidePanel>
-        <SidePanel.Content>
-          {FIELDS.map((field) => (
-            <FormField key={field.key} label={field.label}>
-              <Input
-                dataHook={`jr-hero-panel-${field.key}`}
-                value={values[field.key] ?? ''}
-                onChange={(event) => {
-                  void handleChange(field.key, event.target.value);
-                }}
-              />
-            </FormField>
-          ))}
-        </SidePanel.Content>
-      </SidePanel>
-    </WixDesignSystemProvider>
+    <SettingsPanel
+      dataHookPrefix="jr-hero-panel"
+      title="Hero settings"
+      subtitle="Homepage hero content, links and imagery"
+      sections={[
+        {
+          title: 'Content',
+          fields: [
+            {
+              key: 'eyebrow',
+              label: 'Eyebrow',
+              kind: 'text',
+              help: 'Small line above the hero heading naming the studio specialties.',
+            },
+            {
+              key: 'title',
+              label: 'Title',
+              kind: 'text',
+              help: 'Large hero heading visitors read first.',
+            },
+            {
+              key: 'location',
+              label: 'Location',
+              kind: 'text',
+              help: 'Line under the heading saying where treatments happen.',
+            },
+            {
+              key: 'copy',
+              label: 'Copy first line',
+              kind: 'longText',
+              help: 'First line of the hero intro paragraph.',
+            },
+            {
+              key: 'copy-second-line',
+              label: 'Copy second line',
+              kind: 'text',
+              help: 'Second line of the hero intro paragraph, completing the sentence above.',
+            },
+          ],
+        },
+        {
+          title: 'Links',
+          fields: [
+            bookingLinkField('booking-url'),
+            bookingLinkField('treatments-url'),
+            bookingLinkField('policy-url'),
+          ],
+        },
+        {
+          title: 'Media',
+          fields: [imageField('image-url'), imageField('image-alt')],
+        },
+      ]}
+    />
   );
 }

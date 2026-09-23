@@ -1,23 +1,35 @@
+import { SettingsPanel } from '../../widget-panel/SettingsPanel';
 import {
-  TextSettingsPanel,
-  type TextSettingField,
-} from '../../widget-panel/TextSettingsPanel';
-
-const FIELDS: readonly TextSettingField[] = [
-  { key: 'checkout-url', label: 'Checkout link' },
-  { key: 'image-url', label: 'Gift image URL' },
-  { key: 'image-alt', label: 'Gift image alt text' },
-  { key: 'phone-href', label: 'Phone link' },
-  { key: 'phone-label', label: 'Phone label' },
-  { key: 'email-href', label: 'Email link' },
-  { key: 'email-label', label: 'Email label' },
-];
+  bookingLinkField,
+  contactField,
+  imageField,
+} from '../../widget-panel/sharedFields';
 
 export default function GiftCardPagePanel() {
   return (
-    <TextSettingsPanel
+    <SettingsPanel
       dataHookPrefix="jr-gift-card-page-panel"
-      fields={FIELDS}
+      title="Gift card page settings"
+      subtitle="Checkout link, imagery and contact details"
+      sections={[
+        {
+          title: 'Links',
+          fields: [bookingLinkField('checkout-url')],
+        },
+        {
+          title: 'Contact',
+          fields: [
+            contactField('phone-href'),
+            contactField('phone-label'),
+            contactField('email-href'),
+            contactField('email-label'),
+          ],
+        },
+        {
+          title: 'Media',
+          fields: [imageField('image-url'), imageField('image-alt')],
+        },
+      ]}
     />
   );
 }

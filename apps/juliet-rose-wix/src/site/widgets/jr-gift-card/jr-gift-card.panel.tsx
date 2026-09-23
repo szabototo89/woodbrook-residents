@@ -1,65 +1,53 @@
-import { widget } from '@wix/editor';
-import {
-  FormField,
-  Input,
-  SidePanel,
-  WixDesignSystemProvider,
-} from '@wix/design-system';
-import '@wix/design-system/styles.global.css';
-import { useEffect, useState } from 'react';
-
-type PanelField = Readonly<{
-  key: string;
-  label: string;
-}>;
-
-const FIELDS: readonly PanelField[] = [
-  { key: 'eyebrow', label: 'Eyebrow' },
-  { key: 'title', label: 'Title' },
-  { key: 'copy-lead', label: 'Copy first line' },
-  { key: 'copy-rest', label: 'Copy second line' },
-  { key: 'button-label', label: 'Button label' },
-  { key: 'card-url', label: 'Gift card link' },
-];
+import { SettingsPanel } from '../../widget-panel/SettingsPanel';
+import { bookingLinkField } from '../../widget-panel/sharedFields';
 
 export default function JrGiftCardPanel() {
-  const [values, setValues] = useState<Readonly<Record<string, string>>>({});
-
-  useEffect(() => {
-    async function loadProps() {
-      const entries = await Promise.all(
-        FIELDS.map(async (field) => {
-          const value = await widget.getProp(field.key);
-          return [field.key, value ?? ''] as const;
-        }),
-      );
-      setValues(Object.fromEntries(entries));
-    }
-    void loadProps();
-  }, []);
-
-  async function handleChange(key: string, value: string) {
-    setValues((current) => ({ ...current, [key]: value }));
-    await widget.setProp(key, value);
-  }
-
   return (
-    <WixDesignSystemProvider>
-      <SidePanel>
-        <SidePanel.Content>
-          {FIELDS.map((field) => (
-            <FormField key={field.key} label={field.label}>
-              <Input
-                dataHook={`jr-gift-card-panel-${field.key}`}
-                value={values[field.key] ?? ''}
-                onChange={(event) => {
-                  void handleChange(field.key, event.target.value);
-                }}
-              />
-            </FormField>
-          ))}
-        </SidePanel.Content>
-      </SidePanel>
-    </WixDesignSystemProvider>
+    <SettingsPanel
+      dataHookPrefix="jr-gift-card-panel"
+      title="Gift card teaser settings"
+      subtitle="Homepage gift-card section copy and link"
+      sections={[
+        {
+          title: 'Content',
+          fields: [
+            {
+              key: 'eyebrow',
+              label: 'Eyebrow',
+              kind: 'text',
+              help: 'Small line above the gift-card heading.',
+            },
+            {
+              key: 'title',
+              label: 'Title',
+              kind: 'text',
+              help: 'Heading of the gift-card teaser.',
+            },
+            {
+              key: 'copy-lead',
+              label: 'Lead copy',
+              kind: 'longText',
+              help: 'First gift-card sentence, saying who it is for.',
+            },
+            {
+              key: 'copy-rest',
+              label: 'Supporting copy',
+              kind: 'longText',
+              help: 'Second gift-card sentence, e.g. which treatments or amounts it covers.',
+            },
+            {
+              key: 'button-label',
+              label: 'Button label',
+              kind: 'text',
+              help: 'Text on the button that takes visitors to the gift-card page.',
+            },
+          ],
+        },
+        {
+          title: 'Links',
+          fields: [bookingLinkField('card-url')],
+        },
+      ]}
+    />
   );
 }
