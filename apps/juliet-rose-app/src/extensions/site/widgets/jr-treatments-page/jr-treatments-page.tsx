@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
 import { TreatmentsPageWidget } from './TreatmentsPageWidget';
+import { getTreatmentsAccessTokenInjector } from '../../treatments/treatmentsServices';
 
 const TreatmentsPageElement = reactToWebComponent(
   TreatmentsPageWidget,
@@ -21,4 +22,6 @@ const TreatmentsPageElement = reactToWebComponent(
   },
 );
 
-export default TreatmentsPageElement;
+export default class AuthenticatedTreatmentsPageElement extends TreatmentsPageElement {
+  accessTokenListener = getTreatmentsAccessTokenInjector();
+}

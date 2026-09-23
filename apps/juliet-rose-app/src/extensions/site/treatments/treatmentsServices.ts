@@ -39,7 +39,7 @@ export function toTreatmentSummary(
   };
 }
 
-function treatmentsClient() {
+function createTreatmentsClient() {
   return createClient({
     host: site.host(),
     auth: site.auth(),
@@ -47,10 +47,23 @@ function treatmentsClient() {
   });
 }
 
+const treatmentsClient: {
+  current?: ReturnType<typeof createTreatmentsClient>;
+} = {};
+
+function getTreatmentsClient() {
+  treatmentsClient.current ??= createTreatmentsClient();
+  return treatmentsClient.current;
+}
+
+export function getTreatmentsAccessTokenInjector() {
+  return getTreatmentsClient().auth.getAccessTokenInjector();
+}
+
 async function defaultFetchTreatments(): Promise<
   readonly TreatmentsItemShape[]
 > {
-  const response = await treatmentsClient()
+  const response = await getTreatmentsClient()
     .items.query(TREATMENTS_COLLECTION_ID)
     .limit(TREATMENTS_LIMIT)
     .find();
