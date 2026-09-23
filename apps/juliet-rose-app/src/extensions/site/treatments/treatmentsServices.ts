@@ -2,6 +2,7 @@ import { items } from '@wix/data';
 import { createClient } from '@wix/sdk';
 import { site } from '@wix/site';
 
+import wixConfig from '../../../../wix.config.json';
 import type { BookingsServiceSummary } from './treatments';
 
 export const TREATMENTS_COLLECTION_ID = 'Treatments';
@@ -39,18 +40,31 @@ export function toTreatmentSummary(
   };
 }
 
-function treatmentsClient() {
+function createTreatmentsClient() {
   return createClient({
-    host: site.host(),
+    host: site.host({ applicationId: wixConfig.appId }),
     auth: site.auth(),
     modules: { items },
   });
 }
 
+const treatmentsClient: {
+  current?: ReturnType<typeof createTreatmentsClient>;
+} = {};
+
+function getTreatmentsClient() {
+  treatmentsClient.current ??= createTreatmentsClient();
+  return treatmentsClient.current;
+}
+
+export function getTreatmentsAccessTokenInjector() {
+  return getTreatmentsClient().auth.getAccessTokenInjector();
+}
+
 async function defaultFetchTreatments(): Promise<
   readonly TreatmentsItemShape[]
 > {
-  const response = await treatmentsClient()
+  const response = await getTreatmentsClient()
     .items.query(TREATMENTS_COLLECTION_ID)
     .limit(TREATMENTS_LIMIT)
     .find();

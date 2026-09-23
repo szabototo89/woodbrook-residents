@@ -26,8 +26,10 @@ the approved design one element at a time.
   treatment guidance into one configurable block.
 - Shared route, contact, image, and service settings flow from each aggregate
   widget to its child sections.
-- Data-backed widgets show safe sample content in the Editor and resolve Wix's
-  runtime view mode so Preview and published sites use Wix Bookings data.
+- Treatment widgets show safe sample content in the Editor and load treatment
+  names, categories, prices, durations, and featured status from the Wix CMS
+  Treatments collection in Preview and Site modes. Booking availability still
+  comes from Wix Bookings.
 - `JR Site Header` supplies the Juliet Rose top-bar menu (brand, Main
   navigation, booking action, and mobile navigation) as an opt-in page
   widget, and `JR Site Footer` supplies the matching footer chrome the
@@ -56,8 +58,8 @@ the approved design one element at a time.
   markup.
 - Kebab-case Studio properties map to camel-case React props at each custom
   element boundary.
-- Editor mode never calls Wix Bookings; Preview and Site modes may load live
-  services and availability.
+- Editor mode never calls the live treatment catalog; Preview and Site modes
+  load treatments from the Wix CMS with the site's injected access token.
 - Default widget images render in the Editor and are embedded in the Wix widget
   bundle; configured image URLs may still override the defaults. Blank image
   settings fall back to the embedded photo.

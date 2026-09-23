@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
 import { TreatmentCatalogWidget } from './TreatmentCatalogWidget';
+import { getTreatmentsAccessTokenInjector } from '../../treatments/treatmentsServices';
 
 const JrTreatmentCatalogElement = reactToWebComponent(
   TreatmentCatalogWidget,
@@ -16,4 +17,6 @@ const JrTreatmentCatalogElement = reactToWebComponent(
   },
 );
 
-export default JrTreatmentCatalogElement;
+export default class AuthenticatedTreatmentCatalogElement extends JrTreatmentCatalogElement {
+  accessTokenListener = getTreatmentsAccessTokenInjector();
+}

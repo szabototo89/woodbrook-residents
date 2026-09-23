@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
 import { FeaturedGridWidget } from './FeaturedGridWidget';
+import { getTreatmentsAccessTokenInjector } from '../../treatments/treatmentsServices';
 
 const JrFeaturedGridElement = reactToWebComponent(
   FeaturedGridWidget,
@@ -19,4 +20,6 @@ const JrFeaturedGridElement = reactToWebComponent(
   },
 );
 
-export default JrFeaturedGridElement;
+export default class AuthenticatedFeaturedGridElement extends JrFeaturedGridElement {
+  accessTokenListener = getTreatmentsAccessTokenInjector();
+}

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
 import { HomePageWidget } from './HomePageWidget';
+import { getTreatmentsAccessTokenInjector } from '../../treatments/treatmentsServices';
 
 const HomePageElement = reactToWebComponent(HomePageWidget, React, ReactDOM, {
   props: {
@@ -18,4 +19,6 @@ const HomePageElement = reactToWebComponent(HomePageWidget, React, ReactDOM, {
   },
 });
 
-export default HomePageElement;
+export default class AuthenticatedHomePageElement extends HomePageElement {
+  accessTokenListener = getTreatmentsAccessTokenInjector();
+}
