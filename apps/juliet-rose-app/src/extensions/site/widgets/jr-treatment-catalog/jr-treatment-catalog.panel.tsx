@@ -1,45 +1,18 @@
-import { widget } from '@wix/editor';
-import {
-  FormField,
-  Input,
-  SidePanel,
-  WixDesignSystemProvider,
-} from '@wix/design-system';
-import '@wix/design-system/styles.global.css';
-import { useEffect, useState } from 'react';
-
-const KEY = 'booking-base-url';
+import { SettingsPanel } from '../../widget-panel/SettingsPanel';
+import { bookingLinkField } from '../../widget-panel/sharedFields';
 
 export default function JrTreatmentCatalogPanel() {
-  const [value, setValue] = useState('');
-
-  useEffect(() => {
-    async function loadProp() {
-      setValue((await widget.getProp(KEY)) ?? '');
-    }
-    void loadProp();
-  }, []);
-
-  async function handleChange(next: string) {
-    setValue(next);
-    await widget.setProp(KEY, next);
-  }
-
   return (
-    <WixDesignSystemProvider>
-      <SidePanel>
-        <SidePanel.Content>
-          <FormField label="Booking base URL">
-            <Input
-              dataHook="jr-treatment-catalog-panel-booking-base-url"
-              value={value}
-              onChange={(event) => {
-                void handleChange(event.target.value);
-              }}
-            />
-          </FormField>
-        </SidePanel.Content>
-      </SidePanel>
-    </WixDesignSystemProvider>
+    <SettingsPanel
+      dataHookPrefix="jr-treatment-catalog-panel"
+      title="Treatment catalog settings"
+      subtitle="Where booking buttons send visitors"
+      sections={[
+        {
+          title: 'Links',
+          fields: [bookingLinkField('booking-base-url')],
+        },
+      ]}
+    />
   );
 }

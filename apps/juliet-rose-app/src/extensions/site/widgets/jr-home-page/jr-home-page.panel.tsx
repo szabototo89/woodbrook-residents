@@ -1,21 +1,49 @@
+import { SettingsPanel } from '../../widget-panel/SettingsPanel';
 import {
-  TextSettingsPanel,
-  type TextSettingField,
-} from '../../widget-panel/TextSettingsPanel';
-
-const FIELDS: readonly TextSettingField[] = [
-  { key: 'booking-base-url', label: 'Booking page link' },
-  { key: 'treatments-url', label: 'Treatments page link' },
-  { key: 'gift-card-url', label: 'Gift card page link' },
-  { key: 'featured-slugs', label: 'Featured service slugs' },
-  { key: 'phone-href', label: 'Phone link' },
-  { key: 'email-href', label: 'Email link' },
-  { key: 'hero-image-url', label: 'Hero image URL' },
-  { key: 'studio-image-url', label: 'Studio image URL' },
-];
+  bookingLinkField,
+  contactField,
+  imageField,
+} from '../../widget-panel/sharedFields';
 
 export default function HomePagePanel() {
   return (
-    <TextSettingsPanel dataHookPrefix="jr-home-page-panel" fields={FIELDS} />
+    <SettingsPanel
+      dataHookPrefix="jr-home-page-panel"
+      title="Home page settings"
+      subtitle="Links, featured treatments and imagery for the full page"
+      sections={[
+        {
+          title: 'Links',
+          fields: [
+            bookingLinkField('booking-base-url'),
+            bookingLinkField('treatments-url'),
+            bookingLinkField('gift-card-url'),
+          ],
+        },
+        {
+          title: 'Featured treatments',
+          fields: [
+            {
+              key: 'featured-slugs',
+              label: 'Featured slugs',
+              kind: 'text',
+              help: 'Comma-separated treatment slugs, e.g. swedish-massage, microneedling. Leave empty for automatic selection.',
+              placeholder: 'swedish-massage, microneedling',
+            },
+          ],
+        },
+        {
+          title: 'Contact',
+          fields: [contactField('phone-href'), contactField('email-href')],
+        },
+        {
+          title: 'Media',
+          fields: [
+            imageField('hero-image-url'),
+            imageField('studio-image-url'),
+          ],
+        },
+      ]}
+    />
   );
 }
