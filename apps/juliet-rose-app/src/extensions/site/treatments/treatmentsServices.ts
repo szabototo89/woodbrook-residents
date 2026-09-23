@@ -15,6 +15,8 @@ export type TreatmentsItemShape = Readonly<{
   readonly category?: string | null;
   readonly durationMinutes?: number | null;
   readonly priceCents?: number | null;
+  readonly isFeatured?: boolean | null;
+  readonly is_featured?: boolean | null;
 }>;
 
 export function toTreatmentSummary(
@@ -32,6 +34,7 @@ export function toTreatmentSummary(
     categoryName: item.category ?? undefined,
     durationMinutes: item.durationMinutes ?? undefined,
     priceCents: item.priceCents ?? undefined,
+    isFeatured: item.isFeatured ?? item.is_featured ?? false,
   };
 }
 

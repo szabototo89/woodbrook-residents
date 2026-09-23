@@ -57,6 +57,7 @@ function toSummary(
       service.schedule?.availabilityConstraints?.durations?.[0]?.minutes ??
       undefined,
     priceCents: servicePriceCents(service),
+    isFeatured: false,
   };
 }
 

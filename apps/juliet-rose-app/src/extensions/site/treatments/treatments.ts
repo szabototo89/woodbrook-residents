@@ -17,6 +17,7 @@ export type Treatment = Readonly<{
   category: TreatmentCategory;
   durationMinutes: number;
   priceCents: number;
+  isFeatured: boolean;
 }>;
 
 export type CategoryMeta = Readonly<{
@@ -65,6 +66,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Massage',
     durationMinutes: 60,
     priceCents: 8000,
+    isFeatured: true,
   },
   {
     slug: 'aromatherapy-massage',
@@ -72,6 +74,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Massage',
     durationMinutes: 40,
     priceCents: 5500,
+    isFeatured: false,
   },
   {
     slug: 'microneedling',
@@ -79,6 +82,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Facials & skin',
     durationMinutes: 60,
     priceCents: 13000,
+    isFeatured: true,
   },
   {
     slug: 'juliet-rose-signature-facial',
@@ -86,6 +90,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Facials & skin',
     durationMinutes: 60,
     priceCents: 9500,
+    isFeatured: true,
   },
   {
     slug: 'anti-aging-facial',
@@ -93,6 +98,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Facials & skin',
     durationMinutes: 60,
     priceCents: 8000,
+    isFeatured: false,
   },
   {
     slug: 'deep-hydration-6-step-facial',
@@ -100,6 +106,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Facials & skin',
     durationMinutes: 60,
     priceCents: 11000,
+    isFeatured: true,
   },
   {
     slug: 'gel-polish-pedicure',
@@ -107,6 +114,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Beauty essentials',
     durationMinutes: 70,
     priceCents: 6000,
+    isFeatured: false,
   },
   {
     slug: 'file-and-paint-with-gel-polish',
@@ -114,6 +122,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Beauty essentials',
     durationMinutes: 45,
     priceCents: 4000,
+    isFeatured: false,
   },
   {
     slug: 'purity-perfection',
@@ -121,6 +130,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Packages',
     durationMinutes: 120,
     priceCents: 12000,
+    isFeatured: false,
   },
   {
     slug: 'ethereal-elegance',
@@ -128,6 +138,7 @@ export const PREVIEW_TREATMENTS: readonly Treatment[] = [
     category: 'Packages',
     durationMinutes: 100,
     priceCents: 11000,
+    isFeatured: false,
   },
 ];
 
@@ -241,6 +252,15 @@ export type FeaturedTreatment = Readonly<{
   imageAlt: string;
 }>;
 
+function toFeaturedTreatment(treatment: Treatment): FeaturedTreatment {
+  const imagery = FEATURED_IMAGES[treatment.slug];
+  return {
+    treatment,
+    image: imagery?.image ?? '',
+    imageAlt: imagery?.imageAlt ?? treatment.name,
+  };
+}
+
 export function resolveFeatured(
   treatments: readonly Treatment[],
   slugs: readonly string[],
@@ -251,15 +271,24 @@ export function resolveFeatured(
     if (!treatment) {
       return [];
     }
-    const imagery = FEATURED_IMAGES[slug];
-    return [
-      {
-        treatment,
-        image: imagery?.image ?? '',
-        imageAlt: imagery?.imageAlt ?? treatment.name,
-      },
-    ];
+    return [toFeaturedTreatment(treatment)];
   });
+}
+
+/**
+ * Automatic featured selection driven by the CMS featured flag. Falls back
+ * to the given slugs when no treatment is flagged, so existing grids keep
+ * rendering instead of going empty.
+ */
+export function resolveAutomaticFeatured(
+  treatments: readonly Treatment[],
+  fallbackSlugs: readonly string[] = DEFAULT_FEATURED_SLUGS,
+): readonly FeaturedTreatment[] {
+  const flagged = treatments.filter((treatment) => treatment.isFeatured);
+  if (flagged.length > 0) {
+    return flagged.map(toFeaturedTreatment);
+  }
+  return resolveFeatured(treatments, fallbackSlugs);
 }
 
 export type BookingsServiceSummary = Readonly<{
@@ -269,6 +298,7 @@ export type BookingsServiceSummary = Readonly<{
   categoryName?: string;
   durationMinutes?: number;
   priceCents?: number;
+  isFeatured: boolean;
 }>;
 
 export function toCardTreatment(
@@ -286,5 +316,6 @@ export function toCardTreatment(
     category,
     durationMinutes: service.durationMinutes ?? 60,
     priceCents: service.priceCents ?? 0,
+    isFeatured: service.isFeatured ?? false,
   };
 }

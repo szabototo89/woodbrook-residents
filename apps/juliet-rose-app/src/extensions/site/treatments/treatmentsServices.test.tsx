@@ -4,6 +4,7 @@ import { expect, test } from 'vitest';
 import { FeaturedGrid } from '../widgets/jr-featured-grid/FeaturedGrid';
 import { TreatmentCatalog } from '../widgets/jr-treatment-catalog/TreatmentCatalog';
 import {
+  resolveAutomaticFeatured,
   resolveFeatured,
   toCardTreatment,
   type BookingsServiceSummary,
@@ -51,7 +52,28 @@ test('treatments CMS query maps CMS fields without inventing values', () => {
     categoryName: 'Massage',
     durationMinutes: 60,
     priceCents: 8000,
+    isFeatured: false,
   });
+});
+
+test('treatments CMS query maps the featured flag in the same shape', () => {
+  expect(
+    toTreatmentSummary({ ...CMS_ROWS[0], isFeatured: true }),
+  ).toMatchObject({ slug: 'swedish-massage', isFeatured: true });
+  expect(
+    toTreatmentSummary({ ...CMS_ROWS[0], is_featured: true }),
+  ).toMatchObject({ slug: 'swedish-massage', isFeatured: true });
+  expect(
+    toTreatmentSummary({ ...CMS_ROWS[0], isFeatured: false }),
+  ).toMatchObject({ isFeatured: false });
+});
+
+test('treatments CMS query preserves featured flags from the fetcher', async () => {
+  const summaries = await queryTreatmentSummaries(async () => [
+    { ...CMS_ROWS[0], isFeatured: true },
+    { ...CMS_ROWS[1] },
+  ]);
+  expect(summaries.map((summary) => summary.isFeatured)).toEqual([true, false]);
 });
 
 test('treatments CMS query preserves CMS category values exactly', () => {
@@ -103,4 +125,38 @@ test('live featured grid resolves mocked CMS treatments by slug', () => {
   const featured = resolveFeatured(treatments, ['microneedling']);
   const markup = renderToStaticMarkup(<FeaturedGrid featured={featured} />);
   expect(markup).toContain('Microneedling');
+});
+
+test('card treatment keeps the featured flag in the same shape', () => {
+  const summaries = cmsSummaries();
+  const treatment = toCardTreatment({ ...summaries[0]!, isFeatured: true });
+  expect(treatment).toMatchObject({
+    slug: 'swedish-massage',
+    isFeatured: true,
+  });
+});
+
+test('automatic featured selection resolves CMS-flagged treatments', () => {
+  const treatments = cmsSummaries()
+    .map((summary, index) =>
+      toCardTreatment({ ...summary, isFeatured: index === 1 }),
+    )
+    .filter((treatment) => treatment !== null);
+  const featured = resolveAutomaticFeatured(treatments);
+  expect(featured.map((item) => item.treatment.slug)).toEqual([
+    'microneedling',
+  ]);
+  const markup = renderToStaticMarkup(<FeaturedGrid featured={featured} />);
+  expect(markup).toContain('Microneedling');
+  expect(markup).not.toContain('Swedish massage');
+});
+
+test('automatic featured selection falls back to defaults without flags', () => {
+  const treatments = cmsSummaries()
+    .map(toCardTreatment)
+    .filter((treatment) => treatment !== null);
+  const featured = resolveAutomaticFeatured(treatments, ['swedish-massage']);
+  expect(featured.map((item) => item.treatment.slug)).toEqual([
+    'swedish-massage',
+  ]);
 });
