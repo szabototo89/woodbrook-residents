@@ -1,4 +1,5 @@
 import styles from './booking-policy.module.css';
+import { resolveText } from '../../homeContent/homeContent';
 
 export type BookingPolicyProps = Readonly<{
   eyebrow?: string;
@@ -17,11 +18,11 @@ const defaultProps = {
 } as const;
 
 export function BookingPolicy(props: BookingPolicyProps) {
-  const eyebrow = props.eyebrow ?? defaultProps.eyebrow;
-  const title = props.title ?? defaultProps.title;
-  const copy = props.copy ?? defaultProps.copy;
-  const fullUrl = props.fullUrl ?? defaultProps.fullUrl;
-  const fullLabel = props.fullLabel ?? defaultProps.fullLabel;
+  const eyebrow = resolveText(props.eyebrow, defaultProps.eyebrow);
+  const title = resolveText(props.title, defaultProps.title);
+  const copy = resolveText(props.copy, defaultProps.copy);
+  const fullUrl = resolveText(props.fullUrl, defaultProps.fullUrl);
+  const fullLabel = resolveText(props.fullLabel, defaultProps.fullLabel);
 
   return (
     <div className={styles.root}>

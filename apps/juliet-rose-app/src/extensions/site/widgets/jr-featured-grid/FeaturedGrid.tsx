@@ -1,18 +1,23 @@
 import { FeaturedCard } from './FeaturedCard';
 import styles from './featured-grid.module.css';
+import { resolveText } from '../../homeContent/homeContent';
 import type { FeaturedTreatment } from '../../treatments/treatments';
 
 type FeaturedGridProps = Readonly<{
   featured: readonly FeaturedTreatment[];
   bookingBaseUrl?: string;
+  eyebrow?: string;
+  title?: string;
   viewAllLabel?: string;
   viewAllHref?: string;
 }>;
 
 export function FeaturedGrid(props: FeaturedGridProps) {
-  const bookingBaseUrl = props.bookingBaseUrl ?? '/book';
-  const viewAllLabel = props.viewAllLabel ?? 'View all treatments';
-  const viewAllHref = props.viewAllHref ?? '/treatments';
+  const bookingBaseUrl = resolveText(props.bookingBaseUrl, '/book');
+  const eyebrow = resolveText(props.eyebrow, 'Popular choices');
+  const title = resolveText(props.title, 'Featured treatments');
+  const viewAllLabel = resolveText(props.viewAllLabel, 'View all treatments');
+  const viewAllHref = resolveText(props.viewAllHref, '/treatments');
   return (
     <div className={styles.root}>
       <section
@@ -23,8 +28,8 @@ export function FeaturedGrid(props: FeaturedGridProps) {
         <div className={styles.container}>
           <div className={styles.sectionHeading}>
             <div>
-              <p className={styles.eyebrow}>Popular choices</p>
-              <h2 id="featured-heading">Featured treatments</h2>
+              <p className={styles.eyebrow}>{eyebrow}</p>
+              <h2 id="featured-heading">{title}</h2>
             </div>
             <a className={styles.sectionLink} href={viewAllHref}>
               {viewAllLabel}{' '}

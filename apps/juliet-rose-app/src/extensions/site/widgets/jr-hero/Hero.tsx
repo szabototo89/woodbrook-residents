@@ -1,4 +1,5 @@
 import styles from './jr-hero.module.css';
+import { resolveText } from '../../homeContent/homeContent';
 import { facialHeroImage } from '../../imageAssets';
 
 export type HeroProps = Readonly<{
@@ -29,17 +30,23 @@ const defaultProps = {
 } as const;
 
 export function Hero(props: HeroProps) {
-  const eyebrow = props.eyebrow ?? defaultProps.eyebrow;
-  const title = props.title ?? defaultProps.title;
-  const location = props.location ?? defaultProps.location;
-  const copy = props.copy ?? defaultProps.copy;
-  const copySecondLine = props.copySecondLine ?? defaultProps.copySecondLine;
-  const bookingUrl = props.bookingUrl ?? defaultProps.bookingUrl;
-  const treatmentsUrl = props.treatmentsUrl ?? defaultProps.treatmentsUrl;
-  const policyUrl = props.policyUrl ?? defaultProps.policyUrl;
-  const imageUrl = props.imageUrl ?? defaultProps.imageUrl;
+  const eyebrow = resolveText(props.eyebrow, defaultProps.eyebrow);
+  const title = resolveText(props.title, defaultProps.title);
+  const location = resolveText(props.location, defaultProps.location);
+  const copy = resolveText(props.copy, defaultProps.copy);
+  const copySecondLine = resolveText(
+    props.copySecondLine,
+    defaultProps.copySecondLine,
+  );
+  const bookingUrl = resolveText(props.bookingUrl, defaultProps.bookingUrl);
+  const treatmentsUrl = resolveText(
+    props.treatmentsUrl,
+    defaultProps.treatmentsUrl,
+  );
+  const policyUrl = resolveText(props.policyUrl, defaultProps.policyUrl);
+  const imageUrl = resolveText(props.imageUrl, defaultProps.imageUrl);
   const imageSrcSet = props.imageSrcSet;
-  const imageAlt = props.imageAlt ?? defaultProps.imageAlt;
+  const imageAlt = resolveText(props.imageAlt, defaultProps.imageAlt);
 
   return (
     <section className={styles.root} id="top" aria-labelledby="hero-heading">

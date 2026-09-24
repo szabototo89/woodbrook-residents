@@ -1,4 +1,5 @@
 import styles from './visit-us.module.css';
+import { resolveText } from '../../homeContent/homeContent';
 import { studioInteriorImage } from '../../imageAssets';
 
 export type VisitUsProps = Readonly<{
@@ -32,20 +33,27 @@ const defaultProps = {
 } as const;
 
 export function VisitUs(props: VisitUsProps) {
-  const eyebrow = props.eyebrow ?? defaultProps.eyebrow;
-  const title = props.title ?? defaultProps.title;
-  const address = props.address ?? defaultProps.address;
-  const hoursDays = props.hoursDays ?? defaultProps.hoursDays;
-  const hoursTime = props.hoursTime ?? defaultProps.hoursTime;
-  const phoneHref = props.phoneHref ?? defaultProps.phoneHref;
-  const phoneLabel = props.phoneLabel ?? defaultProps.phoneLabel;
-  const emailHref = props.emailHref ?? defaultProps.emailHref;
-  const emailLabel = props.emailLabel ?? defaultProps.emailLabel;
-  const contactButtonLabel =
-    props.contactButtonLabel ?? defaultProps.contactButtonLabel;
-  const studioImageUrl =
-    props.studioImageUrl?.trim() || defaultProps.studioImageUrl;
-  const studioImageAlt = props.studioImageAlt ?? defaultProps.studioImageAlt;
+  const eyebrow = resolveText(props.eyebrow, defaultProps.eyebrow);
+  const title = resolveText(props.title, defaultProps.title);
+  const address = resolveText(props.address, defaultProps.address);
+  const hoursDays = resolveText(props.hoursDays, defaultProps.hoursDays);
+  const hoursTime = resolveText(props.hoursTime, defaultProps.hoursTime);
+  const phoneHref = resolveText(props.phoneHref, defaultProps.phoneHref);
+  const phoneLabel = resolveText(props.phoneLabel, defaultProps.phoneLabel);
+  const emailHref = resolveText(props.emailHref, defaultProps.emailHref);
+  const emailLabel = resolveText(props.emailLabel, defaultProps.emailLabel);
+  const contactButtonLabel = resolveText(
+    props.contactButtonLabel,
+    defaultProps.contactButtonLabel,
+  );
+  const studioImageUrl = resolveText(
+    props.studioImageUrl,
+    defaultProps.studioImageUrl,
+  );
+  const studioImageAlt = resolveText(
+    props.studioImageAlt,
+    defaultProps.studioImageAlt,
+  );
 
   return (
     <div className={styles.root}>

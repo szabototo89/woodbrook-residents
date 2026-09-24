@@ -1,4 +1,5 @@
 import styles from './gift-card.module.css';
+import { resolveText } from '../../homeContent/homeContent';
 
 export type GiftCardProps = Readonly<{
   eyebrow?: string;
@@ -19,12 +20,12 @@ const defaultProps = {
 } as const;
 
 export function GiftCard(props: GiftCardProps) {
-  const eyebrow = props.eyebrow ?? defaultProps.eyebrow;
-  const title = props.title ?? defaultProps.title;
-  const copyLead = props.copyLead ?? defaultProps.copyLead;
-  const copyRest = props.copyRest ?? defaultProps.copyRest;
-  const buttonLabel = props.buttonLabel ?? defaultProps.buttonLabel;
-  const cardUrl = props.cardUrl ?? defaultProps.cardUrl;
+  const eyebrow = resolveText(props.eyebrow, defaultProps.eyebrow);
+  const title = resolveText(props.title, defaultProps.title);
+  const copyLead = resolveText(props.copyLead, defaultProps.copyLead);
+  const copyRest = resolveText(props.copyRest, defaultProps.copyRest);
+  const buttonLabel = resolveText(props.buttonLabel, defaultProps.buttonLabel);
+  const cardUrl = resolveText(props.cardUrl, defaultProps.cardUrl);
 
   return (
     <div className={styles.root}>

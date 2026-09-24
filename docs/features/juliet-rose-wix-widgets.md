@@ -30,6 +30,11 @@ the approved design one element at a time.
   names, categories, prices, durations, and featured status from the Wix CMS
   Treatments collection in Preview and Site modes. Booking availability still
   comes from Wix Bookings.
+- Home page text is editable in the Wix CMS `Home Page Content` single-item
+  collection: one text field per value, labeled by section (`Hero — Title`,
+  `Visit — Address`, …). Home widgets load these values in Preview and Site
+  modes and fall back to the built-in defaults for any missing or empty
+  value.
 - `JR Site Header` supplies the Juliet Rose top-bar menu (brand, Main
   navigation, booking action, and mobile navigation) as an opt-in page
   widget, and `JR Site Footer` supplies the matching footer chrome the
@@ -60,6 +65,8 @@ the approved design one element at a time.
   element boundary.
 - Editor mode never calls the live treatment catalog; Preview and Site modes
   load treatments from the Wix CMS with the site's injected access token.
+- Home widgets resolve every text value through the empty-string fallback,
+  so a missing or blank CMS value renders the built-in default.
 - Default widget images render in the Editor and are embedded in the Wix widget
   bundle; configured image URLs may still override the defaults. Blank image
   settings fall back to the embedded photo.

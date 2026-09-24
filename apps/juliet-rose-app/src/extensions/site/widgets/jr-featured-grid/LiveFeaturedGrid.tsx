@@ -1,6 +1,12 @@
 import styles from './featured-grid.module.css';
 import { FeaturedGrid } from './FeaturedGrid';
 import {
+  HOME_CONTENT_DEFAULTS,
+  mergeText,
+  type HomeContent,
+} from '../../homeContent/homeContent';
+import { useHomeContent } from '../../homeContent/useHomeContent';
+import {
   parseFeaturedSlugs,
   PREVIEW_TREATMENTS,
   resolveAutomaticFeatured,
@@ -18,13 +24,17 @@ export type LiveFeaturedGridProps = Readonly<{
   viewMode?: ServicesViewMode;
   featuredSlugs?: string;
   bookingBaseUrl?: string;
+  eyebrow?: string;
+  title?: string;
   viewAllLabel?: string;
   viewAllHref?: string;
   listServices?: () => Promise<readonly BookingsServiceSummary[]>;
+  fetchHomeContent?: () => Promise<HomeContent>;
 }>;
 
 export function LiveFeaturedGrid(props: LiveFeaturedGridProps) {
   const summaries = useServices(props.viewMode, props.listServices);
+  const homeContent = useHomeContent(props.viewMode, props.fetchHomeContent);
   const isLive = props.viewMode === 'Preview' || props.viewMode === 'Site';
 
   if (summaries === undefined) {
@@ -48,7 +58,21 @@ export function LiveFeaturedGrid(props: LiveFeaturedGridProps) {
       <FeaturedGrid
         featured={featured}
         bookingBaseUrl={props.bookingBaseUrl}
-        viewAllLabel={props.viewAllLabel}
+        eyebrow={mergeText(
+          props.eyebrow,
+          homeContent?.featuredEyebrow,
+          HOME_CONTENT_DEFAULTS.featuredEyebrow,
+        )}
+        title={mergeText(
+          props.title,
+          homeContent?.featuredTitle,
+          HOME_CONTENT_DEFAULTS.featuredTitle,
+        )}
+        viewAllLabel={mergeText(
+          props.viewAllLabel,
+          homeContent?.featuredViewAllLabel,
+          HOME_CONTENT_DEFAULTS.featuredViewAllLabel,
+        )}
         viewAllHref={props.viewAllHref}
       />
     </div>
