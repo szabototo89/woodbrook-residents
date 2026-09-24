@@ -10,6 +10,7 @@
     "build": "wix build",
     "test:unit": "vitest run src",
     "preview": "wix preview",
+    "prelease": "wix build",
     "release": "wix release",
     "generate": "wix generate",
     "skills": "wix skills",
