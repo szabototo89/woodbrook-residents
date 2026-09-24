@@ -18,6 +18,7 @@ export type Treatment = Readonly<{
   durationMinutes: number;
   priceCents: number;
   isFeatured: boolean;
+  imageUrl?: string;
 }>;
 
 export type CategoryMeta = Readonly<{
@@ -256,7 +257,7 @@ function toFeaturedTreatment(treatment: Treatment): FeaturedTreatment {
   const imagery = FEATURED_IMAGES[treatment.slug];
   return {
     treatment,
-    image: imagery?.image ?? '',
+    image: treatment.imageUrl || imagery?.image || '',
     imageAlt: imagery?.imageAlt ?? treatment.name,
   };
 }
@@ -299,6 +300,7 @@ export type BookingsServiceSummary = Readonly<{
   durationMinutes?: number;
   priceCents?: number;
   isFeatured: boolean;
+  imageUrl?: string;
 }>;
 
 export function toCardTreatment(
@@ -317,5 +319,6 @@ export function toCardTreatment(
     durationMinutes: service.durationMinutes ?? 60,
     priceCents: service.priceCents ?? 0,
     isFeatured: service.isFeatured ?? false,
+    ...(service.imageUrl ? { imageUrl: service.imageUrl } : {}),
   };
 }

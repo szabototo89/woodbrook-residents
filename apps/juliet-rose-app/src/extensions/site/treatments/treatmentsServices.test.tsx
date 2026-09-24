@@ -147,6 +147,71 @@ test('live featured grid resolves mocked CMS treatments by slug', () => {
   expect(markup).toContain('Microneedling');
 });
 
+test('treatments CMS query maps the CMS image field to an image URL', () => {
+  expect(
+    toTreatmentSummary({
+      ...CMS_ROWS[0],
+      image: 'https://static.wixstatic.com/media/swedish.jpg',
+    }),
+  ).toMatchObject({
+    slug: 'swedish-massage',
+    imageUrl: 'https://static.wixstatic.com/media/swedish.jpg',
+  });
+  expect(
+    toTreatmentSummary({
+      ...CMS_ROWS[0],
+      image: { url: 'https://static.wixstatic.com/media/swedish.jpg' },
+    }),
+  ).toMatchObject({
+    imageUrl: 'https://static.wixstatic.com/media/swedish.jpg',
+  });
+});
+
+test('treatments CMS query omits the image URL when the CMS image is absent', () => {
+  expect(toTreatmentSummary(CMS_ROWS[0])).not.toHaveProperty('imageUrl');
+  expect(toTreatmentSummary({ ...CMS_ROWS[0], image: '' })).not.toHaveProperty(
+    'imageUrl',
+  );
+});
+
+test('card treatment keeps the CMS image URL in the same shape', () => {
+  const summaries = cmsSummaries();
+  const treatment = toCardTreatment({
+    ...summaries[0]!,
+    imageUrl: 'https://static.wixstatic.com/media/swedish.jpg',
+  });
+  expect(treatment).toMatchObject({
+    slug: 'swedish-massage',
+    imageUrl: 'https://static.wixstatic.com/media/swedish.jpg',
+  });
+});
+
+test('featured grid prefers the CMS image over researched imagery', () => {
+  const treatments = cmsSummaries()
+    .map((summary) =>
+      toCardTreatment({
+        ...summary,
+        imageUrl: 'https://static.wixstatic.com/media/cms-swedish.jpg',
+      }),
+    )
+    .filter((treatment) => treatment !== null);
+  const featured = resolveFeatured(treatments, ['swedish-massage']);
+  expect(featured[0]?.image).toBe(
+    'https://static.wixstatic.com/media/cms-swedish.jpg',
+  );
+  const markup = renderToStaticMarkup(<FeaturedGrid featured={featured} />);
+  expect(markup).toContain(
+    'https://static.wixstatic.com/media/cms-swedish.jpg',
+  );
+});
+
+test('featured grid falls back to researched imagery without a CMS image', () => {
+  const treatments = cmsSummaries()
+    .map(toCardTreatment)
+    .filter((treatment) => treatment !== null);
+  const featured = resolveFeatured(treatments, ['swedish-massage']);
+  expect(featured[0]?.image).toBeTruthy();
+});
 test('card treatment keeps the featured flag in the same shape', () => {
   const summaries = cmsSummaries();
   const treatment = toCardTreatment({ ...summaries[0]!, isFeatured: true });

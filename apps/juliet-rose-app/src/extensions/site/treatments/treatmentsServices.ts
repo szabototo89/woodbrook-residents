@@ -1,5 +1,5 @@
 import { items } from '@wix/data';
-import { createClient } from '@wix/sdk';
+import { createClient, media } from '@wix/sdk';
 import { site } from '@wix/site';
 
 import wixConfig from '../../../../wix.config.json';
@@ -8,6 +8,9 @@ import type { BookingsServiceSummary } from './treatments';
 export const TREATMENTS_COLLECTION_ID = 'Treatments';
 
 const TREATMENTS_LIMIT = 50;
+
+const FEATURED_IMAGE_WIDTH = 1536;
+const FEATURED_IMAGE_HEIGHT = 1024;
 
 export type TreatmentsItemShape = Readonly<{
   readonly _id?: string | null;
@@ -19,7 +22,52 @@ export type TreatmentsItemShape = Readonly<{
   readonly priceCents?: number | null;
   readonly isFeatured?: boolean | null;
   readonly is_featured?: boolean | null;
+  readonly image?:
+    | string
+    | { readonly url?: string | null; readonly image?: string | null }
+    | null;
 }>;
+
+function extractRawImage(
+  value: TreatmentsItemShape['image'],
+): string | undefined {
+  if (typeof value === 'string') {
+    return value.trim() || undefined;
+  }
+  if (value && typeof value === 'object') {
+    if (typeof value.url === 'string' && value.url.trim()) {
+      return value.url.trim();
+    }
+    if (typeof value.image === 'string' && value.image.trim()) {
+      return value.image.trim();
+    }
+  }
+  return undefined;
+}
+
+export function toCmsImageUrl(
+  value: TreatmentsItemShape['image'],
+): string | undefined {
+  const raw = extractRawImage(value);
+  if (!raw) {
+    return undefined;
+  }
+  if (raw.startsWith('wix:image://')) {
+    try {
+      return (
+        media.getScaledToFillImageUrl(
+          raw,
+          FEATURED_IMAGE_WIDTH,
+          FEATURED_IMAGE_HEIGHT,
+          {},
+        ) || undefined
+      );
+    } catch {
+      return undefined;
+    }
+  }
+  return raw;
+}
 
 export function toTreatmentSummary(
   item: TreatmentsItemShape,
@@ -29,6 +77,7 @@ export function toTreatmentSummary(
   if (!id || !name) {
     return null;
   }
+  const imageUrl = toCmsImageUrl(item.image);
   return {
     id,
     name,
@@ -37,6 +86,7 @@ export function toTreatmentSummary(
     durationMinutes: item.durationMinutes ?? undefined,
     priceCents: item.priceCents ?? undefined,
     isFeatured: item.isFeatured ?? item.is_featured ?? false,
+    ...(imageUrl ? { imageUrl } : {}),
   };
 }
 
