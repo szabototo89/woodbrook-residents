@@ -114,3 +114,13 @@ test('header brand keeps the rose studio color over the anchor reset', () => {
   expect(headerCss).toMatch(/\.brand\s*\{[^}]*color:\s*var\(--jr-rose\)/);
   expect(blanketRootAnchorColor(headerCss)).toBeNull();
 });
+
+test('mobile menu booking button keeps white text on the rose background', () => {
+  // Reported: the Book an appointment button in the open menu rendered
+  // dark text on rose. The menu button rule pins the white text at
+  // (0,2,0) so host-page anchor styles cannot override the base button.
+  const menuButtonRule = headerCss.match(
+    /\.mobileNav\s+\.primaryButton\s*\{[^}]*\}/,
+  );
+  expect(menuButtonRule?.[0]).toMatch(/color:\s*(white|#fff\b)/);
+});
