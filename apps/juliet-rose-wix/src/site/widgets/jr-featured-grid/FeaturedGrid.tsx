@@ -27,7 +27,8 @@ export function FeaturedGrid(props: FeaturedGridProps) {
               <h2 id="featured-heading">Featured treatments</h2>
             </div>
             <a className={styles.sectionLink} href={viewAllHref}>
-              {viewAllLabel}
+              {viewAllLabel}{' '}
+              <span className={styles.iconArrow} aria-hidden="true" />
             </a>
           </div>
 
