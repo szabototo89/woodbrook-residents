@@ -64,3 +64,16 @@ test('mobile menu booking button keeps white text on the rose background', () =>
   );
   expect(menuButtonRule?.[0]).toMatch(/color:\s*(white|#fff\b)/);
 });
+
+test('mobile header brand keeps Beauty Studio beside Juliet Rose on one line', () => {
+  // Reported: on mobile the brand wrapped into three lines
+  // (Juliet Rose / BEAUTY / STUDIO). The mobile lockup is horizontal:
+  // the subtitle sits beside the title and never wraps.
+  const mobileBlock = headerCss.slice(
+    headerCss.indexOf('@media (max-width: 900px)'),
+  );
+  const brandRule = mobileBlock.match(/\.brand\s*\{[^}]*\}/);
+  expect(brandRule?.[0]).toMatch(/flex-direction:\s*row/);
+  const subtitleRule = mobileBlock.match(/\.brand\s+small\s*\{[^}]*\}/);
+  expect(subtitleRule?.[0]).toMatch(/white-space:\s*nowrap/);
+});
