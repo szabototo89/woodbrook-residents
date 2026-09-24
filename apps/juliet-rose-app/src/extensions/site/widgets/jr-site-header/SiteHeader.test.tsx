@@ -1,7 +1,13 @@
+import { readFileSync } from 'node:fs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, test } from 'vitest';
 
 import { SiteHeader, toActiveNavigationItem } from './SiteHeader';
+
+const headerCss = readFileSync(
+  new URL('./site-header.module.css', import.meta.url),
+  'utf8',
+);
 
 test('site header renders the studio brand, top-bar navigation, and booking action', () => {
   const markup = renderToStaticMarkup(<SiteHeader />);
@@ -47,4 +53,14 @@ test('toActiveNavigationItem maps studio routes to navigation state', () => {
   expect(toActiveNavigationItem('/treatments')).toBe('/treatments');
   expect(toActiveNavigationItem('/gift-cards')).toBe('/gift-cards');
   expect(toActiveNavigationItem('/book')).toBeUndefined();
+});
+
+test('mobile menu booking button keeps white text on the rose background', () => {
+  // Reported: the Book an appointment button in the open menu rendered
+  // dark text on rose. The menu button rule pins the white text at
+  // (0,2,0) so host-page anchor styles cannot override the base button.
+  const menuButtonRule = headerCss.match(
+    /\.mobileNav\s+\.primaryButton\s*\{[^}]*\}/,
+  );
+  expect(menuButtonRule?.[0]).toMatch(/color:\s*(white|#fff\b)/);
 });
