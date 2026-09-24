@@ -3,6 +3,7 @@ import { expect, test } from 'vitest';
 import {
   CONTACT_DETAILS_COLLECTION_ID,
   CONTACT_DETAILS_DEFAULTS,
+  resolveContactPanelDefaults,
   toEmailHref,
   toPhoneHref,
 } from './contactDetails';
@@ -42,4 +43,36 @@ test('queryContactDetails returns fetched item data', async () => {
     phone: '+353852867059',
   }));
   expect(result.phone).toBe('+353852867059');
+});
+
+test('resolveContactPanelDefaults falls back to defaults when contact is empty', () => {
+  expect(resolveContactPanelDefaults(undefined)).toEqual({
+    'phone-href': toPhoneHref(CONTACT_DETAILS_DEFAULTS.phone),
+    'phone-label': CONTACT_DETAILS_DEFAULTS.phone,
+    'email-href': toEmailHref(CONTACT_DETAILS_DEFAULTS.email),
+    'email-label': CONTACT_DETAILS_DEFAULTS.email,
+  });
+  expect(resolveContactPanelDefaults({})).toEqual(
+    resolveContactPanelDefaults(undefined),
+  );
+});
+
+test('resolveContactPanelDefaults formats collection values with href helpers', () => {
+  expect(
+    resolveContactPanelDefaults({
+      phone: '085 286 7059',
+      email: 'studio@example.com',
+    }),
+  ).toEqual({
+    'phone-href': 'tel:0852867059',
+    'phone-label': '085 286 7059',
+    'email-href': 'mailto:studio@example.com',
+    'email-label': 'studio@example.com',
+  });
+});
+
+test('resolveContactPanelDefaults ignores blank collection values', () => {
+  expect(resolveContactPanelDefaults({ phone: '  ', email: '' })).toEqual(
+    resolveContactPanelDefaults(undefined),
+  );
 });

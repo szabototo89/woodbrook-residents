@@ -53,3 +53,36 @@ export function mergeContactLink(
       : undefined;
   return mergeText(explicit, cmsHref, buildHref(fallbackValue));
 }
+
+export type ContactPanelKey =
+  'phone-href' | 'phone-label' | 'email-href' | 'email-label';
+
+export type ContactPanelDefaults = Record<ContactPanelKey, string>;
+
+function resolveContactField(value: unknown, fallback: string): string {
+  return typeof value === 'string' && value.trim() ? value.trim() : fallback;
+}
+
+/**
+ * Maps the single ContactDetails item to widget-panel defaults. Hrefs are
+ * formatted with the same helpers as the live widgets, labels stay raw.
+ * Empty or missing collection values fall back to CONTACT_DETAILS_DEFAULTS.
+ */
+export function resolveContactPanelDefaults(
+  contact: ContactDetails | null | undefined,
+): ContactPanelDefaults {
+  const phone = resolveContactField(
+    contact?.phone,
+    CONTACT_DETAILS_DEFAULTS.phone,
+  );
+  const email = resolveContactField(
+    contact?.email,
+    CONTACT_DETAILS_DEFAULTS.email,
+  );
+  return {
+    'phone-href': toPhoneHref(phone),
+    'phone-label': phone,
+    'email-href': toEmailHref(email),
+    'email-label': email,
+  };
+}
