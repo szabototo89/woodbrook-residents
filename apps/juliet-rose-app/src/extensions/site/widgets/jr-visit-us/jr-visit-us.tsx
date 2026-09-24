@@ -4,10 +4,20 @@ import reactToWebComponent from 'react-to-webcomponent';
 
 import { VisitUs } from './VisitUs';
 import {
+  CONTACT_DETAILS_DEFAULTS,
+  type ContactDetails,
+} from '../../contactDetails/contactDetails';
+import { getContactDetailsAccessTokenInjector } from '../../contactDetails/contactDetailsServices';
+import { useContactDetails } from '../../contactDetails/useContactDetails';
+import {
   HOME_CONTENT_DEFAULTS,
   mergeText,
+  type HomeContent,
 } from '../../homeContent/homeContent';
-import { getHomeContentAccessTokenInjector } from '../../homeContent/homeContentServices';
+import {
+  combineAccessTokenInjectors,
+  getHomeContentAccessTokenInjector,
+} from '../../homeContent/homeContentServices';
 import { useHomeContent } from '../../homeContent/useHomeContent';
 import type { ServicesViewMode } from '../../treatments/useServices';
 import { useWixViewMode } from '../../useWixViewMode';
@@ -26,9 +36,12 @@ function LiveVisitUs(props: {
   contactButtonLabel?: string;
   studioImageUrl?: string;
   studioImageAlt?: string;
+  fetchHomeContent?: () => Promise<HomeContent>;
+  fetchContactDetails?: () => Promise<ContactDetails>;
 }) {
   const viewMode = useWixViewMode(props.viewMode);
-  const content = useHomeContent(viewMode);
+  const content = useHomeContent(viewMode, props.fetchHomeContent);
+  const contact = useContactDetails(viewMode, props.fetchContactDetails);
   return (
     <VisitUs
       {...props}
@@ -57,15 +70,25 @@ function LiveVisitUs(props: {
         content?.visitHoursTime,
         HOME_CONTENT_DEFAULTS.visitHoursTime,
       )}
+      phoneHref={mergeText(
+        props.phoneHref,
+        contact?.phoneHref,
+        CONTACT_DETAILS_DEFAULTS.phoneHref,
+      )}
       phoneLabel={mergeText(
         props.phoneLabel,
-        content?.visitPhoneLabel,
-        HOME_CONTENT_DEFAULTS.visitPhoneLabel,
+        contact?.phoneLabel,
+        CONTACT_DETAILS_DEFAULTS.phoneLabel,
+      )}
+      emailHref={mergeText(
+        props.emailHref,
+        contact?.emailHref,
+        CONTACT_DETAILS_DEFAULTS.emailHref,
       )}
       emailLabel={mergeText(
         props.emailLabel,
-        content?.visitEmailLabel,
-        HOME_CONTENT_DEFAULTS.visitEmailLabel,
+        contact?.emailLabel,
+        CONTACT_DETAILS_DEFAULTS.emailLabel,
       )}
       contactButtonLabel={mergeText(
         props.contactButtonLabel,
@@ -100,5 +123,8 @@ const JrVisitUsElement = reactToWebComponent(LiveVisitUs, React, ReactDOM, {
 });
 
 export default class AuthenticatedVisitUsElement extends JrVisitUsElement {
-  accessTokenListener = getHomeContentAccessTokenInjector();
+  accessTokenListener = combineAccessTokenInjectors(
+    getHomeContentAccessTokenInjector(),
+    getContactDetailsAccessTokenInjector(),
+  );
 }

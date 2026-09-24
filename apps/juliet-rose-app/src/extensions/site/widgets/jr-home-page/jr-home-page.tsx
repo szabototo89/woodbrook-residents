@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import reactToWebComponent from 'react-to-webcomponent';
 
 import { HomePageWidget } from './HomePageWidget';
+import { getBookingPolicyAccessTokenInjector } from '../../bookingPolicy/bookingPolicyServices';
+import { getContactDetailsAccessTokenInjector } from '../../contactDetails/contactDetailsServices';
 import {
   combineAccessTokenInjectors,
   getHomeContentAccessTokenInjector,
@@ -27,5 +29,7 @@ export default class AuthenticatedHomePageElement extends HomePageElement {
   accessTokenListener = combineAccessTokenInjectors(
     getTreatmentsAccessTokenInjector(),
     getHomeContentAccessTokenInjector(),
+    getContactDetailsAccessTokenInjector(),
+    getBookingPolicyAccessTokenInjector(),
   );
 }

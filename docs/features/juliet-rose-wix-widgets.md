@@ -32,7 +32,9 @@ the approved design one element at a time.
   comes from Wix Bookings.
 - Home page text is editable in the Wix CMS `Home Page Content` single-item
   collection: one text field per value, labeled by section (`Hero — Title`,
-  `Visit — Address`, …). Home widgets load these values in Preview and Site
+  `Visit — Address`, …). Phone and email details live in the `ContactDetails`
+  single-item collection and the booking policy in the `BookingPolicy`
+  single-item collection. Home widgets load these values in Preview and Site
   modes and fall back to the built-in defaults for any missing or empty
   value.
 - `JR Site Header` supplies the Juliet Rose top-bar menu (brand, Main

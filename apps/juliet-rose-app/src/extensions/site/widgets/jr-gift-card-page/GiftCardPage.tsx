@@ -1,4 +1,9 @@
 import styles from './jr-gift-card-page.module.css';
+import {
+  CONTACT_DETAILS_DEFAULTS,
+  type ContactDetails,
+} from '../../contactDetails/contactDetails';
+import { mergeText } from '../../homeContent/homeContent';
 import { giftCardImage } from '../../imageAssets';
 
 export type GiftCardPageProps = Readonly<{
@@ -9,6 +14,7 @@ export type GiftCardPageProps = Readonly<{
   phoneLabel?: string;
   emailHref?: string;
   emailLabel?: string;
+  contact?: ContactDetails | null;
 }>;
 
 const defaults = {
@@ -40,6 +46,27 @@ const highlights = [
 ] as const;
 
 export function GiftCardPage(props: GiftCardPageProps) {
+  const contact = props.contact ?? null;
+  const phoneHref = mergeText(
+    props.phoneHref,
+    contact?.phoneHref,
+    CONTACT_DETAILS_DEFAULTS.phoneHref,
+  );
+  const phoneLabel = mergeText(
+    props.phoneLabel,
+    contact?.phoneLabel,
+    defaults.phoneLabel,
+  );
+  const emailHref = mergeText(
+    props.emailHref,
+    contact?.emailHref,
+    CONTACT_DETAILS_DEFAULTS.emailHref,
+  );
+  const emailLabel = mergeText(
+    props.emailLabel,
+    contact?.emailLabel,
+    defaults.emailLabel,
+  );
   return (
     <main className={styles.root}>
       <section className={styles.hero} aria-labelledby="gift-card-page-heading">
@@ -104,14 +131,8 @@ export function GiftCardPage(props: GiftCardPageProps) {
         </div>
         <p>
           Have a question before you buy? Call Diana on{' '}
-          <a href={props.phoneHref ?? defaults.phoneHref}>
-            {props.phoneLabel ?? defaults.phoneLabel}
-          </a>{' '}
-          or{' '}
-          <a href={props.emailHref ?? defaults.emailHref}>
-            {props.emailLabel ?? defaults.emailLabel}
-          </a>
-          .
+          <a href={phoneHref}>{phoneLabel}</a> or{' '}
+          <a href={emailHref}>{emailLabel}</a>.
         </p>
       </section>
     </main>

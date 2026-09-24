@@ -4,11 +4,12 @@ import reactToWebComponent from 'react-to-webcomponent';
 
 import { BookingPolicy } from './BookingPolicy';
 import {
-  HOME_CONTENT_DEFAULTS,
-  mergeText,
-} from '../../homeContent/homeContent';
-import { getHomeContentAccessTokenInjector } from '../../homeContent/homeContentServices';
-import { useHomeContent } from '../../homeContent/useHomeContent';
+  BOOKING_POLICY_DEFAULTS,
+  type BookingPolicyContent,
+} from '../../bookingPolicy/bookingPolicy';
+import { getBookingPolicyAccessTokenInjector } from '../../bookingPolicy/bookingPolicyServices';
+import { useBookingPolicy } from '../../bookingPolicy/useBookingPolicy';
+import { mergeText } from '../../homeContent/homeContent';
 import type { ServicesViewMode } from '../../treatments/useServices';
 import { useWixViewMode } from '../../useWixViewMode';
 
@@ -19,31 +20,32 @@ function LiveBookingPolicy(props: {
   copy?: string;
   fullUrl?: string;
   fullLabel?: string;
+  fetchBookingPolicy?: () => Promise<BookingPolicyContent>;
 }) {
   const viewMode = useWixViewMode(props.viewMode);
-  const content = useHomeContent(viewMode);
+  const content = useBookingPolicy(viewMode, props.fetchBookingPolicy);
   return (
     <BookingPolicy
       eyebrow={mergeText(
         props.eyebrow,
-        content?.policyEyebrow,
-        HOME_CONTENT_DEFAULTS.policyEyebrow,
+        content?.eyebrow,
+        BOOKING_POLICY_DEFAULTS.eyebrow,
       )}
       title={mergeText(
         props.title,
-        content?.policyTitle,
-        HOME_CONTENT_DEFAULTS.policyTitle,
+        content?.title,
+        BOOKING_POLICY_DEFAULTS.title,
       )}
-      copy={mergeText(
-        props.copy,
-        content?.policyCopy,
-        HOME_CONTENT_DEFAULTS.policyCopy,
+      copy={mergeText(props.copy, content?.copy, BOOKING_POLICY_DEFAULTS.copy)}
+      fullUrl={mergeText(
+        props.fullUrl,
+        content?.fullUrl,
+        BOOKING_POLICY_DEFAULTS.fullUrl,
       )}
-      fullUrl={props.fullUrl}
       fullLabel={mergeText(
         props.fullLabel,
-        content?.policyFullLabel,
-        HOME_CONTENT_DEFAULTS.policyFullLabel,
+        content?.fullLabel,
+        BOOKING_POLICY_DEFAULTS.fullLabel,
       )}
     />
   );
@@ -66,5 +68,5 @@ const JrBookingPolicyElement = reactToWebComponent(
 );
 
 export default class AuthenticatedBookingPolicyElement extends JrBookingPolicyElement {
-  accessTokenListener = getHomeContentAccessTokenInjector();
+  accessTokenListener = getBookingPolicyAccessTokenInjector();
 }

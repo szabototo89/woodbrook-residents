@@ -2,6 +2,8 @@ import { CategoryGrid } from '../jr-category-grid/CategoryGrid';
 import { LiveFeaturedGrid } from '../jr-featured-grid/LiveFeaturedGrid';
 import { Hero } from '../jr-hero/Hero';
 import { StudioSections } from '../jr-studio-sections/StudioSections';
+import type { BookingPolicyContent } from '../../bookingPolicy/bookingPolicy';
+import type { ContactDetails } from '../../contactDetails/contactDetails';
 import {
   HOME_CONTENT_DEFAULTS,
   mergeText,
@@ -21,6 +23,8 @@ export type HomePageProps = Readonly<{
   studioImageUrl?: string;
   heroImageUrl?: string;
   homeContent?: HomeContent | null;
+  contact?: ContactDetails | null;
+  policy?: BookingPolicyContent | null;
   fetchHomeContent?: () => Promise<HomeContent>;
 }>;
 
@@ -113,6 +117,8 @@ export function HomePage(props: HomePageProps) {
         emailHref={props.emailHref}
         studioImageUrl={props.studioImageUrl}
         homeContent={content}
+        contact={props.contact ?? null}
+        policy={props.policy ?? null}
       />
     </main>
   );

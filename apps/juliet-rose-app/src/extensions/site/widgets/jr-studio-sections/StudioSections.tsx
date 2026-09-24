@@ -2,6 +2,14 @@ import { BookingPolicy } from '../jr-booking-policy/BookingPolicy';
 import { GiftCard } from '../jr-gift-card/GiftCard';
 import { VisitUs } from '../jr-visit-us/VisitUs';
 import {
+  BOOKING_POLICY_DEFAULTS,
+  type BookingPolicyContent,
+} from '../../bookingPolicy/bookingPolicy';
+import {
+  CONTACT_DETAILS_DEFAULTS,
+  type ContactDetails,
+} from '../../contactDetails/contactDetails';
+import {
   HOME_CONTENT_DEFAULTS,
   mergeText,
   type HomeContent,
@@ -17,6 +25,8 @@ export type StudioSectionsProps = Readonly<{
   studioImageAlt?: string;
   policyUrl?: string;
   homeContent?: HomeContent | null;
+  contact?: ContactDetails | null;
+  policy?: BookingPolicyContent | null;
   giftEyebrow?: string;
   giftTitle?: string;
   giftCopyLead?: string;
@@ -44,6 +54,8 @@ function pick(
 
 export function StudioSections(props: StudioSectionsProps) {
   const content = props.homeContent ?? null;
+  const contact = props.contact ?? null;
+  const policy = props.policy ?? null;
   return (
     <div>
       <GiftCard
@@ -75,17 +87,25 @@ export function StudioSections(props: StudioSectionsProps) {
         )}
       />
       <VisitUs
-        phoneHref={props.phoneHref}
+        phoneHref={pick(
+          props.phoneHref,
+          contact?.phoneHref,
+          CONTACT_DETAILS_DEFAULTS.phoneHref,
+        )}
         phoneLabel={pick(
           props.phoneLabel,
-          content?.visitPhoneLabel,
-          HOME_CONTENT_DEFAULTS.visitPhoneLabel,
+          contact?.phoneLabel,
+          CONTACT_DETAILS_DEFAULTS.phoneLabel,
         )}
-        emailHref={props.emailHref}
+        emailHref={pick(
+          props.emailHref,
+          contact?.emailHref,
+          CONTACT_DETAILS_DEFAULTS.emailHref,
+        )}
         emailLabel={pick(
           props.emailLabel,
-          content?.visitEmailLabel,
-          HOME_CONTENT_DEFAULTS.visitEmailLabel,
+          contact?.emailLabel,
+          CONTACT_DETAILS_DEFAULTS.emailLabel,
         )}
         studioImageUrl={props.studioImageUrl}
         studioImageAlt={pick(
@@ -125,26 +145,30 @@ export function StudioSections(props: StudioSectionsProps) {
         )}
       />
       <BookingPolicy
-        fullUrl={props.policyUrl}
+        fullUrl={pick(
+          props.policyUrl,
+          policy?.fullUrl,
+          BOOKING_POLICY_DEFAULTS.fullUrl,
+        )}
         eyebrow={pick(
           props.policyEyebrow,
-          content?.policyEyebrow,
-          HOME_CONTENT_DEFAULTS.policyEyebrow,
+          policy?.eyebrow,
+          BOOKING_POLICY_DEFAULTS.eyebrow,
         )}
         title={pick(
           props.policyTitle,
-          content?.policyTitle,
-          HOME_CONTENT_DEFAULTS.policyTitle,
+          policy?.title,
+          BOOKING_POLICY_DEFAULTS.title,
         )}
         copy={pick(
           props.policyCopy,
-          content?.policyCopy,
-          HOME_CONTENT_DEFAULTS.policyCopy,
+          policy?.copy,
+          BOOKING_POLICY_DEFAULTS.copy,
         )}
         fullLabel={pick(
           props.policyFullLabel,
-          content?.policyFullLabel,
-          HOME_CONTENT_DEFAULTS.policyFullLabel,
+          policy?.fullLabel,
+          BOOKING_POLICY_DEFAULTS.fullLabel,
         )}
       />
     </div>
