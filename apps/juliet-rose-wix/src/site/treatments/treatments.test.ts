@@ -118,3 +118,37 @@ test('resolves featured treatments with their researched imagery', () => {
 test('skips featured slugs missing from the loaded treatments', () => {
   expect(resolveFeatured(PREVIEW_TREATMENTS, ['no-such-slug'])).toEqual([]);
 });
+
+test('card treatment keeps a collection image URL in the same shape', () => {
+  const treatment = toCardTreatment({
+    id: 'service-id',
+    name: 'Swedish massage',
+    slug: 'swedish-massage',
+    categoryName: 'Massage',
+    durationMinutes: 60,
+    priceCents: 8000,
+    imageUrl: 'https://static.wixstatic.com/media/cms-swedish.jpg',
+  });
+  expect(treatment).toMatchObject({
+    slug: 'swedish-massage',
+    imageUrl: 'https://static.wixstatic.com/media/cms-swedish.jpg',
+  });
+});
+
+test('featured grid prefers the collection image over researched imagery', () => {
+  const treatment = toCardTreatment({
+    id: 'service-id',
+    name: 'Swedish massage',
+    slug: 'swedish-massage',
+    categoryName: 'Massage',
+    durationMinutes: 60,
+    priceCents: 8000,
+    imageUrl: 'https://static.wixstatic.com/media/cms-swedish.jpg',
+  });
+  const featured = resolveFeatured(treatment ? [treatment] : [], [
+    'swedish-massage',
+  ]);
+  expect(featured[0]?.image).toBe(
+    'https://static.wixstatic.com/media/cms-swedish.jpg',
+  );
+});

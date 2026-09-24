@@ -10,6 +10,7 @@ export type Treatment = Readonly<{
   category: TreatmentCategory;
   durationMinutes: number;
   priceCents: number;
+  imageUrl?: string;
 }>;
 
 export type CategoryMeta = Readonly<{
@@ -248,7 +249,7 @@ export function resolveFeatured(
     return [
       {
         treatment,
-        image: imagery?.image ?? '',
+        image: treatment.imageUrl || imagery?.image || '',
         imageAlt: imagery?.imageAlt ?? treatment.name,
       },
     ];
@@ -262,6 +263,7 @@ export type BookingsServiceSummary = Readonly<{
   categoryName?: string;
   durationMinutes?: number;
   priceCents?: number;
+  imageUrl?: string;
 }>;
 
 export function toCardTreatment(
@@ -279,5 +281,6 @@ export function toCardTreatment(
     category,
     durationMinutes: service.durationMinutes ?? 60,
     priceCents: service.priceCents ?? 0,
+    ...(service.imageUrl ? { imageUrl: service.imageUrl } : {}),
   };
 }
