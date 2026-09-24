@@ -10,7 +10,35 @@ export type PanelPropsState = Readonly<{
   save: (key: string, value: string) => Promise<void>;
 }>;
 
-export function usePanelProps(keys: readonly string[]): PanelPropsState {
+/**
+ * Merges explicit widget props over collection-derived panel defaults.
+ * Non-blank explicit values win; blank/missing values fall through to the
+ * matching default, then to an empty string. Never mutates its inputs.
+ */
+export function applyPanelDefaults(
+  values: Readonly<Record<string, string>>,
+  defaults: Readonly<Record<string, string>> = {},
+): Record<string, string> {
+  const keys = [...new Set([...Object.keys(values), ...Object.keys(defaults)])];
+  return Object.fromEntries(
+    keys.map((key) => {
+      const explicit = values[key];
+      if (typeof explicit === 'string' && explicit.trim()) {
+        return [key, explicit] as const;
+      }
+      const fallback = defaults[key];
+      return [
+        key,
+        typeof fallback === 'string' && fallback.trim() ? fallback : '',
+      ] as const;
+    }),
+  );
+}
+
+export function usePanelProps(
+  keys: readonly string[],
+  defaults: Readonly<Record<string, string>> = {},
+): PanelPropsState {
   const [values, setValues] = useState<Readonly<Record<string, string>>>({});
   const [status, setStatus] = useState<PanelPropsStatus>('loading');
   const [error, setError] = useState<string | null>(null);
@@ -56,5 +84,5 @@ export function usePanelProps(keys: readonly string[]): PanelPropsState {
     await widget.setProp(key, value);
   }
 
-  return { values, status, error, save };
+  return { values: applyPanelDefaults(values, defaults), status, error, save };
 }

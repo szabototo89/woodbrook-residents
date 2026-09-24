@@ -17,11 +17,12 @@ export type SettingsPanelProps = Readonly<{
   title: string;
   subtitle?: string;
   sections: readonly PanelSection[];
+  defaults?: Readonly<Record<string, string>>;
 }>;
 
 export function SettingsPanel(props: SettingsPanelProps) {
   const keys = collectFieldKeys(props.sections);
-  const panel = usePanelProps(keys);
+  const panel = usePanelProps(keys, props.defaults ?? {});
 
   return (
     <WixDesignSystemProvider>
