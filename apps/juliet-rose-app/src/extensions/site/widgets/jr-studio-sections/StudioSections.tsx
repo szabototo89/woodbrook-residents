@@ -7,6 +7,9 @@ import {
 } from '../../bookingPolicy/bookingPolicy';
 import {
   CONTACT_DETAILS_DEFAULTS,
+  mergeContactLink,
+  toEmailHref,
+  toPhoneHref,
   type ContactDetails,
 } from '../../contactDetails/contactDetails';
 import {
@@ -87,25 +90,27 @@ export function StudioSections(props: StudioSectionsProps) {
         )}
       />
       <VisitUs
-        phoneHref={pick(
+        phoneHref={mergeContactLink(
           props.phoneHref,
-          contact?.phoneHref,
-          CONTACT_DETAILS_DEFAULTS.phoneHref,
+          contact?.phone,
+          toPhoneHref,
+          CONTACT_DETAILS_DEFAULTS.phone,
         )}
         phoneLabel={pick(
           props.phoneLabel,
-          contact?.phoneLabel,
-          CONTACT_DETAILS_DEFAULTS.phoneLabel,
+          contact?.phone,
+          CONTACT_DETAILS_DEFAULTS.phone,
         )}
-        emailHref={pick(
+        emailHref={mergeContactLink(
           props.emailHref,
-          contact?.emailHref,
-          CONTACT_DETAILS_DEFAULTS.emailHref,
+          contact?.email,
+          toEmailHref,
+          CONTACT_DETAILS_DEFAULTS.email,
         )}
         emailLabel={pick(
           props.emailLabel,
-          contact?.emailLabel,
-          CONTACT_DETAILS_DEFAULTS.emailLabel,
+          contact?.email,
+          CONTACT_DETAILS_DEFAULTS.email,
         )}
         studioImageUrl={props.studioImageUrl}
         studioImageAlt={pick(

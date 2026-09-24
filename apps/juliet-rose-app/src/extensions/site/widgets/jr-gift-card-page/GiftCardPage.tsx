@@ -1,6 +1,9 @@
 import styles from './jr-gift-card-page.module.css';
 import {
   CONTACT_DETAILS_DEFAULTS,
+  mergeContactLink,
+  toEmailHref,
+  toPhoneHref,
   type ContactDetails,
 } from '../../contactDetails/contactDetails';
 import { mergeText } from '../../homeContent/homeContent';
@@ -47,24 +50,26 @@ const highlights = [
 
 export function GiftCardPage(props: GiftCardPageProps) {
   const contact = props.contact ?? null;
-  const phoneHref = mergeText(
+  const phoneHref = mergeContactLink(
     props.phoneHref,
-    contact?.phoneHref,
-    CONTACT_DETAILS_DEFAULTS.phoneHref,
+    contact?.phone,
+    toPhoneHref,
+    CONTACT_DETAILS_DEFAULTS.phone,
   );
   const phoneLabel = mergeText(
     props.phoneLabel,
-    contact?.phoneLabel,
+    contact?.phone,
     defaults.phoneLabel,
   );
-  const emailHref = mergeText(
+  const emailHref = mergeContactLink(
     props.emailHref,
-    contact?.emailHref,
-    CONTACT_DETAILS_DEFAULTS.emailHref,
+    contact?.email,
+    toEmailHref,
+    CONTACT_DETAILS_DEFAULTS.email,
   );
   const emailLabel = mergeText(
     props.emailLabel,
-    contact?.emailLabel,
+    contact?.email,
     defaults.emailLabel,
   );
   return (
