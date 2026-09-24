@@ -1,7 +1,7 @@
 export const HOME_CONTENT_COLLECTION_ID = 'HomePageContent';
 
 export type HomeContentSectionKey =
-  'hero' | 'categories' | 'featured' | 'gift' | 'visit' | 'policy';
+  'hero' | 'categories' | 'featured' | 'gift' | 'visit';
 
 export type HomeContentSection = Partial<Record<string, string | null>>;
 
@@ -28,20 +28,15 @@ export type HomeContentField =
   | 'visitAddress'
   | 'visitHoursDays'
   | 'visitHoursTime'
-  | 'visitPhoneLabel'
-  | 'visitEmailLabel'
   | 'visitContactButtonLabel'
-  | 'visitStudioImageAlt'
-  | 'policyEyebrow'
-  | 'policyTitle'
-  | 'policyCopy'
-  | 'policyFullLabel';
+  | 'visitStudioImageAlt';
 
 /**
- * Raw single-item shape from the HomePageContent collection. Text lives in
- * grouped OBJECT sections (hero, categories, featured, gift, visit,
- * policy). The legacy flat keys are kept as an optional read fallback so
- * items written before the object grouping still resolve.
+ * Raw single-item shape from the HomePageContent collection. Contact
+ * details live in the ContactDetails collection and the booking policy in
+ * the BookingPolicy collection — only homepage-section copy lives here.
+ * The legacy nested OBJECT keys are kept as an optional read fallback so
+ * items written during the object-grouping experiment still resolve.
  */
 export type HomeContent = Partial<
   Record<HomeContentSectionKey, HomeContentSection | null>
@@ -75,14 +70,8 @@ const FIELD_TO_SECTION: Readonly<
   visitAddress: ['visit', 'address'],
   visitHoursDays: ['visit', 'hoursDays'],
   visitHoursTime: ['visit', 'hoursTime'],
-  visitPhoneLabel: ['visit', 'phoneLabel'],
-  visitEmailLabel: ['visit', 'emailLabel'],
   visitContactButtonLabel: ['visit', 'contactButtonLabel'],
   visitStudioImageAlt: ['visit', 'studioImageAlt'],
-  policyEyebrow: ['policy', 'eyebrow'],
-  policyTitle: ['policy', 'title'],
-  policyCopy: ['policy', 'copy'],
-  policyFullLabel: ['policy', 'fullLabel'],
 };
 
 export const HOME_CONTENT_DEFAULTS: ResolvedHomeContent = {
@@ -108,15 +97,8 @@ export const HOME_CONTENT_DEFAULTS: ResolvedHomeContent = {
   visitAddress: '10 Merville road, Stillorgan, Dublin, Ireland, A94YV78',
   visitHoursDays: 'Monday – Friday',
   visitHoursTime: '10.00am – 8.00pm',
-  visitPhoneLabel: '0852867059',
-  visitEmailLabel: 'denizzza1@gmail.com',
   visitContactButtonLabel: 'Contact Diana',
   visitStudioImageAlt: 'The warm and private Juliet Rose treatment studio',
-  policyEyebrow: 'Before your appointment',
-  policyTitle: 'Booking policy',
-  policyCopy:
-    'Please arrive on time and attend your appointment alone. If you need to cancel or rearrange, please give at least 24 hours’ notice. Late cancellations and no-shows may be charged.',
-  policyFullLabel: 'Read the full policy',
 };
 
 export function resolveText(value: unknown, fallback: string): string {
@@ -169,14 +151,8 @@ const HOME_CONTENT_FIELDS: readonly HomeContentField[] = [
   'visitAddress',
   'visitHoursDays',
   'visitHoursTime',
-  'visitPhoneLabel',
-  'visitEmailLabel',
   'visitContactButtonLabel',
   'visitStudioImageAlt',
-  'policyEyebrow',
-  'policyTitle',
-  'policyCopy',
-  'policyFullLabel',
 ];
 
 export function resolveHomeContent(

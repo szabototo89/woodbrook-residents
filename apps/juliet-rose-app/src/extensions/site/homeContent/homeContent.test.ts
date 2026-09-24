@@ -33,7 +33,7 @@ test('mergeText prefers the explicit prop, then CMS, then default', () => {
 test('resolveHomeContent resolves empty input to defaults', () => {
   const resolved = resolveHomeContent(null);
   expect(resolved.heroTitle).toBe(HOME_CONTENT_DEFAULTS.heroTitle);
-  expect(resolved.policyCopy).toBe(HOME_CONTENT_DEFAULTS.policyCopy);
+  expect(resolved.visitTitle).toBe(HOME_CONTENT_DEFAULTS.visitTitle);
 });
 
 test('resolveHomeContent reads values from grouped object sections', () => {
