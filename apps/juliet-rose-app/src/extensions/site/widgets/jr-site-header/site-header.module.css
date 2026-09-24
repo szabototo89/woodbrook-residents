@@ -155,18 +155,23 @@
   }
 
   .brand {
-    width: 145px;
+    width: auto;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
   }
 
   .brand span {
     font-size: 30px;
+    white-space: nowrap;
   }
 
   .brand small {
-    margin-top: 7px;
-    padding-left: 15px;
+    margin-top: 0;
+    padding-left: 0;
     font-size: 0.75rem;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
+    white-space: nowrap;
   }
 
   .desktopNav,
