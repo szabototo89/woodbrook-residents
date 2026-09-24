@@ -1,3 +1,4 @@
+import { useContactPanelDefaults } from '../../contactDetails/useContactPanelDefaults';
 import { SettingsPanel } from '../../widget-panel/SettingsPanel';
 import {
   bookingLinkField,
@@ -6,11 +7,13 @@ import {
 } from '../../widget-panel/sharedFields';
 
 export default function HomePagePanel() {
+  const contactDefaults = useContactPanelDefaults();
   return (
     <SettingsPanel
       dataHookPrefix="jr-home-page-panel"
       title="Home page settings"
       subtitle="Links, featured treatments and imagery for the full page"
+      defaults={contactDefaults}
       sections={[
         {
           title: 'Links',

@@ -1,12 +1,15 @@
+import { useContactPanelDefaults } from '../../contactDetails/useContactPanelDefaults';
 import { SettingsPanel } from '../../widget-panel/SettingsPanel';
 import { contactField, imageField } from '../../widget-panel/sharedFields';
 
 export default function JrVisitUsPanel() {
+  const contactDefaults = useContactPanelDefaults();
   return (
     <SettingsPanel
       dataHookPrefix="jr-visit-us-panel"
       title="Visit us settings"
       subtitle="Studio address, hours, contact and photo"
+      defaults={contactDefaults}
       sections={[
         {
           title: 'Content',
