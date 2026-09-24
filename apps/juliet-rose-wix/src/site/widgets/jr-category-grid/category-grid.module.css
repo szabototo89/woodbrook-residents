@@ -61,7 +61,10 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  color: var(--jr-rose-dark);
   font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .eyebrow {

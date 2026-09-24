@@ -41,3 +41,12 @@ test('jr-category-grid honours a custom view-all link', () => {
   ).toContain('Custom link');
   view.unmount();
 });
+
+test('jr-category-grid view-all link matches design with arrow icon', () => {
+  const view = renderUi(<CategoryGrid cards={CATEGORY_CARDS} />);
+
+  const viewAll = view.container.querySelector('a[href="/treatments"]');
+  expect(viewAll?.textContent).toContain('View all treatments');
+  expect(viewAll?.querySelector('span[aria-hidden="true"]')).not.toBeNull();
+  view.unmount();
+});
