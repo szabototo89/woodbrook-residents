@@ -52,7 +52,7 @@ test('phrases the calendar list as guided choices', () => {
   const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
 
   expect(config.customLabels).toMatchObject({
-    'label.addtocalendar': 'Choose where to save this event',
+    'label.addtocalendar': 'Choose where to save Community clean-up, Woodbrook',
     apple: 'Save to Apple Calendar',
     google: 'Save to Google Calendar',
     ms365: 'Save to Microsoft 365',

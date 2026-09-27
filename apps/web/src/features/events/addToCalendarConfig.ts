@@ -100,7 +100,7 @@ export function buildAddToCalendarConfig(
     hideBranding: true,
     styleLight: CALENDAR_STYLE_LIGHT,
     customLabels: {
-      'label.addtocalendar': 'Choose where to save this event',
+      'label.addtocalendar': `Choose where to save ${event.title}`,
       apple: 'Save to Apple Calendar',
       google: 'Save to Google Calendar',
       ms365: 'Save to Microsoft 365',
