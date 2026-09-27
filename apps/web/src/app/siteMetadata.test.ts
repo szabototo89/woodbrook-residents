@@ -58,12 +58,12 @@ test('createPageHead emits canonical, Open Graph site name/locale, and image alt
   });
   expect(metaByKey.get('og:locale')).toMatchObject({ content: 'en_IE' });
   expect(metaByKey.get('og:url')).toMatchObject({
-    content: 'https://example.com/updates',
+    content: 'https://example.com/updates/',
   });
   expect(metaByKey.get('og:image:alt')).toBeDefined();
   expect(head.links).toContainEqual({
     rel: 'canonical',
-    href: 'https://example.com/updates',
+    href: 'https://example.com/updates/',
   });
 });
 
@@ -126,6 +126,45 @@ test('createPageHead never emits a localhost canonical when the env value is mis
   expect(head.links).toContainEqual({
     rel: 'canonical',
     href: 'https://woodbrook.shankill.workers.dev/',
+  });
+});
+
+test('createPageHead emits trailing-slash canonicals matching the served URLs', () => {
+  vi.stubEnv('VITE_PUBLIC_SITE_URL', 'https://example.com');
+
+  const cases: Array<[string, string]> = [
+    ['/', 'https://example.com/'],
+    ['/updates', 'https://example.com/updates/'],
+    ['/events/first-event', 'https://example.com/events/first-event/'],
+  ];
+
+  for (const [path, expected] of cases) {
+    const head = createPageHead({
+      title: 'Section',
+      description: 'Description.',
+      path,
+    });
+    expect(head.links).toContainEqual({
+      rel: 'canonical',
+      href: expected,
+    });
+    const ogUrl = head.meta.find((entry) => entry.property === 'og:url');
+    expect(ogUrl).toMatchObject({ content: expected });
+  }
+});
+
+test('createPageHead keeps exact URLs for file assets', () => {
+  vi.stubEnv('VITE_PUBLIC_SITE_URL', 'https://example.com');
+
+  const head = createPageHead({
+    title: 'Schedule',
+    description: 'Bin schedule.',
+    path: '/documents/thorntons-bin-collection-schedule-2026.pdf',
+  });
+
+  expect(head.links).toContainEqual({
+    rel: 'canonical',
+    href: 'https://example.com/documents/thorntons-bin-collection-schedule-2026.pdf',
   });
 });
 

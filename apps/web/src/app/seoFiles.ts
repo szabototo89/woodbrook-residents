@@ -4,6 +4,7 @@ import {
   PRODUCTION_SITE_URL,
   SITE_ALTERNATE_NAME,
   SITE_NAME,
+  toCanonicalSeoPath,
 } from './siteMetadata';
 
 export type SeoPath = {
@@ -50,9 +51,9 @@ function dateOnly(value: unknown): string | undefined {
 
 export function collectSeoPaths(snapshot: ContentSnapshot): SeoPath[] {
   const staticPaths: SeoPath[] = [
-    ...STATIC_SEO_ROUTES.map((route) => ({ path: route })),
+    ...STATIC_SEO_ROUTES.map((route) => ({ path: toCanonicalSeoPath(route) })),
     ...STATIC_SEO_DOCUMENTS.map((documentPath) => ({
-      path: documentPath,
+      path: toCanonicalSeoPath(documentPath),
     })),
   ];
 
@@ -67,8 +68,11 @@ export function collectSeoPaths(snapshot: ContentSnapshot): SeoPath[] {
     )
     .map((entry) =>
       entry.lastmod
-        ? { path: `/updates/${entry.slug}`, lastmod: entry.lastmod }
-        : { path: `/updates/${entry.slug}` },
+        ? {
+            path: toCanonicalSeoPath(`/updates/${entry.slug}`),
+            lastmod: entry.lastmod,
+          }
+        : { path: toCanonicalSeoPath(`/updates/${entry.slug}`) },
     );
 
   const projectPaths: SeoPath[] = snapshot.projects
@@ -82,8 +86,11 @@ export function collectSeoPaths(snapshot: ContentSnapshot): SeoPath[] {
     )
     .map((entry) =>
       entry.lastmod
-        ? { path: `/projects/${entry.slug}`, lastmod: entry.lastmod }
-        : { path: `/projects/${entry.slug}` },
+        ? {
+            path: toCanonicalSeoPath(`/projects/${entry.slug}`),
+            lastmod: entry.lastmod,
+          }
+        : { path: toCanonicalSeoPath(`/projects/${entry.slug}`) },
     );
 
   const eventPaths: SeoPath[] = snapshot.events
@@ -97,8 +104,11 @@ export function collectSeoPaths(snapshot: ContentSnapshot): SeoPath[] {
     )
     .map((entry) =>
       entry.lastmod
-        ? { path: `/events/${entry.slug}`, lastmod: entry.lastmod }
-        : { path: `/events/${entry.slug}` },
+        ? {
+            path: toCanonicalSeoPath(`/events/${entry.slug}`),
+            lastmod: entry.lastmod,
+          }
+        : { path: toCanonicalSeoPath(`/events/${entry.slug}`) },
     );
 
   const surveyPaths: SeoPath[] = snapshot.surveys
@@ -112,8 +122,11 @@ export function collectSeoPaths(snapshot: ContentSnapshot): SeoPath[] {
     )
     .map((entry) =>
       entry.lastmod
-        ? { path: `/surveys/${entry.slug}`, lastmod: entry.lastmod }
-        : { path: `/surveys/${entry.slug}` },
+        ? {
+            path: toCanonicalSeoPath(`/surveys/${entry.slug}`),
+            lastmod: entry.lastmod,
+          }
+        : { path: toCanonicalSeoPath(`/surveys/${entry.slug}`) },
     );
 
   const resourcePaths: SeoPath[] = snapshot.resources
@@ -127,8 +140,11 @@ export function collectSeoPaths(snapshot: ContentSnapshot): SeoPath[] {
     )
     .map((entry) =>
       entry.lastmod
-        ? { path: `/local-info/${entry.slug}`, lastmod: entry.lastmod }
-        : { path: `/local-info/${entry.slug}` },
+        ? {
+            path: toCanonicalSeoPath(`/local-info/${entry.slug}`),
+            lastmod: entry.lastmod,
+          }
+        : { path: toCanonicalSeoPath(`/local-info/${entry.slug}`) },
     );
 
   const combined = [
@@ -183,7 +199,9 @@ export function buildSitemapXml(paths: SeoPath[], siteUrl: string): string {
   const origin = resolveSeoSiteUrl(siteUrl);
   const urls = paths
     .map(({ path, lastmod }) => {
-      const loc = escapeXml(new URL(path, `${origin}/`).toString());
+      const loc = escapeXml(
+        new URL(toCanonicalSeoPath(path), `${origin}/`).toString(),
+      );
       const lastmodTag = lastmod
         ? `\n    <lastmod>${escapeXml(lastmod)}</lastmod>`
         : '';

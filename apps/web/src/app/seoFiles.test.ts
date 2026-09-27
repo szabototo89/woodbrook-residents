@@ -95,20 +95,44 @@ test('collectSeoPaths lists static routes plus every published detail slug', () 
   expect(paths).toEqual(
     expect.arrayContaining([
       '/',
-      '/updates',
-      '/events',
-      '/projects',
-      '/surveys',
-      '/local-info',
-      '/get-involved',
-      '/updates/first-update',
-      '/projects/first-project',
-      '/events/first-event',
-      '/surveys/first-survey',
-      '/local-info/first-resource',
+      '/updates/',
+      '/events/',
+      '/projects/',
+      '/surveys/',
+      '/local-info/',
+      '/get-involved/',
+      '/updates/first-update/',
+      '/projects/first-project/',
+      '/events/first-event/',
+      '/surveys/first-survey/',
+      '/local-info/first-resource/',
       '/documents/thorntons-bin-collection-schedule-2026.pdf',
     ]),
   );
+});
+
+test('collectSeoPaths emits trailing-slash route paths matching served URLs', () => {
+  const paths = collectSeoPaths(snapshot).map((entry) => entry.path);
+
+  expect(paths).toEqual(
+    expect.arrayContaining([
+      '/',
+      '/updates/',
+      '/events/',
+      '/projects/',
+      '/surveys/',
+      '/local-info/',
+      '/get-involved/',
+      '/updates/first-update/',
+      '/projects/first-project/',
+      '/events/first-event/',
+      '/surveys/first-survey/',
+      '/local-info/first-resource/',
+      '/documents/thorntons-bin-collection-schedule-2026.pdf',
+    ]),
+  );
+  expect(paths).not.toContain('/updates');
+  expect(paths).not.toContain('/events/first-event');
 });
 
 test('collectSeoPaths skips blank slugs and de-duplicates paths', () => {
@@ -121,9 +145,9 @@ test('collectSeoPaths skips blank slugs and de-duplicates paths', () => {
     ],
   }).map((entry) => entry.path);
 
-  expect(paths.filter((path) => path === '/updates/first-update')).toHaveLength(
-    1,
-  );
+  expect(
+    paths.filter((path) => path === '/updates/first-update/'),
+  ).toHaveLength(1);
   expect(paths).not.toContain('/updates/  ');
 });
 
@@ -157,17 +181,17 @@ test('collectSeoPaths omits lastmod for invalid dates and falls back to survey o
   });
 
   const byPath = new Map(paths.map((entry) => [entry.path, entry]));
-  expect(byPath.get('/updates/bad-date')).toEqual({
-    path: '/updates/bad-date',
+  expect(byPath.get('/updates/bad-date/')).toEqual({
+    path: '/updates/bad-date/',
   });
-  expect(byPath.get('/updates/invalid-date')).toEqual({
-    path: '/updates/invalid-date',
+  expect(byPath.get('/updates/invalid-date/')).toEqual({
+    path: '/updates/invalid-date/',
   });
-  expect(byPath.get('/surveys/opens-only')).toMatchObject({
+  expect(byPath.get('/surveys/opens-only/')).toMatchObject({
     lastmod: '2026-06-26',
   });
-  expect(byPath.get('/local-info/no-date')).toEqual({
-    path: '/local-info/no-date',
+  expect(byPath.get('/local-info/no-date/')).toEqual({
+    path: '/local-info/no-date/',
   });
 });
 
@@ -212,8 +236,28 @@ test('buildSitemapXml emits valid XML with absolute locations', () => {
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
   );
   expect(xml).toContain('<loc>https://example.com/</loc>');
-  expect(xml).toContain('<loc>https://example.com/updates/first-update</loc>');
+  expect(xml).toContain('<loc>https://example.com/updates/first-update/</loc>');
   expect(xml).toContain('<lastmod>2026-09-05</lastmod>');
+});
+
+test('buildSitemapXml emits trailing-slash locs for routes but keeps file assets exact', () => {
+  const xml = buildSitemapXml(
+    [
+      { path: '/' },
+      { path: '/updates' },
+      { path: '/updates/first-update', lastmod: '2026-09-05' },
+      { path: '/documents/thorntons-bin-collection-schedule-2026.pdf' },
+    ],
+    'https://example.com',
+  );
+
+  expect(xml).toContain('<loc>https://example.com/</loc>');
+  expect(xml).toContain('<loc>https://example.com/updates/</loc>');
+  expect(xml).toContain('<loc>https://example.com/updates/first-update/</loc>');
+  expect(xml).toContain(
+    '<loc>https://example.com/documents/thorntons-bin-collection-schedule-2026.pdf</loc>',
+  );
+  expect(xml).not.toContain('<loc>https://example.com/updates</loc>');
 });
 
 test('buildSitemapXml escapes ampersands in locations', () => {
