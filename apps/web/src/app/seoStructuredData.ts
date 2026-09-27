@@ -1,5 +1,5 @@
 import { resolveSeoSiteUrl } from './seoFiles';
-import { SITE_NAME } from './siteMetadata';
+import { SITE_NAME, toCanonicalSeoPath } from './siteMetadata';
 
 function toIsoDateTime(value: unknown): string | undefined {
   if (typeof value !== 'string') {
@@ -17,7 +17,10 @@ function toIsoDateTime(value: unknown): string | undefined {
 }
 
 function absoluteUrl(siteUrl: string, path: string): string {
-  return new URL(path, `${resolveSeoSiteUrl(siteUrl)}/`).toString();
+  return new URL(
+    toCanonicalSeoPath(path),
+    `${resolveSeoSiteUrl(siteUrl)}/`,
+  ).toString();
 }
 
 function resolveImageUrl(

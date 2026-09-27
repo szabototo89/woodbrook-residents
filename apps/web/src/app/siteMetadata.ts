@@ -31,6 +31,18 @@ function getSiteUrl(): string {
   return resolveSiteUrl(import.meta.env);
 }
 
+// Hosting serves directory-index pages at trailing-slash URLs
+// (Cloudflare `html_handling: auto-trailing-slash` 307-redirects the
+// bare path), so canonical page URLs must carry the trailing slash to
+// match the URL that actually returns 200. File assets keep exact URLs.
+export function toCanonicalSeoPath(path: string): string {
+  if (path === '/' || path.endsWith('/')) {
+    return path;
+  }
+  const lastSegment = path.split('/').pop() ?? '';
+  return lastSegment.includes('.') ? path : `${path}/`;
+}
+
 function getSocialImageUrl(siteUrl: string): string {
   return new URL(SOCIAL_IMAGE_PATH, `${siteUrl}/`).toString();
 }
@@ -77,7 +89,10 @@ export function createPageHead({
     title === 'Woodbrook Residents'
       ? 'Woodbrook Residents | Shankill'
       : `${title} | Woodbrook Residents`;
-  const canonicalUrl = new URL(path, `${siteUrl}/`).toString();
+  const canonicalUrl = new URL(
+    toCanonicalSeoPath(path),
+    `${siteUrl}/`,
+  ).toString();
   const resolvedOgType = ogType ?? 'website';
   const publishedIso =
     resolvedOgType === 'article' ? toIsoDateTime(publishedTime) : undefined;

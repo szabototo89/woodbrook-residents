@@ -320,7 +320,7 @@ test('provides page-specific titles and canonical URLs', async ({ page }) => {
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    'https://woodbrook.shankill.workers.dev/events',
+    'https://woodbrook.shankill.workers.dev/events/',
   );
 
   const canonicalEventLink = page
@@ -333,7 +333,7 @@ test('provides page-specific titles and canonical URLs', async ({ page }) => {
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    'https://woodbrook.shankill.workers.dev/events/dlr-household-hazardous-waste-day-2026',
+    'https://woodbrook.shankill.workers.dev/events/dlr-household-hazardous-waste-day-2026/',
   );
 });
 

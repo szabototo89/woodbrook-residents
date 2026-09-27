@@ -10,6 +10,42 @@ import {
   createSurveyJsonLd,
 } from './seoStructuredData';
 
+test('structured page urls use trailing slashes matching served URLs', () => {
+  const article = createArticleJsonLd({
+    siteUrl: 'https://example.com',
+    path: '/updates/first-update',
+    headline: 'First update',
+    description: 'Summary.',
+  });
+  expect(article.mainEntityOfPage).toBe(
+    'https://example.com/updates/first-update/',
+  );
+
+  const event = createEventJsonLd({
+    siteUrl: 'https://example.com',
+    path: '/events/first-event',
+    name: 'First event',
+    description: 'Summary.',
+    startDate: '2026-09-12T17:00:00.000Z',
+  });
+  expect(event.url).toBe('https://example.com/events/first-event/');
+
+  const breadcrumbs = createBreadcrumbJsonLd({
+    siteUrl: 'https://example.com',
+    items: [
+      { name: 'Home', path: '/' },
+      { name: 'Updates', path: '/updates' },
+      { name: 'First update', path: '/updates/first-update' },
+    ],
+  });
+  const items = breadcrumbs.itemListElement.map((entry) => entry.item);
+  expect(items).toEqual([
+    'https://example.com/',
+    'https://example.com/updates/',
+    'https://example.com/updates/first-update/',
+  ]);
+});
+
 test('createArticleJsonLd describes a published update for rich results', () => {
   const jsonLd = createArticleJsonLd({
     siteUrl: 'https://example.com',
@@ -25,7 +61,7 @@ test('createArticleJsonLd describes a published update for rich results', () => 
     '@type': 'Article',
     headline: 'First update',
     description: 'Summary.',
-    mainEntityOfPage: 'https://example.com/updates/first-update',
+    mainEntityOfPage: 'https://example.com/updates/first-update/',
     datePublished: '2026-09-05T00:00:00.000Z',
     dateModified: '2026-09-06T00:00:00.000Z',
   });
@@ -148,7 +184,7 @@ test('createEventJsonLd falls back to the production origin for invalid inputs',
   });
 
   expect(jsonLd).toMatchObject({
-    url: 'https://woodbrook.shankill.workers.dev/events/first-event',
+    url: 'https://woodbrook.shankill.workers.dev/events/first-event/',
   });
   expect(jsonLd).not.toHaveProperty('startDate');
 });
@@ -186,7 +222,7 @@ test('createProjectJsonLd describes project without inventing facts', () => {
   expect(jsonLd).toMatchObject({
     '@type': 'Article',
     headline: 'First project',
-    mainEntityOfPage: 'https://example.com/projects/first-project',
+    mainEntityOfPage: 'https://example.com/projects/first-project/',
   });
 });
 
