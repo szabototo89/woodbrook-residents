@@ -47,6 +47,7 @@ test('renders a Woodbrook-styled button that opens calendar options', async () =
   expect(config.options).toContain('google');
   expect(config.options).toContain('ical');
   expect(config.optionsIOS).toContain('apple');
+  expect(config.icsFile).toContain('/ics/community-clean-up.ics');
   expect(trigger).toBe(button);
   unmount();
 });

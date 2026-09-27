@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { CalendarPlus } from 'lucide-react';
 
 import type { CommunityEvent } from '../content/contentTypes';
+import { resolveSiteUrl } from '../../app/siteMetadata';
 import { buildAddToCalendarConfig } from './addToCalendarConfig';
 
 type AddToCalendarButtonProps = {
@@ -13,8 +14,9 @@ export function AddToCalendarButton(props: AddToCalendarButtonProps) {
   const handleClick = useCallback(
     (clicked: MouseEvent<HTMLButtonElement>) => {
       const trigger = clicked.currentTarget;
+      const siteUrl = resolveSiteUrl(import.meta.env);
       void import('add-to-calendar-button').then(({ atcb_action }) =>
-        atcb_action(buildAddToCalendarConfig(props.event), trigger),
+        atcb_action(buildAddToCalendarConfig(props.event, siteUrl), trigger),
       );
     },
     [props.event],

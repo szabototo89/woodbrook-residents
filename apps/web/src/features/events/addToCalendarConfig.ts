@@ -42,7 +42,15 @@ function formatTimePart(value: string) {
 
 export function buildAddToCalendarConfig(
   event: CommunityEvent,
+  siteUrl: string,
 ): ATCBInputConfig {
+  // The library only accepts an explicit ics file over https. On any other
+  // origin the entry is omitted so the button falls back to dynamic
+  // generation instead of failing validation outright.
+  const icsFile = siteUrl.startsWith('https://')
+    ? `${siteUrl}/ics/${event.slug}.ics`
+    : undefined;
+
   return {
     name: event.title,
     description: `${event.summary}[br][br][url]${event.sourceUrl}|More information[/url]`,
@@ -55,6 +63,7 @@ export function buildAddToCalendarConfig(
     options: DESKTOP_OPTIONS,
     optionsIOS: IOS_OPTIONS,
     optionsMobile: MOBILE_OPTIONS,
+    icsFile,
     iCalFileName: event.slug,
     uid: `${event.documentId}@woodbrook-residents`,
     icsUrl: event.sourceUrl,

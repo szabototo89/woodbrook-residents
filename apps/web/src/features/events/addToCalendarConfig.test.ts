@@ -18,7 +18,10 @@ const event: CommunityEvent = {
 };
 
 test('builds an add-to-calendar-button config with Dublin local time', () => {
-  const config = buildAddToCalendarConfig(event);
+  const config = buildAddToCalendarConfig(
+    event,
+    'https://woodbrook.shankill.workers.dev',
+  );
 
   expect(config.name).toBe('Community clean-up, Woodbrook');
   // 08:00Z in October is 09:00 in Europe/Dublin (IST, UTC+1).
@@ -30,7 +33,10 @@ test('builds an add-to-calendar-button config with Dublin local time', () => {
 });
 
 test('offers platform-specific calendar options with a modal list', () => {
-  const config = buildAddToCalendarConfig(event);
+  const config = buildAddToCalendarConfig(
+    event,
+    'https://woodbrook.shankill.workers.dev',
+  );
 
   // Desktop browsers get the generic iCal file entry: on desktop the Apple
   // choice is the same file download with a misleading label.
@@ -55,7 +61,10 @@ test('offers platform-specific calendar options with a modal list', () => {
 });
 
 test('carries event identity, location, and source link', () => {
-  const config = buildAddToCalendarConfig(event);
+  const config = buildAddToCalendarConfig(
+    event,
+    'https://woodbrook.shankill.workers.dev',
+  );
 
   expect(config.location).toBe('Woodbrook, Shankill');
   expect(config.uid).toBe('event-123@woodbrook-residents');
@@ -65,8 +74,30 @@ test('carries event identity, location, and source link', () => {
   expect(config.icsUrl).toBe('https://example.com/event');
 });
 
+test('points Apple and iCal entries at a hosted static calendar file', () => {
+  const config = buildAddToCalendarConfig(
+    event,
+    'https://woodbrook.shankill.workers.dev',
+  );
+
+  // A hosted file lets iOS hand the event to Calendar directly instead of
+  // showing the library's open-in-Safari warning (notably in Chrome on iOS).
+  expect(config.icsFile).toBe(
+    'https://woodbrook.shankill.workers.dev/ics/community-clean-up.ics',
+  );
+});
+
+test('omits the static calendar file on non-https origins', () => {
+  const config = buildAddToCalendarConfig(event, 'http://localhost:3000');
+
+  expect(config.icsFile).toBeUndefined();
+});
+
 test('omits the end date when the event has no end time', () => {
-  const config = buildAddToCalendarConfig({ ...event, endsAt: undefined });
+  const config = buildAddToCalendarConfig(
+    { ...event, endsAt: undefined },
+    'https://woodbrook.shankill.workers.dev',
+  );
 
   expect(config.startDate).toBe('2026-10-17');
   expect(config.endDate).toBeUndefined();
