@@ -4,6 +4,23 @@ import type { CommunityEvent } from '../content/contentTypes';
 
 const CALENDAR_TIME_ZONE = 'Europe/Dublin';
 
+// Woodbrook theme for the calendar-choice modal, mapped onto the
+// library's default-style variables (paper background, ink text, forest
+// accents, site shadow and radius).
+const CALENDAR_STYLE_LIGHT = [
+  '--list-background: #fffefa',
+  '--list-text: #162e2a',
+  '--list-border-color: rgba(22, 46, 42, 0.14)',
+  '--list-hover-background: #e5ece6',
+  '--list-hover-text: #173d35',
+  '--list-border-radius: 14px',
+  '--list-close-background: #e5ece6',
+  '--list-close-text: #4f615d',
+  '--list-shadow: 0 18px 44px rgba(27, 46, 40, 0.1), 0 2px 6px -2px rgba(27, 46, 40, 0.08)',
+  '--list-modal-shadow: 0 18px 44px rgba(27, 46, 40, 0.16), 0 2px 12px -2px rgba(27, 46, 40, 0.14)',
+  '--accent-color: #173d35',
+].join('; ');
+
 // The Apple entry is only a native handoff on Apple devices. Everywhere else
 // it is the same .ics file download as the generic iCal entry, so desktop and
 // non-iOS mobile lists offer the honestly labelled iCal entry instead.
@@ -80,5 +97,8 @@ export function buildAddToCalendarConfig(
     icsUrl: event.sourceUrl,
     listStyle: 'modal',
     trigger: 'click',
+    hideBranding: true,
+    styleLight: CALENDAR_STYLE_LIGHT,
+    customLabels: { ical: 'Calendar file (.ics)' },
   };
 }

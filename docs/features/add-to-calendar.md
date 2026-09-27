@@ -11,6 +11,7 @@ When I find a Woodbrook event I want to attend, I want to save it to my own cale
 - Each event detail page shows an Add to calendar button styled like the other event actions.
 - Activating the button opens a calendar-choice list rather than downloading a file directly.
 - The choice list opens as a modal, which keeps it usable on narrow mobile viewports including iOS Safari and Android Chrome.
+- The modal follows the Woodbrook theme (paper background, ink text, forest accents) with plain-language entries — the file option reads “Calendar file (.ics)” — and no third-party branding.
 - Desktop browsers are offered Google, Outlook, Microsoft 365, and a generic iCal file; iOS Safari is additionally offered the native Apple entry, which hands the event to Calendar.
 - Chrome and Firefox on iOS are offered Google, Outlook, and Microsoft 365 only: their Apple/iCal file flow would only show an open-in-Safari warning, so those entries are hidden there.
 - Saved events use the event title, summary with a link back to the source, location, and Europe/Dublin start and end times.

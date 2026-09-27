@@ -25,6 +25,28 @@ const event: CommunityEvent = {
   featured: false,
 };
 
+test('hides the library branding in the calendar list', () => {
+  const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
+
+  expect(config.hideBranding).toBe(true);
+});
+
+test('themes the calendar list with Woodbrook tokens', () => {
+  const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
+
+  expect(config.styleLight).toContain('--list-background: #fffefa');
+  expect(config.styleLight).toContain('--list-text: #162e2a');
+  expect(config.styleLight).toContain('--list-hover-background: #e5ece6');
+  expect(config.styleLight).toContain('--list-hover-text: #173d35');
+});
+
+test('labels the file entry in plain language', () => {
+  const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
+
+  expect(config.customLabels).toMatchObject({
+    ical: 'Calendar file (.ics)',
+  });
+});
 test('builds an add-to-calendar-button config with Dublin local time', () => {
   const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
 
