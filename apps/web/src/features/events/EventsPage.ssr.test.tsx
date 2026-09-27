@@ -45,6 +45,29 @@ test('events page renders the timeline during SSR', async () => {
   expect(markup).toContain('Events by date');
 });
 
+test('events page lists events in chronological order', async () => {
+  const laterSecond: CommunityEvent = {
+    ...readyEvent,
+    documentId: 'later-second',
+    title: 'Later Second Gathering',
+    slug: 'later-second-gathering',
+    startsAt: '2026-10-24T08:00:00.000Z',
+  };
+  const laterFirst: CommunityEvent = {
+    ...readyEvent,
+    documentId: 'later-first',
+    title: 'Later First Gathering',
+    slug: 'later-first-gathering',
+    startsAt: '2026-10-17T08:00:00.000Z',
+  };
+  mockContent = { availability: 'ready', items: [laterSecond, laterFirst] };
+  const { EventsPage } = await import('./EventsPage');
+  const markup = renderToStaticMarkup(createElement(EventsPage));
+  expect(markup.indexOf('Later First Gathering')).toBeLessThan(
+    markup.indexOf('Later Second Gathering'),
+  );
+});
+
 test('events page explains an empty calendar', async () => {
   mockContent = { availability: 'ready', items: [] };
   const { EventsPage } = await import('./EventsPage');
