@@ -29,11 +29,22 @@ test('builds an add-to-calendar-button config with Dublin local time', () => {
   expect(config.timeZone).toBe('Europe/Dublin');
 });
 
-test('exposes cross-platform calendar options with a modal list', () => {
+test('offers platform-specific calendar options with a modal list', () => {
   const config = buildAddToCalendarConfig(event);
 
-  expect(config.options).toEqual([
+  // Desktop browsers get the generic iCal file entry: on desktop the Apple
+  // choice is the same file download with a misleading label.
+  expect(config.options).toEqual(['google', 'outlookcom', 'ms365', 'ical']);
+  // iOS keeps the native Apple entry, which hands the event to Calendar.
+  expect(config.optionsIOS).toEqual([
     'apple',
+    'google',
+    'outlookcom',
+    'ms365',
+    'ical',
+  ]);
+  // Android and other mobile devices have no Apple Calendar to hand off to.
+  expect(config.optionsMobile).toEqual([
     'google',
     'outlookcom',
     'ms365',

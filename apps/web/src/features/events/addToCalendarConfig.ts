@@ -4,6 +4,13 @@ import type { CommunityEvent } from '../content/contentTypes';
 
 const CALENDAR_TIME_ZONE = 'Europe/Dublin';
 
+// The Apple entry is only a native handoff on Apple devices. Everywhere else
+// it is the same .ics file download as the generic iCal entry, so desktop and
+// non-iOS mobile lists offer the honestly labelled iCal entry instead.
+const DESKTOP_OPTIONS = ['google', 'outlookcom', 'ms365', 'ical'];
+const IOS_OPTIONS = ['apple', 'google', 'outlookcom', 'ms365', 'ical'];
+const MOBILE_OPTIONS = ['google', 'outlookcom', 'ms365', 'ical'];
+
 function formatDatePart(value: string) {
   const parts = new Intl.DateTimeFormat('en-CA', {
     year: 'numeric',
@@ -45,7 +52,9 @@ export function buildAddToCalendarConfig(
     endTime: event.endsAt ? formatTimePart(event.endsAt) : undefined,
     timeZone: CALENDAR_TIME_ZONE,
     location: event.location,
-    options: ['apple', 'google', 'outlookcom', 'ms365', 'ical'],
+    options: DESKTOP_OPTIONS,
+    optionsIOS: IOS_OPTIONS,
+    optionsMobile: MOBILE_OPTIONS,
     iCalFileName: event.slug,
     uid: `${event.documentId}@woodbrook-residents`,
     icsUrl: event.sourceUrl,

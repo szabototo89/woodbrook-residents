@@ -44,8 +44,9 @@ test('renders a Woodbrook-styled button that opens calendar options', async () =
   const [config, trigger] = firstCall!;
   expect(config.name).toBe('Community clean-up, Woodbrook');
   expect(config.timeZone).toBe('Europe/Dublin');
-  expect(config.options).toContain('apple');
   expect(config.options).toContain('google');
+  expect(config.options).toContain('ical');
+  expect(config.optionsIOS).toContain('apple');
   expect(trigger).toBe(button);
   unmount();
 });
