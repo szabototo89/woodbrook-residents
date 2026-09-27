@@ -3,6 +3,14 @@ import { expect, test } from 'vitest';
 import type { CommunityEvent } from '../content/contentTypes';
 import { buildAddToCalendarConfig } from './addToCalendarConfig';
 
+const SITE_URL = 'https://woodbrook.shankill.workers.dev';
+const DESKTOP_UA =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
+const SAFARI_IOS_UA =
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
+const CHROME_IOS_UA =
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/125.0.6422.200 Mobile/15E148 Safari/604.1';
+
 const event: CommunityEvent = {
   documentId: 'event-123',
   title: 'Community clean-up, Woodbrook',
@@ -18,10 +26,7 @@ const event: CommunityEvent = {
 };
 
 test('builds an add-to-calendar-button config with Dublin local time', () => {
-  const config = buildAddToCalendarConfig(
-    event,
-    'https://woodbrook.shankill.workers.dev',
-  );
+  const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
 
   expect(config.name).toBe('Community clean-up, Woodbrook');
   // 08:00Z in October is 09:00 in Europe/Dublin (IST, UTC+1).
@@ -33,10 +38,7 @@ test('builds an add-to-calendar-button config with Dublin local time', () => {
 });
 
 test('offers platform-specific calendar options with a modal list', () => {
-  const config = buildAddToCalendarConfig(
-    event,
-    'https://woodbrook.shankill.workers.dev',
-  );
+  const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
 
   // Desktop browsers get the generic iCal file entry: on desktop the Apple
   // choice is the same file download with a misleading label.
@@ -60,11 +62,23 @@ test('offers platform-specific calendar options with a modal list', () => {
   expect(config.trigger).toBe('click');
 });
 
+test('keeps the native Apple entry in iOS Safari', () => {
+  const config = buildAddToCalendarConfig(event, SITE_URL, SAFARI_IOS_UA);
+
+  expect(config.optionsIOS).toContain('apple');
+});
+
+test('hides Apple and iCal entries in non-Safari browsers on iOS', () => {
+  const config = buildAddToCalendarConfig(event, SITE_URL, CHROME_IOS_UA);
+
+  // Chrome and Firefox on iOS must use Safari's engine, where the Apple/iCal
+  // file flow degrades to an open-in-Safari warning — and the library swaps
+  // a lone iCal entry back to Apple on iOS — so both entries are hidden.
+  expect(config.optionsIOS).toEqual(['google', 'outlookcom', 'ms365']);
+});
+
 test('carries event identity, location, and source link', () => {
-  const config = buildAddToCalendarConfig(
-    event,
-    'https://woodbrook.shankill.workers.dev',
-  );
+  const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
 
   expect(config.location).toBe('Woodbrook, Shankill');
   expect(config.uid).toBe('event-123@woodbrook-residents');
@@ -75,10 +89,7 @@ test('carries event identity, location, and source link', () => {
 });
 
 test('points Apple and iCal entries at a hosted static calendar file', () => {
-  const config = buildAddToCalendarConfig(
-    event,
-    'https://woodbrook.shankill.workers.dev',
-  );
+  const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
 
   // A hosted file lets iOS hand the event to Calendar directly instead of
   // showing the library's open-in-Safari warning (notably in Chrome on iOS).
@@ -88,7 +99,11 @@ test('points Apple and iCal entries at a hosted static calendar file', () => {
 });
 
 test('omits the static calendar file on non-https origins', () => {
-  const config = buildAddToCalendarConfig(event, 'http://localhost:3000');
+  const config = buildAddToCalendarConfig(
+    event,
+    'http://localhost:3000',
+    DESKTOP_UA,
+  );
 
   expect(config.icsFile).toBeUndefined();
 });
@@ -96,7 +111,8 @@ test('omits the static calendar file on non-https origins', () => {
 test('omits the end date when the event has no end time', () => {
   const config = buildAddToCalendarConfig(
     { ...event, endsAt: undefined },
-    'https://woodbrook.shankill.workers.dev',
+    SITE_URL,
+    DESKTOP_UA,
   );
 
   expect(config.startDate).toBe('2026-10-17');

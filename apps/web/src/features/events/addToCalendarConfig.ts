@@ -10,6 +10,14 @@ const CALENDAR_TIME_ZONE = 'Europe/Dublin';
 const DESKTOP_OPTIONS = ['google', 'outlookcom', 'ms365', 'ical'];
 const IOS_OPTIONS = ['apple', 'google', 'outlookcom', 'ms365', 'ical'];
 const MOBILE_OPTIONS = ['google', 'outlookcom', 'ms365', 'ical'];
+// Chrome and Firefox on iOS get neither the Apple nor the iCal entry: the
+// file flow degrades to an open-in-Safari warning there, and the library
+// swaps a lone iCal entry back to Apple on iOS.
+const IOS_NON_SAFARI_OPTIONS = ['google', 'outlookcom', 'ms365'];
+
+function isIOSNonSafariBrowser(userAgent: string) {
+  return /iPhone|iPad|iPod/i.test(userAgent) && /CriOS|FxiOS/i.test(userAgent);
+}
 
 function formatDatePart(value: string) {
   const parts = new Intl.DateTimeFormat('en-CA', {
@@ -43,6 +51,7 @@ function formatTimePart(value: string) {
 export function buildAddToCalendarConfig(
   event: CommunityEvent,
   siteUrl: string,
+  userAgent: string,
 ): ATCBInputConfig {
   // The library only accepts an explicit ics file over https. On any other
   // origin the entry is omitted so the button falls back to dynamic
@@ -61,7 +70,9 @@ export function buildAddToCalendarConfig(
     timeZone: CALENDAR_TIME_ZONE,
     location: event.location,
     options: DESKTOP_OPTIONS,
-    optionsIOS: IOS_OPTIONS,
+    optionsIOS: isIOSNonSafariBrowser(userAgent)
+      ? IOS_NON_SAFARI_OPTIONS
+      : IOS_OPTIONS,
     optionsMobile: MOBILE_OPTIONS,
     icsFile,
     iCalFileName: event.slug,

@@ -16,7 +16,10 @@ export function AddToCalendarButton(props: AddToCalendarButtonProps) {
       const trigger = clicked.currentTarget;
       const siteUrl = resolveSiteUrl(import.meta.env);
       void import('add-to-calendar-button').then(({ atcb_action }) =>
-        atcb_action(buildAddToCalendarConfig(props.event, siteUrl), trigger),
+        atcb_action(
+          buildAddToCalendarConfig(props.event, siteUrl, navigator.userAgent),
+          trigger,
+        ),
       );
     },
     [props.event],
