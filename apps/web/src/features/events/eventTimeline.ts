@@ -105,10 +105,16 @@ export function groupEventsByTimeline(
     },
   ];
 
+  const sortedEvents = [...events].sort((left, right) =>
+    left.startsAt.localeCompare(right.startsAt),
+  );
+
   return baseGroups
     .map((group) => ({
       ...group,
-      events: events.filter((event) => periodForEvent(event) === group.id),
+      events: sortedEvents.filter(
+        (event) => periodForEvent(event) === group.id,
+      ),
     }))
     .filter((group) => group.events.length > 0);
 }

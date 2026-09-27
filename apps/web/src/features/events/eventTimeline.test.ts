@@ -58,6 +58,26 @@ test('event timeline uses Monday-based Irish weeks across month boundaries', () 
   ]);
 });
 
+test('event timeline sorts events chronologically within each period', () => {
+  const groups = groupEventsByTimeline(
+    [
+      event('later-second', '2026-10-24T08:00:00.000Z'),
+      event('later-first', '2026-10-17T08:00:00.000Z'),
+      event('this-week-later', '2026-09-12T18:00:00.000Z'),
+      event('this-week-earlier', '2026-09-10T18:00:00.000Z'),
+    ],
+    '2026-09-10T12:00:00.000Z',
+  );
+
+  expect(groups.map((group) => group.id)).toEqual(['this-week', 'later']);
+  expect(
+    groups.map((group) => group.events.map(({ documentId }) => documentId)),
+  ).toEqual([
+    ['this-week-earlier', 'this-week-later'],
+    ['later-first', 'later-second'],
+  ]);
+});
+
 test('event timeline omits empty periods while preserving event order', () => {
   const groups = groupEventsByTimeline(
     [
