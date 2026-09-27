@@ -2,7 +2,6 @@ import { Link } from '@tanstack/react-router';
 import {
   ArrowLeft,
   ArrowUpRight,
-  CalendarPlus,
   CalendarDays,
   Clock3,
   MapPin,
@@ -11,7 +10,7 @@ import {
 import { GoogleMapsLink } from '../../components/GoogleMapsLink';
 import { formatDate, formatDateTime } from '../content/contentFormatting';
 import { Route } from '../../routes/events/$slug';
-import { createEventCalendarDataUri } from './eventCalendar';
+import { AddToCalendarButton } from './AddToCalendarButton';
 
 export function EventDetailPage() {
   const event = Route.useLoaderData();
@@ -87,14 +86,7 @@ export function EventDetailPage() {
                 : 'View event source'}
               <ArrowUpRight size={17} aria-hidden="true" />
             </a>
-            <a
-              className="button button-secondary"
-              href={createEventCalendarDataUri(event)}
-              download={`${event.slug}.ics`}
-            >
-              Add to calendar
-              <CalendarPlus size={17} aria-hidden="true" />
-            </a>
+            <AddToCalendarButton event={event} />
           </div>
           <aside className="source-note">
             <p className="eyebrow">Source and freshness</p>

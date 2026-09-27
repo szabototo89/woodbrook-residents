@@ -109,15 +109,9 @@ test('opens event and survey detail pages from their listings', async ({
     }),
   ).toBeVisible();
   await expect(page.getByText('Location', { exact: true })).toBeVisible();
-  const calendarLink = page.getByRole('link', { name: 'Add to calendar' });
-  await expect(calendarLink).toHaveAttribute(
-    'download',
-    'dlr-household-hazardous-waste-day-2026.ics',
-  );
-  await expect(calendarLink).toHaveAttribute(
-    'href',
-    /^data:text\/calendar;charset=utf-8,/,
-  );
+  await expect(
+    page.getByRole('button', { name: 'Add to calendar' }),
+  ).toBeVisible();
   await expect(
     page.getByRole('link', {
       name: /open .* in google maps/i,
