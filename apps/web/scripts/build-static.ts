@@ -48,6 +48,7 @@ async function buildStaticSite() {
   await verifyContentSource();
   await runChecked(['bunx', 'vite', 'build', '--mode', 'static']);
   await runChecked(['bun', 'scripts/generate-seo-files.ts']);
+  await runChecked(['bun', 'scripts/generate-event-ics.ts']);
   await runChecked(['bun', 'run', 'verify:static']);
 }
 
