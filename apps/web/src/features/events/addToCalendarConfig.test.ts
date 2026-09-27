@@ -44,7 +44,19 @@ test('labels the file entry in plain language', () => {
   const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
 
   expect(config.customLabels).toMatchObject({
-    ical: 'Calendar file (.ics)',
+    ical: 'Download calendar file (.ics)',
+  });
+});
+
+test('phrases the calendar list as guided choices', () => {
+  const config = buildAddToCalendarConfig(event, SITE_URL, DESKTOP_UA);
+
+  expect(config.customLabels).toMatchObject({
+    'label.addtocalendar': 'Choose where to save this event',
+    apple: 'Save to Apple Calendar',
+    google: 'Save to Google Calendar',
+    ms365: 'Save to Microsoft 365',
+    outlookcom: 'Save to Outlook',
   });
 });
 test('builds an add-to-calendar-button config with Dublin local time', () => {

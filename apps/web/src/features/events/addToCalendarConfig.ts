@@ -99,6 +99,13 @@ export function buildAddToCalendarConfig(
     trigger: 'click',
     hideBranding: true,
     styleLight: CALENDAR_STYLE_LIGHT,
-    customLabels: { ical: 'Calendar file (.ics)' },
+    customLabels: {
+      'label.addtocalendar': 'Choose where to save this event',
+      apple: 'Save to Apple Calendar',
+      google: 'Save to Google Calendar',
+      ms365: 'Save to Microsoft 365',
+      outlookcom: 'Save to Outlook',
+      ical: 'Download calendar file (.ics)',
+    },
   };
 }
