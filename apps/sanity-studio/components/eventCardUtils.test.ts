@@ -1,4 +1,4 @@
-import {describe, expect, test} from 'bun:test'
+import {describe, expect, test} from 'vitest'
 
 import {
   formatDateBadge,
@@ -7,8 +7,12 @@ import {
   fromDatetimeLocalValue,
   getEventPreviewPath,
   getTimelineAccent,
+  isValidHttpUrl,
+  keepSlugOnlyMembers,
   periodForEventDate,
+  periodLabelFor,
   toDatetimeLocalValue,
+  validateEventDates,
 } from './eventCardUtils'
 
 describe('eventCardUtils', () => {
@@ -87,5 +91,68 @@ describe('eventCardUtils', () => {
     expect(getEventPreviewPath({current: 'summer-fair'})).toBe('/events/summer-fair')
     expect(getEventPreviewPath('summer-fair')).toBe('/events/summer-fair')
     expect(getEventPreviewPath(undefined)).toBe('No web address yet — set the slug below.')
+  })
+
+  test('labels timeline periods in plain language', () => {
+    expect(periodLabelFor('this-week')).toBe('This week')
+    expect(periodLabelFor('next-week')).toBe('Next week')
+    expect(periodLabelFor('later')).toBe('Later')
+    expect(periodLabelFor('earlier')).toBe('Earlier dates')
+  })
+
+  test('flags end dates that are not after the start', () => {
+    expect(
+      validateEventDates('2026-09-26T12:00:00.000Z', '2026-09-27T16:00:00.000Z'),
+    ).toBeUndefined()
+    expect(validateEventDates('2026-09-26T12:00:00.000Z', '2026-09-26T12:00:00.000Z')).toBe(
+      'End time should be after the start time.',
+    )
+    expect(validateEventDates('2026-09-27T16:00:00.000Z', '2026-09-26T12:00:00.000Z')).toBe(
+      'End time should be after the start time.',
+    )
+    expect(validateEventDates('2026-09-26T12:00:00.000Z', undefined)).toBeUndefined()
+    expect(validateEventDates(undefined, undefined)).toBeUndefined()
+    expect(validateEventDates('bad', '2026-09-26T12:00:00.000Z')).toBeUndefined()
+  })
+
+  test('checks http URLs without flagging empty optional fields', () => {
+    expect(isValidHttpUrl('')).toBe(true)
+    expect(isValidHttpUrl(undefined)).toBe(true)
+    expect(isValidHttpUrl('https://bray.ie/festivals/')).toBe(true)
+    expect(isValidHttpUrl('http://example.com')).toBe(true)
+    expect(isValidHttpUrl('bray.ie/festivals')).toBe(false)
+    expect(isValidHttpUrl('not a url')).toBe(false)
+  })
+
+  test('keeps only the slug member so card fields appear once', () => {
+    const members = [
+      {kind: 'field', key: 'title', name: 'title'},
+      {
+        kind: 'fieldSet',
+        key: 'identity',
+        fieldSet: {
+          name: 'identity',
+          members: [
+            {kind: 'field', key: 'title', name: 'title'},
+            {kind: 'field', key: 'slug', name: 'slug'},
+          ],
+        },
+      },
+      {
+        kind: 'fieldSet',
+        key: 'dates',
+        fieldSet: {
+          name: 'dates',
+          members: [{kind: 'field', key: 'startsAt', name: 'startsAt'}],
+        },
+      },
+      {kind: 'error', key: 'some-error'},
+    ]
+    const kept = keepSlugOnlyMembers(members as never) as Array<{kind: string; name?: string}>
+    expect(kept.some((m) => m.kind === 'field' && m.name === 'title')).toBe(false)
+    const asJson = JSON.stringify(kept)
+    expect(asJson).toContain('slug')
+    expect(asJson).not.toContain('startsAt')
+    expect(asJson).not.toContain('"name":"title"')
   })
 })

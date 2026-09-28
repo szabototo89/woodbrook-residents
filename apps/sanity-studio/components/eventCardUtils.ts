@@ -59,6 +59,61 @@ export function getTimelineAccent(period: EventTimelinePeriod): EventTimelineAcc
   return {accent: '#61716a', surface: '#eeeade'}
 }
 
+export function periodLabelFor(period: EventTimelinePeriod): string {
+  if (period === 'this-week') return 'This week'
+  if (period === 'next-week') return 'Next week'
+  if (period === 'later') return 'Later'
+  return 'Earlier dates'
+}
+
+export function validateEventDates(startsAt: unknown, endsAt: unknown): string | undefined {
+  const start = parseDate(startsAt)
+  const end = parseDate(endsAt)
+  if (!start || !end) return undefined
+  if (end.getTime() <= start.getTime()) return 'End time should be after the start time.'
+  return undefined
+}
+
+export function isValidHttpUrl(value: unknown): boolean {
+  if (typeof value !== 'string') return true
+  const trimmed = value.trim()
+  if (trimmed.length === 0) return true
+  try {
+    const parsed = new URL(trimmed)
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
+type SlugFilterMember = {
+  kind: string
+  name?: string
+  fieldSet?: {members: Array<SlugFilterMember>; [key: string]: unknown}
+  [key: string]: unknown
+}
+
+export function keepSlugOnlyMembers<T extends SlugFilterMember>(members: T[]): T[] {
+  const kept: T[] = []
+  for (const member of members) {
+    if (member.kind === 'field') {
+      if (member.name === 'slug') kept.push(member)
+      continue
+    }
+    if (member.kind === 'fieldSet' && member.fieldSet) {
+      const inner = member.fieldSet.members.filter(
+        (item) => item.kind === 'field' && item.name === 'slug',
+      )
+      if (inner.length > 0) {
+        kept.push({...member, fieldSet: {...member.fieldSet, members: inner}} as T)
+      }
+      continue
+    }
+    kept.push(member)
+  }
+  return kept
+}
+
 function getDublinDayNumber(value: string | Date): number {
   const parts = new Intl.DateTimeFormat('en-IE', {
     day: 'numeric',
