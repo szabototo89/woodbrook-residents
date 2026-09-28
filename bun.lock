@@ -221,11 +221,20 @@
         "styled-components": "^6.1.18",
       },
       "devDependencies": {
+        "@playwright/test": "1.63.0",
         "@sanity/eslint-config-studio": "^7",
+        "@types/node": "^22.10.2",
         "@types/react": "^19.2.14",
+        "@vitejs/plugin-react": "^6.0.1",
+        "@vitest/browser-playwright": "^4.1.10",
+        "@vitest/coverage-v8": "4.1.11",
         "eslint": "^10.8.1",
+        "playwright": "1.63.0",
         "prettier": "^3.5",
         "typescript": "^5.8",
+        "vite": "^8.0.0",
+        "vitest": "^4.1.10",
+        "vitest-browser-react": "^2.2.0",
       },
     },
     "apps/web": {
@@ -6988,6 +6997,8 @@
     "sanity/react-dom": ["react-dom@19.3.0", "", { "dependencies": { "scheduler": "^0.28.0" }, "peerDependencies": { "react": "^19.3.0" } }, "sha512-JDk8dgif51OjFoDE70+OT9ICyYr+69HlmihNwp1+Nsfbna3t5sIiCa9ZJktDmQ4/1b/rn26hIAR2uYXDMr5r0Q=="],
 
     "sanity/semver": ["semver@7.8.5", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA=="],
+
+    "sanity-studio/@types/node": ["@types/node@22.20.4", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-zJRE40jpHtKqE/C4fgHrAKQLJuSpzEnP9ff9Y7YtoR3Wd2pwqzlekDeEuUQXjRd+QCYnVnNwuJYmhdk9XV8gvA=="],
 
     "sanity-studio/@types/react": ["@types/react@19.3.0", "", { "dependencies": { "csstype": "^3.2.2" } }, "sha512-N0rFCuH9YoxG9/m61l9MfpJKfmLOVU0em7ipIz6TRgSSkvReLB9vL85GB+yr8Bs5leqpvg96JSwF4ZS1s4viQg=="],
 
