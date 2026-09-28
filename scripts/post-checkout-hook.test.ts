@@ -146,6 +146,52 @@ async function waitForCmuxCall(fragment: string): Promise<string> {
   return existsSync(cmuxLog) ? readFileSync(cmuxLog, 'utf8') : '';
 }
 
+function makeFakeCmuxFull(options: {
+  wsId: string;
+  groupId: string;
+  anchorId: string;
+  generatedAnchor: boolean;
+  alreadyExisted: boolean;
+  brokenGroupResponse?: boolean;
+}): string {
+  const fakeBin = join(scratch, 'fakebin');
+  mkdirSync(fakeBin, { recursive: true });
+  cmuxLog = join(scratch, 'cmux-calls.log');
+  const wsResponse = join(scratch, 'cmux-create.json');
+  writeFileSync(
+    wsResponse,
+    JSON.stringify({
+      workspace_id: options.wsId,
+      window_id: 'window-id',
+      surface_id: 'surface-id',
+      group_id: null,
+    }),
+  );
+  const groupResponse = join(scratch, 'cmux-group-create.json');
+  writeFileSync(
+    groupResponse,
+    options.brokenGroupResponse
+      ? 'not-json{{{'
+      : JSON.stringify({
+          created: !options.alreadyExisted,
+          group: {
+            id: options.groupId,
+            name: 'g',
+            anchor_workspace_id: options.anchorId,
+            anchor_workspace_is_generated: options.generatedAnchor,
+            member_workspace_ids: [options.anchorId, options.wsId],
+          },
+        }),
+  );
+  const fake = join(fakeBin, 'cmux');
+  writeFileSync(
+    fake,
+    `#!/bin/sh\necho "$@" >> "${cmuxLog}"\nif [ "$1" = "workspace" ] && [ "$2" = "create" ]; then\ncat "${wsResponse}"\nelif [ "$1" = "workspace-group" ] && [ "$2" = "create" ]; then\ncat "${groupResponse}"\nfi\n`,
+    { mode: 0o755 },
+  );
+  return fake;
+}
+
 beforeEach(() => {
   scratch = realpathSync(mkdtempSync(join(tmpdir(), 'hooktest-')));
 });
@@ -314,4 +360,75 @@ test('worktree add without a cmux surface moves no tab', async () => {
   expect(calls).toContain('workspace create');
   await Bun.sleep(500);
   expect(readFileSync(cmuxLog, 'utf8')).not.toContain('move-surface');
+});
+
+test('worktree add creates a group holding the new workspace', async () => {
+  const cmux = makeFakeCmuxFull({
+    wsId: 'c-ws',
+    groupId: 'c-group',
+    anchorId: 'c-anchor',
+    generatedAnchor: true,
+    alreadyExisted: false,
+  });
+  const repo = makeRepo();
+  const wt = join(scratch, 'wt-group');
+  git(['worktree', 'add', wt, '-b', 'feature/group'], repo, {
+    HERDR_BIN: noSuchBinary(),
+    CMUX_BIN: cmux,
+    CMUX_SURFACE_ID: 'surface:9',
+  });
+  const calls = await waitForCmuxCall('workspace-group create');
+  expect(calls).toContain('workspace-group create --name wt-group');
+  expect(calls).toContain('--from c-ws');
+  expect(calls).toContain(`--idempotency-key git-worktree:${wt}`);
+  const afterClose = await waitForCmuxCall('workspace close c-anchor');
+  expect(afterClose).toContain('workspace close c-anchor');
+  expect(afterClose).not.toContain('workspace close c-ws');
+  expect(afterClose).toContain(
+    'move-surface --surface surface:9 --workspace c-ws --focus true',
+  );
+});
+
+test('retry with an existing group adds the workspace instead of closing', async () => {
+  const cmux = makeFakeCmuxFull({
+    wsId: 'c-ws',
+    groupId: 'c-group',
+    anchorId: 'c-ws',
+    generatedAnchor: false,
+    alreadyExisted: true,
+  });
+  const repo = makeRepo();
+  const wt = join(scratch, 'wt-retry');
+  gitWithoutSurface(['worktree', 'add', wt, '-b', 'feature/retry'], repo, {
+    HERDR_BIN: noSuchBinary(),
+    CMUX_BIN: cmux,
+  });
+  const calls = await waitForCmuxCall('workspace-group add');
+  expect(calls).toContain('workspace-group add');
+  expect(calls).toContain('c-ws');
+  await Bun.sleep(500);
+  expect(readFileSync(cmuxLog, 'utf8')).not.toContain('workspace close');
+});
+
+test('tab move still happens when group creation fails', async () => {
+  const cmux = makeFakeCmuxFull({
+    wsId: 'c-ws',
+    groupId: 'c-group',
+    anchorId: 'c-anchor',
+    generatedAnchor: true,
+    alreadyExisted: false,
+    brokenGroupResponse: true,
+  });
+  const repo = makeRepo();
+  const wt = join(scratch, 'wt-badgroup');
+  git(['worktree', 'add', wt, '-b', 'feature/badgroup'], repo, {
+    HERDR_BIN: noSuchBinary(),
+    CMUX_BIN: cmux,
+    CMUX_SURFACE_ID: 'surface:9',
+  });
+  const calls = await waitForCmuxCall('move-surface');
+  expect(calls).toContain(
+    'move-surface --surface surface:9 --workspace c-ws --focus true',
+  );
+  expect(existsSync(join(wt, '.git'))).toBe(true);
 });
