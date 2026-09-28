@@ -159,6 +159,10 @@ h2 {
   background: rgba(251, 247, 241, 0.97);
   border-bottom: 1px solid rgb(13 41 66 / 0.06);
 }
+.site-header:has(a[href='/'][aria-current='page']) {
+  background: transparent;
+  border-bottom-color: transparent;
+}
 .header-inner {
   width: min(100% - 48px, 1080px);
   height: 100%;
@@ -221,11 +225,11 @@ h2 {
 .home-hero {
   position: relative;
   overflow: visible;
-  min-height: 490px;
+  min-height: clamp(400px, 38vw, 540px);
   background: var(--cream);
 }
 .hero-inner {
-  min-height: 490px;
+  min-height: clamp(400px, 38vw, 540px);
   display: grid;
   grid-template-columns: 44% 56%;
   align-items: center;
@@ -234,7 +238,7 @@ h2 {
 .hero-copy {
   position: relative;
   z-index: 2;
-  padding: 50px 0 60px 3.5%;
+  padding: 40px 0 38px 3.5%;
   max-width: 535px;
 }
 .hero-kicker {
@@ -256,15 +260,17 @@ h2 {
 }
 .hero-art {
   position: absolute;
-  inset: -28px -24px -24px 42%;
+  inset: -12px -24px 0 39%;
   z-index: 1;
+  isolation: isolate;
+  overflow: hidden;
   pointer-events: none;
 }
 .hero-art img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
-  object-position: center;
+  object-position: center top;
 }
 .section-heading.centered {
   text-align: center;
@@ -767,6 +773,13 @@ h2 {
   transform: rotate(175deg);
 }
 @media (max-width: 900px) {
+  .hero-art {
+    inset: 0 -24px 0 48%;
+  }
+  .hero-art img {
+    height: 100%;
+    object-position: center;
+  }
   .navigation {
     gap: 18px;
   }
@@ -935,6 +948,11 @@ h2 {
     height: auto;
     aspect-ratio: 1374 / 1145;
     margin: 16px -20px -20px;
+  }
+  .hero-art img {
+    height: auto;
+    min-height: 0;
+    object-fit: contain;
   }
   .services-preview .section-heading {
     text-align: left;

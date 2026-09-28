@@ -13,7 +13,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - Services appear as five artwork cards on desktop and single clickable rows on mobile. The services page gives each one a description and a contact path.
 - The hero, mural section and biography use the supplied artwork. The gallery and missing service thumbnails use fixed Picsum photography pending original assets. Phone and email links open the device's calling or email app.
 - A transparent signature logo and subtle transparent brush accents follow the reference design. Decorative images are CSS backgrounds and do not enter the accessibility tree.
-- The hero portrait has a transparent, irregular painted silhouette with a small section overlap. Its full face remains visible on mobile without a gradient fade. The home biography includes the supplied gold handwritten statement, “A brighter world through art”.
+- The hero portrait has a transparent, irregular painted silhouette extending toward the header. Desktop uses a large portrait cropped at the section’s lower edge; tablet and mobile preserve the full face without a gradient fade. The home biography includes the supplied gold handwritten statement, “A brighter world through art”.
 - All pages use one primary heading, visible focus states, meaningful image descriptions and reduced motion support.
 
 ## Acceptance criteria
