@@ -2,6 +2,7 @@ import { expect, test } from 'vitest';
 
 import { createContentSource } from './contentSourceFactory';
 import { GoogleSheetsContentSource } from './googleSheetsContentSource';
+import { SanityContentSource } from './sanityContentSource';
 import { StrapiContentSource } from './strapiContentSource';
 
 test('createContentSource selects Strapi explicitly', () => {
@@ -26,7 +27,7 @@ test('createContentSource selects the configured Google spreadsheet', () => {
 
 test('createContentSource rejects missing or unsupported source selection', () => {
   expect(() => createContentSource({})).toThrow(
-    'CONTENT_SOURCE must be set to "strapi" or "google-sheets".',
+    'CONTENT_SOURCE must be set to "strapi", "google-sheets", or "sanity".',
   );
   expect(() => createContentSource({ CONTENT_SOURCE: 'filesystem' })).toThrow(
     'Unsupported CONTENT_SOURCE "filesystem".',
@@ -46,4 +47,22 @@ test('createContentSource falls back to built-in Google defaults for optional va
   await expect(source.loadSnapshot()).rejects.toThrow(
     'GOOGLE_SERVICE_ACCOUNT_EMAIL is required.',
   );
+});
+
+test('createContentSource selects Sanity with Woodbrook project defaults', () => {
+  const source = createContentSource({ CONTENT_SOURCE: 'sanity' });
+
+  expect(source).toBeInstanceOf(SanityContentSource);
+  expect(source.name).toBe('sanity');
+});
+
+test('createContentSource selects Sanity with explicit configuration', () => {
+  expect(
+    createContentSource({
+      CONTENT_SOURCE: 'sanity',
+      SANITY_PROJECT_ID: 'ca34quae',
+      SANITY_DATASET: 'production',
+      SANITY_API_VERSION: '2025-09-01',
+    }),
+  ).toBeInstanceOf(SanityContentSource);
 });
