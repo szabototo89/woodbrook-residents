@@ -12,14 +12,14 @@
 
 ## Git workflow
 
-- Every coding session must use a dedicated Git worktree and session branch created from `main`. Do not develop directly in the primary checkout.
+- Every coding session must use a dedicated Git worktree and session branch created from `main`. Do not develop directly in the primary checkout. `git worktree add` automatically opens a Herdr entry and a background cmux workspace for the new checkout via `.githooks/post-checkout` (override with `HERDR_BIN`/`CMUX_BIN`); disable by pointing the override at a missing binary.
 - Make all edits, builds, tests, and commits inside that session worktree.
 - During development, create small, self-contained commits. Each commit must represent one coherent change and leave the repository in a usable state.
 - When the requested work is complete and verified, automatically merge the session branch back into local `main`; do not stop after merely committing or handing off the branch.
 - Before merging, confirm that the primary checkout is on `main` and has no unrelated uncommitted changes. Never overwrite, discard, reset, or include user-owned changes.
 - Use a non-interactive merge without rewriting existing history. If `main` cannot be merged cleanly, stop and report the conflict instead of forcing the merge.
 - Never use `--no-verify` (or any hook-bypass flag) when committing. If hooks fail, fix the cause instead of bypassing them.
-- After a successful merge, remove the session worktree with `scripts/worktree-remove.sh <path>` (it closes the linked Herdr workspace; raw `git worktree remove` fires no hook) and delete the merged session branch.
+- After a successful merge, remove the session worktree with `scripts/worktree-remove.sh <path>` (it closes the linked Herdr and cmux workspaces; raw `git worktree remove` fires no hook) and delete the merged session branch.
 
 ## Herdr tab title
 

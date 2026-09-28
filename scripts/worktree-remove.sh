@@ -1,5 +1,5 @@
 #!/bin/sh
-# Remove a git worktree and close its linked Herdr workspace.
+# Remove a git worktree and close its linked Herdr and cmux workspaces.
 # Git fires no hook on `git worktree remove`, so use this instead of raw git:
 #   scripts/worktree-remove.sh [--force] <worktree-path>
 # All args are passed through to `git worktree remove`. After a successful
