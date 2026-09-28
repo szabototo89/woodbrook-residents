@@ -14,6 +14,24 @@ const optionalString = z
   .nullish()
   .transform((value) => value ?? undefined);
 
+function isParseableDate(value: string): boolean {
+  return value.length > 0 && !Number.isNaN(new Date(value).getTime());
+}
+
+const dateString = z
+  .string()
+  .refine(isParseableDate, { message: 'Must be a non-empty parseable date.' })
+  .describe('ISO date or date-time string.');
+
+const optionalDateString = z
+  .string()
+  .nullish()
+  .transform((value) => value ?? undefined)
+  .refine((value) => value === undefined || isParseableDate(value), {
+    message: 'Must be a non-empty parseable date when present.',
+  })
+  .describe('Optional ISO date or date-time string.');
+
 export const siteSettingSchema = z.object({
   name: z.string().describe('Public name of the community website.'),
   location: z.string().describe('Area served by the community website.'),
@@ -33,12 +51,12 @@ export const updateSchema = z.object({
     .describe('Editorial category used to label the update.'),
   summary: z.string().describe('Short update summary used on cards.'),
   body: z.string().describe('Long-form update content.'),
-  publishedOn: z.string().describe('ISO date when the update was published.'),
+  publishedOn: dateString.describe('ISO date when the update was published.'),
   sourceName: z.string().describe('Name of the factual source.'),
   sourceUrl: z.string().describe('Public URL of the factual source.'),
-  sourceReviewedOn: z
-    .string()
-    .describe('ISO date when the factual source was last checked.'),
+  sourceReviewedOn: dateString.describe(
+    'ISO date when the factual source was last checked.',
+  ),
   imagePath: optionalString.describe(
     'Optional local path or public image URL.',
   ),
@@ -65,13 +83,13 @@ export const projectSchema = z.object({
     .describe('Current public lifecycle stage of the project.'),
   summary: z.string().describe('Short project summary used on cards.'),
   details: z.string().describe('Long-form project description.'),
-  updatedOn: z.string().describe('ISO date of the latest project review.'),
+  updatedOn: dateString.describe('ISO date of the latest project review.'),
   nextStep: optionalString.describe('Latest known next action or milestone.'),
   sourceName: z.string().describe('Name of the official project source.'),
   sourceUrl: z.string().describe('Public URL of the official project source.'),
-  sourceReviewedOn: z
-    .string()
-    .describe('ISO date when the project source was last checked.'),
+  sourceReviewedOn: dateString.describe(
+    'ISO date when the project source was last checked.',
+  ),
   imagePath: optionalString.describe(
     'Optional local path or public image URL.',
   ),
@@ -91,16 +109,16 @@ export const eventSchema = z.object({
   title: z.string().describe('Public event title.'),
   slug: z.string().describe('URL-safe event route slug.'),
   summary: z.string().describe('Short public event description.'),
-  startsAt: z.string().describe('ISO date-time when the event starts.'),
-  endsAt: optionalString.describe(
+  startsAt: dateString.describe('ISO date-time when the event starts.'),
+  endsAt: optionalDateString.describe(
     'Optional ISO date-time when the event ends.',
   ),
   location: z.string().describe('Human-readable event venue or location.'),
   bookingUrl: optionalString.describe('Optional registration or booking URL.'),
   sourceUrl: z.string().describe('Public URL of the event source.'),
-  sourceReviewedOn: z
-    .string()
-    .describe('ISO date when the event source was last checked.'),
+  sourceReviewedOn: dateString.describe(
+    'ISO date when the event source was last checked.',
+  ),
   featured: z
     .boolean()
     .default(false)
@@ -113,16 +131,20 @@ export const surveySchema = z.object({
   slug: z.string().describe('URL-safe consultation route slug.'),
   stage: z.enum(surveyStages).describe('Current consultation lifecycle stage.'),
   summary: z.string().describe('Short public consultation summary.'),
-  opensOn: optionalString.describe('Optional ISO consultation opening date.'),
-  closesOn: optionalString.describe('Optional ISO consultation closing date.'),
+  opensOn: optionalDateString.describe(
+    'Optional ISO consultation opening date.',
+  ),
+  closesOn: optionalDateString.describe(
+    'Optional ISO consultation closing date.',
+  ),
   responseUrl: optionalString.describe(
     'Optional URL for submitting a response.',
   ),
   sourceName: z.string().describe('Name of the consultation source.'),
   sourceUrl: z.string().describe('Public URL of the consultation source.'),
-  sourceReviewedOn: z
-    .string()
-    .describe('ISO date when the consultation source was last checked.'),
+  sourceReviewedOn: dateString.describe(
+    'ISO date when the consultation source was last checked.',
+  ),
   relatedProjectId: optionalString.describe(
     'Optional stable ID of a related published project.',
   ),
@@ -140,7 +162,7 @@ const resourceDetailSchema = z.object({
 
 const collectionDateSchema = z.object({
   id: z.number().describe('Source-provided or generated collection date ID.'),
-  date: z.string().describe('ISO date for the waste collection.'),
+  date: dateString.describe('ISO date for the waste collection.'),
   stream: z
     .enum(['recycling', 'waste-compost'])
     .describe('Waste stream collected on this date.'),
@@ -182,9 +204,9 @@ export const resourceSchema = z.object({
   displayOrder: z.number().describe('Numeric directory display priority.'),
   sourceName: z.string().describe('Name of the local-information source.'),
   sourceUrl: z.string().describe('Public URL of the local-information source.'),
-  sourceReviewedOn: z
-    .string()
-    .describe('ISO date when the local-information source was checked.'),
+  sourceReviewedOn: dateString.describe(
+    'ISO date when the local-information source was checked.',
+  ),
 });
 
 export const contentSnapshotSchema = z.object({
