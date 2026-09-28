@@ -1,5 +1,5 @@
 #!/bin/sh
-# Register new linked worktrees in Herdr so they show up in Spaces.
+# Register new linked worktrees in Herdr and cmux.
 # Git runs this hook after `git worktree add` with cwd inside the new checkout.
 set -eu
 
@@ -17,7 +17,15 @@ case "$gitdir" in
 esac
 
 herdr_bin="${HERDR_BIN:-herdr}"
-command -v "$herdr_bin" >/dev/null 2>&1 || exit 0
+if command -v "$herdr_bin" >/dev/null 2>&1; then
+  # Never block git, never fail the checkout, never steal focus.
+  "$herdr_bin" worktree open --path "$PWD" --no-focus >/dev/null 2>&1 &
+fi
 
-# Never block git, never fail the checkout, never steal focus.
-"$herdr_bin" worktree open --path "$PWD" --no-focus >/dev/null 2>&1 &
+cmux_bin="${CMUX_BIN:-cmux}"
+if command -v "$cmux_bin" >/dev/null 2>&1; then
+  # Never block git, never fail the checkout, never steal focus.
+  # Canonical workspace create; --focus false keeps the new workspace in background.
+  ws_name="$(basename "$PWD")"
+  "$cmux_bin" workspace create --cwd "$PWD" --name "$ws_name" --focus false >/dev/null 2>&1 &
+fi
