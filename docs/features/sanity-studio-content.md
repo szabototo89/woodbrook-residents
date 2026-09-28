@@ -9,6 +9,9 @@ When editing Woodbrook community content in Sanity Studio, I want the TanStack S
 ## Visible behavior
 
 - Studio lives at `apps/sanity-studio` bound to Sanity project `ca34quae`, dataset `production`, with siteSetting singleton, update, project, event, survey, resource (+ resourceDetail, collectionDate), and private issueReport types.
+- The Studio desk mirrors the public site navigation (Updates, Events, Projects, Consultations, Directory, Site setting) with editorial filtered lists (featured items, upcoming/past events, open consultations, items missing source data).
+- Every field carries a plain-language subtitle saying what it is, where residents see it on the site, and what breaks without it; fields are grouped into fieldsets ordered by render priority (identity, content, dates, source, featuring).
+- List previews echo the public cards (kind/category pill, formatted date, featured star) and validation messages name the site breakage (e.g. empty dates crash pages); the navbar carries the Woodbrook brand mark.
 - Residents see the same pages and content model regardless of whether `CONTENT_SOURCE=sanity`, `strapi`, or `google-sheets` supplied the build.
 - Only published Sanity documents appear on the public site. Drafts require a token and preview flow.
 - Every seeded factual item includes its source URL and access date. Sanity validation requires `sourceUrl` and `sourceReviewedOn` on all editorial types.
