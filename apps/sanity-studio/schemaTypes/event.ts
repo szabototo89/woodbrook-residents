@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {EventCardEditor} from '../components/EventCardEditor'
 
 function formatPreviewDateTime(value: unknown): string {
   if (typeof value !== 'string' || value.length === 0) return 'No date'
@@ -19,6 +20,7 @@ export const event = defineType({
   type: 'document',
   description:
     'A real community date. Appears on the homepage (upcoming only), the Events timeline, and its own detail page with an add-to-calendar button.',
+  components: {input: EventCardEditor},
   fieldsets: [
     {name: 'identity', title: 'Identity', options: {collapsible: true, collapsed: false}},
     {name: 'content', title: 'Content', options: {collapsible: true, collapsed: false}},
