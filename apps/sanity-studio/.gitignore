@@ -18,6 +18,12 @@
 # Coverage directory used by testing tools
 /coverage
 
+# Playwright and Vitest browser output
+/test-results
+/playwright-report
+/.vitest-attachments
+/tests/browser/components/__screenshots__
+
 # Misc
 .DS_Store
 *.pem

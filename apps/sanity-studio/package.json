@@ -2,6 +2,7 @@
   "name": "sanity-studio",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "main": "package.json",
   "license": "UNLICENSED",
   "scripts": {
@@ -10,6 +11,9 @@
     "deploy-graphql": "sanity graphql deploy",
     "dev": "sanity dev",
     "start": "sanity start",
+    "test:unit": "vitest run --coverage",
+    "test:browser": "vitest run --config vitest.browser.config.ts",
+    "test:e2e": "bun run build && playwright test",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -23,11 +27,20 @@
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@sanity/eslint-config-studio": "^7",
+    "@types/node": "^22.10.2",
     "@types/react": "^19.2.14",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/browser-playwright": "^4.1.10",
+    "@vitest/coverage-v8": "4.1.11",
     "eslint": "^10.8.1",
+    "playwright": "1.63.0",
     "prettier": "^3.5",
-    "typescript": "^5.8"
+    "typescript": "^5.8",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.10",
+    "vitest-browser-react": "^2.2.0"
   },
   "prettier": {
     "bracketSpacing": false,

@@ -13,6 +13,12 @@ apps/dashboard/src/routeTree.gen.ts
 # Sanity Studio build output and CLI runtime (generated, gitignored in-app).
 apps/sanity-studio/dist/
 apps/sanity-studio/.sanity/
+# Test and coverage output (generated, gitignored at the root).
+test-results/
+playwright-report/
+coverage/
+**/.vitest-attachments/
+**/__screenshots__/
 # Google Search Console verification file must stay byte-identical.
 apps/web/public/google*.html
 # Git hooks are extensionless shell scripts, not prettier inputs.
