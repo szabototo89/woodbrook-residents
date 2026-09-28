@@ -12,7 +12,7 @@
 
 ## Git workflow
 
-- Every coding session must use a dedicated Git worktree and session branch created from `main`. Do not develop directly in the primary checkout. `git worktree add` automatically opens a Herdr entry and a cmux workspace for the new checkout via `.githooks/post-checkout`, moving the invoking tab into the new workspace when run inside a cmux terminal (override with `HERDR_BIN`/`CMUX_BIN`); disable by pointing the override at a missing binary.
+- Every coding session must use a dedicated Git worktree and session branch created from `main`. Do not develop directly in the primary checkout. `git worktree add` automatically opens a Herdr entry and a cmux workspace wrapped in its own workspace group for the new checkout via `.githooks/post-checkout`, moving the invoking tab into the grouped workspace when run inside a cmux terminal (override with `HERDR_BIN`/`CMUX_BIN`); disable by pointing the override at a missing binary.
 - Make all edits, builds, tests, and commits inside that session worktree.
 - During development, create small, self-contained commits. Each commit must represent one coherent change and leave the repository in a usable state.
 - When the requested work is complete and verified, automatically merge the session branch back into local `main`; do not stop after merely committing or handing off the branch.
