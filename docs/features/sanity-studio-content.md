@@ -1,6 +1,6 @@
 # Sanity Studio content
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
@@ -33,9 +33,10 @@ When editing Woodbrook community content in Sanity Studio, I want the TanStack S
 - Clean TypeScript Studio at `apps/sanity-studio` with `sanity.config.ts` bound to `ca34quae/production`, singleton siteSetting structure, validation, and Draft & Publish semantics.
 - Read-only `SanityContentSource` (`name='sanity'`) using GROQ + `@sanity/client` image builder, `createContentSource` support for `CONTENT_SOURCE=sanity`, normalization to the existing snapshot schemas, unit tests with mocked fetch, and env example without secrets.
 - Sanity MCP for OpenCode (`https://mcp.sanity.io`) configured via `bunx sanity mcp configure`.
+- Seeded `production` dataset migrated from the legacy Sheets-style shape on 2026-09-28 (66 published rows mapped to the new schema, 7 unpublished rows preserved as drafts, legacy docs removed; pre-migration export kept by the operator). Editorial taxonomy values map 1:1 after lowercasing.
 
 ### Not included
 
 - Next.js `web/` app. Rendering reuses `apps/web` TanStack Start routes/UI unchanged.
 - Standalone `woodbrook-residents/` folder.
-- Sanity draft preview UI, visual editing overlays, webhook-triggered rebuilds, media mirroring, issue-report writes from the public site, or curation of the existing `production` dataset records that currently fail validation (null source/location/date fields observed 2026-09-28).
+- Sanity draft preview UI, visual editing overlays, webhook-triggered rebuilds, media mirroring, or issue-report writes from the public site.
