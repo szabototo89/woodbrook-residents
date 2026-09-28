@@ -1,5 +1,22 @@
 import { expect, test } from '@playwright/test';
 
+test('header branding and hero copy share the same left alignment', async ({
+  page,
+}) => {
+  for (const width of [390, 1086, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const logo = await page
+      .getByRole('banner')
+      .getByRole('link', { name: 'Laura Faichney — All Things Art' })
+      .boundingBox();
+    const title = await page.getByRole('heading', { level: 1 }).boundingBox();
+    expect(logo).not.toBeNull();
+    expect(title).not.toBeNull();
+    expect(Math.abs(logo!.x - title!.x)).toBeLessThanOrEqual(1);
+  }
+});
+
 for (const width of [320, 390, 640, 700, 900, 1440]) {
   test(`pages remain readable and within the viewport at ${width}px`, async ({
     page,

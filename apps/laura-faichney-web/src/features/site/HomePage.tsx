@@ -5,6 +5,7 @@ import { MuralFeature } from './MuralFeature';
 import { GalleryPreview } from './GalleryPreview';
 import { AboutPreview } from './AboutPreview';
 import { ContactSection } from './ContactSection';
+import { Testimonial } from './Testimonial';
 
 export function HomePage() {
   return (
@@ -44,6 +45,7 @@ export function HomePage() {
       <MuralFeature />
       <GalleryPreview />
       <AboutPreview />
+      <Testimonial />
       <ContactSection />
     </main>
   );

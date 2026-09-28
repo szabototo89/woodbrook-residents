@@ -17,6 +17,15 @@ test('home presents the artwork-led journey and accessible contact actions', () 
   expect(html).toContain('fetchPriority="high"');
   expect(html).toContain('src="/artwork/portrait-cutout.png"');
   expect(html).toContain('alt="A brighter world through art"');
+  expect(html).toContain('What Clients Say');
+  expect(html).toContain('Laura created a stunning mural for our nursery.');
+  expect(html).toContain('Sarah O’Connor');
+  expect(html.indexOf('What Clients Say')).toBeGreaterThan(
+    html.indexOf('More About Laura'),
+  );
+  expect(html.indexOf('What Clients Say')).toBeLessThan(
+    html.indexOf('Get in Touch'),
+  );
   expect(html.match(/<h1\b/g)).toHaveLength(1);
 });
 

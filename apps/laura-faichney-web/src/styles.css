@@ -164,7 +164,6 @@ h2 {
   border-bottom-color: transparent;
 }
 .header-inner {
-  width: min(100% - 48px, 1080px);
   height: 100%;
   display: flex;
   align-items: center;
@@ -238,7 +237,7 @@ h2 {
 .hero-copy {
   position: relative;
   z-index: 2;
-  padding: 40px 0 38px 3.5%;
+  padding: 40px 0 38px;
   max-width: 535px;
 }
 .hero-kicker {
@@ -693,6 +692,35 @@ h2 {
 .contact-page .contact-links a {
   font-size: 17px;
 }
+.testimonial {
+  padding-block: 32px;
+  background: var(--cream-dark);
+  border-top: 1px solid var(--cream);
+}
+.testimonial-inner {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: 48px;
+  max-width: 1080px;
+}
+.testimonial h2 {
+  font-size: clamp(2.25rem, 3vw, 3rem);
+}
+.testimonial-quote {
+  text-align: center;
+}
+.testimonial blockquote {
+  margin: 0 auto 14px;
+  max-width: 650px;
+  font: italic 600 1.5rem/1.2 var(--font-serif);
+}
+.testimonial figcaption {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
 .home-hero::before,
 .about-preview::before,
 .about-preview::after,
@@ -832,6 +860,16 @@ h2 {
   }
 }
 @media (max-width: 640px) {
+  .testimonial {
+    padding-block: 40px;
+  }
+  .testimonial-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .testimonial-quote {
+    text-align: left;
+  }
   .home-hero::before {
     opacity: 0.25;
   }

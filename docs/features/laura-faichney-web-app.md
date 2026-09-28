@@ -15,6 +15,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - A transparent signature logo and subtle transparent brush accents follow the reference design. Decorative images are CSS backgrounds and do not enter the accessibility tree.
 - The hero portrait has a transparent, irregular painted silhouette extending toward the header. Desktop uses a large portrait cropped at the section’s lower edge; tablet and mobile preserve the full face without a gradient fade. The home biography includes the supplied gold handwritten statement, “A brighter world through art”.
 - All pages use one primary heading, visible focus states, meaningful image descriptions and reduced motion support.
+- A “What Clients Say” section follows the home biography, displaying the single Sarah O’Connor quote explicitly supplied in the user's testimonial reference screenshot. It has no autoplay or inactive carousel controls.
 
 ## Acceptance criteria
 
@@ -26,7 +27,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 
 ## Scope
 
-This is an independent TanStack Start site under `apps/laura-faichney-web`, with no CMS integration. It uses the supplied artwork, generated transparent design assets and fixed Picsum photography until Laura provides originals. Asset sources and generation prompts are recorded in `apps/laura-faichney-web/ASSETS.md`. Placeholder notices are omitted from the page content as requested. The screenshots guide layout and styling; they are not served as flattened page images. Testimonial, Facebook and Instagram content awaits verified source details.
+This is an independent TanStack Start site under `apps/laura-faichney-web`, with no CMS integration. It uses the supplied artwork, generated transparent design assets and fixed Picsum photography until Laura provides originals. Asset sources and generation prompts are recorded in `apps/laura-faichney-web/ASSETS.md`. Placeholder notices are omitted from the page content as requested. The screenshots guide layout and styling; they are not served as flattened page images. The testimonial copy comes from the user's supplied reference (`codex-clipboard-0j7NLo.png`, 2026-09-28); it is not independently verified. Facebook and Instagram content awaits verified source details.
 
 ## Verification
 
