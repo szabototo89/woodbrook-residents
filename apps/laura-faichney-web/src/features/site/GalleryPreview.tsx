@@ -1,7 +1,7 @@
 import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
-import { ServiceImage } from './ServiceImage';
-import { services } from './siteContent';
+import { GalleryImage } from './GalleryImage';
+import { galleryImages } from './siteContent';
 
 export function GalleryPreview() {
   return (
@@ -17,13 +17,13 @@ export function GalleryPreview() {
           </a>
         </div>
         <div className="gallery-grid">
-          {services.map((service) => (
+          {galleryImages.map((image) => (
             <a
               href="/gallery"
-              key={service.title}
-              aria-label={`View ${service.title} artwork in gallery`}
+              key={image.id}
+              aria-label={`View gallery: ${image.alt}`}
             >
-              <ServiceImage service={service} />
+              <GalleryImage image={image} />
             </a>
           ))}
         </div>

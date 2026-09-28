@@ -28,6 +28,14 @@ export function AboutPreview() {
             More About Laura <Arrow />
           </a>
         </div>
+        <img
+          className="about-motto"
+          src="/decoration/brighter-world-motto.png"
+          alt="A brighter world through art"
+          width="1247"
+          height="1261"
+          loading="lazy"
+        />
       </div>
     </section>
   );

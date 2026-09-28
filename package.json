@@ -38,7 +38,7 @@
     "test:install-browser": "bun run --cwd apps/web playwright install chromium",
     "test:unit": "bun run --cwd apps/web test:unit && bun run --cwd apps/juliet-rose-web test:unit && bun run --cwd apps/laura-faichney-web test:unit && bun run --cwd apps/juliet-rose-wix test:unit && bun run --cwd apps/juliet-rose-app test:unit && bun run --cwd apps/dashboard test:unit && bun run --cwd apps/mobile test",
     "test:browser": "bun run --cwd apps/web test:browser && bun run --cwd apps/juliet-rose-web test:browser && bun run --cwd apps/dashboard test:browser",
-    "test:e2e": "bun run --cwd apps/web test:e2e && bun run --cwd apps/juliet-rose-web test:e2e && bun run --cwd apps/dashboard test:e2e",
+    "test:e2e": "bun run --cwd apps/web test:e2e && bun run --cwd apps/juliet-rose-web test:e2e && bun run --cwd apps/laura-faichney-web test:e2e && bun run --cwd apps/dashboard test:e2e",
     "test:lighthouse": "bun run --cwd apps/web test:lighthouse",
     "typecheck": "bun run --cwd apps/web typecheck && bun run --cwd apps/juliet-rose-web typecheck && bun run --cwd apps/laura-faichney-web typecheck && bun run --cwd apps/juliet-rose-wix typecheck && bun run --cwd apps/cms typecheck && bun run --cwd apps/dashboard typecheck && bun run --cwd apps/mobile typecheck && bun run typecheck:sync-content",
     "typecheck:sync-content": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --strict --noImplicitAny --noImplicitOverride --noImplicitReturns --noUncheckedIndexedAccess --skipLibCheck --types bun scripts/sync-content.ts scripts/sync-content.test.ts",

@@ -11,7 +11,9 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - A responsive home page introduces Laura's painting, mural, signage, facepainting and tutoring services.
 - The service, gallery, about and contact pages are reachable through desktop navigation and a mobile menu.
 - Services appear as five artwork cards on desktop and single clickable rows on mobile. The services page gives each one a description and a contact path.
-- The mural section, gallery and biography use the supplied mockup artwork. Phone and email links open the device's calling or email app.
+- The hero, mural section and biography use the supplied artwork. The gallery and missing service thumbnails use fixed Picsum photography pending original assets. Phone and email links open the device's calling or email app.
+- A transparent signature logo and subtle transparent brush accents follow the reference design. Decorative images are CSS backgrounds and do not enter the accessibility tree.
+- The hero portrait has a transparent, irregular painted silhouette with a small section overlap. Its full face remains visible on mobile without a gradient fade. The home biography includes the supplied gold handwritten statement, “A brighter world through art”.
 - All pages use one primary heading, visible focus states, meaningful image descriptions and reduced motion support.
 
 ## Acceptance criteria
@@ -24,4 +26,8 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 
 ## Scope
 
-This is an independent TanStack Start site under `apps/laura-faichney-web`. It uses the two supplied artwork files as mockup assets until Laura provides originals. The screenshots guide layout and styling; they are not served as flattened page images. Testimonial, Facebook and Instagram content awaits verified source details.
+This is an independent TanStack Start site under `apps/laura-faichney-web`, with no CMS integration. It uses the supplied artwork, generated transparent design assets and fixed Picsum photography until Laura provides originals. Asset sources and generation prompts are recorded in `apps/laura-faichney-web/ASSETS.md`. Placeholder notices are omitted from the page content as requested. The screenshots guide layout and styling; they are not served as flattened page images. Testimonial, Facebook and Instagram content awaits verified source details.
+
+## Verification
+
+`bun run --cwd apps/laura-faichney-web test:e2e` checks all five routes at 320, 390, 640, 700, 900 and 1440 pixels, the mobile service and gallery layouts, logo loading, and keyboard menu dismissal.

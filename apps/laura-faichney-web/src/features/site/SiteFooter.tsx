@@ -1,15 +1,10 @@
+import { BrandLogo } from '../../components/BrandLogo';
+
 export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="container footer-inner">
-        <a
-          className="wordmark wordmark-footer"
-          href="/"
-          aria-label="Laura Faichney All Things Art, home"
-        >
-          <span>Laura Faichney</span>
-          <small>ALL THINGS ART</small>
-        </a>
+        <BrandLogo footer />
         <nav aria-label="Footer navigation">
           <a href="/">Home</a>
           <a href="/about">About</a>

@@ -160,6 +160,7 @@ h2 {
   border-bottom: 1px solid rgb(13 41 66 / 0.06);
 }
 .header-inner {
+  width: min(100% - 48px, 1080px);
   height: 100%;
   display: flex;
   align-items: center;
@@ -167,28 +168,17 @@ h2 {
   gap: 28px;
 }
 .wordmark {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 210px;
-  color: var(--pink);
+  display: block;
+  flex: 0 0 auto;
+  width: 220px;
+  min-height: 44px;
   text-decoration: none;
-  line-height: 1;
 }
-.wordmark > span {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 35px;
-  font-weight: 600;
-  letter-spacing: -0.07em;
-  transform: rotate(-7deg);
-}
-.wordmark small {
-  font-size: 9px;
-  letter-spacing: 0.28em;
-  font-weight: 700;
-  color: var(--navy);
-  margin-top: 3px;
+.wordmark img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 1;
+  object-fit: contain;
 }
 .navigation {
   display: flex;
@@ -229,8 +219,10 @@ h2 {
   overflow: hidden;
 }
 .home-hero {
+  position: relative;
+  overflow: visible;
   min-height: 490px;
-  background: radial-gradient(circle at 30% 50%, #fff 0, var(--cream) 65%);
+  background: var(--cream);
 }
 .hero-inner {
   min-height: 490px;
@@ -264,22 +256,15 @@ h2 {
 }
 .hero-art {
   position: absolute;
-  inset: 0 -6vw 0 42%;
-  overflow: hidden;
-}
-.hero-art:before {
-  content: '';
-  position: absolute;
+  inset: -28px -24px -24px 42%;
   z-index: 1;
-  inset: 0;
-  background: linear-gradient(90deg, var(--cream) 0, transparent 29%);
   pointer-events: none;
 }
 .hero-art img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: 50% 28%;
+  object-fit: contain;
+  object-position: center;
 }
 .section-heading.centered {
   text-align: center;
@@ -401,9 +386,9 @@ h2 {
 }
 .about-preview-inner {
   display: grid;
-  grid-template-columns: 38% 1fr;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr) minmax(150px, 0.65fr);
   align-items: center;
-  gap: 7%;
+  gap: 4%;
 }
 .about-art {
   height: 305px;
@@ -419,6 +404,13 @@ h2 {
 }
 .about-copy h2 {
   max-width: 530px;
+  font-size: clamp(2.2rem, 3.2vw, 3.2rem);
+}
+.about-motto {
+  width: 100%;
+  height: auto;
+  max-width: 230px;
+  justify-self: center;
 }
 .about-copy p:not(.eyebrow) {
   margin: 14px 0 18px;
@@ -478,13 +470,10 @@ h2 {
   gap: 30px;
 }
 .wordmark-footer {
-  min-width: 180px;
+  width: 210px;
 }
-.wordmark-footer > span {
-  font-size: 30px;
-}
-.wordmark-footer small {
-  color: #fff;
+.wordmark-footer img {
+  filter: brightness(0) invert(1);
 }
 .site-footer nav {
   display: flex;
@@ -662,6 +651,9 @@ h2 {
   margin: 14px 0 35px;
   color: var(--text-secondary);
 }
+.gallery-page h1 {
+  margin-bottom: 35px;
+}
 .gallery-page-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 30px;
@@ -695,6 +687,85 @@ h2 {
 .contact-page .contact-links a {
   font-size: 17px;
 }
+.home-hero::before,
+.about-preview::before,
+.about-preview::after,
+.about-hero::before,
+.contact-section::before,
+.contact-section::after,
+.mural-feature::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.home-hero::before {
+  background-image: url('/decoration/blush-gold-brush.png');
+  width: min(620px, 100vw);
+  height: 430px;
+  left: -210px;
+  bottom: -125px;
+  opacity: 0.36;
+}
+.about-preview,
+.about-hero,
+.contact-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.about-preview-inner,
+.contact-inner {
+  position: relative;
+  z-index: 1;
+}
+.about-preview::before,
+.about-hero::before {
+  background-image: url('/decoration/blush-gold-brush.png');
+  width: 360px;
+  height: 300px;
+  left: -135px;
+  bottom: -50px;
+  opacity: 0.7;
+}
+.about-preview::after {
+  background-image: url('/decoration/blush-gold-brush.png');
+  width: 320px;
+  height: 270px;
+  right: -120px;
+  top: -35px;
+  transform: rotate(180deg);
+  opacity: 0.58;
+}
+.contact-section::before {
+  background-image: url('/decoration/colour-brush.png');
+  width: 170px;
+  height: 100%;
+  left: -55px;
+  top: 0;
+  background-size: auto 135%;
+  background-position: left center;
+  opacity: 0.48;
+}
+.contact-section::after {
+  background-image: url('/decoration/blush-gold-brush.png');
+  width: 300px;
+  height: 250px;
+  right: -135px;
+  bottom: -65px;
+  transform: scaleX(-1);
+  opacity: 0.42;
+}
+.mural-feature::after {
+  background-image: url('/artwork/pink-botanical.png');
+  width: 340px;
+  height: 400px;
+  right: -130px;
+  top: 0;
+  opacity: 0.14;
+  transform: rotate(175deg);
+}
 @media (max-width: 900px) {
   .navigation {
     gap: 18px;
@@ -703,10 +774,7 @@ h2 {
     margin-left: 0;
   }
   .wordmark {
-    min-width: 165px;
-  }
-  .wordmark > span {
-    font-size: 29px;
+    width: 175px;
   }
   .hero h1 {
     font-size: clamp(4rem, 7vw, 5.7rem);
@@ -751,6 +819,18 @@ h2 {
   }
 }
 @media (max-width: 640px) {
+  .home-hero::before {
+    opacity: 0.25;
+  }
+  .contact-section::before {
+    width: 100px;
+    opacity: 0.28;
+  }
+  .mural-feature::after {
+    width: 200px;
+    right: -100px;
+    opacity: 0.1;
+  }
   .container {
     width: calc(100% - 40px);
   }
@@ -764,16 +844,7 @@ h2 {
     gap: 8px;
   }
   .wordmark {
-    min-width: 155px;
-    align-items: flex-start;
-  }
-  .wordmark > span {
-    font-size: 29px;
-  }
-  .wordmark small {
-    font-size: 7px;
-    align-self: center;
-    margin-left: 10px;
+    width: 180px;
   }
   .header-cta {
     display: none;
@@ -861,15 +932,9 @@ h2 {
     position: relative;
     inset: auto;
     width: calc(100% + 40px);
-    height: 340px;
-    margin: 0 -20px;
-    overflow: hidden;
-  }
-  .hero-art:before {
-    background: linear-gradient(180deg, var(--cream) 0, transparent 30%);
-  }
-  .hero-art img {
-    object-position: 50% 36%;
+    height: auto;
+    aspect-ratio: 1374 / 1145;
+    margin: 16px -20px -20px;
   }
   .services-preview .section-heading {
     text-align: left;
@@ -962,16 +1027,25 @@ h2 {
     aspect-ratio: 2/1;
   }
   .about-preview-inner {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: stretch;
-    gap: 25px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+  }
+  .about-copy {
+    grid-column: 1 / -1;
+    grid-row: 1;
   }
   .about-copy h2 {
     font-size: 3.3rem;
   }
   .about-art {
-    height: 280px;
+    height: 210px;
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .about-motto {
+    grid-column: 2;
+    grid-row: 2;
+    max-width: 200px;
   }
   .contact-section {
     padding-block: 56px;

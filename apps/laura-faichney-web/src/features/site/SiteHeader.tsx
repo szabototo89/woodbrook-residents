@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Arrow } from './Arrow';
+import { BrandLogo } from '../../components/BrandLogo';
 
 export function SiteHeader(props: { active: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const links = [
     ['Home', '/'],
     ['About', '/about'],
@@ -12,17 +14,19 @@ export function SiteHeader(props: { active: string }) {
   ];
 
   return (
-    <header className="site-header">
+    <header
+      className="site-header"
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && menuOpen) {
+          setMenuOpen(false);
+          menuButton.current?.focus();
+        }
+      }}
+    >
       <div className="container header-inner">
-        <a
-          className="wordmark"
-          href="/"
-          aria-label="Laura Faichney All Things Art, home"
-        >
-          <span>Laura Faichney</span>
-          <small>ALL THINGS ART</small>
-        </a>
+        <BrandLogo />
         <button
+          ref={menuButton}
           className="menu-toggle"
           type="button"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}

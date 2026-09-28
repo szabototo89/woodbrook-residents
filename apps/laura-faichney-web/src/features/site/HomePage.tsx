@@ -1,4 +1,3 @@
-import { portrait } from './siteContent';
 import { GoldStroke } from './GoldStroke';
 import { Arrow } from './Arrow';
 import { ServicesPreview } from './ServicesPreview';
@@ -32,10 +31,10 @@ export function HomePage() {
           </div>
           <div className="hero-art">
             <img
-              src={portrait}
+              src="/artwork/portrait-cutout.png"
               alt="Expressive painted portrait in vivid pink, blue, orange and yellow"
-              width="1122"
-              height="1402"
+              width="1374"
+              height="1145"
               fetchPriority="high"
             />
           </div>

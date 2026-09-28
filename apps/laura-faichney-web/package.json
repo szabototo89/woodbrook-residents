@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite dev --port 3003",
     "build": "vite build",
+    "preview": "vite preview",
+    "test:e2e": "bun run build && playwright test",
     "test:unit": "vitest run",
     "typecheck": "tsc --noEmit"
   },
@@ -17,6 +19,7 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@tanstack/router-cli": "^1.132.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",

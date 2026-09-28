@@ -22,22 +22,30 @@ export const services = [
     title: 'Signage',
     description:
       'Hand-painted signs that bring a personal touch to your space.',
-    image: botanical,
-    imageAlt: 'Painted botanical detail',
-    position: '80% 28%',
+    image: '/artwork/picsum-42.webp',
+    imageAlt: 'A warm café interior',
+    position: '50% 50%',
   },
   {
     title: 'Facepainting',
     description: 'Colourful facepainting for parties and events.',
-    image: portrait,
-    imageAlt: 'Colourful portrait detail',
-    position: '50% 20%',
+    image: '/artwork/picsum-106.webp',
+    imageAlt: 'Pink flowers against a blue sky',
+    position: '50% 50%',
   },
   {
     title: 'Art Tutoring',
     description: 'Creative art tutoring to build skills and confidence.',
-    image: botanical,
-    imageAlt: 'Hand-painted flower detail',
-    position: '23% 65%',
+    image: '/artwork/picsum-24.webp',
+    imageAlt: 'An open book on a wooden table',
+    position: '50% 50%',
   },
+] as const;
+
+export const galleryImages = [
+  { id: 106, alt: 'Pink flowers against a blue sky' },
+  { id: 42, alt: 'Coffee cups on a wooden café table' },
+  { id: 1080, alt: 'Fresh strawberries in rich pink and red tones' },
+  { id: 24, alt: 'An open book on a wooden table' },
+  { id: 180, alt: 'A notebook, camera and laptop on a creative desk' },
 ] as const;
