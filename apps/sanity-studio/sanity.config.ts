@@ -1,6 +1,7 @@
 import {defineConfig} from 'sanity'
 import {structureTool, type StructureBuilder} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
+import {StudioLogo} from './components/StudioLogo'
 import {schemaTypes} from './schemaTypes'
 
 const singleton = (S: StructureBuilder, title: string, id: string) =>
@@ -18,6 +19,12 @@ export default defineConfig({
 
   projectId: 'ca34quae',
   dataset: 'production',
+
+  studio: {
+    components: {
+      logo: StudioLogo,
+    },
+  },
 
   plugins: [
     structureTool({
