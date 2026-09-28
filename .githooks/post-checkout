@@ -24,8 +24,18 @@ fi
 
 cmux_bin="${CMUX_BIN:-cmux}"
 if command -v "$cmux_bin" >/dev/null 2>&1; then
-  # Never block git, never fail the checkout, never steal focus.
-  # Canonical workspace create; --focus false keeps the new workspace in background.
-  ws_name="$(basename "$PWD")"
-  "$cmux_bin" workspace create --cwd "$PWD" --name "$ws_name" --focus false >/dev/null 2>&1 &
+  # Never block git and never fail the checkout. Creation stays in the
+  # background (--focus false); the invoking tab then follows into the new
+  # workspace when this hook runs inside a cmux terminal (CMUX_SURFACE_ID).
+  (
+    ws_name="$(basename "$PWD")"
+    new_id="$("$cmux_bin" workspace create --cwd "$PWD" --name "$ws_name" --focus false --json --id-format uuids 2>/dev/null | python3 -c 'import json,sys
+try:
+    print(json.load(sys.stdin).get("workspace_id", ""))
+except Exception:
+    pass' 2>/dev/null || true)"
+    if [ -n "$new_id" ] && [ -n "${CMUX_SURFACE_ID:-}" ]; then
+      "$cmux_bin" move-surface --surface "$CMUX_SURFACE_ID" --workspace "$new_id" --focus true >/dev/null 2>&1 || true
+    fi
+  ) >/dev/null 2>&1 &
 fi
