@@ -12,7 +12,7 @@ When editing Woodbrook community content in Sanity Studio, I want the TanStack S
 - The Studio desk mirrors the public site navigation (Updates, Events, Projects, Consultations, Directory, Site setting) with editorial filtered lists (featured items, upcoming/past events, open consultations, items missing source data).
 - Every field carries a plain-language subtitle saying what it is, where residents see it on the site, and what breaks without it; fields are grouped into fieldsets ordered by render priority (identity, content, dates, source, featuring).
 - List previews echo the public cards (kind/category pill, formatted date, featured star) and validation messages name the site breakage (e.g. empty dates crash pages); the navbar carries the Woodbrook brand mark.
-- Event documents open with an inline-editable card that mirrors the public EventCard (forest date badge with Europe/Dublin day/month, title, summary, date/location meta, booking/source links, featured star, timeline accent for this-week/next-week/later/earlier); every visible field patches the document via PatchEvent, the slug stays read-only with its `/events/*` hint, and the default fieldsets render below for validation.
+- Event documents open with a single inline-editable card that mirrors the public EventCard (forest date badge with Europe/Dublin day/month, plain-language sentence-case fields in Essentials then Details sections, one muted Residents will see preview with no emoji, Appears under pill for this-week/next-week/later/earlier); every card field patches the document via PatchEvent, the slug is the only default field rendered below (no field appears twice), and friendly inline hints flag end-before-start, bad links, and missing dates without crash language.
 - Residents see the same pages and content model regardless of whether `CONTENT_SOURCE=sanity`, `strapi`, or `google-sheets` supplied the build.
 - Only published Sanity documents appear on the public site. Drafts require a token and preview flow.
 - Every seeded factual item includes its source URL and access date. Sanity validation requires `sourceUrl` and `sourceReviewedOn` on all editorial types.
@@ -38,7 +38,7 @@ When editing Woodbrook community content in Sanity Studio, I want the TanStack S
 - Read-only `SanityContentSource` (`name='sanity'`) using GROQ + `@sanity/client` image builder, `createContentSource` support for `CONTENT_SOURCE=sanity`, normalization to the existing snapshot schemas, unit tests with mocked fetch, and env example without secrets.
 - Sanity MCP for OpenCode (`https://mcp.sanity.io`) configured via `bunx sanity mcp configure`.
 - Seeded `production` dataset migrated from the legacy Sheets-style shape on 2026-09-28 (66 published rows mapped to the new schema, 7 unpublished rows preserved as drafts, legacy docs removed; pre-migration export kept by the operator). Editorial taxonomy values map 1:1 after lowercasing.
-- Inline-editable Event card (`apps/sanity-studio/components/EventCardEditor.tsx` + `eventCardUtils.ts`) wired as the `event` document input; pure date/accent/slug helpers covered by `bun test`, default fieldsets and `preview.select` unchanged.
+- Inline-editable Event card (`apps/sanity-studio/components/EventCardEditor.tsx` + `eventCardUtils.ts`) wired as the `event` document input; pure date/accent/slug/validation helpers and the card UI covered by vitest (`EventCardEditor.test.tsx`, 90% per-file coverage gate), slug-only default rendering and `preview.select` unchanged.
 
 ### Not included
 
