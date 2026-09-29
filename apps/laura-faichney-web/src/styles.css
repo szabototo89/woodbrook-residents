@@ -477,6 +477,8 @@ h2 {
   padding-block: 28px;
 }
 .footer-inner {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -750,7 +752,7 @@ h2 {
   height: 430px;
   left: -210px;
   bottom: -125px;
-  opacity: 0.36;
+  opacity: 0.5;
 }
 .about-preview,
 .about-hero,
@@ -758,6 +760,10 @@ h2 {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+}
+.contact-section {
+  overflow: visible;
+  z-index: 1;
 }
 .about-preview-inner,
 .contact-inner {
@@ -771,7 +777,7 @@ h2 {
   height: 300px;
   left: -135px;
   bottom: -50px;
-  opacity: 0.7;
+  opacity: 0.82;
 }
 .about-preview::after {
   background-image: url('/decoration/blush-gold-brush.png');
@@ -780,25 +786,25 @@ h2 {
   right: -120px;
   top: -35px;
   transform: rotate(180deg);
-  opacity: 0.58;
+  opacity: 0.7;
 }
 .contact-section::before {
   background-image: url('/decoration/colour-brush.png');
   width: 170px;
-  height: 100%;
+  height: calc(100% + 124px);
   left: -55px;
   top: 0;
-  background-size: auto 135%;
-  background-position: left center;
+  background-size: auto 100%;
+  background-position: left top;
 }
 .contact-section::after {
   background-image: url('/decoration/blush-gold-brush.png');
-  width: 300px;
+  width: 165px;
   height: 250px;
-  right: -135px;
+  right: 0;
   bottom: -65px;
   transform: scaleX(-1);
-  opacity: 0.42;
+  opacity: 0.56;
 }
 @media (max-width: 900px) {
   .hero-art {
@@ -871,7 +877,7 @@ h2 {
     text-align: left;
   }
   .home-hero::before {
-    opacity: 0.25;
+    opacity: 0.38;
   }
   .contact-section::before {
     width: 160px;

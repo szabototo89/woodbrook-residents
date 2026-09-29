@@ -51,6 +51,65 @@ test('contact brush is vivid and stays below the contact details on phones', asy
   }
 });
 
+test('contact brush continues into the footer at every layout width', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 700, 900, 1440]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/');
+    const decoration = await page
+      .locator('.contact-section')
+      .evaluate((section) => {
+        const bounds = section.getBoundingClientRect();
+        const brush = getComputedStyle(section, '::before');
+        const footer = document.querySelector('.site-footer');
+        if (!footer) throw new Error('Footer is missing');
+        return {
+          overflow: getComputedStyle(section).overflowY,
+          stackingOrder: Number(getComputedStyle(section).zIndex),
+          brushBottom:
+            bounds.top + parseFloat(brush.top) + parseFloat(brush.height),
+          footerTop: footer.getBoundingClientRect().top,
+        };
+      });
+    expect(decoration.overflow, `${width}px contact overflow`).toBe('visible');
+    expect(
+      decoration.stackingOrder,
+      `${width}px contact stacking`,
+    ).toBeGreaterThan(0);
+    expect(decoration.brushBottom, `${width}px footer overlap`).toBeGreaterThan(
+      decoration.footerTop + 80,
+    );
+  }
+});
+
+test('decorative brush strokes read clearly across the home page', async ({
+  page,
+}) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    for (const [selector, pseudo, minimum] of [
+      ['.home-hero', '::before', width === 390 ? 0.38 : 0.5],
+      ['.about-preview', '::before', 0.8],
+      ['.about-preview', '::after', 0.7],
+      ['.contact-section', '::after', 0.55],
+    ] as const) {
+      const opacity = await page
+        .locator(selector)
+        .evaluate(
+          (section, pseudo) =>
+            Number(getComputedStyle(section, pseudo).opacity),
+          pseudo,
+        );
+      expect(
+        opacity,
+        `${selector}${pseudo} at ${width}px`,
+      ).toBeGreaterThanOrEqual(minimum);
+    }
+  }
+});
+
 test('phone mural artwork follows the copy without clipping or a ghost duplicate', async ({
   page,
 }) => {
