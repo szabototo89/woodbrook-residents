@@ -1,4 +1,5 @@
 .agents/
+.cmux/
 .opencode/
 .wrangler/
 apps/cms/.strapi/
