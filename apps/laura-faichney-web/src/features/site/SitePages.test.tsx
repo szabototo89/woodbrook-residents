@@ -57,6 +57,10 @@ test('services expose all five supplied offerings as complete links', () => {
   expect(html).toContain('src="/artwork/service-signage.webp"');
   expect(html).toContain('src="/artwork/service-facepainting.webp"');
   expect(html).toContain('src="/artwork/service-art-tutoring.webp"');
+  expect(html).toContain('src="/artwork/services-hero-brushes.png"');
+  expect(html).toContain(
+    'alt="Paintbrushes in a painted cup with pink, gold and navy brushstrokes"',
+  );
   expect(html.match(/<h1\b/g)).toHaveLength(1);
 });
 
