@@ -40,6 +40,12 @@ Dashboard build settings (repository root):
 - Build output directory: `apps/laura-faichney-web/dist/client`
 - Build environment variables: `VITE_PUBLIC_SITE_URL=https://laura-faichney-all-things-art.pages.dev`, `BUN_VERSION=1.4.0`
 
+Easiest deploy from the repository root (builds then deploys):
+
+```bash
+bun run deploy:laura
+```
+
 Manual deploy from the repository root after building:
 
 ```bash

@@ -47,7 +47,8 @@
     "format:check": "prettier --check .",
     "lint": "bun run format:check && eslint \"apps/*/src/**\" \"apps/*/tests/**\" \"apps/sanity-studio/schemaTypes/**\" \"apps/sanity-studio/components/**\" \"apps/sanity-studio/*.ts\" scripts && bun run typecheck",
     "dev:laura": "bun run --cwd apps/laura-faichney-web dev",
-    "build:laura": "bun run --cwd apps/laura-faichney-web build"
+    "build:laura": "bun run --cwd apps/laura-faichney-web build",
+    "deploy:laura": "bun scripts/deploy-laura.ts"
   },
   "dependencies": {
     "google-auth-library": "^11.0.2"
