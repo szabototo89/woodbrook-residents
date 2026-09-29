@@ -51,6 +51,52 @@ test('contact brush is vivid and stays below the contact details on phones', asy
   }
 });
 
+test('phone mural artwork follows the copy without clipping or a ghost duplicate', async ({
+  page,
+}) => {
+  for (const width of [320, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/');
+    const section = page.locator('.mural-feature');
+    const feature = await section.boundingBox();
+    const artwork = await section
+      .getByRole('img', { name: /pink painted flower/ })
+      .boundingBox();
+    const action = await section
+      .getByRole('link', { name: /Enquire about a mural/ })
+      .boundingBox();
+    if (!feature || !artwork || !action)
+      throw new Error('Mural content is missing');
+    expect(
+      artwork.y,
+      `${width}px artwork should follow the action`,
+    ).toBeGreaterThanOrEqual(action.y + action.height);
+    expect(artwork.x, `${width}px left edge`).toBeGreaterThanOrEqual(feature.x);
+    expect(
+      artwork.x + artwork.width,
+      `${width}px right edge`,
+    ).toBeLessThanOrEqual(feature.x + feature.width);
+    expect(
+      artwork.y + artwork.height,
+      `${width}px bottom edge`,
+    ).toBeLessThanOrEqual(feature.y + feature.height);
+    expect(
+      await section.evaluate(
+        (element) => getComputedStyle(element, '::after').backgroundImage,
+      ),
+    ).toBe('none');
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  expect(
+    await page
+      .locator('.mural-feature')
+      .evaluate(
+        (element) => getComputedStyle(element, '::after').backgroundImage,
+      ),
+  ).toBe('none');
+});
+
 test('hero underline covers Brighter at desktop and phone sizes', async ({
   page,
 }) => {
