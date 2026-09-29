@@ -5,15 +5,6 @@ import { botanical } from './siteContent';
 export function MuralFeature() {
   return (
     <section className="mural-feature">
-      <div className="mural-art">
-        <img
-          src={botanical}
-          alt="Large pink painted flower with green leaves"
-          width="1254"
-          height="1254"
-          loading="lazy"
-        />
-      </div>
       <div className="container mural-inner">
         <div className="mural-copy">
           <Eyebrow>Transform spaces</Eyebrow>
@@ -26,6 +17,15 @@ export function MuralFeature() {
             Enquire about a mural <Arrow />
           </a>
         </div>
+      </div>
+      <div className="mural-art">
+        <img
+          src={botanical}
+          alt="Large pink painted flower with green leaves"
+          width="1254"
+          height="1254"
+          loading="lazy"
+        />
       </div>
     </section>
   );

@@ -17,6 +17,8 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - The hero portrait has a transparent, irregular painted silhouette extending toward the header. Desktop uses a large portrait cropped at the section’s lower edge; tablet and mobile preserve the full face without a gradient fade. The home biography includes the supplied gold handwritten statement, “A brighter world through art”.
 - All pages use one primary heading, visible focus states, meaningful image descriptions and reduced motion support.
 - A “What Clients Say” section follows the home biography, displaying the single Sarah O’Connor quote explicitly supplied in the user's testimonial reference screenshot. It has no autoplay or inactive carousel controls.
+- The client quote sits on a soft blush panel, separating it from the cream biography above and the navy contact section below. The contact brush remains fully coloured; on phones it sits at the lower left, below the contact details.
+- The mural feature presents one botanical artwork: a large edge crop beside the copy on desktop, and the full centred illustration below the enquiry button on phones.
 
 ## Acceptance criteria
 
@@ -26,6 +28,8 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - The mobile gallery has two columns and the mobile navigation is operable with keyboard and touch.
 - The supplied artwork remains legible at the relevant crop and the hero's text does not overlap it.
 - No invented testimonial, social profile, client portrait or business detail appears.
+- The testimonial is visually distinct from the biography, and the mobile contact brush does not sit behind the heading or contact links.
+- At phone widths, the mural flower and leaves fit inside the section beneath the copy and action, without a faded duplicate.
 - Every page emits a canonical URL, description, and Open Graph/Twitter metadata rooted at the production Pages origin unless `VITE_PUBLIC_SITE_URL` overrides it, without inventing a social image.
 - `bun run --cwd apps/laura-faichney-web build:static` prerenders home, services, gallery, about and contact as static HTML with sitemap and robots, and `verify:static` rejects missing pages, broken internal links, runtime-only output, or crawler metadata gaps.
 - The Cloudflare Pages project `laura-faichney-all-things-art` serves the static output at its production `pages.dev` origin.

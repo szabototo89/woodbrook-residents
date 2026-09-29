@@ -715,9 +715,9 @@ h2 {
   font-size: 17px;
 }
 .testimonial {
-  padding-block: 32px;
-  background: var(--cream-dark);
-  border-top: 1px solid var(--cream);
+  padding-block: 48px;
+  background: var(--pink-soft);
+  border-top: 1px solid #e7b9bf;
 }
 .testimonial-inner {
   display: grid;
@@ -748,8 +748,7 @@ h2 {
 .about-preview::after,
 .about-hero::before,
 .contact-section::before,
-.contact-section::after,
-.mural-feature::after {
+.contact-section::after {
   content: '';
   position: absolute;
   pointer-events: none;
@@ -802,7 +801,6 @@ h2 {
   top: 0;
   background-size: auto 135%;
   background-position: left center;
-  opacity: 0.48;
 }
 .contact-section::after {
   background-image: url('/decoration/blush-gold-brush.png');
@@ -812,15 +810,6 @@ h2 {
   bottom: -65px;
   transform: scaleX(-1);
   opacity: 0.42;
-}
-.mural-feature::after {
-  background-image: url('/artwork/pink-botanical.png');
-  width: 340px;
-  height: 400px;
-  right: -130px;
-  top: 0;
-  opacity: 0.14;
-  transform: rotate(175deg);
 }
 @media (max-width: 900px) {
   .hero-art {
@@ -896,13 +885,13 @@ h2 {
     opacity: 0.25;
   }
   .contact-section::before {
-    width: 100px;
-    opacity: 0.28;
-  }
-  .mural-feature::after {
-    width: 200px;
-    right: -100px;
-    opacity: 0.1;
+    width: 160px;
+    height: 240px;
+    left: -20px;
+    top: auto;
+    bottom: -124px;
+    background-size: contain;
+    background-position: left bottom;
   }
   .container {
     width: calc(100% - 40px);
@@ -1047,16 +1036,17 @@ h2 {
     align-self: center;
     margin-left: auto;
   }
-  .mural-feature,
-  .mural-inner {
-    min-height: 430px;
+  .mural-feature {
+    display: flex;
+    flex-direction: column;
   }
   .mural-inner {
+    min-height: 0;
     align-items: flex-start;
   }
   .mural-copy {
     width: 100%;
-    padding: 43px 0 155px;
+    padding: 43px 0 0;
   }
   .mural-copy h2 {
     max-width: 305px;
@@ -1067,12 +1057,15 @@ h2 {
     font-size: 16px;
   }
   .mural-art {
-    inset: auto -24% -25% 5%;
-    height: 280px;
-    opacity: 0.9;
+    position: relative;
+    inset: auto;
+    width: min(calc(100% - 48px), 360px);
+    height: auto;
+    margin: 18px auto 28px;
+    overflow: visible;
   }
   .mural-art img {
-    object-position: right;
+    height: auto;
   }
   .gallery-preview {
     padding-block: 57px;
