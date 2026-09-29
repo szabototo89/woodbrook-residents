@@ -26,6 +26,9 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - The mobile gallery has two columns and the mobile navigation is operable with keyboard and touch.
 - The supplied artwork remains legible at the relevant crop and the hero's text does not overlap it.
 - No invented testimonial, social profile, client portrait or business detail appears.
+- Every page emits a canonical URL, description, and Open Graph/Twitter metadata rooted at the production Pages origin unless `VITE_PUBLIC_SITE_URL` overrides it, without inventing a social image.
+- `bun run --cwd apps/laura-faichney-web build:static` prerenders home, services, gallery, about and contact as static HTML with sitemap and robots, and `verify:static` rejects missing pages, broken internal links, runtime-only output, or crawler metadata gaps.
+- The Cloudflare Pages project `laura-faichney-all-things-art` serves the static output at its production `pages.dev` origin.
 
 ## Scope
 
@@ -33,4 +36,4 @@ This is an independent TanStack Start site under `apps/laura-faichney-web`, with
 
 ## Verification
 
-`bun run --cwd apps/laura-faichney-web test:e2e` checks all five routes at 320, 390, 640, 700, 900 and 1440 pixels, the mobile service and gallery layouts, logo loading, and keyboard menu dismissal.
+`bun run --cwd apps/laura-faichney-web test:e2e` checks all five routes at 320, 390, 640, 700, 900 and 1440 pixels, the mobile service and gallery layouts, logo loading, and keyboard menu dismissal. `bun run --cwd apps/laura-faichney-web test:unit` covers site metadata canonicals and page content. `bun run --cwd apps/laura-faichney-web build:static` verifies the prerendered Pages artifact. See `apps/laura-faichney-web/README.md` for Pages build settings and the `Deploy Laura Faichney` workflow.
