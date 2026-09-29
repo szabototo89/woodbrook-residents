@@ -14,9 +14,12 @@ test('home presents the artwork-led journey and accessible contact actions', () 
   expect(html).toContain('href="/gallery"');
   expect(html).toContain('href="tel:+353894007747"');
   expect(html).toContain('href="mailto:lauralfaichney@gmail.com"');
+  expect(html).toContain('lucide-phone');
+  expect(html).toContain('lucide-mail');
   expect(html).toContain('fetchPriority="high"');
   expect(html).toContain('src="/artwork/portrait-cutout.png"');
   expect(html).toContain('alt="A brighter world through art"');
+  expect(html).toContain('src="/artwork/about-studio.webp"');
   expect(html).toContain('What Clients Say');
   expect(html).toContain('Laura created a stunning mural for our nursery.');
   expect(html).toContain('Sarah O’Connor');
@@ -42,6 +45,12 @@ test('services expose all five supplied offerings as complete links', () => {
     ].every((title) => html.includes(title)),
   ).toBe(true);
   expect(html.match(/class="service-list-link"/g)).toHaveLength(5);
+  expect(html).not.toContain('picsum-');
+  expect(html).toContain('src="/artwork/service-commissioned-paintings.webp"');
+  expect(html).toContain('src="/artwork/service-murals.webp"');
+  expect(html).toContain('src="/artwork/service-signage.webp"');
+  expect(html).toContain('src="/artwork/service-facepainting.webp"');
+  expect(html).toContain('src="/artwork/service-art-tutoring.webp"');
   expect(html.match(/<h1\b/g)).toHaveLength(1);
 });
 

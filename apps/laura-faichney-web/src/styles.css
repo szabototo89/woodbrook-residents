@@ -222,6 +222,7 @@ h2 {
   overflow: hidden;
 }
 .home-hero {
+  --hero-heading-size: clamp(4.5rem, 6vw, 7rem);
   position: relative;
   overflow: visible;
   min-height: clamp(400px, 38vw, 540px);
@@ -249,7 +250,11 @@ h2 {
   margin-bottom: 19px;
 }
 .hero h1 {
-  font-size: clamp(4.5rem, 6vw, 7rem);
+  font-size: var(--hero-heading-size);
+}
+.hero-copy .gold-stroke {
+  width: calc(var(--hero-heading-size) * 3.2);
+  max-width: 100%;
 }
 .hero-copy > p:not(.hero-kicker) {
   max-width: 405px;
@@ -398,11 +403,12 @@ h2 {
 .about-art {
   height: 305px;
   overflow: hidden;
+  border-radius: 6px;
 }
 .about-art img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 .about-copy {
   max-width: 535px;
@@ -459,9 +465,9 @@ h2 {
 .contact-links a:hover {
   text-decoration: underline;
 }
-.contact-links span {
+.contact-links svg {
   color: #ff6b84;
-  font-size: 19px;
+  flex-shrink: 0;
 }
 .site-footer {
   background: var(--navy-deep);
@@ -817,8 +823,8 @@ h2 {
   .wordmark {
     width: 175px;
   }
-  .hero h1 {
-    font-size: clamp(4rem, 7vw, 5.7rem);
+  .home-hero {
+    --hero-heading-size: clamp(4rem, 7vw, 5.7rem);
   }
   .service-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -947,6 +953,7 @@ h2 {
     width: 38px;
   }
   .home-hero {
+    --hero-heading-size: clamp(3.55rem, 13vw, 5rem);
     min-height: 0;
   }
   .hero-inner {
@@ -964,7 +971,6 @@ h2 {
     margin-bottom: 13px;
   }
   .hero h1 {
-    font-size: clamp(3.55rem, 13vw, 5rem);
     max-width: 470px;
   }
   .hero-copy > p:not(.hero-kicker) {

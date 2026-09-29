@@ -1,5 +1,32 @@
 import { expect, test } from '@playwright/test';
 
+test('hero underline covers Brighter at desktop and phone sizes', async ({
+  page,
+}) => {
+  for (const width of [390, 900, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    const wordWidth = await page
+      .getByRole('heading', { level: 1 })
+      .evaluate((heading) => {
+        const text = Array.from(heading.childNodes).find((node) =>
+          node.textContent?.includes('Brighter'),
+        );
+        if (!text) throw new Error('Brighter is missing');
+        const range = document.createRange();
+        const start = text.textContent!.indexOf('Brighter');
+        range.setStart(text, start);
+        range.setEnd(text, start + 'Brighter'.length);
+        return range.getBoundingClientRect().width;
+      });
+    const stroke = await page.locator('.hero-copy .gold-stroke').boundingBox();
+    expect(stroke).not.toBeNull();
+    expect(stroke!.width).toBeGreaterThanOrEqual(wordWidth);
+    expect(stroke!.width).toBeLessThanOrEqual(wordWidth * 1.15);
+  }
+});
+
 test('header branding and hero copy share the same left alignment', async ({
   page,
 }) => {

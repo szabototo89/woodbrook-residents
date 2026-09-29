@@ -1,6 +1,5 @@
 import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
-import { botanical } from './siteContent';
 
 export function AboutPreview() {
   return (
@@ -8,10 +7,10 @@ export function AboutPreview() {
       <div className="container about-preview-inner">
         <div className="about-art">
           <img
-            src={botanical}
-            alt="Pink painted flower and foliage"
-            width="1254"
-            height="1254"
+            src="/artwork/about-studio.webp"
+            alt="Paintbrushes, palettes and colourful canvases in an artist’s studio"
+            width="1448"
+            height="1086"
             loading="lazy"
           />
         </div>

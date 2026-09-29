@@ -8,8 +8,8 @@ export function ServiceImage(props: {
     <img
       src={props.service.image}
       alt={props.service.imageAlt}
-      width="600"
-      height="450"
+      width="1448"
+      height="1086"
       loading={props.eager ? 'eager' : 'lazy'}
       style={{ objectPosition: props.service.position }}
     />

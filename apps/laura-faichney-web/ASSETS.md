@@ -19,6 +19,70 @@ Fixed images were downloaded as WebP on 2026-09-28, as requested. They stay stab
 | `public/artwork/picsum-1080.webp` | https://picsum.photos/id/1080/640/480.webp |
 | `public/artwork/picsum-180.webp`  | https://picsum.photos/id/180/640/480.webp  |
 
+## Generated service and About images
+
+Created with the built-in imagegen tool on 2026-09-28, then encoded as WebP at their original 1448 × 1086 dimensions. These are illustrative preview assets, not verified client commissions. The About image is a studio still life without people; the generated adult portrait was rejected and is not used. Gallery photography remains unchanged at the user's request.
+
+### commissioned-paintings
+
+Saved file: `public/artwork/service-commissioned-paintings.webp`.
+
+Selected generator output: `exec-f9fd5a3f-e8c9-42ac-93d1-599293708e65.png`.
+
+Prompt:
+
+> Use case: stylized-concept. Asset type: commissioned paintings service thumbnail. Use the supplied cow painting as visual inspiration for a NEW hand-painted acrylic composition. A friendly cow looking toward the viewer, crowned with an abundant garland of bright pink, red, yellow, blue and lilac wildflowers and green leaves. Expressive large dark eyes, soft pale muzzle, painterly patches of vivid coral, turquoise, navy, lilac and pink on its coat. Light turquoise-blue painted background. Match the cheerful bold palette, visible handmade brushwork and approachable folk-pop character of the reference; avoid photorealism and smooth digital airbrushing. Landscape 4:3, both ears, eyes, muzzle and flower crown clearly readable inside the central crop. Only painting fills the frame, no easel, room, photo border, text, logo or signature.
+
+### murals
+
+Saved file: `public/artwork/service-murals.webp`.
+
+Selected generator output: `exec-640b6935-d012-4785-9d87-259c200a4b13.png`.
+
+Prompt:
+
+> Use case: stylized-concept. Asset type: mural service thumbnail for an artist website. Close detail of a beautiful hand-painted botanical wall mural: one large lush pink peony and a second smaller peony, elegant olive and deep green leaves with warm ochre highlights, against a rich deep navy painted wall. Visible brushstrokes, contemporary premium artist portfolio photography, beautifully lit with soft natural light. Landscape 4:3 composition, large central flower and foliage fill frame, slight subtle wall texture. No people, no furniture, no text, no logo, no watermark. Opaque background.
+
+### signage
+
+Saved file: `public/artwork/service-signage.webp`.
+
+Selected generator output: `exec-0170108d-6da5-41bb-a53c-dbeaec02d339.png`.
+
+Prompt:
+
+> Use case: photorealistic-natural. Asset type: signage service thumbnail for a refined artist portfolio website. Close-up editorial photograph of a handmade matte charcoal-black wooden welcome sign. Exact and only text: "Welcome", beautifully hand-painted in warm gold flowing casual calligraphy, clearly readable. A few natural green eucalyptus and ivy leaves softly frame two corners. Warm daylight, shallow depth of field, rich deep background, beautiful real paint texture. Landscape 4:3 composition, entire word safely within central area, sign angled only slightly. No other text, no logo, no watermark.
+
+### facepainting
+
+Saved file: `public/artwork/service-facepainting.webp`.
+
+Selected generator output: `exec-3d448d56-b84e-4add-856b-fa1c231b58a4.png`.
+
+Prompt:
+
+> Use case: photorealistic-natural. Asset type: facepainting service thumbnail for a warm artist portfolio website. Natural close-up photograph of a cheerful fictional young child with a beautifully detailed butterfly facepaint design around the eyes and across the cheeks: pink, lilac and turquoise wings, fine navy curved outlines, tiny white highlights. Auburn-brown hair tucked away from the face, gentle happy smile, face turned slightly right. Soft warm daylight, softly blurred neutral garden background, professional editorial photography. Landscape 4:3 framing with the full butterfly and face comfortably visible in central crop. No text, no logo, no watermark. This is illustrative concept photography, not a real client.
+
+### art-tutoring
+
+Saved file: `public/artwork/service-art-tutoring.webp`.
+
+Selected generator output: `exec-97c4eb75-737e-4c6c-838e-bb245a9dfb6f.png`.
+
+Prompt:
+
+> Use case: photorealistic-natural. Asset type: art tutoring service thumbnail for a refined artist portfolio. Close-up editorial photograph of five well-used artist paintbrushes with wooden handles and brass ferrules, leaning diagonally from a simple ceramic pot. In the background, soft-focus watercolour paint wells and a palette with bright pink, golden yellow, teal and navy pigments on a cream studio table. Focus on the brush tips and ferrules, warm natural window light, inviting handmade creative atmosphere. Landscape 4:3 composition, brushes large enough to read at thumbnail size. No people, no text, no logo, no watermark.
+
+### about-studio
+
+Saved file: `public/artwork/about-studio.webp`.
+
+Selected generator output: `exec-45a58aba-4a66-44df-8452-07200fce2d69.png`.
+
+Prompt:
+
+> Use case: photorealistic-natural. Asset type: About section image for an artist website. An inviting artist's studio still life with NO PEOPLE: well-used brushes in a paint-splattered cream ceramic pot on a wooden worktable, vibrant pink, turquoise, yellow and navy paint on a palette, a linen apron draped over a nearby chair, and colourful handmade canvases leaning against a warm cream studio wall. A bright flower-crowned cow painting and a geometric hot-pink and navy pop-art painting are softly visible behind the brushes, inspired by the user's supplied art direction. Natural side window light, honest paint splashes and tactile materials, warm premium editorial photography, not a sterile stock image. Landscape 4:3 composition, main brush pot and canvas details inside central square-safe crop. Strictly no person, no human face, no hands, no photo portrait, no words, no logo, no signature, no watermark.
+
 ## Generated transparent assets
 
 ### Hero portrait cutout
