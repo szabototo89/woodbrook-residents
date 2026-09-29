@@ -31,6 +31,38 @@ test('builds the static site with the production site URL', () => {
   );
 });
 
+test('ignores ambient VITE_PUBLIC_SITE_URL from local dotenv files', () => {
+  const config = getLauraDeployConfig({
+    VITE_PUBLIC_SITE_URL: 'http://localhost:3000',
+  });
+
+  expect(config.siteUrl).toBe(
+    'https://laura-faichney-all-things-art.pages.dev',
+  );
+});
+
+test('forces the production site URL into the static build env', () => {
+  const config = getLauraDeployConfig({
+    VITE_PUBLIC_SITE_URL: 'http://localhost:3000',
+  });
+  const env = buildStaticDeployEnv(config, {
+    VITE_PUBLIC_SITE_URL: 'http://localhost:3000',
+  });
+
+  expect(env.VITE_PUBLIC_SITE_URL).toBe(
+    'https://laura-faichney-all-things-art.pages.dev',
+  );
+});
+
+test('allows an explicit LAURA_SITE_URL override for preview deploys', () => {
+  const config = getLauraDeployConfig({
+    VITE_PUBLIC_SITE_URL: 'http://localhost:3000',
+    LAURA_SITE_URL: 'https://preview.example.com/',
+  });
+
+  expect(config.siteUrl).toBe('https://preview.example.com/');
+});
+
 test('builds wrangler pages deploy args for the Laura project', () => {
   const config = getLauraDeployConfig({});
 

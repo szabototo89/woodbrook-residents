@@ -18,8 +18,11 @@ export function getLauraDeployConfig(
   return {
     projectName:
       env.LAURA_PAGES_PROJECT?.trim() || 'laura-faichney-all-things-art',
+    // Never inherit VITE_PUBLIC_SITE_URL here: Bun auto-loads the repo-root
+    // .env, which points it at http://localhost:3000 for local development.
+    // Production is the default; previews opt in via LAURA_SITE_URL.
     siteUrl:
-      env.VITE_PUBLIC_SITE_URL?.trim() ||
+      env.LAURA_SITE_URL?.trim() ||
       'https://laura-faichney-all-things-art.pages.dev',
     branch: env.LAURA_DEPLOY_BRANCH?.trim() || 'main',
     appDir: 'apps/laura-faichney-web',
