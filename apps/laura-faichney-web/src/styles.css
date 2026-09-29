@@ -704,9 +704,9 @@ h2 {
   font-size: 17px;
 }
 .testimonial {
-  padding-block: 32px;
-  background: var(--cream-dark);
-  border-top: 1px solid var(--cream);
+  padding-block: 48px;
+  background: var(--pink-soft);
+  border-top: 1px solid #e7b9bf;
 }
 .testimonial-inner {
   display: grid;
@@ -791,7 +791,6 @@ h2 {
   top: 0;
   background-size: auto 135%;
   background-position: left center;
-  opacity: 0.48;
 }
 .contact-section::after {
   background-image: url('/decoration/blush-gold-brush.png');
@@ -885,8 +884,13 @@ h2 {
     opacity: 0.25;
   }
   .contact-section::before {
-    width: 100px;
-    opacity: 0.28;
+    width: 160px;
+    height: 240px;
+    left: -20px;
+    top: auto;
+    bottom: -124px;
+    background-size: contain;
+    background-position: left bottom;
   }
   .mural-feature::after {
     width: 200px;

@@ -1,5 +1,56 @@
 import { expect, test } from '@playwright/test';
 
+test('client quote reads as a separate section from the biography', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const backgrounds = await page.evaluate(() => {
+    const about = document.querySelector('.about-preview');
+    const testimonial = document.querySelector('.testimonial');
+    if (!about || !testimonial) throw new Error('Home sections are missing');
+    return [about, testimonial].map((section) =>
+      getComputedStyle(section).backgroundColor.match(/\d+/g)?.map(Number),
+    );
+  });
+  const [about, testimonial] = backgrounds;
+  if (!about || !testimonial) throw new Error('Section colours are missing');
+  const colorDifference = about
+    .slice(0, 3)
+    .reduce(
+      (sum, channel, index) => sum + Math.abs(channel - testimonial[index]),
+      0,
+    );
+  expect(colorDifference).toBeGreaterThanOrEqual(24);
+});
+
+test('contact brush is vivid and stays below the contact details on phones', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const decoration = await page
+      .locator('.contact-section')
+      .evaluate((section) => {
+        const style = getComputedStyle(section, '::before');
+        const links = section.querySelector('.contact-links');
+        if (!links) throw new Error('Contact links are missing');
+        const sectionBounds = section.getBoundingClientRect();
+        return {
+          opacity: Number(style.opacity),
+          top: sectionBounds.top + parseFloat(style.top),
+          linksBottom: links.getBoundingClientRect().bottom,
+        };
+      });
+    expect(decoration.opacity, `${width}px brush opacity`).toBe(1);
+    if (width <= 390) {
+      expect(decoration.top, `${width}px brush position`).toBeGreaterThan(
+        decoration.linksBottom,
+      );
+    }
+  }
+});
+
 test('hero underline covers Brighter at desktop and phone sizes', async ({
   page,
 }) => {

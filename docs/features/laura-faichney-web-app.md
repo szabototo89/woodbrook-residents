@@ -17,6 +17,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - The hero portrait has a transparent, irregular painted silhouette extending toward the header. Desktop uses a large portrait cropped at the section’s lower edge; tablet and mobile preserve the full face without a gradient fade. The home biography includes the supplied gold handwritten statement, “A brighter world through art”.
 - All pages use one primary heading, visible focus states, meaningful image descriptions and reduced motion support.
 - A “What Clients Say” section follows the home biography, displaying the single Sarah O’Connor quote explicitly supplied in the user's testimonial reference screenshot. It has no autoplay or inactive carousel controls.
+- The client quote sits on a soft blush panel, separating it from the cream biography above and the navy contact section below. The contact brush remains fully coloured; on phones it sits at the lower left, below the contact details.
 
 ## Acceptance criteria
 
@@ -26,6 +27,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - The mobile gallery has two columns and the mobile navigation is operable with keyboard and touch.
 - The supplied artwork remains legible at the relevant crop and the hero's text does not overlap it.
 - No invented testimonial, social profile, client portrait or business detail appears.
+- The testimonial is visually distinct from the biography, and the mobile contact brush does not sit behind the heading or contact links.
 
 ## Scope
 
