@@ -10,6 +10,7 @@ dist/
 .tanstack/
 .tmp/
 .cache/
+~/.cmuxterm/
 coverage/
 playwright-report/
 test-results/
