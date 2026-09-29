@@ -6,6 +6,7 @@ All current assets are for the design implementation. Laura will supply original
 
 - `public/artwork/colour-portrait.png`: supplied file `ChatGPT-kép 2026. szept. 28. 16_00_39-1.png`.
 - `public/artwork/pink-botanical.png`: supplied file `ChatGPT-kép 2026. szept. 28. 16_00_45-6.png`.
+- `public/artwork/services-hero-brushes.png`: supplied chat image (2026-09-29, 1536 × 1024). Paintbrushes in a painted cup with pink, gold and navy brushstrokes on black; used as the services page hero instead of the shared botanical.
 
 ## Picsum photography
 

@@ -1,5 +1,6 @@
 export const portrait = '/artwork/colour-portrait.png';
 export const botanical = '/artwork/pink-botanical.png';
+export const servicesHero = '/artwork/services-hero-brushes.png';
 
 export const services = [
   {
