@@ -1,3 +1,4 @@
+import { ArrowRight } from 'lucide-react';
 import { botanical, services } from './siteContent';
 import { Eyebrow } from './Eyebrow';
 import { GoldStroke } from './GoldStroke';
@@ -46,7 +47,7 @@ export function ServicesPage() {
                 <span>{service.description}</span>
               </span>
               <span className="service-arrow" aria-hidden="true">
-                →
+                <ArrowRight size={22} strokeWidth={2} aria-hidden="true" />
               </span>
             </a>
           ))}

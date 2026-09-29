@@ -1,3 +1,4 @@
+import { Heart, MapPin, Palette, Sparkles } from 'lucide-react';
 import { botanical, portrait } from './siteContent';
 import { Eyebrow } from './Eyebrow';
 import { GoldStroke } from './GoldStroke';
@@ -39,7 +40,9 @@ export function AboutPage() {
       <section className="values">
         <div className="container values-grid">
           <div>
-            <span aria-hidden="true">✳</span>
+            <span className="values-icon" aria-hidden="true">
+              <Palette size={28} strokeWidth={1.75} aria-hidden="true" />
+            </span>
             <h2>
               Creative
               <br />
@@ -48,7 +51,9 @@ export function AboutPage() {
             <p>Artwork tailored for homes, businesses and events.</p>
           </div>
           <div>
-            <span aria-hidden="true">♡</span>
+            <span className="values-icon" aria-hidden="true">
+              <Heart size={28} strokeWidth={1.75} aria-hidden="true" />
+            </span>
             <h2>
               All Ages
               <br />
@@ -57,7 +62,9 @@ export function AboutPage() {
             <p>From children’s facepainting to art tutoring.</p>
           </div>
           <div>
-            <span aria-hidden="true">✧</span>
+            <span className="values-icon" aria-hidden="true">
+              <Sparkles size={28} strokeWidth={1.75} aria-hidden="true" />
+            </span>
             <h2>
               Brighter
               <br />
@@ -66,7 +73,9 @@ export function AboutPage() {
             <p>Art that brings colour and character to everyday spaces.</p>
           </div>
           <div>
-            <span aria-hidden="true">❧</span>
+            <span className="values-icon" aria-hidden="true">
+              <MapPin size={28} strokeWidth={1.75} aria-hidden="true" />
+            </span>
             <h2>
               Local &amp;
               <br />

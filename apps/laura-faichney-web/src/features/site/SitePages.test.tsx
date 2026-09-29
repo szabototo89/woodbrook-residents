@@ -1,7 +1,13 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, test } from 'vitest';
 
-import { AboutPage, GalleryPage, HomePage, ServicesPage } from './SitePages';
+import {
+  AboutPage,
+  GalleryPage,
+  HomePage,
+  ServicesPage,
+  SiteHeader,
+} from './SitePages';
 
 test('home presents the artwork-led journey and accessible contact actions', () => {
   const html = renderToStaticMarkup(<HomePage />);
@@ -65,6 +71,29 @@ test('about and gallery present routes without invented client claims', () => {
   expect(about).not.toContain('Sarah O’Connor');
   expect(gallery).toContain('A glimpse of my work');
   expect(gallery).toContain('loading="lazy"');
+});
+
+test('about values and arrows use Lucide icons instead of unicode glyphs', () => {
+  const about = renderToStaticMarkup(<AboutPage />);
+  const services = renderToStaticMarkup(<ServicesPage />);
+  const home = renderToStaticMarkup(<HomePage />);
+  const header = renderToStaticMarkup(<SiteHeader active="/" />);
+
+  expect(about).toContain('lucide-palette');
+  expect(about).toContain('lucide-heart');
+  expect(about).toContain('lucide-sparkles');
+  expect(about).toContain('lucide-map-pin');
+  expect(about).not.toContain('✳');
+  expect(about).not.toContain('♡');
+  expect(about).not.toContain('✧');
+  expect(about).not.toContain('❧');
+
+  expect(home).toContain('lucide-arrow-right');
+  expect(about).toContain('lucide-arrow-right');
+  expect(services).toContain('lucide-arrow-right');
+  expect(header).toContain('lucide-arrow-right');
+  expect(header).toContain('primary-navigation');
+  expect(`${home}${about}${services}${header}`).not.toContain('→');
 });
 
 test('gallery uses five distinct photos without displaying placeholder notices', () => {
