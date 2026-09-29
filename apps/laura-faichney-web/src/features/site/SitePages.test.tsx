@@ -83,6 +83,7 @@ test('about values and arrows use Lucide icons instead of unicode glyphs', () =>
   expect(about).toContain('lucide-heart');
   expect(about).toContain('lucide-sparkles');
   expect(about).toContain('lucide-map-pin');
+  expect(about.match(/width="44"/g)).toHaveLength(4);
   expect(about).not.toContain('✳');
   expect(about).not.toContain('♡');
   expect(about).not.toContain('✧');

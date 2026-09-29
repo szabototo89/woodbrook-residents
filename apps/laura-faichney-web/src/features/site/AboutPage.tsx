@@ -41,7 +41,7 @@ export function AboutPage() {
         <div className="container values-grid">
           <div>
             <span className="values-icon" aria-hidden="true">
-              <Palette size={28} strokeWidth={1.75} aria-hidden="true" />
+              <Palette size={44} strokeWidth={1.75} aria-hidden="true" />
             </span>
             <h2>
               Creative
@@ -52,7 +52,7 @@ export function AboutPage() {
           </div>
           <div>
             <span className="values-icon" aria-hidden="true">
-              <Heart size={28} strokeWidth={1.75} aria-hidden="true" />
+              <Heart size={44} strokeWidth={1.75} aria-hidden="true" />
             </span>
             <h2>
               All Ages
@@ -63,7 +63,7 @@ export function AboutPage() {
           </div>
           <div>
             <span className="values-icon" aria-hidden="true">
-              <Sparkles size={28} strokeWidth={1.75} aria-hidden="true" />
+              <Sparkles size={44} strokeWidth={1.75} aria-hidden="true" />
             </span>
             <h2>
               Brighter
@@ -74,7 +74,7 @@ export function AboutPage() {
           </div>
           <div>
             <span className="values-icon" aria-hidden="true">
-              <MapPin size={28} strokeWidth={1.75} aria-hidden="true" />
+              <MapPin size={44} strokeWidth={1.75} aria-hidden="true" />
             </span>
             <h2>
               Local &amp;
