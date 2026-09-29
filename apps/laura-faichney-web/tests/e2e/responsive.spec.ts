@@ -27,6 +27,49 @@ test('hero underline covers Brighter at desktop and phone sizes', async ({
   }
 });
 
+test('phone body copy remains at least 16px', async ({ page }) => {
+  for (const width of [320, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    for (const [path, selector] of [
+      ['/', '.mural-copy p:not(.eyebrow)'],
+      ['/', '.contact-section p:not(.eyebrow)'],
+      ['/services', '.service-list-copy > span'],
+      ['/about', '.values-grid p'],
+    ]) {
+      await page.goto(path);
+      const fontSize = await page
+        .locator(selector)
+        .first()
+        .evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
+      expect(
+        fontSize,
+        `${path} ${selector} at ${width}px`,
+      ).toBeGreaterThanOrEqual(16);
+    }
+  }
+});
+
+test('visible phone links and buttons have 44px tap areas', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const path of ['/', '/services', '/about', '/gallery', '/contact']) {
+    await page.goto(path);
+    const undersized = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('a, button'))
+        .filter((element) => {
+          const bounds = element.getBoundingClientRect();
+          return bounds.width > 0 && bounds.height > 0 && bounds.height < 44;
+        })
+        .map(
+          (element) =>
+            element.textContent?.trim() || element.getAttribute('aria-label'),
+        ),
+    );
+    expect(undersized, path).toEqual([]);
+  }
+});
+
 test('header branding and hero copy share the same left alignment', async ({
   page,
 }) => {
