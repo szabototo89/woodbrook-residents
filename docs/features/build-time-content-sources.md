@@ -4,7 +4,7 @@ Status: Available
 
 ## Job to be done
 
-When maintaining the public website, I want to choose either the Woodbrook Google spreadsheet or Strapi as its content source, so the site can remain inexpensive and fully static now without preventing a future CMS deployment.
+When maintaining the public website, I want to choose the Woodbrook Google spreadsheet, Strapi, or Sanity Studio as its content source, so the site can remain inexpensive and fully static now without preventing a future CMS deployment.
 
 ## User-visible behavior
 
@@ -18,6 +18,7 @@ When maintaining the public website, I want to choose either the Woodbrook Googl
 ## Acceptance criteria
 
 - Given `CONTENT_SOURCE=strapi`, when the site loads content, then it reads all public editorial collections from the configured Strapi URL into one validated snapshot.
+- Given `CONTENT_SOURCE=sanity`, when the site loads content, then it runs GROQ queries against the configured Sanity project (`ca34quae`) and dataset (`production`) into one validated snapshot. See [Sanity Studio content](sanity-studio-content.md).
 - Given `CONTENT_SOURCE=google-sheets`, when the static build runs with read-only service-account credentials, then it reads the configured spreadsheet tabs in one batch and maps published rows into the canonical content model.
 - Given a Google Sheets row has `publish != TRUE`, when content is loaded, then the row is ignored and its private `admin_notes` value is never included in the snapshot.
 - Given a published row has an invalid required field, taxonomy value, date, URL, or relation, when content is loaded, then the error identifies the tab, row, and field and the static build fails.
@@ -30,7 +31,7 @@ When maintaining the public website, I want to choose either the Woodbrook Googl
 
 ### Included
 
-- Read-only Strapi and Google Sheets adapters, source selection, normalization, validation, build-time caching, service-account configuration, tests, and deployment guidance.
+- Read-only Strapi, Google Sheets, and Sanity adapters, source selection, normalization, validation, build-time caching, service-account/API-token configuration, tests, and deployment guidance.
 - Structured local-information collection schedules and supporting document
   links stored in the Google spreadsheet.
 

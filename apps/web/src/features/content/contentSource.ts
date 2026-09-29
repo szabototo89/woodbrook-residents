@@ -1,7 +1,7 @@
 import { contentSnapshotSchema } from './contentSchemas';
 import type { ContentSnapshot } from './contentTypes';
 
-export type ContentSourceName = 'google-sheets' | 'strapi';
+export type ContentSourceName = 'google-sheets' | 'sanity' | 'strapi';
 
 export interface ContentSource {
   readonly name: ContentSourceName;

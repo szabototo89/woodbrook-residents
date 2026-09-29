@@ -20,6 +20,11 @@
       "type": "local",
       "command": ["npx", "-y", "@lynx-js/devtool-mcp-server@latest"],
       "enabled": true
+    },
+    "Sanity": {
+      "type": "remote",
+      "url": "https://mcp.sanity.io",
+      "enabled": true
     }
   }
 }

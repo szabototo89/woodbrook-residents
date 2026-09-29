@@ -1,5 +1,5 @@
 #!/bin/sh
-# Close the Herdr workspace linked to a removed git worktree.
+# Close the Herdr and cmux workspaces linked to a removed git worktree.
 # Git fires no hook on `git worktree remove`, so scripts/worktree-remove.sh
 # calls this after removal. Safe to run manually:
 #   .githooks/post-worktree-remove <removed-checkout-path>
@@ -10,9 +10,8 @@ removed="${1:-}"
 [ -n "$removed" ] || exit 0
 
 herdr_bin="${HERDR_BIN:-herdr}"
-command -v "$herdr_bin" >/dev/null 2>&1 || exit 0
-
-REMOVED_PATH="$removed" HERDR_BIN="$herdr_bin" python3 - >/dev/null 2>&1 <<'PY' || true
+if command -v "$herdr_bin" >/dev/null 2>&1; then
+  REMOVED_PATH="$removed" HERDR_BIN="$herdr_bin" python3 - >/dev/null 2>&1 <<'PY' || true
 import json
 import os
 import subprocess
@@ -69,5 +68,67 @@ for ws in workspaces:
         except Exception:
             continue
 PY
+fi
+
+cmux_bin="${CMUX_BIN:-cmux}"
+if command -v "$cmux_bin" >/dev/null 2>&1; then
+  REMOVED_PATH="$removed" CMUX_BIN="$cmux_bin" python3 - >/dev/null 2>&1 <<'PY' || true
+import json
+import os
+import subprocess
+
+removed = os.environ.get("REMOVED_PATH", "")
+cmux = os.environ.get("CMUX_BIN", "cmux")
+if not removed:
+    raise SystemExit(0)
+
+try:
+    target = os.path.realpath(removed)
+except OSError:
+    target = removed
+
+try:
+    out = subprocess.run(
+        [cmux, "workspace", "list", "--json"],
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+except Exception:
+    raise SystemExit(0)
+if out.returncode != 0 or not out.stdout.strip():
+    raise SystemExit(0)
+
+try:
+    data = json.loads(out.stdout)
+except Exception:
+    raise SystemExit(0)
+
+workspaces = data.get("workspaces", [])
+if not isinstance(workspaces, list):
+    raise SystemExit(0)
+
+for ws in workspaces:
+    if not isinstance(ws, dict):
+        continue
+    wid = ws.get("id")
+    checkout = ws.get("current_directory")
+    if not wid or not checkout:
+        continue
+    try:
+        current = os.path.realpath(checkout)
+    except OSError:
+        current = checkout
+    if current == target:
+        try:
+            subprocess.run(
+                [cmux, "workspace", "close", wid],
+                capture_output=True,
+                timeout=10,
+            )
+        except Exception:
+            continue
+PY
+fi
 
 exit 0

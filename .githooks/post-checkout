@@ -1,5 +1,5 @@
 #!/bin/sh
-# Register new linked worktrees in Herdr so they show up in Spaces.
+# Register new linked worktrees in Herdr and cmux.
 # Git runs this hook after `git worktree add` with cwd inside the new checkout.
 set -eu
 
@@ -17,7 +17,56 @@ case "$gitdir" in
 esac
 
 herdr_bin="${HERDR_BIN:-herdr}"
-command -v "$herdr_bin" >/dev/null 2>&1 || exit 0
+if command -v "$herdr_bin" >/dev/null 2>&1; then
+  # Never block git, never fail the checkout, never steal focus.
+  "$herdr_bin" worktree open --path "$PWD" --no-focus >/dev/null 2>&1 &
+fi
 
-# Never block git, never fail the checkout, never steal focus.
-"$herdr_bin" worktree open --path "$PWD" --no-focus >/dev/null 2>&1 &
+cmux_bin="${CMUX_BIN:-cmux}"
+if command -v "$cmux_bin" >/dev/null 2>&1; then
+  # Never block git and never fail the checkout. Everything below runs in the
+  # background: create the workspace (--focus false), wrap it in its own
+  # collapsible group, then move the invoking tab in when this hook runs
+  # inside a cmux terminal (CMUX_SURFACE_ID).
+  (
+    ws_name="$(basename "$PWD")"
+    wt_path="$(realpath "$PWD" 2>/dev/null || printf '%s' "$PWD")"
+    new_id="$("$cmux_bin" workspace create --cwd "$PWD" --name "$ws_name" --focus false --json --id-format uuids 2>/dev/null | python3 -c 'import json,sys
+try:
+    print(json.load(sys.stdin).get("workspace_id", ""))
+except Exception:
+    pass' 2>/dev/null || true)"
+    if [ -n "$new_id" ]; then
+      group_out="$("$cmux_bin" workspace-group create --name "$ws_name" --from "$new_id" --idempotency-key "git-worktree:$wt_path" --json --id-format uuids 2>/dev/null || true)"
+      group_info="$(printf '%s' "$group_out" | NEW_ID="$new_id" python3 -c 'import json,os,sys
+try:
+    data = json.load(sys.stdin)
+    group = data.get("group", {})
+    anchor = group.get("anchor_workspace_id", "")
+    mine = os.environ.get("NEW_ID", "")
+    print(group.get("id", ""))
+    print("yes" if data.get("created") else "no")
+    if data.get("created") and group.get("anchor_workspace_is_generated") and anchor and anchor != mine:
+        print(anchor)
+    else:
+        print("")
+except Exception:
+    print("")
+    print("no")
+    print("")' 2>/dev/null || true)"
+      group_id="$(printf '%s' "$group_info" | sed -n '1p')"
+      group_created="$(printf '%s' "$group_info" | sed -n '2p')"
+      gen_anchor="$(printf '%s' "$group_info" | sed -n '3p')"
+      if [ "$group_created" = "yes" ]; then
+        if [ -n "$gen_anchor" ]; then
+          "$cmux_bin" workspace close "$gen_anchor" >/dev/null 2>&1 || true
+        fi
+      elif [ -n "$group_id" ]; then
+        "$cmux_bin" workspace-group add --group "$group_id" --workspace "$new_id" >/dev/null 2>&1 || true
+      fi
+    fi
+    if [ -n "$new_id" ] && [ -n "${CMUX_SURFACE_ID:-}" ]; then
+      "$cmux_bin" move-surface --surface "$CMUX_SURFACE_ID" --workspace "$new_id" --focus true >/dev/null 2>&1 || true
+    fi
+  ) >/dev/null 2>&1 &
+fi

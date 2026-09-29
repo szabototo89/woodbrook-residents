@@ -1,6 +1,6 @@
-# Strapi content model
+# Content model (Strapi + Sanity)
 
-The model intentionally uses six collection types and one single type. It avoids categories-as-collections, polymorphic page builders, and deeply nested components until there is a proven editorial need.
+The model intentionally uses six collection types and one single type. It avoids categories-as-collections, polymorphic page builders, and deeply nested components until there is a proven editorial need. Sanity Studio at `apps/sanity-studio` mirrors the same model with document types `siteSetting`, `update`, `project`, `event`, `survey`, `resource`, and private `issueReport`, plus objects `resourceDetail` and `collectionDate`.
 
 | Type         | Purpose                                               | Key fields                                                                                                                                               |
 | ------------ | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |

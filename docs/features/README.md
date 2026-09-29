@@ -7,6 +7,7 @@
 - [iOS mobile navigation and live content](ios-mobile-navigation.md) — Available
 - [Mobile iOS and web renderers](mobile-ios-web-renderers.md) — Available
 - [Build-time content sources](build-time-content-sources.md) — Available
+- [Sanity Studio content](sanity-studio-content.md) — Available
 - [Developer dashboard](developer-dashboard.md) — Available
 - [One React component per file](react-one-component.md) — Available
 - [Single `props` parameter for React components](react-props-param.md) — Available
