@@ -6,6 +6,7 @@
     "dev": "vite dev --port 3003",
     "build": "vite build",
     "build:static": "bun scripts/build-static.ts",
+    "deploy": "bun ../../scripts/deploy-laura.ts",
     "preview": "vite preview",
     "test:e2e": "bun run build && playwright test",
     "test:unit": "vitest run",

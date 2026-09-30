@@ -40,6 +40,17 @@ Dashboard build settings (repository root):
 - Build output directory: `apps/laura-faichney-web/dist/client`
 - Build environment variables: `VITE_PUBLIC_SITE_URL=https://laura-faichney-all-things-art.pages.dev`, `BUN_VERSION=1.4.0`
 
+Easiest deploy from the repository root (builds then deploys):
+
+```bash
+bun run deploy:laura
+```
+
+The script always builds with the production site URL (the repo-root `.env`
+points `VITE_PUBLIC_SITE_URL` at localhost for local dev, so it is ignored).
+Preview deploys can opt in with `LAURA_SITE_URL=https://preview.example.com
+bun run deploy:laura`.
+
 Manual deploy from the repository root after building:
 
 ```bash

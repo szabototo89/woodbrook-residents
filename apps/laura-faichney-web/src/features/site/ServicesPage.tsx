@@ -1,4 +1,5 @@
-import { botanical, services } from './siteContent';
+import { ArrowRight } from 'lucide-react';
+import { services, servicesHero } from './siteContent';
 import { Eyebrow } from './Eyebrow';
 import { GoldStroke } from './GoldStroke';
 import { ServiceImage } from './ServiceImage';
@@ -24,10 +25,10 @@ export function ServicesPage() {
             </p>
           </div>
           <img
-            src={botanical}
-            alt="Pink floral artwork"
-            width="1254"
-            height="1254"
+            src={servicesHero}
+            alt="Paintbrushes in a painted cup with pink, gold and navy brushstrokes"
+            width="1536"
+            height="1024"
             fetchPriority="high"
           />
         </div>
@@ -46,7 +47,7 @@ export function ServicesPage() {
                 <span>{service.description}</span>
               </span>
               <span className="service-arrow" aria-hidden="true">
-                →
+                <ArrowRight size={22} strokeWidth={2} aria-hidden="true" />
               </span>
             </a>
           ))}
