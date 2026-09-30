@@ -344,7 +344,41 @@ test('visible phone links and buttons have 44px tap areas', async ({
   }
 });
 
-test('every subpage hero uses its own overflowing cutout without viewport overflow', async ({
+test('phone subpage artwork introduces the copy and contact action', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 640]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of ['/about', '/services', '/gallery', '/contact']) {
+      await page.goto(path);
+      const hero = page.locator('.page-hero');
+      const artwork = await hero.getByRole('img').boundingBox();
+      const heading = await hero
+        .getByRole('heading', { level: 1 })
+        .boundingBox();
+      const bounds = await hero.boundingBox();
+      if (!artwork || !heading || !bounds)
+        throw new Error('Hero content is missing');
+      expect(
+        artwork.y + artwork.height,
+        `${path} at ${width}px`,
+      ).toBeLessThanOrEqual(heading.y);
+      expect(artwork.y).toBeGreaterThanOrEqual(bounds.y);
+      if (path === '/about') {
+        const action = hero.getByRole('link', { name: /Get in Touch/ });
+        await expect(action).toHaveAttribute('href', '/contact');
+        const actionBounds = await action.boundingBox();
+        if (!actionBounds) throw new Error('Contact action is missing');
+        expect(actionBounds.y).toBeGreaterThan(heading.y + heading.height);
+        expect(bounds.y + bounds.height).toBeGreaterThanOrEqual(
+          actionBounds.y + actionBounds.height + 32,
+        );
+      }
+    }
+  }
+});
+
+test('every subpage hero uses its own cutout without viewport overflow', async ({
   page,
 }) => {
   for (const width of [390, 1440]) {
@@ -374,7 +408,9 @@ test('every subpage hero uses its own overflowing cutout without viewport overfl
       });
       expect(artwork.naturalWidth).toBe(1374);
       expect(artwork.topLeftAlpha).toBe(0);
-      expect(bounds.y + bounds.height).toBeGreaterThan(hero.y + hero.height);
+      if (width > 640) {
+        expect(bounds.y + bounds.height).toBeGreaterThan(hero.y + hero.height);
+      }
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth),
       ).toBe(width);
