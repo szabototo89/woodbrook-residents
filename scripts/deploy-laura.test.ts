@@ -6,6 +6,7 @@ import {
   buildStaticDeployEnv,
   getLauraDeployConfig,
   pagesDeployArgs,
+  pagesDeployCwd,
 } from './deploy-laura';
 
 const repositoryRoot = resolve(import.meta.dir, '..');
@@ -69,11 +70,39 @@ test('builds wrangler pages deploy args for the Laura project', () => {
   expect(pagesDeployArgs(config, 'abc123')).toEqual([
     'pages',
     'deploy',
-    'apps/laura-faichney-web/dist/client',
+    'dist/client',
     '--project-name=laura-faichney-all-things-art',
     '--branch=main',
     '--commit-hash=abc123',
   ]);
+});
+
+test('runs the Pages deploy from the app dir so wrangler finds the Pages config', () => {
+  const config = getLauraDeployConfig({});
+
+  expect(pagesDeployCwd(config, repositoryRoot)).toBe(
+    join(repositoryRoot, 'apps/laura-faichney-web'),
+  );
+});
+
+test('declares a Pages wrangler config with the build output dir', () => {
+  const appConfig = readFileSync(
+    join(repositoryRoot, 'apps/laura-faichney-web/wrangler.jsonc'),
+    'utf8',
+  );
+
+  expect(appConfig).toContain('"name": "laura-faichney-all-things-art"');
+  expect(appConfig).toContain('"pages_build_output_dir": "./dist/client"');
+});
+
+test('deploys from the app dir in CI so wrangler finds the Pages config', () => {
+  const workflow = readFileSync(
+    join(repositoryRoot, '.github/workflows/deploy-laura-faichney.yml'),
+    'utf8',
+  );
+
+  expect(workflow).toContain('workingDirectory: apps/laura-faichney-web');
+  expect(workflow).toContain('command: pages deploy dist/client');
 });
 
 test('wires a root deploy:laura script and an app deploy script', () => {

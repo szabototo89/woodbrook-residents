@@ -51,11 +51,13 @@ points `VITE_PUBLIC_SITE_URL` at localhost for local dev, so it is ignored).
 Preview deploys can opt in with `LAURA_SITE_URL=https://preview.example.com
 bun run deploy:laura`.
 
-Manual deploy from the repository root after building:
+Manual deploy after building (from the app directory so wrangler picks up
+its Pages config instead of the repository-root Workers config):
 
 ```bash
 bun run --cwd apps/laura-faichney-web build:static
-bunx wrangler pages deploy apps/laura-faichney-web/dist/client --project-name=laura-faichney-all-things-art --branch=main --commit-hash=$(git rev-parse HEAD)
+cd apps/laura-faichney-web
+bunx wrangler pages deploy dist/client --project-name=laura-faichney-all-things-art --branch=main --commit-hash=$(git rev-parse HEAD)
 ```
 
 Pushes to `main` that touch `apps/laura-faichney-web/**` are also deployed by the `Deploy Laura Faichney` GitHub workflow.

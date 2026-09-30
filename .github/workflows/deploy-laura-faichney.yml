@@ -38,4 +38,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/laura-faichney-web/dist/client --project-name=laura-faichney-all-things-art --branch=main --commit-hash=${{ github.sha }}
+          workingDirectory: apps/laura-faichney-web
+          command: pages deploy dist/client --project-name=laura-faichney-all-things-art --branch=main --commit-hash=${{ github.sha }}

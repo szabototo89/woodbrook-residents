@@ -1,4 +1,4 @@
-import { resolve } from 'node:path';
+import { join, relative, resolve } from 'node:path';
 
 export interface LauraDeployConfig {
   projectName: string;
@@ -44,16 +44,31 @@ export function pagesDeployArgs(
   return [
     'pages',
     'deploy',
-    config.distClientDir,
+    // App-relative: wrangler runs with cwd=config.appDir so config discovery
+    // finds apps/laura-faichney-web/wrangler.jsonc (a Pages config) instead
+    // of the repository-root Workers config, which has no
+    // pages_build_output_dir and triggers a "missing field" warning.
+    relative(config.appDir, config.distClientDir),
     `--project-name=${config.projectName}`,
     `--branch=${config.branch}`,
     `--commit-hash=${commitHash}`,
   ];
 }
 
-async function runChecked(command: string[], env: Env = process.env) {
+export function pagesDeployCwd(
+  config: LauraDeployConfig,
+  root: string = repositoryRoot,
+): string {
+  return join(root, config.appDir);
+}
+
+async function runChecked(
+  command: string[],
+  env: Env = process.env,
+  cwd: string = repositoryRoot,
+) {
   const subprocess = Bun.spawn(command, {
-    cwd: repositoryRoot,
+    cwd,
     env,
     stdin: 'inherit',
     stdout: 'inherit',
@@ -97,12 +112,16 @@ async function deploy() {
   });
 
   const commitHash = await resolveCommitHash();
-  await runChecked([
-    'bunx',
-    'wrangler',
-    ...pagesDeployArgs(config, commitHash),
-    ...Bun.argv.slice(2),
-  ]);
+  await runChecked(
+    [
+      'bunx',
+      'wrangler',
+      ...pagesDeployArgs(config, commitHash),
+      ...Bun.argv.slice(2),
+    ],
+    process.env,
+    pagesDeployCwd(config),
+  );
 }
 
 if (import.meta.main) {
