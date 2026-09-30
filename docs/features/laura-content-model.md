@@ -1,6 +1,6 @@
 # Laura content model
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
@@ -8,7 +8,7 @@ When Laura edits her own site content in Sanity Studio, I want every editable wo
 
 ## Visible behavior
 
-- Studio lives at `apps/laura-studio` bound to Sanity project `uag6kepo` ("Laura Faichney All Things Art"), dataset `production`, separate from the Woodbrook `ca34quae` project and `apps/sanity-studio`.
+- Studio lives at `apps/laura-studio` bound to Sanity project `uag6kepo` ("Laura Faichney All Things Art"), dataset `production`, fully separate from the Woodbrook studio and project.
 - Singletons with fixed document ids: `homePage`, `aboutPage`, `servicesPage`, `galleryPage`, `siteSettings`.
 - Collections: `service` (title, stable slug, description, image + alt, order) and `galleryItem` (image, alt, optional caption, featured flag, order).
 - Shared `pageHero` object (eyebrow, two-line title, description, image + alt, optional button text) and shared `seo` object (title, description) across all four page singletons.
@@ -25,7 +25,7 @@ When Laura edits her own site content in Sanity Studio, I want every editable wo
 - Given a fresh checkout, when `bun run --cwd apps/laura-studio test:unit` runs, then all tests pass with the 90% per-file coverage gate green.
 - Given the schema is deployed, when an editor opens the hosted Studio, then Home, About, Services page, Gallery page, and Site settings open directly with no document lists to navigate.
 - Given an editor login, when they create and publish one service and one gallery item and edit the home hero copy, then the changes persist as published documents in `production`.
-- Given `uag6kepo`, when the Laura scope is searched, then no `ca34quae` reference remains in `apps/laura-studio` or its wiring.
+- Given `uag6kepo`, when the Laura scope is searched, then no Woodbrook project reference remains in `apps/laura-studio` or its wiring.
 
 ## Scope
 
