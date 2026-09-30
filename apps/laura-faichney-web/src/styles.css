@@ -1192,7 +1192,7 @@ h2 {
     flex-direction: column;
     align-items: stretch;
     min-height: 0;
-    padding-block: 48px 0;
+    padding-block: 24px 40px;
   }
   .page-hero-copy {
     padding: 0;
@@ -1206,11 +1206,12 @@ h2 {
   }
   .page-hero-art {
     position: relative;
+    order: -1;
     inset: auto;
     width: calc(100% + 40px);
     height: auto;
     aspect-ratio: 1374 / 1145;
-    margin: 12px -20px -30px;
+    margin: 0 -20px;
   }
   .page-hero-art img {
     position: absolute;
