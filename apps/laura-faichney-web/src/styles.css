@@ -622,6 +622,13 @@ h2 {
 .service-list-copy strong {
   font: 600 2rem/1 var(--font-serif);
 }
+.service-list-copy strong,
+.service-list-copy > span {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
 .service-list-copy > span {
   max-width: 650px;
   color: var(--text-secondary);
@@ -841,13 +848,13 @@ h2 {
   background-position: left top;
 }
 .contact-section::after {
-  background-image: url('/decoration/blush-gold-brush.png');
-  width: 165px;
-  height: 250px;
-  right: 0;
-  bottom: -65px;
-  transform: scaleX(-1);
-  opacity: 0.56;
+  background-image: url('/decoration/contact-brush-up-left.webp');
+  width: 180px;
+  height: 270px;
+  right: 12px;
+  bottom: -125px;
+  background-position: right bottom;
+  opacity: 0.7;
 }
 @media (max-width: 900px) {
   .hero-art {
@@ -1240,10 +1247,8 @@ h2 {
   }
   .contact-section::after {
     width: 130px;
-    height: 100px;
-    bottom: -55px;
-    background-position: right bottom;
-    mask-image: linear-gradient(to bottom, #000 45%, transparent);
+    height: 195px;
+    bottom: -150px;
   }
   .service-list-section {
     padding-block: 72px 45px;

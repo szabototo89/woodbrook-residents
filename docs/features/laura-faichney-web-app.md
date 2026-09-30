@@ -11,6 +11,8 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - A responsive home page introduces Laura's painting, mural, signage, facepainting and tutoring services.
 - The service, gallery, about and contact pages are reachable through desktop navigation and a mobile menu.
 - Services appear as five artwork cards on desktop and single clickable rows on mobile. The services page gives each one a description and a contact path.
+- Service titles and descriptions show at most two lines, with an ellipsis for longer copy. Full wording remains in the accessible link text.
+- The right contact accent uses its own transparent brushstroke sweeping from bottom right to top left. Its painted edges remain visible without a flip or clipping mask.
 - Service rows have generous vertical padding and a clear gap between thumbnails and copy. The list starts below the overflowing hero artwork with space before the first title. On phones, the right contact brush sits below the enquiry button and continues into the footer.
 - The hero and mural feature use the supplied artwork and derived cutout. Each service has a generated category image, and the home biography uses a studio still life without people. The gallery retains fixed Picsum photography pending original assets. Phone and email links use Lucide icons and open the device's calling or email app.
 - The home gold brush underline scales with the heading to cover the word “Brighter”.
