@@ -3,6 +3,7 @@ import { expect, test } from 'vitest';
 
 import {
   AboutPage,
+  ContactPage,
   GalleryPage,
   HomePage,
   ServicesPage,
@@ -57,9 +58,9 @@ test('services expose all five supplied offerings as complete links', () => {
   expect(html).toContain('src="/artwork/service-signage.webp"');
   expect(html).toContain('src="/artwork/service-facepainting.webp"');
   expect(html).toContain('src="/artwork/service-art-tutoring.webp"');
-  expect(html).toContain('src="/artwork/services-hero-brushes.png"');
+  expect(html).toContain('src="/artwork/services-hero-cutout.webp"');
   expect(html).toContain(
-    'alt="Paintbrushes in a painted cup with pink, gold and navy brushstrokes"',
+    'alt="Paintbrushes in a paint-splashed cup with sweeping colourful brushstrokes"',
   );
   expect(html.match(/<h1\b/g)).toHaveLength(1);
 });
@@ -74,7 +75,36 @@ test('about and gallery present routes without invented client claims', () => {
   expect(about).toContain('My Story');
   expect(about).not.toContain('Sarah O’Connor');
   expect(gallery).toContain('A glimpse of my work');
+  expect(gallery).toContain('src="/artwork/gallery-hero-cutout.webp"');
   expect(gallery).toContain('loading="lazy"');
+  const contact = renderToStaticMarkup(<ContactPage />);
+  expect(contact).toContain('src="/artwork/contact-hero-cutout.webp"');
+  expect(contact).toContain(
+    'mailto:lauralfaichney@gmail.com?subject=Art%20project%20enquiry',
+  );
+});
+
+test('every subpage introduces its content with a distinct artwork-led hero', () => {
+  const pages = [
+    renderToStaticMarkup(<AboutPage />),
+    renderToStaticMarkup(<ServicesPage />),
+    renderToStaticMarkup(<GalleryPage />),
+    renderToStaticMarkup(<ContactPage />),
+  ];
+  const heroImages = pages.map((html) => {
+    const hero = html.match(
+      /<section class="[^"]*page-hero[^"]*">([\s\S]*?)<\/section>/,
+    )?.[1];
+    expect(hero, 'each subpage should have a page hero').toBeDefined();
+    expect(hero).toContain('<h1');
+    expect(hero).toContain('gold-stroke');
+    const image = hero?.match(/src="([^"]+)"/)?.[1];
+    expect(image, 'each subpage hero should use artwork').toBeDefined();
+    return image;
+  });
+
+  expect(new Set(heroImages).size).toBe(4);
+  expect(heroImages.every((image) => image?.endsWith('.webp'))).toBe(true);
 });
 
 test('about values and arrows use Lucide icons instead of unicode glyphs', () => {

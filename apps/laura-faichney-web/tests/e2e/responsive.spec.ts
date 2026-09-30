@@ -226,6 +226,45 @@ test('visible phone links and buttons have 44px tap areas', async ({
   }
 });
 
+test('every subpage hero uses its own overflowing cutout without viewport overflow', async ({
+  page,
+}) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    const images = new Set<string>();
+    for (const path of ['/about', '/services', '/gallery', '/contact']) {
+      await page.goto(path);
+      const image = page.locator('.page-hero-art img');
+      await expect(image).toBeVisible();
+      const bounds = await image.boundingBox();
+      const hero = await page.locator('.page-hero').boundingBox();
+      if (!bounds || !hero) throw new Error(`${path} hero artwork is missing`);
+      const src = await image.getAttribute('src');
+      if (!src) throw new Error(`${path} hero has no artwork source`);
+      images.add(src);
+      const artwork = await image.evaluate((element: HTMLImageElement) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = element.naturalWidth;
+        canvas.height = element.naturalHeight;
+        const context = canvas.getContext('2d');
+        if (!context) throw new Error('Canvas is unavailable');
+        context.drawImage(element, 0, 0);
+        return {
+          naturalWidth: element.naturalWidth,
+          topLeftAlpha: context.getImageData(0, 0, 1, 1).data[3],
+        };
+      });
+      expect(artwork.naturalWidth).toBe(1374);
+      expect(artwork.topLeftAlpha).toBe(0);
+      expect(bounds.y + bounds.height).toBeGreaterThan(hero.y + hero.height);
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+      ).toBe(width);
+    }
+    expect(images.size).toBe(4);
+  }
+});
+
 test('header branding and hero copy share the same left alignment', async ({
   page,
 }) => {

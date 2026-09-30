@@ -1,42 +1,32 @@
 import { Heart, MapPin, Palette, Sparkles } from 'lucide-react';
-import { botanical, portrait } from './siteContent';
-import { Eyebrow } from './Eyebrow';
-import { GoldStroke } from './GoldStroke';
+import { portrait } from './siteContent';
 import { Arrow } from './Arrow';
 import { ContactSection } from './ContactSection';
+import { GoldStroke } from './GoldStroke';
+import { PageHero } from './PageHero';
 
 export function AboutPage() {
   return (
     <main id="main-content">
-      <section className="page-hero about-hero">
-        <div className="container page-hero-inner">
-          <div className="page-hero-copy">
-            <Eyebrow>About Laura</Eyebrow>
-            <h1>
-              A love for art
-              <br />
-              and community
-            </h1>
-            <GoldStroke />
-            <p>
-              I’m Laura Faichney, an artist based in Ireland, creating colourful
-              paintings, murals and bespoke pieces for homes, businesses and
-              events. I also offer facepainting and art tutoring, sharing my
-              passion for creativity with all ages.
-            </p>
-            <a className="button button-primary" href="/contact">
-              Get in Touch <Arrow />
-            </a>
-          </div>
-          <img
-            src={botanical}
-            alt="Pink painted flower with green foliage"
-            width="1254"
-            height="1254"
-            fetchPriority="high"
-          />
-        </div>
-      </section>
+      <PageHero
+        className="about-hero"
+        eyebrow="About Laura"
+        title={
+          <>
+            A love for art
+            <br />
+            and community
+          </>
+        }
+        description="I’m Laura Faichney, an artist based in Ireland, creating colourful paintings, murals and bespoke pieces for homes, businesses and events. I also offer facepainting and art tutoring, sharing my passion for creativity with all ages."
+        image="/artwork/about-hero-cutout.webp"
+        imageAlt="Painted flower study in an open sketchbook with a palette and brushes"
+        action={
+          <a className="button button-primary" href="/contact">
+            Get in Touch <Arrow />
+          </a>
+        }
+      />
       <section className="values">
         <div className="container values-grid">
           <div>

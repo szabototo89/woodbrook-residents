@@ -1,15 +1,21 @@
 import { galleryImages } from './siteContent';
-import { Eyebrow } from './Eyebrow';
 import { GalleryImage } from './GalleryImage';
 import { ContactSection } from './ContactSection';
+import { PageHero } from './PageHero';
 
 export function GalleryPage() {
   return (
     <main id="main-content">
+      <PageHero
+        className="gallery-hero"
+        eyebrow="Gallery"
+        title="A glimpse of my work"
+        description="Explore a selection of colourful paintings and creative work."
+        image="/artwork/gallery-hero-cutout.webp"
+        imageAlt="A collection of colourful paintings featuring a flower, a cow, and a coastal scene"
+      />
       <section className="section gallery-page">
         <div className="container">
-          <Eyebrow>Gallery</Eyebrow>
-          <h1>A glimpse of my work</h1>
           <div className="gallery-grid gallery-page-grid">
             {galleryImages.map((image) => (
               <figure key={image.id}>

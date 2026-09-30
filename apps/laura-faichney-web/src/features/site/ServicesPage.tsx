@@ -1,38 +1,26 @@
 import { ArrowRight } from 'lucide-react';
-import { services, servicesHero } from './siteContent';
-import { Eyebrow } from './Eyebrow';
-import { GoldStroke } from './GoldStroke';
+import { services } from './siteContent';
+import { PageHero } from './PageHero';
 import { ServiceImage } from './ServiceImage';
 import { ContactSection } from './ContactSection';
 
 export function ServicesPage() {
   return (
     <main id="main-content">
-      <section className="page-hero services-hero">
-        <div className="container page-hero-inner">
-          <div className="page-hero-copy">
-            <Eyebrow>My services</Eyebrow>
-            <h1>
-              Art for Every
-              <br />
-              Space and Occasion
-            </h1>
-            <GoldStroke />
-            <p>
-              From bespoke paintings to large-scale murals, facepainting and art
-              tutoring, I offer creative services for homes, businesses and
-              events.
-            </p>
-          </div>
-          <img
-            src={servicesHero}
-            alt="Paintbrushes in a painted cup with pink, gold and navy brushstrokes"
-            width="1536"
-            height="1024"
-            fetchPriority="high"
-          />
-        </div>
-      </section>
+      <PageHero
+        className="services-hero"
+        eyebrow="My services"
+        title={
+          <>
+            Art for Every
+            <br />
+            Space and Occasion
+          </>
+        }
+        description="From bespoke paintings to large-scale murals, facepainting and art tutoring, I offer creative services for homes, businesses and events."
+        image="/artwork/services-hero-cutout.webp"
+        imageAlt="Paintbrushes in a paint-splashed cup with sweeping colourful brushstrokes"
+      />
       <section className="service-list-section">
         <div className="container service-list">
           {services.map((service) => (
