@@ -1,5 +1,59 @@
 import { expect, test } from '@playwright/test';
 
+test('mobile services leave room around artwork and between offerings', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 640]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/services');
+    const artwork = await page.locator('.page-hero-art img').boundingBox();
+    const rows = page.locator('.service-list-link');
+    const firstTitle = await rows.first().locator('strong').boundingBox();
+    if (!artwork || !firstTitle) throw new Error('Services content is missing');
+    expect(firstTitle.y - artwork.y - artwork.height).toBeGreaterThanOrEqual(
+      48,
+    );
+    for (const row of await rows.all()) {
+      const bounds = await row.boundingBox();
+      const image = await row.getByRole('img').boundingBox();
+      const copy = await row.locator('.service-list-copy').boundingBox();
+      if (!bounds || !image || !copy) throw new Error('Service row is missing');
+      expect(copy.x - image.x - image.width).toBeGreaterThanOrEqual(16);
+      expect(copy.y - bounds.y).toBeGreaterThanOrEqual(20);
+      expect(
+        bounds.y + bounds.height - copy.y - copy.height,
+      ).toBeGreaterThanOrEqual(20);
+    }
+  }
+});
+
+test('mobile right contact brush flows below the action into the footer', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 640]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/services');
+    const brush = await page.locator('.contact-section').evaluate((section) => {
+      const style = getComputedStyle(section, '::after');
+      const bounds = section.getBoundingClientRect();
+      const action = section.querySelector('.button');
+      const footer = document.querySelector('.site-footer');
+      if (!action || !footer) throw new Error('Contact content is missing');
+      const top = bounds.top + parseFloat(style.top);
+      return {
+        top,
+        bottom: top + parseFloat(style.height),
+        actionBottom: action.getBoundingClientRect().bottom,
+        footerTop: footer.getBoundingClientRect().top,
+        backgroundPosition: style.backgroundPosition,
+      };
+    });
+    expect(brush.top).toBeGreaterThanOrEqual(brush.actionBottom);
+    expect(brush.bottom).toBeGreaterThan(brush.footerTop + 45);
+    expect(brush.backgroundPosition).toBe('100% 100%');
+  }
+});
+
 test('client quote reads as a separate section from the biography', async ({
   page,
 }) => {

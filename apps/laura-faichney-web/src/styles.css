@@ -589,7 +589,7 @@ h2 {
   z-index: 3;
 }
 .service-list-section {
-  padding-block: 16px 55px;
+  padding-block: 72px 55px;
 }
 .service-list {
   max-width: 1180px;
@@ -600,6 +600,7 @@ h2 {
   align-items: center;
   gap: 34px;
   min-height: 155px;
+  padding-block: 24px;
   border-bottom: 1px solid var(--border-light);
   text-decoration: none;
 }
@@ -1238,12 +1239,19 @@ h2 {
   .contact-page-details {
     min-height: 0;
   }
+  .contact-section::after {
+    width: 130px;
+    height: 100px;
+    bottom: -55px;
+    background-position: right bottom;
+    mask-image: linear-gradient(to bottom, #000 45%, transparent);
+  }
   .service-list-section {
-    padding-block: 10px 45px;
+    padding-block: 72px 45px;
   }
   .service-list-link {
     grid-template-columns: 106px minmax(0, 1fr) 32px;
-    gap: 12px;
+    gap: 18px;
     min-height: 112px;
   }
   .service-list-link img {
@@ -1251,7 +1259,7 @@ h2 {
     height: 62px;
   }
   .service-list-copy {
-    gap: 2px;
+    gap: 8px;
   }
   .service-list-copy strong {
     font-size: 1.5rem;
@@ -1307,7 +1315,7 @@ h2 {
 @media (max-width: 380px) {
   .service-list-link {
     grid-template-columns: 88px minmax(0, 1fr) 28px;
-    gap: 9px;
+    gap: 16px;
   }
   .service-list-link img {
     width: 88px;
