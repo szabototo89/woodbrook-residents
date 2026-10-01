@@ -34,13 +34,30 @@ const sanityEnvelopeSchema = z.object({
 
 const sanitySiteSettingSchema = z
   .object({
-    name: z.unknown().describe('Raw site name value.'),
-    location: z.unknown().describe('Raw site location value.'),
-    tagline: z.unknown().describe('Raw site tagline value.'),
-    introduction: z.unknown().describe('Raw site introduction value.'),
+    name: z
+      .unknown()
+      .optional()
+      .transform((value) => (typeof value === 'string' ? value : ''))
+      .describe('Raw site name value.'),
+    location: z
+      .unknown()
+      .optional()
+      .transform((value) => (typeof value === 'string' ? value : ''))
+      .describe('Raw site location value.'),
+    tagline: z
+      .unknown()
+      .optional()
+      .transform((value) => (typeof value === 'string' ? value : ''))
+      .describe('Raw site tagline value.'),
+    introduction: z
+      .unknown()
+      .optional()
+      .transform((value) => (typeof value === 'string' ? value : ''))
+      .describe('Raw site introduction value.'),
     contactEmail: z
       .unknown()
       .optional()
+      .transform((value) => (typeof value === 'string' ? value : undefined))
       .describe('Optional raw contact email value.'),
   })
   .nullable();
@@ -51,50 +68,227 @@ function isRecord(value: unknown): value is SanityRecord {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-function recordList(value: unknown): SanityRecord[] {
-  if (!Array.isArray(value)) return [];
-  return value.filter(isRecord);
-}
+const sanityRequiredText = z
+  .unknown()
+  .optional()
+  .transform((value) => (typeof value === 'string' ? value : ''))
+  .describe('Lenient required text coerced from unknown.');
 
-function stringField(value: SanityRecord, key: string): string {
-  const field = value[key];
-  return typeof field === 'string' ? field : '';
-}
+const sanityOptionalText = z
+  .unknown()
+  .optional()
+  .transform((value) =>
+    typeof value === 'string' && value.length > 0 ? value : undefined,
+  )
+  .describe('Lenient optional text coerced from unknown.');
 
-function optionalStringField(
-  value: SanityRecord,
-  key: string,
-): string | undefined {
-  const field = value[key];
-  return typeof field === 'string' && field.length > 0 ? field : undefined;
-}
+const sanityOptionalTextPreserveEmpty = z
+  .unknown()
+  .optional()
+  .transform((value) => (typeof value === 'string' ? value : undefined))
+  .describe('Lenient optional text preserving empty strings.');
 
-function normalizeDocumentId(id: string): string {
-  return id.startsWith('drafts.') ? id.slice('drafts.'.length) : id;
-}
+const sanityBoolean = z
+  .unknown()
+  .optional()
+  .transform((value) => value === true)
+  .describe('Lenient boolean coerced from unknown.');
 
-function normalizeSlug(slug: unknown): string {
-  if (typeof slug === 'string') return slug;
-  if (isRecord(slug)) {
-    const current = slug.current;
-    return typeof current === 'string' ? current : '';
-  }
-  return '';
-}
+const sanityDocumentId = z
+  .unknown()
+  .optional()
+  .transform((value) => {
+    const raw = typeof value === 'string' ? value : '';
+    const id = raw.length > 0 ? raw : 'missing-id';
+    return id.startsWith('drafts.') ? id.slice('drafts.'.length) : id;
+  })
+  .describe('Lenient Sanity document ID with drafts prefix stripped.');
 
-function imageRef(value: unknown): string | undefined {
-  if (!isRecord(value)) return undefined;
-  const asset = value.asset;
-  if (!isRecord(asset)) return undefined;
-  const ref = asset._ref;
-  return typeof ref === 'string' ? ref : undefined;
-}
+const sanitySlug = z
+  .unknown()
+  .optional()
+  .transform((value) => {
+    if (typeof value === 'string') return value;
+    if (isRecord(value)) {
+      const current = value.current;
+      return typeof current === 'string' ? current : '';
+    }
+    return '';
+  })
+  .describe('Lenient Sanity slug coerced from string or slug object.');
+
+const sanityImageRef = z
+  .unknown()
+  .optional()
+  .transform((value) => {
+    if (!isRecord(value)) return undefined;
+    const asset = value.asset;
+    if (!isRecord(asset)) return undefined;
+    const ref = asset._ref;
+    return typeof ref === 'string' ? ref : undefined;
+  })
+  .describe('Lenient Sanity image asset reference.');
+
+const sanityRelatedProjectId = z
+  .unknown()
+  .optional()
+  .transform((value) => {
+    if (typeof value === 'string') return value;
+    if (isRecord(value)) {
+      const ref = value._ref;
+      if (typeof ref === 'string') return ref;
+      const id = value._id;
+      if (typeof id === 'string') return id;
+    }
+    return undefined;
+  })
+  .describe('Lenient related project ID from string or reference.');
+
+const sanityDisplayOrder = z
+  .unknown()
+  .optional()
+  .transform((value) => (typeof value === 'number' ? value : 100))
+  .describe('Lenient display order with fallback priority.');
+
+const sanityRecordList = z
+  .unknown()
+  .optional()
+  .transform((value) => (Array.isArray(value) ? value.filter(isRecord) : []))
+  .describe('Lenient list of Sanity records.');
+
+const sanityUpdateRawSchema = z.object({
+  _id: sanityDocumentId.describe('Raw Sanity update document ID.'),
+  title: sanityRequiredText.describe('Raw update title value.'),
+  slug: sanitySlug.describe('Raw update slug value.'),
+  kind: sanityRequiredText.describe('Raw update kind value.'),
+  summary: sanityRequiredText.describe('Raw update summary value.'),
+  body: sanityRequiredText.describe('Raw update body value.'),
+  publishedOn: sanityRequiredText.describe('Raw update published date.'),
+  sourceName: sanityRequiredText.describe('Raw update source name.'),
+  sourceUrl: sanityRequiredText.describe('Raw update source URL.'),
+  sourceReviewedOn: sanityRequiredText.describe(
+    'Raw update source review date.',
+  ),
+  image: z.unknown().optional().describe('Raw Sanity image value.'),
+  featured: sanityBoolean.describe('Raw update featured flag.'),
+});
+
+const sanityProjectRawSchema = z.object({
+  _id: sanityDocumentId.describe('Raw Sanity project document ID.'),
+  title: sanityRequiredText.describe('Raw project title value.'),
+  slug: sanitySlug.describe('Raw project slug value.'),
+  category: sanityRequiredText.describe('Raw project category value.'),
+  stage: sanityRequiredText.describe('Raw project stage value.'),
+  summary: sanityRequiredText.describe('Raw project summary value.'),
+  details: sanityRequiredText.describe('Raw project details value.'),
+  updatedOn: sanityRequiredText.describe('Raw project updated date.'),
+  nextStep: sanityOptionalText.describe('Raw project next step value.'),
+  sourceName: sanityRequiredText.describe('Raw project source name.'),
+  sourceUrl: sanityRequiredText.describe('Raw project source URL.'),
+  sourceReviewedOn: sanityRequiredText.describe(
+    'Raw project source review date.',
+  ),
+  image: z.unknown().optional().describe('Raw Sanity image value.'),
+  featured: sanityBoolean.describe('Raw project featured flag.'),
+});
+
+const sanityEventRawSchema = z.object({
+  _id: sanityDocumentId.describe('Raw Sanity event document ID.'),
+  title: sanityRequiredText.describe('Raw event title value.'),
+  slug: sanitySlug.describe('Raw event slug value.'),
+  summary: sanityRequiredText.describe('Raw event summary value.'),
+  startsAt: sanityRequiredText.describe('Raw event start date.'),
+  endsAt: sanityOptionalText.describe('Raw event end date.'),
+  location: sanityRequiredText.describe('Raw event location value.'),
+  bookingUrl: sanityOptionalText.describe('Raw event booking URL.'),
+  sourceUrl: sanityRequiredText.describe('Raw event source URL.'),
+  sourceReviewedOn: sanityRequiredText.describe(
+    'Raw event source review date.',
+  ),
+  featured: sanityBoolean.describe('Raw event featured flag.'),
+});
+
+const sanitySurveyRawSchema = z.object({
+  _id: sanityDocumentId.describe('Raw Sanity survey document ID.'),
+  title: sanityRequiredText.describe('Raw survey title value.'),
+  slug: sanitySlug.describe('Raw survey slug value.'),
+  stage: sanityRequiredText.describe('Raw survey stage value.'),
+  summary: sanityRequiredText.describe('Raw survey summary value.'),
+  opensOn: sanityOptionalText.describe('Raw survey opening date.'),
+  closesOn: sanityOptionalText.describe('Raw survey closing date.'),
+  responseUrl: sanityOptionalText.describe('Raw survey response URL.'),
+  sourceName: sanityRequiredText.describe('Raw survey source name.'),
+  sourceUrl: sanityRequiredText.describe('Raw survey source URL.'),
+  sourceReviewedOn: sanityRequiredText.describe(
+    'Raw survey source review date.',
+  ),
+  relatedProject: sanityRelatedProjectId.describe('Raw related project value.'),
+});
+
+const sanityDetailListSchema = z
+  .unknown()
+  .optional()
+  .transform((value) => {
+    if (!Array.isArray(value)) return [];
+    return value.map((entry, index) => {
+      const record: SanityRecord = isRecord(entry) ? entry : {};
+      const label = typeof record.label === 'string' ? record.label : '';
+      const detailValue = typeof record.value === 'string' ? record.value : '';
+      return {
+        id: index,
+        label,
+        value: detailValue,
+        showOnCard: record.showOnCard === true,
+      };
+    });
+  })
+  .describe('Lenient resource detail list with index IDs.');
+
+const sanityCollectionDateListSchema = z
+  .unknown()
+  .optional()
+  .transform((value) => {
+    if (!Array.isArray(value)) return [];
+    return value.map((entry, index) => {
+      const record: SanityRecord = isRecord(entry) ? entry : {};
+      const date = typeof record.date === 'string' ? record.date : '';
+      const stream = typeof record.stream === 'string' ? record.stream : '';
+      return { id: index, date, stream };
+    });
+  })
+  .describe('Lenient collection date list with index IDs.');
+
+const sanityResourceRawSchema = z.object({
+  _id: sanityDocumentId.describe('Raw Sanity resource document ID.'),
+  title: sanityRequiredText.describe('Raw resource title value.'),
+  slug: sanitySlug.describe('Raw resource slug value.'),
+  category: sanityRequiredText.describe('Raw resource category value.'),
+  serviceType: sanityRequiredText.describe('Raw resource service type.'),
+  providerType: sanityRequiredText.describe('Raw resource provider type.'),
+  description: sanityRequiredText.describe('Raw resource description.'),
+  url: sanityOptionalText.describe('Raw resource URL.'),
+  phone: sanityOptionalText.describe('Raw resource phone number.'),
+  email: sanityOptionalText.describe('Raw resource email address.'),
+  outOfHours: sanityBoolean.describe('Raw resource out-of-hours flag.'),
+  featured: sanityBoolean.describe('Raw resource featured flag.'),
+  details: sanityDetailListSchema.describe('Raw resource details list.'),
+  collectionDates: sanityCollectionDateListSchema.describe(
+    'Raw resource collection dates.',
+  ),
+  documentUrl: sanityOptionalText.describe('Raw resource document URL.'),
+  documentLabel: sanityOptionalText.describe('Raw resource document label.'),
+  displayOrder: sanityDisplayOrder.describe('Raw resource display order.'),
+  sourceName: sanityRequiredText.describe('Raw resource source name.'),
+  sourceUrl: sanityRequiredText.describe('Raw resource source URL.'),
+  sourceReviewedOn: sanityRequiredText.describe(
+    'Raw resource source review date.',
+  ),
+});
 
 function createImageUrl(
   client: SanityClient,
-  image: unknown,
+  ref: string | undefined,
 ): string | undefined {
-  const ref = imageRef(image);
   if (!ref) return undefined;
   try {
     return imageUrlBuilder(client)
@@ -105,156 +299,126 @@ function createImageUrl(
   }
 }
 
-function optionalText(value: SanityRecord, key: string): string | undefined {
-  const field = value[key];
-  return typeof field === 'string' ? field : undefined;
-}
-
-function normalizeImageFields(client: SanityClient, image: unknown) {
-  const record = isRecord(image) ? image : {};
+function normalizeImageFields(
+  client: SanityClient,
+  meta: { alt?: string; credit?: string; creditUrl?: string; ref?: string },
+) {
   return {
-    imagePath: createImageUrl(client, image),
-    imageAlt: optionalText(record, 'alt'),
-    imageCredit: optionalText(record, 'credit'),
-    imageCreditUrl: optionalText(record, 'creditUrl'),
+    imagePath: createImageUrl(client, meta.ref),
+    imageAlt: meta.alt,
+    imageCredit: meta.credit,
+    imageCreditUrl: meta.creditUrl,
   };
 }
 
-function mapUpdate(client: SanityClient, item: SanityRecord) {
+function parseImageMeta(image: unknown) {
+  const record: SanityRecord = isRecord(image) ? image : {};
   return {
-    documentId: normalizeDocumentId(stringField(item, '_id') || 'missing-id'),
-    title: stringField(item, 'title'),
-    slug: normalizeSlug(item.slug),
-    kind: stringField(item, 'kind'),
-    summary: stringField(item, 'summary'),
-    body: stringField(item, 'body'),
-    publishedOn: stringField(item, 'publishedOn'),
-    sourceName: stringField(item, 'sourceName'),
-    sourceUrl: stringField(item, 'sourceUrl'),
-    sourceReviewedOn: stringField(item, 'sourceReviewedOn'),
-    ...normalizeImageFields(client, item.image),
-    featured: item.featured === true,
+    alt: sanityOptionalTextPreserveEmpty.parse(record.alt),
+    credit: sanityOptionalTextPreserveEmpty.parse(record.credit),
+    creditUrl: sanityOptionalTextPreserveEmpty.parse(record.creditUrl),
+    ref: sanityImageRef.parse(image),
   };
 }
 
-function mapProject(client: SanityClient, item: SanityRecord) {
+function mapUpdate(client: SanityClient, item: unknown) {
+  const raw = sanityUpdateRawSchema.parse(item);
+  const meta = parseImageMeta(raw.image);
   return {
-    documentId: normalizeDocumentId(stringField(item, '_id') || 'missing-id'),
-    title: stringField(item, 'title'),
-    slug: normalizeSlug(item.slug),
-    category: stringField(item, 'category'),
-    stage: stringField(item, 'stage'),
-    summary: stringField(item, 'summary'),
-    details: stringField(item, 'details'),
-    updatedOn: stringField(item, 'updatedOn'),
-    nextStep: optionalStringField(item, 'nextStep'),
-    sourceName: stringField(item, 'sourceName'),
-    sourceUrl: stringField(item, 'sourceUrl'),
-    sourceReviewedOn: stringField(item, 'sourceReviewedOn'),
-    ...normalizeImageFields(client, item.image),
-    featured: item.featured === true,
+    documentId: raw._id,
+    title: raw.title,
+    slug: raw.slug,
+    kind: raw.kind,
+    summary: raw.summary,
+    body: raw.body,
+    publishedOn: raw.publishedOn,
+    sourceName: raw.sourceName,
+    sourceUrl: raw.sourceUrl,
+    sourceReviewedOn: raw.sourceReviewedOn,
+    ...normalizeImageFields(client, meta),
+    featured: raw.featured,
   };
 }
 
-function mapEvent(item: SanityRecord) {
+function mapProject(client: SanityClient, item: unknown) {
+  const raw = sanityProjectRawSchema.parse(item);
+  const meta = parseImageMeta(raw.image);
   return {
-    documentId: normalizeDocumentId(stringField(item, '_id') || 'missing-id'),
-    title: stringField(item, 'title'),
-    slug: normalizeSlug(item.slug),
-    summary: stringField(item, 'summary'),
-    startsAt: stringField(item, 'startsAt'),
-    endsAt: optionalStringField(item, 'endsAt'),
-    location: stringField(item, 'location'),
-    bookingUrl: optionalStringField(item, 'bookingUrl'),
-    sourceUrl: stringField(item, 'sourceUrl'),
-    sourceReviewedOn: stringField(item, 'sourceReviewedOn'),
-    featured: item.featured === true,
+    documentId: raw._id,
+    title: raw.title,
+    slug: raw.slug,
+    category: raw.category,
+    stage: raw.stage,
+    summary: raw.summary,
+    details: raw.details,
+    updatedOn: raw.updatedOn,
+    nextStep: raw.nextStep,
+    sourceName: raw.sourceName,
+    sourceUrl: raw.sourceUrl,
+    sourceReviewedOn: raw.sourceReviewedOn,
+    ...normalizeImageFields(client, meta),
+    featured: raw.featured,
   };
 }
 
-function relatedProjectId(item: SanityRecord): string | undefined {
-  const related = item.relatedProject;
-  if (typeof related === 'string') return related;
-  if (isRecord(related)) {
-    const ref = related._ref;
-    if (typeof ref === 'string') return ref;
-    const id = related._id;
-    if (typeof id === 'string') return id;
-  }
-  return undefined;
-}
-
-function mapSurvey(item: SanityRecord) {
+function mapEvent(item: unknown) {
+  const raw = sanityEventRawSchema.parse(item);
   return {
-    documentId: normalizeDocumentId(stringField(item, '_id') || 'missing-id'),
-    title: stringField(item, 'title'),
-    slug: normalizeSlug(item.slug),
-    stage: stringField(item, 'stage'),
-    summary: stringField(item, 'summary'),
-    opensOn: optionalStringField(item, 'opensOn'),
-    closesOn: optionalStringField(item, 'closesOn'),
-    responseUrl: optionalStringField(item, 'responseUrl'),
-    sourceName: stringField(item, 'sourceName'),
-    sourceUrl: stringField(item, 'sourceUrl'),
-    sourceReviewedOn: stringField(item, 'sourceReviewedOn'),
-    relatedProjectId: relatedProjectId(item),
+    documentId: raw._id,
+    title: raw.title,
+    slug: raw.slug,
+    summary: raw.summary,
+    startsAt: raw.startsAt,
+    endsAt: raw.endsAt,
+    location: raw.location,
+    bookingUrl: raw.bookingUrl,
+    sourceUrl: raw.sourceUrl,
+    sourceReviewedOn: raw.sourceReviewedOn,
+    featured: raw.featured,
   };
 }
 
-function mapDetail(entry: unknown, index: number) {
-  const record = isRecord(entry) ? entry : {};
+function mapSurvey(item: unknown) {
+  const raw = sanitySurveyRawSchema.parse(item);
   return {
-    id: index,
-    label: stringField(record, 'label'),
-    value: stringField(record, 'value'),
-    showOnCard: record.showOnCard === true,
+    documentId: raw._id,
+    title: raw.title,
+    slug: raw.slug,
+    stage: raw.stage,
+    summary: raw.summary,
+    opensOn: raw.opensOn,
+    closesOn: raw.closesOn,
+    responseUrl: raw.responseUrl,
+    sourceName: raw.sourceName,
+    sourceUrl: raw.sourceUrl,
+    sourceReviewedOn: raw.sourceReviewedOn,
+    relatedProjectId: raw.relatedProject,
   };
 }
 
-function mapCollectionDate(entry: unknown, index: number) {
-  const record = isRecord(entry) ? entry : {};
+function mapResource(item: unknown) {
+  const raw = sanityResourceRawSchema.parse(item);
   return {
-    id: index,
-    date: stringField(record, 'date'),
-    stream: stringField(record, 'stream'),
-  };
-}
-
-function detailList(value: unknown) {
-  return Array.isArray(value) ? value.map(mapDetail) : [];
-}
-
-function collectionDateList(value: unknown) {
-  return Array.isArray(value) ? value.map(mapCollectionDate) : [];
-}
-
-function displayOrder(value: SanityRecord): number {
-  const order = value.displayOrder;
-  return typeof order === 'number' ? order : 100;
-}
-
-function mapResource(item: SanityRecord) {
-  return {
-    documentId: normalizeDocumentId(stringField(item, '_id') || 'missing-id'),
-    title: stringField(item, 'title'),
-    slug: normalizeSlug(item.slug),
-    category: stringField(item, 'category'),
-    serviceType: stringField(item, 'serviceType'),
-    providerType: stringField(item, 'providerType'),
-    description: stringField(item, 'description'),
-    url: optionalStringField(item, 'url'),
-    phone: optionalStringField(item, 'phone'),
-    email: optionalStringField(item, 'email'),
-    outOfHours: item.outOfHours === true,
-    featured: item.featured === true,
-    details: detailList(item.details),
-    collectionDates: collectionDateList(item.collectionDates),
-    documentUrl: optionalStringField(item, 'documentUrl'),
-    documentLabel: optionalStringField(item, 'documentLabel'),
-    displayOrder: displayOrder(item),
-    sourceName: stringField(item, 'sourceName'),
-    sourceUrl: stringField(item, 'sourceUrl'),
-    sourceReviewedOn: stringField(item, 'sourceReviewedOn'),
+    documentId: raw._id,
+    title: raw.title,
+    slug: raw.slug,
+    category: raw.category,
+    serviceType: raw.serviceType,
+    providerType: raw.providerType,
+    description: raw.description,
+    url: raw.url,
+    phone: raw.phone,
+    email: raw.email,
+    outOfHours: raw.outOfHours,
+    featured: raw.featured,
+    details: raw.details,
+    collectionDates: raw.collectionDates,
+    documentUrl: raw.documentUrl,
+    documentLabel: raw.documentLabel,
+    displayOrder: raw.displayOrder,
+    sourceName: raw.sourceName,
+    sourceUrl: raw.sourceUrl,
+    sourceReviewedOn: raw.sourceReviewedOn,
   };
 }
 
@@ -323,26 +487,14 @@ export class SanityContentSource implements ContentSource {
     ]);
 
     const site = sanitySiteSettingSchema.parse(siteSettingRaw);
-    const updates = recordList(updatesRaw);
-    const projects = recordList(projectsRaw);
-    const events = recordList(eventsRaw);
-    const surveys = recordList(surveysRaw);
-    const resources = recordList(resourcesRaw);
+    const updates = sanityRecordList.parse(updatesRaw);
+    const projects = sanityRecordList.parse(projectsRaw);
+    const events = sanityRecordList.parse(eventsRaw);
+    const surveys = sanityRecordList.parse(surveysRaw);
+    const resources = sanityRecordList.parse(resourcesRaw);
 
     const snapshot: ContentSnapshot = {
-      siteSetting: site
-        ? {
-            name: typeof site.name === 'string' ? site.name : '',
-            location: typeof site.location === 'string' ? site.location : '',
-            tagline: typeof site.tagline === 'string' ? site.tagline : '',
-            introduction:
-              typeof site.introduction === 'string' ? site.introduction : '',
-            contactEmail:
-              typeof site.contactEmail === 'string'
-                ? site.contactEmail
-                : undefined,
-          }
-        : undefined,
+      siteSetting: site ?? undefined,
       updates: updates.map((item) =>
         updateSchema.parse(mapUpdate(this.imageClient, item)),
       ),
