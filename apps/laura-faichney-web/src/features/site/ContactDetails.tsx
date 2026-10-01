@@ -1,14 +1,17 @@
 import { Mail, Phone } from 'lucide-react';
 
-export function ContactDetails() {
+import type { CmsSettings } from './lauraSanity';
+
+export function ContactDetails(props: { settings: CmsSettings }) {
   return (
     <div className="contact-links">
-      <a href="tel:+353894007747">
-        <Phone size={20} strokeWidth={1.75} aria-hidden="true" /> 089-4007747
+      <a href={`tel:${props.settings.phone.replace(/[^+\d]/g, '')}`}>
+        <Phone size={20} strokeWidth={1.75} aria-hidden="true" />{' '}
+        {props.settings.phone}
       </a>
-      <a href="mailto:lauralfaichney@gmail.com">
+      <a href={`mailto:${props.settings.email}`}>
         <Mail size={20} strokeWidth={1.75} aria-hidden="true" />{' '}
-        lauralfaichney@gmail.com
+        {props.settings.email}
       </a>
     </div>
   );

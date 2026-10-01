@@ -3,13 +3,18 @@ import { createPageHead } from '../app/siteMetadata';
 import { GalleryCollectionPage } from '../features/site/GalleryCollectionPage';
 import { GalleryCollectionNotFound } from '../features/site/GalleryCollectionNotFound';
 import {
-  getGalleryCollection,
+  LauraSanitySource,
   galleryCollectionPath,
-} from '../features/site/galleryContent';
+  getGalleryCollection,
+} from '../features/site/lauraSanity';
 
 export const Route = createFileRoute('/gallery_/$collectionSlug')({
-  loader: ({ params }) => {
-    const collection = getGalleryCollection(params.collectionSlug);
+  loader: async ({ params }) => {
+    const gallery = await new LauraSanitySource().loadGallery();
+    const collection = getGalleryCollection(
+      gallery.collections,
+      params.collectionSlug,
+    );
     if (!collection) throw notFound();
     return collection;
   },

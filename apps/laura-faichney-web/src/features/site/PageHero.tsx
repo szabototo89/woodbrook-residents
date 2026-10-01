@@ -35,6 +35,7 @@ export function PageHero(props: PageHeroProps) {
             width="1374"
             height="1145"
             fetchPriority={props.imagePriority ?? 'high'}
+            crossOrigin="anonymous"
           />
         </div>
       </div>

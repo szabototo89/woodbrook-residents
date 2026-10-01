@@ -7,35 +7,34 @@ import { AboutPreview } from './AboutPreview';
 import { ContactSection } from './ContactSection';
 import { Testimonial } from './Testimonial';
 import { useEditorialMotion } from './useEditorialMotion';
+import { TitleLines } from './TitleLines';
+import type { HomeData } from './lauraSanity';
 
-export function HomePage() {
+export function HomePage(props: { data: HomeData }) {
+  const { data } = props;
   const motionRoot = useEditorialMotion();
   return (
     <main id="main-content" ref={motionRoot}>
       <section className="hero home-hero">
         <div className="container hero-inner">
           <div className="hero-copy">
-            <p className="hero-kicker">
-              Bold art · brighter spaces · happier people
-            </p>
+            <p className="hero-kicker">{data.hero.eyebrow}</p>
             <h1>
-              <span className="hero-line">Bold Art</span>
-              <br />
-              <span className="hero-line">Brighter Spaces</span>
+              <TitleLines
+                lines={data.hero.titleLines}
+                lineClassName="hero-line"
+              />
             </h1>
             <GoldStroke />
-            <p>
-              Commissioned paintings, murals, signage, facepainting and art
-              tutoring — bringing more colour and creativity to everyday spaces.
-            </p>
+            <p>{data.hero.description}</p>
             <a className="button button-primary" href="/gallery">
-              View My Work <Arrow />
+              {data.hero.ctaLabel ?? 'View My Work'} <Arrow />
             </a>
           </div>
           <div className="hero-art">
             <img
-              src="/artwork/portrait-cutout.png"
-              alt="Expressive painted portrait in vivid pink, blue, orange and yellow"
+              src={data.hero.image.url}
+              alt={data.hero.image.alt}
               width="1374"
               height="1145"
               fetchPriority="high"
@@ -43,12 +42,18 @@ export function HomePage() {
           </div>
         </div>
       </section>
-      <ServicesPreview />
-      <MuralFeature />
-      <GalleryPreview />
-      <AboutPreview />
-      <Testimonial />
-      <ContactSection />
+      <ServicesPreview
+        services={data.services}
+        heading={data.servicesHeading}
+      />
+      <MuralFeature mural={data.mural} />
+      <GalleryPreview
+        collections={data.collections}
+        heading={data.galleryHeading}
+      />
+      <AboutPreview about={data.about} />
+      <Testimonial testimonial={data.testimonial} />
+      <ContactSection settings={data.settings} />
     </main>
   );
 }

@@ -1,12 +1,94 @@
 import { expect, test } from '@playwright/test';
 
+const SANITY_QUERY_URL =
+  'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';
+
+type CmsHome = {
+  heroCtaLabel: string;
+  firstServiceTitle: string;
+};
+
+let cmsHome: CmsHome | undefined;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function requiredRecord(
+  value: unknown,
+  label: string,
+): Record<string, unknown> {
+  if (!isRecord(value)) {
+    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
+  }
+  return value;
+}
+
+function requiredString(
+  record: Record<string, unknown>,
+  key: string,
+  label: string,
+): string {
+  const value = record[key];
+  if (typeof value !== 'string' || !value) {
+    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
+  }
+  return value;
+}
+
+async function homeCopy(): Promise<CmsHome> {
+  if (!cmsHome) {
+    const query = `{
+      "home": *[_id == "homePage"][0]{hero{ctaLabel}},
+      "services": *[_type == "service"] | order(order asc)[0]{title}
+    }`;
+    const response = await fetch(
+      `${SANITY_QUERY_URL}?query=${encodeURIComponent(query)}`,
+    );
+    if (!response.ok) {
+      throw new Error(
+        `Sanity CMS snapshot failed with status ${response.status}.`,
+      );
+    }
+    const body: unknown = await response.json();
+    const result = requiredRecord(
+      requiredRecord(body, 'a result envelope').result,
+      'snapshot content',
+    );
+    const hero = requiredRecord(
+      requiredRecord(
+        requiredRecord(result.home, 'the home page').hero,
+        'the hero',
+      ),
+      'the hero copy',
+    );
+    const service = requiredRecord(result.services, 'a service');
+    cmsHome = {
+      heroCtaLabel: requiredString(hero, 'ctaLabel', 'the hero button text'),
+      firstServiceTitle: requiredString(
+        service,
+        'title',
+        'the first service title',
+      ),
+    };
+  }
+  return cmsHome;
+}
+
+function exactName(copy: string) {
+  return new RegExp(copy.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+}
+
 test('service and CTA feedback moves only images and directional arrows', async ({
   page,
 }) => {
+  const { heroCtaLabel, firstServiceTitle } = await homeCopy();
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.waitForLoadState('networkidle');
-  const service = page.getByRole('link', { name: /Commissioned Paintings/ });
+  const service = page.getByRole('link', {
+    name: exactName(firstServiceTitle),
+  });
   await service.scrollIntoViewIfNeeded();
   await service.hover();
   await expect
@@ -23,7 +105,7 @@ test('service and CTA feedback moves only images and directional arrows', async 
         .evaluate((arrow) => getComputedStyle(arrow).transform),
     )
     .toBe('matrix(1, 0, 0, 1, 4, 0)');
-  const action = page.getByRole('link', { name: 'View My Work' });
+  const action = page.getByRole('link', { name: exactName(heroCtaLabel) });
   await action.focus();
   await expect
     .poll(() =>
@@ -136,11 +218,12 @@ test('editorial reveals play once and the mural stays uncovered on return', asyn
 test('reduced motion removes travel and reveals all content, including after a live change', async ({
   page,
 }) => {
+  const { heroCtaLabel, firstServiceTitle } = await homeCopy();
   await page.goto('/');
   await page.waitForLoadState('networkidle');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('[data-motion-state="pending"]')).toHaveCount(0);
-  const action = page.getByRole('link', { name: 'View My Work' });
+  const action = page.getByRole('link', { name: exactName(heroCtaLabel) });
   await action.hover();
   expect(
     await action.evaluate((link) => getComputedStyle(link).transform),
@@ -151,7 +234,9 @@ test('reduced motion removes travel and reveals all content, including after a l
       .evaluate((arrow) => getComputedStyle(arrow).transform),
   ).toBe('none');
   await page.goto('/');
-  const service = page.getByRole('link', { name: /Commissioned Paintings/ });
+  const service = page.getByRole('link', {
+    name: exactName(firstServiceTitle),
+  });
   await service.focus();
   expect(
     await service
@@ -189,10 +274,13 @@ test('without IntersectionObserver, the page never hides content', async ({
 test('keyboard focus exposes a pending service immediately', async ({
   page,
 }) => {
+  const { firstServiceTitle } = await homeCopy();
   await page.setViewportSize({ width: 390, height: 500 });
   await page.goto('/');
   await page.waitForLoadState('networkidle');
-  const service = page.getByRole('link', { name: /Commissioned Paintings/ });
+  const service = page.getByRole('link', {
+    name: exactName(firstServiceTitle),
+  });
   await expect(service).toHaveAttribute('data-motion-state', 'pending');
   const opacity = await service.evaluate((link: HTMLElement) => {
     link.focus({ preventScroll: true });

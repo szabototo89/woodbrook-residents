@@ -1,8 +1,112 @@
 import { expect, test } from '@playwright/test';
 
+const SANITY_QUERY_URL =
+  'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';
+
+type CmsSnapshot = {
+  muralCtaLabel: string;
+  muralImageAlt: string;
+  aboutCtaLabel: string;
+  firstServiceTitle: string;
+  firstServiceDescription: string;
+};
+
+let cmsSnapshot: CmsSnapshot | undefined;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function requiredRecord(
+  value: unknown,
+  label: string,
+): Record<string, unknown> {
+  if (!isRecord(value)) {
+    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
+  }
+  return value;
+}
+
+function requiredString(
+  record: Record<string, unknown>,
+  key: string,
+  label: string,
+): string {
+  const value = record[key];
+  if (typeof value !== 'string' || !value) {
+    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
+  }
+  return value;
+}
+
+async function cmsCopy(): Promise<CmsSnapshot> {
+  if (!cmsSnapshot) {
+    const query = `{
+      "home": *[_id == "homePage"][0]{muralCtaLabel, muralImageAlt},
+      "about": *[_id == "aboutPage"][0]{hero{ctaLabel}},
+      "services": *[_type == "service"] | order(order asc)[0]{title, description}
+    }`;
+    const response = await fetch(
+      `${SANITY_QUERY_URL}?query=${encodeURIComponent(query)}`,
+    );
+    if (!response.ok) {
+      throw new Error(
+        `Sanity CMS snapshot failed with status ${response.status}.`,
+      );
+    }
+    const body: unknown = await response.json();
+    const result = requiredRecord(
+      requiredRecord(body, 'a result envelope').result,
+      'snapshot content',
+    );
+    const home = requiredRecord(result.home, 'the home page');
+    const aboutHero = requiredRecord(
+      requiredRecord(
+        requiredRecord(result.about, 'the about page').hero,
+        'the about hero',
+      ),
+      'the about hero copy',
+    );
+    const service = requiredRecord(result.services, 'a service');
+    cmsSnapshot = {
+      muralCtaLabel: requiredString(
+        home,
+        'muralCtaLabel',
+        'the mural button text',
+      ),
+      muralImageAlt: requiredString(
+        home,
+        'muralImageAlt',
+        'the mural alt text',
+      ),
+      aboutCtaLabel: requiredString(
+        aboutHero,
+        'ctaLabel',
+        'the about button text',
+      ),
+      firstServiceTitle: requiredString(
+        service,
+        'title',
+        'the first service title',
+      ),
+      firstServiceDescription: requiredString(
+        service,
+        'description',
+        'the first service description',
+      ),
+    };
+  }
+  return cmsSnapshot;
+}
+
+function exactName(copy: string) {
+  return new RegExp(copy.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+}
+
 test('service titles and descriptions show at most two lines', async ({
   page,
 }) => {
+  const { firstServiceDescription } = await cmsCopy();
   for (const width of [320, 390, 640]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/services');
@@ -23,7 +127,7 @@ test('service titles and descriptions show at most two lines', async ({
       expect(layout.overflow).toBe('hidden');
     }
     await expect(page.locator('.service-list-copy').first()).toContainText(
-      'Unique, hand-painted artwork made for your space or a special gift.',
+      firstServiceDescription,
     );
   }
 });
@@ -231,16 +335,17 @@ test('decorative brush strokes read clearly across the home page', async ({
 test('phone mural artwork follows the copy without clipping or a ghost duplicate', async ({
   page,
 }) => {
+  const { muralCtaLabel, muralImageAlt } = await cmsCopy();
   for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/');
     const section = page.locator('.mural-feature');
     const feature = await section.boundingBox();
     const artwork = await section
-      .getByRole('img', { name: /pink painted flower/ })
+      .getByRole('img', { name: muralImageAlt })
       .boundingBox();
     const action = await section
-      .getByRole('link', { name: /Enquire about a mural/ })
+      .getByRole('link', { name: exactName(muralCtaLabel) })
       .boundingBox();
     if (!feature || !artwork || !action)
       throw new Error('Mural content is missing');
@@ -347,6 +452,7 @@ test('visible phone links and buttons have 44px tap areas', async ({
 test('phone subpage artwork introduces the copy and contact action', async ({
   page,
 }) => {
+  const { aboutCtaLabel } = await cmsCopy();
   for (const width of [320, 390, 640]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/about', '/services', '/gallery', '/contact']) {
@@ -365,7 +471,9 @@ test('phone subpage artwork introduces the copy and contact action', async ({
       ).toBeLessThanOrEqual(heading.y);
       expect(artwork.y).toBeGreaterThanOrEqual(bounds.y);
       if (path === '/about') {
-        const action = hero.getByRole('link', { name: /Get in Touch/ });
+        const action = hero.getByRole('link', {
+          name: exactName(aboutCtaLabel),
+        });
         await expect(action).toHaveAttribute('href', '/contact');
         const actionBounds = await action.boundingBox();
         if (!actionBounds) throw new Error('Contact action is missing');
@@ -397,6 +505,7 @@ test('every subpage hero uses its own cutout without viewport overflow', async (
       const artwork = await image.evaluate(
         async (element: HTMLImageElement) => {
           const source = new Image();
+          source.crossOrigin = 'anonymous';
           source.src = element.currentSrc;
           await source.decode();
           const canvas = document.createElement('canvas');
@@ -499,13 +608,12 @@ test('phone navigation opens and closes from the keyboard', async ({
 test('phone service thumbnails and titles share a row and gallery uses two columns', async ({
   page,
 }) => {
+  const { firstServiceTitle } = await cmsCopy();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  const service = page
-    .getByRole('link')
-    .filter({ hasText: 'Commissioned Paintings' });
+  const service = page.getByRole('link').filter({ hasText: firstServiceTitle });
   const thumbnail = await service.getByRole('img').boundingBox();
-  const title = await service.getByText('Commissioned Paintings').boundingBox();
+  const title = await service.getByText(firstServiceTitle).boundingBox();
   expect(thumbnail).not.toBeNull();
   expect(title).not.toBeNull();
   if (thumbnail && title) {

@@ -1,26 +1,36 @@
-import { galleryCollections } from './siteContent';
-import { galleryCollectionPath } from './galleryContent';
 import { GalleryImage } from './GalleryImage';
+import {
+  galleryCollectionPath,
+  type CmsGalleryCollection,
+} from './lauraSanity';
 
-export function GalleryCollections(props: { eager?: boolean }) {
+export function GalleryCollections(props: {
+  collections: CmsGalleryCollection[];
+  eager?: boolean;
+}) {
   return (
     <div className="gallery-grid gallery-collections">
-      {galleryCollections.map((collection) => (
-        <a
-          key={collection.slug}
-          href={galleryCollectionPath(collection)}
-          data-gallery-collection={collection.slug}
-          aria-label={`View collection: ${collection.title}`}
-        >
-          <figure>
-            <GalleryImage
-              image={collection.images[0]}
-              loading={props.eager ? 'eager' : 'lazy'}
-            />
-            <figcaption>{collection.title}</figcaption>
-          </figure>
-        </a>
-      ))}
+      {props.collections.map((collection) => {
+        const cover = collection.photos[0];
+        if (!cover) return null;
+        return (
+          <a
+            key={collection.slug}
+            href={galleryCollectionPath(collection)}
+            data-gallery-collection={collection.slug}
+            aria-label={`View collection: ${collection.title}`}
+          >
+            <figure>
+              <GalleryImage
+                src={cover.image.url}
+                alt={cover.alt}
+                loading={props.eager ? 'eager' : 'lazy'}
+              />
+              <figcaption>{collection.title}</figcaption>
+            </figure>
+          </a>
+        );
+      })}
     </div>
   );
 }

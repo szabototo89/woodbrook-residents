@@ -2,12 +2,10 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { GalleryImage } from './GalleryImage';
-import type { GalleryCollection } from './siteContent';
 import { galleryPhotoSrcSet } from './galleryImageSources';
+import type { CmsGalleryItem } from './lauraSanity';
 
-export function CollectionPictures(props: {
-  images: GalleryCollection['images'];
-}) {
+export function CollectionPictures(props: { images: CmsGalleryItem[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selected = props.images[selectedIndex] ?? props.images[0];
   const total = props.images.length;
@@ -59,6 +57,8 @@ export function CollectionPictures(props: {
       });
   };
 
+  if (!selected) return null;
+
   return (
     <section
       className="section collection-pictures"
@@ -73,9 +73,9 @@ export function CollectionPictures(props: {
           aria-label={selected.alt}
         >
           <img
-            key={selected.id}
-            src={`/artwork/picsum-${selected.id}.webp`}
-            srcSet={galleryPhotoSrcSet(selected.id)}
+            key={selected.fullImage.url}
+            src={selected.fullImage.url}
+            srcSet={galleryPhotoSrcSet(selected.fullImage.url)}
             sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1008px) calc(100vw - 48px), 960px"
             fetchPriority="high"
             alt={selected.alt}
@@ -111,7 +111,7 @@ export function CollectionPictures(props: {
         >
           {props.images.map((image, index) => (
             <button
-              key={image.id}
+              key={`${image.alt}-${index}`}
               type="button"
               aria-label={`View picture: ${image.alt}`}
               aria-pressed={index === selectedIndex}
@@ -120,7 +120,8 @@ export function CollectionPictures(props: {
               }
             >
               <GalleryImage
-                image={image}
+                src={image.image.url}
+                alt={image.alt}
                 sizes={`(max-width: 640px) calc((100vw - ${40 + 8 * (total - 1)}px) / ${total} - 12px), (max-width: 700px) calc((100vw - ${48 + 8 * (total - 1)}px) / ${total} - 12px), 148px`}
               />
             </button>

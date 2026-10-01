@@ -1,9 +1,102 @@
 import { expect, test } from '@playwright/test';
 
+const SANITY_QUERY_URL =
+  'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';
+const SANITY_CDN_HOST = 'https://cdn.sanity.io/images/uag6kepo/production/';
+
+type CmsMotionCollection = {
+  title: string;
+  slug: string;
+  photos: string[];
+};
+
+type CmsMotionGallery = {
+  first: CmsMotionCollection;
+  second: CmsMotionCollection;
+};
+
+let cmsMotionGallery: CmsMotionGallery | undefined;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function requiredRecord(
+  value: unknown,
+  label: string,
+): Record<string, unknown> {
+  if (!isRecord(value)) {
+    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
+  }
+  return value;
+}
+
+function requiredString(
+  record: Record<string, unknown>,
+  key: string,
+  label: string,
+): string {
+  const value = record[key];
+  if (typeof value !== 'string' || !value) {
+    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
+  }
+  return value;
+}
+
+function readCollection(value: unknown, label: string): CmsMotionCollection {
+  const record = requiredRecord(value, label);
+  const slugRecord = requiredRecord(record.slug, 'a collection slug');
+  const photos: unknown = record.photos;
+  if (!Array.isArray(photos) || photos.length < 2) {
+    throw new Error(`Sanity CMS snapshot is missing ${label} photos.`);
+  }
+  return {
+    title: requiredString(record, 'title', 'a collection title'),
+    slug: requiredString(slugRecord, 'current', 'a collection slug'),
+    photos: photos.map((photo) =>
+      requiredString(
+        requiredRecord(photo, 'a photo'),
+        'alt',
+        'a photo alt text',
+      ),
+    ),
+  };
+}
+
+async function motionGallery(): Promise<CmsMotionGallery> {
+  if (!cmsMotionGallery) {
+    const query = `*[_type == "galleryCollection"] | order(order asc)[0...2]{title, slug, "photos": photos[]->{ "alt": imageAlt }}`;
+    const response = await fetch(
+      `${SANITY_QUERY_URL}?query=${encodeURIComponent(query)}`,
+    );
+    if (!response.ok) {
+      throw new Error(
+        `Sanity CMS snapshot failed with status ${response.status}.`,
+      );
+    }
+    const body: unknown = await response.json();
+    const collections: unknown = requiredRecord(
+      body,
+      'a result envelope',
+    ).result;
+    if (!Array.isArray(collections) || collections.length < 2) {
+      throw new Error('Sanity CMS snapshot is missing two collections.');
+    }
+    cmsMotionGallery = {
+      first: readCollection(collections[0], 'the first collection'),
+      second: readCollection(collections[1], 'the second collection'),
+    };
+  }
+  return cmsMotionGallery;
+}
+
 test('a live reduced-motion change stops shared-image travel immediately', async ({
   page,
 }) => {
-  await page.goto('/gallery/colour-and-nature');
+  const { first } = await motionGallery();
+  const secondPhotoAlt = first.photos[1];
+  if (!secondPhotoAlt) throw new Error('Collection photos are missing');
+  await page.goto(`/gallery/${first.slug}`);
   await page.waitForLoadState('networkidle');
   await page.addStyleTag({
     content:
@@ -11,12 +104,12 @@ test('a live reduced-motion change stops shared-image travel immediately', async
   });
   await page
     .getByRole('button', {
-      name: 'View picture: Fresh strawberries in rich pink and red tones',
+      name: `View picture: ${secondPhotoAlt}`,
     })
     .click();
-  await expect(
-    page.locator('.collection-selected-picture img'),
-  ).toHaveAttribute('src', '/artwork/picsum-1080.webp');
+  const selected = page.locator('.collection-selected-picture img');
+  await expect(selected).toHaveAttribute('alt', secondPhotoAlt);
+  expect(await selected.getAttribute('src')).toContain(SANITY_CDN_HOST);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   expect(
     await page.evaluate(
@@ -34,7 +127,7 @@ test('a live reduced-motion change stops shared-image travel immediately', async
   ).toBe('none');
   await expect(
     page.getByRole('button', {
-      name: 'View picture: Fresh strawberries in rich pink and red tones',
+      name: `View picture: ${secondPhotoAlt}`,
     }),
   ).toHaveAttribute('aria-pressed', 'true');
 });
@@ -42,6 +135,9 @@ test('a live reduced-motion change stops shared-image travel immediately', async
 test('collection and picture selections carry exactly one image into its larger view', async ({
   page,
 }) => {
+  const { first } = await motionGallery();
+  const secondPhotoAlt = first.photos[1];
+  if (!secondPhotoAlt) throw new Error('Collection photos are missing');
   await page.addInitScript(() => {
     const original = document.startViewTransition.bind(document);
     const namedImages = () =>
@@ -71,27 +167,33 @@ test('collection and picture selections carry exactly one image into its larger 
   await page.goto('/');
   await page.waitForLoadState('networkidle');
   await page
-    .getByRole('link', { name: 'View collection: Colour & nature' })
+    .getByRole('link', { name: `View collection: ${first.title}` })
     .focus();
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL('/gallery/colour-and-nature');
+  await expect(page).toHaveURL(`/gallery/${first.slug}`);
   await expect(page.locator('html')).toHaveAttribute(
     'data-transition-ready',
     'true',
   );
+  const source = await page
+    .locator('html')
+    .getAttribute('data-transition-source');
+  expect(source).toContain(SANITY_CDN_HOST);
+  const sourceAsset = source?.split('?')[0];
   await expect(page.locator('html')).toHaveAttribute(
-    'data-transition-source',
-    '/artwork/picsum-106.webp',
+    'data-transition-ready',
+    'true',
   );
-  await expect(page.locator('html')).toHaveAttribute(
-    'data-transition-destination',
-    '/artwork/picsum-106.webp',
-  );
+  const destination = await page
+    .locator('html')
+    .getAttribute('data-transition-destination');
+  expect(destination).toContain(SANITY_CDN_HOST);
+  expect(destination?.split('?')[0]).toBe(sourceAsset);
   const artwork = page.locator('.collection-selected-picture');
   await expect(artwork).toBeFocused();
   await expect(artwork).toBeInViewport();
   const thumbnail = page.getByRole('button', {
-    name: 'View picture: Fresh strawberries in rich pink and red tones',
+    name: `View picture: ${secondPhotoAlt}`,
   });
   await thumbnail.focus();
   await page.keyboard.press('Enter');
@@ -100,21 +202,28 @@ test('collection and picture selections carry exactly one image into its larger 
     'data-transition-ready',
     'true',
   );
+  const travelled = await page
+    .locator('html')
+    .getAttribute('data-transition-source');
+  expect(travelled).toContain(SANITY_CDN_HOST);
+  const travelledTo = await page
+    .locator('html')
+    .getAttribute('data-transition-destination');
+  expect(travelledTo).toContain(SANITY_CDN_HOST);
+  expect(travelledTo?.split('?')[0]).toBe(travelled?.split('?')[0]);
+  await expect(
+    artwork.getByRole('img', { name: secondPhotoAlt }),
+  ).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute(
-    'data-transition-source',
-    '/artwork/picsum-1080.webp',
+    'data-transition-ready',
+    'true',
   );
-  await expect(page.locator('html')).toHaveAttribute(
-    'data-transition-destination',
-    '/artwork/picsum-1080.webp',
-  );
-  await expect(artwork).toBeFocused();
-  await expect(artwork).toBeInViewport();
   await page.getByRole('button', { name: 'Next picture', exact: true }).click();
-  await expect(artwork.getByRole('img')).toHaveAttribute(
-    'src',
-    '/artwork/picsum-106.webp',
-  );
+  const wrappedPhotoAlt = first.photos[0];
+  if (!wrappedPhotoAlt) throw new Error('Collection photos are missing');
+  await expect(
+    artwork.getByRole('img', { name: wrappedPhotoAlt }),
+  ).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute(
     'data-transition-ready',
     'true',
@@ -122,13 +231,16 @@ test('collection and picture selections carry exactly one image into its larger 
   await expect(
     page.getByRole('button', { name: 'Next picture', exact: true }),
   ).toBeFocused();
-  await expect(page).toHaveURL('/gallery/colour-and-nature');
+  await expect(page).toHaveURL(`/gallery/${first.slug}`);
 });
 
 for (const fallback of ['unsupported', 'reduced'] as const) {
   test(`collection links and picture selection work with ${fallback} transitions`, async ({
     page,
   }) => {
+    const { first } = await motionGallery();
+    const secondPhotoAlt = first.photos[1];
+    if (!secondPhotoAlt) throw new Error('Collection photos are missing');
     if (fallback === 'reduced')
       await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addInitScript((mode) => {
@@ -146,20 +258,22 @@ for (const fallback of ['unsupported', 'reduced'] as const) {
     await page.goto('/gallery');
     await page.waitForLoadState('networkidle');
     await page
-      .getByRole('link', { name: 'View collection: Colour & nature' })
+      .getByRole('link', { name: `View collection: ${first.title}` })
       .click();
-    await expect(page).toHaveURL('/gallery/colour-and-nature');
+    await expect(page).toHaveURL(`/gallery/${first.slug}`);
     await page
       .getByRole('button', {
-        name: 'View picture: Fresh strawberries in rich pink and red tones',
+        name: `View picture: ${secondPhotoAlt}`,
       })
       .click();
-    await expect(
-      page.locator('.collection-selected-picture').getByRole('img'),
-    ).toHaveAttribute('src', '/artwork/picsum-1080.webp');
+    const selected = page
+      .locator('.collection-selected-picture')
+      .getByRole('img');
+    await expect(selected).toHaveAttribute('alt', secondPhotoAlt);
+    expect(await selected.getAttribute('src')).toContain(SANITY_CDN_HOST);
     await expect(
       page.getByRole('button', {
-        name: 'View picture: Fresh strawberries in rich pink and red tones',
+        name: `View picture: ${secondPhotoAlt}`,
       }),
     ).toHaveAttribute('aria-pressed', 'true');
     if (fallback === 'reduced')
@@ -175,6 +289,9 @@ for (const fallback of ['unsupported', 'reduced'] as const) {
 test('touch selects collections and pictures while the mobile nav indicator stays still', async ({
   browser,
 }) => {
+  const { second } = await motionGallery();
+  const deskPhotoAlt = second.photos[second.photos.length - 1];
+  if (!deskPhotoAlt) throw new Error('Collection photos are missing');
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     hasTouch: true,
@@ -194,17 +311,17 @@ test('touch selects collections and pictures while the mobile nav indicator stay
   ).toBe('0s');
   await page.getByRole('button', { name: 'Close menu' }).tap();
   await page
-    .getByRole('link', { name: 'View collection: Everyday inspiration' })
+    .getByRole('link', { name: `View collection: ${second.title}` })
     .tap();
-  await expect(page).toHaveURL('/gallery/everyday-inspiration');
+  await expect(page).toHaveURL(`/gallery/${second.slug}`);
   await page
     .getByRole('button', {
-      name: 'View picture: A notebook, camera and laptop on a creative desk',
+      name: `View picture: ${deskPhotoAlt}`,
     })
     .tap();
   await expect(
     page.locator('.collection-selected-picture').getByRole('img'),
-  ).toHaveAttribute('src', '/artwork/picsum-180.webp');
+  ).toHaveAttribute('alt', deskPhotoAlt);
   await expect(page.locator('.collection-selected-picture')).toBeInViewport();
   await context.close();
 });
@@ -212,6 +329,7 @@ test('touch selects collections and pictures while the mobile nav indicator stay
 test('without JavaScript, services, artwork and collection links remain readable', async ({
   browser,
 }) => {
+  const { first } = await motionGallery();
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('/');
@@ -226,9 +344,9 @@ test('without JavaScript, services, artwork and collection links remain readable
       .evaluate((art) => getComputedStyle(art).clipPath),
   ).toBe('none');
   await page
-    .getByRole('link', { name: 'View collection: Colour & nature' })
+    .getByRole('link', { name: `View collection: ${first.title}` })
     .click();
-  await expect(page).toHaveURL('/gallery/colour-and-nature');
+  await expect(page).toHaveURL(`/gallery/${first.slug}`);
   await expect(
     page.locator('.collection-selected-picture').getByRole('img'),
   ).toBeVisible();

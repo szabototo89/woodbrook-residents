@@ -1,5 +1,41 @@
 import { expect, test } from '@playwright/test';
 
+test('the mobile picture viewer stays stable when browsing portrait and landscape uploads', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/gallery/colour-and-nature');
+  const picture = page.locator('.collection-selected-picture img');
+  const source = await picture.getAttribute('src');
+  if (!source) throw new Error('The selected picture is missing');
+  await page.route(`${source.split('?')[0]}*`, (route) =>
+    route.fulfill({
+      contentType: 'image/svg+xml',
+      body: '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="400"><rect width="200" height="400" fill="#d91e56"/><rect x="10" y="10" width="180" height="380" fill="#0d2942"/></svg>',
+    }),
+  );
+  await page.reload();
+  await picture.evaluate((image: HTMLImageElement) => image.decode());
+  expect(
+    await picture.evaluate(
+      (image: HTMLImageElement) => image.naturalWidth / image.naturalHeight,
+    ),
+  ).toBeCloseTo(0.5);
+  const frame = page.locator('.collection-selected-picture');
+  const before = await frame.boundingBox();
+  await frame.screenshot({
+    path: test.info().outputPath('portrait-picture.png'),
+  });
+  const previousAlt = await picture.getAttribute('alt');
+  await page.getByRole('button', { name: 'Next picture', exact: true }).click();
+  await expect(picture).not.toHaveAttribute('alt', previousAlt!);
+  await picture.evaluate((image: HTMLImageElement) => image.decode());
+  const after = await frame.boundingBox();
+  expect(after?.width).toBe(before?.width);
+  expect(after?.height).toBe(before?.height);
+});
+
 test('gallery pictures stay prominent on phones and collection covers fill tablet rows', async ({
   page,
 }) => {
@@ -48,6 +84,7 @@ test('phones download smaller transparent hero assets and appropriately sized th
       await expect(hero).toBeVisible();
       const artwork = await hero.evaluate(async (image: HTMLImageElement) => {
         const source = new Image();
+        source.crossOrigin = 'anonymous';
         source.src = image.currentSrc;
         await source.decode();
         const canvas = document.createElement('canvas');
