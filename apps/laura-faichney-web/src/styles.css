@@ -1472,7 +1472,7 @@ h2 {
 .text-link svg,
 .service-card svg,
 .service-arrow svg,
-.picture-navigation svg {
+.collection-picture-navigation svg {
   transition: transform var(--motion-fast) var(--ease-ui);
 }
 .service-image-frame,
@@ -1481,13 +1481,17 @@ h2 {
   overflow: hidden;
   border-radius: 5px;
 }
-.picture-navigation picture {
+.collection-thumbnails picture {
+  display: block;
   overflow: hidden;
   border-radius: 5px;
 }
+.collection-picture-navigation button {
+  transition: background-color var(--motion-fast) var(--ease-ui);
+}
 .service-image-frame img,
 .gallery-grid img,
-.picture-navigation img {
+.collection-thumbnails img {
   transition: transform 260ms var(--ease-ui);
 }
 .service-card > span,
@@ -1505,7 +1509,7 @@ h2 {
     .text-link,
     .service-card,
     .service-list-link,
-    .picture-navigation a
+    .collection-picture-navigation button
   ):focus-visible
   svg {
   transform: translateX(var(--arrow-distance, var(--motion-distance-xs)));
@@ -1514,7 +1518,7 @@ h2 {
   transform: scale(1.025);
 }
 .gallery-grid a:focus-visible img,
-.picture-navigation a:focus-visible img {
+.collection-thumbnails button:focus-visible img {
   transform: scale(1.02);
 }
 .button:active {
@@ -1533,7 +1537,7 @@ h2 {
       .text-link,
       .service-card,
       .service-list-link,
-      .picture-navigation a
+      .collection-picture-navigation button
     ):hover
     svg {
     transform: translateX(var(--arrow-distance, var(--motion-distance-xs)));
@@ -1551,7 +1555,7 @@ h2 {
     text-underline-offset: 4px;
   }
   .gallery-grid a:hover img,
-  .picture-navigation a:hover img {
+  .collection-thumbnails button:hover img {
     transform: scale(1.02);
   }
   .navigation a:hover:after {
@@ -1577,7 +1581,7 @@ h2 {
 .centered .brush-accent:after {
   margin-inline: auto;
 }
-.gallery-detail-picture {
+.collection-selected-picture {
   scroll-margin-block: 24px;
 }
 @keyframes editorial-reveal {
@@ -1701,7 +1705,7 @@ h2 {
   [data-motion='mural'][data-motion-state='revealed'] .mural-copy > .button {
     animation: feedback-fade 220ms var(--ease-ui) 160ms backwards;
   }
-  .gallery-detail-picture > img {
+  .collection-selected-picture > img {
     view-transition-name: selected-artwork;
   }
 }
@@ -1733,10 +1737,10 @@ h2 {
   .text-link svg,
   .service-card svg,
   .service-arrow svg,
-  .picture-navigation svg,
+  .collection-picture-navigation svg,
   .service-image-frame img,
   .gallery-grid img,
-  .picture-navigation img {
+  .collection-thumbnails img {
     transform: none !important;
     transition: none;
   }

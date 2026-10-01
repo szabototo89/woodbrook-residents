@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { GalleryImage } from './GalleryImage';
 import type { GalleryCollection } from './siteContent';
@@ -9,6 +10,53 @@ export function CollectionPictures(props: {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selected = props.images[selectedIndex] ?? props.images[0];
   const total = props.images.length;
+  const artwork = useRef<HTMLElement>(null);
+
+  useLayoutEffect(() => {
+    if (!document.documentElement.hasAttribute('data-gallery-transition'))
+      return;
+    artwork.current?.scrollIntoView({ behavior: 'instant', block: 'center' });
+    artwork.current?.focus({ preventScroll: true });
+  }, [props.images]);
+
+  const changePicture = (
+    index: number,
+    thumbnail?: HTMLImageElement | null,
+  ) => {
+    if (index === selectedIndex) return;
+    const current = artwork.current?.querySelector('img');
+    const update = () => {
+      thumbnail?.style.removeProperty('view-transition-name');
+      flushSync(() => setSelectedIndex(index));
+      if (thumbnail) {
+        artwork.current?.scrollIntoView({
+          behavior: 'instant',
+          block: 'center',
+        });
+        artwork.current?.focus({ preventScroll: true });
+      }
+    };
+    if (
+      !document.startViewTransition ||
+      matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      update();
+      return;
+    }
+    if (thumbnail) {
+      if (current) current.style.viewTransitionName = 'none';
+      thumbnail.style.setProperty('view-transition-name', 'selected-artwork');
+    }
+    const transition = document.startViewTransition(update);
+    // A skipped visual transition must never interfere with picture selection.
+    void transition.ready.catch(() => undefined);
+    void transition.finished
+      .catch(() => undefined)
+      .then(() => {
+        current?.style.removeProperty('view-transition-name');
+        thumbnail?.style.removeProperty('view-transition-name');
+      });
+  };
 
   return (
     <section
@@ -16,8 +64,15 @@ export function CollectionPictures(props: {
       aria-label="Collection pictures"
     >
       <div className="container">
-        <figure className="collection-selected-picture">
+        <figure
+          className="collection-selected-picture"
+          ref={artwork}
+          id="collection-artwork"
+          tabIndex={-1}
+          aria-label={selected.alt}
+        >
           <img
+            key={selected.id}
             src={`/artwork/picsum-${selected.id}.webp`}
             alt={selected.alt}
             width="640"
@@ -31,16 +86,14 @@ export function CollectionPictures(props: {
           >
             <button
               type="button"
-              onClick={() =>
-                setSelectedIndex((index) => (index - 1 + total) % total)
-              }
+              onClick={() => changePicture((selectedIndex - 1 + total) % total)}
             >
               <ArrowLeft size={18} aria-hidden="true" />
               Previous picture
             </button>
             <button
               type="button"
-              onClick={() => setSelectedIndex((index) => (index + 1) % total)}
+              onClick={() => changePicture((selectedIndex + 1) % total)}
             >
               Next picture
               <ArrowRight size={18} aria-hidden="true" />
@@ -58,7 +111,9 @@ export function CollectionPictures(props: {
               type="button"
               aria-label={`View picture: ${image.alt}`}
               aria-pressed={index === selectedIndex}
-              onClick={() => setSelectedIndex(index)}
+              onClick={(event) =>
+                changePicture(index, event.currentTarget.querySelector('img'))
+              }
             >
               <GalleryImage image={image} />
             </button>

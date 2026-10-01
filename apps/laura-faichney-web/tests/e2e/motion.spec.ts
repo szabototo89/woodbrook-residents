@@ -60,7 +60,7 @@ test('desktop nav draws an underline without moving the label', async ({
 test('gallery controls give feedback in their navigation direction', async ({
   page,
 }) => {
-  await page.goto('/gallery/106');
+  await page.goto('/gallery/colour-and-nature');
   await page.waitForLoadState('networkidle');
   const back = page.getByRole('link', { name: /Back to gallery/ });
   await back.focus();
@@ -73,7 +73,7 @@ test('gallery controls give feedback in their navigation direction', async ({
     .toBe('matrix(1, 0, 0, 1, -4, 0)');
   const next = page
     .getByRole('navigation', { name: 'Picture navigation' })
-    .getByRole('link', { name: /Next picture/ });
+    .getByRole('button', { name: /Next picture/ });
   await next.hover();
   await expect
     .poll(() =>
@@ -82,9 +82,17 @@ test('gallery controls give feedback in their navigation direction', async ({
         .evaluate((arrow) => getComputedStyle(arrow).transform),
     )
     .toBe('matrix(1, 0, 0, 1, 4, 0)');
+  await page
+    .getByRole('button', {
+      name: 'View picture: Fresh strawberries in rich pink and red tones',
+    })
+    .hover();
   await expect
     .poll(() =>
-      next
+      page
+        .getByRole('button', {
+          name: 'View picture: Fresh strawberries in rich pink and red tones',
+        })
         .getByRole('img')
         .evaluate((image) => getComputedStyle(image).transform),
     )

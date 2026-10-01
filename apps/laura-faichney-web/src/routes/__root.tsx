@@ -9,8 +9,10 @@ import cormorantUrl from '@fontsource-variable/cormorant-garamond/files/cormoran
 import dmSansUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
 import styles from '../styles.css?url';
 import { SiteFooter, SiteHeader } from '../features/site/SitePages';
+import { useGalleryTransitions } from '../features/site/useGalleryTransitions';
 
 function RootDocument() {
+  useGalleryTransitions();
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
