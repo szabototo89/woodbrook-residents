@@ -1,0 +1,426 @@
+/* The services reference: cream paper, alternating artwork and painted edges. */
+.services-page .container,
+.site-header:has(a[href='/services'][aria-current='page']) .container,
+body:has(.services-page) .site-footer .container {
+  width: min(80%, 1160px);
+}
+.services-page .services-hero,
+.services-page .page-hero-inner {
+  min-height: clamp(300px, 32vw, 460px);
+}
+.services-page .page-hero-inner {
+  grid-template-columns: 52% 48%;
+  align-items: start;
+}
+.services-page .page-hero-copy {
+  max-width: 620px;
+  padding-block: 20px 20px;
+}
+.services-page .page-hero h1 {
+  font-size: clamp(2.8rem, 4.8vw, 4.75rem);
+  line-height: 0.98;
+}
+.services-page .page-hero-copy .gold-stroke {
+  width: 85%;
+  margin-block: 12px;
+}
+.services-page .page-hero-copy > p:not(.eyebrow, .services-motto) {
+  max-width: 475px;
+  margin-bottom: 12px;
+  font-size: clamp(14px, 1.55vw, 21px);
+  line-height: 1.4;
+}
+.services-page .services-motto {
+  width: clamp(180px, 18vw, 240px);
+  max-width: 100%;
+  height: auto;
+}
+.services-page .page-hero-art {
+  inset: -10px calc((min(80vw, 1160px) - 100vw) / 2) -40px 50%;
+  overflow: clip;
+}
+.services-page .page-hero-art img {
+  object-position: right center;
+}
+.services-page .services-hero::before {
+  content: none;
+}
+.services-page .services-hero::after {
+  background-image: url('/decoration/blush-gold-brush.png');
+  width: min(620px, 55vw);
+  height: 440px;
+  right: 0;
+  bottom: -120px;
+  transform: rotate(180deg);
+  opacity: 0.55;
+}
+.services-page .service-list-section {
+  position: relative;
+  padding-block: 72px 16px;
+  overflow: clip;
+}
+.services-page .service-list-link {
+  position: relative;
+  isolation: isolate;
+  grid-template-columns: 33% minmax(0, 1fr);
+  gap: 36px;
+  min-height: 0;
+  padding-block: 8px;
+}
+.services-page .service-list-link:nth-child(even) {
+  grid-template-columns: minmax(0, 1fr) 36%;
+}
+.services-page .service-list-link:nth-child(even) .service-image-frame {
+  grid-column: 2;
+  grid-row: 1;
+}
+.services-page .service-list-link:nth-child(even) .service-list-copy {
+  grid-column: 1;
+  grid-row: 1;
+}
+.services-page .service-list-link::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 250px;
+  height: 260px;
+  left: -150px;
+  top: -15px;
+  background: url('/decoration/blush-gold-brush.png') center / contain no-repeat;
+  pointer-events: none;
+}
+.services-page .service-list-link:nth-child(even)::before {
+  left: auto;
+  right: -155px;
+  transform: rotate(180deg);
+}
+.services-page .service-list-link:nth-child(4)::before {
+  background-image: url('/decoration/colour-brush.png');
+  width: 190px;
+  right: -125px;
+  transform: rotate(15deg);
+}
+.services-page .service-list-link img {
+  width: 100%;
+  height: clamp(140px, 15vw, 224px);
+  object-fit: cover;
+  border-radius: 6px;
+}
+.services-page .service-list-copy {
+  gap: 10px;
+}
+.services-page .service-list-copy h2 {
+  font-size: clamp(1.8rem, 2.85vw, 2.65rem);
+  line-height: 1.08;
+  transition: color var(--motion-fast) var(--ease-ui);
+}
+.services-page .service-list-copy > span {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  font-size: clamp(14px, 1.35vw, 18px);
+  line-height: 1.4;
+}
+.service-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  margin: 6px 0 0;
+  padding: 7px 0;
+  list-style: none;
+  border-radius: 5px;
+  background: #fce9e6;
+  color: #ad2447;
+  font-size: clamp(11px, 1.15vw, 14px);
+  line-height: 1.5;
+  gap: 4px 0;
+}
+.service-highlights li {
+  padding-inline: 12px;
+}
+.service-highlights li + li {
+  border-left: 1px solid #eeb8bd;
+}
+.services-page .service-list-link:is(:hover, :focus-visible) h2 {
+  color: var(--pink);
+}
+.services-process {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: 20px 14px;
+  background: #fcf0eb;
+}
+.services-process::before,
+.services-process::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 220px;
+  height: 240px;
+  bottom: -65px;
+  background: url('/decoration/blush-gold-brush.png') center / contain no-repeat;
+  pointer-events: none;
+}
+.services-process::before {
+  left: -100px;
+}
+.services-process::after {
+  right: -80px;
+  transform: rotate(180deg);
+}
+.process-heading {
+  text-align: center;
+}
+.process-heading h2 {
+  font-size: clamp(2.5rem, 3.6vw, 3.5rem);
+}
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 72px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  text-align: center;
+}
+.process-steps li {
+  position: relative;
+}
+.process-icon {
+  display: grid;
+  place-items: center;
+  width: clamp(52px, 5.5vw, 72px);
+  height: clamp(52px, 5.5vw, 72px);
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  background: #ffdedf;
+  color: #d92755;
+}
+.process-steps h3 {
+  font-size: clamp(1.5rem, 1.9vw, 1.85rem);
+  line-height: 1.1;
+}
+.process-steps p {
+  max-width: 280px;
+  margin: 8px auto 0;
+  line-height: 1.4;
+  font-size: clamp(14px, 1.3vw, 18px);
+}
+.process-arrow {
+  position: absolute;
+  right: -50px;
+  top: 65px;
+  color: var(--pink);
+}
+.services-page .contact-section {
+  padding-block: 24px;
+}
+.services-page .contact-inner {
+  gap: 28px;
+}
+body:has(.services-page) .site-footer {
+  border-top: 1px solid rgb(255 255 255 / 0.16);
+}
+@media (min-width: 901px) {
+  .services-page .contact-inner {
+    width: min(76%, 1040px);
+    grid-template-columns: 1.15fr 0.8fr auto;
+  }
+  .services-page .contact-section h2 {
+    font-size: clamp(3rem, 4.6vw, 4.5rem);
+  }
+  .services-page .contact-section::after {
+    content: none;
+  }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .services-page .container,
+  .site-header:has(a[href='/services'][aria-current='page']) .container,
+  body:has(.services-page) .site-footer .container {
+    width: calc(100% - 64px);
+  }
+  .services-page .page-hero-art {
+    right: -32px;
+  }
+  .services-page .page-hero h1 {
+    font-size: clamp(2.8rem, 5vw, 3.5rem);
+  }
+  .services-page .service-list-link {
+    gap: 28px;
+  }
+  .process-steps {
+    gap: 38px;
+  }
+  .process-arrow {
+    right: -32px;
+  }
+}
+@media (max-width: 640px) {
+  .services-page .container,
+  .site-header:has(a[href='/services'][aria-current='page']) .container,
+  body:has(.services-page) .site-footer .container {
+    width: calc(100% - 40px);
+  }
+  .services-page .services-hero,
+  .services-page .page-hero-inner {
+    min-height: 0;
+  }
+  .services-page .page-hero-inner {
+    padding-block: 12px 28px;
+  }
+  .services-page .page-hero-copy {
+    padding: 0;
+  }
+  .services-page .page-hero h1 {
+    font-size: clamp(2.75rem, 10.8vw, 4.25rem);
+  }
+  .services-page .page-hero-art {
+    inset: auto;
+    width: min(100%, 380px);
+    margin: 0 auto 20px;
+    aspect-ratio: 1374 / 1145;
+  }
+  .services-page .services-hero::after {
+    width: 170px;
+    height: 260px;
+    bottom: -20px;
+    opacity: 0.35;
+  }
+  .services-page .service-list-section {
+    padding-block: 28px 24px;
+  }
+  .services-page .service-list-link,
+  .services-page .service-list-link:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-block: 20px 28px;
+  }
+  .services-page .service-list-link:nth-child(even) .service-image-frame,
+  .services-page .service-list-link:nth-child(even) .service-list-copy {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .services-page .service-list-link img {
+    height: auto;
+    aspect-ratio: 1.75;
+  }
+  .services-page .service-list-copy h2 {
+    font-size: 2rem;
+  }
+  .service-highlights {
+    font-size: 13px;
+  }
+  .service-highlights li {
+    padding-inline: 10px;
+  }
+  .services-process {
+    padding-block: 32px 40px;
+  }
+  .process-steps {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    margin-top: 28px;
+  }
+  .process-icon {
+    width: 62px;
+    height: 62px;
+  }
+  .process-steps h3 {
+    font-size: 1.75rem;
+  }
+  .process-arrow {
+    top: auto;
+    bottom: -36px;
+    right: calc(50% - 14px);
+    transform: rotate(90deg);
+  }
+}
+.site-footer .social-links {
+  flex-shrink: 0;
+  gap: 2px;
+}
+.site-footer .social-links a {
+  justify-content: center;
+}
+@media (min-width: 641px) and (max-width: 1000px) {
+  .footer-inner {
+    flex-wrap: wrap;
+    gap: 12px 24px;
+  }
+}
+@media (min-width: 641px) {
+  .services-page .eyebrow {
+    font-size: clamp(10px, 1vw, 12px);
+  }
+  body:has(.services-page) .site-footer {
+    padding-block: 16px;
+  }
+  body:has(.services-page) .site-footer .container {
+    width: min(90%, 1280px);
+  }
+  .services-page .services-process .container {
+    width: min(90%, 1240px);
+  }
+  .process-heading h2 {
+    font-size: clamp(2rem, 3.6vw, 3.5rem);
+  }
+  .process-steps {
+    gap: 40px;
+    margin-top: -46px;
+  }
+  .process-steps li:nth-child(2) {
+    padding-top: 54px;
+  }
+  .process-steps h3 {
+    font-size: clamp(1.25rem, 1.9vw, 1.85rem);
+  }
+  .process-arrow {
+    right: -34px;
+  }
+  .site-header:has(a[href='/services'][aria-current='page']) {
+    height: clamp(64px, 6.8vw, 88px);
+  }
+  .site-header:has(a[href='/services'][aria-current='page']) .wordmark {
+    width: clamp(155px, 17vw, 230px);
+  }
+  .site-header:has(a[href='/services'][aria-current='page']) .header-inner {
+    gap: 20px;
+  }
+  .site-header:has(a[href='/services'][aria-current='page']) .navigation {
+    gap: clamp(16px, 2.7vw, 32px);
+  }
+  .site-header:has(a[href='/services'][aria-current='page']) .header-cta {
+    margin-left: 10px;
+  }
+  .services-page .contact-links {
+    gap: 0;
+    padding-left: 28px;
+  }
+  .services-page .contact-links a,
+  .services-page .contact-section p:not(.eyebrow) {
+    font-size: clamp(12px, 1.15vw, 16px);
+  }
+  body:has(.services-page) .site-footer .wordmark {
+    width: clamp(180px, 20vw, 240px);
+  }
+  body:has(.services-page) .site-footer nav:not(.social-links) {
+    gap: 18px;
+  }
+  body:has(.services-page) .footer-inner {
+    gap: 16px;
+  }
+  body:has(.services-page) .site-footer small {
+    max-width: 115px;
+  }
+}
+@media (max-width: 640px) {
+  .services-page .page-hero-copy > p:not(.eyebrow, .services-motto),
+  .services-page .service-list-copy > span,
+  .process-steps p {
+    font-size: 16px;
+  }
+  .services-page .contact-section {
+    padding-block: 56px;
+  }
+}

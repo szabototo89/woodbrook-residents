@@ -8,6 +8,7 @@ import {
   HomePage,
   ServicesPage,
   SiteHeader,
+  SiteFooter,
 } from './SitePages';
 import {
   artworkUrl,
@@ -24,6 +25,14 @@ const config = {
   dataset: 'production',
   apiVersion: '2025-09-01',
 };
+
+test('footer offers the requested social placeholders with accessible names', () => {
+  const html = renderToStaticMarkup(<SiteFooter />);
+  expect(html).toContain('href="https://www.instagram.com/"');
+  expect(html).toContain('href="https://www.facebook.com/"');
+  expect(html).toContain('aria-label="Instagram"');
+  expect(html).toContain('aria-label="Facebook"');
+});
 
 function image(ref: string, width: number, height?: number): string {
   const url = artworkUrl(
@@ -431,6 +440,57 @@ test('services expose all five supplied offerings as complete links', () => {
   expect(html.match(/<h1\b/g)).toHaveLength(1);
 });
 
+test('services introduce the creative offerings and explain the enquiry process', () => {
+  const html = renderToStaticMarkup(<ServicesPage data={servicesData} />);
+
+  expect(html).toContain('src="/decoration/art-brings-people-together.png"');
+  expect(html).toContain('alt="Art brings people together"');
+  expect(html).not.toContain('Creative Services');
+  expect(html).toContain('aria-label="Creative services"');
+  expect(html).toContain('Pet portraits');
+  expect(html).toContain('Schools');
+  expect(html).toContain('Event signage');
+  expect(html).toContain('Corporate events');
+  expect(html).toContain('Beginner to advanced');
+  expect(html.match(/<h2\b/g)).toHaveLength(7);
+  expect(html.match(/<h3\b/g)).toHaveLength(3);
+  expect(html).toContain('<h2 id="process-heading">How It Works</h2>');
+  expect(html).toContain('1. Share Your Idea');
+  expect(html).toContain('2. Discuss the Brief');
+  expect(html).toContain('3. Create Something Special');
+  expect(html.indexOf('How It Works')).toBeGreaterThan(
+    html.indexOf('Art Tutoring'),
+  );
+  expect(html.indexOf('How It Works')).toBeLessThan(
+    html.indexOf('Get in Touch'),
+  );
+  expect(html).toContain(
+    'mailto:lauralfaichney@gmail.com?subject=Art%20project%20enquiry',
+  );
+});
+
+test('services retain published copy and handle offerings without reference categories', () => {
+  const html = renderToStaticMarkup(
+    <ServicesPage
+      data={{
+        ...servicesData,
+        services: [
+          {
+            ...services[0]!,
+            title: 'A new creative service',
+            slug: 'new-service',
+            description: 'The full published description remains visible.',
+          },
+        ],
+      }}
+    />,
+  );
+  expect(html).toContain('A new creative service');
+  expect(html).toContain('The full published description remains visible.');
+  expect(html).toContain('/contact?service=new-service');
+  expect(html).not.toContain('Pet portraits');
+});
+
 test('about and gallery present routes without invented client claims', () => {
   const about = renderToStaticMarkup(<AboutPage data={aboutData} />);
   const gallery = renderToStaticMarkup(<GalleryPage data={galleryData} />);
@@ -466,7 +526,7 @@ test('every subpage introduces its content with a distinct artwork-led hero', ()
     expect(hero, 'each subpage should have a page hero').toBeDefined();
     expect(hero).toContain('<h1');
     expect(hero).toContain('gold-stroke');
-    const image = hero?.match(/src="([^"]+)"/)?.[1];
+    const image = hero?.match(/class="page-hero-art"><img src="([^"]+)"/)?.[1];
     expect(image, 'each subpage hero should use artwork').toBeDefined();
     return image;
   });

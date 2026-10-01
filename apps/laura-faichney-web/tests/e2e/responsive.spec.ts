@@ -103,7 +103,7 @@ function exactName(copy: string) {
   return new RegExp(copy.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
 }
 
-test('service titles and descriptions show at most two lines', async ({
+test('services show the full published descriptions at phone sizes', async ({
   page,
 }) => {
   const { firstServiceDescription } = await cmsCopy();
@@ -111,20 +111,15 @@ test('service titles and descriptions show at most two lines', async ({
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/services');
     for (const copy of await page
-      .locator('.service-list-copy strong, .service-list-copy > span')
+      .locator('.service-list-copy h2, .service-list-copy > span')
       .all()) {
-      const layout = await copy.evaluate((element) => {
-        const style = getComputedStyle(element);
-        return {
-          height: element.getBoundingClientRect().height,
-          lineHeight: parseFloat(style.lineHeight),
-          clamp: style.webkitLineClamp,
-          overflow: style.overflow,
-        };
-      });
-      expect(layout.height).toBeLessThanOrEqual(layout.lineHeight * 2 + 1);
-      expect(layout.clamp).toBe('2');
-      expect(layout.overflow).toBe('hidden');
+      const layout = await copy.evaluate((element) => ({
+        visibleHeight: element.clientHeight,
+        contentHeight: element.scrollHeight,
+      }));
+      expect(layout.contentHeight).toBeLessThanOrEqual(
+        layout.visibleHeight + 3,
+      );
     }
     await expect(page.locator('.service-list-copy').first()).toContainText(
       firstServiceDescription,
@@ -135,6 +130,7 @@ test('service titles and descriptions show at most two lines', async ({
 test('right contact brush retains every painted edge without a mask', async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/services');
   const artwork = await page
     .locator('.contact-section')
@@ -176,7 +172,10 @@ test('mobile services leave room around artwork and between offerings', async ({
     await page.goto('/services');
     const artwork = await page.locator('.page-hero-art img').boundingBox();
     const rows = page.locator('.service-list-link');
-    const firstTitle = await rows.first().locator('strong').boundingBox();
+    const firstTitle = await rows
+      .first()
+      .getByRole('heading', { level: 2 })
+      .boundingBox();
     if (!artwork || !firstTitle) throw new Error('Services content is missing');
     expect(firstTitle.y - artwork.y - artwork.height).toBeGreaterThanOrEqual(
       48,
@@ -186,11 +185,11 @@ test('mobile services leave room around artwork and between offerings', async ({
       const image = await row.getByRole('img').boundingBox();
       const copy = await row.locator('.service-list-copy').boundingBox();
       if (!bounds || !image || !copy) throw new Error('Service row is missing');
-      expect(copy.x - image.x - image.width).toBeGreaterThanOrEqual(16);
-      expect(copy.y - bounds.y).toBeGreaterThanOrEqual(20);
+      expect(copy.y - image.y - image.height).toBeGreaterThanOrEqual(20);
+      expect(image.y - bounds.y).toBeGreaterThanOrEqual(20);
       expect(
         bounds.y + bounds.height - copy.y - copy.height,
-      ).toBeGreaterThanOrEqual(20);
+      ).toBeGreaterThanOrEqual(28);
     }
   }
 });
@@ -458,7 +457,7 @@ test('phone subpage artwork introduces the copy and contact action', async ({
     for (const path of ['/about', '/services', '/gallery', '/contact']) {
       await page.goto(path);
       const hero = page.locator('.page-hero');
-      const artwork = await hero.getByRole('img').boundingBox();
+      const artwork = await hero.locator('.page-hero-art img').boundingBox();
       const heading = await hero
         .getByRole('heading', { level: 1 })
         .boundingBox();

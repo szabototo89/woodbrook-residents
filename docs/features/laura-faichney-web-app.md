@@ -10,8 +10,8 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 
 - A responsive home page introduces Laura's painting, mural, signage, facepainting and tutoring services.
 - The service, gallery, about and contact pages are reachable through desktop navigation and a mobile menu.
-- Services appear as five artwork cards on desktop and single clickable rows on mobile. The services page gives each one a description and a contact path.
-- Service titles and descriptions show at most two lines, with an ellipsis for longer copy. Full wording remains in the accessible link text.
+- The home preview presents five artwork cards on desktop and single clickable rows on mobile. The services page uses alternating artwork and text on desktop, stacked images and full copy on phones, category strips, a transparent handwritten motto and a three-step enquiry process. The services hero leads directly into the offerings without a repeated section introduction. See [Laura services reference design](laura-services-reference-design.md).
+- Home service previews retain compact titles; the services page displays full titles and descriptions without truncation.
 - The right contact accent uses its own transparent brushstroke sweeping from bottom right to top left. Its painted edges remain visible without a flip or clipping mask.
 - Service rows have generous vertical padding and a clear gap between thumbnails and copy. The list starts below the overflowing hero artwork with space before the first title. On phones, the right contact brush sits below the enquiry button and continues into the footer.
 - The hero and mural feature use the supplied artwork and derived cutout. Each service has a generated category image, and the home biography uses a studio still life without people. The gallery retains fixed Picsum photography pending original assets. Phone and email links use Lucide icons and open the device's calling or email app.
@@ -28,10 +28,10 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 
 - Home, services, gallery, about and contact routes render at desktop, tablet and phone widths without horizontal scrolling.
 - Phone body copy is at least 16px, and visible phone links and buttons have tap areas at least 44px high.
-- The mobile service thumbnail, title and arrow remain together in one row.
+- Home service preview thumbnails, titles and arrows remain together in one row; services-page images stack above complete copy and category strips.
 - The mobile gallery shows named collections in two columns; collection pages share one description and offer in-page picture navigation. The mobile navigation is operable with keyboard and touch.
 - The supplied artwork remains legible at the relevant crop and the hero's text does not overlap it.
-- No invented testimonial, social profile, client portrait or business detail appears.
+- No invented testimonial, social profile, client portrait or business detail appears. User-requested Instagram and Facebook placeholders link to the platform homepages until Laura provides her profile URLs.
 - The testimonial is visually distinct from the biography. The contact brush flows into the footer without covering contact details or causing horizontal scrolling, and footer navigation remains readable.
 - At phone widths, the mural flower and leaves fit inside the section beneath the copy and action, without a faded duplicate.
 - Each non-home page has its own descriptive, transparent-alpha hero asset. At widths up to 640px, artwork precedes the heading and copy, and the About contact action retains at least 32px of space below it. At desktop widths, hero artwork crosses the lower hero boundary. Neither layout causes horizontal page overflow or obscures the copy.
@@ -41,7 +41,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 
 ## Scope
 
-This is an independent TanStack Start site under `apps/laura-faichney-web`, with no CMS integration. It uses the supplied artwork, generated transparent design assets and fixed Picsum photography until Laura provides originals. Asset sources and generation prompts are recorded in `apps/laura-faichney-web/ASSETS.md`. Placeholder notices are omitted from the page content as requested. The screenshots guide layout and styling; they are not served as flattened page images. The testimonial copy comes from the user's supplied reference (`codex-clipboard-0j7NLo.png`, 2026-09-28); it is not independently verified. Facebook and Instagram content awaits verified source details.
+This is an independent TanStack Start site under `apps/laura-faichney-web`, with no CMS integration. It uses the supplied artwork, generated transparent design assets and fixed Picsum photography until Laura provides originals. Asset sources and generation prompts are recorded in `apps/laura-faichney-web/ASSETS.md`. Placeholder notices are omitted from the page content as requested. The screenshots guide layout and styling; they are not served as flattened page images. The testimonial copy comes from the user's supplied reference (`codex-clipboard-0j7NLo.png`, 2026-09-28); it is not independently verified. Facebook and Instagram icons use user-requested placeholder links pending verified profile URLs.
 
 ## Verification
 
