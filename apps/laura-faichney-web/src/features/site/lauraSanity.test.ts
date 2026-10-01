@@ -304,7 +304,9 @@ test('uses CMS SEO with code fallbacks for head metadata', () => {
 });
 
 test('builds gallery detail paths from slugs', () => {
-  expect(galleryPhotoPath({ slug: 'pink-flowers' })).toBe('/gallery/pink-flowers');
+  expect(galleryPhotoPath({ slug: 'pink-flowers' })).toBe(
+    '/gallery/pink-flowers',
+  );
 });
 
 test('finds gallery photos by slug with wrapped neighbours', async () => {

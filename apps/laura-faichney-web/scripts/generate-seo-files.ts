@@ -45,7 +45,7 @@ async function generateSeoFiles() {
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
     `${sitemapUrls}\n` +
-    '</urlset>\n`;
+    '</urlset>\n';
   const robotsTxt = `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`;
 
   await Bun.write(path.join(outputRoot, 'sitemap.xml'), sitemapXml);
