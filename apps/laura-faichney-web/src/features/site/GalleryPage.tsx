@@ -1,24 +1,27 @@
 import { GalleryCollections } from './GalleryCollections';
 import { ContactSection } from './ContactSection';
 import { PageHero } from './PageHero';
+import { TitleLines } from './TitleLines';
+import type { GalleryData } from './lauraSanity';
 
-export function GalleryPage() {
+export function GalleryPage(props: { data: GalleryData }) {
+  const { data } = props;
   return (
     <main id="main-content">
       <PageHero
         className="gallery-hero"
-        eyebrow="Gallery"
-        title="A glimpse of my work"
-        description="Explore collections of colour and creative inspiration."
-        image="/artwork/gallery-hero-cutout.webp"
-        imageAlt="A collection of colourful paintings featuring a flower, a cow, and a coastal scene"
+        eyebrow={data.hero.eyebrow}
+        title={<TitleLines lines={data.hero.titleLines} />}
+        description={data.hero.description}
+        image={data.hero.image.url}
+        imageAlt={data.hero.image.alt}
       />
       <section className="section gallery-page">
         <div className="container">
-          <GalleryCollections />
+          <GalleryCollections collections={data.collections} />
         </div>
       </section>
-      <ContactSection />
+      <ContactSection settings={data.settings} />
     </main>
   );
 }

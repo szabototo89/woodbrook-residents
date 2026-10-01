@@ -30,7 +30,7 @@ When a visitor explores Laura's gallery, they can choose a named collection, rea
 
 ## Scope
 
-Only `apps/laura-faichney-web`, its local gallery content and feature documentation. Initial collections are Colour & nature (flowers and strawberries) and Everyday inspiration (coffee, book and creative desk), using the five existing photographs. Names and descriptions describe the visible themes and make no client or commission claims. The existing generated hero is reused. Collections are flat; there are no nested folders, individual picture pages, per-picture descriptions, uploads or collection editing interface.
+Only `apps/laura-faichney-web`, its Sanity-driven gallery content and feature documentation. Collections (`galleryCollection` documents with title, slug, description and photo references) and their pictures (`galleryItem` documents) are edited in the Studio; the gallery page, home preview, collection pages, sitemap and static verification all read collection slugs and photo references from Sanity at build time. Initial collections are Colour & nature (flowers and strawberries) and Everyday inspiration (coffee, book and creative desk), using the five existing photographs. Names and descriptions describe the visible themes and make no client or commission claims. The existing generated hero is reused. Collections are flat; there are no nested folders, individual picture pages, image zoom or lightbox.
 
 This replaces the [individual picture detail capability](./laura-gallery-picture-detail.md).
 

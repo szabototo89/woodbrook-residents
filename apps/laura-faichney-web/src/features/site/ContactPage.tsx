@@ -1,8 +1,10 @@
 import { Arrow } from './Arrow';
 import { ContactDetails } from './ContactDetails';
 import { PageHero } from './PageHero';
+import type { CmsSettings } from './lauraSanity';
 
-export function ContactPage() {
+export function ContactPage(props: { settings: CmsSettings }) {
+  const { settings } = props;
   return (
     <main id="main-content">
       <PageHero
@@ -15,7 +17,7 @@ export function ContactPage() {
         action={
           <a
             className="button button-primary"
-            href="mailto:lauralfaichney@gmail.com?subject=Art%20project%20enquiry"
+            href={`mailto:${settings.email}?subject=${encodeURIComponent(settings.mailtoSubject)}`}
           >
             Start a Project <Arrow />
           </a>
@@ -23,7 +25,7 @@ export function ContactPage() {
       />
       <section className="section contact-page contact-page-details">
         <div className="container">
-          <ContactDetails />
+          <ContactDetails settings={settings} />
         </div>
       </section>
     </main>

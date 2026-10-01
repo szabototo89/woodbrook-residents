@@ -93,15 +93,6 @@ function collectTitles(node: unknown, into: Array<string> = []): Array<string> {
   return into
 }
 
-function collectFilters(node: unknown, into: Array<string> = []): Array<string> {
-  if (node instanceof MockNode) {
-    into.push(...node.filters)
-    for (const child of node.children) collectFilters(child, into)
-    for (const item of node.itemList) collectFilters(item, into)
-  }
-  return into
-}
-
 function getStructure(): Function {
   const plugins: unknown = config.plugins
   if (!Array.isArray(plugins) || plugins.length === 0) {
@@ -155,8 +146,8 @@ test('studio desk mirrors the public site navigation', () => {
     'All services',
     'Gallery',
     'Gallery page',
+    'All collections',
     'All gallery items',
-    'Featured on the home page',
     'Site settings',
   ]) {
     expect(titles).toContain(expected)
@@ -179,10 +170,10 @@ test('page singletons open directly with fixed document ids', () => {
   }
 })
 
-test('gallery desk keeps the featured filter for the home preview', () => {
+test('gallery desk lists collections alongside gallery items', () => {
   const structure = getStructure()
-  const {builder} = createStructureBuilder()
-  const root = structure(builder)
-  const filters = collectFilters(root)
-  expect(filters.some((filter) => filter.includes('featured == true'))).toBe(true)
+  const {builder, created} = createStructureBuilder()
+  structure(builder)
+  const items = created.filter((candidate) => candidate.documentType === 'galleryCollection')
+  expect(items.length).toBeGreaterThan(0)
 })
