@@ -1,14 +1,16 @@
 import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
+import type { HomeData } from './lauraSanity';
 
-export function AboutPreview() {
+export function AboutPreview(props: { about: HomeData['about'] }) {
+  const { about } = props;
   return (
     <section className="section about-preview">
       <div className="container about-preview-inner">
         <div className="about-art" data-motion="photo">
           <img
-            src="/artwork/about-studio.webp"
-            alt="Paintbrushes, palettes and colourful canvases in an artist’s studio"
+            src={about.image.url}
+            alt={about.image.alt}
             width="1448"
             height="1086"
             loading="lazy"
@@ -16,13 +18,8 @@ export function AboutPreview() {
         </div>
         <div className="about-copy" data-motion="copy">
           <Eyebrow>About Laura</Eyebrow>
-          <h2>Art, colour and people are what inspire me</h2>
-          <p>
-            Hi, I’m Laura — an artist and creative all-rounder. I love
-            transforming spaces with bold, colourful art and helping people
-            discover their creativity through painting, facepainting and art
-            tutoring.
-          </p>
+          <h2>{about.heading}</h2>
+          <p>{about.copy}</p>
           <a className="button button-primary" href="/about">
             More About Laura <Arrow />
           </a>

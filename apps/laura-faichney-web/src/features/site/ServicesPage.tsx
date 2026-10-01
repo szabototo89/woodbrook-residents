@@ -1,36 +1,32 @@
 import { ArrowRight } from 'lucide-react';
-import { services } from './siteContent';
 import { PageHero } from './PageHero';
 import { ServiceImage } from './ServiceImage';
 import { ContactSection } from './ContactSection';
+import { TitleLines } from './TitleLines';
+import type { ServicesData } from './lauraSanity';
 
-export function ServicesPage() {
+export function ServicesPage(props: { data: ServicesData }) {
+  const { data } = props;
   return (
     <main id="main-content">
       <PageHero
         className="services-hero"
-        eyebrow="My services"
-        title={
-          <>
-            Art for Every
-            <br />
-            Space and Occasion
-          </>
-        }
-        description="From bespoke paintings to large-scale murals, facepainting and art tutoring, I offer creative services for homes, businesses and events."
-        image="/artwork/services-hero-cutout.webp"
-        imageAlt="Paintbrushes in a paint-splashed cup with sweeping colourful brushstrokes"
+        eyebrow={data.hero.eyebrow}
+        title={<TitleLines lines={data.hero.titleLines} />}
+        description={data.hero.description}
+        image={data.hero.image.url}
+        imageAlt={data.hero.image.alt}
       />
       <section className="service-list-section">
         <div className="container service-list">
-          {services.map((service) => (
+          {data.services.map((service) => (
             <a
               className="service-list-link"
-              href={`/contact?service=${encodeURIComponent(service.title)}`}
-              key={service.title}
+              href={`/contact?service=${encodeURIComponent(service.slug)}`}
+              key={service.slug}
             >
               <div className="service-image-frame">
-                <ServiceImage service={service} />
+                <ServiceImage image={service.image} />
               </div>
               <span className="service-list-copy">
                 <strong>{service.title}</strong>
@@ -43,7 +39,7 @@ export function ServicesPage() {
           ))}
         </div>
       </section>
-      <ContactSection />
+      <ContactSection settings={data.settings} />
     </main>
   );
 }

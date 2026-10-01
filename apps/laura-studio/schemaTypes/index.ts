@@ -1,4 +1,5 @@
 import {aboutPage} from './aboutPage'
+import {galleryCollection} from './galleryCollection'
 import {galleryItem} from './galleryItem'
 import {galleryPage} from './galleryPage'
 import {homePage} from './homePage'
@@ -15,6 +16,7 @@ export const schemaTypes = [
   galleryPage,
   siteSettings,
   service,
+  galleryCollection,
   galleryItem,
   pageHero,
   seo,

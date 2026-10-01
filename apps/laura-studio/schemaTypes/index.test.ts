@@ -7,6 +7,7 @@ test('studio schema registers the Laura document and object types', () => {
   expect(names).toEqual(
     [
       'aboutPage',
+      'galleryCollection',
       'galleryItem',
       'galleryPage',
       'homePage',

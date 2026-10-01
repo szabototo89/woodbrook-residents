@@ -1,8 +1,10 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { galleryCollections } from '../src/features/site/siteContent';
-import { galleryCollectionPath } from '../src/features/site/galleryContent';
+import {
+  LauraSanitySource,
+  galleryCollectionPath,
+} from '../src/features/site/lauraSanity';
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -53,21 +55,25 @@ function outputPathForUrl(pathname: string) {
   return path.join(outputRoot, decodedPath, 'index.html');
 }
 
+const gallery = await new LauraSanitySource().loadGallery();
 const requiredPages = [
   '/',
   '/services',
   '/gallery',
   '/about',
   '/contact',
-  ...galleryCollections.map(galleryCollectionPath),
+  ...gallery.collections.map(galleryCollectionPath),
 ];
 
-const missingRequiredPages = [];
-for (const pathname of requiredPages) {
-  if (!(await fileExists(outputPathForUrl(pathname)))) {
-    missingRequiredPages.push(pathname);
-  }
-}
+const requiredPageChecks = await Promise.all(
+  requiredPages.map(async (pathname) => ({
+    pathname,
+    exists: await fileExists(outputPathForUrl(pathname)),
+  })),
+);
+const missingRequiredPages = requiredPageChecks
+  .filter((check) => !check.exists)
+  .map((check) => check.pathname);
 
 if (missingRequiredPages.length > 0) {
   throw new Error(
@@ -77,32 +83,42 @@ if (missingRequiredPages.length > 0) {
 
 const files = await collectFiles(outputRoot);
 const htmlFiles = files.filter((file) => file.endsWith('.html'));
-const missingLinks = new Set<string>();
 
-for (const htmlFile of htmlFiles) {
+async function missingLinksIn(htmlFile: string): Promise<string[]> {
   const html = await readFile(htmlFile, 'utf8');
-  const links = html.matchAll(/\bhref=["']([^"']+)["']/g);
+  const links = [...html.matchAll(/\bhref=["']([^"']+)["']/g)];
   const pagePath = path
     .relative(outputRoot, htmlFile)
     .split(path.sep)
     .join('/');
   const pageUrl = new URL(pagePath, 'https://static-build.local/');
 
-  for (const [, href] of links) {
-    if (!href) {
-      continue;
-    }
-    const url = new URL(href, pageUrl);
+  const checks = await Promise.all(
+    links.map(async ([, href]) => {
+      if (!href) {
+        return undefined;
+      }
+      const url = new URL(href, pageUrl);
 
-    if (url.origin !== 'https://static-build.local') {
-      continue;
-    }
+      if (url.origin !== 'https://static-build.local') {
+        return undefined;
+      }
 
-    if (!(await fileExists(outputPathForUrl(url.pathname)))) {
-      missingLinks.add(url.pathname);
-    }
-  }
+      if (await fileExists(outputPathForUrl(url.pathname))) {
+        return undefined;
+      }
+      return url.pathname;
+    }),
+  );
+
+  return checks.filter(
+    (pathname): pathname is string => pathname !== undefined,
+  );
 }
+
+const missingLinks = new Set(
+  (await Promise.all(htmlFiles.map(missingLinksIn))).flat(),
+);
 
 if (missingLinks.size > 0) {
   throw new Error(
@@ -111,12 +127,18 @@ if (missingLinks.size > 0) {
 }
 
 const runtimeBackendPaths = ['_worker.js', '_routes.json', '_serverFn'];
-for (const runtimePath of runtimeBackendPaths) {
-  if (await pathExists(path.join(outputRoot, runtimePath))) {
-    throw new Error(
-      `Static build unexpectedly contains runtime backend output: ${runtimePath}`,
-    );
-  }
+const backendChecks = await Promise.all(
+  runtimeBackendPaths.map(async (runtimePath) => ({
+    runtimePath,
+    exists: await pathExists(path.join(outputRoot, runtimePath)),
+  })),
+);
+const unexpectedBackend = backendChecks.find((check) => check.exists);
+
+if (unexpectedBackend) {
+  throw new Error(
+    `Static build unexpectedly contains runtime backend output: ${unexpectedBackend.runtimePath}`,
+  );
 }
 
 const robotsPath = path.join(outputRoot, 'robots.txt');
@@ -145,7 +167,7 @@ if (
 ) {
   throw new Error('Static build sitemap.xml is not a valid URL set.');
 }
-for (const pathname of requiredPages) {
+const missingSitemapPage = requiredPages.find((pathname) => {
   const absolute = `/${pathname.replace(/^\//, '')}`;
   const normalized = absolute === '/' ? '/' : absolute.replace(/\/$/, '');
   const candidates = [`${normalized === '/' ? '' : normalized}`, normalized];
@@ -155,11 +177,13 @@ for (const pathname of requiredPages) {
       (sitemapXml.includes(`${candidate}</loc>`) ||
         sitemapXml.includes(`${candidate}/</loc>`)),
   );
-  if (!found && normalized !== '/') {
-    throw new Error(
-      `Static build sitemap.xml is missing required page: ${pathname}`,
-    );
-  }
+  return !found && normalized !== '/';
+});
+
+if (missingSitemapPage) {
+  throw new Error(
+    `Static build sitemap.xml is missing required page: ${missingSitemapPage}`,
+  );
 }
 
 const sitemapLocs = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)]
@@ -179,12 +203,15 @@ const sitemapLocs = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)]
       typeof pathname === 'string' && !pathname.startsWith('/documents/'),
   );
 
-const missingSitemapTargets: string[] = [];
-for (const pathname of sitemapLocs) {
-  if (!(await fileExists(outputPathForUrl(pathname)))) {
-    missingSitemapTargets.push(pathname);
-  }
-}
+const sitemapTargetChecks = await Promise.all(
+  sitemapLocs.map(async (pathname) => ({
+    pathname,
+    exists: await fileExists(outputPathForUrl(pathname)),
+  })),
+);
+const missingSitemapTargets = sitemapTargetChecks
+  .filter((check) => !check.exists)
+  .map((check) => check.pathname);
 
 if (missingSitemapTargets.length > 0) {
   throw new Error(

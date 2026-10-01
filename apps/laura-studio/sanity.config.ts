@@ -14,12 +14,6 @@ const singleton = (S: StructureBuilder, title: string, id: string, icon?: Compon
   return withIcon.child(S.document().schemaType(id).documentId(id).title(title))
 }
 
-const filtered = (S: StructureBuilder, title: string, id: string, type: string, filter: string) =>
-  S.listItem()
-    .title(title)
-    .id(id)
-    .child(S.documentList().title(title).filter(`_type == "${type}" && (${filter})`))
-
 export default defineConfig({
   name: 'default',
   title: 'Laura Faichney All Things Art',
@@ -57,14 +51,8 @@ export default defineConfig({
                   .title('Gallery')
                   .items([
                     singleton(S, 'Gallery page', 'galleryPage'),
+                    S.documentTypeListItem('galleryCollection').title('All collections'),
                     S.documentTypeListItem('galleryItem').title('All gallery items'),
-                    filtered(
-                      S,
-                      'Featured on the home page',
-                      'featured-gallery',
-                      'galleryItem',
-                      'featured == true',
-                    ),
                   ]),
               ),
             S.divider(),
