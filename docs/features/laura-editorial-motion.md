@@ -34,8 +34,8 @@ CSS handles feedback and animation; a small IntersectionObserver hook handles on
 
 ## Verification
 
-Verified 2026-10-01: 41 Laura browser tests and 15 unit tests pass; the full repository build passes; static prerender verification checks all seven public HTML pages and every generated internal link. Desktop and phone screenshots confirm the artwork, collection controls and responsive layout remain intact.
+Verified 2026-10-01 after integrating the CMS content changes: 41 Laura browser tests and 31 unit tests pass; the full repository build passes; static prerender verification checks all seven public HTML pages and every generated internal link. Desktop and phone screenshots confirm the artwork, collection controls and responsive layout remain intact.
 
-`apps/laura-faichney-web/tests/e2e/motion.spec.ts` and `gallery-motion.spec.ts` cover interaction feedback, hero settling, one-time reveals, selected-image transition snapshots, reduced motion including live changes, browser API fallbacks, keyboard, touch and JavaScript-free browsing. Existing responsive tests continue to cover all five routes. Set `LAURA_PLAYWRIGHT_PORT` to a free port when another worktree is running browser tests; set `CI=1` to require a fresh preview server.
+`apps/laura-faichney-web/tests/e2e/motion.spec.ts` and `gallery-motion.spec.ts` cover interaction feedback, hero settling, one-time reveals, selected-image transition snapshots, reduced motion including live changes, browser API fallbacks, keyboard, touch and JavaScript-free browsing. Existing responsive tests continue to cover all five routes. The default preview origin `http://127.0.0.1:4176` is registered with Sanity. Any alternative `LAURA_PLAYWRIGHT_PORT` requires its origin to be registered too; set `CI=1` to require a fresh preview server.
 
 Implementation references: [MDN: startViewTransition](https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition) and [MDN: Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (accessed 2026-10-01).
