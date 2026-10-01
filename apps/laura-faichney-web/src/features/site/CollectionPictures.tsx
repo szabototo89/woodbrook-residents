@@ -60,50 +60,47 @@ export function CollectionPictures(props: { images: CmsGalleryItem[] }) {
   if (!selected) return null;
 
   return (
-    <section
-      className="section collection-pictures"
-      aria-label="Collection pictures"
-    >
-      <div className="container">
-        <figure
-          className="collection-selected-picture"
-          ref={artwork}
-          id="collection-artwork"
-          tabIndex={-1}
-          aria-label={selected.alt}
+    <section className="collection-pictures" aria-label="Collection pictures">
+      <figure
+        className="collection-selected-picture"
+        ref={artwork}
+        id="collection-artwork"
+        tabIndex={-1}
+        aria-label={selected.alt}
+      >
+        <img
+          key={selected.fullImage.url}
+          src={selected.fullImage.url}
+          srcSet={galleryPhotoSrcSet(selected.fullImage.url)}
+          sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1023px) calc(100vw - 48px), (max-width: 1328px) calc((100vw - 96px) * 2 / 3), 821px"
+          fetchPriority="high"
+          alt={selected.alt}
+          width="640"
+          height="480"
+        />
+      </figure>
+      {total > 1 && (
+        <nav
+          className="collection-picture-navigation"
+          aria-label="Picture navigation"
         >
-          <img
-            key={selected.fullImage.url}
-            src={selected.fullImage.url}
-            srcSet={galleryPhotoSrcSet(selected.fullImage.url)}
-            sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1008px) calc(100vw - 48px), 960px"
-            fetchPriority="high"
-            alt={selected.alt}
-            width="640"
-            height="480"
-          />
-        </figure>
-        {total > 1 && (
-          <nav
-            className="collection-picture-navigation"
-            aria-label="Picture navigation"
+          <button
+            type="button"
+            onClick={() => changePicture((selectedIndex - 1 + total) % total)}
           >
-            <button
-              type="button"
-              onClick={() => changePicture((selectedIndex - 1 + total) % total)}
-            >
-              <ArrowLeft size={18} aria-hidden="true" />
-              Previous picture
-            </button>
-            <button
-              type="button"
-              onClick={() => changePicture((selectedIndex + 1) % total)}
-            >
-              Next picture
-              <ArrowRight size={18} aria-hidden="true" />
-            </button>
-          </nav>
-        )}
+            <ArrowLeft size={18} aria-hidden="true" />
+            Previous picture
+          </button>
+          <button
+            type="button"
+            onClick={() => changePicture((selectedIndex + 1) % total)}
+          >
+            Next picture
+            <ArrowRight size={18} aria-hidden="true" />
+          </button>
+        </nav>
+      )}
+      {total > 1 && (
         <div
           className="collection-thumbnails"
           role="group"
@@ -127,7 +124,7 @@ export function CollectionPictures(props: { images: CmsGalleryItem[] }) {
             </button>
           ))}
         </div>
-      </div>
+      )}
     </section>
   );
 }

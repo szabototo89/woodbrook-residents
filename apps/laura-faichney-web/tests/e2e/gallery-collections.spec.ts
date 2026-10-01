@@ -1,98 +1,15 @@
 import { expect, test } from '@playwright/test';
 
-const SANITY_QUERY_URL =
-  'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';
-
-type CmsCollection = {
-  title: string;
-  slug: string;
-  description: string;
-  photos: string[];
-};
-
-type CmsCollections = {
-  collections: CmsCollection[];
-};
-
-let cmsCollections: CmsCollections | undefined;
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function requiredRecord(
-  value: unknown,
-  label: string,
-): Record<string, unknown> {
-  if (!isRecord(value)) {
-    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
-  }
-  return value;
-}
-
-function requiredString(
-  record: Record<string, unknown>,
-  key: string,
-  label: string,
-): string {
-  const value = record[key];
-  if (typeof value !== 'string' || !value) {
-    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
-  }
-  return value;
-}
-
-async function collections(): Promise<CmsCollection[]> {
-  if (!cmsCollections) {
-    const query = `*[_type == "galleryCollection"] | order(order asc){title, slug, description, "photos": photos[]->{ "alt": imageAlt }}`;
-    const response = await fetch(
-      `${SANITY_QUERY_URL}?query=${encodeURIComponent(query)}`,
-    );
-    if (!response.ok) {
-      throw new Error(
-        `Sanity CMS snapshot failed with status ${response.status}.`,
-      );
-    }
-    const body: unknown = await response.json();
-    const result: unknown = requiredRecord(body, 'a result envelope').result;
-    if (!Array.isArray(result) || result.length === 0) {
-      throw new Error('Sanity CMS snapshot is missing the collections.');
-    }
-    cmsCollections = {
-      collections: result.map((entry) => {
-        const record = requiredRecord(entry, 'a collection');
-        const slugRecord = requiredRecord(record.slug, 'a collection slug');
-        const photos: unknown = record.photos;
-        if (!Array.isArray(photos) || photos.length === 0) {
-          throw new Error('Sanity CMS snapshot is missing collection photos.');
-        }
-        return {
-          title: requiredString(record, 'title', 'a collection title'),
-          slug: requiredString(slugRecord, 'current', 'a collection slug'),
-          description: requiredString(
-            record,
-            'description',
-            'a collection description',
-          ),
-          photos: photos.map((photo) =>
-            requiredString(
-              requiredRecord(photo, 'a photo'),
-              'alt',
-              'a photo alt text',
-            ),
-          ),
-        };
-      }),
-    };
-  }
-  return cmsCollections.collections;
-}
+import {
+  browsableCollections,
+  galleryCollections as collections,
+} from './galleryCms';
 
 test('visitors open a collection and browse pictures without leaving its page', async ({
   page,
 }) => {
-  const [first, second] = await collections();
-  if (!first || !second) throw new Error('Collections are missing');
+  const [first] = await browsableCollections();
+  if (!first) throw new Error('Collections are missing');
   const firstPhoto = first.photos[0];
   const secondPhoto = first.photos[1];
   const lastPhoto = first.photos[first.photos.length - 1];
@@ -150,7 +67,7 @@ test('visitors open a collection and browse pictures without leaving its page', 
 test('home previews and direct links open collections with their own description', async ({
   page,
 }) => {
-  const all = await collections();
+  const all = await browsableCollections();
   const target = all[1] ?? all[0];
   if (!target) throw new Error('Collections are missing');
   const targetPhoto = target.photos[target.photos.length - 1];

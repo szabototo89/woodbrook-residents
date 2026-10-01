@@ -1,11 +1,14 @@
 import { expect, test } from '@playwright/test';
+import { browsableCollections, galleryCollections } from './galleryCms';
 
 test('the mobile picture viewer stays stable when browsing portrait and landscape uploads', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/gallery/colour-and-nature');
+  const [collection] = await browsableCollections();
+  if (!collection) throw new Error('Browsable collection is missing');
+  await page.goto(`/gallery/${collection.slug}`);
   const picture = page.locator('.collection-selected-picture img');
   const source = await picture.getAttribute('src');
   if (!source) throw new Error('The selected picture is missing');
@@ -39,12 +42,12 @@ test('the mobile picture viewer stays stable when browsing portrait and landscap
 test('gallery pictures stay prominent on phones and collection covers fill tablet rows', async ({
   page,
 }) => {
+  const collections = await galleryCollections();
   for (const width of [320, 360, 390, 430, 640, 768]) {
     await page.setViewportSize({ width, height: 844 });
     for (const path of [
       '/gallery',
-      '/gallery/colour-and-nature',
-      '/gallery/everyday-inspiration',
+      ...collections.map((collection) => `/gallery/${collection.slug}`),
     ]) {
       await page.goto(path);
       await page.evaluate(() => document.fonts.ready);
@@ -72,15 +75,17 @@ test('gallery pictures stay prominent on phones and collection covers fill table
 test('phones download smaller transparent hero assets and appropriately sized thumbnails', async ({
   browser,
 }) => {
+  const [collection] = await browsableCollections();
+  if (!collection) throw new Error('Browsable collection is missing');
   for (const deviceScaleFactor of [1, 2]) {
     const context = await browser.newContext({
       viewport: { width: 390, height: 844 },
       deviceScaleFactor,
     });
     const page = await context.newPage();
-    for (const path of ['/gallery', '/gallery/everyday-inspiration']) {
+    for (const path of ['/gallery', `/gallery/${collection.slug}`]) {
       await page.goto(path);
-      const hero = page.locator('.page-hero-art img');
+      const hero = page.locator('.page-hero-art img, .collection-intro-art');
       await expect(hero).toBeVisible();
       const artwork = await hero.evaluate(async (image: HTMLImageElement) => {
         const source = new Image();
@@ -125,6 +130,8 @@ test('phones download smaller transparent hero assets and appropriately sized th
 test('mobile visitors can navigate, select pictures and use the keyboard without layout jumps', async ({
   page,
 }) => {
+  const [collection] = await browsableCollections();
+  if (!collection) throw new Error('Browsable collection is missing');
   await page.setViewportSize({ width: 320, height: 844 });
   await page.goto('/');
   await page.getByRole('button', { name: 'Open menu' }).click();
@@ -133,7 +140,7 @@ test('mobile visitors can navigate, select pictures and use the keyboard without
     .getByRole('link', { name: 'Gallery', exact: true })
     .click();
   await page
-    .getByRole('link', { name: 'View collection: Everyday inspiration' })
+    .getByRole('link', { name: `View collection: ${collection.title}` })
     .click();
   const picture = page.locator('.collection-selected-picture img');
   await picture.scrollIntoViewIfNeeded();
@@ -141,22 +148,19 @@ test('mobile visitors can navigate, select pictures and use the keyboard without
   const next = page.getByRole('button', { name: 'Next picture', exact: true });
   await next.focus();
   await page.keyboard.press('Enter');
-  await expect(picture).toHaveAttribute(
-    'alt',
-    'An open book on a wooden table',
-  );
+  await expect(picture).toHaveAttribute('alt', collection.photos[1]!);
   await expect(next).toBeFocused();
   const after = await picture.boundingBox();
   expect(after?.width).toBe(before?.width);
   expect(after?.height).toBe(before?.height);
   await page
     .getByRole('button', {
-      name: 'View picture: A notebook, camera and laptop on a creative desk',
+      name: `View picture: ${collection.photos[collection.photos.length - 1]}`,
     })
     .click();
   await expect(picture).toHaveAttribute(
     'alt',
-    'A notebook, camera and laptop on a creative desk',
+    collection.photos[collection.photos.length - 1]!,
   );
   await page
     .getByRole('navigation', { name: 'Breadcrumb' })
