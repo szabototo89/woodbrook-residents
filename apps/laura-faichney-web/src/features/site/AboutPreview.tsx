@@ -5,7 +5,7 @@ export function AboutPreview() {
   return (
     <section className="section about-preview">
       <div className="container about-preview-inner">
-        <div className="about-art">
+        <div className="about-art" data-motion="photo">
           <img
             src="/artwork/about-studio.webp"
             alt="Paintbrushes, palettes and colourful canvases in an artist’s studio"
@@ -14,7 +14,7 @@ export function AboutPreview() {
             loading="lazy"
           />
         </div>
-        <div className="about-copy">
+        <div className="about-copy" data-motion="copy">
           <Eyebrow>About Laura</Eyebrow>
           <h2>Art, colour and people are what inspire me</h2>
           <p>

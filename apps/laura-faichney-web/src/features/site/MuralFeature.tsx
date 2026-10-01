@@ -4,10 +4,10 @@ import { botanical } from './siteContent';
 
 export function MuralFeature() {
   return (
-    <section className="mural-feature">
+    <section className="mural-feature" data-motion="mural">
       <div className="container mural-inner">
         <div className="mural-copy">
-          <Eyebrow>Transform spaces</Eyebrow>
+          <Eyebrow brush>Transform spaces</Eyebrow>
           <h2>Murals that bring spaces to life</h2>
           <p>
             From homes and nurseries to businesses and events, a hand-painted

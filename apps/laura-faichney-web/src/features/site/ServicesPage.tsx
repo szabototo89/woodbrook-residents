@@ -29,7 +29,9 @@ export function ServicesPage() {
               href={`/contact?service=${encodeURIComponent(service.title)}`}
               key={service.title}
             >
-              <ServiceImage service={service} />
+              <div className="service-image-frame">
+                <ServiceImage service={service} />
+              </div>
               <span className="service-list-copy">
                 <strong>{service.title}</strong>
                 <span>{service.description}</span>

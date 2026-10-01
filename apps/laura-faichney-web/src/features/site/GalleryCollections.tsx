@@ -9,6 +9,7 @@ export function GalleryCollections(props: { eager?: boolean }) {
         <a
           key={collection.slug}
           href={galleryCollectionPath(collection)}
+          data-gallery-collection={collection.slug}
           aria-label={`View collection: ${collection.title}`}
         >
           <figure>
