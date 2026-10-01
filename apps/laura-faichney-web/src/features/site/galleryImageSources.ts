@@ -58,4 +58,4 @@ function parseImageUrl(image: string) {
 }
 
 export const collectionCoverSizes =
-  '(max-width: 640px) calc((100vw - 48px) / 2), (max-width: 1328px) calc((100vw - 78px) / 2), 625px';
+  '(max-width: 527px) calc(100vw - 40px), (max-width: 640px) calc((100vw - 48px) / 2), (max-width: 827px) calc((100vw - 78px) / 2), (max-width: 1097px) calc((100vw - 108px) / 3), (max-width: 1328px) calc((100vw - 138px) / 4), 297.5px';

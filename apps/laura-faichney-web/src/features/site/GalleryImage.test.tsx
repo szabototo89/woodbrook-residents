@@ -13,7 +13,9 @@ test('local gallery photographs offer smaller sources and eager overview loading
   expect(html).toContain('/artwork/picsum-106-160.webp 160w');
   expect(html).toContain('/artwork/picsum-106-320.webp 320w');
   expect(html).toContain('/artwork/picsum-106.webp 640w');
-  expect(html).toContain('sizes=');
+  expect(html).toContain(
+    'sizes="(max-width: 527px) calc(100vw - 40px), (max-width: 640px) calc((100vw - 48px) / 2), (max-width: 827px) calc((100vw - 78px) / 2), (max-width: 1097px) calc((100vw - 108px) / 3), (max-width: 1328px) calc((100vw - 138px) / 4), 297.5px"',
+  );
   expect(html).toContain('loading="eager"');
 });
 

@@ -605,7 +605,7 @@ test('phone navigation opens and closes from the keyboard', async ({
   ).toBeHidden();
 });
 
-test('phone service thumbnails and titles share a row and gallery uses two columns', async ({
+test('phone service thumbnails and titles share a row and gallery cards stack', async ({
   page,
 }) => {
   const { firstServiceTitle } = await cmsCopy();
@@ -624,6 +624,6 @@ test('phone service thumbnails and titles share a row and gallery uses two colum
   const first = await gallery.nth(0).boundingBox();
   const second = await gallery.nth(1).boundingBox();
   if (!first || !second) throw new Error('Gallery previews are missing');
-  expect(first.y).toBe(second.y);
-  expect(second.x).toBeGreaterThan(first.x);
+  expect(second.y).toBeGreaterThan(first.y + first.height);
+  expect(second.x).toBe(first.x);
 });
