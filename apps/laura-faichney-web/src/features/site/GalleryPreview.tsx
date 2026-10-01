@@ -1,8 +1,6 @@
 import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
-import { GalleryImage } from './GalleryImage';
-import { galleryImages } from './siteContent';
-import { galleryPhotoPath } from './galleryContent';
+import { GalleryCollections } from './GalleryCollections';
 
 export function GalleryPreview() {
   return (
@@ -17,17 +15,7 @@ export function GalleryPreview() {
             View full gallery <Arrow />
           </a>
         </div>
-        <div className="gallery-grid">
-          {galleryImages.map((image) => (
-            <a
-              href={galleryPhotoPath(image)}
-              key={image.id}
-              aria-label={`View gallery: ${image.alt}`}
-            >
-              <GalleryImage image={image} />
-            </a>
-          ))}
-        </div>
+        <GalleryCollections />
       </div>
     </section>
   );

@@ -3,6 +3,7 @@ import tseslint from 'typescript-eslint';
 
 import { reactOneComponentConfig } from './eslint.react-one-component.js';
 import { reactPropsParamConfig } from './eslint.react-props-param.js';
+import { zodDescribeConfig } from './eslint.zod-describe.js';
 
 export default tseslint.config(
   {
@@ -22,6 +23,7 @@ export default tseslint.config(
     plugins: {
       ...reactOneComponentConfig.plugins,
       ...reactPropsParamConfig.plugins,
+      ...zodDescribeConfig.plugins,
     },
     settings: reactOneComponentConfig.settings,
     rules: {
@@ -72,6 +74,7 @@ export default tseslint.config(
       ],
       ...reactOneComponentConfig.rules,
       ...reactPropsParamConfig.rules,
+      ...zodDescribeConfig.rules,
     },
   },
   {

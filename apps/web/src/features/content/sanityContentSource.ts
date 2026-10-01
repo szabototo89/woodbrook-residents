@@ -29,16 +29,19 @@ export type SanityContentConfig = {
 };
 
 const sanityEnvelopeSchema = z.object({
-  result: z.unknown(),
+  result: z.unknown().describe('Raw Sanity query result payload.'),
 });
 
 const sanitySiteSettingSchema = z
   .object({
-    name: z.unknown(),
-    location: z.unknown(),
-    tagline: z.unknown(),
-    introduction: z.unknown(),
-    contactEmail: z.unknown().optional(),
+    name: z.unknown().describe('Raw site name value.'),
+    location: z.unknown().describe('Raw site location value.'),
+    tagline: z.unknown().describe('Raw site tagline value.'),
+    introduction: z.unknown().describe('Raw site introduction value.'),
+    contactEmail: z
+      .unknown()
+      .optional()
+      .describe('Optional raw contact email value.'),
   })
   .nullable();
 
