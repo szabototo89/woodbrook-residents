@@ -12,7 +12,7 @@ When a visitor explores Laura's gallery, they can choose a named collection, rea
 - Each card opens `/gallery/{collection-slug}` with its own title, description and canonical metadata.
 - Breadcrumbs show Home, Gallery and the current collection; Home and Gallery are clickable.
 - At 1024px and wider, the collection title, description and return link occupy the left third beside the picture viewer in the right two-thirds, with a 48px gap. Breadcrumbs sit above both columns. Below 1024px, the introduction stacks above the viewer.
-- The collection description appears once. The generated easel illustration is a small decorative accent (144px on desktop, 80px on narrower screens), keeping the actual collection pictures prominent.
+- The collection description appears once. Collection details show the collection's own pictures without a decorative easel illustration.
 - A large uncropped picture, selectable thumbnails and Previous picture / Next picture buttons let visitors browse within the collection without changing the URL. Navigation wraps at the ends.
 - The selected thumbnail is visually outlined and marked as pressed for assistive technology. Controls work with the keyboard and touch.
 - Collections with only one picture omit the picture controls and duplicate thumbnail chooser.
@@ -32,17 +32,19 @@ When a visitor explores Laura's gallery, they can choose a named collection, rea
 - Breadcrumbs, header/footer links, return links and image controls retain accessible names, visible focus and at least 44×44px tap areas.
 - The gallery and collection pages fit 320px–1440px viewports without horizontal scrolling; selected pictures retain their original aspect ratio.
 - At 320, 360, 390, 430 and 640px, the first gallery picture begins within the top 650px. Collection covers fill two-column rows at tablet widths too.
-- At 390px and both 1× and 2× pixel densities, hero sources are at most 640px wide with transparent corners, and three-picture collection thumbnails use sources no larger than 320px.
+- At 390px and both 1× and 2× pixel densities, gallery overview hero sources are at most 640px wide with transparent corners, and three-picture collection thumbnails use sources no larger than 320px. Collection details contain no decorative hero image or preload for it.
 - Static export generates the collection detail URLs and includes them in the sitemap. Individual-picture detail URLs are removed from that output.
 - Laura's unit tests, browser suite, typecheck, source lint, formatting and production/static builds pass.
 
 ## Scope
 
-Only `apps/laura-faichney-web`, its Sanity-driven gallery content and feature documentation. Collections (`galleryCollection` documents with title, slug, description and photo references) and their pictures (`galleryItem` documents) are edited in the Studio; the gallery page, home preview, collection pages, sitemap and static verification all read collection slugs and photo references from Sanity at build time. Titles, descriptions, membership and picture counts come from published CMS content. The existing generated illustration is reused. Collections are flat; there are no nested folders, individual picture pages, image zoom or lightbox. This layout change does not edit CMS content or the Studio.
+Only `apps/laura-faichney-web`, its Sanity-driven gallery content and feature documentation. Collections (`galleryCollection` documents with title, slug, description and photo references) and their pictures (`galleryItem` documents) are edited in the Studio; the gallery page, home preview, collection pages, sitemap and static verification all read collection slugs and photo references from Sanity at build time. Titles, descriptions, membership and picture counts come from published CMS content. Collections are flat; there are no nested folders, individual picture pages, image zoom or lightbox. This layout change does not edit CMS content or the Studio.
 
 This replaces the [individual picture detail capability](./laura-gallery-picture-detail.md).
 
 ## Verification
+
+Decorative detail illustration removal verified on 2026-10-01: 34 unit tests and six focused layout/mobile browser tests passed, together with typecheck, source lint, production build and static export. The detail markup includes neither the illustration nor its image preload. Desktop and phone screenshots were reviewed; the collection introduction, return link and responsive picture viewer remain in place.
 
 Desktop layout update verified on 2026-10-01: 34 unit tests and 47 browser tests passed on the final integrated state, including all four currently published collections, single-picture and three-picture collections, nine layout widths from 320 to 1440px (including 1023/1024px), and 844×390px landscape. Screenshots were visually reviewed at 390, 1024 and 1440px and in landscape. The tests assert the title, description and return link beside the viewer on desktop, stacked above it on smaller screens, with controls aligned beneath the viewer. Existing tests verify 44×44px targets, uncropped stable frames, keyboard/touch navigation, shared-image transitions and reduced-motion/unsupported-transition fallbacks. The production build and static export passed; static verification checked nine HTML pages and every internal link. Gallery browser tests now query current CMS collections and choose collections with multiple pictures for browsing checks rather than assuming sample slugs or two pictures.
 
