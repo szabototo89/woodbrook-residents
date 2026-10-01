@@ -29,7 +29,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - Home, services, gallery, about and contact routes render at desktop, tablet and phone widths without horizontal scrolling.
 - Phone body copy is at least 16px, and visible phone links and buttons have tap areas at least 44px high.
 - Home service preview thumbnails, titles and arrows remain together in one row; services-page images stack above complete copy and category strips.
-- The mobile gallery shows named collections in two columns; collection pages share one description and offer in-page picture navigation. The mobile navigation is operable with keyboard and touch.
+- The mobile gallery stacks named collection cards in one column; collection pages share one description and offer in-page picture navigation. The mobile navigation is operable with keyboard and touch.
 - The supplied artwork remains legible at the relevant crop and the hero's text does not overlap it.
 - No invented testimonial, social profile, client portrait or business detail appears. User-requested Instagram and Facebook placeholders link to the platform homepages until Laura provides her profile URLs.
 - The testimonial is visually distinct from the biography. The contact brush flows into the footer without covering contact details or causing horizontal scrolling, and footer navigation remains readable.
@@ -41,7 +41,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 
 ## Scope
 
-This is an independent TanStack Start site under `apps/laura-faichney-web`, with no CMS integration. It uses the supplied artwork, generated transparent design assets and fixed Picsum photography until Laura provides originals. Asset sources and generation prompts are recorded in `apps/laura-faichney-web/ASSETS.md`. Placeholder notices are omitted from the page content as requested. The screenshots guide layout and styling; they are not served as flattened page images. The testimonial copy comes from the user's supplied reference (`codex-clipboard-0j7NLo.png`, 2026-09-28); it is not independently verified. Facebook and Instagram icons use user-requested placeholder links pending verified profile URLs.
+This is an independent TanStack Start site under `apps/laura-faichney-web`, with Sanity-backed page, service, gallery and contact content. It uses the supplied artwork, generated transparent design assets and fixed Picsum photography until Laura provides originals. Asset sources and generation prompts are recorded in `apps/laura-faichney-web/ASSETS.md`. Placeholder notices are omitted from the page content as requested. The screenshots guide layout and styling; they are not served as flattened page images. The testimonial copy comes from the user's supplied reference (`codex-clipboard-0j7NLo.png`, 2026-09-28); it is not independently verified. Facebook and Instagram icons use user-requested placeholder links pending verified profile URLs.
 
 ## Verification
 

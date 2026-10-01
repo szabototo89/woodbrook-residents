@@ -36,4 +36,4 @@ Design and new category/process wording: user-supplied `clipboard-2026-10-01-155
 
 Unit tests cover the page hierarchy, process copy, category labels, published descriptions, unknown service slugs, contact URLs, the image motto and social placeholders. `tests/e2e/services-design.spec.ts` covers alternating desktop rows, reference proportions, process-heading clearance, transparent image loading, phone wrapping and keyboard enquiry navigation. `tests/e2e/responsive.spec.ts` covers full phone descriptions, all-route viewport bounds, tap areas, navigation, hero artwork and contact decorations.
 
-Verified on 2026-10-01: all 47 Laura unit tests and 55 Laura browser tests passed; `bun run build` passed for the whole repository, including formatting, lint and type checks. Final desktop and phone renders were visually inspected with the regenerated gold motto.
+Verified on 2026-10-01: all 51 Laura unit tests and 61 Laura browser tests passed after integrating the latest local main; `bun run build` passed for the whole repository, including formatting, lint and type checks. Final desktop and phone renders were visually inspected with the regenerated gold motto.
