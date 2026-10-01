@@ -289,7 +289,7 @@ test('keyboard focus exposes a pending service immediately', async ({
   expect(opacity).toBe('1');
 });
 
-test('hero settles after its short introduction and stays still on scrolling', async ({
+test('hero artwork has time to settle while the copy stays brisk, then stays still', async ({
   page,
 }) => {
   await page.goto('/');
@@ -298,7 +298,7 @@ test('hero settles after its short introduction and stays still on scrolling', a
     await hero
       .locator('.hero-art img')
       .evaluate((image) => getComputedStyle(image).animationDuration),
-  ).toBe('0.52s');
+  ).toBe('0.9s');
   expect(
     await hero
       .locator('.hero-line')

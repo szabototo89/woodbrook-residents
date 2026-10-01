@@ -8,8 +8,8 @@ As a visitor exploring Laura's artwork and services, I want clear, responsive in
 
 ## Visible behavior
 
-- One CSS vocabulary uses 100ms press feedback, 180ms microinteractions, 280ms UI transitions, 420ms headline entrances and a 520ms artwork introduction, with shared UI/reveal easing and 4px, 8px and 12px distances.
-- The hero introduces its eyebrow, headline lines, explanation, action and artwork at short intervals. The portrait settles from a 1.015 scale and stays still. Subpage heroes use the same vocabulary.
+- One CSS vocabulary uses 100ms press feedback, 180ms microinteractions, 280ms UI transitions, 420ms headline entrances and a 900ms artwork introduction, with shared UI/reveal easing and 4px, 8px and 12px distances.
+- The hero introduces its eyebrow, headline lines, explanation, action and artwork at short intervals. The portrait settles from a 1.015 scale over 900ms, beginning 275ms after the copy starts, then stays still. Subpage heroes use the same vocabulary. The longer artwork reveal leaves the copy, controls and section timings unchanged.
 - Pink buttons darken on hover/focus, lift 1px on mouse hover and press to 0.98 scale. Directional arrows move 4px. Service images zoom to 1.025 and gallery previews to 1.02 within their image frames. Keyboard focus provides the same clear feedback; touch has no persistent hover movement.
 - Desktop navigation draws a fine pink underline from the left on hover/focus and retains the current page indicator. Mobile navigation retains its existing static indicator and accessible menu.
 - Service cards reveal once with an 8px rise, 380ms duration and 45ms stagger. Exactly two small pink brush lines draw once: Creative services and the mural feature. Other decoration stays still.
@@ -34,8 +34,8 @@ CSS handles feedback and animation; a small IntersectionObserver hook handles on
 
 ## Verification
 
-Verified 2026-10-01: 41 Laura browser tests and 15 unit tests pass; the full repository build passes; static prerender verification checks all seven public HTML pages and every generated internal link. Desktop and phone screenshots confirm the artwork, collection controls and responsive layout remain intact.
+Verified 2026-10-01 after integrating the CMS content changes: 41 Laura browser tests and 31 unit tests pass; the full repository build passes; static prerender verification checks all seven public HTML pages and every generated internal link. Desktop and phone screenshots confirm the artwork, collection controls and responsive layout remain intact.
 
-`apps/laura-faichney-web/tests/e2e/motion.spec.ts` and `gallery-motion.spec.ts` cover interaction feedback, hero settling, one-time reveals, selected-image transition snapshots, reduced motion including live changes, browser API fallbacks, keyboard, touch and JavaScript-free browsing. Existing responsive tests continue to cover all five routes. Set `LAURA_PLAYWRIGHT_PORT` to a free port when another worktree is running browser tests; set `CI=1` to require a fresh preview server.
+`apps/laura-faichney-web/tests/e2e/motion.spec.ts` and `gallery-motion.spec.ts` cover interaction feedback, hero settling, one-time reveals, selected-image transition snapshots, reduced motion including live changes, browser API fallbacks, keyboard, touch and JavaScript-free browsing. Existing responsive tests continue to cover all five routes. The default preview origin `http://127.0.0.1:4176` is registered with Sanity. Any alternative `LAURA_PLAYWRIGHT_PORT` requires its origin to be registered too; set `CI=1` to require a fresh preview server.
 
 Implementation references: [MDN: startViewTransition](https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition) and [MDN: Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) (accessed 2026-10-01).
