@@ -1778,11 +1778,18 @@ h2 {
   .collection-selected-picture > img {
     view-transition-name: selected-artwork;
   }
+  [data-gallery-transition] .collection-detail-page {
+    view-transition-name: collection-page;
+  }
 }
-/* Keep the page stationary; only the selected image carries context. */
+/* Keep the site chrome stationary while gallery content changes. */
+::view-transition-group(collection-page),
 ::view-transition-group(selected-artwork) {
   animation-duration: var(--motion-medium);
   animation-timing-function: var(--ease-ui);
+}
+::view-transition-new(collection-page) {
+  animation: feedback-fade var(--motion-medium) var(--ease-ui);
 }
 ::view-transition-old(root) {
   display: none;

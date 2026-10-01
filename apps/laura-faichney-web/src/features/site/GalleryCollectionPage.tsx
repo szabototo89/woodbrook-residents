@@ -5,12 +5,16 @@ import { GoldStroke } from './GoldStroke';
 import { CollectionPictures } from './CollectionPictures';
 import { galleryHeroSrcSet } from './galleryImageSources';
 import type { CmsGalleryCollection } from './lauraSanity';
+import type { SwipeDirection } from './useCollectionSwipeNavigation';
 
 export function GalleryCollectionPage(props: {
   collection: CmsGalleryCollection;
+  initialIndex?: number;
+  focusOnMount?: boolean;
+  onSwipeBoundary?: (direction: SwipeDirection) => void;
 }) {
   return (
-    <main id="main-content">
+    <main id="main-content" className="collection-detail-page">
       <GalleryBreadcrumbs title={props.collection.title} />
       <div className="container collection-detail-layout">
         <div className="collection-introduction">
@@ -38,6 +42,9 @@ export function GalleryCollectionPage(props: {
         <CollectionPictures
           key={props.collection.slug}
           images={props.collection.photos}
+          initialIndex={props.initialIndex}
+          focusOnMount={props.focusOnMount}
+          onSwipeBoundary={props.onSwipeBoundary}
         />
       </div>
     </main>
