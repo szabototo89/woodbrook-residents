@@ -105,6 +105,18 @@ test('deploys from the app dir in CI so wrangler finds the Pages config', () => 
   expect(workflow).toContain('command: pages deploy dist/client');
 });
 
+test('triggers the same deploy from a Sanity repository_dispatch event', () => {
+  const workflow = readFileSync(
+    join(repositoryRoot, '.github/workflows/deploy-laura-faichney.yml'),
+    'utf8',
+  );
+
+  expect(workflow).toContain('repository_dispatch:');
+  expect(workflow).toContain('sanity-update');
+  expect(workflow).toContain('push:');
+  expect(workflow).toContain('workflow_dispatch:');
+});
+
 test('wires a root deploy:laura script and an app deploy script', () => {
   const rootPackage = JSON.parse(
     readFileSync(join(repositoryRoot, 'package.json'), 'utf8'),
