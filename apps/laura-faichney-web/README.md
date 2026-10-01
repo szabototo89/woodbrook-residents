@@ -36,6 +36,7 @@ The app runs on port 3003. The production origin used for canonical metadata def
 Run checks from this directory:
 
 ```bash
+bunx playwright install chromium webkit
 bun run typecheck
 bun run test:unit
 bun run test:e2e
@@ -44,6 +45,8 @@ bun run build:static
 ```
 
 `test:e2e` checks all five routes at 320, 390, 640, 700, 900 and 1440 pixels, the mobile service and gallery layouts, logo loading, and keyboard menu dismissal.
+
+Gallery swipe tests use native Chromium touch input in mobile mode at 320, 390 and 430px, plus WebKit with an iPhone viewport and synthetic touch events. They verify that the image follows the finger, pictures and adjacent collections remain browsable, and vertical scrolling and multi-touch gestures preserve selection. The WebKit checks require its Playwright browser binary; they do not replace physical-device testing.
 
 It also checks restrained motion, keyboard/touch feedback, selected-image gallery transitions, reduced motion (including live changes), missing browser APIs, and JavaScript-free browsing. The default preview origin `http://127.0.0.1:4176` is registered with Sanity. For concurrent worktrees, `LAURA_PLAYWRIGHT_PORT` can select a free port, but its origin must also be registered in the project's CORS settings for client-side navigation to load content.
 

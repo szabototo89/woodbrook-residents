@@ -113,8 +113,8 @@ bun run lint
 bun run build
 ```
 
-`test:install-browser` installs the Chromium build used by Vitest Browser Mode
-and Playwright. It only needs to be rerun when the pinned Playwright version
-changes.
+`test:install-browser` installs Chromium for Vitest Browser Mode and Playwright,
+plus WebKit for Laura’s mobile Safari carousel checks. Rerun it when the pinned
+Playwright version changes or when setting up these mobile checks for the first time.
 
 See [Architecture](docs/architecture.md), [CMS model](docs/cms-model.md), and the [feature index](docs/features/README.md).
