@@ -9,6 +9,9 @@ type PageHeroProps = {
   description: string;
   image: string;
   imageAlt: string;
+  imageSrcSet?: string;
+  imageSizes?: string;
+  imagePriority?: 'high' | 'auto';
   action?: ReactNode;
 };
 
@@ -26,10 +29,12 @@ export function PageHero(props: PageHeroProps) {
         <div className="page-hero-art">
           <img
             src={props.image}
+            srcSet={props.imageSrcSet}
+            sizes={props.imageSizes}
             alt={props.imageAlt}
             width="1374"
             height="1145"
-            fetchPriority="high"
+            fetchPriority={props.imagePriority ?? 'high'}
           />
         </div>
       </div>

@@ -76,7 +76,7 @@ test('about and gallery present routes without invented client claims', () => {
   expect(about).not.toContain('Sarah O’Connor');
   expect(gallery).toContain('A glimpse of my work');
   expect(gallery).toContain('src="/artwork/gallery-hero-cutout.webp"');
-  expect(gallery).toContain('loading="lazy"');
+  expect(gallery).toContain('loading="eager"');
   const contact = renderToStaticMarkup(<ContactPage />);
   expect(contact).toContain('src="/artwork/contact-hero-cutout.webp"');
   expect(contact).toContain(

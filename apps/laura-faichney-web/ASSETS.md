@@ -163,6 +163,13 @@ Prompt:
 
 > Use case: illustration-story. Asset type: transparent artist website section-edge background overlay. Use the supplied reference website's lower-left contact background brush marks as the style reference. Create a standalone narrow loose cluster of expressive acrylic dry-brush strokes travelling diagonally top-left to bottom-right. Dominant vivid coral pink and magenta, with a few ultramarine blue and teal strokes and fine warm gold bristle streaks. Keep a generous amount of transparent space and delicate ragged feathering; paint concentrated on the left edge, thin strokes fading outward to the right. Preserve a refined handmade texture, not a cartoon paint splat. Portrait 2:3 composition. Genuine transparent alpha background, no white/cream/paper rectangle, no lettering, no logo, no people, no objects, no UI. It is decorative artwork for the outer corner of a contact section, not a complete website image.
 
+### Responsive gallery derivatives
+
+Created on 2026-10-01 by resizing the existing local WebP assets in browser canvas with high quality image smoothing and WebP quality 0.85. The original files, composition, aspect ratios and transparent backgrounds are preserved; these are delivery variants, not newly generated artwork.
+
+- `gallery-hero-cutout-{320,640,960}.webp` and `gallery-detail-hero-cutout-{320,640,960}.webp` use their respective original hero files. Phones use compact 200px overview and 160px collection illustrations, with sources selected for the device pixel density. The 320px files are 48,250 and 41,068 bytes respectively, compared with 977,578 and 666,506 bytes for the originals.
+- `picsum-{106,1080,180,24,42}-{160,320}.webp` use the corresponding five local photographs documented above. Responsive cover images, thumbnails and selected pictures choose from these variants and the original 640px files. Thumbnails remain lazy loaded; overview covers and the selected picture load eagerly.
+
 ### contact-brush-up-left
 
 Generated with the built-in ImageGen tool on 2026-09-30. Saved to `public/decoration/contact-brush-up-left.webp`, converted from the transparent PNG.

@@ -394,19 +394,26 @@ test('every subpage hero uses its own cutout without viewport overflow', async (
       const src = await image.getAttribute('src');
       if (!src) throw new Error(`${path} hero has no artwork source`);
       images.add(src);
-      const artwork = await image.evaluate((element: HTMLImageElement) => {
-        const canvas = document.createElement('canvas');
-        canvas.width = element.naturalWidth;
-        canvas.height = element.naturalHeight;
-        const context = canvas.getContext('2d');
-        if (!context) throw new Error('Canvas is unavailable');
-        context.drawImage(element, 0, 0);
-        return {
-          naturalWidth: element.naturalWidth,
-          topLeftAlpha: context.getImageData(0, 0, 1, 1).data[3],
-        };
-      });
-      expect(artwork.naturalWidth).toBe(1374);
+      const artwork = await image.evaluate(
+        async (element: HTMLImageElement) => {
+          const source = new Image();
+          source.src = element.currentSrc;
+          await source.decode();
+          const canvas = document.createElement('canvas');
+          canvas.width = source.naturalWidth;
+          canvas.height = source.naturalHeight;
+          const context = canvas.getContext('2d');
+          if (!context) throw new Error('Canvas is unavailable');
+          context.drawImage(source, 0, 0);
+          return {
+            naturalWidth: source.naturalWidth,
+            topLeftAlpha: context.getImageData(0, 0, 1, 1).data[3],
+          };
+        },
+      );
+      expect(artwork.naturalWidth).toBeGreaterThanOrEqual(
+        Math.min(bounds.width, 1374),
+      );
       expect(artwork.topLeftAlpha).toBe(0);
       if (width > 640) {
         expect(bounds.y + bounds.height).toBeGreaterThan(hero.y + hero.height);

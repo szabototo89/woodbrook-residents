@@ -122,7 +122,7 @@ test('unknown collections and retired picture URLs show a helpful not-found page
 test('collection cards and picture controls remain readable and uncropped at phone and desktop widths', async ({
   page,
 }) => {
-  for (const width of [320, 390, 640, 900, 1440]) {
+  for (const width of [320, 360, 390, 430, 640, 768, 900, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of [
       '/gallery',
@@ -135,10 +135,13 @@ test('collection cards and picture controls remain readable and uncropped at pho
         await page.evaluate(() => document.documentElement.scrollWidth),
       ).toBe(width);
       const undersized = await page
-        .locator('main a, main button')
+        .locator('a:visible, button:visible')
         .evaluateAll((elements) =>
           elements
-            .filter((element) => element.getBoundingClientRect().height < 44)
+            .filter((element) => {
+              const bounds = element.getBoundingClientRect();
+              return bounds.height < 44 || bounds.width < 44;
+            })
             .map((element) => element.textContent),
         );
       expect(undersized).toEqual([]);

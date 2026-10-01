@@ -1,10 +1,19 @@
-import { galleryImages } from './siteContent';
+import type { GalleryPhoto } from './siteContent';
+import {
+  collectionCoverSizes,
+  galleryPhotoSrcSet,
+} from './galleryImageSources';
 
-export function GalleryImage(props: { image: (typeof galleryImages)[number] }) {
+export function GalleryImage(props: {
+  image: GalleryPhoto;
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+}) {
   return (
     <picture>
       <source
-        srcSet={`/artwork/picsum-${props.image.id}.webp`}
+        srcSet={galleryPhotoSrcSet(props.image.id)}
+        sizes={props.sizes ?? collectionCoverSizes}
         type="image/webp"
       />
       <img
@@ -12,7 +21,7 @@ export function GalleryImage(props: { image: (typeof galleryImages)[number] }) {
         alt={props.image.alt}
         width="640"
         height="480"
-        loading="lazy"
+        loading={props.loading ?? 'lazy'}
       />
     </picture>
   );

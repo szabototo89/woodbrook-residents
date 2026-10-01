@@ -2,7 +2,7 @@ import { galleryCollections } from './siteContent';
 import { galleryCollectionPath } from './galleryContent';
 import { GalleryImage } from './GalleryImage';
 
-export function GalleryCollections() {
+export function GalleryCollections(props: { eager?: boolean }) {
   return (
     <div className="gallery-grid gallery-collections">
       {galleryCollections.map((collection) => (
@@ -12,7 +12,10 @@ export function GalleryCollections() {
           aria-label={`View collection: ${collection.title}`}
         >
           <figure>
-            <GalleryImage image={collection.images[0]} />
+            <GalleryImage
+              image={collection.images[0]}
+              loading={props.eager ? 'eager' : 'lazy'}
+            />
             <figcaption>{collection.title}</figcaption>
           </figure>
         </a>

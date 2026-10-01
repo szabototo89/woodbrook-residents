@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { GalleryImage } from './GalleryImage';
 import type { GalleryCollection } from './siteContent';
+import { galleryPhotoSrcSet } from './galleryImageSources';
 
 export function CollectionPictures(props: {
   images: GalleryCollection['images'];
@@ -19,6 +20,9 @@ export function CollectionPictures(props: {
         <figure className="collection-selected-picture">
           <img
             src={`/artwork/picsum-${selected.id}.webp`}
+            srcSet={galleryPhotoSrcSet(selected.id)}
+            sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1008px) calc(100vw - 48px), 960px"
+            fetchPriority="high"
             alt={selected.alt}
             width="640"
             height="480"
@@ -60,7 +64,10 @@ export function CollectionPictures(props: {
               aria-pressed={index === selectedIndex}
               onClick={() => setSelectedIndex(index)}
             >
-              <GalleryImage image={image} />
+              <GalleryImage
+                image={image}
+                sizes={`(max-width: 640px) calc((100vw - ${40 + 8 * (total - 1)}px) / ${total} - 12px), (max-width: 700px) calc((100vw - ${48 + 8 * (total - 1)}px) / ${total} - 12px), 148px`}
+              />
             </button>
           ))}
         </div>
