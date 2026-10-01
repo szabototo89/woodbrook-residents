@@ -819,6 +819,19 @@ h2 {
     padding-top: 32px;
   }
 }
+.collection-carousel {
+  overflow: hidden;
+  border-radius: 6px;
+  touch-action: pan-y pinch-zoom;
+}
+.collection-carousel-track {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+}
+.collection-carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
 .collection-selected-picture img {
   width: 100%;
   height: auto;
@@ -1798,7 +1811,7 @@ h2 {
   [data-motion='mural'][data-motion-state='revealed'] .mural-copy > .button {
     animation: feedback-fade 220ms var(--ease-ui) 160ms backwards;
   }
-  .collection-selected-picture > img {
+  .collection-selected-picture img[aria-hidden='false'] {
     view-transition-name: selected-artwork;
   }
   [data-gallery-transition] .collection-detail-page {

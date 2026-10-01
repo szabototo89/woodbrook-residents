@@ -1,4 +1,5 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { flushSync } from 'react-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { GalleryImage } from './GalleryImage';
@@ -14,6 +15,8 @@ export function CollectionPictures(props: {
   images: CmsGalleryItem[];
   initialIndex?: number;
   focusOnMount?: boolean;
+  previousPicture?: CmsGalleryItem;
+  nextPicture?: CmsGalleryItem;
   onSwipeBoundary?: (direction: SwipeDirection) => void;
 }) {
   const [selectedIndex, setSelectedIndex] = useState(props.initialIndex ?? 0);
@@ -21,11 +24,53 @@ export function CollectionPictures(props: {
   const total = props.images.length;
   const canSwipe = total > 1 || !!props.onSwipeBoundary;
   const artwork = useRef<HTMLElement>(null);
-  const swipeStart = useRef<{
-    pointerId: number;
-    x: number;
-    y: number;
-  } | null>(null);
+  const offset = props.previousPicture ? 1 : 0;
+  const slides = [
+    ...(props.previousPicture ? [props.previousPicture] : []),
+    ...props.images,
+    ...(props.nextPicture ? [props.nextPicture] : []),
+  ];
+  const [carouselRef, carousel] = useEmblaCarousel({
+    startIndex: (props.initialIndex ?? 0) + offset,
+    loop: !props.onSwipeBoundary && total > 1,
+    containScroll: false,
+    watchDrag: canSwipe,
+    watchFocus: false,
+    breakpoints: {
+      '(prefers-reduced-motion: reduce)': { duration: 0 },
+    },
+  });
+  const navigating = useRef(false);
+
+  useEffect(() => {
+    if (!carousel) return;
+    const selectPicture = () => {
+      const index = carousel.selectedScrollSnap() - offset;
+      if (index >= 0 && index < total) setSelectedIndex(index);
+    };
+    const navigateBoundary = () => {
+      const index = carousel.selectedScrollSnap() - offset;
+      if (index >= 0 && index < total) return;
+      if (navigating.current) return;
+      navigating.current = true;
+      props.onSwipeBoundary?.(index < 0 ? 'previous' : 'next');
+    };
+    const finishDrag = () => {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        carousel.scrollTo(carousel.selectedScrollSnap(), true);
+      }
+    };
+    carousel
+      .on('select', selectPicture)
+      .on('settle', navigateBoundary)
+      .on('pointerUp', finishDrag);
+    return () => {
+      carousel
+        .off('select', selectPicture)
+        .off('settle', navigateBoundary)
+        .off('pointerUp', finishDrag);
+    };
+  }, [carousel, offset, total, props.onSwipeBoundary]);
 
   useLayoutEffect(() => {
     if (
@@ -42,10 +87,13 @@ export function CollectionPictures(props: {
     thumbnail?: HTMLImageElement | null,
   ) => {
     if (index === selectedIndex) return;
-    const current = artwork.current?.querySelector('img');
+    const current = artwork.current?.querySelector<HTMLImageElement>(
+      'img[aria-hidden="false"]',
+    );
     const update = () => {
       thumbnail?.style.removeProperty('view-transition-name');
       flushSync(() => setSelectedIndex(index));
+      carousel?.scrollTo(index + offset, true);
       if (thumbnail) {
         artwork.current?.scrollIntoView({
           behavior: 'instant',
@@ -87,47 +135,36 @@ export function CollectionPictures(props: {
         id="collection-artwork"
         tabIndex={-1}
         aria-label={selected.alt}
-        style={canSwipe ? { touchAction: 'pan-y pinch-zoom' } : undefined}
-        onPointerDown={(event) => {
-          if (event.pointerType !== 'touch') return;
-          swipeStart.current =
-            canSwipe && event.isPrimary
-              ? {
-                  pointerId: event.pointerId,
-                  x: event.clientX,
-                  y: event.clientY,
-                }
-              : null;
-        }}
-        onPointerCancel={() => {
-          swipeStart.current = null;
-        }}
-        onPointerUp={(event) => {
-          const start = swipeStart.current;
-          swipeStart.current = null;
-          if (!start || start.pointerId !== event.pointerId) return;
-          const dx = event.clientX - start.x;
-          const dy = event.clientY - start.y;
-          if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy) * 1.5) return;
-          const direction = dx < 0 ? 'next' : 'previous';
-          const nextIndex = selectedIndex + (direction === 'next' ? 1 : -1);
-          if (props.onSwipeBoundary && (nextIndex < 0 || nextIndex >= total)) {
-            props.onSwipeBoundary(direction);
-            return;
-          }
-          changePicture((nextIndex + total) % total);
-        }}
       >
-        <img
-          key={selected.fullImage.url}
-          src={selected.fullImage.url}
-          srcSet={galleryPhotoSrcSet(selected.fullImage.url)}
-          sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1023px) calc(100vw - 48px), (max-width: 1328px) calc((100vw - 96px) * 2 / 3), 821px"
-          fetchPriority="high"
-          alt={selected.alt}
-          width="640"
-          height="480"
-        />
+        <div className="collection-carousel" ref={carouselRef}>
+          <div
+            className="collection-carousel-track"
+            style={{
+              transform: `translate3d(-${((props.initialIndex ?? 0) + offset) * 100}%, 0, 0)`,
+            }}
+          >
+            {slides.map((image, index) => (
+              <div
+                className="collection-carousel-slide"
+                key={`${image.alt}-${index}`}
+              >
+                <img
+                  src={image.fullImage.url}
+                  srcSet={galleryPhotoSrcSet(image.fullImage.url)}
+                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1023px) calc(100vw - 48px), (max-width: 1328px) calc((100vw - 96px) * 2 / 3), 821px"
+                  fetchPriority={
+                    index === selectedIndex + offset ? 'high' : 'auto'
+                  }
+                  alt={image.alt}
+                  aria-hidden={index !== selectedIndex + offset}
+                  draggable={false}
+                  width="640"
+                  height="480"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
         {selectedAvailability && (
           <figcaption role="status" aria-atomic="true">
             <ArtworkAvailability status={selected.saleStatus} />

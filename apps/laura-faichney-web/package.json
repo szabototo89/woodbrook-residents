@@ -20,6 +20,7 @@
     "@sanity/image-url": "^1.2.0",
     "@tanstack/react-router": "latest",
     "@tanstack/react-start": "latest",
+    "embla-carousel-react": "^8.6.0",
     "lucide-react": "^1.48.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

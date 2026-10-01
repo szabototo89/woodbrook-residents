@@ -9,7 +9,9 @@ test('the mobile picture viewer stays stable when browsing portrait and landscap
   const [collection] = await browsableCollections();
   if (!collection) throw new Error('Browsable collection is missing');
   await page.goto(`/gallery/${collection.slug}`);
-  const picture = page.locator('.collection-selected-picture img');
+  const picture = page.locator(
+    '.collection-selected-picture img[aria-hidden="false"]',
+  );
   const source = await picture.getAttribute('src');
   if (!source) throw new Error('The selected picture is missing');
   await page.route(`${source.split('?')[0]}*`, (route) =>
@@ -55,7 +57,7 @@ test('gallery pictures stay prominent on phones and collection covers fill table
         .locator(
           path === '/gallery'
             ? '.gallery-collections img'
-            : '.collection-selected-picture img',
+            : '.collection-selected-picture img[aria-hidden="false"]',
         )
         .first();
       const bounds = await picture.boundingBox();
@@ -146,7 +148,9 @@ test('mobile visitors can navigate, select pictures and use the keyboard without
   await page
     .getByRole('link', { name: `View collection: ${collection.title}` })
     .click();
-  const picture = page.locator('.collection-selected-picture img');
+  const picture = page.locator(
+    '.collection-selected-picture img[aria-hidden="false"]',
+  );
   await picture.scrollIntoViewIfNeeded();
   const before = await picture.boundingBox();
   const next = page.getByRole('button', { name: 'Next picture', exact: true });

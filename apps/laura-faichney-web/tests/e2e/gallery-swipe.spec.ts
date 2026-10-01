@@ -1,8 +1,55 @@
-import type { CDPSession, Page } from '@playwright/test';
-import { expect, test } from '../fixtures/gallery-test';
+import { devices, webkit, type CDPSession, type Page } from '@playwright/test';
+import { expect, test, routeGalleryFixture } from '../fixtures/gallery-test';
 import { browsableCollections, galleryCollections } from './galleryCms';
 
-test.use({ viewport: { width: 390, height: 844 }, hasTouch: true });
+test.use({
+  viewport: { width: 390, height: 844 },
+  hasTouch: true,
+  isMobile: true,
+});
+
+for (const width of [320, 390, 430]) {
+  test(`the picture follows an angled finger drag before release at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 844 });
+    const [collection] = await browsableCollections();
+    if (!collection) throw new Error('Browsable collection is missing');
+    await page.goto(`/gallery/${collection.slug}`);
+    const picture = page.locator(
+      '.collection-selected-picture img[aria-hidden="false"]',
+    );
+    await picture.scrollIntoViewIfNeeded();
+    await expect(picture).toHaveAttribute('alt', collection.photos[0]!);
+    const image = await picture.elementHandle();
+    const before = await image?.boundingBox();
+    if (!before || !image) throw new Error('Picture is missing');
+    const session = await page.context().newCDPSession(page);
+    const x = before.x + before.width / 2 + 60;
+    const y = before.y + before.height / 2;
+    await session.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x, y, id: 0 }],
+    });
+    for (let step = 1; step <= 6; step++) {
+      await session.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [
+          { x: x - (step / 6) * before.width * 0.6, y: y + step * 3, id: 0 },
+        ],
+      });
+      await page.waitForTimeout(20);
+    }
+    await expect
+      .poll(async () => (await image.boundingBox())?.x ?? before.x)
+      .toBeLessThan(before.x - 60);
+    await session.send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: [],
+    });
+    await expect(picture).toHaveAttribute('alt', collection.photos[1]!);
+  });
+}
 
 async function gesture(
   page: Page,
@@ -21,8 +68,19 @@ async function gesture(
         .map((animation) => animation.finished.catch(() => undefined)),
     ),
   );
-  const frame = page.locator('.collection-selected-picture');
+  const frame = page.locator('.collection-carousel');
   await frame.scrollIntoViewIfNeeded();
+  await expect
+    .poll(async () => {
+      const viewport = await frame.boundingBox();
+      const selected = await page
+        .locator('.collection-selected-picture img[aria-hidden="false"]')
+        .boundingBox();
+      return viewport && selected
+        ? Math.abs(viewport.x - selected.x)
+        : Infinity;
+    })
+    .toBeLessThan(1);
   const bounds = await frame.boundingBox();
   if (!bounds) throw new Error('Picture viewer is missing');
   const x = bounds.x + bounds.width / 2 - dx / 2;
@@ -92,16 +150,17 @@ for (const reducedMotion of [
     const next = collections[(index + 1) % collections.length]!;
     await page.goto(`/gallery/${collection.slug}`);
     const session = await page.context().newCDPSession(page);
-    const picture = page.locator('.collection-selected-picture img');
+    const picture = page.locator(
+      '.collection-selected-picture img[aria-hidden="false"]',
+    );
     const first = collection.photos[0]!;
     const last = collection.photos[collection.photos.length - 1]!;
     await expect(picture).toHaveAttribute('alt', first);
     await gesture(page, session, -120);
     await expect(picture).toHaveAttribute('alt', collection.photos[1]!);
     if (reducedMotion === 'no-preference') {
-      await expect(page.locator('html')).toHaveAttribute(
+      await expect(page.locator('html')).not.toHaveAttribute(
         'data-collection-transition',
-        'none',
       );
     }
     await expect(
@@ -150,7 +209,9 @@ test('taps, short drags, vertical scrolling and two-finger gestures keep the sel
   if (!collection) throw new Error('Browsable collection is missing');
   await page.goto(`/gallery/${collection.slug}`);
   const session = await page.context().newCDPSession(page);
-  const picture = page.locator('.collection-selected-picture img');
+  const picture = page.locator(
+    '.collection-selected-picture img[aria-hidden="false"]',
+  );
   const first = collection.photos[0]!;
   await expect(picture).toHaveAttribute('alt', first);
   for (const [dx, dy, fingers] of [
@@ -169,6 +230,8 @@ test('taps, short drags, vertical scrolling and two-finger gestures keep the sel
     .poll(() => page.evaluate(() => window.scrollY))
     .toBeGreaterThan(before);
   await expect(picture).toHaveAttribute('alt', first);
+  // Let native scroll inertia stop before starting a new horizontal gesture.
+  await page.waitForTimeout(300);
   // A cancelled scroll or multi-touch gesture must not block the next swipe.
   await gesture(page, session, -120);
   await expect(picture).toHaveAttribute('alt', collection.photos[1]!);
@@ -184,7 +247,9 @@ test('single-picture collections swipe to adjacent collections and the gallery w
   if (!collection) throw new Error('Single-picture collection is missing');
   await page.goto(`/gallery/${collection.slug}`);
   const session = await page.context().newCDPSession(page);
-  const picture = page.locator('.collection-selected-picture img');
+  const picture = page.locator(
+    '.collection-selected-picture img[aria-hidden="false"]',
+  );
   await expect(
     page.getByRole('navigation', { name: 'Picture navigation' }),
   ).toHaveCount(0);
@@ -209,3 +274,90 @@ test('single-picture collections swipe to adjacent collections and the gallery w
   await expect(page).toHaveURL(`/gallery/${first.slug}`);
   await expect(picture).toHaveAttribute('alt', first.photos[0]!);
 });
+
+for (const reducedMotion of ['reduce', 'no-preference'] as const) {
+  test(`mobile WebKit synthetic touch events drag pictures and enter adjacent collections with ${reducedMotion} motion`, async ({
+    baseURL,
+  }) => {
+    const browser = await webkit.launch();
+    const context = await browser.newContext({
+      ...devices['iPhone 13'],
+      baseURL,
+      reducedMotion,
+    });
+    await routeGalleryFixture(context);
+    try {
+      const page = await context.newPage();
+      const [collection] = await browsableCollections();
+      if (!collection) throw new Error('Browsable collection is missing');
+      const collections = await galleryCollections();
+      const next =
+        collections[
+          (collections.findIndex((item) => item.slug === collection.slug) + 1) %
+            collections.length
+        ]!;
+      await page.goto(`/gallery/${collection.slug}`);
+      await page.waitForLoadState('networkidle');
+      const picture = page.locator(
+        '.collection-selected-picture img[aria-hidden="false"]',
+      );
+      const swipe = async (direction: 'left' | 'right') => {
+        await page.waitForFunction(
+          () => !document.documentElement.matches(':active-view-transition'),
+        );
+        await picture.scrollIntoViewIfNeeded();
+        const movement = await picture.evaluate(async (image, direction) => {
+          const bounds = image.getBoundingClientRect();
+          const startX =
+            bounds.x +
+            bounds.width / 2 +
+            (direction === 'left' ? bounds.width * 0.3 : -bounds.width * 0.3);
+          const startY = bounds.y + bounds.height / 2;
+          const dispatch = (type: string, step: number) => {
+            const touch = {
+              identifier: 0,
+              target: image,
+              clientX:
+                startX +
+                ((direction === 'left' ? -1 : 1) * bounds.width * 0.6 * step) /
+                  6,
+              clientY: startY + step * 2,
+            };
+            // WebKit exposes Touch but does not allow constructing it.
+            const event = new Event(type, { bubbles: true, cancelable: true });
+            Object.assign(event, {
+              touches: type === 'touchend' ? [] : [touch],
+              targetTouches: type === 'touchend' ? [] : [touch],
+              changedTouches: [touch],
+            });
+            image.dispatchEvent(event);
+          };
+          dispatch('touchstart', 0);
+          for (let step = 1; step <= 6; step++) {
+            dispatch('touchmove', step);
+            await new Promise((resolve) => setTimeout(resolve, 20));
+          }
+          const distance = Math.abs(image.getBoundingClientRect().x - bounds.x);
+          dispatch('touchend', 6);
+          return distance;
+        }, direction);
+        expect(movement).toBeGreaterThan(60);
+      };
+      await expect(picture).toHaveAttribute('alt', collection.photos[0]!);
+      await swipe('left');
+      await expect(picture).toHaveAttribute('alt', collection.photos[1]!);
+      const last = collection.photos.at(-1)!;
+      await page.getByRole('button', { name: `View picture: ${last}` }).click();
+      await swipe('left');
+      await expect(page).toHaveURL(`/gallery/${next.slug}`);
+      await expect(picture).toHaveAttribute('alt', next.photos[0]!);
+      await swipe('right');
+      await expect(page).toHaveURL(`/gallery/${collection.slug}`);
+      await expect(picture).toHaveAttribute('alt', last);
+    } finally {
+      await context.unrouteAll({ behavior: 'ignoreErrors' });
+      await context.close();
+      await browser.close();
+    }
+  });
+}

@@ -29,7 +29,9 @@ test('a live reduced-motion change stops shared-image travel immediately', async
       name: `View picture: ${secondPhotoAlt}`,
     })
     .click();
-  const selected = page.locator('.collection-selected-picture img');
+  const selected = page.locator(
+    '.collection-selected-picture img[aria-hidden="false"]',
+  );
   await expect(selected).toHaveAttribute('alt', secondPhotoAlt);
   expect(await selected.getAttribute('src')).toContain(SANITY_CDN_HOST);
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -44,7 +46,7 @@ test('a live reduced-motion change stops shared-image travel immediately', async
   ).toBe('none');
   expect(
     await page
-      .locator('.collection-selected-picture img')
+      .locator('.collection-selected-picture img[aria-hidden="false"]')
       .evaluate((image) => getComputedStyle(image).viewTransitionName),
   ).toBe('none');
   await expect(
@@ -200,7 +202,7 @@ for (const fallback of ['unsupported', 'reduced'] as const) {
     if (fallback === 'reduced')
       expect(
         await page
-          .locator('.collection-selected-picture img')
+          .locator('.collection-selected-picture img[aria-hidden="false"]')
           .evaluate((image) => getComputedStyle(image).viewTransitionName),
       ).toBe('none');
     expect(errors).toEqual([]);

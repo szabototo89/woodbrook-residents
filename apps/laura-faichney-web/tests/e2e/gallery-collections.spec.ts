@@ -33,7 +33,9 @@ test('visitors open a collection and browse pictures without leaving its page', 
     breadcrumb.getByRole('link', { name: 'Gallery', exact: true }),
   ).toHaveAttribute('href', '/gallery');
   const viewer = page.getByRole('region', { name: 'Collection pictures' });
-  const selected = viewer.locator('.collection-selected-picture img');
+  const selected = viewer.locator(
+    '.collection-selected-picture img[aria-hidden="false"]',
+  );
   await expect(selected).toHaveAttribute('alt', firstPhoto);
   await viewer
     .getByRole('button', { name: 'Previous picture', exact: true })
@@ -96,12 +98,12 @@ test('home previews and direct links open collections with their own description
     .getByRole('button', { name: `View picture: ${targetPhoto}` })
     .click();
   await expect(
-    page.locator('.collection-selected-picture img'),
+    page.locator('.collection-selected-picture img[aria-hidden="false"]'),
   ).toHaveAttribute('alt', targetPhoto);
   await page.getByRole('button', { name: 'Next picture', exact: true }).focus();
   await page.keyboard.press('Enter');
   await expect(
-    page.locator('.collection-selected-picture img'),
+    page.locator('.collection-selected-picture img[aria-hidden="false"]'),
   ).toHaveAttribute('alt', firstPhoto);
 });
 
@@ -148,7 +150,9 @@ test('collection cards and picture controls remain readable and uncropped at pho
         );
       expect(undersized).toEqual([]);
       if (path !== '/gallery') {
-        const picture = page.locator('.collection-selected-picture img');
+        const picture = page.locator(
+          '.collection-selected-picture img[aria-hidden="false"]',
+        );
         await expect(picture).toBeVisible();
         expect(
           await picture.evaluate(

@@ -81,7 +81,9 @@ test('a single-picture collection shows its picture without a duplicate chooser'
   if (!collection) throw new Error('A single-picture collection is required');
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`/gallery/${collection.slug}`);
-  await expect(page.locator('.collection-selected-picture img')).toBeVisible();
+  await expect(
+    page.locator('.collection-selected-picture img[aria-hidden="false"]'),
+  ).toBeVisible();
   await expect(page.getByRole('status')).toHaveCount(0);
   await expect(page.locator('.artwork-availability')).toHaveCount(0);
   await expect(

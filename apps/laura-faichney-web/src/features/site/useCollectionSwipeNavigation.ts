@@ -23,10 +23,12 @@ export function useCollectionSwipeNavigation(
       ? collection.photos.length - 1
       : 0;
 
+  const index = collections.findIndex((item) => item.slug === collection.slug);
+  const previous =
+    collections[(index - 1 + collections.length) % collections.length];
+  const next = collections[(index + 1) % collections.length];
+
   const changeCollection = (direction: SwipeDirection) => {
-    const index = collections.findIndex(
-      (item) => item.slug === collection.slug,
-    );
     const offset = direction === 'next' ? 1 : -1;
     const adjacent =
       collections[(index + offset + collections.length) % collections.length];
@@ -66,6 +68,9 @@ export function useCollectionSwipeNavigation(
   return {
     initialIndex,
     focusOnMount: enteredBySwipe,
+    previousPicture:
+      collections.length > 1 ? previous?.photos.at(-1) : undefined,
+    nextPicture: collections.length > 1 ? next?.photos[0] : undefined,
     onSwipeBoundary: collections.length > 1 ? changeCollection : undefined,
   };
 }
