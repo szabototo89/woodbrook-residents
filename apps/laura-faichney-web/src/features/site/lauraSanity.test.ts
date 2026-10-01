@@ -2,8 +2,8 @@ import { beforeEach, expect, test, vi } from 'vitest';
 
 import {
   artworkUrl,
-  galleryPhotoPath,
-  getGalleryPhoto,
+  galleryCollectionPath,
+  getGalleryCollection,
   LauraSanitySource,
   pageHeadFromSeo,
   resolveLauraSanityConfig,
@@ -69,23 +69,32 @@ const homeResult = {
       order: 1,
     },
   ],
-  preview: [
+  collections: [
     {
-      title: 'Second preview',
-      slug: { current: 'second-preview' },
-      image: cmsImage('image-preview2-640x480-webp'),
-      imageAlt: 'Second preview',
-      featured: true,
+      title: 'Second collection',
+      slug: { current: 'second-collection' },
+      description: 'Second description',
       order: 2,
+      photos: [
+        {
+          image: cmsImage('image-photo2-640x480-webp'),
+          imageAlt: 'Second photo',
+          order: 0,
+        },
+      ],
     },
     {
-      title: 'First preview',
-      slug: { current: 'first-preview' },
+      title: 'First collection',
+      slug: { current: 'first-collection' },
       description: 'First description',
-      image: cmsImage('image-preview1-640x480-webp'),
-      imageAlt: 'First preview',
-      featured: true,
       order: 1,
+      photos: [
+        {
+          image: cmsImage('image-photo1-640x480-webp'),
+          imageAlt: 'First photo',
+          order: 0,
+        },
+      ],
     },
   ],
 };
@@ -130,7 +139,7 @@ test('prefers explicit env over defaults', () => {
   });
 });
 
-test('loads the home page with ordered services and preview items', async () => {
+test('loads the home page with ordered services and collections', async () => {
   mockSanity(homeResult);
   const source = new LauraSanitySource({
     projectId: 'uag6kepo',
@@ -145,9 +154,12 @@ test('loads the home page with ordered services and preview items', async () => 
     'first',
     'second',
   ]);
-  expect(home.galleryPreview.map((item) => item.alt)).toEqual([
-    'First preview',
-    'Second preview',
+  expect(home.collections.map((collection) => collection.slug)).toEqual([
+    'first-collection',
+    'second-collection',
+  ]);
+  expect(home.collections[0]?.photos.map((photo) => photo.alt)).toEqual([
+    'First photo',
   ]);
   expect(home.settings.email).toBe('laura@example.com');
   expect(home.testimonial.author).toBe('Ann');
@@ -175,7 +187,7 @@ test('fails the build with a named message when home content is missing', async 
     home: null,
     settings: homeResult.settings,
     services: [],
-    preview: [],
+    collections: [],
   });
   const source = new LauraSanitySource({
     projectId: 'uag6kepo',
@@ -303,13 +315,13 @@ test('uses CMS SEO with code fallbacks for head metadata', () => {
   expect(JSON.stringify(fallbackHead)).toContain('Fallback description');
 });
 
-test('builds gallery detail paths from slugs', () => {
-  expect(galleryPhotoPath({ slug: 'pink-flowers' })).toBe(
-    '/gallery/pink-flowers',
+test('builds gallery collection paths from slugs', () => {
+  expect(galleryCollectionPath({ slug: 'colour-and-nature' })).toBe(
+    '/gallery/colour-and-nature',
   );
 });
 
-test('finds gallery photos by slug with wrapped neighbours', async () => {
+test('finds gallery collections by slug in display order', async () => {
   mockSanity(homeResult);
   const source = new LauraSanitySource({
     projectId: 'uag6kepo',
@@ -318,17 +330,19 @@ test('finds gallery photos by slug with wrapped neighbours', async () => {
   });
 
   const home = await source.loadHome();
-  const photo = getGalleryPhoto(home.galleryPreview, 'first-preview');
+  const collection = getGalleryCollection(
+    home.collections,
+    'second-collection',
+  );
 
-  expect(photo?.item.title).toBe('First preview');
-  expect(photo?.item.description).toBe('First description');
-  expect(photo?.index).toBe(0);
-  expect(photo?.total).toBe(2);
-  expect(photo?.previous.slug).toBe('second-preview');
-  expect(photo?.next.slug).toBe('second-preview');
+  expect(collection?.title).toBe('Second collection');
+  expect(collection?.description).toBe('Second description');
+  expect(collection?.photos.map((photo) => photo.alt)).toEqual([
+    'Second photo',
+  ]);
 });
 
-test('rejects unknown and empty gallery slugs', async () => {
+test('rejects unknown and empty collection slugs', async () => {
   mockSanity(homeResult);
   const source = new LauraSanitySource({
     projectId: 'uag6kepo',
@@ -338,12 +352,12 @@ test('rejects unknown and empty gallery slugs', async () => {
 
   const home = await source.loadHome();
 
-  expect(getGalleryPhoto(home.galleryPreview, 'missing')).toBeUndefined();
-  expect(getGalleryPhoto(home.galleryPreview, '')).toBeUndefined();
-  expect(getGalleryPhoto([], 'first-preview')).toBeUndefined();
+  expect(getGalleryCollection(home.collections, 'missing')).toBeUndefined();
+  expect(getGalleryCollection(home.collections, '')).toBeUndefined();
+  expect(getGalleryCollection([], 'first-collection')).toBeUndefined();
 });
 
-test('serves full-aspect detail artwork without thumbnail crops', async () => {
+test('serves full-aspect viewer artwork without thumbnail crops', async () => {
   mockSanity(homeResult);
   const source = new LauraSanitySource({
     projectId: 'uag6kepo',
@@ -352,8 +366,8 @@ test('serves full-aspect detail artwork without thumbnail crops', async () => {
   });
 
   const home = await source.loadHome();
-  const detailUrl = home.galleryPreview[0]?.detailImage.url ?? '';
+  const fullUrl = home.collections[0]?.photos[0]?.fullImage.url ?? '';
 
-  expect(detailUrl).toContain('w=1280');
-  expect(detailUrl).not.toContain('h=480');
+  expect(fullUrl).toContain('w=1280');
+  expect(fullUrl).not.toContain('h=480');
 });

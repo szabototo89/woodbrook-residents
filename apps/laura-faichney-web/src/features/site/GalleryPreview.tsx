@@ -1,10 +1,10 @@
 import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
-import { GalleryImage } from './GalleryImage';
-import { galleryPhotoPath, type CmsGalleryItem } from './lauraSanity';
+import { GalleryCollections } from './GalleryCollections';
+import type { CmsGalleryCollection } from './lauraSanity';
 
 export function GalleryPreview(props: {
-  items: CmsGalleryItem[];
+  collections: CmsGalleryCollection[];
   heading: string;
 }) {
   return (
@@ -19,17 +19,7 @@ export function GalleryPreview(props: {
             View full gallery <Arrow />
           </a>
         </div>
-        <div className="gallery-grid">
-          {props.items.map((item) => (
-            <a
-              href={galleryPhotoPath(item)}
-              key={item.slug}
-              aria-label={`View gallery: ${item.alt}`}
-            >
-              <GalleryImage src={item.image.url} alt={item.alt} />
-            </a>
-          ))}
-        </div>
+        <GalleryCollections collections={props.collections} />
       </div>
     </section>
   );

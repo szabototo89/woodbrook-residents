@@ -1,22 +1,30 @@
-import { galleryCollections } from './siteContent';
-import { galleryCollectionPath } from './galleryContent';
 import { GalleryImage } from './GalleryImage';
+import {
+  galleryCollectionPath,
+  type CmsGalleryCollection,
+} from './lauraSanity';
 
-export function GalleryCollections() {
+export function GalleryCollections(props: {
+  collections: CmsGalleryCollection[];
+}) {
   return (
     <div className="gallery-grid gallery-collections">
-      {galleryCollections.map((collection) => (
-        <a
-          key={collection.slug}
-          href={galleryCollectionPath(collection)}
-          aria-label={`View collection: ${collection.title}`}
-        >
-          <figure>
-            <GalleryImage image={collection.images[0]} />
-            <figcaption>{collection.title}</figcaption>
-          </figure>
-        </a>
-      ))}
+      {props.collections.map((collection) => {
+        const cover = collection.photos[0];
+        if (!cover) return null;
+        return (
+          <a
+            key={collection.slug}
+            href={galleryCollectionPath(collection)}
+            aria-label={`View collection: ${collection.title}`}
+          >
+            <figure>
+              <GalleryImage src={cover.image.url} alt={cover.alt} />
+              <figcaption>{collection.title}</figcaption>
+            </figure>
+          </a>
+        );
+      })}
     </div>
   );
 }

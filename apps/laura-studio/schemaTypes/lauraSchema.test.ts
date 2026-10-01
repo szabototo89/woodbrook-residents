@@ -3,7 +3,7 @@ import {expect, test} from 'vitest'
 import {galleryItem} from './galleryItem'
 import {service} from './service'
 import {schemaTypes} from './index'
-import {createMockRule, invokeAllValidations, preparePreview} from './test-helpers'
+import {invokeAllValidations, preparePreview} from './test-helpers'
 
 function fieldsOf(typeName: string): Array<Record<string, unknown>> {
   const type = schemaTypes.find((candidate) => candidate.name === typeName)
@@ -59,24 +59,21 @@ test('service carries a slug, description, image and order', () => {
   expect(slug?.['type']).toBe('slug')
 })
 
-test('gallery item carries a title, slug, description and featured flag', () => {
+test('gallery item carries artwork, alt text and order', () => {
   const names = fieldNames('galleryItem')
-  expect(names).toEqual(
-    expect.arrayContaining([
-      'title',
-      'slug',
-      'description',
-      'image',
-      'imageAlt',
-      'featured',
-      'order',
-    ]),
-  )
+  expect(names).toEqual(expect.arrayContaining(['image', 'imageAlt', 'order']))
   expect(names).not.toContain('caption')
-  const featured = fieldsOf('galleryItem').find((field) => field['name'] === 'featured')
-  expect(featured?.['type']).toBe('boolean')
-  const slug = fieldsOf('galleryItem').find((field) => field['name'] === 'slug')
+  expect(names).not.toContain('featured')
+  expect(names).not.toContain('slug')
+})
+
+test('gallery collection carries a slug, description, order and photo references', () => {
+  const names = fieldNames('galleryCollection')
+  expect(names).toEqual(expect.arrayContaining(['title', 'slug', 'description', 'order', 'photos']))
+  const slug = fieldsOf('galleryCollection').find((field) => field['name'] === 'slug')
   expect(slug?.['type']).toBe('slug')
+  const photos = fieldsOf('galleryCollection').find((field) => field['name'] === 'photos')
+  expect(photos?.['type']).toBe('array')
 })
 
 test('site settings hold the shared contact details', () => {
@@ -100,56 +97,14 @@ test('all schema validations run without throwing', () => {
   }
 })
 
-function featuredValidator(): Function {
-  const featured = galleryItem.fields?.find((field) => field.name === 'featured') as unknown as {
-    validation: (rule: object) => unknown
-  }
-  const captured: Array<Function> = []
-  const {rule} = createMockRule(captured)
-  featured.validation(rule)
-  if (captured.length === 0) {
-    throw new Error('Expected a custom featured validator')
-  }
-  const validator = captured[0]
-  if (typeof validator !== 'function') {
-    throw new Error('Expected the featured validator to be a function')
-  }
-  return validator
-}
-
-function featuredContext(count: number, id: string | undefined) {
-  return {
-    getClient: () => ({
-      fetch: async () => count,
-    }),
-    document: id === undefined ? undefined : {_id: id},
-  }
-}
-
-test('unfeaturing artwork always passes the home preview cap', async () => {
-  expect(await featuredValidator()(false, featuredContext(6, 'abc'))).toBe(true)
-})
-
-test('featuring artwork passes while the home preview has room', async () => {
-  const validator = featuredValidator()
-  expect(await validator(true, featuredContext(5, 'drafts.abc'))).toBe(true)
-  expect(await validator(true, featuredContext(0, undefined))).toBe(true)
-})
-
-test('featuring artwork fails once six others are featured', async () => {
-  expect(await featuredValidator()(true, featuredContext(6, 'abc'))).toBe(
-    'Only six artworks fit the home page preview — unfeature another one first.',
-  )
-})
-
 test('list previews fall back to friendly placeholder text', () => {
   expect(preparePreview(service.preview?.prepare, {})).toEqual({
     title: 'Untitled service',
     subtitle: 'No description yet',
   })
-  expect(preparePreview(galleryItem.preview?.prepare, {title: 'Pink flowers'})).toEqual({
-    title: 'Pink flowers',
-    subtitle: 'No alt text yet',
+  expect(preparePreview(galleryItem.preview?.prepare, {})).toEqual({
+    title: 'Untitled artwork',
+    subtitle: 'Gallery picture',
   })
 })
 

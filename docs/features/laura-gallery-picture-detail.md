@@ -1,6 +1,10 @@
 # Laura gallery picture detail
 
-Status: Available
+Status: Removed
+
+> Removed: individual picture pages were replaced by
+> [named gallery collections](./laura-gallery-collections.md), whose content
+> Laura edits in Sanity. This document is kept for history.
 
 ## Job to be done
 

@@ -10,14 +10,14 @@ When Laura edits her own site content in Sanity Studio, I want every editable wo
 
 - Studio lives at `apps/laura-studio` bound to Sanity project `uag6kepo` ("Laura Faichney All Things Art"), dataset `production`, fully separate from the Woodbrook studio and project.
 - Singletons with fixed document ids: `homePage`, `aboutPage`, `servicesPage`, `galleryPage`, `siteSettings`.
-- Collections: `service` (title, stable slug, description, image + alt, order) and `galleryItem` (image, alt, optional caption, featured flag, order).
+- Collections: `service` (title, stable slug, description, image + alt, order), `galleryCollection` (title, stable slug, description, order, photo references) and `galleryItem` (image + alt, order).
 - Shared `pageHero` object (eyebrow, two-line title, description, image + alt, optional button text) and shared `seo` object (title, description) across all four page singletons.
-- The Studio desk mirrors the website: Home, About, Services (Services page + All services), Gallery (Gallery page + All gallery items + Featured on the home page), Site settings.
+- The Studio desk mirrors the website: Home, About, Services (Services page + All services), Gallery (Gallery page + All collections + All gallery items), Site settings.
 - Every field carries a plain-language title and a one-line "where this shows" description; fieldsets group the Home page into Top banner, Page sections, and Client quote.
-- Friendly validation: alt text required on every image, search description capped at 160 characters, service slug set-once guidance, About strengths fixed at four, home preview featured cap of six enforced across documents.
+- Friendly validation: alt text required on every image, search description capped at 160 characters, service and collection slug set-once guidance, About strengths fixed at four, collections requiring at least one picture.
 - Contact email, phone, mailto subject, and the shared Get-in-touch strip live once in `siteSettings` instead of being repeated per page.
 - Initial values prefill the current live site copy so Laura edits rather than writes from blank.
-- The website reads this content at build time: TanStack route loaders fetch the singletons, ordered services, and gallery items via GROQ during static prerender, and components render CMS copy, Sanity CDN artwork (hotspot-aware crops, required alt text), and per-page SEO with code fallbacks. No `siteContent.ts` remains.
+- The website reads this content at build time: TanStack route loaders fetch the singletons, ordered services, and ordered collections (with photo references expanded) via GROQ during static prerender, and components render CMS copy, Sanity CDN artwork (hotspot-aware crops, required alt text), collection pages, and per-page SEO with code fallbacks. No `siteContent.ts` remains.
 - Service cards link `/contact?service=<slug>`; the Contact page keeps its hardcoded hero and reads shared contact details from `siteSettings`.
 - Browser-side route transitions re-read published content from the Sanity API, so the production Pages origin and local dev/e2e origins are registered as project CORS origins.
 

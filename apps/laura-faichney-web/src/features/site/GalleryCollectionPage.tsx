@@ -2,10 +2,10 @@ import { ArrowLeft } from 'lucide-react';
 import { GalleryBreadcrumbs } from './GalleryBreadcrumbs';
 import { PageHero } from './PageHero';
 import { CollectionPictures } from './CollectionPictures';
-import type { GalleryCollection } from './siteContent';
+import type { CmsGalleryCollection } from './lauraSanity';
 
 export function GalleryCollectionPage(props: {
-  collection: GalleryCollection;
+  collection: CmsGalleryCollection;
 }) {
   return (
     <main id="main-content">
@@ -19,14 +19,13 @@ export function GalleryCollectionPage(props: {
         imageAlt="A pink peony painting on a wooden easel beside a cup of paintbrushes"
         action={
           <a className="text-link" href="/gallery">
-            <ArrowLeft size={18} aria-hidden="true" />
-            Back to gallery
+            <ArrowLeft size={18} aria-hidden="true" /> Back to gallery
           </a>
         }
       />
       <CollectionPictures
         key={props.collection.slug}
-        images={props.collection.images}
+        images={props.collection.photos}
       />
     </main>
   );

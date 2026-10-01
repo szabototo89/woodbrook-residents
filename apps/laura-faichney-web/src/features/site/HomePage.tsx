@@ -43,7 +43,7 @@ export function HomePage(props: { data: HomeData }) {
       />
       <MuralFeature mural={data.mural} />
       <GalleryPreview
-        items={data.galleryPreview}
+        collections={data.collections}
         heading={data.galleryHeading}
       />
       <AboutPreview about={data.about} />

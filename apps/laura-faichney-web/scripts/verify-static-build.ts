@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   LauraSanitySource,
-  galleryPhotoPath,
+  galleryCollectionPath,
 } from '../src/features/site/lauraSanity';
 
 const appRoot = path.resolve(
@@ -62,7 +62,7 @@ const requiredPages = [
   '/gallery',
   '/about',
   '/contact',
-  ...gallery.items.map(galleryPhotoPath),
+  ...gallery.collections.map(galleryCollectionPath),
 ];
 
 const requiredPageChecks = await Promise.all(

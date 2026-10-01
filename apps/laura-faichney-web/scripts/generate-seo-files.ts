@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { PRODUCTION_SITE_URL, resolveSiteUrl } from '../src/app/siteMetadata';
 import {
   LauraSanitySource,
-  galleryPhotoPath,
+  galleryCollectionPath,
 } from '../src/features/site/lauraSanity';
 
 const appRoot = path.resolve(
@@ -23,7 +23,10 @@ export const STATIC_BASE_ROUTES = [
 
 export async function loadStaticRoutes(): Promise<string[]> {
   const gallery = await new LauraSanitySource().loadGallery();
-  return [...STATIC_BASE_ROUTES, ...gallery.items.map(galleryPhotoPath)];
+  return [
+    ...STATIC_BASE_ROUTES,
+    ...gallery.collections.map(galleryCollectionPath),
+  ];
 }
 
 export function resolveSeoSiteUrlFromEnv(

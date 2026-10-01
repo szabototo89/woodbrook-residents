@@ -12,6 +12,7 @@ import {
 import {
   artworkUrl,
   type AboutData,
+  type CmsGalleryItem,
   type CmsSettings,
   type GalleryData,
   type HomeData,
@@ -120,10 +121,8 @@ const services: ServicesData['services'] = [
   },
 ];
 
-const galleryItems: GalleryData['items'] = [
+const galleryPhotos: CmsGalleryItem[] = [
   {
-    title: 'Pink flowers',
-    slug: 'pink-flowers',
     alt: 'Pink flowers against a blue sky',
     image: {
       url: image(
@@ -133,19 +132,16 @@ const galleryItems: GalleryData['items'] = [
       ),
       alt: 'Pink flowers against a blue sky',
     },
-    detailImage: {
+    fullImage: {
       url: image(
         'image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp',
         1280,
       ),
       alt: 'Pink flowers against a blue sky',
     },
-    featured: true,
     order: 0,
   },
   {
-    title: 'Coffee & conversation',
-    slug: 'coffee-conversation',
     alt: 'Coffee cups on a wooden café table',
     image: {
       url: image(
@@ -155,19 +151,16 @@ const galleryItems: GalleryData['items'] = [
       ),
       alt: 'Coffee cups on a wooden café table',
     },
-    detailImage: {
+    fullImage: {
       url: image(
         'image-c1949059522fb58517fa0e2696ce24ca46565f89-640x480-webp',
         1280,
       ),
       alt: 'Coffee cups on a wooden café table',
     },
-    featured: true,
     order: 1,
   },
   {
-    title: 'Summer reds',
-    slug: 'summer-reds',
     alt: 'Fresh strawberries in rich pink and red tones',
     image: {
       url: image(
@@ -177,19 +170,16 @@ const galleryItems: GalleryData['items'] = [
       ),
       alt: 'Fresh strawberries in rich pink and red tones',
     },
-    detailImage: {
+    fullImage: {
       url: image(
         'image-d854d44adc674ded75531906c9fb813b0bed4dca-640x480-webp',
         1280,
       ),
       alt: 'Fresh strawberries in rich pink and red tones',
     },
-    featured: true,
     order: 2,
   },
   {
-    title: 'An open book',
-    slug: 'open-book',
     alt: 'An open book on a wooden table',
     image: {
       url: image(
@@ -199,19 +189,16 @@ const galleryItems: GalleryData['items'] = [
       ),
       alt: 'An open book on a wooden table',
     },
-    detailImage: {
+    fullImage: {
       url: image(
         'image-c11c7d1590363c8864a94a5a0c86e96539fe6c09-640x480-webp',
         1280,
       ),
       alt: 'An open book on a wooden table',
     },
-    featured: true,
     order: 3,
   },
   {
-    title: 'A creative desk',
-    slug: 'creative-desk',
     alt: 'A notebook, camera and laptop on a creative desk',
     image: {
       url: image(
@@ -221,15 +208,33 @@ const galleryItems: GalleryData['items'] = [
       ),
       alt: 'A notebook, camera and laptop on a creative desk',
     },
-    detailImage: {
+    fullImage: {
       url: image(
         'image-7da3b550ea1bcb7889533d8199ddbb20796928b3-640x480-webp',
         1280,
       ),
       alt: 'A notebook, camera and laptop on a creative desk',
     },
-    featured: true,
     order: 4,
+  },
+];
+
+const galleryCollections: GalleryData['collections'] = [
+  {
+    title: 'Colour & nature',
+    slug: 'colour-and-nature',
+    description:
+      'A study in natural colour, bringing together pink blossoms, blue skies and the rich reds of summer fruit.',
+    order: 0,
+    photos: [galleryPhotos[0]!, galleryPhotos[2]!],
+  },
+  {
+    title: 'Everyday inspiration',
+    slug: 'everyday-inspiration',
+    description:
+      'Quiet moments and creative corners, from a café table to an open book and a working desk.',
+    order: 1,
+    photos: [galleryPhotos[1]!, galleryPhotos[3]!, galleryPhotos[4]!],
   },
 ];
 
@@ -283,7 +288,7 @@ const homeData: HomeData = {
   },
   seo: {},
   services,
-  galleryPreview: galleryItems,
+  collections: galleryCollections,
   settings,
 };
 
@@ -365,7 +370,7 @@ const galleryData: GalleryData = {
     },
   },
   seo: {},
-  items: galleryItems,
+  collections: galleryCollections,
   settings,
 };
 
@@ -498,30 +503,25 @@ test('about values and arrows use Lucide icons instead of unicode glyphs', () =>
   expect(`${home}${about}${services}${header}`).not.toContain('→');
 });
 
-test('gallery uses five distinct photos without displaying placeholder notices', () => {
+test('gallery presents named collections without displaying placeholder notices', () => {
   const html = renderToStaticMarkup(<GalleryPage data={galleryData} />);
 
   expect(html).not.toContain('Temporary');
   expect(html).not.toContain('Picsum');
-  expect(html.match(/<figure/g)).toHaveLength(5);
+  expect(html.match(/<figure/g)).toHaveLength(2);
   for (const [slug, title] of [
-    ['pink-flowers', 'Pink flowers'],
-    ['coffee-conversation', 'Coffee &amp; conversation'],
-    ['summer-reds', 'Summer reds'],
-    ['open-book', 'An open book'],
-    ['creative-desk', 'A creative desk'],
+    ['colour-and-nature', 'Colour &amp; nature'],
+    ['everyday-inspiration', 'Everyday inspiration'],
   ]) {
     expect(html).toContain(`href="/gallery/${slug}"`);
     expect(html).toContain(`<figcaption>${title}</figcaption>`);
+    expect(html).toContain(`aria-label="View collection: ${title}"`);
   }
   const sources = html.match(/src="(https:\/\/cdn\.sanity\.io[^"]+)"/g);
-  expect(new Set(sources).size).toBe(6);
+  expect(new Set(sources).size).toBe(3);
   for (const alt of [
     'Pink flowers against a blue sky',
     'Coffee cups on a wooden café table',
-    'Fresh strawberries in rich pink and red tones',
-    'An open book on a wooden table',
-    'A notebook, camera and laptop on a creative desk',
   ]) {
     expect(html).toContain(`alt="${alt}"`);
   }

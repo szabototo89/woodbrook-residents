@@ -1,8 +1,8 @@
-import { GalleryImage } from './GalleryImage';
+import { GalleryCollections } from './GalleryCollections';
 import { ContactSection } from './ContactSection';
 import { PageHero } from './PageHero';
 import { TitleLines } from './TitleLines';
-import { galleryPhotoPath, type GalleryData } from './lauraSanity';
+import type { GalleryData } from './lauraSanity';
 
 export function GalleryPage(props: { data: GalleryData }) {
   const { data } = props;
@@ -18,20 +18,7 @@ export function GalleryPage(props: { data: GalleryData }) {
       />
       <section className="section gallery-page">
         <div className="container">
-          <div className="gallery-grid gallery-page-grid">
-            {data.items.map((item) => (
-              <a
-                key={item.slug}
-                href={galleryPhotoPath(item)}
-                aria-label={`View picture: ${item.alt}`}
-              >
-                <figure>
-                  <GalleryImage src={item.image.url} alt={item.alt} />
-                  <figcaption>{item.title}</figcaption>
-                </figure>
-              </a>
-            ))}
-          </div>
+          <GalleryCollections collections={data.collections} />
         </div>
       </section>
       <ContactSection settings={data.settings} />
