@@ -19,7 +19,7 @@
   --motion-fast: 180ms;
   --motion-medium: 280ms;
   --motion-reveal: 420ms;
-  --motion-hero: 520ms;
+  --motion-hero: 900ms;
   --ease-ui: cubic-bezier(0.2, 0, 0, 1);
   --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-distance-xs: 4px;

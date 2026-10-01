@@ -45,9 +45,9 @@ bun run build:static
 
 `test:e2e` checks all five routes at 320, 390, 640, 700, 900 and 1440 pixels, the mobile service and gallery layouts, logo loading, and keyboard menu dismissal.
 
-It also checks restrained motion, keyboard/touch feedback, selected-image gallery transitions, reduced motion (including live changes), missing browser APIs, and JavaScript-free browsing. For concurrent worktrees, use a free preview port, for example `LAURA_PLAYWRIGHT_PORT=4188 CI=1 bun run test:e2e`.
+It also checks restrained motion, keyboard/touch feedback, selected-image gallery transitions, reduced motion (including live changes), missing browser APIs, and JavaScript-free browsing. The default preview origin `http://127.0.0.1:4176` is registered with Sanity. For concurrent worktrees, `LAURA_PLAYWRIGHT_PORT` can select a free port, but its origin must also be registered in the project's CORS settings for client-side navigation to load content.
 
-The static build is written to `dist/client` and verifies the five prerendered pages, internal links, crawler metadata, and the absence of runtime-only output.
+The static build is written to `dist/client` and verifies the five main pages plus each CMS gallery collection, internal links, crawler metadata, and the absence of runtime-only output.
 
 ## Cloudflare Pages deployment
 

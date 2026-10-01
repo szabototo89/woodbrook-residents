@@ -6,7 +6,16 @@ on:
     paths:
       - 'apps/laura-faichney-web/**'
       - '.github/workflows/deploy-laura-faichney.yml'
+  repository_dispatch:
+    types: [sanity-update]
   workflow_dispatch:
+
+# Sanity delivers at-least-once with 1 concurrent request and retries twice
+# at 30s intervals. Serialize Pages deploys so overlapping publishes queue
+# instead of racing; every dispatch rebuilds the same static output.
+concurrency:
+  group: laura-faichney-pages
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -19,6 +28,11 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
+
+      - name: Log triggering event
+        run: |
+          echo "event=${{ github.event_name }} type=${{ github.event.action }}"
+          echo 'payload=${{ toJson(github.event.client_payload) }}'
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
