@@ -284,9 +284,9 @@ test('hero underline covers Brighter at desktop and phone sizes', async ({
     const wordWidth = await page
       .getByRole('heading', { level: 1 })
       .evaluate((heading) => {
-        const text = Array.from(heading.childNodes).find((node) =>
-          node.textContent?.includes('Brighter'),
-        );
+        const text = Array.from(heading.querySelectorAll('.hero-line'))
+          .flatMap((line) => Array.from(line.childNodes))
+          .find((node) => node.textContent?.includes('Brighter'));
         if (!text) throw new Error('Brighter is missing');
         const range = document.createRange();
         const start = text.textContent!.indexOf('Brighter');

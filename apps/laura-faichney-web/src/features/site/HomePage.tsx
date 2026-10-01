@@ -6,10 +6,12 @@ import { GalleryPreview } from './GalleryPreview';
 import { AboutPreview } from './AboutPreview';
 import { ContactSection } from './ContactSection';
 import { Testimonial } from './Testimonial';
+import { useEditorialMotion } from './useEditorialMotion';
 
 export function HomePage() {
+  const motionRoot = useEditorialMotion();
   return (
-    <main id="main-content">
+    <main id="main-content" ref={motionRoot}>
       <section className="hero home-hero">
         <div className="container hero-inner">
           <div className="hero-copy">
@@ -17,9 +19,9 @@ export function HomePage() {
               Bold art · brighter spaces · happier people
             </p>
             <h1>
-              Bold Art
+              <span className="hero-line">Bold Art</span>
               <br />
-              Brighter Spaces
+              <span className="hero-line">Brighter Spaces</span>
             </h1>
             <GoldStroke />
             <p>
