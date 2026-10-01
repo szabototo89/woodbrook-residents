@@ -1,8 +1,10 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { galleryCollections } from '../src/features/site/siteContent';
-import { galleryCollectionPath } from '../src/features/site/galleryContent';
+import {
+  LauraSanitySource,
+  galleryPhotoPath,
+} from '../src/features/site/lauraSanity';
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -53,13 +55,14 @@ function outputPathForUrl(pathname: string) {
   return path.join(outputRoot, decodedPath, 'index.html');
 }
 
+const gallery = await new LauraSanitySource().loadGallery();
 const requiredPages = [
   '/',
   '/services',
   '/gallery',
   '/about',
   '/contact',
-  ...galleryCollections.map(galleryCollectionPath),
+  ...gallery.items.map(galleryPhotoPath),
 ];
 
 const missingRequiredPages = [];

@@ -2,8 +2,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { PRODUCTION_SITE_URL, resolveSiteUrl } from '../src/app/siteMetadata';
-import { galleryCollections } from '../src/features/site/siteContent';
-import { galleryCollectionPath } from '../src/features/site/galleryContent';
+import {
+  LauraSanitySource,
+  galleryPhotoPath,
+} from '../src/features/site/lauraSanity';
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -11,14 +13,18 @@ const appRoot = path.resolve(
 );
 const outputRoot = path.join(appRoot, 'dist', 'client');
 
-export const STATIC_ROUTES = [
+export const STATIC_BASE_ROUTES = [
   '/',
   '/services',
   '/gallery',
   '/about',
   '/contact',
-  ...galleryCollections.map(galleryCollectionPath),
 ];
+
+export async function loadStaticRoutes(): Promise<string[]> {
+  const gallery = await new LauraSanitySource().loadGallery();
+  return [...STATIC_BASE_ROUTES, ...gallery.items.map(galleryPhotoPath)];
+}
 
 export function resolveSeoSiteUrlFromEnv(
   env: Record<string, string | undefined>,
@@ -31,14 +37,15 @@ export function resolveSeoSiteUrlFromEnv(
 async function generateSeoFiles() {
   const siteUrl = resolveSeoSiteUrlFromEnv(process.env);
   console.log(`Generating SEO files for ${siteUrl}...`);
-  const sitemapUrls = STATIC_ROUTES.map(
-    (route) => `  <url><loc>${siteUrl}${route}</loc></url>`,
-  ).join('\n');
+  const staticRoutes = await loadStaticRoutes();
+  const sitemapUrls = staticRoutes
+    .map((route) => `  <url><loc>${siteUrl}${route}</loc></url>`)
+    .join('\n');
   const sitemapXml =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
     `${sitemapUrls}\n` +
-    '</urlset>\n';
+    '</urlset>\n`;
   const robotsTxt = `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`;
 
   await Bun.write(path.join(outputRoot, 'sitemap.xml'), sitemapXml);

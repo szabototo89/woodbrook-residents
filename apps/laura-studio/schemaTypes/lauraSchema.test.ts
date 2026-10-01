@@ -59,13 +59,24 @@ test('service carries a slug, description, image and order', () => {
   expect(slug?.['type']).toBe('slug')
 })
 
-test('gallery item carries a featured flag, caption and order', () => {
+test('gallery item carries a title, slug, description and featured flag', () => {
   const names = fieldNames('galleryItem')
   expect(names).toEqual(
-    expect.arrayContaining(['image', 'imageAlt', 'caption', 'featured', 'order']),
+    expect.arrayContaining([
+      'title',
+      'slug',
+      'description',
+      'image',
+      'imageAlt',
+      'featured',
+      'order',
+    ]),
   )
+  expect(names).not.toContain('caption')
   const featured = fieldsOf('galleryItem').find((field) => field['name'] === 'featured')
   expect(featured?.['type']).toBe('boolean')
+  const slug = fieldsOf('galleryItem').find((field) => field['name'] === 'slug')
+  expect(slug?.['type']).toBe('slug')
 })
 
 test('site settings hold the shared contact details', () => {
@@ -138,7 +149,7 @@ test('list previews fall back to friendly placeholder text', () => {
   })
   expect(preparePreview(galleryItem.preview?.prepare, {title: 'Pink flowers'})).toEqual({
     title: 'Pink flowers',
-    subtitle: 'No caption yet',
+    subtitle: 'No alt text yet',
   })
 })
 

@@ -29,10 +29,29 @@ export const galleryItem = defineType({
         rule.required().error('Describe the artwork so screen readers can announce it.'),
     }),
     defineField({
-      name: 'caption',
-      title: 'Caption',
+      name: 'title',
+      title: 'Picture title',
       type: 'string',
-      description: 'Optional one-line caption kept with the artwork for future site updates.',
+      description:
+        'Short title shown under the picture and on its own detail page, for example "Pink flowers".',
+      validation: (rule) => rule.required().error('Give the picture a short title.'),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Web address name',
+      type: 'slug',
+      options: {source: 'title', maxLength: 96},
+      description:
+        'Set once when you add the picture and never change it afterwards — the address of its detail page uses it.',
+      validation: (rule) => rule.required().error('Generate the web address name for the picture.'),
+    }),
+    defineField({
+      name: 'description',
+      title: 'About this picture',
+      type: 'text',
+      rows: 2,
+      description:
+        'Optional one or two sentences about the picture, shown on its detail page. Leave empty to hide that section.',
     }),
     defineField({
       name: 'featured',
@@ -67,10 +86,10 @@ export const galleryItem = defineType({
     }),
   ],
   preview: {
-    select: {title: 'imageAlt', subtitle: 'caption', media: 'image'},
+    select: {title: 'title', subtitle: 'imageAlt', media: 'image'},
     prepare: ({title, subtitle}: Record<string, string | undefined>) => ({
       title: title ?? 'Untitled artwork',
-      subtitle: subtitle ?? 'No caption yet',
+      subtitle: subtitle ?? 'No alt text yet',
     }),
   },
 })

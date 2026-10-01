@@ -1,8 +1,25 @@
 # Laura Faichney web application
 
-Independent TanStack Start site for Laura Faichney All Things Art. No CMS integration; content is baked into the app with supplied artwork, generated transparent assets, and fixed Picsum photography until Laura provides originals (see `ASSETS.md`).
+Independent TanStack Start site for Laura Faichney All Things Art. Content comes
+from the `uag6kepo` ("Laura Faichney All Things Art") Sanity project, dataset
+`production`, fetched by the TanStack route loaders at build time and rendered
+from Sanity CDN artwork (see `docs/features/laura-content-model.md`).
 
 Production: `https://laura-faichney-all-things-art.pages.dev`
+
+## Sanity content
+
+Published reads need no token. The project, dataset, and API version default to
+the values above and can be overridden for previews or local experiments:
+
+- `VITE_SANITY_PROJECT_ID` (or `SANITY_PROJECT_ID` on the server)
+- `VITE_SANITY_DATASET` (or `SANITY_DATASET` on the server)
+- `VITE_SANITY_API_VERSION` (or `SANITY_API_VERSION` on the server)
+
+A missing or invalid required field fails the static build with the Sanity
+validation message. Browser-side route transitions re-read published content,
+so the local dev (`http://localhost:3003`), e2e (`http://127.0.0.1:4176`), and
+production origins are registered as project CORS origins.
 
 ## Development
 

@@ -1,20 +1,23 @@
 import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
 import { ServiceImage } from './ServiceImage';
-import { services } from './siteContent';
+import type { CmsService } from './lauraSanity';
 
-export function ServicesPreview() {
+export function ServicesPreview(props: {
+  services: CmsService[];
+  heading: string;
+}) {
   return (
     <section className="section services-preview" id="services">
       <div className="container">
         <div className="section-heading centered">
           <Eyebrow>Creative services</Eyebrow>
-          <h2>Art for Homes, Businesses &amp; Events</h2>
+          <h2>{props.heading}</h2>
         </div>
         <div className="service-grid">
-          {services.map((service) => (
-            <a className="service-card" href="/services" key={service.title}>
-              <ServiceImage service={service} />
+          {props.services.map((service) => (
+            <a className="service-card" href="/services" key={service.slug}>
+              <ServiceImage image={service.image} />
               <span>
                 {service.title}
                 <Arrow />

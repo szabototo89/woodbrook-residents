@@ -1,21 +1,35 @@
 import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
-import { GalleryCollections } from './GalleryCollections';
+import { GalleryImage } from './GalleryImage';
+import { galleryPhotoPath, type CmsGalleryItem } from './lauraSanity';
 
-export function GalleryPreview() {
+export function GalleryPreview(props: {
+  items: CmsGalleryItem[];
+  heading: string;
+}) {
   return (
     <section className="section gallery-preview" id="gallery">
       <div className="container">
         <div className="gallery-heading">
           <div>
             <Eyebrow>Gallery</Eyebrow>
-            <h2>A glimpse of my work</h2>
+            <h2>{props.heading}</h2>
           </div>
           <a className="text-link" href="/gallery">
             View full gallery <Arrow />
           </a>
         </div>
-        <GalleryCollections />
+        <div className="gallery-grid">
+          {props.items.map((item) => (
+            <a
+              href={galleryPhotoPath(item)}
+              key={item.slug}
+              aria-label={`View gallery: ${item.alt}`}
+            >
+              <GalleryImage src={item.image.url} alt={item.alt} />
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );

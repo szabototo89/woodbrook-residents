@@ -30,6 +30,7 @@ export function PageHero(props: PageHeroProps) {
             width="1374"
             height="1145"
             fetchPriority="high"
+            crossOrigin="anonymous"
           />
         </div>
       </div>

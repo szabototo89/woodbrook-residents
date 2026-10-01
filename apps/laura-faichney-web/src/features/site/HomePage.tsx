@@ -6,34 +6,30 @@ import { GalleryPreview } from './GalleryPreview';
 import { AboutPreview } from './AboutPreview';
 import { ContactSection } from './ContactSection';
 import { Testimonial } from './Testimonial';
+import { TitleLines } from './TitleLines';
+import type { HomeData } from './lauraSanity';
 
-export function HomePage() {
+export function HomePage(props: { data: HomeData }) {
+  const { data } = props;
   return (
     <main id="main-content">
       <section className="hero home-hero">
         <div className="container hero-inner">
           <div className="hero-copy">
-            <p className="hero-kicker">
-              Bold art · brighter spaces · happier people
-            </p>
+            <p className="hero-kicker">{data.hero.eyebrow}</p>
             <h1>
-              Bold Art
-              <br />
-              Brighter Spaces
+              <TitleLines lines={data.hero.titleLines} />
             </h1>
             <GoldStroke />
-            <p>
-              Commissioned paintings, murals, signage, facepainting and art
-              tutoring — bringing more colour and creativity to everyday spaces.
-            </p>
+            <p>{data.hero.description}</p>
             <a className="button button-primary" href="/gallery">
-              View My Work <Arrow />
+              {data.hero.ctaLabel ?? 'View My Work'} <Arrow />
             </a>
           </div>
           <div className="hero-art">
             <img
-              src="/artwork/portrait-cutout.png"
-              alt="Expressive painted portrait in vivid pink, blue, orange and yellow"
+              src={data.hero.image.url}
+              alt={data.hero.image.alt}
               width="1374"
               height="1145"
               fetchPriority="high"
@@ -41,12 +37,18 @@ export function HomePage() {
           </div>
         </div>
       </section>
-      <ServicesPreview />
-      <MuralFeature />
-      <GalleryPreview />
-      <AboutPreview />
-      <Testimonial />
-      <ContactSection />
+      <ServicesPreview
+        services={data.services}
+        heading={data.servicesHeading}
+      />
+      <MuralFeature mural={data.mural} />
+      <GalleryPreview
+        items={data.galleryPreview}
+        heading={data.galleryHeading}
+      />
+      <AboutPreview about={data.about} />
+      <Testimonial testimonial={data.testimonial} />
+      <ContactSection settings={data.settings} />
     </main>
   );
 }
