@@ -12,7 +12,7 @@ Add a small, accessible availability indicator to each picture in `apps/laura-fa
 
 ## Visible behavior
 
-- Each collection picture shows a small badge below the selected image and beneath its thumbnail.
+- Each collection picture shows a small badge below the selected image and beneath its thumbnail when the collection has multiple pictures. Single-picture collections retain their selected-image badge without a duplicate thumbnail chooser.
 - **For sale** uses the site's soft pink background and dark pink text; **Not for sale** uses a neutral cream background and slate text.
 - Pictures with missing, null or unrecognised status show **Enquire for availability**. Existing content is never automatically marked for sale or not for sale.
 - The selected badge follows previous/next buttons, thumbnail selection and keyboard activation. Screen readers receive a polite status announcement when the label changes; each thumbnail's accessible name includes its availability.
@@ -24,6 +24,7 @@ Add a small, accessible availability indicator to each picture in `apps/laura-fa
 - Unconfirmed status displays the enquiry label and never implies a sale state.
 - Home and gallery loaders request and preserve each picture's sale status; older documents still load successfully.
 - Selecting a different picture updates the status without changing the collection URL, losing keyboard focus or covering the artwork.
+- Single-picture collections show one availability badge without a redundant thumbnail chooser. The existing collection introduction remains beside the picture at desktop widths and above it on smaller screens.
 - At 320px and 1440px the badges remain readable and contained, with no horizontal scrolling; portrait and landscape browsing retains a stable image frame.
 - Laura web and Studio tests pass, including a browser test that exercises every status without changing published CMS content; typechecks, lint and `bun run build` pass.
 
@@ -33,6 +34,6 @@ Collection-picture browsing in the Laura web app, the existing Laura Studio gall
 
 ## Verification
 
-Verified on 2026-10-01: 43 Laura web unit tests, 19 Studio tests (100% schema coverage), all 48 Laura browser tests, repository-wide lint, typechecks and tests, `bun run build`, and the Laura Studio build passed. The production static build verified 9 HTML files and every internal link; availability badges rendered on all four published collection pages. Phone and desktop screenshots were reviewed, with explicit portrait/landscape frame checks at 390px.
+Verified on 2026-10-01 after integrating the current gallery layout: 44 Laura web unit tests, 19 Studio tests (100% schema coverage), all 50 Laura browser tests, repository-wide lint, typechecks and tests, `bun run build`, and the Laura Studio build passed. The production static build verified 9 HTML files and every internal link; availability badges rendered on all four published collection pages. Phone and desktop screenshots were reviewed, with explicit portrait/landscape frame checks at 390px and single-picture collections without duplicate controls.
 
 Gallery browser fixtures keep navigation, motion and availability scenarios independent of editorial changes without altering CMS content. The production static export was checked separately against published Sanity content without those fixtures.

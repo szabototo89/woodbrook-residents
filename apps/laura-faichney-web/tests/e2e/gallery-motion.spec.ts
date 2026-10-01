@@ -1,93 +1,15 @@
 import { expect, test, routeGalleryFixture } from '../fixtures/gallery-test';
 
-const SANITY_QUERY_URL =
-  'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';
+import { browsableCollections } from './galleryCms';
+
 const SANITY_CDN_HOST = 'https://cdn.sanity.io/images/uag6kepo/production/';
 
-type CmsMotionCollection = {
-  title: string;
-  slug: string;
-  photos: string[];
-};
-
-type CmsMotionGallery = {
-  first: CmsMotionCollection;
-  second: CmsMotionCollection;
-};
-
-let cmsMotionGallery: CmsMotionGallery | undefined;
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function requiredRecord(
-  value: unknown,
-  label: string,
-): Record<string, unknown> {
-  if (!isRecord(value)) {
-    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
-  }
-  return value;
-}
-
-function requiredString(
-  record: Record<string, unknown>,
-  key: string,
-  label: string,
-): string {
-  const value = record[key];
-  if (typeof value !== 'string' || !value) {
-    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
-  }
-  return value;
-}
-
-function readCollection(value: unknown, label: string): CmsMotionCollection {
-  const record = requiredRecord(value, label);
-  const slugRecord = requiredRecord(record.slug, 'a collection slug');
-  const photos: unknown = record.photos;
-  if (!Array.isArray(photos) || photos.length < 2) {
-    throw new Error(`Sanity CMS snapshot is missing ${label} photos.`);
-  }
-  return {
-    title: requiredString(record, 'title', 'a collection title'),
-    slug: requiredString(slugRecord, 'current', 'a collection slug'),
-    photos: photos.map((photo) =>
-      requiredString(
-        requiredRecord(photo, 'a photo'),
-        'alt',
-        'a photo alt text',
-      ),
-    ),
-  };
-}
-
-async function motionGallery(): Promise<CmsMotionGallery> {
-  if (!cmsMotionGallery) {
-    const query = `*[_type == "galleryCollection"] | order(order asc)[0...2]{title, slug, "photos": photos[]->{ "alt": imageAlt }}`;
-    const response = await fetch(
-      `${SANITY_QUERY_URL}?query=${encodeURIComponent(query)}`,
-    );
-    if (!response.ok) {
-      throw new Error(
-        `Sanity CMS snapshot failed with status ${response.status}.`,
-      );
-    }
-    const body: unknown = await response.json();
-    const collections: unknown = requiredRecord(
-      body,
-      'a result envelope',
-    ).result;
-    if (!Array.isArray(collections) || collections.length < 2) {
-      throw new Error('Sanity CMS snapshot is missing two collections.');
-    }
-    cmsMotionGallery = {
-      first: readCollection(collections[0], 'the first collection'),
-      second: readCollection(collections[1], 'the second collection'),
-    };
-  }
-  return cmsMotionGallery;
+async function motionGallery() {
+  const collections = await browsableCollections();
+  const first = collections[0];
+  const second = collections[1] ?? first;
+  if (!first || !second) throw new Error('Browsable collections are missing');
+  return { first, second };
 }
 
 test('a live reduced-motion change stops shared-image travel immediately', async ({
@@ -219,11 +141,9 @@ test('collection and picture selections carry exactly one image into its larger 
     'true',
   );
   await page.getByRole('button', { name: 'Next picture', exact: true }).click();
-  const wrappedPhotoAlt = first.photos[0];
-  if (!wrappedPhotoAlt) throw new Error('Collection photos are missing');
-  await expect(
-    artwork.getByRole('img', { name: wrappedPhotoAlt }),
-  ).toBeVisible();
+  const nextPhotoAlt = first.photos[2 % first.photos.length];
+  if (!nextPhotoAlt) throw new Error('Collection photos are missing');
+  await expect(artwork.getByRole('img', { name: nextPhotoAlt })).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute(
     'data-transition-ready',
     'true',

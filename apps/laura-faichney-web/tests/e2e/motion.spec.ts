@@ -1,4 +1,5 @@
 import { expect, test } from '../fixtures/gallery-test';
+import { browsableCollections } from './galleryCms';
 
 const SANITY_QUERY_URL =
   'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';
@@ -142,7 +143,9 @@ test('desktop nav draws an underline without moving the label', async ({
 test('gallery controls give feedback in their navigation direction', async ({
   page,
 }) => {
-  await page.goto('/gallery/colour-and-nature');
+  const [collection] = await browsableCollections();
+  if (!collection) throw new Error('Browsable collection is missing');
+  await page.goto(`/gallery/${collection.slug}`);
   await page.waitForLoadState('networkidle');
   const back = page.getByRole('link', { name: /Back to gallery/ });
   await back.focus();
@@ -166,14 +169,14 @@ test('gallery controls give feedback in their navigation direction', async ({
     .toBe('matrix(1, 0, 0, 1, 4, 0)');
   await page
     .getByRole('button', {
-      name: 'View picture: Fresh strawberries in rich pink and red tones',
+      name: `View picture: ${collection.photos[1]}`,
     })
     .hover();
   await expect
     .poll(() =>
       page
         .getByRole('button', {
-          name: 'View picture: Fresh strawberries in rich pink and red tones',
+          name: `View picture: ${collection.photos[1]}`,
         })
         .getByRole('img')
         .evaluate((image) => getComputedStyle(image).transform),

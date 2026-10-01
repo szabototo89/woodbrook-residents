@@ -163,7 +163,7 @@ test('collection detail presents one collection description and browsable pictur
   expect(html).toContain('Previous picture');
   expect(html).toContain('Next picture');
   expect(html).toContain('Back to gallery');
-  expect(html).toContain('src="/artwork/gallery-detail-hero-cutout.webp"');
+  expect(html).not.toContain('/artwork/gallery-detail-hero-cutout');
   expect(html).not.toContain('About this picture');
   expect(html).not.toContain('In the gallery');
   expect(html).not.toMatch(/Picture \d+ of \d+/);

@@ -50,6 +50,20 @@ export const galleryCollections = [
       ),
     ],
   },
+  {
+    title: 'Single picture study',
+    slug: { current: 'single-picture-study' },
+    description:
+      'A standalone picture for the single-picture viewing scenario.',
+    order: 2,
+    photos: [
+      photo(
+        'A single flower study',
+        'image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp',
+        0,
+      ),
+    ],
+  },
 ];
 
 export function isGalleryQuery(url) {
