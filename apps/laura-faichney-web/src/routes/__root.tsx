@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-router';
 import cormorantUrl from '@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-wght-normal.woff2?url';
 import dmSansUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
-import styles from '../styles.css?url';
+import '../styles.css';
 import { SiteFooter, SiteHeader } from '../features/site/SitePages';
 import { useGalleryTransitions } from '../features/site/useGalleryTransitions';
 
@@ -21,7 +21,6 @@ function RootDocument() {
     <html lang="en-IE">
       <head>
         <HeadContent />
-        <link rel="stylesheet" href={styles} />
         <link
           rel="preload"
           href={cormorantUrl}
