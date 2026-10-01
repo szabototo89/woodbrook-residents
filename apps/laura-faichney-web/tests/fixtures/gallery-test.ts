@@ -10,6 +10,19 @@ const artworkRoot = fileURLToPath(
 );
 
 export async function routeGalleryFixture(context: BrowserContext) {
+  // Public artwork also needs to load on isolated preview ports.
+  await context.route('https://cdn.sanity.io/**', async (route) => {
+    const headers = Object.fromEntries(
+      Object.entries(route.request().headers()).filter(
+        ([name]) => name !== 'origin',
+      ),
+    );
+    const response = await route.fetch({ headers });
+    await route.fulfill({
+      response,
+      headers: { ...response.headers(), 'access-control-allow-origin': '*' },
+    });
+  });
   await context.route('https://uag6kepo.api.sanity.io/**', async (route) => {
     if (!isGalleryQuery(route.request().url())) return route.continue();
     const headers = Object.fromEntries(
@@ -47,6 +60,11 @@ export async function routeGalleryFixture(context: BrowserContext) {
 }
 
 export const test = base.extend({
+  page: async ({ page }, use) => {
+    await use(page);
+    // Remove interceptions before the page closes and cancels pending requests.
+    await page.context().unrouteAll({ behavior: 'ignoreErrors' });
+  },
   context: async ({ context }, use) => {
     await routeGalleryFixture(context);
     await use(context);

@@ -372,7 +372,14 @@ test('serves full-aspect viewer artwork without thumbnail crops', async () => {
   expect(fullUrl).not.toContain('h=480');
 });
 
-test.each(['for-sale', 'not-for-sale', null, undefined, 'unrecognised'])(
+test.each([
+  'for-sale',
+  'not-for-sale',
+  'none',
+  null,
+  undefined,
+  'unrecognised',
+])(
   'loads published sale status %s for home and gallery pictures without guessing',
   async (saleStatus) => {
     const collections = homeResult.collections.map((collection) => ({
@@ -392,7 +399,9 @@ test.each(['for-sale', 'not-for-sale', null, undefined, 'unrecognised'])(
     for (const data of [await source.loadHome(), await source.loadGallery()]) {
       expect(data.collections[0]?.photos[0]).toHaveProperty(
         'saleStatus',
-        saleStatus === 'for-sale' || saleStatus === 'not-for-sale'
+        saleStatus === 'for-sale' ||
+          saleStatus === 'not-for-sale' ||
+          saleStatus === 'none'
           ? saleStatus
           : undefined,
       );

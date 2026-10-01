@@ -245,6 +245,7 @@ test('touch selects collections and pictures while the mobile nav indicator stay
     page.locator('.collection-selected-picture').getByRole('img'),
   ).toHaveAttribute('alt', deskPhotoAlt);
   await expect(page.locator('.collection-selected-picture')).toBeInViewport();
+  await context.unrouteAll({ behavior: 'ignoreErrors' });
   await context.close();
 });
 
@@ -273,5 +274,6 @@ test('without JavaScript, services, artwork and collection links remain readable
   await expect(
     page.locator('.collection-selected-picture').getByRole('img'),
   ).toBeVisible();
+  await context.unrouteAll({ behavior: 'ignoreErrors' });
   await context.close();
 });

@@ -67,20 +67,21 @@ test('gallery item carries artwork, alt text and order', () => {
   expect(names).not.toContain('slug')
 })
 
-test('editors can explicitly mark each picture for sale or not for sale without a default claim', () => {
+test('editors can hide availability or mark a picture for sale or not for sale without a default claim', () => {
   const status = fieldsOf('galleryItem').find((field) => field['name'] === 'saleStatus')
   expect(status).toMatchObject({
     title: 'Sale availability',
     type: 'string',
     options: {
       list: [
+        {title: 'None', value: 'none'},
         {title: 'For sale', value: 'for-sale'},
         {title: 'Not for sale', value: 'not-for-sale'},
       ],
       layout: 'radio',
     },
   })
-  expect(status?.['description']).toContain('Enquire for availability')
+  expect(status?.['description']).toContain('hide the badge')
   expect(status?.['initialValue']).toBeUndefined()
 })
 

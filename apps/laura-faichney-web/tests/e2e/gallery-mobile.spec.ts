@@ -126,6 +126,7 @@ test('phones download smaller transparent hero assets and appropriately sized th
         return source.naturalWidth;
       }),
     ).toBeLessThanOrEqual(320);
+    await context.unrouteAll({ behavior: 'ignoreErrors' });
     await context.close();
   }
 });

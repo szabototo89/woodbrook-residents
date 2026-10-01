@@ -2,6 +2,7 @@ import { createFileRoute, notFound } from '@tanstack/react-router';
 import { createPageHead } from '../app/siteMetadata';
 import { GalleryCollectionPage } from '../features/site/GalleryCollectionPage';
 import { GalleryCollectionNotFound } from '../features/site/GalleryCollectionNotFound';
+import { useCollectionSwipeNavigation } from '../features/site/useCollectionSwipeNavigation';
 import {
   LauraSanitySource,
   galleryCollectionPath,
@@ -16,10 +17,11 @@ export const Route = createFileRoute('/gallery_/$collectionSlug')({
       params.collectionSlug,
     );
     if (!collection) throw notFound();
-    return collection;
+    return { collection, collections: gallery.collections };
   },
-  head: ({ loaderData: collection }) =>
-    collection
+  head: ({ loaderData }) => {
+    const collection = loaderData?.collection;
+    return collection
       ? createPageHead({
           title: collection.title,
           description: collection.description,
@@ -29,11 +31,14 @@ export const Route = createFileRoute('/gallery_/$collectionSlug')({
           title: 'Collection not found',
           description: 'Explore the gallery to find another collection.',
           path: '/gallery',
-        }),
+        });
+  },
   component: GalleryCollectionRoute,
   notFoundComponent: GalleryCollectionNotFound,
 });
 
 function GalleryCollectionRoute() {
-  return <GalleryCollectionPage collection={Route.useLoaderData()} />;
+  const { collection, collections } = Route.useLoaderData();
+  const navigation = useCollectionSwipeNavigation(collection, collections);
+  return <GalleryCollectionPage collection={collection} {...navigation} />;
 }

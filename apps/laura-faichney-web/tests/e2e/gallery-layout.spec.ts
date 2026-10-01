@@ -82,7 +82,8 @@ test('a single-picture collection shows its picture without a duplicate chooser'
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`/gallery/${collection.slug}`);
   await expect(page.locator('.collection-selected-picture img')).toBeVisible();
-  await expect(page.getByRole('status')).toHaveText('Enquire for availability');
+  await expect(page.getByRole('status')).toHaveCount(0);
+  await expect(page.locator('.artwork-availability')).toHaveCount(0);
   await expect(
     page.getByRole('navigation', { name: 'Picture navigation' }),
   ).toHaveCount(0);
