@@ -2,6 +2,10 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { GalleryImage } from './GalleryImage';
+import {
+  ArtworkAvailability,
+  artworkAvailabilityLabel,
+} from './ArtworkAvailability';
 import { galleryPhotoSrcSet } from './galleryImageSources';
 import type { CmsGalleryItem } from './lauraSanity';
 
@@ -82,6 +86,9 @@ export function CollectionPictures(props: { images: CmsGalleryItem[] }) {
             width="640"
             height="480"
           />
+          <figcaption role="status" aria-atomic="true">
+            <ArtworkAvailability status={selected.saleStatus} />
+          </figcaption>
         </figure>
         {total > 1 && (
           <nav
@@ -113,7 +120,7 @@ export function CollectionPictures(props: { images: CmsGalleryItem[] }) {
             <button
               key={`${image.alt}-${index}`}
               type="button"
-              aria-label={`View picture: ${image.alt}`}
+              aria-label={`View picture: ${image.alt}. ${artworkAvailabilityLabel(image.saleStatus)}`}
               aria-pressed={index === selectedIndex}
               onClick={(event) =>
                 changePicture(index, event.currentTarget.querySelector('img'))
@@ -124,6 +131,7 @@ export function CollectionPictures(props: { images: CmsGalleryItem[] }) {
                 alt={image.alt}
                 sizes={`(max-width: 640px) calc((100vw - ${40 + 8 * (total - 1)}px) / ${total} - 12px), (max-width: 700px) calc((100vw - ${48 + 8 * (total - 1)}px) / ${total} - 12px), 148px`}
               />
+              <ArtworkAvailability status={image.saleStatus} />
             </button>
           ))}
         </div>

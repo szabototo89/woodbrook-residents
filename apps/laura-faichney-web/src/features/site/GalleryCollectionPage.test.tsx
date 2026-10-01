@@ -157,7 +157,7 @@ test('collection detail presents one collection description and browsable pictur
   ).toHaveLength(2);
   expect(html).toContain('alt="Pink flowers against a blue sky"');
   expect(html).toContain(
-    'aria-label="View picture: Fresh strawberries in rich pink and red tones"',
+    'aria-label="View picture: Fresh strawberries in rich pink and red tones. Enquire for availability"',
   );
   expect(html).toContain('aria-label="Picture navigation"');
   expect(html).toContain('Previous picture');

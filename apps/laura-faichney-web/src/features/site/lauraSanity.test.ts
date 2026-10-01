@@ -371,3 +371,34 @@ test('serves full-aspect viewer artwork without thumbnail crops', async () => {
   expect(fullUrl).toContain('w=1280');
   expect(fullUrl).not.toContain('h=480');
 });
+
+test.each(['for-sale', 'not-for-sale', null, undefined, 'unrecognised'])(
+  'loads published sale status %s for home and gallery pictures without guessing',
+  async (saleStatus) => {
+    const collections = homeResult.collections.map((collection) => ({
+      ...collection,
+      photos: collection.photos.map((photo) => ({ ...photo, saleStatus })),
+    }));
+    const calls = mockSanity({
+      ...homeResult,
+      collections,
+      page: { hero: homeResult.home.hero, seo: {} },
+    });
+    const source = new LauraSanitySource({
+      projectId: 'uag6kepo',
+      dataset: 'production',
+      apiVersion: '2025-09-01',
+    });
+    for (const data of [await source.loadHome(), await source.loadGallery()]) {
+      expect(data.collections[0]?.photos[0]).toHaveProperty(
+        'saleStatus',
+        saleStatus === 'for-sale' || saleStatus === 'not-for-sale'
+          ? saleStatus
+          : undefined,
+      );
+    }
+    for (const call of calls) {
+      expect(new URL(call).searchParams.get('query')).toContain('saleStatus');
+    }
+  },
+);
