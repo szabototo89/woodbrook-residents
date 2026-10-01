@@ -14,11 +14,15 @@ const treatmentCategorySchema = z.enum([
 ]);
 
 const treatmentRecordSchema = z.object({
-  slug: z.string().min(1),
-  name: z.string().min(1),
-  category: treatmentCategorySchema,
-  durationMinutes: z.number().int().positive(),
-  priceCents: z.number().int().positive(),
+  slug: z.string().min(1).describe('URL-safe treatment identifier.'),
+  name: z.string().min(1).describe('Public treatment name.'),
+  category: treatmentCategorySchema.describe('Treatment category.'),
+  durationMinutes: z
+    .number()
+    .int()
+    .positive()
+    .describe('Treatment duration in minutes.'),
+  priceCents: z.number().int().positive().describe('Treatment price in cents.'),
 });
 
 export type TreatmentCategory = z.infer<typeof treatmentCategorySchema>;
