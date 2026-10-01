@@ -3,7 +3,6 @@ import { GalleryBreadcrumbs } from './GalleryBreadcrumbs';
 import { Eyebrow } from './Eyebrow';
 import { GoldStroke } from './GoldStroke';
 import { CollectionPictures } from './CollectionPictures';
-import { galleryHeroSrcSet } from './galleryImageSources';
 import type { CmsGalleryCollection } from './lauraSanity';
 import type { SwipeDirection } from './useCollectionSwipeNavigation';
 
@@ -22,22 +21,9 @@ export function GalleryCollectionPage(props: {
           <h1>{props.collection.title}</h1>
           <GoldStroke />
           <p>{props.collection.description}</p>
-          <div className="collection-intro-footer">
-            <a className="text-link" href="/gallery">
-              <ArrowLeft size={18} aria-hidden="true" /> Back to gallery
-            </a>
-            <img
-              className="collection-intro-art"
-              src="/artwork/gallery-detail-hero-cutout.webp"
-              srcSet={galleryHeroSrcSet(
-                '/artwork/gallery-detail-hero-cutout.webp',
-              )}
-              sizes="(min-width: 1024px) 144px, 80px"
-              width="1374"
-              height="1145"
-              alt=""
-            />
-          </div>
+          <a className="text-link" href="/gallery">
+            <ArrowLeft size={18} aria-hidden="true" /> Back to gallery
+          </a>
         </div>
         <CollectionPictures
           key={props.collection.slug}

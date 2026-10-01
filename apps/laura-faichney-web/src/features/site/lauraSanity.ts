@@ -114,6 +114,11 @@ const galleryItemSchema = z
   .object({
     image: sanityImageSchema.describe('Artwork photo'),
     imageAlt: z.string().describe('Artwork alt text'),
+    saleStatus: z
+      .enum(['for-sale', 'not-for-sale', 'none'])
+      .optional()
+      .catch(undefined)
+      .describe('Optional published sale availability; none hides the badge'),
     order: z.number().describe('Display order, lower first'),
   })
   .catchall(z.unknown());
@@ -139,7 +144,7 @@ const homeQuery = `{
   "services": *[_type == "service"] | order(order asc),
   "collections": *[_type == "galleryCollection"] | order(order asc) {
     title, slug, description, order,
-    "photos": photos[]-> { image, imageAlt, order }
+    "photos": photos[]-> { image, imageAlt, saleStatus, order }
   }
 }`;
 
@@ -159,7 +164,7 @@ const galleryQuery = `{
   "settings": *[_id == "siteSettings"][0],
   "collections": *[_type == "galleryCollection"] | order(order asc) {
     title, slug, description, order,
-    "photos": photos[]-> { image, imageAlt, order }
+    "photos": photos[]-> { image, imageAlt, saleStatus, order }
   }
 }`;
 
@@ -195,6 +200,7 @@ export type CmsGalleryItem = {
   alt: string;
   image: CmsImage;
   fullImage: CmsImage;
+  saleStatus?: 'for-sale' | 'not-for-sale' | 'none';
   order: number;
 };
 
@@ -417,6 +423,7 @@ function mapGalleryItem(
 ): CmsGalleryItem {
   return {
     alt: item.imageAlt,
+    saleStatus: item.saleStatus,
     image: requireImage(
       config,
       'gallery item',

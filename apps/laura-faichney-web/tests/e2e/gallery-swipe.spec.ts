@@ -1,4 +1,5 @@
-import { expect, test, type CDPSession, type Page } from '@playwright/test';
+import type { CDPSession, Page } from '@playwright/test';
+import { expect, test } from '../fixtures/gallery-test';
 import { browsableCollections, galleryCollections } from './galleryCms';
 
 test.use({ viewport: { width: 390, height: 844 }, hasTouch: true });

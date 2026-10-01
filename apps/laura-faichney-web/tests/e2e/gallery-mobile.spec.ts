@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, routeGalleryFixture } from '../fixtures/gallery-test';
 import { browsableCollections, galleryCollections } from './galleryCms';
 
 test('the mobile picture viewer stays stable when browsing portrait and landscape uploads', async ({
@@ -82,30 +82,33 @@ test('phones download smaller transparent hero assets and appropriately sized th
       viewport: { width: 390, height: 844 },
       deviceScaleFactor,
     });
+    await routeGalleryFixture(context);
     const page = await context.newPage();
-    for (const path of ['/gallery', `/gallery/${collection.slug}`]) {
-      await page.goto(path);
-      const hero = page.locator('.page-hero-art img, .collection-intro-art');
-      await expect(hero).toBeVisible();
-      const artwork = await hero.evaluate(async (image: HTMLImageElement) => {
-        const source = new Image();
-        source.crossOrigin = 'anonymous';
-        source.src = image.currentSrc;
-        await source.decode();
-        const canvas = document.createElement('canvas');
-        canvas.width = canvas.height = 1;
-        const context = canvas.getContext('2d')!;
-        context.drawImage(source, 0, 0);
-        return {
-          width: source.naturalWidth,
-          alpha: context.getImageData(0, 0, 1, 1).data[3],
-          source: image.currentSrc,
-        };
-      });
-      expect(artwork.source).not.toMatch(/hero-cutout\.webp$/);
-      expect(artwork.width).toBeLessThanOrEqual(640);
-      expect(artwork.alpha).toBe(0);
-    }
+    await page.goto('/gallery');
+    const hero = page.locator('.page-hero-art img');
+    await expect(hero).toBeVisible();
+    const artwork = await hero.evaluate(async (image: HTMLImageElement) => {
+      const source = new Image();
+      source.crossOrigin = 'anonymous';
+      source.src = image.currentSrc;
+      await source.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 1;
+      const context = canvas.getContext('2d')!;
+      context.drawImage(source, 0, 0);
+      return {
+        width: source.naturalWidth,
+        alpha: context.getImageData(0, 0, 1, 1).data[3],
+        source: image.currentSrc,
+      };
+    });
+    expect(artwork.source).not.toMatch(/hero-cutout\.webp$/);
+    expect(artwork.width).toBeLessThanOrEqual(640);
+    expect(artwork.alpha).toBe(0);
+    await page.goto(`/gallery/${collection.slug}`);
+    await expect(
+      page.locator('main img[src*="gallery-detail-hero-cutout"]'),
+    ).toHaveCount(0);
     const thumbnail = page.locator('.collection-thumbnails img').last();
     await thumbnail.scrollIntoViewIfNeeded();
     await expect
@@ -123,6 +126,7 @@ test('phones download smaller transparent hero assets and appropriately sized th
         return source.naturalWidth;
       }),
     ).toBeLessThanOrEqual(320);
+    await context.unrouteAll({ behavior: 'ignoreErrors' });
     await context.close();
   }
 });

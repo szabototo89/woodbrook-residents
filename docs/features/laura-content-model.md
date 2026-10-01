@@ -10,7 +10,8 @@ When Laura edits her own site content in Sanity Studio, I want every editable wo
 
 - Studio lives at `apps/laura-studio` bound to Sanity project `uag6kepo` ("Laura Faichney All Things Art"), dataset `production`, fully separate from the Woodbrook studio and project.
 - Singletons with fixed document ids: `homePage`, `aboutPage`, `servicesPage`, `galleryPage`, `siteSettings`.
-- Collections: `service` (title, stable slug, description, image + alt, order), `galleryCollection` (title, stable slug, description, order, photo references) and `galleryItem` (image + alt, order).
+- Collections: `service` (title, stable slug, description, image + alt, order), `galleryCollection` (title, stable slug, description, order, photo references) and `galleryItem` (image + alt, optional sale availability, order).
+- Gallery items have an optional **Sale availability** choice: **None**, **For sale** or **Not for sale**. None and unset values hide the badge; for explicit sale statuses the website displays the [availability badge](./laura-artwork-availability.md) below each selected picture and on its thumbnail.
 - Shared `pageHero` object (eyebrow, two-line title, description, image + alt, optional button text) and shared `seo` object (title, description) across all four page singletons.
 - The Studio desk mirrors the website: Home, About, Services (Services page + All services), Gallery (Gallery page + All collections + All gallery items), Site settings.
 - Every field carries a plain-language title and a one-line "where this shows" description; fieldsets group the Home page into Top banner, Page sections, and Client quote.

@@ -27,6 +27,21 @@ export const galleryItem = defineType({
         rule.required().error('Describe the artwork so screen readers can announce it.'),
     }),
     defineField({
+      name: 'saleStatus',
+      title: 'Sale availability',
+      type: 'string',
+      description:
+        'Optional badge below this picture and on its gallery thumbnail. Choose For sale or Not for sale; choose None or leave unset to hide the badge.',
+      options: {
+        list: [
+          {title: 'None', value: 'none'},
+          {title: 'For sale', value: 'for-sale'},
+          {title: 'Not for sale', value: 'not-for-sale'},
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
       name: 'order',
       title: 'Display order',
       type: 'number',
