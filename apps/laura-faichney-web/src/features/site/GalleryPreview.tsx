@@ -2,6 +2,7 @@ import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
 import { GalleryImage } from './GalleryImage';
 import { galleryImages } from './siteContent';
+import { galleryPhotoPath } from './galleryContent';
 
 export function GalleryPreview() {
   return (
@@ -19,7 +20,7 @@ export function GalleryPreview() {
         <div className="gallery-grid">
           {galleryImages.map((image) => (
             <a
-              href="/gallery"
+              href={galleryPhotoPath(image)}
               key={image.id}
               aria-label={`View gallery: ${image.alt}`}
             >

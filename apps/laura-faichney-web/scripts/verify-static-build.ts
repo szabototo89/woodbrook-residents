@@ -1,6 +1,8 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { galleryImages } from '../src/features/site/siteContent';
+import { galleryPhotoPath } from '../src/features/site/galleryContent';
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -51,7 +53,14 @@ function outputPathForUrl(pathname: string) {
   return path.join(outputRoot, decodedPath, 'index.html');
 }
 
-const requiredPages = ['/', '/services', '/gallery', '/about', '/contact'];
+const requiredPages = [
+  '/',
+  '/services',
+  '/gallery',
+  '/about',
+  '/contact',
+  ...galleryImages.map(galleryPhotoPath),
+];
 
 const missingRequiredPages = [];
 for (const pathname of requiredPages) {

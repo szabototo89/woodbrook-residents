@@ -2,6 +2,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { PRODUCTION_SITE_URL, resolveSiteUrl } from '../src/app/siteMetadata';
+import { galleryImages } from '../src/features/site/siteContent';
+import { galleryPhotoPath } from '../src/features/site/galleryContent';
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -15,6 +17,7 @@ export const STATIC_ROUTES = [
   '/gallery',
   '/about',
   '/contact',
+  ...galleryImages.map(galleryPhotoPath),
 ];
 
 export function resolveSeoSiteUrlFromEnv(

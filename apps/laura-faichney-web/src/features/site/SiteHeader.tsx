@@ -47,7 +47,12 @@ export function SiteHeader(props: { active: string }) {
             <a
               key={href}
               href={href}
-              aria-current={props.active === href ? 'page' : undefined}
+              aria-current={
+                props.active === href ||
+                (href === '/gallery' && props.active.startsWith('/gallery/'))
+                  ? 'page'
+                  : undefined
+              }
             >
               {label}
             </a>

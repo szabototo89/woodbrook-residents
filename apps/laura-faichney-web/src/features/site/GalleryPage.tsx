@@ -2,6 +2,7 @@ import { galleryImages } from './siteContent';
 import { GalleryImage } from './GalleryImage';
 import { ContactSection } from './ContactSection';
 import { PageHero } from './PageHero';
+import { galleryPhotoPath } from './galleryContent';
 
 export function GalleryPage() {
   return (
@@ -18,9 +19,16 @@ export function GalleryPage() {
         <div className="container">
           <div className="gallery-grid gallery-page-grid">
             {galleryImages.map((image) => (
-              <figure key={image.id}>
-                <GalleryImage image={image} />
-              </figure>
+              <a
+                key={image.id}
+                href={galleryPhotoPath(image)}
+                aria-label={`View picture: ${image.alt}`}
+              >
+                <figure>
+                  <GalleryImage image={image} />
+                  <figcaption>{image.title}</figcaption>
+                </figure>
+              </a>
             ))}
           </div>
         </div>

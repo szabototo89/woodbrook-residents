@@ -2,6 +2,16 @@
 
 All current assets are for the design implementation. Laura will supply originals. The site has no CMS.
 
+## Gallery picture detail hero
+
+Saved file: `public/artwork/gallery-detail-hero-cutout.webp`.
+
+Generated using the built-in imagegen tool on 2026-09-30. Source output: `exec-72887a9f-3a4c-4fc0-8ead-52cb0e2076e8.png`. Encoded as WebP at its original 1374 × 1145 dimensions with transparency preserved. This peony-and-paintbrush still life is illustrative hero artwork, not a verified Laura commission. The five existing gallery photographs remain unchanged.
+
+Prompt:
+
+> Use case: stylized-concept. Asset type: transparent gallery photo detail page hero for an artist portfolio. Primary request: a standalone painterly still life of a small wooden easel holding a vivid pink peony painting, beside a ceramic cup of artist paintbrushes. Style: expressive handmade acrylic brushwork, refined botanical art, visible paint texture. Palette: coral pink, magenta, teal, deep navy, soft green, and small warm ochre-gold accents, suitable for a warm cream website. Composition: near-square landscape 6:5, one coherent cluster, full easel and brushes visible, a few loose ragged dry-brush strokes underneath; generous transparent margins. Constraints: genuinely transparent alpha background, crisp organic painterly edges, no room or rectangular backdrop, no text, lettering, signature, logo, watermark, people, UI, or website screenshot.
+
 ## Supplied artwork
 
 - `public/artwork/colour-portrait.png`: supplied file `ChatGPT-kép 2026. szept. 28. 16_00_39-1.png`.

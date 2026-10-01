@@ -41,10 +41,35 @@ export const services = [
   },
 ] as const;
 
-export const galleryImages = [
-  { id: 106, alt: 'Pink flowers against a blue sky' },
-  { id: 42, alt: 'Coffee cups on a wooden café table' },
-  { id: 1080, alt: 'Fresh strawberries in rich pink and red tones' },
-  { id: 24, alt: 'An open book on a wooden table' },
-  { id: 180, alt: 'A notebook, camera and laptop on a creative desk' },
-] as const;
+export type GalleryPhoto = {
+  id: number;
+  title: string;
+  alt: string;
+  description?: string;
+};
+
+export const galleryImages: readonly GalleryPhoto[] = [
+  {
+    id: 106,
+    title: 'Pink flowers',
+    alt: 'Pink flowers against a blue sky',
+    description: 'Pink blossoms stand out against a clear blue sky.',
+  },
+  {
+    id: 42,
+    title: 'Coffee & conversation',
+    alt: 'Coffee cups on a wooden café table',
+  },
+  {
+    id: 1080,
+    title: 'Summer reds',
+    alt: 'Fresh strawberries in rich pink and red tones',
+    description: 'Fresh strawberries bring together rich pink and red tones.',
+  },
+  { id: 24, title: 'An open book', alt: 'An open book on a wooden table' },
+  {
+    id: 180,
+    title: 'A creative desk',
+    alt: 'A notebook, camera and laptop on a creative desk',
+  },
+];
