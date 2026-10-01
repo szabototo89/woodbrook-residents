@@ -29,7 +29,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - Home, services, gallery, about and contact routes render at desktop, tablet and phone widths without horizontal scrolling.
 - Phone body copy is at least 16px, and visible phone links and buttons have tap areas at least 44px high.
 - The mobile service thumbnail, title and arrow remain together in one row.
-- The mobile gallery has two columns and the mobile navigation is operable with keyboard and touch.
+- The mobile gallery shows named collections in two columns; collection pages share one description and offer in-page picture navigation. The mobile navigation is operable with keyboard and touch.
 - The supplied artwork remains legible at the relevant crop and the hero's text does not overlap it.
 - No invented testimonial, social profile, client portrait or business detail appears.
 - The testimonial is visually distinct from the biography. The contact brush flows into the footer without covering contact details or causing horizontal scrolling, and footer navigation remains readable.

@@ -2,7 +2,7 @@
 
 All current assets are for the design implementation. Laura will supply originals. The site has no CMS.
 
-## Gallery picture detail hero
+## Gallery collection detail hero
 
 Saved file: `public/artwork/gallery-detail-hero-cutout.webp`.
 

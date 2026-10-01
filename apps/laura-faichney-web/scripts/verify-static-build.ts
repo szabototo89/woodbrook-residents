@@ -1,8 +1,8 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { galleryImages } from '../src/features/site/siteContent';
-import { galleryPhotoPath } from '../src/features/site/galleryContent';
+import { galleryCollections } from '../src/features/site/siteContent';
+import { galleryCollectionPath } from '../src/features/site/galleryContent';
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -59,7 +59,7 @@ const requiredPages = [
   '/gallery',
   '/about',
   '/contact',
-  ...galleryImages.map(galleryPhotoPath),
+  ...galleryCollections.map(galleryCollectionPath),
 ];
 
 const missingRequiredPages = [];

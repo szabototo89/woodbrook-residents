@@ -43,33 +43,52 @@ export const services = [
 
 export type GalleryPhoto = {
   id: number;
-  title: string;
   alt: string;
-  description?: string;
 };
 
-export const galleryImages: readonly GalleryPhoto[] = [
-  {
+const galleryPhotos = {
+  flowers: {
     id: 106,
-    title: 'Pink flowers',
     alt: 'Pink flowers against a blue sky',
-    description: 'Pink blossoms stand out against a clear blue sky.',
   },
-  {
+  coffee: {
     id: 42,
-    title: 'Coffee & conversation',
     alt: 'Coffee cups on a wooden café table',
   },
-  {
+  strawberries: {
     id: 1080,
-    title: 'Summer reds',
     alt: 'Fresh strawberries in rich pink and red tones',
-    description: 'Fresh strawberries bring together rich pink and red tones.',
   },
-  { id: 24, title: 'An open book', alt: 'An open book on a wooden table' },
-  {
+  book: { id: 24, alt: 'An open book on a wooden table' },
+  desk: {
     id: 180,
-    title: 'A creative desk',
     alt: 'A notebook, camera and laptop on a creative desk',
+  },
+} as const;
+
+export const galleryImages: readonly GalleryPhoto[] =
+  Object.values(galleryPhotos);
+
+export type GalleryCollection = {
+  slug: string;
+  title: string;
+  description: string;
+  images: readonly [GalleryPhoto, ...GalleryPhoto[]];
+};
+
+export const galleryCollections: readonly GalleryCollection[] = [
+  {
+    slug: 'colour-and-nature',
+    title: 'Colour & nature',
+    description:
+      'A study in natural colour, bringing together pink blossoms, blue skies and the rich reds of summer fruit.',
+    images: [galleryPhotos.flowers, galleryPhotos.strawberries],
+  },
+  {
+    slug: 'everyday-inspiration',
+    title: 'Everyday inspiration',
+    description:
+      'Quiet moments and creative corners, from a café table to an open book and a working desk.',
+    images: [galleryPhotos.coffee, galleryPhotos.book, galleryPhotos.desk],
   },
 ];

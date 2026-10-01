@@ -505,13 +505,10 @@ test('phone service thumbnails and titles share a row and gallery uses two colum
     expect(title.x).toBeGreaterThanOrEqual(thumbnail.x + thumbnail.width);
     expect(title.y).toBeLessThan(thumbnail.y + thumbnail.height);
   }
-  const gallery = page.getByRole('link', { name: /View gallery:/ });
+  const gallery = page.getByRole('link', { name: /View collection:/ });
   const first = await gallery.nth(0).boundingBox();
   const second = await gallery.nth(1).boundingBox();
-  const third = await gallery.nth(2).boundingBox();
-  if (!first || !second || !third)
-    throw new Error('Gallery previews are missing');
+  if (!first || !second) throw new Error('Gallery previews are missing');
   expect(first.y).toBe(second.y);
   expect(second.x).toBeGreaterThan(first.x);
-  expect(third.y).toBeGreaterThan(first.y);
 });

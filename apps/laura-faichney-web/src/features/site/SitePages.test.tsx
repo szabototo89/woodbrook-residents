@@ -131,12 +131,14 @@ test('about values and arrows use Lucide icons instead of unicode glyphs', () =>
   expect(`${home}${about}${services}${header}`).not.toContain('→');
 });
 
-test('gallery uses five distinct photos without displaying placeholder notices', () => {
+test('gallery uses distinct collection covers without displaying placeholder notices', () => {
   const html = renderToStaticMarkup(<GalleryPage />);
 
   expect(html).not.toContain('Temporary');
   expect(html).not.toContain('Picsum');
-  expect(html.match(/src="\/artwork\/picsum-\d+\.webp"/g)).toHaveLength(5);
+  expect(html.match(/src="\/artwork\/picsum-\d+\.webp"/g)).toHaveLength(2);
+  expect(html).toContain('Colour &amp; nature');
+  expect(html).toContain('Everyday inspiration');
   expect(html).not.toContain('colour-portrait.png');
   expect(html).not.toContain('pink-botanical.png');
 });
