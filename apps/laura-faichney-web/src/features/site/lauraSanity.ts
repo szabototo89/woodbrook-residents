@@ -115,10 +115,10 @@ const galleryItemSchema = z
     image: sanityImageSchema.describe('Artwork photo'),
     imageAlt: z.string().describe('Artwork alt text'),
     saleStatus: z
-      .enum(['for-sale', 'not-for-sale'])
+      .enum(['for-sale', 'not-for-sale', 'none'])
       .optional()
       .catch(undefined)
-      .describe('Published sale availability, absent when unconfirmed'),
+      .describe('Optional published sale availability; none hides the badge'),
     order: z.number().describe('Display order, lower first'),
   })
   .catchall(z.unknown());
@@ -200,7 +200,7 @@ export type CmsGalleryItem = {
   alt: string;
   image: CmsImage;
   fullImage: CmsImage;
-  saleStatus?: 'for-sale' | 'not-for-sale';
+  saleStatus?: 'for-sale' | 'not-for-sale' | 'none';
   order: number;
 };
 

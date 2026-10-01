@@ -31,9 +31,10 @@ export const galleryItem = defineType({
       title: 'Sale availability',
       type: 'string',
       description:
-        'Shown below this picture and on its gallery thumbnail. Choose For sale or Not for sale; leave unset to show Enquire for availability.',
+        'Optional badge below this picture and on its gallery thumbnail. Choose For sale or Not for sale; choose None or leave unset to hide the badge.',
       options: {
         list: [
+          {title: 'None', value: 'none'},
           {title: 'For sale', value: 'for-sale'},
           {title: 'Not for sale', value: 'not-for-sale'},
         ],

@@ -62,6 +62,7 @@ export function CollectionPictures(props: { images: CmsGalleryItem[] }) {
   };
 
   if (!selected) return null;
+  const selectedAvailability = artworkAvailabilityLabel(selected.saleStatus);
 
   return (
     <section className="collection-pictures" aria-label="Collection pictures">
@@ -82,9 +83,11 @@ export function CollectionPictures(props: { images: CmsGalleryItem[] }) {
           width="640"
           height="480"
         />
-        <figcaption role="status" aria-atomic="true">
-          <ArtworkAvailability status={selected.saleStatus} />
-        </figcaption>
+        {selectedAvailability && (
+          <figcaption role="status" aria-atomic="true">
+            <ArtworkAvailability status={selected.saleStatus} />
+          </figcaption>
+        )}
       </figure>
       {total > 1 && (
         <nav
@@ -117,7 +120,12 @@ export function CollectionPictures(props: { images: CmsGalleryItem[] }) {
             <button
               key={`${image.alt}-${index}`}
               type="button"
-              aria-label={`View picture: ${image.alt}. ${artworkAvailabilityLabel(image.saleStatus)}`}
+              aria-label={[
+                `View picture: ${image.alt}`,
+                artworkAvailabilityLabel(image.saleStatus),
+              ]
+                .filter(Boolean)
+                .join('. ')}
               aria-pressed={index === selectedIndex}
               onClick={(event) =>
                 changePicture(index, event.currentTarget.querySelector('img'))

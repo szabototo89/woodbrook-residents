@@ -71,9 +71,16 @@ for (const width of [320, 390, 1440]) {
                   {
                     image,
                     order: 2,
-                    imageAlt: 'Unconfirmed painting',
+                    imageAlt: 'Unlabelled painting',
                     saleStatus: null,
                   },
+                  {
+                    image,
+                    order: 3,
+                    imageAlt: 'Hidden availability painting',
+                    saleStatus: 'none',
+                  },
+                  { image, order: 4, imageAlt: 'Unset availability painting' },
                 ],
               },
             ],
@@ -139,9 +146,26 @@ for (const width of [320, 390, 1440]) {
     });
     await next.focus();
     await page.keyboard.press('Enter');
-    await expect(status).toHaveText('Enquire for availability');
-    await expect(next).toBeFocused();
-    await page.keyboard.press('Enter');
+    for (const alt of [
+      'Unlabelled painting',
+      'Hidden availability painting',
+      'Unset availability painting',
+    ]) {
+      await expect(status).toHaveCount(0);
+      await expect(
+        viewer
+          .getByRole('figure', { name: alt })
+          .locator('.artwork-availability'),
+      ).toHaveCount(0);
+      await expect(
+        viewer.getByRole('button', {
+          name: `View picture: ${alt}`,
+          exact: true,
+        }),
+      ).toBeVisible();
+      await expect(next).toBeFocused();
+      await page.keyboard.press('Enter');
+    }
     await expect(status).toHaveText('For sale');
     await page.evaluate(() =>
       Promise.all(

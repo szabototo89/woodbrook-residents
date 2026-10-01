@@ -19,7 +19,6 @@ function picture(
 test.each<[CmsGalleryItem['saleStatus'], string]>([
   ['for-sale', 'For sale'],
   ['not-for-sale', 'Not for sale'],
-  [undefined, 'Enquire for availability'],
 ])(
   'shows %s availability beside the picture and on its thumbnail',
   (value, label) => {
@@ -49,3 +48,19 @@ test('a single picture shows availability without a duplicate thumbnail chooser'
 test('does not show an availability indicator without a picture', () => {
   expect(renderToStaticMarkup(<CollectionPictures images={[]} />)).toBe('');
 });
+
+test.each(['none', undefined] as const)(
+  'hides availability for %s without leaving a caption or changing thumbnail names',
+  (value) => {
+    const html = renderToStaticMarkup(
+      <CollectionPictures
+        images={[picture(value), picture(value, 'Blue flowers')]}
+      />,
+    );
+    expect(html).not.toContain('artwork-availability');
+    expect(html).not.toContain('<figcaption');
+    expect(html).not.toContain('role="status"');
+    expect(html).toContain('aria-label="View picture: Pink flowers"');
+    expect(html).not.toContain('Enquire for availability');
+  },
+);
