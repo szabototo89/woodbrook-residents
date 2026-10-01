@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, routeGalleryFixture } from '../fixtures/gallery-test';
 
 test('the mobile picture viewer stays stable when browsing portrait and landscape uploads', async ({
   page,
@@ -77,6 +77,7 @@ test('phones download smaller transparent hero assets and appropriately sized th
       viewport: { width: 390, height: 844 },
       deviceScaleFactor,
     });
+    await routeGalleryFixture(context);
     const page = await context.newPage();
     for (const path of ['/gallery', '/gallery/everyday-inspiration']) {
       await page.goto(path);

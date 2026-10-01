@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/gallery-test';
 
 const SANITY_QUERY_URL =
   'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, routeGalleryFixture } from '../fixtures/gallery-test';
 
 const SANITY_QUERY_URL =
   'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';
@@ -261,6 +261,7 @@ for (const fallback of ['unsupported', 'reduced'] as const) {
       .getByRole('link', { name: `View collection: ${first.title}` })
       .click();
     await expect(page).toHaveURL(`/gallery/${first.slug}`);
+    await page.waitForLoadState('networkidle');
     await page
       .getByRole('button', {
         name: `View picture: ${secondPhotoAlt}`,
@@ -297,6 +298,7 @@ test('touch selects collections and pictures while the mobile nav indicator stay
     hasTouch: true,
     isMobile: true,
   });
+  await routeGalleryFixture(context);
   const page = await context.newPage();
   await page.goto('/');
   await page.waitForLoadState('networkidle');
@@ -331,6 +333,7 @@ test('without JavaScript, services, artwork and collection links remain readable
 }) => {
   const { first } = await motionGallery();
   const context = await browser.newContext({ javaScriptEnabled: false });
+  await routeGalleryFixture(context);
   const page = await context.newPage();
   await page.goto('/');
   expect(
