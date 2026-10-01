@@ -162,3 +162,11 @@ Saved to `public/decoration/colour-brush.png`.
 Prompt:
 
 > Use case: illustration-story. Asset type: transparent artist website section-edge background overlay. Use the supplied reference website's lower-left contact background brush marks as the style reference. Create a standalone narrow loose cluster of expressive acrylic dry-brush strokes travelling diagonally top-left to bottom-right. Dominant vivid coral pink and magenta, with a few ultramarine blue and teal strokes and fine warm gold bristle streaks. Keep a generous amount of transparent space and delicate ragged feathering; paint concentrated on the left edge, thin strokes fading outward to the right. Preserve a refined handmade texture, not a cartoon paint splat. Portrait 2:3 composition. Genuine transparent alpha background, no white/cream/paper rectangle, no lettering, no logo, no people, no objects, no UI. It is decorative artwork for the outer corner of a contact section, not a complete website image.
+
+### contact-brush-up-left
+
+Generated with the built-in ImageGen tool on 2026-09-30. Saved to `public/decoration/contact-brush-up-left.webp`, converted from the transparent PNG.
+
+Prompt:
+
+> Use case: stylized-concept. Standalone TRANSPARENT acrylic dry-brush texture for an artist website. Several narrow blush-pink, coral and warm ochre-gold streaks sweep diagonally from lower right to upper left. Dense paint at the LOWER RIGHT, slender broken bristle tips at the UPPER LEFT. Restrained handcrafted paint texture with crisp individual bristle lines and irregular ragged edges. No luminous effects: absolutely NO glow, halo, haze, fog, blur, gradients, shadow or diffuse colored cloud. Paint streaks ONLY, actual transparent empty spaces between bristles. All painted marks fully visible and wholly inside the frame, with at least 12 percent completely transparent clear padding along every side. Nothing touches any canvas edge. Portrait 2:3 composition. No backdrop, paper, text, logo or objects. Preserve real transparent alpha, isolated pigment only.

@@ -1,5 +1,69 @@
 import { expect, test } from '@playwright/test';
 
+test('service titles and descriptions show at most two lines', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 640]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/services');
+    for (const copy of await page
+      .locator('.service-list-copy strong, .service-list-copy > span')
+      .all()) {
+      const layout = await copy.evaluate((element) => {
+        const style = getComputedStyle(element);
+        return {
+          height: element.getBoundingClientRect().height,
+          lineHeight: parseFloat(style.lineHeight),
+          clamp: style.webkitLineClamp,
+          overflow: style.overflow,
+        };
+      });
+      expect(layout.height).toBeLessThanOrEqual(layout.lineHeight * 2 + 1);
+      expect(layout.clamp).toBe('2');
+      expect(layout.overflow).toBe('hidden');
+    }
+    await expect(page.locator('.service-list-copy').first()).toContainText(
+      'Unique, hand-painted artwork made for your space or a special gift.',
+    );
+  }
+});
+
+test('right contact brush retains every painted edge without a mask', async ({
+  page,
+}) => {
+  await page.goto('/services');
+  const artwork = await page
+    .locator('.contact-section')
+    .evaluate(async (section) => {
+      const style = getComputedStyle(section, '::after');
+      const source = style.backgroundImage.match(/url\(["']?(.*?)["']?\)/)?.[1];
+      if (!source) throw new Error('Right brush artwork is missing');
+      const image = new Image();
+      image.src = source;
+      await image.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const context = canvas.getContext('2d');
+      if (!context) throw new Error('Canvas is unavailable');
+      context.drawImage(image, 0, 0);
+      const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
+      const alpha = (x: number, y: number) =>
+        data[(y * canvas.width + x) * 4 + 3];
+      let clearEdges = true;
+      for (let x = 0; x < canvas.width; x++) {
+        clearEdges &&= alpha(x, 0) <= 1 && alpha(x, canvas.height - 1) <= 1;
+      }
+      for (let y = 0; y < canvas.height; y++) {
+        clearEdges &&= alpha(0, y) <= 1 && alpha(canvas.width - 1, y) <= 1;
+      }
+      return { clearEdges, mask: style.maskImage, transform: style.transform };
+    });
+  expect(artwork.clearEdges).toBe(true);
+  expect(artwork.mask).toBe('none');
+  expect(artwork.transform).toBe('none');
+});
+
 test('mobile services leave room around artwork and between offerings', async ({
   page,
 }) => {
