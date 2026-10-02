@@ -96,8 +96,9 @@ Pushes to `main` that touch `apps/laura-faichney-web/**` are also deployed by th
 ## Contact enquiries
 
 The contact page posts directly from the browser to the matching Google Form.
-Google’s recording confirmation opens in a new tab; the contact page keeps the
-visitor’s details and offers direct email. There is no enquiry API, Cloudflare
+The submission runs in the background, keeps the visitor on the contact page,
+and displays an inline status. Network errors preserve the details and allow a
+retry; the opaque response cannot confirm whether Google stored the entry. There is no enquiry API, Cloudflare
 function or deployed Google credential. The submission URL and verified Google
 question field IDs live in `src/features/site/googleFormSubmission.ts`.
 See `docs/features/laura-google-form-enquiries.md` for verification and scope.
