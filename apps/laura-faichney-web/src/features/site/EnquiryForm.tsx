@@ -1,6 +1,10 @@
 import { useState, type FormEvent } from 'react';
+import { flushSync } from 'react-dom';
 import { Arrow } from './Arrow';
-import { enquiryMailto } from './enquiryMailto';
+import {
+  googleFormFields,
+  googleFormSubmissionUrl,
+} from './googleFormSubmission';
 import type { CmsService, CmsSettings } from './lauraSanity';
 
 export function EnquiryForm(props: {
@@ -8,44 +12,57 @@ export function EnquiryForm(props: {
   services: CmsService[];
   selectedService?: string;
 }) {
-  const [draft, setDraft] = useState('');
   const initialService =
     props.services.some((service) => service.slug === props.selectedService) ||
     props.selectedService === 'other'
       ? props.selectedService
       : '';
 
-  function submitEnquiry(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
+  const [submitted, setSubmitted] = useState(false);
+  const [enquiry, setEnquiry] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+    service:
+      props.services.find((service) => service.slug === initialService)
+        ?.title ?? 'Other / not sure yet',
+  });
+
+  function readEnquiry(form: HTMLFormElement) {
     const fields = new FormData(form);
     const value = (name: string) => String(fields.get(name) ?? '').trim();
-    function validateRequiredText(name: string) {
+    return {
+      name: value('name'),
+      email: value('email'),
+      phone: value('phone'),
+      message: value('message'),
+      service:
+        props.services.find((service) => service.slug === value('service'))
+          ?.title ?? 'Other / not sure yet',
+    };
+  }
+
+  function submitEnquiry(event: FormEvent<HTMLFormElement>) {
+    const form = event.currentTarget;
+    const fields = readEnquiry(form);
+    function validateRequiredText(name: string, value: string) {
       const field = form.elements.namedItem(name);
       if (
         field instanceof HTMLInputElement ||
         field instanceof HTMLTextAreaElement
       ) {
-        field.setCustomValidity(
-          value(name) ? '' : 'Please fill in this field.',
-        );
+        field.setCustomValidity(value ? '' : 'Please fill in this field.');
       }
     }
-    validateRequiredText('name');
-    validateRequiredText('message');
-    if (!form.reportValidity()) return;
-    const service = props.services.find(
-      (item) => item.slug === value('service'),
-    );
-    const url = enquiryMailto(props.settings, {
-      name: value('name'),
-      email: value('email'),
-      phone: value('phone'),
-      service: service?.title ?? 'Other / not sure yet',
-      message: value('message'),
-    });
-    setDraft(url);
-    window.location.assign(url);
+    validateRequiredText('name', fields.name);
+    validateRequiredText('message', fields.message);
+    if (submitted || !form.reportValidity()) {
+      event.preventDefault();
+      return;
+    }
+    flushSync(() => setEnquiry(fields));
+    setSubmitted(true);
   }
 
   return (
@@ -53,8 +70,15 @@ export function EnquiryForm(props: {
       className="enquiry-form contact-panel"
       id="enquiry"
       aria-labelledby="enquiry-heading"
+      action={googleFormSubmissionUrl}
+      method="post"
+      target="_blank"
+      rel="noopener noreferrer"
       onSubmit={submitEnquiry}
-      onChange={() => setDraft('')}
+      onChange={(event) => {
+        setSubmitted(false);
+        setEnquiry(readEnquiry(event.currentTarget));
+      }}
     >
       <h2 id="enquiry-heading">Send a Message</h2>
       <p>Tell me about your idea and let’s create something special.</p>
@@ -127,25 +151,30 @@ export function EnquiryForm(props: {
           />
         </label>
       </div>
-      <button className="button button-primary" type="submit">
-        Send Enquiry <Arrow />
+      <button
+        className="button button-primary"
+        type="submit"
+        disabled={submitted}
+      >
+        {submitted ? 'Enquiry submitted' : 'Send Enquiry'} <Arrow />
       </button>
       <p className="enquiry-help" id="enquiry-help">
-        Opens a draft in your email app for you to send. Required fields are
-        marked *. You can also{' '}
+        <span>Opens Google’s confirmation in a new tab.</span> Required fields
+        are marked *. You can also{' '}
         <a href={`mailto:${props.settings.email}`}>email me directly</a>.
       </p>
       <div className="enquiry-status" role="status">
-        {draft && (
-          <>
-            <p>
-              Your email draft is ready. Send it in your email app to complete
-              your enquiry.
-            </p>
-            <a href={draft}>Open email draft</a>
-          </>
+        {submitted && (
+          <p>
+            Check the Google confirmation tab to see whether your enquiry was
+            recorded. Your details are still here; you can also email me
+            directly.
+          </p>
         )}
       </div>
+      {Object.entries(googleFormFields(enquiry)).map(([name, value]) => (
+        <input key={name} type="hidden" name={name} value={value} />
+      ))}
     </form>
   );
 }
