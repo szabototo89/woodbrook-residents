@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import {
   appsWithTask,
   buildAppCommand,
+  formatTargetList,
   getAppScripts,
   listApps,
   parseAppArgs,
@@ -104,4 +105,12 @@ test('excludes apps from fan-out targets', () => {
 
   expect(apps).toContain('web');
   expect(apps).not.toContain('juliet-rose-app');
+});
+
+test('formats the project list for a fan-out run', () => {
+  const line = formatTargetList('test:unit', ['dashboard', 'web']);
+
+  expect(line).toContain('test:unit');
+  expect(line).toContain('dashboard');
+  expect(line).toContain('web');
 });

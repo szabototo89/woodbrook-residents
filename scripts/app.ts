@@ -99,7 +99,7 @@ export function parseAppArgs(argv: string[]): ParsedAppArgs {
   }
   if (state.task === undefined) {
     throw new Error(
-      'Usage: app.ts <task> [app] [...args] [--if-present] [--env-file <file>] [--exclude <app>]',
+      'Usage: app.ts <task> [app] [...args] [--if-present] [--env-file <file>] [--exclude <app>]. Omit [app] to list and run every project that implements <task>.',
     );
   }
   return {
@@ -110,6 +110,23 @@ export function parseAppArgs(argv: string[]): ParsedAppArgs {
     envFile: state.envFile,
     exclude: state.exclude,
   };
+}
+
+export function parseAppArgsWithProjects(
+  argv: string[],
+  apps: string[],
+): ParsedAppArgs {
+  try {
+    return parseAppArgs(argv);
+  } catch (error) {
+    if (error instanceof Error && error.message.startsWith('Usage:')) {
+      throw new Error(
+        `${error.message}\nAvailable projects: ${apps.join(', ')}`,
+        { cause: error },
+      );
+    }
+    throw error;
+  }
 }
 
 export function buildAppCommand(
@@ -141,6 +158,10 @@ export function appsWithTask(
     const scripts = getAppScripts(repoRoot, app);
     return scripts !== null && task in scripts;
   });
+}
+
+export function formatTargetList(task: string, targets: string[]): string {
+  return `Available projects for "${task}" (${targets.length}): ${targets.join(', ')}`;
 }
 
 async function runCommand(command: string[], cwd: string): Promise<number> {
@@ -176,10 +197,10 @@ async function runTargets(
 
 async function main(): Promise<void> {
   const repoRoot = resolve(import.meta.dir, '..');
-  const parsed = parseAppArgs(Bun.argv.slice(2));
+  const apps = listApps(repoRoot);
+  const parsed = parseAppArgsWithProjects(Bun.argv.slice(2), apps);
 
   if (parsed.app) {
-    const apps = listApps(repoRoot);
     if (!apps.includes(parsed.app)) {
       throw new Error(
         `Unknown app "${parsed.app}". Available: ${apps.join(', ')}`,
@@ -207,8 +228,11 @@ async function main(): Promise<void> {
 
   const targets = appsWithTask(repoRoot, parsed.task, parsed.exclude);
   if (targets.length === 0) {
-    throw new Error(`No app implements "${parsed.task}".`);
+    throw new Error(
+      `No app implements "${parsed.task}". Available: ${apps.join(', ')}`,
+    );
   }
+  console.log(formatTargetList(parsed.task, targets));
   return runTargets(
     repoRoot,
     parsed.task,
