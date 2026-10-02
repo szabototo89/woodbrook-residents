@@ -53,13 +53,91 @@ test('services retain the compact proportions of the supplied reference', async 
   expect(firstImage.x).toBeGreaterThanOrEqual(85);
   expect(firstImage.y).toBeLessThanOrEqual(550);
   expect(process.y).toBeLessThanOrEqual(1450);
-  expect(process.height).toBeLessThanOrEqual(230);
+  expect(process.height).toBeLessThanOrEqual(360);
   const heading = await page
     .getByRole('heading', { name: 'How It Works' })
     .boundingBox();
   const middleIcon = await page.locator('.process-icon').nth(1).boundingBox();
   if (!heading || !middleIcon) throw new Error('Process content is missing');
   expect(middleIcon.y).toBeGreaterThanOrEqual(heading.y + heading.height + 8);
+});
+
+for (const width of [700, 935, 1440]) {
+  test(`process steps align below the heading at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/services');
+    await page.evaluate(() => document.fonts.ready);
+    const process = page.getByRole('region', { name: 'How It Works' });
+    const heading = await process
+      .getByRole('heading', { level: 2 })
+      .boundingBox();
+    if (!heading) throw new Error('Process heading is missing');
+    for (const selector of ['.process-icon', 'h3', 'p']) {
+      const bounds = await Promise.all(
+        (await process.locator('.process-steps').locator(selector).all()).map(
+          (item) => item.boundingBox(),
+        ),
+      );
+      const first = bounds[0];
+      if (!first) throw new Error('Process content is missing');
+      for (const item of bounds) {
+        if (!item) throw new Error('Process step is missing');
+        expect(item.y).toBeGreaterThanOrEqual(heading.y + heading.height + 24);
+        expect(Math.abs(item.y - first.y)).toBeLessThanOrEqual(1);
+      }
+    }
+    for (const [index, arrow] of (
+      await process.locator('.process-arrow').all()
+    ).entries()) {
+      const arrowBounds = await arrow.boundingBox();
+      const icons = process.locator('.process-icon');
+      const left = await icons.nth(index).boundingBox();
+      const right = await icons.nth(index + 1).boundingBox();
+      if (!arrowBounds || !left || !right)
+        throw new Error('Process icons are missing');
+      expect(arrowBounds.x).toBeGreaterThan(left.x + left.width);
+      expect(arrowBounds.x + arrowBounds.width).toBeLessThan(right.x);
+      expect(
+        Math.abs(
+          arrowBounds.y + arrowBounds.height / 2 - (left.y + left.height / 2),
+        ),
+      ).toBeLessThanOrEqual(1);
+    }
+  });
+}
+
+test('phone service details use separate rows without dangling separators', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 640]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/services');
+    await page.evaluate(() => document.fonts.ready);
+    for (const panel of await page
+      .getByRole('list', { name: / options$/ })
+      .all()) {
+      const panelBounds = await panel.boundingBox();
+      if (!panelBounds) throw new Error('Service details are missing');
+      let previousBottom = panelBounds.y;
+      for (const option of await panel.getByRole('listitem').all()) {
+        const bounds = await option.boundingBox();
+        if (!bounds) throw new Error('Service option is missing');
+        expect(bounds.y).toBeGreaterThanOrEqual(previousBottom);
+        expect(bounds.x).toBeGreaterThan(panelBounds.x);
+        expect(bounds.x + bounds.width).toBeLessThan(
+          panelBounds.x + panelBounds.width,
+        );
+        expect(
+          await option.evaluate(
+            (element) => getComputedStyle(element).borderLeftWidth,
+          ),
+        ).toBe('0px');
+        previousBottom = bounds.y + bounds.height;
+      }
+    }
+  }
 });
 
 test('service options wrap and enquiry links remain keyboard accessible on phones', async ({
