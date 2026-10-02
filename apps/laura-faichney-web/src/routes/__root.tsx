@@ -22,7 +22,7 @@ function RootDocument() {
     <html lang="en-IE">
       <head>
         <HeadContent />
-        <style>{styles}</style>
+        <style id="site-styles">{styles}</style>
         <link
           rel="preload"
           href={cormorantUrl}

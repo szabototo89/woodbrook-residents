@@ -79,3 +79,23 @@ test('initial page styling is available without a separate stylesheet request', 
   );
   await context.close();
 });
+
+test('inline stylesheet is not downloaded again inside client JavaScript', async ({
+  page,
+}) => {
+  const scripts: Promise<string>[] = [];
+  page.on('response', (response) => {
+    if (response.ok() && response.request().resourceType() === 'script')
+      scripts.push(response.text());
+  });
+  await page.goto('/');
+  await page.getByRole('link', { name: 'About', exact: true }).first().click();
+  await expect(page.locator('.page-hero')).toBeVisible();
+  await expect(page.locator('body')).toHaveCSS(
+    'background-color',
+    'rgb(251, 247, 241)',
+  );
+  expect((await Promise.all(scripts)).join('\n').includes('.hero-art{')).toBe(
+    false,
+  );
+});
