@@ -7,8 +7,9 @@ import {
 } from '@tanstack/react-router';
 import cormorantUrl from '@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-wght-normal.woff2?url';
 import dmSansUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
-import styles from '../styles.css?url';
-import { SiteFooter, SiteHeader } from '../features/site/SitePages';
+import styles from 'virtual:laura-styles';
+import { SiteFooter } from '../features/site/SiteFooter';
+import { SiteHeader } from '../features/site/SiteHeader';
 import { useGalleryTransitions } from '../features/site/useGalleryTransitions';
 
 function RootDocument() {
@@ -21,7 +22,7 @@ function RootDocument() {
     <html lang="en-IE">
       <head>
         <HeadContent />
-        <link rel="stylesheet" href={styles} />
+        <style>{styles}</style>
         <link
           rel="preload"
           href={cormorantUrl}
@@ -53,6 +54,10 @@ function RootDocument() {
 
 export const Route = createRootRoute({
   head: () => ({
+    links: [
+      { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+      { rel: 'preconnect', href: 'https://cdn.sanity.io' },
+    ],
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

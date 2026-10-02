@@ -1,6 +1,6 @@
 export function galleryHeroSrcSet(image: string) {
   if (!/^\/artwork\/gallery(?:-detail)?-hero-cutout\.webp$/.test(image)) {
-    return sanityImageSrcSet(image, [320, 640, 960]);
+    return sanityImageSrcSet(image, [320, 400, 480, 640, 768, 960]);
   }
   return [320, 640, 960, 1374]
     .map(
@@ -12,7 +12,8 @@ export function galleryHeroSrcSet(image: string) {
 
 export function galleryPhotoSrcSet(image: string) {
   const local = /^\/artwork\/picsum-(106|1080|180|24|42)\.webp$/.exec(image);
-  if (!local) return sanityImageSrcSet(image, [160, 320, 640, 960]);
+  if (!local)
+    return sanityImageSrcSet(image, [160, 240, 320, 480, 640, 768, 960]);
   const id = local[1];
   return [160, 320, 640]
     .map(
@@ -22,7 +23,7 @@ export function galleryPhotoSrcSet(image: string) {
     .join(', ');
 }
 
-function sanityImageSrcSet(image: string, candidates: number[]) {
+export function sanityImageSrcSet(image: string, candidates: number[]) {
   const source = parseImageUrl(image);
   if (
     !source ||
@@ -37,6 +38,8 @@ function sanityImageSrcSet(image: string, candidates: number[]) {
     .map((width) => {
       const variant = new URL(source);
       variant.searchParams.set('w', String(width));
+      variant.searchParams.set('q', '65');
+      variant.searchParams.set('fm', 'webp');
       if (originalHeight > 0)
         variant.searchParams.set(
           'h',
@@ -49,7 +52,7 @@ function sanityImageSrcSet(image: string, candidates: number[]) {
     .join(', ');
 }
 
-function parseImageUrl(image: string) {
+export function parseImageUrl(image: string) {
   try {
     return new URL(image);
   } catch {

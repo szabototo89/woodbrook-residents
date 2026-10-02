@@ -1,7 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test as base, type BrowserContext } from '@playwright/test';
-import { isGalleryQuery, withGalleryFixture } from './gallery-data.mjs';
 
 export { expect } from '@playwright/test';
 
@@ -21,19 +20,6 @@ export async function routeGalleryFixture(context: BrowserContext) {
     await route.fulfill({
       response,
       headers: { ...response.headers(), 'access-control-allow-origin': '*' },
-    });
-  });
-  await context.route('https://uag6kepo.api.sanity.io/**', async (route) => {
-    if (!isGalleryQuery(route.request().url())) return route.continue();
-    const headers = Object.fromEntries(
-      Object.entries(route.request().headers()).filter(
-        ([name]) => name !== 'origin',
-      ),
-    );
-    const response = await route.fetch({ headers });
-    await route.fulfill({
-      response,
-      json: withGalleryFixture(await response.json()),
     });
   });
   await context.route(

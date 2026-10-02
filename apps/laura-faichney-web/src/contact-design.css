@@ -111,8 +111,8 @@ body:has(.contact-reference-page) .site-footer .container {
   z-index: -1;
   inset: 0;
   border-radius: inherit;
-  background: url('/decoration/contact-brush-up-left.webp') right bottom / 190px
-    auto no-repeat;
+  background: url('/decoration/contact-brush-up-left-360.webp') right bottom /
+    190px auto no-repeat;
   opacity: 0.32;
   pointer-events: none;
 }
@@ -260,7 +260,7 @@ body:has(.contact-reference-page) .site-footer .container {
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: url('/decoration/blush-gold-brush.png') left bottom / 220px auto
+  background: url('/decoration/blush-gold-brush.webp') left bottom / 220px auto
     no-repeat;
   opacity: 0.5;
   pointer-events: none;

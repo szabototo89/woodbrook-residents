@@ -586,7 +586,7 @@ h2 {
   background-size: contain;
 }
 .page-hero::before {
-  background-image: url('/decoration/blush-gold-brush.png');
+  background-image: url('/decoration/blush-gold-brush.webp');
   width: min(620px, 100vw);
   height: 430px;
   left: -210px;
@@ -594,7 +594,7 @@ h2 {
   opacity: 0.42;
 }
 .page-hero::after {
-  background-image: url('/decoration/colour-brush.png');
+  background-image: url('/decoration/colour-brush.webp');
   width: 180px;
   height: 300px;
   right: 0;
@@ -970,6 +970,9 @@ h2 {
   background: var(--pink-soft);
   border-top: 1px solid #e7b9bf;
 }
+.testimonial .eyebrow {
+  color: var(--pink-hover);
+}
 .testimonial-inner {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -1008,7 +1011,7 @@ h2 {
   background-size: contain;
 }
 .home-hero::before {
-  background-image: url('/decoration/blush-gold-brush.png');
+  background-image: url('/decoration/blush-gold-brush.webp');
   width: min(620px, 100vw);
   height: 430px;
   left: -210px;
@@ -1016,7 +1019,7 @@ h2 {
   opacity: 0.5;
 }
 .services-hero::before {
-  background-image: url('/decoration/blush-gold-brush.png');
+  background-image: url('/decoration/blush-gold-brush.webp');
   width: min(620px, 100vw);
   height: 430px;
   left: -210px;
@@ -1040,7 +1043,7 @@ h2 {
 }
 .about-preview::before,
 .about-hero::before {
-  background-image: url('/decoration/blush-gold-brush.png');
+  background-image: url('/decoration/blush-gold-brush.webp');
   width: 360px;
   height: 300px;
   left: -135px;
@@ -1048,7 +1051,7 @@ h2 {
   opacity: 0.82;
 }
 .about-preview::after {
-  background-image: url('/decoration/blush-gold-brush.png');
+  background-image: url('/decoration/blush-gold-brush.webp');
   width: 320px;
   height: 270px;
   right: -120px;
@@ -1057,7 +1060,7 @@ h2 {
   opacity: 0.7;
 }
 .contact-section::before {
-  background-image: url('/decoration/colour-brush.png');
+  background-image: url('/decoration/colour-brush.webp');
   width: 170px;
   height: calc(100% + 124px);
   left: -55px;
@@ -1066,7 +1069,7 @@ h2 {
   background-position: left top;
 }
 .contact-section::after {
-  background-image: url('/decoration/contact-brush-up-left.webp');
+  background-image: url('/decoration/contact-brush-up-left-360.webp');
   width: 180px;
   height: 270px;
   right: 12px;
@@ -1142,6 +1145,9 @@ h2 {
 @media (max-width: 640px) {
   .testimonial {
     padding-block: 40px;
+  }
+  .testimonial .eyebrow {
+    color: var(--pink-hover);
   }
   .testimonial-inner {
     grid-template-columns: 1fr;
@@ -1690,6 +1696,10 @@ h2 {
 }
 .collection-selected-picture {
   scroll-margin-block: 24px;
+}
+
+.collection-selected-picture:focus {
+  outline: none;
 }
 @keyframes editorial-reveal {
   from {

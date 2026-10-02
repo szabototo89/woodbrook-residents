@@ -5,10 +5,13 @@ export function BrandLogo(props: { footer?: boolean }) {
       href="/"
     >
       <img
-        src="/brand/laura-faichney-signature.png"
+        src="/brand/laura-faichney-signature.webp"
+        srcSet="/brand/laura-faichney-signature-220.webp 220w, /brand/laura-faichney-signature-320.webp 320w, /brand/laura-faichney-signature-440.webp 440w, /brand/laura-faichney-signature.webp 660w"
+        sizes="(max-width: 640px) 180px, (max-width: 900px) 175px, 220px"
+        decoding="async"
         alt="Laura Faichney — All Things Art"
-        width="2172"
-        height="724"
+        width="660"
+        height="220"
       />
     </a>
   );

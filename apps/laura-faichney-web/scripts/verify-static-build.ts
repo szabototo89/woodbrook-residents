@@ -1,10 +1,8 @@
+import { readLauraSnapshot } from './lauraSnapshot';
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {
-  LauraSanitySource,
-  galleryCollectionPath,
-} from '../src/features/site/lauraSanity';
+import { galleryCollectionPath } from '../src/features/site/lauraSanity';
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -55,7 +53,7 @@ function outputPathForUrl(pathname: string) {
   return path.join(outputRoot, decodedPath, 'index.html');
 }
 
-const gallery = await new LauraSanitySource().loadGallery();
+const gallery = (await readLauraSnapshot()).gallery;
 const requiredPages = [
   '/',
   '/services',
@@ -82,6 +80,22 @@ if (missingRequiredPages.length > 0) {
 }
 
 const files = await collectFiles(outputRoot);
+const clientScripts = files.filter((file) => file.endsWith('.js'));
+const scriptChecks = await Promise.all(
+  clientScripts.map(async (file) => ({
+    file,
+    code: await readFile(file, 'utf8'),
+  })),
+);
+const sanityApiScript = scriptChecks.find(({ code }) =>
+  /\.(?:api|apicdn)\.sanity\.io/.test(code),
+);
+if (sanityApiScript) {
+  throw new Error(
+    `Static client contains Sanity API code: ${path.relative(outputRoot, sanityApiScript.file)}`,
+  );
+}
+
 const htmlFiles = files.filter((file) => file.endsWith('.html'));
 
 async function missingLinksIn(htmlFile: string): Promise<string[]> {

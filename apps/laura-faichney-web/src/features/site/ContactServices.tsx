@@ -37,7 +37,9 @@ export function ContactServices(props: { services: CmsService[] }) {
           <GoldStroke />
           <img
             className="contact-motto"
-            src="/decoration/art-brings-people-together.png"
+            src="/decoration/art-brings-people-together.webp"
+            srcSet="/decoration/art-brings-people-together-240.webp 240w, /decoration/art-brings-people-together-400.webp 400w, /decoration/art-brings-people-together.webp 600w"
+            sizes="(max-width: 640px) 160px, 240px"
             alt="Art brings people together"
             width="1448"
             height="1086"
@@ -57,7 +59,10 @@ export function ContactServices(props: { services: CmsService[] }) {
                 href={`/contact?service=${encodeURIComponent(first.slug)}#enquiry`}
                 key={group.title}
               >
-                <ServiceImage image={first.image} />
+                <ServiceImage
+                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) 30vw, 400px"
+                  image={first.image}
+                />
                 <div className="contact-service-copy">
                   <span className="contact-icon">
                     <group.icon

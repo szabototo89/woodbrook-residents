@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { GoldStroke } from './GoldStroke';
+import { heroImageSrcSet } from './heroImageSources';
 import { Eyebrow } from './Eyebrow';
 
 type PageHeroProps = {
@@ -27,16 +28,31 @@ export function PageHero(props: PageHeroProps) {
           {props.action}
         </div>
         <div className="page-hero-art">
-          <img
-            src={props.image}
-            srcSet={props.imageSrcSet}
-            sizes={props.imageSizes}
-            alt={props.imageAlt}
-            width="1374"
-            height="1145"
-            fetchPriority={props.imagePriority ?? 'high'}
-            crossOrigin="anonymous"
-          />
+          <picture>
+            {heroImageSrcSet(props.image, 'avif') && (
+              <source
+                type="image/avif"
+                srcSet={heroImageSrcSet(props.image, 'avif')}
+                sizes={
+                  props.imageSizes ??
+                  '(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) 58vw, 742px'
+                }
+              />
+            )}
+            <img
+              src={props.image}
+              srcSet={props.imageSrcSet ?? heroImageSrcSet(props.image)}
+              sizes={
+                props.imageSizes ??
+                '(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) 58vw, 742px'
+              }
+              alt={props.imageAlt}
+              width="1374"
+              height="1145"
+              fetchPriority={props.imagePriority ?? 'high'}
+              decoding="async"
+            />
+          </picture>
         </div>
       </div>
     </section>

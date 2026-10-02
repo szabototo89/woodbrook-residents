@@ -1,7 +1,5 @@
+import { readLauraSnapshot } from '../../scripts/lauraSnapshot';
 import { expect, test } from '../fixtures/gallery-test';
-
-const SANITY_QUERY_URL =
-  'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';
 
 type CmsSnapshot = {
   muralCtaLabel: string;
@@ -11,92 +9,15 @@ type CmsSnapshot = {
   firstServiceDescription: string;
 };
 
-let cmsSnapshot: CmsSnapshot | undefined;
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function requiredRecord(
-  value: unknown,
-  label: string,
-): Record<string, unknown> {
-  if (!isRecord(value)) {
-    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
-  }
-  return value;
-}
-
-function requiredString(
-  record: Record<string, unknown>,
-  key: string,
-  label: string,
-): string {
-  const value = record[key];
-  if (typeof value !== 'string' || !value) {
-    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
-  }
-  return value;
-}
-
 async function cmsCopy(): Promise<CmsSnapshot> {
-  if (!cmsSnapshot) {
-    const query = `{
-      "home": *[_id == "homePage"][0]{muralCtaLabel, muralImageAlt},
-      "about": *[_id == "aboutPage"][0]{hero{ctaLabel}},
-      "services": *[_type == "service"] | order(order asc)[0]{title, description}
-    }`;
-    const response = await fetch(
-      `${SANITY_QUERY_URL}?query=${encodeURIComponent(query)}`,
-    );
-    if (!response.ok) {
-      throw new Error(
-        `Sanity CMS snapshot failed with status ${response.status}.`,
-      );
-    }
-    const body: unknown = await response.json();
-    const result = requiredRecord(
-      requiredRecord(body, 'a result envelope').result,
-      'snapshot content',
-    );
-    const home = requiredRecord(result.home, 'the home page');
-    const aboutHero = requiredRecord(
-      requiredRecord(
-        requiredRecord(result.about, 'the about page').hero,
-        'the about hero',
-      ),
-      'the about hero copy',
-    );
-    const service = requiredRecord(result.services, 'a service');
-    cmsSnapshot = {
-      muralCtaLabel: requiredString(
-        home,
-        'muralCtaLabel',
-        'the mural button text',
-      ),
-      muralImageAlt: requiredString(
-        home,
-        'muralImageAlt',
-        'the mural alt text',
-      ),
-      aboutCtaLabel: requiredString(
-        aboutHero,
-        'ctaLabel',
-        'the about button text',
-      ),
-      firstServiceTitle: requiredString(
-        service,
-        'title',
-        'the first service title',
-      ),
-      firstServiceDescription: requiredString(
-        service,
-        'description',
-        'the first service description',
-      ),
-    };
-  }
-  return cmsSnapshot;
+  const { home, about } = await readLauraSnapshot();
+  return {
+    muralCtaLabel: home.mural.ctaLabel,
+    muralImageAlt: home.mural.image.alt,
+    aboutCtaLabel: about.hero.ctaLabel ?? '',
+    firstServiceTitle: home.services[0]?.title ?? '',
+    firstServiceDescription: home.services[0]?.description ?? '',
+  };
 }
 
 function exactName(copy: string) {

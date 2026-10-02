@@ -1,3 +1,4 @@
+import { artworkUrl } from '../../../scripts/lauraSanitySource';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, test } from 'vitest';
 
@@ -11,7 +12,6 @@ import {
   SiteFooter,
 } from './SitePages';
 import {
-  artworkUrl,
   type AboutData,
   type CmsGalleryItem,
   type CmsSettings,
@@ -26,10 +26,12 @@ const config = {
   apiVersion: '2025-09-01',
 };
 
-test('footer offers the requested social placeholders with accessible names', () => {
+test('footer offers the supplied Facebook profile and Instagram link with accessible names', () => {
   const html = renderToStaticMarkup(<SiteFooter />);
   expect(html).toContain('href="https://www.instagram.com/"');
-  expect(html).toContain('href="https://www.facebook.com/"');
+  expect(html).toContain(
+    'href="https://www.facebook.com/profile.php?id=61553821975045"',
+  );
   expect(html).toContain('aria-label="Instagram"');
   expect(html).toContain('aria-label="Facebook"');
 });
@@ -443,7 +445,7 @@ test('services expose all five supplied offerings as complete links', () => {
 test('services introduce the creative offerings and explain the enquiry process', () => {
   const html = renderToStaticMarkup(<ServicesPage data={servicesData} />);
 
-  expect(html).toContain('src="/decoration/art-brings-people-together.png"');
+  expect(html).toContain('src="/decoration/art-brings-people-together.webp"');
   expect(html).toContain('alt="Art brings people together"');
   expect(html).not.toContain('Creative Services');
   expect(html).toContain('aria-label="Creative services"');
@@ -530,7 +532,9 @@ test('every subpage introduces its content with a distinct artwork-led hero', ()
     expect(hero, 'each subpage should have a page hero').toBeDefined();
     expect(hero).toContain('<h1');
     expect(hero).toContain('gold-stroke');
-    const image = hero?.match(/class="page-hero-art"><img src="([^"]+)"/)?.[1];
+    const image = hero?.match(
+      /class="page-hero-art">[\s\S]*?<img[^>]* src="([^"]+)"/,
+    )?.[1];
     expect(image, 'each subpage hero should use artwork').toBeDefined();
     return image;
   });
@@ -591,4 +595,22 @@ test('gallery presents named collections without displaying placeholder notices'
   }
   expect(html).not.toContain('colour-portrait');
   expect(html).not.toContain('pink-botanical');
+});
+
+test('hero and service images offer responsive CMS sources without requiring CORS', () => {
+  for (const html of [
+    renderToStaticMarkup(<HomePage data={homeData} />),
+    renderToStaticMarkup(<AboutPage data={aboutData} />),
+    renderToStaticMarkup(<ServicesPage data={servicesData} />),
+  ]) {
+    expect(html).toContain('w=480');
+    expect(html).toContain('w=960');
+    expect(html).toContain('w=768');
+    expect(html).toContain('sizes=');
+    expect(html).not.toContain('crossorigin="anonymous"');
+  }
+  const servicesHtml = renderToStaticMarkup(
+    <ServicesPage data={servicesData} />,
+  );
+  expect(servicesHtml).toContain('w=320&amp;h=240');
 });

@@ -182,6 +182,9 @@ test('the handwritten motto is a loaded transparent image on desktop and phones'
     await expect(motto).toBeVisible();
     const asset = await motto.evaluate(async (element: HTMLImageElement) => {
       await element.decode();
+      const delivered = new Image();
+      delivered.src = element.currentSrc;
+      await delivered.decode();
       const canvas = document.createElement('canvas');
       canvas.width = element.naturalWidth;
       canvas.height = element.naturalHeight;
@@ -207,7 +210,10 @@ test('the handwritten motto is a loaded transparent image on desktop and phones'
       ).length;
       return {
         goldFraction: goldPixels / ink.length,
-        width: element.naturalWidth,
+        width: delivered.naturalWidth,
+        requiredWidth: Math.ceil(
+          element.getBoundingClientRect().width * window.devicePixelRatio,
+        ),
         corners: [
           alpha(0, 0),
           alpha(canvas.width - 1, 0),
@@ -216,7 +222,7 @@ test('the handwritten motto is a loaded transparent image on desktop and phones'
         ],
       };
     });
-    expect(asset.width).toBeGreaterThanOrEqual(1000);
+    expect(asset.width).toBeGreaterThanOrEqual(asset.requiredWidth);
     expect(asset.corners).toEqual([0, 0, 0, 0]);
     expect(asset.goldFraction).toBeGreaterThan(0.95);
   }

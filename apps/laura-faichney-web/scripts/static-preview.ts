@@ -19,6 +19,16 @@ export async function staticResponse(
     'content-type': file.type,
     vary: 'Accept-Encoding',
   });
+  const rules = Bun.file(path.join(root, '_headers'));
+  const configuration = (await rules.exists()) ? await rules.text() : '';
+  const matching = [
+    ...configuration.matchAll(/^(\/[^\n]+)\n\s+Cache-Control: ([^\n]+)/gm),
+  ].find(([, pattern]) =>
+    pattern!.endsWith('*')
+      ? pathname.startsWith(pattern!.slice(0, -1))
+      : pathname === pattern,
+  );
+  headers.set('cache-control', matching?.[2] ?? 'no-cache');
   if (request.method === 'HEAD') return new Response(null, { headers });
   const body = await file.arrayBuffer();
   if (

@@ -180,7 +180,7 @@ Created on 2026-10-01 by resizing the existing local WebP assets in browser canv
 - `gallery-hero-cutout-{320,640,960}.webp` and `gallery-detail-hero-cutout-{320,640,960}.webp` use their respective original hero files. Phones use compact 200px overview and 160px collection illustrations, with sources selected for the device pixel density. The 320px files are 48,250 and 41,068 bytes respectively, compared with 977,578 and 666,506 bytes for the originals.
 - `picsum-{106,1080,180,24,42}-{160,320}.webp` use the corresponding five local photographs documented above. Responsive cover images, thumbnails and selected pictures choose from these variants and the original 640px files. Thumbnails remain lazy loaded; overview covers and the selected picture load eagerly.
 
-Sanity-backed gallery images use width-based CDN candidates capped at the existing source width. Height, when present, scales in the same proportion; crop rectangles, focal points and format settings are retained. Unrecognised URLs retain their original source. This follows [Sanity's image transformation parameters](https://www.sanity.io/docs/apis-and-sdks/image-urls), accessed 2026-10-01. Browser checks use the configured `http://127.0.0.1:4176` origin, which Sanity permits.
+Sanity-backed gallery images use width-based CDN candidates capped at the existing source width. Height, when present, scales in the same proportion; crop rectangles, focal points and format settings are retained. Unrecognised URLs retain their original source. This follows [Sanity's image transformation parameters](https://www.sanity.io/docs/apis-and-sdks/image-urls), accessed 2026-10-01. Browser checks use `http://127.0.0.1:4176`; bundled content requires no Sanity API CORS access.
 
 ### contact-brush-up-left
 
@@ -199,3 +199,21 @@ Generated and regenerated with the built-in ImageGen tool on 2026-10-01 at the u
 Final prompt:
 
 > Use case: style-transfer. Asset type: regenerated transparent handwritten motto for an artist website. Image 1 is the edit target with the required phrase. Image 2 is the user's latest handwriting STYLE reference; its screenshot is mirrored/rotated, so use its pen style and gold ink, NOT its backwards orientation. Image 3 is an upright supporting style reference from the existing site. Regenerate Image 1 so its letter forms follow Images 2 and 3: loose personal artist handwriting, slender irregular warm ochre-gold pen strokes, expressive tall ascenders and long descending loops, informal joined letters, light natural variation; avoid polished formal calligraphy and thick brush font. Replace the pink ink with warm ochre gold around #b7832c. Exact readable text, upright left-to-right, with these three centered lines: line 1 "Art brings"; line 2 "people"; line 3 "together". Use ONLY these words in this order, no other slogan or lettering. Add a small casual hand-drawn open-outline heart at the lower right, in matching gold ink, as in the upright reference. Keep the stacked composition airy and compact, with enough spacing that letters never touch other lines, gentle naturally rising baselines and modest transparent margins. Genuine fully transparent alpha background. Isolated gold lettering and heart ONLY: no cream paper, colored background, pink brush marks, paint dust, splashes, glow, shadow, gradient, black rectangle, frame, watermark or website UI. Preserve crisp legibility at a 200px displayed width. All ascenders, descenders and heart wholly inside the canvas.
+
+## Lighthouse delivery derivatives (2026-10-02)
+
+The supplied originals remain unchanged. Sharp generated smaller WebP delivery
+copies for the signature, handwritten mottos, brush decorations, and current
+hero artwork. WebP hero variants preserve aspect ratio and transparency at 320,
+400, 480, 640, 768, 960, and 1374px (quality 70, alpha quality 60). Their source
+files' SHA-1 hashes exactly match the existing Sanity asset identities, so a
+new CMS image uses CDN delivery automatically.
+
+The contact studio artwork has 320, 480, 512, 640, 960, and 1374px derivatives
+(quality 70, alpha quality 75). Its original full-size WebP remains unchanged;
+its existing 480 and 960 delivery variants were re-encoded. Signature delivery
+variants are 220, 320, 440, and 660px; decorative images and handwritten mottos
+use smaller sources appropriate to their rendered sizes. These are delivery
+optimizations of existing images, with no new artwork or factual content.
+
+AVIF variants use the same original artwork and width candidates, with quality 50, 4:2:0 chroma subsampling, and encoder effort 7. The contact AVIF variants use its existing 320, 480, 512, 640, 960, and 1374px candidates. Browser-supported AVIF delivery retains WebP fallback; transparent edges are verified in browser tests.

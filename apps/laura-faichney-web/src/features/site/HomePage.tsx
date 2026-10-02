@@ -1,3 +1,4 @@
+import { heroImageSrcSet } from './heroImageSources';
 import { GoldStroke } from './GoldStroke';
 import { Arrow } from './Arrow';
 import { ServicesPreview } from './ServicesPreview';
@@ -32,13 +33,25 @@ export function HomePage(props: { data: HomeData }) {
             </a>
           </div>
           <div className="hero-art">
-            <img
-              src={data.hero.image.url}
-              alt={data.hero.image.alt}
-              width="1374"
-              height="1145"
-              fetchPriority="high"
-            />
+            <picture>
+              {heroImageSrcSet(data.hero.image.url, 'avif') && (
+                <source
+                  type="image/avif"
+                  srcSet={heroImageSrcSet(data.hero.image.url, 'avif')}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1328px) 61vw, 805px"
+                />
+              )}
+              <img
+                src={data.hero.image.url}
+                srcSet={heroImageSrcSet(data.hero.image.url)}
+                sizes="(max-width: 640px) 100vw, (max-width: 1328px) 61vw, 805px"
+                decoding="async"
+                alt={data.hero.image.alt}
+                width="1374"
+                height="1145"
+                fetchPriority="high"
+              />
+            </picture>
           </div>
         </div>
       </section>

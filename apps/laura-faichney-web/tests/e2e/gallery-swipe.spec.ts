@@ -57,6 +57,7 @@ async function gesture(
   dx: number,
   dy = 0,
   fingers = 1,
+  options: { scrollIntoView?: boolean } = {},
 ) {
   await page.waitForFunction(
     () => !document.documentElement.matches(':active-view-transition'),
@@ -69,7 +70,7 @@ async function gesture(
     ),
   );
   const frame = page.locator('.collection-carousel');
-  await frame.scrollIntoViewIfNeeded();
+  if (options.scrollIntoView !== false) await frame.scrollIntoViewIfNeeded();
   await expect
     .poll(async () => {
       const viewport = await frame.boundingBox();
@@ -111,6 +112,7 @@ async function swipePicture(
   page: Page,
   session: CDPSession,
   direction: 'next' | 'previous',
+  options: { scrollIntoView?: boolean } = {},
 ) {
   const bounds = await page.locator('.collection-carousel').boundingBox();
   if (!bounds) throw new Error('Picture viewer is missing');
@@ -119,6 +121,9 @@ async function swipePicture(
     page,
     session,
     bounds.width * 0.6 * (direction === 'next' ? -1 : 1),
+    0,
+    1,
+    options,
   );
 }
 
@@ -438,4 +443,103 @@ test('adjacent collections update within 400ms of release without waiting for a 
     expect(delay).not.toBeNull();
     expect(Number(delay)).toBeLessThan(400);
   }
+});
+
+for (const motion of ['no-preference', 'reduce', 'unsupported'] as const) {
+  test(`swiping pictures and adjacent collections preserves the text, scroll and focus with ${motion} motion`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({
+      reducedMotion: motion === 'reduce' ? 'reduce' : 'no-preference',
+    });
+    if (motion === 'unsupported') {
+      await page.addInitScript(() =>
+        Object.defineProperty(document, 'startViewTransition', {
+          value: undefined,
+        }),
+      );
+    }
+    const [collection] = await browsableCollections();
+    if (!collection) throw new Error('Browsable collection is missing');
+    const collections = await galleryCollections();
+    const index = collections.findIndex(
+      (item) => item.slug === collection.slug,
+    );
+    const next = collections[(index + 1) % collections.length]!;
+    const previous =
+      collections[(index - 1 + collections.length) % collections.length]!;
+    await page.goto(`/gallery/${collection.slug}`);
+    await page.waitForLoadState('networkidle');
+    const back = page.getByRole('link', {
+      name: 'Back to gallery',
+      exact: true,
+    });
+    await back.evaluate((link) => {
+      if (link instanceof HTMLElement) link.focus({ preventScroll: true });
+    });
+    await page.evaluate(() =>
+      window.scrollTo({ top: 60, behavior: 'instant' }),
+    );
+    const scrollY = await page.evaluate(() => window.scrollY);
+    expect(scrollY).toBe(60);
+    const session = await page.context().newCDPSession(page);
+    const steps = [
+      ...collection.photos
+        .slice(1)
+        .map(() => ({ target: collection, direction: 'next' as const })),
+      { target: next, direction: 'next' as const },
+      { target: collection, direction: 'previous' as const },
+      ...collection.photos
+        .slice(1)
+        .map(() => ({ target: collection, direction: 'previous' as const })),
+      { target: previous, direction: 'previous' as const },
+    ];
+    for (const { target, direction } of steps) {
+      await swipePicture(page, session, direction, { scrollIntoView: false });
+      const heading = page.getByRole('heading', { level: 1 });
+      await expect(heading).toHaveText(target.title);
+      await expect(page).toHaveURL(`/gallery/${target.slug}`);
+      await page.waitForFunction(
+        () => !document.documentElement.matches(':active-view-transition'),
+      );
+      expect(await page.evaluate(() => window.scrollY)).toBe(scrollY);
+      await expect(heading).toBeInViewport();
+      await expect(
+        page.locator('.collection-introduction > p').last(),
+      ).toBeInViewport();
+      await expect(back).toBeFocused();
+      await expect(
+        page.locator('.collection-selected-picture'),
+      ).not.toBeFocused();
+    }
+  });
+}
+
+test('the focused detail picture has no focus border while navigation controls keep theirs', async ({
+  page,
+}) => {
+  const [collection] = await browsableCollections();
+  if (!collection) throw new Error('Browsable collection is missing');
+  await page.goto(`/gallery/${collection.slug}`);
+  await page.keyboard.press('Tab');
+  const picture = page.locator('.collection-selected-picture');
+  await picture.focus();
+  await expect(picture).toBeFocused();
+  expect(
+    await picture.evaluate((element) => getComputedStyle(element).outlineStyle),
+  ).toBe('none');
+  expect(
+    await picture.evaluate(
+      (element) => getComputedStyle(element).borderTopWidth,
+    ),
+  ).toBe('0px');
+  const next = page.getByRole('button', { name: 'Next picture', exact: true });
+  await next.focus();
+  await expect(next).toBeFocused();
+  expect(
+    await next.evaluate((element) => getComputedStyle(element).outlineStyle),
+  ).toBe('solid');
+  expect(
+    await next.evaluate((element) => getComputedStyle(element).outlineWidth),
+  ).toBe('3px');
 });

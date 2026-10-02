@@ -85,7 +85,8 @@ export function useCollectionSwipeNavigation(
 
   return {
     initialIndex,
-    focusOnMount: enteredBySwipe,
+    // Swipe intent also applies while the previous collection is still rendering.
+    preserveViewport: !!entry,
     previousPicture:
       collections.length > 1 ? previous?.photos.at(-1) : undefined,
     nextPicture: collections.length > 1 ? next?.photos[0] : undefined,

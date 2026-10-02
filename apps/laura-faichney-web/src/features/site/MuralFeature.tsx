@@ -1,3 +1,4 @@
+import { sanityImageSrcSet } from './galleryImageSources';
 import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
 import type { HomeData } from './lauraSanity';
@@ -19,6 +20,9 @@ export function MuralFeature(props: { mural: HomeData['mural'] }) {
       <div className="mural-art">
         <img
           src={mural.image.url}
+          srcSet={sanityImageSrcSet(mural.image.url, [320, 480, 640, 768, 960])}
+          sizes="(max-width: 640px) 110vw, (max-width: 1328px) 65vw, 830px"
+          decoding="async"
           alt={mural.image.alt}
           width="1254"
           height="1254"

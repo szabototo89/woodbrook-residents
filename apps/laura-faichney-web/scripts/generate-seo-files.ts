@@ -1,11 +1,9 @@
+import { readLauraSnapshot } from './lauraSnapshot';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { PRODUCTION_SITE_URL, resolveSiteUrl } from '../src/app/siteMetadata';
-import {
-  LauraSanitySource,
-  galleryCollectionPath,
-} from '../src/features/site/lauraSanity';
+import { galleryCollectionPath } from '../src/features/site/lauraSanity';
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -22,7 +20,7 @@ export const STATIC_BASE_ROUTES = [
 ];
 
 export async function loadStaticRoutes(): Promise<string[]> {
-  const gallery = await new LauraSanitySource().loadGallery();
+  const gallery = (await readLauraSnapshot()).gallery;
   return [
     ...STATIC_BASE_ROUTES,
     ...gallery.collections.map(galleryCollectionPath),

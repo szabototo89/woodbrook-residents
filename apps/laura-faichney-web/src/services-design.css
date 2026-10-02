@@ -46,7 +46,7 @@ body:has(.services-page) .site-footer .container {
   content: none;
 }
 .services-page .services-hero::after {
-  background-image: url('/decoration/blush-gold-brush.png');
+  background-image: url('/decoration/blush-gold-brush.webp');
   width: min(620px, 55vw);
   height: 440px;
   right: 0;
@@ -86,7 +86,8 @@ body:has(.services-page) .site-footer .container {
   height: 260px;
   left: -150px;
   top: -15px;
-  background: url('/decoration/blush-gold-brush.png') center / contain no-repeat;
+  background: url('/decoration/blush-gold-brush.webp') center / contain
+    no-repeat;
   pointer-events: none;
 }
 .services-page .service-list-link:nth-child(even)::before {
@@ -95,7 +96,7 @@ body:has(.services-page) .site-footer .container {
   transform: rotate(180deg);
 }
 .services-page .service-list-link:nth-child(4)::before {
-  background-image: url('/decoration/colour-brush.png');
+  background-image: url('/decoration/colour-brush.webp');
   width: 190px;
   right: -125px;
   transform: rotate(15deg);
@@ -159,7 +160,8 @@ body:has(.services-page) .site-footer .container {
   width: 220px;
   height: 240px;
   bottom: -65px;
-  background: url('/decoration/blush-gold-brush.png') center / contain no-repeat;
+  background: url('/decoration/blush-gold-brush.webp') center / contain
+    no-repeat;
   pointer-events: none;
 }
 .services-process::before {

@@ -1,12 +1,14 @@
+import {
+  artworkUrl,
+  LauraSanitySource,
+  resolveLauraSanityConfig,
+} from '../../../scripts/lauraSanitySource';
 import { beforeEach, expect, test, vi } from 'vitest';
 
 import {
-  artworkUrl,
   galleryCollectionPath,
   getGalleryCollection,
-  LauraSanitySource,
   pageHeadFromSeo,
-  resolveLauraSanityConfig,
   splitBalancedLines,
   splitTitleLines,
 } from './lauraSanity';

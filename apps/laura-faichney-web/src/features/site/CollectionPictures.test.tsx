@@ -64,3 +64,15 @@ test.each(['none', undefined] as const)(
     expect(html).not.toContain('Enquire for availability');
   },
 );
+
+test('prioritises the selected picture and defers neighboring full-size artwork', () => {
+  const html = renderToStaticMarkup(
+    <CollectionPictures
+      images={[picture(), picture(undefined, 'Blue flowers')]}
+    />,
+  );
+  expect(html).toContain('fetchPriority="high"');
+  expect(html).toContain('loading="eager"');
+  expect(html).toContain('fetchPriority="low"');
+  expect(html).toContain('loading="lazy"');
+});

@@ -1,4 +1,4 @@
-// Loaded only by Playwright and its preview server, never by the app build.
+// Loaded only by the e2e build; normal builds never include these fixtures.
 import { isGalleryQuery, withGalleryFixture } from './gallery-data.mjs';
 
 const originalFetch = globalThis.fetch;

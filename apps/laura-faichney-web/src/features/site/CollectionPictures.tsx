@@ -7,6 +7,7 @@ import {
   ArtworkAvailability,
   artworkAvailabilityLabel,
 } from './ArtworkAvailability';
+import { galleryPictureSizes } from './galleryPictureSizes';
 import { galleryPhotoSrcSet } from './galleryImageSources';
 import type { CmsGalleryItem } from './lauraSanity';
 import type { SwipeDirection } from './useCollectionSwipeNavigation';
@@ -14,7 +15,7 @@ import type { SwipeDirection } from './useCollectionSwipeNavigation';
 export function CollectionPictures(props: {
   images: CmsGalleryItem[];
   initialIndex?: number;
-  focusOnMount?: boolean;
+  preserveViewport?: boolean;
   previousPicture?: CmsGalleryItem;
   nextPicture?: CmsGalleryItem;
   onSwipeBoundary?: (direction: SwipeDirection) => void;
@@ -69,13 +70,13 @@ export function CollectionPictures(props: {
 
   useLayoutEffect(() => {
     if (
-      !props.focusOnMount &&
+      props.preserveViewport ||
       !document.documentElement.hasAttribute('data-gallery-transition')
     )
       return;
     artwork.current?.scrollIntoView({ behavior: 'instant', block: 'center' });
     artwork.current?.focus({ preventScroll: true });
-  }, [props.images, props.focusOnMount]);
+  }, [props.images, props.preserveViewport]);
 
   const changePicture = (
     index: number,
@@ -146,9 +147,11 @@ export function CollectionPictures(props: {
                 <img
                   src={image.fullImage.url}
                   srcSet={galleryPhotoSrcSet(image.fullImage.url)}
-                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1023px) calc(100vw - 48px), (max-width: 1328px) calc((100vw - 96px) * 2 / 3), 821px"
+                  sizes={galleryPictureSizes(image.fullImage.url)}
+                  loading={index === selectedIndex + offset ? 'eager' : 'lazy'}
+                  decoding="async"
                   fetchPriority={
-                    index === selectedIndex + offset ? 'high' : 'auto'
+                    index === selectedIndex + offset ? 'high' : 'low'
                   }
                   alt={image.alt}
                   aria-hidden={index !== selectedIndex + offset}

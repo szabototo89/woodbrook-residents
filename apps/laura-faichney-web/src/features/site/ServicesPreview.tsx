@@ -24,7 +24,10 @@ export function ServicesPreview(props: {
               style={{ animationDelay: `${index * 45}ms` }}
             >
               <div className="service-image-frame">
-                <ServiceImage image={service.image} />
+                <ServiceImage
+                  sizes="(max-width: 640px) 106px, (max-width: 900px) calc((100vw - 84px) / 3), (max-width: 1328px) calc((100vw - 120px) / 5), 242px"
+                  image={service.image}
+                />
               </div>
               <span>
                 {service.title}

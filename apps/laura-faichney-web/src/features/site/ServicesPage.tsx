@@ -20,7 +20,9 @@ export function ServicesPage(props: { data: ServicesData }) {
         action={
           <img
             className="services-motto"
-            src="/decoration/art-brings-people-together.png"
+            src="/decoration/art-brings-people-together.webp"
+            srcSet="/decoration/art-brings-people-together-240.webp 240w, /decoration/art-brings-people-together-400.webp 400w, /decoration/art-brings-people-together.webp 600w"
+            sizes="(max-width: 1000px) 180px, (max-width: 1333px) 18vw, 240px"
             alt="Art brings people together"
             width="1448"
             height="1086"
@@ -36,7 +38,10 @@ export function ServicesPage(props: { data: ServicesData }) {
               key={service.slug}
             >
               <div className="service-image-frame">
-                <ServiceImage image={service.image} />
+                <ServiceImage
+                  sizes="(max-width: 640px) 106px, (max-width: 900px) 36vw, 340px"
+                  image={service.image}
+                />
               </div>
               <div className="service-list-copy">
                 <h2>{service.title}</h2>

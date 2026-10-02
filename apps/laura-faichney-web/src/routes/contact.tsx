@@ -1,13 +1,13 @@
+import lauraContent from 'virtual:laura-content';
 import { createFileRoute } from '@tanstack/react-router';
 import { createPageHead } from '../app/siteMetadata';
 import { ContactPage } from '../features/site/SitePages';
-import { LauraSanitySource } from '../features/site/lauraSanity';
 
 export const Route = createFileRoute('/contact')({
   validateSearch: (search: Record<string, unknown>) => ({
     service: typeof search.service === 'string' ? search.service : undefined,
   }),
-  loader: () => new LauraSanitySource().loadServices(),
+  loader: () => lauraContent.services,
   head: () =>
     createPageHead({
       title: 'Contact',

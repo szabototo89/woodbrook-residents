@@ -1,3 +1,4 @@
+import { sanityImageSrcSet } from './galleryImageSources';
 import { Heart, MapPin, Palette, Sparkles } from 'lucide-react';
 import { Arrow } from './Arrow';
 import { ContactSection } from './ContactSection';
@@ -59,6 +60,12 @@ export function AboutPage(props: { data: AboutData }) {
           </div>
           <img
             src={data.storyImage.url}
+            srcSet={sanityImageSrcSet(
+              data.storyImage.url,
+              [320, 480, 640, 768, 960],
+            )}
+            sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) 42vw, 538px"
+            decoding="async"
             alt={data.storyImage.alt}
             width="1122"
             height="1402"

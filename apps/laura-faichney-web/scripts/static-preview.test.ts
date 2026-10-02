@@ -57,3 +57,28 @@ test('refuses encoded paths outside the build directory', async () => {
     ).status,
   ).toBe(404);
 });
+
+test('uses the deployed cache rules for hashed assets, artwork and HTML', async () => {
+  const rules = await Bun.file(
+    new URL('../public/_headers', import.meta.url),
+  ).text();
+  await writeFile(path.join(directory, '_headers'), rules);
+  await mkdir(path.join(directory, 'assets'), { recursive: true });
+  await mkdir(path.join(directory, 'artwork'), { recursive: true });
+  await writeFile(
+    path.join(directory, 'assets/app-ABC123.js'),
+    'console.log(1)',
+  );
+  await writeFile(path.join(directory, 'artwork/portrait.webp'), 'image');
+  for (const [url, expected] of [
+    ['/assets/app-ABC123.js', 'public, max-age=31536000, immutable'],
+    ['/artwork/portrait.webp', 'public, max-age=86400'],
+    ['/gallery/mad-cow', 'no-cache'],
+  ] as const) {
+    const response = await staticResponse(
+      new Request(`http://localhost${url}`),
+      directory,
+    );
+    expect(response.headers.get('cache-control')).toBe(expected);
+  }
+});

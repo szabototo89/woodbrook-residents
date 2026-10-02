@@ -3,15 +3,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 3003",
-    "build": "vite build",
+    "dev": "bun scripts/generate-content.ts development && vite dev --port 3003",
+    "build": "bun run content:generate && vite build",
     "build:static": "bun scripts/build-static.ts",
     "deploy": "bun ../../scripts/deploy-laura.ts",
     "preview": "vite preview",
-    "test:e2e": "bun run build && playwright test",
+    "test:e2e": "bun run build:e2e && playwright test",
     "test:unit": "vitest run && bun test scripts/*.test.ts",
     "typecheck": "tsc --noEmit",
     "verify:static": "bun scripts/verify-static-build.ts",
+    "content:generate": "bun scripts/generate-content.ts",
+    "build:e2e": "bun --preload ./tests/fixtures/gallery-fetch.mjs scripts/generate-content.ts && vite build",
     "test:lighthouse": "bun scripts/lighthouse.ts"
   },
   "dependencies": {
@@ -34,6 +36,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
+    "lightningcss": "^1.33.0",
     "typescript": "^6.0.2",
     "vite": "^8.0.0",
     "vitest": "^4.1.10"
