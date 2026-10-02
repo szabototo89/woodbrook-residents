@@ -1,12 +1,10 @@
+import lauraContent from 'virtual:laura-content';
 import { createFileRoute } from '@tanstack/react-router';
 import { HomePage } from '../features/site/SitePages';
-import {
-  LauraSanitySource,
-  pageHeadFromSeo,
-} from '../features/site/lauraSanity';
+import { pageHeadFromSeo } from '../features/site/lauraSanity';
 
 export const Route = createFileRoute('/')({
-  loader: () => new LauraSanitySource().loadHome(),
+  loader: () => lauraContent.home,
   head: ({ loaderData }) =>
     pageHeadFromSeo({
       seo: loaderData?.seo ?? {},

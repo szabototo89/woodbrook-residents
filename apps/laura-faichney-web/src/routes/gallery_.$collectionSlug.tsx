@@ -1,18 +1,18 @@
+import lauraContent from 'virtual:laura-content';
 import { createFileRoute, notFound } from '@tanstack/react-router';
 import { createPageHead } from '../app/siteMetadata';
 import { GalleryCollectionPage } from '../features/site/GalleryCollectionPage';
 import { GalleryCollectionNotFound } from '../features/site/GalleryCollectionNotFound';
 import { useCollectionSwipeNavigation } from '../features/site/useCollectionSwipeNavigation';
 import {
-  LauraSanitySource,
   galleryCollectionPath,
   getGalleryCollection,
 } from '../features/site/lauraSanity';
 
 export const Route = createFileRoute('/gallery_/$collectionSlug')({
   staleTime: 30_000,
-  loader: async ({ params }) => {
-    const gallery = await new LauraSanitySource().loadGallery();
+  loader: ({ params }) => {
+    const gallery = lauraContent.gallery;
     const collection = getGalleryCollection(
       gallery.collections,
       params.collectionSlug,

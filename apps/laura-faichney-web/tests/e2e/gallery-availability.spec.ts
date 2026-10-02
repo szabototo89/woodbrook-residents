@@ -5,19 +5,6 @@ for (const width of [320, 390, 1440]) {
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto('/gallery');
-    const link = page.getByRole('link', { name: /^View collection:/ }).first();
-    const slug = (await link.getAttribute('href'))?.split('/').pop();
-    const image = {
-      asset: {
-        _ref: 'image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp',
-      },
-    };
-    const landscapeImage = {
-      asset: {
-        _ref: 'image-d854d44adc674ded75531906c9fb813b0bed4dca-640x480-webp',
-      },
-    };
     if (width === 390) {
       await page.route('https://cdn.sanity.io/images/**', (route) => {
         const portrait = route.request().url().includes('86bcd714');
@@ -27,68 +14,7 @@ for (const width of [320, 390, 1440]) {
         });
       });
     }
-    await page.route('https://uag6kepo.api.sanity.io/**', (route) =>
-      route.fulfill({
-        json: {
-          result: {
-            page: {
-              hero: {
-                eyebrow: 'Gallery',
-                title: 'Gallery',
-                description: 'Explore',
-                image,
-                imageAlt: 'Flowers',
-              },
-              seo: {},
-            },
-            settings: {
-              contactEmail: 'laura@example.com',
-              contactPhone: '123',
-              contactMailtoSubject: 'Enquiry',
-              contactEyebrow: 'Contact',
-              contactHeading: 'Get in touch',
-              contactCopy: 'Contact Laura',
-            },
-            collections: [
-              {
-                title: 'Availability examples',
-                slug: { current: slug },
-                description: 'Test artwork',
-                order: 0,
-                photos: [
-                  {
-                    image,
-                    order: 0,
-                    imageAlt: 'Available painting',
-                    saleStatus: 'for-sale',
-                  },
-                  {
-                    image: landscapeImage,
-                    order: 1,
-                    imageAlt: 'Portfolio painting',
-                    saleStatus: 'not-for-sale',
-                  },
-                  {
-                    image,
-                    order: 2,
-                    imageAlt: 'Unlabelled painting',
-                    saleStatus: null,
-                  },
-                  {
-                    image,
-                    order: 3,
-                    imageAlt: 'Hidden availability painting',
-                    saleStatus: 'none',
-                  },
-                  { image, order: 4, imageAlt: 'Unset availability painting' },
-                ],
-              },
-            ],
-          },
-        },
-      }),
-    );
-    await link.click();
+    await page.goto('/gallery/availability-examples');
 
     const viewer = page.getByRole('region', { name: 'Collection pictures' });
     const status = viewer.getByRole('status');

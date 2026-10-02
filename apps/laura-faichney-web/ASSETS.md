@@ -180,7 +180,7 @@ Created on 2026-10-01 by resizing the existing local WebP assets in browser canv
 - `gallery-hero-cutout-{320,640,960}.webp` and `gallery-detail-hero-cutout-{320,640,960}.webp` use their respective original hero files. Phones use compact 200px overview and 160px collection illustrations, with sources selected for the device pixel density. The 320px files are 48,250 and 41,068 bytes respectively, compared with 977,578 and 666,506 bytes for the originals.
 - `picsum-{106,1080,180,24,42}-{160,320}.webp` use the corresponding five local photographs documented above. Responsive cover images, thumbnails and selected pictures choose from these variants and the original 640px files. Thumbnails remain lazy loaded; overview covers and the selected picture load eagerly.
 
-Sanity-backed gallery images use width-based CDN candidates capped at the existing source width. Height, when present, scales in the same proportion; crop rectangles, focal points and format settings are retained. Unrecognised URLs retain their original source. This follows [Sanity's image transformation parameters](https://www.sanity.io/docs/apis-and-sdks/image-urls), accessed 2026-10-01. Browser checks use the configured `http://127.0.0.1:4176` origin, which Sanity permits.
+Sanity-backed gallery images use width-based CDN candidates capped at the existing source width. Height, when present, scales in the same proportion; crop rectangles, focal points and format settings are retained. Unrecognised URLs retain their original source. This follows [Sanity's image transformation parameters](https://www.sanity.io/docs/apis-and-sdks/image-urls), accessed 2026-10-01. Browser checks use `http://127.0.0.1:4176`; bundled content requires no Sanity API CORS access.
 
 ### contact-brush-up-left
 

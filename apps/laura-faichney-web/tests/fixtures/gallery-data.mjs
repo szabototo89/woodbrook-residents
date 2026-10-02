@@ -64,6 +64,51 @@ export const galleryCollections = [
       ),
     ],
   },
+  {
+    title: 'Availability examples',
+    slug: { current: 'availability-examples' },
+    description: 'Test artwork availability',
+    order: 3,
+    photos: [
+      {
+        ...photo(
+          'Available painting',
+          'image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp',
+          0,
+        ),
+        saleStatus: 'for-sale',
+      },
+      {
+        ...photo(
+          'Portfolio painting',
+          'image-d854d44adc674ded75531906c9fb813b0bed4dca-640x480-webp',
+          1,
+        ),
+        saleStatus: 'not-for-sale',
+      },
+      {
+        ...photo(
+          'Unlabelled painting',
+          'image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp',
+          2,
+        ),
+        saleStatus: null,
+      },
+      {
+        ...photo(
+          'Hidden availability painting',
+          'image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp',
+          3,
+        ),
+        saleStatus: 'none',
+      },
+      photo(
+        'Unset availability painting',
+        'image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp',
+        4,
+      ),
+    ],
+  },
 ];
 
 export function isGalleryQuery(url) {

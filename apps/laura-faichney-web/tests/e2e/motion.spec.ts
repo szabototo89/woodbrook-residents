@@ -1,79 +1,18 @@
+import { readLauraSnapshot } from '../../scripts/lauraSnapshot';
 import { expect, test } from '../fixtures/gallery-test';
 import { browsableCollections } from './galleryCms';
-
-const SANITY_QUERY_URL =
-  'https://uag6kepo.api.sanity.io/v2025-09-01/data/query/production';
 
 type CmsHome = {
   heroCtaLabel: string;
   firstServiceTitle: string;
 };
 
-let cmsHome: CmsHome | undefined;
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function requiredRecord(
-  value: unknown,
-  label: string,
-): Record<string, unknown> {
-  if (!isRecord(value)) {
-    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
-  }
-  return value;
-}
-
-function requiredString(
-  record: Record<string, unknown>,
-  key: string,
-  label: string,
-): string {
-  const value = record[key];
-  if (typeof value !== 'string' || !value) {
-    throw new Error(`Sanity CMS snapshot is missing ${label}.`);
-  }
-  return value;
-}
-
 async function homeCopy(): Promise<CmsHome> {
-  if (!cmsHome) {
-    const query = `{
-      "home": *[_id == "homePage"][0]{hero{ctaLabel}},
-      "services": *[_type == "service"] | order(order asc)[0]{title}
-    }`;
-    const response = await fetch(
-      `${SANITY_QUERY_URL}?query=${encodeURIComponent(query)}`,
-    );
-    if (!response.ok) {
-      throw new Error(
-        `Sanity CMS snapshot failed with status ${response.status}.`,
-      );
-    }
-    const body: unknown = await response.json();
-    const result = requiredRecord(
-      requiredRecord(body, 'a result envelope').result,
-      'snapshot content',
-    );
-    const hero = requiredRecord(
-      requiredRecord(
-        requiredRecord(result.home, 'the home page').hero,
-        'the hero',
-      ),
-      'the hero copy',
-    );
-    const service = requiredRecord(result.services, 'a service');
-    cmsHome = {
-      heroCtaLabel: requiredString(hero, 'ctaLabel', 'the hero button text'),
-      firstServiceTitle: requiredString(
-        service,
-        'title',
-        'the first service title',
-      ),
-    };
-  }
-  return cmsHome;
+  const { home } = await readLauraSnapshot();
+  return {
+    heroCtaLabel: home.hero.ctaLabel ?? '',
+    firstServiceTitle: home.services[0]?.title ?? '',
+  };
 }
 
 function exactName(copy: string) {

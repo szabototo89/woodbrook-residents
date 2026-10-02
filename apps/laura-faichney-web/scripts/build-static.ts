@@ -24,6 +24,7 @@ async function runChecked(command: string[]) {
 }
 
 try {
+  await runChecked(['bun', 'scripts/generate-content.ts', 'static']);
   await runChecked(['bunx', 'vite', 'build', '--mode', 'static']);
   await runChecked(['bun', 'scripts/generate-seo-files.ts']);
   await runChecked(['bun', 'run', 'verify:static']);

@@ -1,3 +1,4 @@
+import { artworkUrl } from '../../../scripts/lauraSanitySource';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, test } from 'vitest';
 
@@ -11,7 +12,6 @@ import {
   SiteFooter,
 } from './SitePages';
 import {
-  artworkUrl,
   type AboutData,
   type CmsGalleryItem,
   type CmsSettings,

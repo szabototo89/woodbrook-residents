@@ -2,7 +2,7 @@
 
 Independent TanStack Start site for Laura Faichney All Things Art. Content comes
 from the `uag6kepo` ("Laura Faichney All Things Art") Sanity project, dataset
-`production`, fetched by the TanStack route loaders at build time and rendered
+`production`, captured once before each build and rendered
 from Sanity CDN artwork (see `docs/features/laura-content-model.md`).
 
 Production: `https://laura-faichney-all-things-art.pages.dev`
@@ -12,15 +12,21 @@ Production: `https://laura-faichney-all-things-art.pages.dev`
 Published reads need no token. The project, dataset, and API version default to
 the values above and can be overridden for previews or local experiments:
 
-- `VITE_SANITY_PROJECT_ID` (or `SANITY_PROJECT_ID` on the server)
-- `VITE_SANITY_DATASET` (or `SANITY_DATASET` on the server)
-- `VITE_SANITY_API_VERSION` (or `SANITY_API_VERSION` on the server)
+- `SANITY_PROJECT_ID` (or `VITE_SANITY_PROJECT_ID` at build time)
+- `SANITY_DATASET` (or `VITE_SANITY_DATASET` at build time)
+- `SANITY_API_VERSION` (or `VITE_SANITY_API_VERSION` at build time)
 
-A missing or invalid required field fails the static build with the Sanity
-validation message. Browser-side route transitions read published content,
-so the local dev (`http://localhost:3003`), e2e (`http://127.0.0.1:4176`), and
-production origins are registered as project CORS origins. Collection routes
-preload their neighbors and reuse fresh data for 30 seconds to keep swipe switches fast.
+Each build makes four published-content queries (Home, About, Services, Gallery)
+and writes a validated snapshot to the ignored `.cache/laura-content.json`.
+Vite embeds that snapshot in the client and server bundles. Route loaders,
+preloads, gallery swipes, sitemap generation and static verification reuse it;
+visitors make zero Sanity content API requests. Browser CORS registration is
+therefore unnecessary for content navigation.
+
+A missing or invalid required field or a failed Sanity request fails the build;
+there is no runtime refresh or fallback to an older snapshot. Published changes
+appear after the next build and deployment. Artwork still loads from the Sanity
+image CDN, so image bandwidth remains part of Sanity usage.
 
 ## Development
 
@@ -30,7 +36,7 @@ From the repository root:
 bun run dev:laura
 ```
 
-The app runs on port 3003. The production origin used for canonical metadata defaults to `https://laura-faichney-all-things-art.pages.dev` and can be overridden with `VITE_PUBLIC_SITE_URL`.
+The app captures content when the development server starts and runs on port 3003. Restart it to load newly published content. The production origin used for canonical metadata defaults to `https://laura-faichney-all-things-art.pages.dev` and can be overridden with `VITE_PUBLIC_SITE_URL`.
 
 ## Verification
 
@@ -49,9 +55,11 @@ bun run build:static
 
 Gallery swipe tests use native Chromium touch input in mobile mode at 320, 390 and 430px, plus WebKit with an iPhone viewport and synthetic touch events. They verify that the image follows the finger, pictures and adjacent collections remain browsable, and vertical scrolling and multi-touch gestures preserve selection. The WebKit checks require its Playwright browser binary; they do not replace physical-device testing.
 
-It also checks restrained motion, keyboard/touch feedback, selected-image gallery transitions, reduced motion (including live changes), missing browser APIs, and JavaScript-free browsing. The default preview origin `http://127.0.0.1:4176` is registered with Sanity. For concurrent worktrees, `LAURA_PLAYWRIGHT_PORT` can select a free port, but its origin must also be registered in the project's CORS settings for client-side navigation to load content.
+It also checks restrained motion, keyboard/touch feedback, selected-image gallery transitions, reduced motion (including live changes), missing browser APIs, and JavaScript-free browsing. For concurrent worktrees, `LAURA_PLAYWRIGHT_PORT` can select a free preview port. Content navigation requires no Sanity CORS configuration.
 
-The static build is written to `dist/client` and verifies the five main pages plus each CMS gallery collection, internal links, crawler metadata, and the absence of runtime-only output.
+`test:e2e` builds with test-only gallery collections captured before Vite runs. It also blocks Sanity API endpoints while checking direct visits and client navigation.
+
+The static build is written to `dist/client` and verifies the five main pages plus each CMS gallery collection, internal links, crawler metadata, and the absence of Sanity API code or runtime-only output.
 
 ## Cloudflare Pages deployment
 
