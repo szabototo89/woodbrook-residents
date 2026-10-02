@@ -14,7 +14,7 @@ import type { SwipeDirection } from './useCollectionSwipeNavigation';
 export function CollectionPictures(props: {
   images: CmsGalleryItem[];
   initialIndex?: number;
-  focusOnMount?: boolean;
+  preserveViewport?: boolean;
   previousPicture?: CmsGalleryItem;
   nextPicture?: CmsGalleryItem;
   onSwipeBoundary?: (direction: SwipeDirection) => void;
@@ -69,13 +69,13 @@ export function CollectionPictures(props: {
 
   useLayoutEffect(() => {
     if (
-      !props.focusOnMount &&
+      props.preserveViewport ||
       !document.documentElement.hasAttribute('data-gallery-transition')
     )
       return;
     artwork.current?.scrollIntoView({ behavior: 'instant', block: 'center' });
     artwork.current?.focus({ preventScroll: true });
-  }, [props.images, props.focusOnMount]);
+  }, [props.images, props.preserveViewport]);
 
   const changePicture = (
     index: number,

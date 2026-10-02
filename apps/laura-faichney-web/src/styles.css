@@ -1691,6 +1691,10 @@ h2 {
 .collection-selected-picture {
   scroll-margin-block: 24px;
 }
+
+.collection-selected-picture:focus {
+  outline: none;
+}
 @keyframes editorial-reveal {
   from {
     opacity: 0;

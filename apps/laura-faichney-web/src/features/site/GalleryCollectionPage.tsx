@@ -9,7 +9,7 @@ import type { SwipeDirection } from './useCollectionSwipeNavigation';
 export function GalleryCollectionPage(props: {
   collection: CmsGalleryCollection;
   initialIndex?: number;
-  focusOnMount?: boolean;
+  preserveViewport?: boolean;
   previousPicture?: CmsGalleryItem;
   nextPicture?: CmsGalleryItem;
   onSwipeBoundary?: (direction: SwipeDirection) => void;
@@ -31,7 +31,7 @@ export function GalleryCollectionPage(props: {
           key={props.collection.slug}
           images={props.collection.photos}
           initialIndex={props.initialIndex}
-          focusOnMount={props.focusOnMount}
+          preserveViewport={props.preserveViewport}
           previousPicture={props.previousPicture}
           nextPicture={props.nextPicture}
           onSwipeBoundary={props.onSwipeBoundary}
