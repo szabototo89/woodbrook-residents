@@ -15,6 +15,8 @@ apps/dashboard/src/routeTree.gen.ts
 # Sanity Studio build output and CLI runtime (generated, gitignored in-app).
 apps/sanity-studio/dist/
 apps/sanity-studio/.sanity/
+apps/laura-studio/dist/
+apps/laura-studio/.sanity/
 # Test and coverage output (generated, gitignored at the root).
 test-results/
 playwright-report/

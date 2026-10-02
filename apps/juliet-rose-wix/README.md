@@ -32,7 +32,7 @@ React Cosmos fixtures live next to each widget (`*.fixture.tsx`) and run
 with Editor preview data, so every widget renders without Wix credentials:
 
 ```bash
-bun run dev:juliet-rose-wix
+bun run cosmos:juliet-rose-wix
 ```
 
 This opens the Cosmos playground with one fixture per widget. In addition to

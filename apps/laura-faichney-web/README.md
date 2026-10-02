@@ -33,7 +33,7 @@ image CDN, so image bandwidth remains part of Sanity usage.
 From the repository root:
 
 ```bash
-bun run dev:laura
+bun run dev:laura-faichney-web
 ```
 
 The app captures content when the development server starts and runs on port 3003. Restart it to load newly published content. The production origin used for canonical metadata defaults to `https://laura-faichney-all-things-art.pages.dev` and can be overridden with `VITE_PUBLIC_SITE_URL`.

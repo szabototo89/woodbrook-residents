@@ -7,7 +7,7 @@ This directory is the TanStack Start skeleton for the Juliet Rose Beauty Studio 
 From the repository root:
 
 ```bash
-bun run dev:juliet-rose
+bun run dev:juliet-rose-web
 ```
 
 The app runs on port 3002. The production origin used for canonical metadata defaults to `https://www.julietrosebeauty.com` and can be overridden with `VITE_PUBLIC_SITE_URL`.

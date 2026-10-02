@@ -2,7 +2,7 @@
 //
 // Needs both servers running:
 //   bun run --cwd apps/juliet-rose-web dev --port 3003
-//   bun run dev:juliet-rose-wix            # Cosmos on :5005/:5054
+//   bun run cosmos:juliet-rose-wix          # Cosmos on :5005/:5054
 //
 // Run with the workspace playwright installation:
 //   bun --cwd apps/web apps/juliet-rose-wix/scripts/css-parity.mjs
