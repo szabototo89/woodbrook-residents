@@ -1,5 +1,15 @@
 # Laura site image sources
 
+## Contact reference hero
+
+Saved files: `public/artwork/contact-studio-cutout.webp`, `contact-studio-cutout-960.webp`, and `contact-studio-cutout-480.webp`.
+
+Generated with the built-in ImageGen tool on 2026-10-02 using the user’s contact-page reference (`clipboard-2026-10-02-132844-B3A91A77.png`) for subject and style. Selected output: `exec-f1979a8b-10e7-4c7f-a4ae-a97f765e03c0.png`, 1374 × 1145 with true alpha. Encoded with Sharp as quality-88 WebP at original width and 960px/480px delivery widths, preserving transparency and aspect ratio. The previous envelope hero remains available but is no longer used by `/contact`. This floral brush-jug still life is illustrative concept artwork, not a verified Laura commission. Existing service images and gold handwritten motto are reused.
+
+Prompt:
+
+> Use case: photorealistic-natural. Asset type: transparent contact-page hero artwork for an artist portfolio website. Input image 1 is a STYLE AND SUBJECT REFERENCE only: recreate the brush-cup floral still life in the upper right of this webpage, without any webpage or text. A cream ceramic jug hand-painted with vivid small pink, turquoise, yellow and blue flowers holds a fan of long well-used artist paintbrushes loaded with bright pigments. Coral pink gerbera flowers, smaller blush flowers and eucalyptus leaves cluster to the lower left of the jug. A corner of an open sketchbook with colourful painted studies and two loose brushes sits below right. Warm natural light, tactile ceramic and real paint textures, welcoming refined editorial still life, close to the reference's photographic realism. Coral pink, fuchsia, navy, turquoise and warm gold. Landscape 6:5 composition, jug centered slightly right, all objects entirely within frame with safe transparent margins. Several diagonal pink, turquoise and ochre dry-brush streaks trail behind the objects and break into crisp ragged bristle marks at the outer edges. Isolated objects and brushstrokes on genuinely transparent alpha. No rectangular scene background, room, table extending across the frame, white/cream backdrop, shadow box, text, lettering, logo, watermark or UI. No envelope or note card.
+
 All current assets are for the design implementation. Laura will supply originals. The site has no CMS.
 
 ## Gallery collection detail hero
