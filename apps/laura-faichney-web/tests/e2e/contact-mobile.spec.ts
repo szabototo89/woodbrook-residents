@@ -32,15 +32,12 @@ test('touch navigation, service selection and enquiry submission work on mobile 
   await page.getByLabel('Your Name').fill('Jo');
   await page.getByLabel('Your Email').fill('jo@example.com');
   await page.getByLabel('Your Message').fill('I would love to learn to paint.');
-  const popupPromise = page.waitForEvent('popup');
   await page.getByRole('button', { name: 'Send Enquiry' }).tap();
-  const confirmation = await popupPromise;
-  await expect(confirmation.getByRole('heading')).toHaveText(
-    'Your response has been recorded.',
-  );
   await expect(page.getByRole('status')).toContainText(
-    'Check the Google confirmation tab',
+    'Your enquiry has been submitted',
   );
+  await expect(page.locator('main')).not.toContainText(/Google|new tab/i);
+  expect(context.pages()).toHaveLength(1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
     390,
   );
