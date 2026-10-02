@@ -1,3 +1,4 @@
+import { Arrow } from './Arrow';
 import { PageHero } from './PageHero';
 import { ServiceImage } from './ServiceImage';
 import { ContactSection } from './ContactSection';
@@ -39,7 +40,10 @@ export function ServicesPage(props: { data: ServicesData }) {
                 <ServiceImage image={service.image} />
               </div>
               <div className="service-list-copy">
-                <h2>{service.title}</h2>
+                <h2>
+                  {service.title}
+                  <Arrow />
+                </h2>
                 <span>{service.description}</span>
                 {serviceHighlights[service.slug] && (
                   <ul

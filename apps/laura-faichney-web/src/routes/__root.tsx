@@ -10,9 +10,11 @@ import dmSansUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-nor
 import styles from '../styles.css?url';
 import { SiteFooter, SiteHeader } from '../features/site/SitePages';
 import { useGalleryTransitions } from '../features/site/useGalleryTransitions';
+import { usePageTransitions } from '../features/site/usePageTransitions';
 
 function RootDocument() {
   useGalleryTransitions();
+  usePageTransitions();
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
