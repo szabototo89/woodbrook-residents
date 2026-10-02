@@ -9,9 +9,10 @@
     "deploy": "bun ../../scripts/deploy-laura.ts",
     "preview": "vite preview",
     "test:e2e": "bun run build && playwright test",
-    "test:unit": "vitest run",
+    "test:unit": "vitest run && bun test scripts/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "verify:static": "bun scripts/verify-static-build.ts"
+    "verify:static": "bun scripts/verify-static-build.ts",
+    "test:lighthouse": "bun scripts/lighthouse.ts"
   },
   "dependencies": {
     "@fontsource-variable/cormorant-garamond": "^5.3.0",

@@ -18,3 +18,6 @@ apps/cms/public/uploads/*
 !apps/cms/public/uploads/.gitkeep
 *.log
 *.tsbuildinfo
+
+apps/laura-faichney-web/lighthouse-reports/*.report.json
+apps/laura-faichney-web/lighthouse-reports/*.report.html

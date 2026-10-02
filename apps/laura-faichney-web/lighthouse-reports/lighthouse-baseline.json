@@ -1,0 +1,191 @@
+{
+  "baseUrl": "http://127.0.0.1:62001",
+  "minimums": {
+    "performance": 90,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100
+  },
+  "results": [
+    {
+      "route": "/",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 73,
+        "accessibility": 95,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 79,
+        "accessibility": 95,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/about",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 73,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/about",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 79,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/services",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 73,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/services",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 83,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 73,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 79,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/contact",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 73,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/contact",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 79,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery/mad-cow",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery/mad-cow",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery/coco-after-dark",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 87,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery/coco-after-dark",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery/wild-at-heart",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 82,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery/wild-at-heart",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery/angus-has-notions",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 80,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/gallery/angus-has-notions",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    }
+  ]
+}

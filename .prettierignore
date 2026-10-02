@@ -26,3 +26,5 @@ apps/web/public/google*.html
 # Git hooks are extensionless shell scripts, not prettier inputs.
 .githooks/post-checkout
 .githooks/post-worktree-remove
+
+apps/laura-faichney-web/lighthouse-reports/
