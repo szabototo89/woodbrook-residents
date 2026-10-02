@@ -1,4 +1,5 @@
-import { useLocation, useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
+import { useLocation, useNavigate, useRouter } from '@tanstack/react-router';
 import type { CmsGalleryCollection } from './lauraSanity';
 
 export type SwipeDirection = 'previous' | 'next';
@@ -14,6 +15,7 @@ export function useCollectionSwipeNavigation(
   collections: CmsGalleryCollection[],
 ) {
   const navigate = useNavigate();
+  const router = useRouter();
   const entry = useLocation({
     select: (location) => location.state.gallerySwipe,
   });
@@ -27,6 +29,22 @@ export function useCollectionSwipeNavigation(
   const previous =
     collections[(index - 1 + collections.length) % collections.length];
   const next = collections[(index + 1) % collections.length];
+
+  const previousSlug = previous?.slug;
+  const nextSlug = next?.slug;
+  useEffect(() => {
+    const adjacentSlugs = Array.from(new Set([previousSlug, nextSlug])).filter(
+      (slug): slug is string => !!slug && slug !== collection.slug,
+    );
+    void Promise.allSettled(
+      adjacentSlugs.map((slug) =>
+        router.preloadRoute({
+          to: '/gallery/$collectionSlug',
+          params: { collectionSlug: slug },
+        }),
+      ),
+    );
+  }, [router, collection.slug, previousSlug, nextSlug]);
 
   const changeCollection = (direction: SwipeDirection) => {
     const offset = direction === 'next' ? 1 : -1;

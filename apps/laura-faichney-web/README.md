@@ -17,9 +17,10 @@ the values above and can be overridden for previews or local experiments:
 - `VITE_SANITY_API_VERSION` (or `SANITY_API_VERSION` on the server)
 
 A missing or invalid required field fails the static build with the Sanity
-validation message. Browser-side route transitions re-read published content,
+validation message. Browser-side route transitions read published content,
 so the local dev (`http://localhost:3003`), e2e (`http://127.0.0.1:4176`), and
-production origins are registered as project CORS origins.
+production origins are registered as project CORS origins. Collection routes
+preload their neighbors and reuse fresh data for 30 seconds to keep swipe switches fast.
 
 ## Development
 

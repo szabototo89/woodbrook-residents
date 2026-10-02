@@ -10,6 +10,7 @@ import {
 } from '../features/site/lauraSanity';
 
 export const Route = createFileRoute('/gallery_/$collectionSlug')({
+  staleTime: 30_000,
   loader: async ({ params }) => {
     const gallery = await new LauraSanitySource().loadGallery();
     const collection = getGalleryCollection(

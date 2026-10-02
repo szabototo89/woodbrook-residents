@@ -107,6 +107,21 @@ async function gesture(
   });
 }
 
+async function swipePicture(
+  page: Page,
+  session: CDPSession,
+  direction: 'next' | 'previous',
+) {
+  const bounds = await page.locator('.collection-carousel').boundingBox();
+  if (!bounds) throw new Error('Picture viewer is missing');
+  // Cross the snap midpoint even if protocol delivery slows under parallel load.
+  await gesture(
+    page,
+    session,
+    bounds.width * 0.6 * (direction === 'next' ? -1 : 1),
+  );
+}
+
 for (const reducedMotion of [
   'reduce',
   'no-preference',
@@ -156,7 +171,7 @@ for (const reducedMotion of [
     const first = collection.photos[0]!;
     const last = collection.photos[collection.photos.length - 1]!;
     await expect(picture).toHaveAttribute('alt', first);
-    await gesture(page, session, -120);
+    await swipePicture(page, session, 'next');
     await expect(picture).toHaveAttribute('alt', collection.photos[1]!);
     if (reducedMotion === 'no-preference') {
       await expect(page.locator('html')).not.toHaveAttribute(
@@ -168,9 +183,9 @@ for (const reducedMotion of [
         name: `View picture: ${collection.photos[1]}`,
       }),
     ).toHaveAttribute('aria-pressed', 'true');
-    await gesture(page, session, 120);
+    await swipePicture(page, session, 'previous');
     await expect(picture).toHaveAttribute('alt', first);
-    await gesture(page, session, 120);
+    await swipePicture(page, session, 'previous');
     await expect(page).toHaveURL(`/gallery/${previous.slug}`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
       previous.title,
@@ -185,15 +200,15 @@ for (const reducedMotion of [
         'collection-page',
       );
     }
-    await gesture(page, session, -120);
+    await swipePicture(page, session, 'next');
     await expect(picture).toHaveAttribute('alt', first);
     await expect(page).toHaveURL(`/gallery/${collection.slug}`);
     await page.getByRole('button', { name: `View picture: ${last}` }).click();
     await expect(picture).toHaveAttribute('alt', last);
-    await gesture(page, session, -120);
+    await swipePicture(page, session, 'next');
     await expect(page).toHaveURL(`/gallery/${next.slug}`);
     await expect(picture).toHaveAttribute('alt', next.photos[0]!);
-    await gesture(page, session, 120);
+    await swipePicture(page, session, 'previous');
     await expect(page).toHaveURL(`/gallery/${collection.slug}`);
     await expect(picture).toHaveAttribute('alt', last);
     await page.reload();
@@ -233,7 +248,7 @@ test('taps, short drags, vertical scrolling and two-finger gestures keep the sel
   // Let native scroll inertia stop before starting a new horizontal gesture.
   await page.waitForTimeout(300);
   // A cancelled scroll or multi-touch gesture must not block the next swipe.
-  await gesture(page, session, -120);
+  await swipePicture(page, session, 'next');
   await expect(picture).toHaveAttribute('alt', collection.photos[1]!);
 });
 
@@ -255,22 +270,22 @@ test('single-picture collections swipe to adjacent collections and the gallery w
   ).toHaveCount(0);
   const index = collections.findIndex((item) => item.slug === collection.slug);
   const next = collections[(index + 1) % collections.length]!;
-  await gesture(page, session, -120);
+  await swipePicture(page, session, 'next');
   await expect(page).toHaveURL(`/gallery/${next.slug}`);
   await expect(picture).toHaveAttribute('alt', next.photos[0]!);
-  await gesture(page, session, 120);
+  await swipePicture(page, session, 'previous');
   await expect(page).toHaveURL(`/gallery/${collection.slug}`);
   await expect(picture).toHaveAttribute('alt', collection.photos[0]!);
   const first = collections[0]!;
   const last = collections[collections.length - 1]!;
   await page.goto(`/gallery/${first.slug}`);
-  await gesture(page, session, 120);
+  await swipePicture(page, session, 'previous');
   await expect(page).toHaveURL(`/gallery/${last.slug}`);
   await expect(picture).toHaveAttribute(
     'alt',
     last.photos[last.photos.length - 1]!,
   );
-  await gesture(page, session, -120);
+  await swipePicture(page, session, 'next');
   await expect(page).toHaveURL(`/gallery/${first.slug}`);
   await expect(picture).toHaveAttribute('alt', first.photos[0]!);
 });
@@ -361,3 +376,66 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
     }
   });
 }
+
+test('adjacent collections update within 400ms of release without waiting for a slow CMS request', async ({
+  page,
+}) => {
+  const collections = await galleryCollections();
+  const collection = collections.find((item) => item.photos.length === 1);
+  if (!collection) throw new Error('Single-picture collection is missing');
+  const index = collections.findIndex((item) => item.slug === collection.slug);
+  const next = collections[(index + 1) % collections.length]!;
+  const previous =
+    collections[(index - 1 + collections.length) % collections.length]!;
+  await page.goto(`/gallery/${collection.slug}`);
+  await page.waitForLoadState('networkidle');
+  // Reading the artwork for half a minute must not bring back the network delay.
+  await page.clock.install();
+  await page.clock.fastForward(31_000);
+  // Adjacent collections should already be ready before the visitor releases a swipe.
+  await page
+    .context()
+    .route('https://uag6kepo.api.sanity.io/**', async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await route.fallback();
+    });
+  const session = await page.context().newCDPSession(page);
+  for (const [target, direction] of [
+    [next, 'next'],
+    [collection, 'previous'],
+    [previous, 'previous'],
+  ] as const) {
+    await page.evaluate((title) => {
+      let released = 0;
+      document.documentElement.removeAttribute('data-switch-delay');
+      document.addEventListener(
+        'touchend',
+        () => {
+          released = performance.now();
+        },
+        { once: true, capture: true },
+      );
+      const observer = new MutationObserver(() => {
+        if (released && document.querySelector('h1')?.textContent === title) {
+          document.documentElement.dataset.switchDelay = String(
+            performance.now() - released,
+          );
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, {
+        subtree: true,
+        childList: true,
+        characterData: true,
+      });
+    }, target.title);
+    await swipePicture(page, session, direction);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      target.title,
+    );
+    await expect(page).toHaveURL(`/gallery/${target.slug}`);
+    const delay = await page.locator('html').getAttribute('data-switch-delay');
+    expect(delay).not.toBeNull();
+    expect(Number(delay)).toBeLessThan(400);
+  }
+});

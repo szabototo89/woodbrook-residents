@@ -59,16 +59,11 @@ export function CollectionPictures(props: {
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         carousel.scrollTo(carousel.selectedScrollSnap(), true);
       }
+      navigateBoundary();
     };
-    carousel
-      .on('select', selectPicture)
-      .on('settle', navigateBoundary)
-      .on('pointerUp', finishDrag);
+    carousel.on('select', selectPicture).on('pointerUp', finishDrag);
     return () => {
-      carousel
-        .off('select', selectPicture)
-        .off('settle', navigateBoundary)
-        .off('pointerUp', finishDrag);
+      carousel.off('select', selectPicture).off('pointerUp', finishDrag);
     };
   }, [carousel, offset, total, props.onSwipeBoundary]);
 
