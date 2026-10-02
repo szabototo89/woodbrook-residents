@@ -505,8 +505,10 @@ test('about and gallery present routes without invented client claims', () => {
     'https://cdn.sanity.io/images/uag6kepo/production/',
   );
   expect(gallery).toContain('loading="eager"');
-  const contact = renderToStaticMarkup(<ContactPage settings={settings} />);
-  expect(contact).toContain('src="/artwork/contact-hero-cutout.webp"');
+  const contact = renderToStaticMarkup(
+    <ContactPage settings={settings} services={services} />,
+  );
+  expect(contact).toContain('src="/artwork/contact-studio-cutout.webp"');
   expect(contact).toContain(
     'mailto:lauralfaichney@gmail.com?subject=Art%20project%20enquiry',
   );
@@ -517,7 +519,9 @@ test('every subpage introduces its content with a distinct artwork-led hero', ()
     renderToStaticMarkup(<AboutPage data={aboutData} />),
     renderToStaticMarkup(<ServicesPage data={servicesData} />),
     renderToStaticMarkup(<GalleryPage data={galleryData} />),
-    renderToStaticMarkup(<ContactPage settings={settings} />),
+    renderToStaticMarkup(
+      <ContactPage settings={settings} services={services} />,
+    ),
   ];
   const heroImages = pages.map((html) => {
     const hero = html.match(
