@@ -92,3 +92,12 @@ bunx wrangler pages deploy dist/client --project-name=laura-faichney-all-things-
 ```
 
 Pushes to `main` that touch `apps/laura-faichney-web/**` are also deployed by the `Deploy Laura Faichney` GitHub workflow.
+
+## Contact enquiries
+
+The contact page posts directly from the browser to the matching Google Form.
+Google’s recording confirmation opens in a new tab; the contact page keeps the
+visitor’s details and offers direct email. There is no enquiry API, Cloudflare
+function or deployed Google credential. The submission URL and verified Google
+question field IDs live in `src/features/site/googleFormSubmission.ts`.
+See `docs/features/laura-google-form-enquiries.md` for verification and scope.
