@@ -26,10 +26,12 @@ const config = {
   apiVersion: '2025-09-01',
 };
 
-test('footer offers the requested social placeholders with accessible names', () => {
+test('footer offers the supplied Facebook profile and Instagram link with accessible names', () => {
   const html = renderToStaticMarkup(<SiteFooter />);
   expect(html).toContain('href="https://www.instagram.com/"');
-  expect(html).toContain('href="https://www.facebook.com/"');
+  expect(html).toContain(
+    'href="https://www.facebook.com/profile.php?id=61553821975045"',
+  );
   expect(html).toContain('aria-label="Instagram"');
   expect(html).toContain('aria-label="Facebook"');
 });

@@ -28,7 +28,7 @@ As someone considering a painting, mural, sign or creative event, I want to expl
 
 ## Scope and sources
 
-This change targets `/contact` in `apps/laura-faichney-web`. Shared components are reused, with contact-specific styling. No CMS schema, enquiry backend, storage, attachment upload, analytics or delivery service is introduced. Existing footer social placeholders retain their previous behavior.
+This change targets `/contact` in `apps/laura-faichney-web`. Shared components are reused, with contact-specific styling. No CMS schema, enquiry backend, storage, attachment upload, analytics or delivery service is introduced. The shared footer links to the Facebook profile supplied by the user on 2026-10-02 (`https://www.facebook.com/profile.php?id=61553821975045`); Instagram retains its platform-homepage placeholder.
 
 Design and Dublin/Ireland location wording: user-supplied `clipboard-2026-10-02-132844-B3A91A77.png` (Image #1), accessed 2026-10-02. Published contact and service content: the existing Sanity content loaded by the app. Hero artwork is an illustrative generated asset, not a verified Laura commission; its prompt and provenance are recorded in `apps/laura-faichney-web/ASSETS.md`.
 

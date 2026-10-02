@@ -13,7 +13,7 @@ export function SiteFooter() {
           <a href="/contact">Contact</a>
         </nav>
         <nav className="social-links" aria-label="Social media">
-          {/* User-requested placeholders; replace with Laura's profile URLs. */}
+          {/* Instagram remains the user-requested placeholder. */}
           <a href="https://www.instagram.com/" aria-label="Instagram">
             <svg
               width="22"
@@ -35,7 +35,10 @@ export function SiteFooter() {
               />
             </svg>
           </a>
-          <a href="https://www.facebook.com/" aria-label="Facebook">
+          <a
+            href="https://www.facebook.com/profile.php?id=61553821975045"
+            aria-label="Facebook"
+          >
             <svg
               width="22"
               height="22"
