@@ -13,7 +13,6 @@ export default tseslint.config(
       '**/.output/**',
       '**/coverage/**',
       '**/routeTree.gen.ts',
-      'apps/juliet-rose-app/src/env.d.ts',
     ],
   },
   eslint.configs.recommended,
