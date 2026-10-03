@@ -134,3 +134,43 @@ test('collapsed FAQs retain a valid controlled panel and answers stay hidden', a
   );
   expect(panel).not.toBeVisible();
 });
+
+test('homepage uses the generated logo and handwritten hero annotation as image assets', () => {
+  render(<HomePage />);
+  const brand = screen.getByRole('link', { name: 'Locale home' });
+  expect(brand.querySelector('img')).toHaveAttribute(
+    'src',
+    '/images/locale-logo.webp',
+  );
+  expect(brand.querySelector('img')).toHaveAttribute('alt', 'Locale');
+  expect(
+    screen.getByRole('img', {
+      name: 'Websites that work for real businesses.',
+    }),
+  ).toHaveAttribute('src', '/images/handwritten-hero-note.webp');
+});
+
+test('hero showcases Laura Faichney’s homepage with truthful project credit', () => {
+  render(<HomePage />);
+  const hero = screen.getByRole('img', {
+    name: /laptop displaying Laura Faichney/i,
+  });
+  expect(hero).toHaveAttribute('src', '/images/laura-website-1200.webp');
+  expect(hero).toHaveAttribute(
+    'srcset',
+    expect.stringContaining('/images/laura-website-640.webp 640w'),
+  );
+  expect(screen.getByText('Laura Faichney · All Things Art')).toBeVisible();
+  expect(
+    screen.queryByText('Illustrative website concept · The Gathered Table'),
+  ).not.toBeInTheDocument();
+});
+
+test('homepage main navigation includes the blog subpage', () => {
+  render(<HomePage />);
+  const nav = screen.getByRole('navigation', { name: 'Main navigation' });
+  expect(within(nav).getByRole('link', { name: 'Blog' })).toHaveAttribute(
+    'href',
+    '/blog',
+  );
+});

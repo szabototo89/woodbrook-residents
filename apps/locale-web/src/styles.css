@@ -76,11 +76,10 @@ svg {
   font-weight: 650;
   letter-spacing: -1.4px;
 }
-.brand svg {
-  width: 19px;
-  fill: #b9c9b0;
-  stroke: var(--green);
-  transform: rotate(-35deg);
+.brand img {
+  display: block;
+  width: 108px;
+  height: auto;
 }
 .navigation {
   display: flex;
@@ -92,7 +91,8 @@ svg {
   position: relative;
   padding: 14px 0;
 }
-.navigation a:first-child:after {
+.navigation a:first-child:after,
+.navigation a[aria-current='page']:after {
   content: '';
   position: absolute;
   bottom: 5px;
@@ -199,7 +199,7 @@ h1 {
   align-self: stretch;
   margin: 0 0 6px;
 }
-.hero-visual img {
+.hero-photo {
   width: 100%;
   height: 100%;
   min-height: 390px;
@@ -209,24 +209,12 @@ h1 {
 }
 .hero-note {
   position: absolute;
-  right: 23px;
-  top: 22px;
-  transform: rotate(-11deg);
-  font-style: italic;
-  font-weight: 650;
-  font-size: 16px;
-  line-height: 1.2;
-  color: #193e29;
-  text-align: center;
-  background: #f7f4e9d9;
-  padding: 9px 12px;
-  border-radius: 10px;
-}
-.hero-note > span {
+  right: 26px;
+  top: 17px;
+  width: 117px;
+  height: auto;
   display: block;
-  font-size: 35px;
-  font-style: normal;
-  font-weight: 400;
+  pointer-events: none;
 }
 .hero-visual figcaption {
   position: absolute;
@@ -744,11 +732,11 @@ main:focus {
     margin-left: 20px;
     gap: 22px;
   }
-  .hero-visual img {
+  .hero-photo {
     min-height: 375px;
   }
   .hero-note {
-    font-size: 13px;
+    width: 105px;
     right: 12px;
     top: 15px;
   }
@@ -861,7 +849,8 @@ main:focus {
     font-size: 16px;
     padding: 12px;
   }
-  .navigation a:first-child:after {
+  .navigation a:first-child:after,
+  .navigation a[aria-current='page']:after {
     display: none;
   }
   .hero {
@@ -899,7 +888,7 @@ main:focus {
     align-self: auto;
     width: calc(100% - 40px);
   }
-  .hero-visual img {
+  .hero-photo {
     min-height: 0;
     height: auto;
     aspect-ratio: 3/2;
@@ -908,11 +897,7 @@ main:focus {
   .hero-note {
     right: 13px;
     top: 13px;
-    font-size: 12px;
-    padding: 6px 9px;
-  }
-  .hero-note > span {
-    font-size: 24px;
+    width: 90px;
   }
   .hero-visual figcaption {
     font-size: 9px;
@@ -1125,4 +1110,236 @@ main:focus {
 
 .testimonial-avatar {
   object-fit: cover;
+}
+
+.blog-intro {
+  padding-top: 38px;
+  padding-bottom: 42px;
+  max-width: 930px;
+}
+.back-link {
+  margin-bottom: 32px;
+  font-size: 12px;
+}
+.blog-intro h1 {
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1.08;
+  max-width: 790px;
+}
+.blog-intro > p:last-child {
+  font-size: 18px;
+  line-height: 1.5;
+  max-width: 610px;
+  margin-top: 20px;
+}
+.blog-guides {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  padding-bottom: 35px;
+}
+.guide-card {
+  padding: 28px;
+  background: var(--panel);
+  border: 1px solid #e8ede2;
+  border-radius: 16px;
+  align-self: start;
+}
+.featured-guide {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 48% 1fr;
+  padding: 0;
+  overflow: hidden;
+  gap: 0;
+}
+.guide-image {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  object-fit: cover;
+  display: block;
+}
+.guide-copy h2 {
+  font-size: 28px;
+  letter-spacing: -0.7px;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.guide-copy > p:not(.eyebrow) {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.featured-guide .guide-copy {
+  padding: 35px;
+}
+.guide-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e0e8d7;
+  display: grid;
+  place-items: center;
+  color: var(--green);
+  margin-bottom: 22px;
+}
+.guide-copy details {
+  margin-top: 22px;
+}
+.guide-copy summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  padding: 5px 0;
+}
+.guide-copy summary::-webkit-details-marker {
+  display: none;
+}
+.guide-copy summary:focus-visible {
+  outline: 3px solid #57734d;
+  outline-offset: 5px;
+}
+.guide-copy details[open] summary svg {
+  transform: rotate(90deg);
+}
+.guide-body {
+  padding-top: 20px;
+  display: grid;
+  gap: 15px;
+}
+.guide-body > p {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.guide-body .guide-source {
+  font-size: 12px;
+  border-top: 1px solid #d6dfcc;
+  padding-top: 15px;
+}
+.guide-source a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--green);
+}
+.guide-source span {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+}
+.blog-contact {
+  margin: 0 19px 15px;
+  padding: 30px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+}
+.blog-contact h2 {
+  font-size: 25px;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+.blog-contact p:last-child {
+  font-size: 15px;
+}
+.blog-shell .navigation a:first-child:after {
+  display: none;
+}
+@media (max-width: 960px) {
+  .navigation {
+    gap: 22px;
+    margin-left: 45px;
+  }
+  .featured-guide {
+    grid-template-columns: 44% 1fr;
+  }
+  .featured-guide .guide-copy {
+    padding: 25px;
+  }
+  .guide-copy h2 {
+    font-size: 24px;
+  }
+}
+@media (max-width: 760px) {
+  .brand img {
+    width: 101px;
+  }
+  .blog-intro {
+    padding-top: 24px;
+    padding-bottom: 30px;
+  }
+  .back-link {
+    margin-bottom: 25px;
+  }
+  .blog-intro h1 {
+    font-size: 40px;
+  }
+  .blog-intro > p:last-child {
+    font-size: 16px;
+  }
+  .blog-guides {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding-bottom: 24px;
+  }
+  .featured-guide {
+    grid-template-columns: 1fr;
+    grid-column: auto;
+  }
+  .guide-image {
+    min-height: 0;
+    height: auto;
+    aspect-ratio: 3/2;
+  }
+  .guide-card {
+    padding: 24px;
+  }
+  .featured-guide {
+    padding: 0;
+  }
+  .featured-guide .guide-copy {
+    padding: 24px;
+  }
+  .guide-copy h2 {
+    font-size: 26px;
+  }
+  .guide-copy summary {
+    min-height: 44px;
+  }
+  .blog-contact {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 25px 24px;
+  }
+  .blog-contact h2 {
+    font-size: 25px;
+  }
+  .blog-contact p:last-child {
+    line-height: 1.5;
+  }
+  .navigation.is-open {
+    margin: 0;
+  }
+}
+
+.guide-card .eyebrow {
+  color: #41613b;
+}
+@media (max-width: 360px) {
+  .site-header {
+    padding: 0 16px;
+    gap: 8px;
+  }
+  .header-cta {
+    padding: 8px 12px;
+    font-size: 11px;
+    gap: 8px;
+  }
 }

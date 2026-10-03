@@ -11,7 +11,7 @@
       "route": "/",
       "formFactor": "mobile",
       "scores": {
-        "performance": 96,
+        "performance": 93,
         "accessibility": 100,
         "best-practices": 100,
         "seo": 100
@@ -19,6 +19,26 @@
     },
     {
       "route": "/",
+      "formFactor": "desktop",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/blog",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      }
+    },
+    {
+      "route": "/blog",
       "formFactor": "desktop",
       "scores": {
         "performance": 100,

@@ -35,26 +35,23 @@ export function HomePage() {
           </div>
           <figure className="hero-visual" id="work">
             <img
-              src="/images/cafe-website-1200.webp"
-              srcSet="/images/cafe-website-640.webp 640w, /images/cafe-website-1200.webp 1200w"
+              src="/images/laura-website-1200.webp"
+              srcSet="/images/laura-website-640.webp 640w, /images/laura-website-1200.webp 1200w"
               sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1180px) 50vw, 610px"
               width={1200}
               height={800}
-              alt="Laptop displaying a restaurant website in a warm, plant-filled café"
+              className="hero-photo"
+              alt="Laptop displaying Laura Faichney’s homepage in a warm, plant-filled café"
               fetchPriority="high"
             />
-            <span className="hero-note" aria-hidden="true">
-              Websites
-              <br />
-              that work
-              <br />
-              for real
-              <br />
-              businesses.<span>⤵</span>
-            </span>
-            <figcaption>
-              Illustrative website concept · The Gathered Table
-            </figcaption>
+            <img
+              className="hero-note"
+              src="/images/handwritten-hero-note.webp"
+              width={400}
+              height={596}
+              alt="Websites that work for real businesses."
+            />
+            <figcaption>Laura Faichney · All Things Art</figcaption>
           </figure>
         </section>
         <section

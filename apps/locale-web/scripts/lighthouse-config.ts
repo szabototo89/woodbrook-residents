@@ -1,5 +1,5 @@
 export type { LighthouseCategory } from '../../web/scripts/lighthouse-config';
-export const LIGHTHOUSE_ROUTES: string[] = ['/'];
+export const LIGHTHOUSE_ROUTES: string[] = ['/', '/blog'];
 export const LIGHTHOUSE_MIN_SCORES = {
   performance: 90,
   accessibility: 90,

@@ -20,7 +20,7 @@ test('Cloudflare publishes the client directory with security and asset cache he
 });
 
 test('Lighthouse accepts the homepage only when all scores meet the minimum', () => {
-  expect(LIGHTHOUSE_ROUTES).toEqual(['/']);
+  expect(LIGHTHOUSE_ROUTES).toEqual(['/', '/blog']);
   expect(
     evaluateLighthouseScores(
       { performance: 90, accessibility: 90, 'best-practices': 90, seo: 90 },

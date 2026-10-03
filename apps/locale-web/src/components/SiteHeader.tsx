@@ -1,20 +1,32 @@
 import { useState } from 'react';
-import { ArrowRight, Leaf, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 
 const sections = [
   { name: 'Services', href: '#services' },
   { name: 'Work', href: '#work' },
   { name: 'About', href: '#about' },
+  { name: 'Blog', href: '/blog' },
   { name: 'Contact', href: '#contact' },
 ];
 
-export function SiteHeader() {
+export function SiteHeader(props: { page?: 'home' | 'blog' }) {
+  const homePrefix = props.page === 'blog' ? '/' : '';
+  const sectionHref = (href: string) =>
+    href.startsWith('#') ? `${homePrefix}${href}` : href;
   const [open, setOpen] = useState(false);
   return (
     <header className="site-header">
-      <a className="brand" href="#main-content" aria-label="Locale home">
-        <Leaf aria-hidden="true" />
-        Locale
+      <a
+        className="brand"
+        href={props.page === 'blog' ? '/' : '#main-content'}
+        aria-label="Locale home"
+      >
+        <img
+          src="/images/locale-logo.webp"
+          width={512}
+          height={115}
+          alt="Locale"
+        />
       </a>
       <button
         className="menu-toggle"
@@ -34,14 +46,19 @@ export function SiteHeader() {
         {sections.map((section) => (
           <a
             key={section.href}
-            href={section.href}
+            href={sectionHref(section.href)}
+            aria-current={
+              section.href === '/blog' && props.page === 'blog'
+                ? 'page'
+                : undefined
+            }
             onClick={() => setOpen(false)}
           >
             {section.name}
           </a>
         ))}
       </nav>
-      <a className="button header-cta" href="#contact">
+      <a className="button header-cta" href={sectionHref('#contact')}>
         Get Started <ArrowRight aria-hidden="true" size={16} />
       </a>
     </header>
