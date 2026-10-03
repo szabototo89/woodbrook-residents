@@ -18,7 +18,7 @@ export function BlogPage() {
             <ArrowLeft size={15} aria-hidden="true" />
             Back to home
           </a>
-          <p className="eyebrow">The Locale journal</p>
+          <p className="eyebrow">The Forma Studio journal</p>
           <h1 id="blog-title">
             Small ideas.
             <br /> A stronger online presence.
@@ -95,8 +95,8 @@ export function BlogPage() {
         </section>
       </main>
       <footer className="site-footer">
-        <span>Locale · Websites for local businesses</span>
-        <a href="/">Back to Locale home</a>
+        <span>Forma Studio · Websites for local businesses</span>
+        <a href="/">Back to Forma Studio home</a>
       </footer>
     </div>
   );

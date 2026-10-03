@@ -4,15 +4,15 @@ import { BlogPage } from '../features/blog/BlogPage';
 export const Route = createFileRoute('/blog')({
   head: () => ({
     meta: [
-      { title: 'Locale Journal | Ideas for local businesses' },
+      { title: 'Forma Studio Journal | Ideas for local businesses' },
       {
         name: 'description',
         content:
-          'Practical guides to website design, local search and keeping your business content useful. Read the Locale journal.',
+          'Practical guides to website design, local search and keeping your business content useful. Read the Forma Studio journal.',
       },
       {
         property: 'og:title',
-        content: 'Locale Journal | Ideas for local businesses',
+        content: 'Forma Studio Journal | Ideas for local businesses',
       },
     ],
   }),

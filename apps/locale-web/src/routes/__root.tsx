@@ -36,7 +36,7 @@ export const Route = createRootRoute({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'theme-color', content: '#1d402d' },
     ],
-    links: [{ rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
+    links: [{ rel: 'icon', href: '/favicon.png', type: 'image/png' }],
   }),
   shellComponent: RootDocument,
 });

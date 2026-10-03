@@ -14,6 +14,6 @@
 - [Issue reporting](issue-reporting.md) — Removed
 - [Static design proposals](static-design-proposals.md) — Available
 
-- [Locale homepage](locale-homepage.md) — Available
+- [Forma Studio homepage](locale-homepage.md) — Available
 
-- [Locale blog](locale-blog.md) — Available
+- [Forma Studio blog](locale-blog.md) — Available

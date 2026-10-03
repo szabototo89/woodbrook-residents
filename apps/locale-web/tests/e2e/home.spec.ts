@@ -14,6 +14,13 @@ test('home page serves complete prerendered content and working section links', 
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
+  await expect(page).toHaveTitle(
+    'Forma Studio | Digital services for local businesses',
+  );
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute(
+    'href',
+    '/favicon.png',
+  );
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Simple digital services for local businesses.',
   );
@@ -97,11 +104,20 @@ test('generated branding and hero note remain transparent and fit the laptop ima
   page,
 }) => {
   await page.goto('/');
-  const logo = page.getByRole('link', { name: 'Locale home' }).locator('img');
+  const logo = page
+    .getByRole('link', { name: 'Forma Studio home' })
+    .locator('img');
   const note = page.getByRole('img', {
     name: 'Websites that work for real businesses.',
   });
   await expect(logo).toBeVisible();
+  const logoRatios = await logo.evaluate((image: HTMLImageElement) => ({
+    reserved:
+      Number(image.getAttribute('width')) /
+      Number(image.getAttribute('height')),
+    loaded: image.naturalWidth / image.naturalHeight,
+  }));
+  expect(logoRatios.reserved).toBeCloseTo(logoRatios.loaded);
   await expect(note).toBeVisible();
   const hero = page.getByRole('img', {
     name: /laptop displaying Laura Faichney/i,
@@ -134,6 +150,9 @@ test('blog route is prerendered and the menu navigates between the home and guid
     .getByRole('link', { name: 'Blog' })
     .click();
   await expect(page).toHaveURL(/\/blog$/);
+  await expect(page).toHaveTitle(
+    'Forma Studio Journal | Ideas for local businesses',
+  );
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Small ideas. A stronger online presence.',
   );

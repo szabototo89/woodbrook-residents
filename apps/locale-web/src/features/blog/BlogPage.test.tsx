@@ -6,6 +6,17 @@ import { BlogPage } from './BlogPage';
 test('blog presents useful guides and a menu that returns to homepage sections', () => {
   render(<BlogPage />);
   expect(
+    screen.getByRole('link', { name: 'Forma Studio home' }),
+  ).toHaveAttribute('href', '/');
+  expect(screen.getByRole('img', { name: 'Forma Studio' })).toHaveAttribute(
+    'src',
+    '/images/forma-studio-logo.webp',
+  );
+  expect(screen.getByText('The Forma Studio journal')).toBeVisible();
+  expect(
+    screen.getByText('Forma Studio · Websites for local businesses'),
+  ).toBeVisible();
+  expect(
     screen.getByRole('heading', {
       level: 1,
       name: 'Small ideas. A stronger online presence.',
