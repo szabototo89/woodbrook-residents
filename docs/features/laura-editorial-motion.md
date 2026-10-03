@@ -80,10 +80,12 @@ No new artwork, individual-letter animation, scroll-jacking, parallax, pinned se
 
 ## Verification
 
-Verified 2026-10-02: all 99 Laura browser tests and 55 unit tests pass. Static prerender verification checks nine public HTML files and every generated internal link. The full repository `bun run build` passes. Desktop (1440px), phone (390px), service and mural screenshots were inspected. New motion expectations were first run against the previous implementation: nine browser assertions and the gallery-caption unit assertion failed before the corresponding changes; the page-navigation tests also exposed missing page snapshots and destination focus before implementation.
+Verified 2026-10-03 with the current main changes: 101 Laura browser tests and 57 unit tests pass. Static prerender verification checks nine public HTML files and every generated internal link. The full repository `bun run build` passes. Desktop (1440px), phone (390px), service and mural screenshots were inspected. New motion expectations were first run against the previous implementation: nine browser assertions and the gallery-caption unit assertion failed before the corresponding changes; the page-navigation tests also exposed missing page snapshots and destination focus before implementation.
 
 Regression coverage is in `apps/laura-faichney-web/tests/e2e/motion.spec.ts`, `gallery-motion.spec.ts` and `page-motion.spec.ts`, alongside existing layout, contact and gallery tests.
 
 Implementation references (accessed 2026-10-02): [MDN: View Transition API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API), [W3C: Animation from Interactions](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html), and [Webflow: 2026 design trends](https://webflow.com/blog/web-design-trends-2026). The review's central idea—brand-specific expressive moments with restrained routine motion—fits the existing artwork; trend claims are not a substitute for browser and accessibility checks.
+
+The cancelled-scroll recovery check waits for native scrolling to settle before starting the next swipe, keeping its existing selection assertions.
 
 Browser verification used an isolated preview on port 4196 because the default port 4176 was occupied. Published artwork interception retained working image access on that port.
