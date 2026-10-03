@@ -44,7 +44,7 @@ test('required fields and email validation prevent incomplete enquiries', async 
   await expect(page.getByRole('status')).toBeEmpty();
 });
 
-test('sends the complete enquiry directly to Google and opens its confirmation', async ({
+test('submits the enquiry inline without provider copy, navigation or new tabs', async ({
   page,
   context,
 }) => {
@@ -53,6 +53,7 @@ test('sends the complete enquiry directly to Google and opens its confirmation',
     'https://docs.google.com/forms/**/formResponse?hl=en',
     async (route) => {
       submissions.push(new URLSearchParams(route.request().postData() ?? ''));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       await route.fulfill({
         contentType: 'text/html',
         body: '<h1>Your response has been recorded.</h1>',
@@ -69,15 +70,14 @@ test('sends the complete enquiry directly to Google and opens its confirmation',
   await page
     .getByLabel('Your Message')
     .fill('A pink & blue mural for our café.');
-  await expect(
-    page.getByText('Opens Google’s confirmation in a new tab.'),
-  ).toBeVisible();
-  const popupPromise = page.waitForEvent('popup');
+  await expect(page.locator('main')).not.toContainText(/Google|new tab/i);
   await page.getByRole('button', { name: 'Send Enquiry' }).click();
-  const confirmation = await popupPromise;
-  await expect(confirmation.getByRole('heading')).toHaveText(
-    'Your response has been recorded.',
+  await expect(page.getByRole('button', { name: 'Sending…' })).toBeDisabled();
+  await expect(page.getByRole('status')).toContainText(
+    'Your enquiry has been submitted',
   );
+  expect(context.pages()).toHaveLength(1);
+  await expect(page).toHaveURL(/\/contact\?service=murals-indoor-outdoor$/);
   expect(submissions).toHaveLength(1);
   expect(submissions[0]!.get('entry.1440085785')).toBe('Sarah Murphy');
   expect(submissions[0]!.get('entry.2023704522')).toBe('sarah@example.com');
@@ -89,7 +89,7 @@ test('sends the complete enquiry directly to Google and opens its confirmation',
     'A pink & blue mural for our café.',
   );
   await expect(page.getByRole('status')).toContainText(
-    'Check the Google confirmation tab',
+    'Your enquiry has been submitted',
   );
   await expect(
     page.getByRole('button', { name: 'Enquiry submitted' }),
@@ -97,6 +97,9 @@ test('sends the complete enquiry directly to Google and opens its confirmation',
   await expect(page.getByLabel('Your Message')).toHaveValue(
     'A pink & blue mural for our café.',
   );
+  await page
+    .getByRole('form', { name: 'Send a Message' })
+    .screenshot({ path: 'test-results/contact-inline-submitted.png' });
   await page.getByLabel('Your Message').fill('A different idea.');
   await expect(page.getByRole('status')).toBeEmpty();
   await expect(
@@ -104,37 +107,37 @@ test('sends the complete enquiry directly to Google and opens its confirmation',
   ).toBeEnabled();
 });
 
-test('Google displays submission problems without the site claiming recording succeeded', async ({
+test('network failures preserve the enquiry and allow a retry on the same page', async ({
   page,
   context,
 }) => {
   await context.route(
     'https://docs.google.com/forms/**/formResponse?hl=en',
-    (route) =>
-      route.fulfill({
-        contentType: 'text/html',
-        body: '<h1>This form is no longer accepting responses.</h1>',
-      }),
+    (route) => route.abort('failed'),
   );
   await page.goto('/contact?service=other');
   await page.getByLabel('Your Name').fill('Jo');
   await page.getByLabel('Your Email').fill('jo@example.com');
   await page.getByLabel('Your Message').fill('A colourful gift.');
-  const popupPromise = page.waitForEvent('popup');
   await page.getByRole('button', { name: 'Send Enquiry' }).click();
-  const confirmation = await popupPromise;
-  await expect(confirmation.getByRole('heading')).toHaveText(
-    'This form is no longer accepting responses.',
-  );
-  await expect(page.getByRole('status')).toContainText(
-    'Check the Google confirmation tab',
+  await expect(page.getByRole('alert')).toContainText(
+    'We couldn’t complete your submission',
   );
   await expect(page.getByLabel('Your Message')).toHaveValue(
     'A colourful gift.',
   );
-  await expect(
-    page.getByRole('link', { name: 'email me directly' }),
-  ).toHaveAttribute('href', /^mailto:/);
+  await expect(page.getByRole('status')).toBeEmpty();
+  await expect(page.locator('main')).not.toContainText(/Google|new tab/i);
+  expect(context.pages()).toHaveLength(1);
+  await context.unroute('https://docs.google.com/forms/**/formResponse?hl=en');
+  await context.route(
+    'https://docs.google.com/forms/**/formResponse?hl=en',
+    (route) => route.fulfill({ body: 'Recorded' }),
+  );
+  await page.getByRole('button', { name: 'Send Enquiry' }).click();
+  await expect(page.getByRole('status')).toContainText(
+    'Your enquiry has been submitted',
+  );
 });
 
 test('unknown service links leave the visitor free to choose', async ({
@@ -167,7 +170,7 @@ test('whitespace cannot submit an enquiry and the visitor can correct it', async
   await page.getByLabel('Your Message').fill('A colourful gift.');
   await page.getByRole('button', { name: 'Send Enquiry' }).click();
   await expect(page.getByRole('status')).toContainText(
-    'Check the Google confirmation tab',
+    'Your enquiry has been submitted',
   );
   await page.getByLabel('Your Message').fill('A different idea.');
   await expect(page.getByRole('status')).toBeEmpty();

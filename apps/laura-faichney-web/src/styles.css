@@ -499,6 +499,9 @@ h2 {
   background: var(--navy-deep);
   color: #fff;
   padding-block: 28px;
+  /* Paint the page-bottom overscroll navy so the contact-section brush
+     overlap (which extends past short footers) never shows a pale strip. */
+  box-shadow: 0 200px 0 200px var(--navy-deep);
 }
 .footer-inner {
   position: relative;

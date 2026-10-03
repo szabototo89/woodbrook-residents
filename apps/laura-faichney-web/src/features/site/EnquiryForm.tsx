@@ -1,10 +1,6 @@
-import { useState, type FormEvent } from 'react';
-import { flushSync } from 'react-dom';
+import { useRef, useState, type FormEvent } from 'react';
 import { Arrow } from './Arrow';
-import {
-  googleFormFields,
-  googleFormSubmissionUrl,
-} from './googleFormSubmission';
+import { sendGoogleFormEnquiry } from './googleFormSubmission';
 import type { CmsService, CmsSettings } from './lauraSanity';
 
 export function EnquiryForm(props: {
@@ -18,16 +14,10 @@ export function EnquiryForm(props: {
       ? props.selectedService
       : '';
 
-  const [submitted, setSubmitted] = useState(false);
-  const [enquiry, setEnquiry] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-    service:
-      props.services.find((service) => service.slug === initialService)
-        ?.title ?? 'Other / not sure yet',
-  });
+  const [status, setStatus] = useState<
+    'idle' | 'sending' | 'submitted' | 'error'
+  >('idle');
+  const pending = useRef(false);
 
   function readEnquiry(form: HTMLFormElement) {
     const fields = new FormData(form);
@@ -43,7 +33,9 @@ export function EnquiryForm(props: {
     };
   }
 
-  function submitEnquiry(event: FormEvent<HTMLFormElement>) {
+  async function submitEnquiry(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (pending.current || status === 'submitted') return;
     const form = event.currentTarget;
     const fields = readEnquiry(form);
     function validateRequiredText(name: string, value: string) {
@@ -57,12 +49,17 @@ export function EnquiryForm(props: {
     }
     validateRequiredText('name', fields.name);
     validateRequiredText('message', fields.message);
-    if (submitted || !form.reportValidity()) {
-      event.preventDefault();
-      return;
+    if (!form.reportValidity()) return;
+    pending.current = true;
+    setStatus('sending');
+    try {
+      await sendGoogleFormEnquiry(fields);
+      setStatus('submitted');
+    } catch {
+      setStatus('error');
+    } finally {
+      pending.current = false;
     }
-    flushSync(() => setEnquiry(fields));
-    setSubmitted(true);
   }
 
   return (
@@ -70,15 +67,12 @@ export function EnquiryForm(props: {
       className="enquiry-form contact-panel"
       id="enquiry"
       aria-labelledby="enquiry-heading"
-      action={googleFormSubmissionUrl}
       method="post"
-      target="_blank"
-      rel="noopener noreferrer"
       onSubmit={submitEnquiry}
-      onChange={(event) => {
-        setSubmitted(false);
-        setEnquiry(readEnquiry(event.currentTarget));
+      onChange={() => {
+        if (!pending.current) setStatus('idle');
       }}
+      aria-busy={status === 'sending'}
     >
       <h2 id="enquiry-heading">Send a Message</h2>
       <p>Tell me about your idea and let’s create something special.</p>
@@ -91,6 +85,7 @@ export function EnquiryForm(props: {
             autoComplete="name"
             placeholder="e.g. Sarah Murphy"
             required
+            readOnly={status === 'sending'}
             maxLength={120}
             onInput={(event) => event.currentTarget.setCustomValidity('')}
           />
@@ -104,6 +99,7 @@ export function EnquiryForm(props: {
             autoComplete="email"
             placeholder="e.g. sarah@email.com"
             required
+            readOnly={status === 'sending'}
             maxLength={254}
           />
         </label>
@@ -115,6 +111,7 @@ export function EnquiryForm(props: {
             type="tel"
             autoComplete="tel"
             placeholder="e.g. 089 123 4567"
+            readOnly={status === 'sending'}
             maxLength={40}
           />
         </label>
@@ -123,6 +120,7 @@ export function EnquiryForm(props: {
           <select
             id="enquiry-service"
             name="service"
+            disabled={status === 'sending'}
             defaultValue={initialService}
             required
           >
@@ -145,6 +143,7 @@ export function EnquiryForm(props: {
             placeholder="Tell me about your idea, event or project…"
             required
             rows={5}
+            readOnly={status === 'sending'}
             maxLength={3000}
             onInput={(event) => event.currentTarget.setCustomValidity('')}
             aria-describedby="enquiry-help"
@@ -154,27 +153,34 @@ export function EnquiryForm(props: {
       <button
         className="button button-primary"
         type="submit"
-        disabled={submitted}
+        disabled={status === 'sending' || status === 'submitted'}
       >
-        {submitted ? 'Enquiry submitted' : 'Send Enquiry'} <Arrow />
+        {status === 'sending'
+          ? 'Sending…'
+          : status === 'submitted'
+            ? 'Enquiry submitted'
+            : 'Send Enquiry'}{' '}
+        <Arrow />
       </button>
       <p className="enquiry-help" id="enquiry-help">
-        <span>Opens Google’s confirmation in a new tab.</span> Required fields
-        are marked *. You can also{' '}
+        Required fields are marked *. You can also{' '}
         <a href={`mailto:${props.settings.email}`}>email me directly</a>.
       </p>
       <div className="enquiry-status" role="status">
-        {submitted && (
+        {status === 'submitted' && (
           <p>
-            Check the Google confirmation tab to see whether your enquiry was
-            recorded. Your details are still here; you can also email me
-            directly.
+            Your enquiry has been submitted. Thank you for getting in touch.
           </p>
         )}
       </div>
-      {Object.entries(googleFormFields(enquiry)).map(([name, value]) => (
-        <input key={name} type="hidden" name={name} value={value} />
-      ))}
+      <div className="enquiry-status" role="alert">
+        {status === 'error' && (
+          <p>
+            We couldn’t complete your submission. Your details are still here.
+            Please try again or email me directly.
+          </p>
+        )}
+      </div>
     </form>
   );
 }

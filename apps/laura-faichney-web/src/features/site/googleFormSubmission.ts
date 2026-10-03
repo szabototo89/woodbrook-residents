@@ -18,3 +18,16 @@ export function googleFormFields(enquiry: Enquiry): Record<string, string> {
     'entry.992508615': enquiry.message.trim(),
   };
 }
+
+export async function sendGoogleFormEnquiry(
+  enquiry: Enquiry,
+  send: (url: string, init: RequestInit) => Promise<unknown> = fetch,
+): Promise<void> {
+  await send(googleFormSubmissionUrl, {
+    method: 'POST',
+    mode: 'no-cors',
+    credentials: 'omit',
+    body: new URLSearchParams(googleFormFields(enquiry)),
+    signal: AbortSignal.timeout(15000),
+  });
+}

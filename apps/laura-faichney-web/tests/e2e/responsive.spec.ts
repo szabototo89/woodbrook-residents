@@ -225,6 +225,39 @@ test('contact brush continues into the footer at every layout width', async ({
   }
 });
 
+test('footer paints over page-bottom overscroll so no pale strip shows', async ({
+  page,
+}) => {
+  for (const width of [900, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of ['/services', '/contact']) {
+      await page.goto(path);
+      const coverage = await page.evaluate(() => {
+        const footer = document.querySelector('.site-footer');
+        if (!footer) throw new Error('Footer is missing');
+        const rect = footer.getBoundingClientRect();
+        const overscroll =
+          document.documentElement.scrollHeight -
+          (rect.bottom + window.scrollY);
+        const shadow = getComputedStyle(footer).boxShadow;
+        const parts =
+          shadow
+            .match(/(-?\d+(?:\.\d+)?)px/g)
+            ?.map((value) => parseFloat(value)) ?? [];
+        const [, offsetY = 0, , spread = 0] = parts;
+        return { overscroll, reach: offsetY + spread, shadow };
+      });
+      expect(coverage.shadow, `${path} at ${width}px footer shadow`).toContain(
+        '7, 31, 51',
+      );
+      expect(
+        coverage.reach,
+        `${path} at ${width}px shadow reach`,
+      ).toBeGreaterThanOrEqual(Math.max(0, coverage.overscroll));
+    }
+  }
+});
+
 test('decorative brush strokes read clearly across the home page', async ({
   page,
 }) => {

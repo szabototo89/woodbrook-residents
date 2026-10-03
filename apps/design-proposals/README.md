@@ -11,7 +11,6 @@ bun run dev:proposals
 
 Current proposals:
 
-- `projects/juliet-rose/index.html`
 - `projects/spotless-dog-grooming/index.html`
 - `projects/spotless-dog-grooming-warm/index.html`
 - `projects/the-dog-salon/index.html`
