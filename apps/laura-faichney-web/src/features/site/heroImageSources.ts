@@ -29,7 +29,12 @@ export function heroImageSrcSet(
           source.pathname,
         )?.[1]
       : undefined;
-  const local = hash ? localArtwork[hash] : undefined;
+  const originalAppearance = [...source.searchParams].every(
+    ([name, value]) =>
+      ['w', 'auto', 'fm', 'q'].includes(name) ||
+      (name === 'fit' && value === 'max'),
+  );
+  const local = hash && originalAppearance ? localArtwork[hash] : undefined;
   return local
     ? [320, 400, 480, 640, 768, 960, 1374]
         .map((width) => `/artwork/${local}-${width}.${format} ${width}w`)

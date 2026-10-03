@@ -44,34 +44,99 @@ test('required fields and email validation prevent incomplete enquiries', async 
   await expect(page.getByRole('status')).toBeEmpty();
 });
 
-test('a selected service and complete enquiry produce an honest, reusable email draft', async ({
+test('submits the enquiry inline without provider copy, navigation or new tabs', async ({
   page,
+  context,
 }) => {
+  const submissions: URLSearchParams[] = [];
+  await context.route(
+    'https://docs.google.com/forms/**/formResponse?hl=en',
+    async (route) => {
+      submissions.push(new URLSearchParams(route.request().postData() ?? ''));
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      await route.fulfill({
+        contentType: 'text/html',
+        body: '<h1>Your response has been recorded.</h1>',
+      });
+    },
+  );
   await page.goto('/contact?service=murals-indoor-outdoor');
-  const service = page.getByLabel('Service Interested In');
-  await expect(service).toHaveValue('murals-indoor-outdoor');
+  await expect(page.getByLabel('Service Interested In')).toHaveValue(
+    'murals-indoor-outdoor',
+  );
   await page.getByLabel('Your Name').fill('Sarah Murphy');
   await page.getByLabel('Your Email').fill('sarah@example.com');
   await page.getByLabel('Phone (optional)').fill('089 123 4567');
   await page
     .getByLabel('Your Message')
     .fill('A pink & blue mural for our café.');
+  await expect(page.locator('main')).not.toContainText(/Google|new tab/i);
   await page.getByRole('button', { name: 'Send Enquiry' }).click();
+  await expect(page.getByRole('button', { name: 'Sending…' })).toBeDisabled();
   await expect(page.getByRole('status')).toContainText(
-    'Send it in your email app',
+    'Your enquiry has been submitted',
   );
-  const draft = await page
-    .getByRole('link', { name: 'Open email draft' })
-    .getAttribute('href');
-  expect(draft).toMatch(/^mailto:/);
-  const query = new URLSearchParams(draft!.split('?')[1]);
-  expect(query.get('body')).toContain('Sarah Murphy');
-  expect(query.get('body')).toContain('sarah@example.com');
-  expect(query.get('body')).toContain('089 123 4567');
-  expect(query.get('body')).toContain('A pink & blue mural for our café.');
-  expect(query.get('subject')).toContain('Murals');
+  expect(context.pages()).toHaveLength(1);
+  await expect(page).toHaveURL(/\/contact\?service=murals-indoor-outdoor$/);
+  expect(submissions).toHaveLength(1);
+  expect(submissions[0]!.get('entry.1440085785')).toBe('Sarah Murphy');
+  expect(submissions[0]!.get('entry.2023704522')).toBe('sarah@example.com');
+  expect(submissions[0]!.get('entry.1459025164')).toBe('089 123 4567');
+  expect(submissions[0]!.get('entry.829351925')).toBe(
+    'Murals (Indoor & Outdoor)',
+  );
+  expect(submissions[0]!.get('entry.992508615')).toBe(
+    'A pink & blue mural for our café.',
+  );
+  await expect(page.getByRole('status')).toContainText(
+    'Your enquiry has been submitted',
+  );
+  await expect(
+    page.getByRole('button', { name: 'Enquiry submitted' }),
+  ).toBeDisabled();
   await expect(page.getByLabel('Your Message')).toHaveValue(
     'A pink & blue mural for our café.',
+  );
+  await page
+    .getByRole('form', { name: 'Send a Message' })
+    .screenshot({ path: 'test-results/contact-inline-submitted.png' });
+  await page.getByLabel('Your Message').fill('A different idea.');
+  await expect(page.getByRole('status')).toBeEmpty();
+  await expect(
+    page.getByRole('button', { name: 'Send Enquiry' }),
+  ).toBeEnabled();
+});
+
+test('network failures preserve the enquiry and allow a retry on the same page', async ({
+  page,
+  context,
+}) => {
+  await context.route(
+    'https://docs.google.com/forms/**/formResponse?hl=en',
+    (route) => route.abort('failed'),
+  );
+  await page.goto('/contact?service=other');
+  await page.getByLabel('Your Name').fill('Jo');
+  await page.getByLabel('Your Email').fill('jo@example.com');
+  await page.getByLabel('Your Message').fill('A colourful gift.');
+  await page.getByRole('button', { name: 'Send Enquiry' }).click();
+  await expect(page.getByRole('alert')).toContainText(
+    'We couldn’t complete your submission',
+  );
+  await expect(page.getByLabel('Your Message')).toHaveValue(
+    'A colourful gift.',
+  );
+  await expect(page.getByRole('status')).toBeEmpty();
+  await expect(page.locator('main')).not.toContainText(/Google|new tab/i);
+  expect(context.pages()).toHaveLength(1);
+  await context.unroute('https://docs.google.com/forms/**/formResponse?hl=en');
+  await context.route(
+    'https://docs.google.com/forms/**/formResponse?hl=en',
+    (route) => route.fulfill({ body: 'Recorded' }),
+  );
+  await page.getByRole('button', { name: 'Send Enquiry' }).click();
+  await expect(page.getByRole('status')).toContainText(
+    'Your enquiry has been submitted',
   );
 });
 
@@ -86,7 +151,12 @@ test('unknown service links leave the visitor free to choose', async ({
 
 test('whitespace cannot submit an enquiry and the visitor can correct it', async ({
   page,
+  context,
 }) => {
+  await context.route(
+    'https://docs.google.com/forms/**/formResponse?hl=en',
+    (route) => route.fulfill({ contentType: 'text/html', body: 'Recorded' }),
+  );
   await page.goto('/contact?service=other');
   await page.getByLabel('Your Name').fill('   ');
   await page.getByLabel('Your Email').fill('jo@example.com');
@@ -99,9 +169,9 @@ test('whitespace cannot submit an enquiry and the visitor can correct it', async
   await expect(page.getByLabel('Your Message')).toBeFocused();
   await page.getByLabel('Your Message').fill('A colourful gift.');
   await page.getByRole('button', { name: 'Send Enquiry' }).click();
-  await expect(
-    page.getByRole('link', { name: 'Open email draft' }),
-  ).toHaveAttribute('href', /A%20colourful%20gift/);
+  await expect(page.getByRole('status')).toContainText(
+    'Your enquiry has been submitted',
+  );
   await page.getByLabel('Your Message').fill('A different idea.');
   await expect(page.getByRole('status')).toBeEmpty();
 });
@@ -118,7 +188,7 @@ for (const width of [320, 390, 640, 768, 935, 1440]) {
     ).toBe(width);
     const form = page.getByRole('form', { name: 'Send a Message' });
     for (const field of await form
-      .locator('input, select, textarea, button')
+      .locator('input:not([type=hidden]), select, textarea, button')
       .all()) {
       const bounds = await field.boundingBox();
       expect(bounds).not.toBeNull();

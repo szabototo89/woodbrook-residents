@@ -93,6 +93,16 @@ bunx wrangler pages deploy dist/client --project-name=laura-faichney-all-things-
 
 Pushes to `main` that touch `apps/laura-faichney-web/**` are also deployed by the `Deploy Laura Faichney` GitHub workflow.
 
+## Contact enquiries
+
+The contact page posts directly from the browser to the matching Google Form.
+The submission runs in the background, keeps the visitor on the contact page,
+and displays an inline status. Network errors preserve the details and allow a
+retry; the opaque response cannot confirm whether Google stored the entry. There is no enquiry API, Cloudflare
+function or deployed Google credential. The submission URL and verified Google
+question field IDs live in `src/features/site/googleFormSubmission.ts`.
+See `docs/features/laura-google-form-enquiries.md` for verification and scope.
+
 ## Lighthouse
 
 From the repository root, run `bun run test:lighthouse:laura`. It builds the
@@ -111,7 +121,7 @@ bun run test:lighthouse --route=/contact --form-factor=mobile --retries=0
 Page styles are minified at build time and embedded in prerendered HTML to avoid a blocking stylesheet request. Cloudflare Pages applies `public/_headers`: hashed Vite assets cache for a year, while replaceable artwork, branding and decorations cache for one day. The Lighthouse preview reads those same rules. See [Cloudflare header configuration](https://developers.cloudflare.com/pages/configuration/headers/).
 
 The current CMS hero assets have matching, optimized AVIF and WebP local derivatives. Their
-SHA-1 asset identities select these copies; replacing an image in Sanity
+SHA-1 asset identities select these copies; replacing or cropping an image in Sanity
 continues to use responsive CDN images automatically. Originals remain in
 `public/` as references. See `docs/features/laura-lighthouse-testing.md` for
 scope and verification results.

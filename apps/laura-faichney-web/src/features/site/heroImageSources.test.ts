@@ -59,3 +59,11 @@ test('offers appropriately sized AVIF sources for the supplied contact artwork',
     heroImageSrcSet('/artwork/contact-studio-cutout.webp', 'avif'),
   ).toContain('/artwork/contact-studio-cutout-512.avif 512w');
 });
+
+test('preserves CMS crop edits even when the original asset has local derivatives', () => {
+  const source =
+    'https://cdn.sanity.io/images/uag6kepo/production/3325501aef2b0082139bad8fabec12e8d19c1e8a-1374x1145.png?rect=10,20,800,600&w=800';
+  expect(heroImageSrcSet(source)).toContain('rect=10%2C20%2C800%2C600');
+  expect(heroImageSrcSet(source)).not.toContain('/artwork/portrait-cutout');
+  expect(heroImageSrcSet(source, 'avif')).toBeUndefined();
+});

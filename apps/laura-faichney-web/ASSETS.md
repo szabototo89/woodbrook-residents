@@ -217,3 +217,5 @@ use smaller sources appropriate to their rendered sizes. These are delivery
 optimizations of existing images, with no new artwork or factual content.
 
 AVIF variants use the same original artwork and width candidates, with quality 50, 4:2:0 chroma subsampling, and encoder effort 7. The contact AVIF variants use its existing 320, 480, 512, 640, 960, and 1374px candidates. Browser-supported AVIF delivery retains WebP fallback; transparent edges are verified in browser tests.
+
+The delivered blush/gold, colour, and 360px contact brush WebPs retain their previous dimensions with quality 55, alpha quality 60, and encoder effort 6. Regression budgets cap their transfers at 45, 30, and 25KB respectively.

@@ -1,6 +1,6 @@
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 import { Arrow } from './Arrow';
-import { enquiryMailto } from './enquiryMailto';
+import { sendGoogleFormEnquiry } from './googleFormSubmission';
 import type { CmsService, CmsSettings } from './lauraSanity';
 
 export function EnquiryForm(props: {
@@ -8,44 +8,58 @@ export function EnquiryForm(props: {
   services: CmsService[];
   selectedService?: string;
 }) {
-  const [draft, setDraft] = useState('');
   const initialService =
     props.services.some((service) => service.slug === props.selectedService) ||
     props.selectedService === 'other'
       ? props.selectedService
       : '';
 
-  function submitEnquiry(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
+  const [status, setStatus] = useState<
+    'idle' | 'sending' | 'submitted' | 'error'
+  >('idle');
+  const pending = useRef(false);
+
+  function readEnquiry(form: HTMLFormElement) {
     const fields = new FormData(form);
     const value = (name: string) => String(fields.get(name) ?? '').trim();
-    function validateRequiredText(name: string) {
+    return {
+      name: value('name'),
+      email: value('email'),
+      phone: value('phone'),
+      message: value('message'),
+      service:
+        props.services.find((service) => service.slug === value('service'))
+          ?.title ?? 'Other / not sure yet',
+    };
+  }
+
+  async function submitEnquiry(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (pending.current || status === 'submitted') return;
+    const form = event.currentTarget;
+    const fields = readEnquiry(form);
+    function validateRequiredText(name: string, value: string) {
       const field = form.elements.namedItem(name);
       if (
         field instanceof HTMLInputElement ||
         field instanceof HTMLTextAreaElement
       ) {
-        field.setCustomValidity(
-          value(name) ? '' : 'Please fill in this field.',
-        );
+        field.setCustomValidity(value ? '' : 'Please fill in this field.');
       }
     }
-    validateRequiredText('name');
-    validateRequiredText('message');
+    validateRequiredText('name', fields.name);
+    validateRequiredText('message', fields.message);
     if (!form.reportValidity()) return;
-    const service = props.services.find(
-      (item) => item.slug === value('service'),
-    );
-    const url = enquiryMailto(props.settings, {
-      name: value('name'),
-      email: value('email'),
-      phone: value('phone'),
-      service: service?.title ?? 'Other / not sure yet',
-      message: value('message'),
-    });
-    setDraft(url);
-    window.location.assign(url);
+    pending.current = true;
+    setStatus('sending');
+    try {
+      await sendGoogleFormEnquiry(fields);
+      setStatus('submitted');
+    } catch {
+      setStatus('error');
+    } finally {
+      pending.current = false;
+    }
   }
 
   return (
@@ -53,8 +67,12 @@ export function EnquiryForm(props: {
       className="enquiry-form contact-panel"
       id="enquiry"
       aria-labelledby="enquiry-heading"
+      method="post"
       onSubmit={submitEnquiry}
-      onChange={() => setDraft('')}
+      onChange={() => {
+        if (!pending.current) setStatus('idle');
+      }}
+      aria-busy={status === 'sending'}
     >
       <h2 id="enquiry-heading">Send a Message</h2>
       <p>Tell me about your idea and let’s create something special.</p>
@@ -67,6 +85,7 @@ export function EnquiryForm(props: {
             autoComplete="name"
             placeholder="e.g. Sarah Murphy"
             required
+            readOnly={status === 'sending'}
             maxLength={120}
             onInput={(event) => event.currentTarget.setCustomValidity('')}
           />
@@ -80,6 +99,7 @@ export function EnquiryForm(props: {
             autoComplete="email"
             placeholder="e.g. sarah@email.com"
             required
+            readOnly={status === 'sending'}
             maxLength={254}
           />
         </label>
@@ -91,6 +111,7 @@ export function EnquiryForm(props: {
             type="tel"
             autoComplete="tel"
             placeholder="e.g. 089 123 4567"
+            readOnly={status === 'sending'}
             maxLength={40}
           />
         </label>
@@ -99,6 +120,7 @@ export function EnquiryForm(props: {
           <select
             id="enquiry-service"
             name="service"
+            disabled={status === 'sending'}
             defaultValue={initialService}
             required
           >
@@ -121,29 +143,42 @@ export function EnquiryForm(props: {
             placeholder="Tell me about your idea, event or project…"
             required
             rows={5}
+            readOnly={status === 'sending'}
             maxLength={3000}
             onInput={(event) => event.currentTarget.setCustomValidity('')}
             aria-describedby="enquiry-help"
           />
         </label>
       </div>
-      <button className="button button-primary" type="submit">
-        Send Enquiry <Arrow />
+      <button
+        className="button button-primary"
+        type="submit"
+        disabled={status === 'sending' || status === 'submitted'}
+      >
+        {status === 'sending'
+          ? 'Sending…'
+          : status === 'submitted'
+            ? 'Enquiry submitted'
+            : 'Send Enquiry'}{' '}
+        <Arrow />
       </button>
       <p className="enquiry-help" id="enquiry-help">
-        Opens a draft in your email app for you to send. Required fields are
-        marked *. You can also{' '}
+        Required fields are marked *. You can also{' '}
         <a href={`mailto:${props.settings.email}`}>email me directly</a>.
       </p>
       <div className="enquiry-status" role="status">
-        {draft && (
-          <>
-            <p>
-              Your email draft is ready. Send it in your email app to complete
-              your enquiry.
-            </p>
-            <a href={draft}>Open email draft</a>
-          </>
+        {status === 'submitted' && (
+          <p>
+            Your enquiry has been submitted. Thank you for getting in touch.
+          </p>
+        )}
+      </div>
+      <div className="enquiry-status" role="alert">
+        {status === 'error' && (
+          <p>
+            We couldn’t complete your submission. Your details are still here.
+            Please try again or email me directly.
+          </p>
         )}
       </div>
     </form>
