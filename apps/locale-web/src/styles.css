@@ -78,7 +78,7 @@ svg {
 }
 .brand img {
   display: block;
-  width: 108px;
+  width: 176px;
   height: auto;
 }
 .navigation {
@@ -1269,7 +1269,7 @@ main:focus {
 }
 @media (max-width: 760px) {
   .brand img {
-    width: 101px;
+    width: 144px;
   }
   .blog-intro {
     padding-top: 24px;
@@ -1333,6 +1333,9 @@ main:focus {
   color: #41613b;
 }
 @media (max-width: 360px) {
+  .brand img {
+    width: 132px;
+  }
   .site-header {
     padding: 0 16px;
     gap: 8px;
@@ -1341,5 +1344,8 @@ main:focus {
     padding: 8px 12px;
     font-size: 11px;
     gap: 8px;
+  }
+  .header-cta svg {
+    display: none;
   }
 }

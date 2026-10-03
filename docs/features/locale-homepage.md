@@ -1,10 +1,10 @@
-# Locale homepage
+# Forma Studio homepage
 
 Status: Available
 
 ## Job to be done
 
-As a small business owner, understand Locale's digital services, compare starting packages, and find a clear way to begin a conversation.
+As a small business owner, understand Forma Studio's digital services, compare starting packages, and find a clear way to begin a conversation.
 
 ## Visible behavior
 
@@ -13,6 +13,8 @@ As a small business owner, understand Locale's digital services, compare startin
 - Mobile navigation opens and closes, including after selecting a section. FAQ buttons expose one answer at a time and support keyboard interaction.
 - A skip link, semantic landmarks, visible focus, descriptive image text and reduced-motion styling support accessible use.
 - A generated transparent logo and handwritten annotation accompany a cafe mockup showing Laura Faichney’s actual homepage. The cafe imagery and testimonial are illustrative, and the contact address is visibly marked for replacement before launch.
+
+- The header presents the generated Forma Studio logo with a matching favicon; page titles, journal, footer and illustrative copy use the same brand. The longer wordmark remains readable with usable navigation on narrow phones.
 
 ## Acceptance criteria
 

@@ -55,7 +55,7 @@ test('homepage links lead to in-page sections and contact has a useful next step
   expect(screen.getAllByRole('link', { name: /learn more/i })).toHaveLength(5);
   expect(screen.getByRole('link', { name: /email us/i })).toHaveAttribute(
     'href',
-    'mailto:hello@locale.example',
+    'mailto:hello@forma.example',
   );
   expect(screen.getByText(/illustrative testimonial/i)).toBeVisible();
 });
@@ -137,12 +137,15 @@ test('collapsed FAQs retain a valid controlled panel and answers stay hidden', a
 
 test('homepage uses the generated logo and handwritten hero annotation as image assets', () => {
   render(<HomePage />);
-  const brand = screen.getByRole('link', { name: 'Locale home' });
+  const brand = screen.getByRole('link', { name: 'Forma Studio home' });
   expect(brand.querySelector('img')).toHaveAttribute(
     'src',
-    '/images/locale-logo.webp',
+    '/images/forma-studio-logo.webp',
   );
-  expect(brand.querySelector('img')).toHaveAttribute('alt', 'Locale');
+  expect(brand.querySelector('img')).toHaveAttribute('alt', 'Forma Studio');
+  expect(
+    screen.getByText('Forma Studio · Websites for local businesses'),
+  ).toBeVisible();
   expect(
     screen.getByRole('img', {
       name: 'Websites that work for real businesses.',

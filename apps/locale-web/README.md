@@ -1,6 +1,6 @@
-# Locale website
+# Forma Studio website
 
-A responsive implementation of the supplied Locale design, including the home page and the requested blog subpage.
+A responsive implementation of the supplied Locale design, rebranded as Forma Studio, including the home page and the requested blog subpage. The app directory and package name remain `apps/locale-web` and `locale-web`.
 
 ## Development
 
@@ -28,7 +28,7 @@ Cloudflare build command from the monorepo root: `bun run --cwd apps/locale-web 
 
 `src/features/home/homeContent.ts` holds reference services, pricing, process and FAQ copy independently of presentation; `src/features/blog/blogContent.ts` holds the draft blog guides and their source URLs/access dates. A future Sanity integration can replace this with a validated build-time snapshot, following Laura's approach, without exposing tokens or introducing browser API requests. No Sanity project, schema, credentials, Studio, live data or webhook integration is configured in the current scope.
 
-The currency and prices match the reference. The cafe photograph is an illustrative mockup displaying Laura’s real homepage. The sample testimonial and owner portrait remain explicitly illustrative. `hello@locale.example` is an intentional reserved-domain placeholder: replace it with an approved contact address before launch. FAQ timelines are draft marketing copy, not a service commitment. A production origin was not supplied, so no canonical URL or sitemap with an invented origin is generated.
+The currency and prices match the reference. The cafe photograph is an illustrative mockup displaying Laura’s real homepage. The sample testimonial and owner portrait remain explicitly illustrative. `hello@forma.example` is an intentional reserved-domain placeholder: replace it with an approved contact address before launch. FAQ timelines are draft marketing copy, not a service commitment. A production origin was not supplied, so no canonical URL or sitemap with an invented origin is generated.
 
 ## Verification
 
@@ -36,13 +36,13 @@ Tests were written and observed failing before implementation. Behavioral compon
 
 ## Image provenance
 
-Images are generated with the built-in imagegen tool, then resized and encoded to WebP. Prompts:
+Images are generated with the built-in imagegen tool, then resized and encoded to WebP. The [exact Forma Studio logo prompt](docs/forma-logo-prompt.md) is retained with asset provenance. Prompts:
 
 - Hero: retain the original silver laptop, oak cafe table, houseplants, coffee and daylight; replace only the screen with a perspective-fitted capture of Laura Faichney’s actual homepage, preserving its cream background, pink signature, “Bold Art Brighter Spaces” heading and multicolour painted face. Source: [Laura’s existing site](https://laura-faichney-all-things-art.pages.dev), captured from the local app on 2026-10-03. This is a website mockup, not a claim of a client outcome.
 - Annotation: only forest-green felt-tip handwriting, the exact four-line text “Websites / that work / for real / businesses.” and one loose curved arrow pointing down-left, on a transparent background; no sticker, panel, typeface, texture, photo or watermark.
-- Logo: exact “Locale” wordmark in a dark rounded sans serif with a small forest-green leaf and pale sage fill to its left; a compact horizontal transparent logo with no panel, slogan, shadow or watermark.
+- Logo: exact “Forma Studio” horizontal wordmark, with Forma slightly heavier than Studio, a geometric F assembled from solid forest-green and sage forms, and modern rounded sans-serif typography on a genuinely transparent background; no leaf, panel, slogan, shadow or watermark.
 - Portrait: a fictional smiling cafe owner, brown shoulder-length hair, cream shirt and taupe apron, warm cafe and green plants, soft daylight, editorial portrait; no text or watermark.
 
-The generated logo and annotation preserve transparency. Final assets: `public/images/locale-logo.webp`, `public/images/handwritten-hero-note.webp`, `public/images/laura-website-640.webp`, `public/images/laura-website-1200.webp`, and `public/images/illustrative-owner.webp`.
+The generated logo and annotation preserve transparency. Final assets: `public/images/forma-studio-logo.webp` (720 × 113; approximately 20 KB), `public/images/handwritten-hero-note.webp`, `public/images/laura-website-640.webp`, `public/images/laura-website-1200.webp`, and `public/images/illustrative-owner.webp`.
 
-Assets are local under `public/images` and require no remote image service.
+The matching `public/favicon.png` is a 64 × 64 crop of the generated F mark. The previous Locale logo and favicon are superseded. Assets are local under `public/images` and require no remote image service.

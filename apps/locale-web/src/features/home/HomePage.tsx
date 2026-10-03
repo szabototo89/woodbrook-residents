@@ -182,8 +182,8 @@ export function HomePage() {
             />
             <div>
               <blockquote>
-                “Locale made the whole process so easy. Our new website looks
-                amazing and we’re getting more bookings already!”
+                “Forma Studio made the whole process so easy. Our new website
+                looks amazing and we’re getting more bookings already!”
               </blockquote>
               <div className="quote-credit">
                 <p>
@@ -231,7 +231,7 @@ export function HomePage() {
             </p>
           </div>
           <div className="contact-action">
-            <a className="button" href="mailto:hello@locale.example">
+            <a className="button" href="mailto:hello@forma.example">
               Email us <ArrowRight size={16} aria-hidden="true" />
             </a>
             <p>No obligation. Just a friendly chat.</p>
@@ -239,7 +239,7 @@ export function HomePage() {
         </section>
       </main>
       <footer className="site-footer">
-        <span>Locale · Websites for local businesses</span>
+        <span>Forma Studio · Websites for local businesses</span>
         <span>Design preview · Contact address to be confirmed</span>
       </footer>
     </div>

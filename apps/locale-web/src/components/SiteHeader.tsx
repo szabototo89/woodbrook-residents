@@ -19,13 +19,13 @@ export function SiteHeader(props: { page?: 'home' | 'blog' }) {
       <a
         className="brand"
         href={props.page === 'blog' ? '/' : '#main-content'}
-        aria-label="Locale home"
+        aria-label="Forma Studio home"
       >
         <img
-          src="/images/locale-logo.webp"
-          width={512}
-          height={115}
-          alt="Locale"
+          src="/images/forma-studio-logo.webp"
+          width={720}
+          height={113}
+          alt="Forma Studio"
         />
       </a>
       <button

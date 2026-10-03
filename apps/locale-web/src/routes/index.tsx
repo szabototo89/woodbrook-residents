@@ -4,7 +4,7 @@ import { HomePage } from '../features/home/HomePage';
 export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
-      { title: 'Locale | Digital services for local businesses' },
+      { title: 'Forma Studio | Digital services for local businesses' },
       {
         name: 'description',
         content:
@@ -12,7 +12,7 @@ export const Route = createFileRoute('/')({
       },
       {
         property: 'og:title',
-        content: 'Locale | Digital services for local businesses',
+        content: 'Forma Studio | Digital services for local businesses',
       },
       {
         property: 'og:description',

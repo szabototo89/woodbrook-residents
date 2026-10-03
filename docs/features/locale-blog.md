@@ -1,4 +1,4 @@
-# Locale blog
+# Forma Studio blog
 
 Status: Available
 
@@ -8,11 +8,13 @@ As a local business owner, read practical guidance about a website, local discov
 
 ## Visible behavior
 
-- `/blog` presents a featured website-design guide and two further guides about local search and content care in the Locale visual style.
+- `/blog` presents a featured website-design guide and two further guides about local search and content care in the Forma Studio visual style.
 - Each guide expands and collapses in place using its Read guide control. Native disclosure controls support keyboard use.
 - Blog appears in desktop and mobile navigation with a current-page indication. Services, Work, About, Contact and Get Started return to the corresponding homepage section.
 - Draft articles include source links and access dates; no invented authors, publication dates, readership figures or customer results are presented.
 - A contact call to action returns to the homepage contact panel.
+
+- The header presents the generated Forma Studio logo with a matching favicon; page titles, journal, footer and illustrative copy use the same brand. The longer wordmark remains readable with usable navigation on narrow phones.
 
 ## Acceptance criteria
 

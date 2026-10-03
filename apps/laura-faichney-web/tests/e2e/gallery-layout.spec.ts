@@ -1,7 +1,7 @@
 import { expect, test } from '../fixtures/gallery-test';
 import { galleryCollections } from './galleryCms';
 
-test('collection introduction sits beside the picture on wide screens and above it on narrower screens', async ({
+test('collection introduction sits beside the picture on wide screens and below it on narrower screens', async ({
   page,
 }) => {
   const collections = await galleryCollections();
@@ -32,7 +32,9 @@ test('collection introduction sits beside the picture on wide screens and above 
         .boundingBox();
       if (!title || !description || !back || !frame || !breadcrumb)
         throw new Error('Collection content is missing');
-      expect(breadcrumb.y + breadcrumb.height).toBeLessThanOrEqual(title.y);
+      expect(breadcrumb.y + breadcrumb.height).toBeLessThanOrEqual(
+        Math.min(title.y, frame.y),
+      );
       if (width >= 1024) {
         expect(title.x + title.width).toBeLessThan(frame.x);
         expect(description.x + description.width).toBeLessThan(frame.x);
@@ -41,9 +43,9 @@ test('collection introduction sits beside the picture on wide screens and above 
         expect(frame.width).toBeGreaterThan(title.width * 1.6);
         expect(frame.y).toBeLessThan(250);
       } else {
-        expect(title.y + title.height).toBeLessThan(frame.y);
-        expect(description.y + description.height).toBeLessThan(frame.y);
-        expect(back.y + back.height).toBeLessThan(frame.y);
+        expect(frame.y + frame.height).toBeLessThan(title.y);
+        expect(frame.y + frame.height).toBeLessThan(description.y);
+        expect(frame.y + frame.height).toBeLessThan(back.y);
         expect(frame.width).toBeGreaterThan(width * 0.8);
       }
       expect(
@@ -61,6 +63,8 @@ test('collection introduction sits beside the picture on wide screens and above 
         expect(controls.x).toBeCloseTo(frame.x, 0);
         expect(controls.width).toBeCloseTo(frame.width, 0);
         expect(controls.y).toBeGreaterThanOrEqual(frame.y + frame.height);
+        if (width < 1024)
+          expect(controls.y + controls.height).toBeLessThan(title.y);
       }
       if ([390, 1024, 1440].includes(width) || height === 390) {
         await page.screenshot({
@@ -70,6 +74,29 @@ test('collection introduction sits beside the picture on wide screens and above 
       }
     }
   }
+});
+
+test('mobile artwork position does not depend on collection description length', async ({
+  page,
+}) => {
+  const [collection] = await galleryCollections();
+  if (!collection) throw new Error('A collection is required');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(`/gallery/${collection.slug}`);
+  await page.evaluate(() => document.fonts.ready);
+  const picture = page.locator('.collection-selected-picture');
+  const before = await picture.boundingBox();
+  await page
+    .locator('.collection-introduction > p:not(.eyebrow)')
+    .evaluate((description) => {
+      description.replaceChildren(
+        document.createTextNode('A longer collection description. '.repeat(40)),
+      );
+    });
+  const after = await picture.boundingBox();
+  expect(before).not.toBeNull();
+  expect(after?.y).toBe(before?.y);
 });
 
 test('a single-picture collection shows its picture without a duplicate chooser', async ({
