@@ -22,6 +22,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - All pages use one primary heading, visible focus states, meaningful image descriptions and reduced motion support.
 - A “What Clients Say” section follows the home biography, displaying the single Sarah O’Connor quote explicitly supplied in the user's testimonial reference screenshot. It has no autoplay or inactive carousel controls.
 - The client quote sits on a soft blush panel, separating it from the cream biography above and the navy contact section below. The full-colour contact brush continues from the lower left of the contact section into the footer at phone, tablet and desktop widths; on phones it begins below the contact details. The lighter brush accents around the hero, biography and contact section have stronger colour.
+- The footer extends its navy background below the page bottom so overflowing contact paint does not expose a pale strip on shorter pages.
 - The mural feature presents one botanical artwork: a large edge crop beside the copy on desktop, and the full centred illustration below the enquiry button on phones.
 
 ## Acceptance criteria
@@ -32,7 +33,7 @@ As someone looking for art for a home, business or event, I want to see Laura's 
 - The mobile gallery stacks named collection cards in one column; collection pages share one description and offer in-page picture navigation. The mobile navigation is operable with keyboard and touch.
 - The supplied artwork remains legible at the relevant crop and the hero's text does not overlap it.
 - No invented testimonial, social profile, client portrait or business detail appears. User-requested Instagram and Facebook placeholders link to the platform homepages until Laura provides her profile URLs.
-- The testimonial is visually distinct from the biography. The contact brush flows into the footer without covering contact details or causing horizontal scrolling, and footer navigation remains readable.
+- The testimonial is visually distinct from the biography. The contact brush flows into the footer without covering contact details or causing horizontal scrolling, and footer navigation remains readable. Page-bottom overscroll retains the navy footer background without a pale strip.
 - At phone widths, the mural flower and leaves fit inside the section beneath the copy and action, without a faded duplicate.
 - Each non-home page has its own descriptive, transparent-alpha hero asset. At widths up to 640px, artwork precedes the heading and copy, and the About contact action retains at least 32px of space below it. At desktop widths, hero artwork crosses the lower hero boundary. Neither layout causes horizontal page overflow or obscures the copy.
 - Every page emits a canonical URL, description, and Open Graph/Twitter metadata rooted at the production Pages origin unless `VITE_PUBLIC_SITE_URL` overrides it, without inventing a social image.

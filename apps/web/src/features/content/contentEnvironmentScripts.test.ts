@@ -15,7 +15,7 @@ test('content environment scripts loads the repository environment when building
   );
 
   expect(rootPackage.scripts['build:static']).toContain(
-    'bun run --cwd apps/web --env-file=../../.env build:static',
+    'bun scripts/app.ts build:static web --env-file=../../.env',
   );
 });
 
@@ -49,7 +49,7 @@ test('root web sheets development loads repository credentials into the web shee
   );
 
   expect(rootPackage.scripts['dev:web:sheets']).toBe(
-    'CONTENT_SOURCE=google-sheets bun run --cwd apps/web --env-file=../../.env dev:sheets',
+    'CONTENT_SOURCE=google-sheets bun scripts/app.ts dev:sheets web --env-file=../../.env',
   );
 });
 test('mobile content development loads Google Sheets credentials from the repository environment', () => {
@@ -60,10 +60,10 @@ test('mobile content development loads Google Sheets credentials from the reposi
     ),
   );
 
-  expect(rootPackage.scripts['dev:mobile-content']).toBe(
-    'CONTENT_SOURCE=google-sheets bun run --cwd apps/web --env-file=../../.env dev',
+  expect(rootPackage.scripts['dev:web:content']).toBe(
+    'CONTENT_SOURCE=google-sheets bun scripts/app.ts dev web --env-file=../../.env',
   );
   expect(rootPackage.scripts['dev:mobile']).toBe(
-    'bun run --cwd apps/mobile --env-file=../../.env dev',
+    'bun scripts/app.ts dev mobile --env-file=../../.env',
   );
 });

@@ -22,7 +22,7 @@ bun run dev
 To review the separate static website concepts gallery, run:
 
 ```bash
-bun run dev:proposals
+bun run dev:design-proposals
 ```
 
 The proposal server is independent of the Woodbrook website and CMS.

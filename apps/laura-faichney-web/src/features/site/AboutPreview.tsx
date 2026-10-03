@@ -6,8 +6,8 @@ export function AboutPreview(props: { about: HomeData['about'] }) {
   const { about } = props;
   return (
     <section className="section about-preview">
-      <div className="container about-preview-inner">
-        <div className="about-art" data-motion="photo">
+      <div className="container about-preview-inner" data-motion="composition">
+        <div className="about-art">
           <img
             src={about.image.url}
             alt={about.image.alt}
@@ -16,7 +16,7 @@ export function AboutPreview(props: { about: HomeData['about'] }) {
             loading="lazy"
           />
         </div>
-        <div className="about-copy" data-motion="copy">
+        <div className="about-copy">
           <Eyebrow>About Laura</Eyebrow>
           <h2>{about.heading}</h2>
           <p>{about.copy}</p>

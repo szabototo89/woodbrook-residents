@@ -23,6 +23,7 @@
     "test": "bun run test:unit && bun run test:web",
     "test:unit": "vitest run --coverage",
     "test:web": "WOODBROOK_API_URL=http://127.0.0.1:4317 bun run build:all && playwright test --config playwright.web.config.ts",
+    "test:e2e": "bun run test:web",
     "test:web:install": "playwright install chromium webkit",
     "typecheck": "tsc --build --pretty false && tsc --noEmit --pretty false --project tsconfig.browser.json"
   },

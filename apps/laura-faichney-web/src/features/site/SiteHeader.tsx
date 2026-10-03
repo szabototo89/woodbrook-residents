@@ -46,6 +46,7 @@ export function SiteHeader(props: { active: string }) {
           {links.map(([label, href]) => (
             <a
               key={href}
+              onClick={() => setMenuOpen(false)}
               href={href}
               aria-current={
                 props.active === href ||

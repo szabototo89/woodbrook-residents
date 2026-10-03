@@ -580,7 +580,7 @@ test('gallery presents named collections without displaying placeholder notices'
     ['everyday-inspiration', 'Everyday inspiration'],
   ]) {
     expect(html).toContain(`href="/gallery/${slug}"`);
-    expect(html).toContain(`<figcaption>${title}</figcaption>`);
+    expect(html).toContain(`<figcaption>${title}<svg`);
     expect(html).toContain(`aria-label="View collection: ${title}"`);
   }
   const sources = html.match(/src="(https:\/\/cdn\.sanity\.io[^"]+)"/g);

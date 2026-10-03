@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 
 import {
   createPageHead,
@@ -28,22 +28,29 @@ test('site metadata uses Laura production defaults', () => {
 });
 
 test('site metadata builds a canonical homepage without inventing a social image', () => {
-  const head = createPageHead({
-    title: SITE_NAME,
-    description: 'Colourful paintings, murals and creative services.',
-    path: '/',
-  });
+  vi.stubEnv('VITE_PUBLIC_SITE_URL', '');
+  try {
+    const head = createPageHead({
+      title: SITE_NAME,
+      description: 'Colourful paintings, murals and creative services.',
+      path: '/',
+    });
 
-  expect(head.links).toEqual([
-    {
-      rel: 'canonical',
-      href: 'https://laura-faichney-all-things-art.pages.dev/',
-    },
-  ]);
-  expect(head.meta).toContainEqual({
-    title: 'Laura Faichney | All Things Art',
-  });
-  expect(head.meta.some((entry) => entry.property === 'og:image')).toBe(false);
+    expect(head.links).toEqual([
+      {
+        rel: 'canonical',
+        href: 'https://laura-faichney-all-things-art.pages.dev/',
+      },
+    ]);
+    expect(head.meta).toContainEqual({
+      title: 'Laura Faichney | All Things Art',
+    });
+    expect(head.meta.some((entry) => entry.property === 'og:image')).toBe(
+      false,
+    );
+  } finally {
+    vi.unstubAllEnvs();
+  }
 });
 
 test('site metadata qualifies secondary page titles with the site name', () => {

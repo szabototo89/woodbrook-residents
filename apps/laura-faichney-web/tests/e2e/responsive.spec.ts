@@ -332,9 +332,10 @@ test('phone mural artwork follows the copy without clipping or a ghost duplicate
   ).toBe('none');
 });
 
-test('hero underline covers Brighter at desktop and phone sizes', async ({
+test('hero underline covers Brighter at rest at desktop and phone sizes', async ({
   page,
 }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const width of [390, 900, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
