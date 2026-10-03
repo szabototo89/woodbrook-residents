@@ -13,7 +13,7 @@ When people browse Laura's website, I want them to use content captured during t
 - Browser and server route loaders read bundled content and never request Sanity's content API or API CDN.
 - New published content becomes visible after rebuilding and deploying. A missing document, invalid required field or unavailable API stops the build before bundling.
 - Development captures content once on server startup; restarting captures changes.
-- Images continue to load from Sanity's image CDN. This removes visitor content API calls; it does not remove image bandwidth or guarantee that all free-tier limits will remain unmet.
+- Site heroes, service illustrations, mural and biography images are downloaded and cached during builds, then served by Cloudflare Pages (see `laura-image-bandwidth.md`). Gallery collection photos remain on Sanity's image CDN. This removes visitor content API calls; it does not remove all image bandwidth or guarantee that all free-tier limits will remain unmet.
 
 ## Acceptance criteria
 
@@ -26,4 +26,4 @@ When people browse Laura's website, I want them to use content captured during t
 
 Included: Laura website content capture, static snapshot bundling, route loaders, sitemap generation, static verification, and browser tests using build-time gallery fixtures.
 
-Excluded: hosting or webhook configuration, changes to Sanity Studio, draft previews, image hosting changes, and changes to other apps.
+Excluded: hosting or webhook configuration, changes to Sanity Studio, draft previews, gallery photo hosting changes, and changes to other apps. Site asset bundling is documented separately in `laura-image-bandwidth.md`.

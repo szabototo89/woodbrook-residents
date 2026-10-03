@@ -34,6 +34,8 @@ export function HomePage(props: { data: HomeData }) {
           <div className="hero-art">
             <img
               src={data.hero.image.url}
+              srcSet={data.hero.image.srcSet}
+              sizes="(max-width: 640px) 100vw, (max-width: 900px) calc((100vw - 48px) * .52 + 24px), (max-width: 1328px) calc((100vw - 48px) * .61 + 24px), 805px"
               alt={data.hero.image.alt}
               width="1374"
               height="1145"

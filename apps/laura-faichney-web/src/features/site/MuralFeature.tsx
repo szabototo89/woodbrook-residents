@@ -19,6 +19,8 @@ export function MuralFeature(props: { mural: HomeData['mural'] }) {
       <div className="mural-art">
         <img
           src={mural.image.url}
+          srcSet={mural.image.srcSet}
+          sizes="(max-width: 408px) calc(100vw - 48px), (max-width: 640px) 360px, (max-width: 900px) 49vw, 65vw"
           alt={mural.image.alt}
           width="1254"
           height="1254"

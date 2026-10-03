@@ -10,6 +10,8 @@ export function AboutPreview(props: { about: HomeData['about'] }) {
         <div className="about-art" data-motion="photo">
           <img
             src={about.image.url}
+            srcSet={about.image.srcSet}
+            sizes="(max-width: 640px) calc((100vw - 56px) / 2), (max-width: 1328px) calc((100vw - 48px) * .272), 348px"
             alt={about.image.alt}
             width="1448"
             height="1086"

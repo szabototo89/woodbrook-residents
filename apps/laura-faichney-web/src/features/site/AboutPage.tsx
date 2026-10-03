@@ -23,6 +23,8 @@ export function AboutPage(props: { data: AboutData }) {
         title={<TitleLines lines={data.hero.titleLines} />}
         description={data.hero.description}
         image={data.hero.image.url}
+        imageSrcSet={data.hero.image.srcSet}
+        imageSizes="(max-width: 640px) 100vw, (max-width: 900px) calc((100vw - 48px) / 2), (max-width: 1328px) calc((100vw - 48px) * .58), 742px"
         imageAlt={data.hero.image.alt}
         action={
           data.hero.ctaLabel ? (
@@ -59,6 +61,8 @@ export function AboutPage(props: { data: AboutData }) {
           </div>
           <img
             src={data.storyImage.url}
+            srcSet={data.storyImage.srcSet}
+            sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) calc((100vw - 48px) * .42), 538px"
             alt={data.storyImage.alt}
             width="1122"
             height="1402"

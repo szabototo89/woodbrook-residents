@@ -16,6 +16,8 @@ export function ServicesPage(props: { data: ServicesData }) {
         title={<TitleLines lines={data.hero.titleLines} />}
         description={data.hero.description}
         image={data.hero.image.url}
+        imageSrcSet={data.hero.image.srcSet}
+        imageSizes="(max-width: 420px) calc(100vw - 40px), (max-width: 640px) 380px, 50vw"
         imageAlt={data.hero.image.alt}
         action={
           <img
@@ -36,7 +38,10 @@ export function ServicesPage(props: { data: ServicesData }) {
               key={service.slug}
             >
               <div className="service-image-frame">
-                <ServiceImage image={service.image} />
+                <ServiceImage
+                  image={service.image}
+                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 900px) calc((100vw - 64px) * .36), (max-width: 1450px) 28.8vw, 418px"
+                />
               </div>
               <div className="service-list-copy">
                 <h2>{service.title}</h2>

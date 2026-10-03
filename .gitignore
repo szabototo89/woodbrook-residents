@@ -18,3 +18,4 @@ apps/cms/public/uploads/*
 !apps/cms/public/uploads/.gitkeep
 *.log
 *.tsbuildinfo
+apps/laura-faichney-web/public/site-images/

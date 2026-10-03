@@ -10,5 +10,5 @@ const config = resolveLauraSanityConfig({
   ...process.env,
 });
 
-await generateLauraSnapshot(config);
+await generateLauraSnapshot(config, mode);
 console.log('Captured published Laura content with four Sanity queries.');
