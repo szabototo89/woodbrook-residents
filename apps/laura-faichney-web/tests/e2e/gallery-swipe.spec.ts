@@ -101,6 +101,7 @@ async function gesture(
       type: 'touchMove',
       touchPoints: points(step / 5),
     });
+    await page.waitForTimeout(20);
   }
   await session.send('Input.dispatchTouchEvent', {
     type: 'touchEnd',
@@ -250,8 +251,21 @@ test('taps, short drags, vertical scrolling and two-finger gestures keep the sel
     .poll(() => page.evaluate(() => window.scrollY))
     .toBeGreaterThan(before);
   await expect(picture).toHaveAttribute('alt', first);
-  // Let native scroll inertia stop before starting a new horizontal gesture.
-  await page.waitForTimeout(300);
+  // Wait for native scroll inertia instead of assuming it ends after 300ms.
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        const scroll = { y: window.scrollY, stableFrames: 0 };
+        const settle = () => {
+          scroll.stableFrames =
+            window.scrollY === scroll.y ? scroll.stableFrames + 1 : 0;
+          scroll.y = window.scrollY;
+          if (scroll.stableFrames >= 10) resolve();
+          else requestAnimationFrame(settle);
+        };
+        requestAnimationFrame(settle);
+      }),
+  );
   // A cancelled scroll or multi-touch gesture must not block the next swipe.
   await swipePicture(page, session, 'next');
   await expect(picture).toHaveAttribute('alt', collection.photos[1]!);

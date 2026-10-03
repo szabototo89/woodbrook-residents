@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/gallery-test';
 import { galleryCollections } from './galleryCms';
 
 test('collection introduction sits beside the picture on wide screens and above it on narrower screens', async ({
