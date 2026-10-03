@@ -13,3 +13,19 @@ for (const [asset, budget] of [
     expect(file.size).toBeLessThanOrEqual(budget);
   });
 }
+
+test('mobile Services hero stays within a 40KB delivery budget', async () => {
+  const file = Bun.file(
+    new URL('../public/artwork/services-hero-cutout-672.avif', import.meta.url),
+  );
+  expect(await file.exists()).toBe(true);
+  expect(file.size).toBeLessThanOrEqual(40_000);
+});
+
+test('used DM Sans weights stay within a 24KB font budget', async () => {
+  const file = Bun.file(
+    new URL('../src/assets/fonts/dm-sans-latin-400-700.woff2', import.meta.url),
+  );
+  expect(await file.exists()).toBe(true);
+  expect(file.size).toBeLessThanOrEqual(24_000);
+});

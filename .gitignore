@@ -21,3 +21,5 @@ apps/cms/public/uploads/*
 
 apps/laura-faichney-web/lighthouse-reports/*.report.json
 apps/laura-faichney-web/lighthouse-reports/*.report.html
+
+apps/laura-faichney-web/public/site-images/

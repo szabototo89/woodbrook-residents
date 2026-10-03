@@ -36,7 +36,7 @@ export function heroImageSrcSet(
   );
   const local = hash && originalAppearance ? localArtwork[hash] : undefined;
   return local
-    ? [320, 400, 480, 640, 768, 960, 1374]
+    ? [320, 400, 480, 640, 672, 768, 960, 1374]
         .map((width) => `/artwork/${local}-${width}.${format} ${width}w`)
         .join(', ')
     : format === 'avif'

@@ -11,11 +11,11 @@ export function AboutPreview(props: { about: HomeData['about'] }) {
         <div className="about-art">
           <img
             src={about.image.url}
-            srcSet={sanityImageSrcSet(
-              about.image.url,
-              [320, 480, 640, 768, 960],
-            )}
-            sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) 30vw, 380px"
+            srcSet={
+              about.image.srcSet ??
+              sanityImageSrcSet(about.image.url, [320, 480, 640, 768, 960])
+            }
+            sizes="(max-width: 640px) calc((100vw - 56px) / 2), (max-width: 1328px) calc((100vw - 48px) * .272), 348px"
             decoding="async"
             alt={about.image.alt}
             width="1448"

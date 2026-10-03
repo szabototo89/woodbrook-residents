@@ -31,6 +31,10 @@ test('offers AVIF for known originals with a WebP fallback', () => {
     '/artwork/portrait-cutout-768.avif 768w',
   );
   expect(heroImageSrcSet(source)).toContain('.webp');
+  expect(heroImageSrcSet(source, 'avif')).toContain(
+    'portrait-cutout-672.avif 672w',
+  );
+  expect(heroImageSrcSet(source)).toContain('portrait-cutout-672.webp 672w');
   expect(
     heroImageSrcSet('https://example.com/image.jpg', 'avif'),
   ).toBeUndefined();

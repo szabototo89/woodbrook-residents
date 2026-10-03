@@ -34,16 +34,22 @@ export function HomePage(props: { data: HomeData }) {
           </div>
           <div className="hero-art">
             <picture>
-              {heroImageSrcSet(data.hero.image.url, 'avif') && (
+              {(data.hero.image.avifSrcSet ??
+                heroImageSrcSet(data.hero.image.url, 'avif')) && (
                 <source
                   type="image/avif"
-                  srcSet={heroImageSrcSet(data.hero.image.url, 'avif')}
+                  srcSet={
+                    data.hero.image.avifSrcSet ??
+                    heroImageSrcSet(data.hero.image.url, 'avif')
+                  }
                   sizes="(max-width: 640px) 100vw, (max-width: 1328px) 61vw, 805px"
                 />
               )}
               <img
                 src={data.hero.image.url}
-                srcSet={heroImageSrcSet(data.hero.image.url)}
+                srcSet={
+                  data.hero.image.srcSet ?? heroImageSrcSet(data.hero.image.url)
+                }
                 sizes="(max-width: 640px) 100vw, (max-width: 1328px) 61vw, 805px"
                 decoding="async"
                 alt={data.hero.image.alt}

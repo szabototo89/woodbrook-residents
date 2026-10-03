@@ -20,8 +20,11 @@ export function MuralFeature(props: { mural: HomeData['mural'] }) {
       <div className="mural-art">
         <img
           src={mural.image.url}
-          srcSet={sanityImageSrcSet(mural.image.url, [320, 480, 640, 768, 960])}
-          sizes="(max-width: 640px) 110vw, (max-width: 1328px) 65vw, 830px"
+          srcSet={
+            mural.image.srcSet ??
+            sanityImageSrcSet(mural.image.url, [320, 480, 640, 768, 960])
+          }
+          sizes="(max-width: 408px) calc(100vw - 48px), (max-width: 640px) 360px, (max-width: 900px) 49vw, 65vw"
           decoding="async"
           alt={mural.image.alt}
           width="1254"

@@ -1,4 +1,3 @@
-import lauraContent from 'virtual:laura-content';
 import { createFileRoute } from '@tanstack/react-router';
 import { createPageHead } from '../app/siteMetadata';
 import { ContactPage } from '../features/site/SitePages';
@@ -7,7 +6,7 @@ export const Route = createFileRoute('/contact')({
   validateSearch: (search: Record<string, unknown>) => ({
     service: typeof search.service === 'string' ? search.service : undefined,
   }),
-  loader: () => lauraContent.services,
+  loader: async () => (await import('virtual:laura-content')).default.services,
   head: () =>
     createPageHead({
       title: 'Contact',

@@ -1,10 +1,9 @@
-import lauraContent from 'virtual:laura-content';
 import { createFileRoute } from '@tanstack/react-router';
 import { GalleryPage } from '../features/site/SitePages';
 import { pageHeadFromSeo } from '../features/site/lauraSanity';
 
 export const Route = createFileRoute('/gallery')({
-  loader: () => lauraContent.gallery,
+  loader: async () => (await import('virtual:laura-content')).default.gallery,
   head: ({ loaderData }) =>
     pageHeadFromSeo({
       seo: loaderData?.seo ?? {},

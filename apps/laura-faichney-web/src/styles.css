@@ -1686,6 +1686,16 @@ h2 {
     transform: none;
   }
 }
+@keyframes artwork-reveal {
+  from {
+    opacity: 0.92;
+    transform: translateY(var(--motion-distance-sm));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
 @keyframes brush-reveal {
   from {
     transform: scaleX(0);
@@ -1727,8 +1737,7 @@ h2 {
   }
   .hero-art img,
   .page-hero-art {
-    animation: editorial-reveal var(--motion-reveal) var(--ease-reveal)
-      backwards;
+    animation: artwork-reveal var(--motion-reveal) var(--ease-reveal) backwards;
   }
   [data-motion='services'][data-motion-state='pending'] .service-card,
   [data-motion='composition'][data-motion-state='pending'] {

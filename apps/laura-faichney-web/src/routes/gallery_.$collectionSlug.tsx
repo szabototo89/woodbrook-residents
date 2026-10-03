@@ -1,4 +1,3 @@
-import lauraContent from 'virtual:laura-content';
 import { createFileRoute, notFound } from '@tanstack/react-router';
 import { createPageHead } from '../app/siteMetadata';
 import { GalleryCollectionPage } from '../features/site/GalleryCollectionPage';
@@ -11,8 +10,8 @@ import {
 
 export const Route = createFileRoute('/gallery_/$collectionSlug')({
   staleTime: 30_000,
-  loader: ({ params }) => {
-    const gallery = lauraContent.gallery;
+  loader: async ({ params }) => {
+    const gallery = (await import('virtual:laura-content')).default.gallery;
     const collection = getGalleryCollection(
       gallery.collections,
       params.collectionSlug,

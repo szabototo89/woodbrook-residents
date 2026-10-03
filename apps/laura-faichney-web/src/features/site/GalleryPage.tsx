@@ -15,7 +15,10 @@ export function GalleryPage(props: { data: GalleryData }) {
         title={<TitleLines lines={data.hero.titleLines} />}
         description={data.hero.description}
         image={data.hero.image.url}
-        imageSrcSet={heroImageSrcSet(data.hero.image.url)}
+        imageAvifSrcSet={data.hero.image.avifSrcSet}
+        imageSrcSet={
+          data.hero.image.srcSet ?? heroImageSrcSet(data.hero.image.url)
+        }
         imageSizes="(max-width: 640px) 200px, (max-width: 900px) calc((100vw - 48px) / 2), (max-width: 1328px) calc((100vw - 48px) * .58), 742px"
         imageAlt={data.hero.image.alt}
       />

@@ -205,7 +205,7 @@ Final prompt:
 The supplied originals remain unchanged. Sharp generated smaller WebP delivery
 copies for the signature, handwritten mottos, brush decorations, and current
 hero artwork. WebP hero variants preserve aspect ratio and transparency at 320,
-400, 480, 640, 768, 960, and 1374px (quality 70, alpha quality 60). Their source
+400, 480, 640, 672, 768, 960, and 1374px (quality 70, alpha quality 60). Their source
 files' SHA-1 hashes exactly match the existing Sanity asset identities, so a
 new CMS image uses CDN delivery automatically.
 
@@ -216,6 +216,10 @@ variants are 220, 320, 440, and 660px; decorative images and handwritten mottos
 use smaller sources appropriate to their rendered sizes. These are delivery
 optimizations of existing images, with no new artwork or factual content.
 
-AVIF variants use the same original artwork and width candidates, with quality 50, 4:2:0 chroma subsampling, and encoder effort 7. The contact AVIF variants use its existing 320, 480, 512, 640, 960, and 1374px candidates. Browser-supported AVIF delivery retains WebP fallback; transparent edges are verified in browser tests.
+AVIF variants use the same original artwork and width candidates, with quality 50, 4:2:0 chroma subsampling, and encoder effort 7. The 672px Services AVIF uses quality 40 to stay within a 40KB mobile budget; its transparent corners and visible artwork were verified. The contact AVIF variants use its existing 320, 480, 512, 640, 960, and 1374px candidates. Browser-supported AVIF delivery retains WebP fallback; transparent edges are verified in browser tests.
 
 The delivered blush/gold, colour, and 360px contact brush WebPs retain their previous dimensions with quality 55, alpha quality 60, and encoder effort 6. Regression budgets cap their transfers at 45, 30, and 25KB respectively.
+
+## Font delivery
+
+`src/assets/fonts/dm-sans-latin-400-700.woff2` retains the original DM Sans Latin glyphs and substitution rules, with its variable weight range limited to the site's 400–700 weights. FontTools instancing reduced it from 36,932 to 23,204 bytes. Outline comparisons at weights 400, 500, 600 and 700 differ by less than one font unit; character coverage and advance widths are preserved. The original font remains in the Fontsource package, and its SIL Open Font License is copied alongside the delivery font. Cormorant remains unchanged.

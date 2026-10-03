@@ -6,7 +6,7 @@ import {
   useRouterState,
 } from '@tanstack/react-router';
 import cormorantUrl from '@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-wght-normal.woff2?url';
-import dmSansUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
+import dmSansUrl from '../assets/fonts/dm-sans-latin-400-700.woff2?url';
 import styles from 'virtual:laura-styles';
 import { SiteFooter } from '../features/site/SiteFooter';
 import { SiteHeader } from '../features/site/SiteHeader';
@@ -39,7 +39,7 @@ function RootDocument() {
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        <style>{`@font-face{font-family:Cormorant;src:url(${cormorantUrl}) format('woff2');font-weight:300 700;font-display:swap}@font-face{font-family:DM Sans;src:url(${dmSansUrl}) format('woff2');font-weight:100 1000;font-display:swap}`}</style>
+        <style>{`@font-face{font-family:Cormorant;src:url(${cormorantUrl}) format('woff2');font-weight:300 700;font-display:swap}@font-face{font-family:DM Sans;src:url(${dmSansUrl}) format('woff2');font-weight:400 700;font-display:swap}`}</style>
       </head>
       <body>
         <a className="skip-link" href="#main-content">

@@ -11,6 +11,7 @@ type PageHeroProps = {
   image: string;
   imageAlt: string;
   imageSrcSet?: string;
+  imageAvifSrcSet?: string;
   imageSizes?: string;
   imagePriority?: 'high' | 'auto';
   action?: ReactNode;
@@ -29,10 +30,13 @@ export function PageHero(props: PageHeroProps) {
         </div>
         <div className="page-hero-art">
           <picture>
-            {heroImageSrcSet(props.image, 'avif') && (
+            {(props.imageAvifSrcSet ??
+              heroImageSrcSet(props.image, 'avif')) && (
               <source
                 type="image/avif"
-                srcSet={heroImageSrcSet(props.image, 'avif')}
+                srcSet={
+                  props.imageAvifSrcSet ?? heroImageSrcSet(props.image, 'avif')
+                }
                 sizes={
                   props.imageSizes ??
                   '(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) 58vw, 742px'

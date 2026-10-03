@@ -3,7 +3,7 @@
 Independent TanStack Start site for Laura Faichney All Things Art. Content comes
 from the `uag6kepo` ("Laura Faichney All Things Art") Sanity project, dataset
 `production`, captured once before each build and rendered
-from Sanity CDN artwork (see `docs/features/laura-content-model.md`).
+with bundled site artwork and Sanity-hosted gallery photos (see `docs/features/laura-content-model.md`).
 
 Production: `https://laura-faichney-all-things-art.pages.dev`
 
@@ -25,8 +25,13 @@ therefore unnecessary for content navigation.
 
 A missing or invalid required field or a failed Sanity request fails the build;
 there is no runtime refresh or fallback to an older snapshot. Published changes
-appear after the next build and deployment. Artwork still loads from the Sanity
-image CDN, so image bandwidth remains part of Sanity usage.
+appear after the next build and deployment. Builds also download responsive WebP
+variants for site heroes, service illustrations, mural and biography images.
+These are served from `/site-images/` on Cloudflare Pages. The persistent
+`.cache/image-assets/` cache avoids redownloading unchanged source assets and
+transformations; the GitHub deploy workflow restores it between runs. Gallery
+collection photos and thumbnails still load from Sanity's image CDN. Failed
+required image downloads stop the build.
 
 ## Development
 
@@ -57,7 +62,11 @@ Gallery swipe tests use native Chromium touch input in mobile mode at 320, 390 a
 
 It also checks restrained motion, keyboard/touch feedback, selected-image gallery transitions, reduced motion (including live changes), missing browser APIs, and JavaScript-free browsing. For concurrent worktrees, `LAURA_PLAYWRIGHT_PORT` can select a free preview port. Content navigation requires no Sanity CORS configuration.
 
-`test:e2e` builds with test-only gallery collections captured before Vite runs. It also blocks Sanity API endpoints while checking direct visits and client navigation.
+`test:e2e` builds all content and artwork from local fixtures before Vite runs,
+with no live Sanity requests or network fallback. Fixture image variants use
+the separate `.cache/test-image-assets/` cache, so test artwork cannot populate
+the production cache. It also blocks Sanity API endpoints while checking direct
+visits and client navigation.
 
 The static build is written to `dist/client` and verifies the five main pages plus each CMS gallery collection, internal links, crawler metadata, and the absence of Sanity API code or runtime-only output.
 
@@ -121,7 +130,8 @@ bun run test:lighthouse --route=/contact --form-factor=mobile --retries=0
 Page styles are minified at build time and embedded in prerendered HTML to avoid a blocking stylesheet request. Cloudflare Pages applies `public/_headers`: hashed Vite assets cache for a year, while replaceable artwork, branding and decorations cache for one day. The Lighthouse preview reads those same rules. See [Cloudflare header configuration](https://developers.cloudflare.com/pages/configuration/headers/).
 
 The current CMS hero assets have matching, optimized AVIF and WebP local derivatives. Their
-SHA-1 asset identities select these copies; replacing or cropping an image in Sanity
-continues to use responsive CDN images automatically. Originals remain in
+SHA-1 asset identities select these copies, which builds also publish under content-hashed
+`/site-images/` URLs. Replacing or cropping an image in Sanity uses the new
+responsive cached WebP images automatically. Originals remain in
 `public/` as references. See `docs/features/laura-lighthouse-testing.md` for
 scope and verification results.

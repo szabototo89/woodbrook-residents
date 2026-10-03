@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit",
     "verify:static": "bun scripts/verify-static-build.ts",
     "content:generate": "bun scripts/generate-content.ts",
-    "build:e2e": "bun --preload ./tests/fixtures/gallery-fetch.mjs scripts/generate-content.ts && vite build",
+    "build:e2e": "bun --preload ./tests/fixtures/gallery-fetch.mjs scripts/generate-content.ts test && vite build",
     "test:lighthouse": "bun scripts/lighthouse.ts"
   },
   "dependencies": {
@@ -37,6 +37,7 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
     "lightningcss": "^1.33.0",
+    "sharp": "0.34.5",
     "typescript": "^6.0.2",
     "vite": "^8.0.0",
     "vitest": "^4.1.10"

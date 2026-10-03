@@ -60,8 +60,8 @@ export function ContactServices(props: { services: CmsService[] }) {
                 key={group.title}
               >
                 <ServiceImage
-                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) 30vw, 400px"
                   image={first.image}
+                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 768px) 90vw, (max-width: 1333px) calc((90vw - 40px) / 3), 387px"
                 />
                 <div className="contact-service-copy">
                   <span className="contact-icon">

@@ -139,28 +139,42 @@ export function CollectionPictures(props: {
               transform: `translate3d(-${((props.initialIndex ?? 0) + offset) * 100}%, 0, 0)`,
             }}
           >
-            {slides.map((image, index) => (
-              <div
-                className="collection-carousel-slide"
-                key={`${image.alt}-${index}`}
-              >
-                <img
-                  src={image.fullImage.url}
-                  srcSet={galleryPhotoSrcSet(image.fullImage.url)}
-                  sizes={galleryPictureSizes(image.fullImage.url)}
-                  loading={index === selectedIndex + offset ? 'eager' : 'lazy'}
-                  decoding="async"
-                  fetchPriority={
-                    index === selectedIndex + offset ? 'high' : 'low'
-                  }
-                  alt={image.alt}
-                  aria-hidden={index !== selectedIndex + offset}
-                  draggable={false}
-                  width="640"
-                  height="480"
-                />
-              </div>
-            ))}
+            {slides.map((image, index) => {
+              const distance = Math.abs(index - selectedIndex - offset);
+              const loadImage =
+                distance <= 1 ||
+                (!props.onSwipeBoundary &&
+                  total > 1 &&
+                  distance === slides.length - 1);
+              return (
+                <div
+                  className="collection-carousel-slide"
+                  key={`${image.alt}-${index}`}
+                >
+                  <img
+                    src={loadImage ? image.fullImage.url : undefined}
+                    srcSet={
+                      loadImage
+                        ? galleryPhotoSrcSet(image.fullImage.url)
+                        : undefined
+                    }
+                    sizes={galleryPictureSizes(image.fullImage.url)}
+                    decoding="async"
+                    loading={
+                      index === selectedIndex + offset ? 'eager' : 'lazy'
+                    }
+                    fetchPriority={
+                      index === selectedIndex + offset ? 'high' : 'low'
+                    }
+                    alt={image.alt}
+                    aria-hidden={index !== selectedIndex + offset}
+                    draggable={false}
+                    width="640"
+                    height="480"
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         {selectedAvailability && (

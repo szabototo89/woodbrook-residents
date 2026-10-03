@@ -49,6 +49,43 @@ test('does not show an availability indicator without a picture', () => {
   expect(renderToStaticMarkup(<CollectionPictures images={[]} />)).toBe('');
 });
 
+test('only selected and neighbouring full pictures have download URLs', () => {
+  const images = Array.from({ length: 7 }, (_, index) => ({
+    ...picture(undefined, `Picture ${index}`),
+    fullImage: { url: `/full-picture-${index}.webp`, alt: `Picture ${index}` },
+  }));
+  const html = renderToStaticMarkup(
+    <CollectionPictures images={images} initialIndex={3} />,
+  );
+  for (const index of [2, 3, 4])
+    expect(html).toContain(`src="/full-picture-${index}.webp"`);
+  for (const index of [0, 1, 5, 6])
+    expect(html).not.toContain(`src="/full-picture-${index}.webp"`);
+  expect(html).toContain('aria-label="View picture: Picture 6"');
+});
+
+test('looping and cross-collection boundaries keep immediate neighbours available', () => {
+  const images = Array.from({ length: 5 }, (_, index) => ({
+    ...picture(undefined, `Picture ${index}`),
+    fullImage: { url: `/full-picture-${index}.webp`, alt: `Picture ${index}` },
+  }));
+  expect(
+    renderToStaticMarkup(<CollectionPictures images={images} />),
+  ).toContain('src="/full-picture-4.webp"');
+  const html = renderToStaticMarkup(
+    <CollectionPictures
+      images={images}
+      previousPicture={{
+        ...picture(),
+        fullImage: { url: '/previous.webp', alt: 'Previous collection' },
+      }}
+      onSwipeBoundary={() => undefined}
+    />,
+  );
+  expect(html).toContain('src="/previous.webp"');
+  expect(html).not.toContain('src="/full-picture-4.webp"');
+});
+
 test.each(['none', undefined] as const)(
   'hides availability for %s without leaving a caption or changing thumbnail names',
   (value) => {

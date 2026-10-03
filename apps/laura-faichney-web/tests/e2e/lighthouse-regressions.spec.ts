@@ -1,3 +1,4 @@
+import { readLauraSnapshot } from '../../scripts/lauraSnapshot';
 import { expect, test } from '@playwright/test';
 
 for (const path of ['/', '/about', '/services', '/gallery', '/contact']) {
@@ -21,6 +22,28 @@ for (const path of ['/', '/about', '/services', '/gallery', '/contact']) {
     await expect(favicon).toHaveAttribute('href', '/favicon.svg');
     expect((await page.request.get('/favicon.svg')).ok()).toBe(true);
     expect(errors).toEqual([]);
+  });
+}
+
+for (const path of ['/', '/about', '/services', '/gallery', '/contact']) {
+  test(`${path} keeps hero artwork visible from its first animation frame`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 412, height: 915 });
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto(path);
+    const art = page.locator('.hero-art img, .page-hero-art').first();
+    const initialOpacity = await art.evaluate((node: HTMLElement) => {
+      // Replay the entrance at its first frame, even if navigation finished it.
+      node.style.setProperty('animation', 'none');
+      void getComputedStyle(node).animationName;
+      node.style.removeProperty('animation');
+      node.style.setProperty('animation-play-state', 'paused');
+      for (const animation of node.getAnimations()) animation.currentTime = 0;
+      return Number(getComputedStyle(node).opacity);
+    });
+    expect(initialOpacity).toBeGreaterThanOrEqual(0.9);
+    await expect(art).toBeVisible();
   });
 }
 
@@ -97,5 +120,29 @@ test('inline stylesheet is not downloaded again inside client JavaScript', async
   );
   expect((await Promise.all(scripts)).join('\n').includes('.hero-art{')).toBe(
     false,
+  );
+});
+
+test('initial navigation reuses rendered content and loads other page data on demand', async ({
+  page,
+}) => {
+  const { about } = await readLauraSnapshot();
+  const scripts: Promise<string>[] = [];
+  page.on('response', (response) => {
+    if (response.ok() && response.request().resourceType() === 'script')
+      scripts.push(response.text());
+  });
+  await page.goto('/services');
+  await page.waitForLoadState('networkidle');
+  expect((await Promise.all(scripts)).join('\n')).not.toContain(
+    about.storyImage.url,
+  );
+  await page.getByRole('link', { name: 'About', exact: true }).first().click();
+  await expect(
+    page.getByRole('img', { name: about.storyImage.alt, exact: true }),
+  ).toHaveAttribute('src', about.storyImage.url);
+  await page.waitForLoadState('networkidle');
+  expect((await Promise.all(scripts)).join('\n')).toContain(
+    about.storyImage.url,
   );
 });

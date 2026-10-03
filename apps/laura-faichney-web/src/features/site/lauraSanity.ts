@@ -3,6 +3,8 @@ import { createPageHead } from '../../app/siteMetadata';
 export type CmsImage = {
   url: string;
   alt: string;
+  srcSet?: string;
+  avifSrcSet?: string;
 };
 
 export type CmsHero = {
