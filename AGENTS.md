@@ -43,6 +43,7 @@
 - Prefer precise names and straightforward control flow.
 - Tests should assert observable behavior through roles, labels, visible copy, URLs, and submitted outcomes.
 - Run `bun run build` before handoff. Use focused tests while iterating.
+- For every new user-visible feature, use Playwright to capture high-resolution screenshots of the implemented result in both desktop and mobile viewports. Share both screenshots inline in the final response so the user can review the change. Use representative sample content when needed and clearly identify it as sample content. Include a screencast when it helps demonstrate motion or interaction.
 
 ## Feature documentation
 
