@@ -23,3 +23,7 @@ apps/web/public/google*.html
 # Git hooks are extensionless shell scripts, not prettier inputs.
 .githooks/post-checkout
 .githooks/post-worktree-remove
+
+# Locale generated routing and Lighthouse artifacts.
+apps/locale-web/src/routeTree.gen.ts
+apps/locale-web/lighthouse-reports/
