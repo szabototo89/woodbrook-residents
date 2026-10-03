@@ -6,12 +6,11 @@ proposal gallery; each folder under `projects/` contains one clickable concept.
 From the repository root, run:
 
 ```sh
-bun run dev:proposals
+bun run dev:design-proposals
 ```
 
 Current proposals:
 
-- `projects/juliet-rose/index.html`
 - `projects/spotless-dog-grooming/index.html`
 - `projects/spotless-dog-grooming-warm/index.html`
 - `projects/the-dog-salon/index.html`

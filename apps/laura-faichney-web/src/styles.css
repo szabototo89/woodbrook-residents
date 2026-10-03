@@ -18,12 +18,16 @@
   --white: #fff;
   --font-serif: Cormorant, Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
-  --motion-instant: 100ms;
-  --motion-fast: 180ms;
-  --motion-medium: 280ms;
-  --motion-reveal: 420ms;
-  --motion-hero: 900ms;
-  --ease-ui: cubic-bezier(0.2, 0, 0, 1);
+  --motion-instant: 120ms;
+  --motion-fast: 160ms;
+  --motion-medium: 240ms;
+  --motion-small: 260ms;
+  --motion-gallery: 220ms;
+  --motion-reveal: 360ms;
+  --motion-signature: 620ms;
+  --motion-stagger: 60ms;
+  --ease-ui: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
   --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-distance-xs: 4px;
   --motion-distance-sm: 8px;
@@ -1583,99 +1587,72 @@ h2 {
   }
 }
 
-/* One motion vocabulary: brief feedback, then quiet, one-time reveals. */
+/* Static content first; motion enhances selected compositions and interactions. */
 .button svg,
 .text-link svg,
 .service-card svg,
+.service-list-link svg,
+.gallery-collections svg,
 .service-arrow svg,
 .collection-picture-navigation svg {
-  transition: transform var(--motion-fast) var(--ease-ui);
+  flex-shrink: 0;
 }
 .service-image-frame,
-.gallery-grid picture {
-  display: block;
-  overflow: hidden;
-  border-radius: 5px;
-}
+.gallery-grid picture,
 .collection-thumbnails picture {
   display: block;
   overflow: hidden;
   border-radius: 5px;
 }
+.service-card,
+.service-list-link,
 .collection-picture-navigation button {
   transition: background-color var(--motion-fast) var(--ease-ui);
 }
-.service-image-frame img,
-.gallery-grid img,
-.collection-thumbnails img {
-  transition: transform 260ms var(--ease-ui);
-}
 .service-card > span,
-.service-list-copy strong {
+.gallery-collections figcaption {
   transition: color var(--motion-fast) var(--ease-ui);
 }
+.gallery-collections figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.service-list-copy h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+:is(.service-card, .service-list-link):focus-visible {
+  background-color: var(--cream-dark);
+}
 .service-card:focus-visible > span,
-.service-list-link:focus-visible strong {
+.service-list-link:focus-visible h2,
+.gallery-collections a:focus-visible figcaption {
   color: var(--pink);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-:is(
-    .button,
-    .text-link,
-    .service-card,
-    .service-list-link,
-    .collection-picture-navigation button
-  ):focus-visible
-  svg {
-  transform: translateX(var(--arrow-distance, var(--motion-distance-xs)));
+:is(.button, .service-card, .service-list-link, .gallery-collections a):active {
+  background-color: var(--pink-soft);
 }
-:is(.service-card, .service-list-link):focus-visible img {
-  transform: scale(1.025);
-}
-.gallery-grid a:focus-visible img,
-.collection-thumbnails button:focus-visible img {
-  transform: scale(1.02);
-}
-.button:active {
-  transform: scale(0.98);
-  transition-duration: var(--motion-instant);
+.button-primary:active {
+  background-color: var(--pink-hover);
 }
 @media (hover: hover) and (pointer: fine) {
-  .button:hover {
-    transform: translateY(-1px);
-  }
   .button-primary:hover {
     background: var(--pink-hover);
   }
-  :is(
-      .button,
-      .text-link,
-      .service-card,
-      .service-list-link,
-      .collection-picture-navigation button
-    ):hover
-    svg {
-    transform: translateX(var(--arrow-distance, var(--motion-distance-xs)));
-  }
-  .button:active {
-    transform: scale(0.98);
-  }
-  :is(.service-card, .service-list-link):hover img {
-    transform: scale(1.025);
+  :is(.service-card, .service-list-link):hover {
+    background-color: var(--cream-dark);
   }
   .service-card:hover > span,
-  .service-list-link:hover strong {
+  .service-list-link:hover h2 {
     color: var(--pink);
     text-decoration: underline;
     text-underline-offset: 4px;
-  }
-  .gallery-grid a:hover img,
-  .collection-thumbnails button:hover img {
-    transform: scale(1.02);
-  }
-  .navigation a:hover:after {
-    transform: scaleX(1);
   }
 }
 .lucide-arrow-left {
@@ -1692,42 +1669,17 @@ h2 {
   margin-top: 8px;
   background: currentColor;
   clip-path: polygon(0 20%, 65% 0, 100% 35%, 92% 75%, 10% 100%);
-  transform-origin: left;
-}
-.centered .brush-accent:after {
-  margin-inline: auto;
 }
 .collection-selected-picture {
   scroll-margin-block: 24px;
 }
-
 .collection-selected-picture:focus {
   outline: none;
 }
 @keyframes editorial-reveal {
   from {
     opacity: 0;
-    transform: translateY(var(--reveal-distance, var(--motion-distance-sm)));
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes artwork-settle {
-  from {
-    opacity: 0.92;
-    transform: scale(1.015);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes photo-settle {
-  from {
-    opacity: 0.8;
-    transform: scale(1.015);
+    transform: translateY(var(--motion-distance-sm));
   }
   to {
     opacity: 1;
@@ -1742,12 +1694,18 @@ h2 {
     transform: scaleX(1);
   }
 }
-@keyframes artwork-uncover {
+@keyframes paint-uncover {
+  0%,
+  100% {
+    mask-image: url('/decoration/brush-reveal-mask.svg');
+    mask-size: 220% 100%;
+    mask-repeat: no-repeat;
+  }
   from {
-    clip-path: inset(0 100% 0 0);
+    mask-position: 100% 0;
   }
   to {
-    clip-path: inset(0);
+    mask-position: 0 0;
   }
 }
 @keyframes feedback-fade {
@@ -1759,71 +1717,118 @@ h2 {
   }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .hero-kicker,
-  .page-hero-copy > .eyebrow {
-    --reveal-distance: 6px;
-    animation: editorial-reveal 220ms var(--ease-reveal) backwards;
+  .home-hero h1 {
+    animation: editorial-reveal var(--motion-small) var(--ease-reveal) backwards;
   }
-  .hero-line,
-  .page-hero h1 {
-    --reveal-distance: var(--motion-distance-md);
-    animation: editorial-reveal var(--motion-reveal) var(--ease-reveal) 55ms
+  .home-hero .gold-stroke {
+    transform-origin: left;
+    animation: brush-reveal var(--motion-signature) var(--ease-reveal) 90ms
       backwards;
   }
-  .hero-line:last-child {
-    animation-delay: 110ms;
-  }
-  :is(.hero-copy, .page-hero-copy) > p:not(.hero-kicker, .eyebrow) {
-    animation: editorial-reveal 320ms var(--ease-reveal) 165ms backwards;
-  }
-  :is(.hero-copy, .page-hero-copy) > .button {
-    --reveal-distance: 6px;
-    animation: editorial-reveal var(--motion-medium) var(--ease-reveal) 220ms
+  .hero-art img,
+  .page-hero-art {
+    animation: editorial-reveal var(--motion-reveal) var(--ease-reveal)
       backwards;
   }
-  :is(.hero-art, .page-hero-art) img {
-    animation: artwork-settle var(--motion-hero) var(--ease-reveal) 275ms
-      backwards;
-  }
-  [data-motion='card'][data-motion-state='pending'],
-  [data-motion='copy'][data-motion-state='pending'] {
+  [data-motion='services'][data-motion-state='pending'] .service-card,
+  [data-motion='composition'][data-motion-state='pending'] {
     opacity: 0;
     transform: translateY(var(--motion-distance-sm));
   }
-  [data-motion='card'][data-motion-state='revealed'],
-  [data-motion='copy'][data-motion-state='revealed'] {
-    animation: editorial-reveal 380ms var(--ease-reveal) backwards;
-  }
-  [data-motion='photo'][data-motion-state='pending'] img {
-    opacity: 0.8;
-    transform: scale(1.015);
-  }
-  [data-motion='photo'][data-motion-state='revealed'] img {
-    animation: photo-settle 450ms var(--ease-reveal) backwards;
-  }
-  [data-motion-state='pending'] .brush-accent:after {
-    transform: scaleX(0);
-  }
-  [data-motion-state='revealed'] .brush-accent:after {
-    animation: brush-reveal 300ms var(--ease-reveal) backwards;
+  [data-motion='services'][data-motion-state='revealed'] .service-card,
+  [data-motion='composition'][data-motion-state='revealed'] {
+    animation: editorial-reveal var(--motion-reveal) var(--ease-reveal)
+      backwards;
   }
   [data-motion='mural'][data-motion-state='pending'] .mural-art {
-    clip-path: inset(0 100% 0 0);
-  }
-  [data-motion='mural'][data-motion-state='revealed'] .mural-art {
-    animation: artwork-uncover 450ms var(--ease-reveal) backwards;
-  }
-  [data-motion='mural'][data-motion-state='pending'] .mural-copy > * {
     opacity: 0;
   }
-  [data-motion='mural'][data-motion-state='revealed']
-    .mural-copy
-    > :not(.button) {
-    --reveal-distance: 10px;
-    animation: editorial-reveal 360ms var(--ease-reveal) 80ms backwards;
+  [data-motion='mural'][data-motion-state='revealed'] .mural-art {
+    animation: feedback-fade var(--motion-signature) var(--ease-reveal)
+      backwards;
   }
-  [data-motion='mural'][data-motion-state='revealed'] .mural-copy > .button {
-    animation: feedback-fade 220ms var(--ease-ui) 160ms backwards;
+  @supports (mask-image: url('/decoration/brush-reveal-mask.svg')) {
+    @media (min-width: 641px) {
+      [data-motion='mural'][data-motion-state='pending'] .mural-art {
+        opacity: 1;
+        mask-image: url('/decoration/brush-reveal-mask.svg');
+        mask-size: 220% 100%;
+        mask-repeat: no-repeat;
+        mask-position: 100% 0;
+      }
+      [data-motion='mural'][data-motion-state='revealed'] .mural-art {
+        animation-name: paint-uncover;
+      }
+    }
+  }
+  .button svg,
+  .text-link svg,
+  .service-card svg,
+  .service-list-link svg,
+  .gallery-collections svg,
+  .service-arrow svg,
+  .collection-picture-navigation svg,
+  .service-image-frame img {
+    transition: transform var(--motion-fast) var(--ease-ui);
+  }
+  .gallery-grid img,
+  .collection-thumbnails img {
+    transition: transform var(--motion-gallery) var(--ease-ui);
+  }
+  :is(
+      .button,
+      .text-link,
+      .service-card,
+      .service-list-link,
+      .gallery-collections a,
+      .collection-picture-navigation button
+    ):focus-visible
+    svg {
+    transform: translateX(var(--arrow-distance, var(--motion-distance-xs)));
+  }
+  :is(.service-card, .service-list-link):focus-visible img {
+    transform: translateY(-2px);
+  }
+  .gallery-grid a:focus-visible img {
+    transform: scale(1.025);
+  }
+  .collection-thumbnails button:focus-visible img {
+    transform: scale(1.02);
+  }
+  .button:active {
+    transform: scale(0.98);
+    transition-duration: var(--motion-instant);
+  }
+  .navigation a:focus-visible:after {
+    transform: scaleX(1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :is(
+        .button,
+        .text-link,
+        .service-card,
+        .service-list-link,
+        .gallery-collections a,
+        .collection-picture-navigation button
+      ):hover
+      svg {
+      transform: translateX(var(--arrow-distance, var(--motion-distance-xs)));
+    }
+    :is(.service-card, .service-list-link):hover img {
+      transform: translateY(-2px);
+    }
+    .gallery-grid a:hover img {
+      transform: scale(1.025);
+    }
+    .collection-thumbnails button:hover img {
+      transform: scale(1.02);
+    }
+    .navigation a:hover:after {
+      transform: scaleX(1);
+    }
+  }
+  [data-page-transition] #main-content {
+    view-transition-name: page-content;
   }
   .collection-selected-picture img[aria-hidden='false'] {
     view-transition-name: selected-artwork;
@@ -1831,6 +1836,18 @@ h2 {
   [data-gallery-transition] .collection-detail-page {
     view-transition-name: collection-page;
   }
+}
+#main-content:focus {
+  outline: none;
+}
+::view-transition-group(page-content) {
+  animation: none;
+}
+::view-transition-old(page-content) {
+  animation: feedback-fade var(--motion-medium) var(--ease-exit) reverse both;
+}
+::view-transition-new(page-content) {
+  animation: feedback-fade var(--motion-medium) var(--ease-ui) both;
 }
 /* Keep the site chrome stationary while gallery content changes. */
 ::view-transition-group(collection-page),
@@ -1848,8 +1865,12 @@ h2 {
   animation: none;
 }
 @media (max-width: 640px) {
-  .services-preview .brush-accent:after {
-    margin-inline: 0;
+  :root {
+    --motion-reveal: 300ms;
+    --motion-small: 220ms;
+    --motion-signature: 500ms;
+    --motion-stagger: 35ms;
+    --motion-distance-sm: 4px;
   }
   .navigation a:after {
     transition: none;
@@ -1858,18 +1879,6 @@ h2 {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  .button,
-  .button svg,
-  .text-link svg,
-  .service-card svg,
-  .service-arrow svg,
-  .collection-picture-navigation svg,
-  .service-image-frame img,
-  .gallery-grid img,
-  .collection-thumbnails img {
-    transform: none !important;
-    transition: none;
   }
   .navigation a:after {
     transition: none;

@@ -25,29 +25,34 @@ const event: CommunityEvent = {
 };
 
 test('renders a Woodbrook-styled button that opens calendar options', async () => {
-  atcbActionMock.mockResolvedValue('openList:atcb-btn-1');
-  const { container, unmount } = renderUi(
-    <AddToCalendarButton event={event} />,
-  );
+  vi.stubEnv('VITE_PUBLIC_SITE_URL', '');
+  try {
+    atcbActionMock.mockResolvedValue('openList:atcb-btn-1');
+    const { container, unmount } = renderUi(
+      <AddToCalendarButton event={event} />,
+    );
 
-  const button = container.querySelector('button');
-  expect(button?.textContent).toContain('Add to calendar');
-  expect(button?.className ?? '').toMatch(/button-secondary/);
+    const button = container.querySelector('button');
+    expect(button?.textContent).toContain('Add to calendar');
+    expect(button?.className ?? '').toMatch(/button-secondary/);
 
-  click(button!);
-  await vi.waitFor(() => {
-    expect(atcbActionMock).toHaveBeenCalledTimes(1);
-  });
+    click(button!);
+    await vi.waitFor(() => {
+      expect(atcbActionMock).toHaveBeenCalledTimes(1);
+    });
 
-  const firstCall = atcbActionMock.mock.calls[0];
-  expect(firstCall).toBeDefined();
-  const [config, trigger] = firstCall!;
-  expect(config.name).toBe('Community clean-up, Woodbrook');
-  expect(config.timeZone).toBe('Europe/Dublin');
-  expect(config.options).toContain('google');
-  expect(config.options).toContain('ical');
-  expect(config.optionsIOS).toContain('apple');
-  expect(config.icsFile).toContain('/ics/community-clean-up.ics');
-  expect(trigger).toBe(button);
-  unmount();
+    const firstCall = atcbActionMock.mock.calls[0];
+    expect(firstCall).toBeDefined();
+    const [config, trigger] = firstCall!;
+    expect(config.name).toBe('Community clean-up, Woodbrook');
+    expect(config.timeZone).toBe('Europe/Dublin');
+    expect(config.options).toContain('google');
+    expect(config.options).toContain('ical');
+    expect(config.optionsIOS).toContain('apple');
+    expect(config.icsFile).toContain('/ics/community-clean-up.ics');
+    expect(trigger).toBe(button);
+    unmount();
+  } finally {
+    vi.unstubAllEnvs();
+  }
 });

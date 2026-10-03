@@ -31,7 +31,7 @@ To use the repository's local Google Sheets-backed API, run these commands in
 separate terminals:
 
 ```sh
-bun run dev:mobile-content
+bun run dev:web:content
 WOODBROOK_API_URL=http://localhost:3000 bun run dev:mobile
 ```
 

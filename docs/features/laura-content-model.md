@@ -18,9 +18,9 @@ When Laura edits her own site content in Sanity Studio, I want every editable wo
 - Friendly validation: alt text required on every image, search description capped at 160 characters, service and collection slug set-once guidance, About strengths fixed at four, collections requiring at least one picture.
 - Contact email, phone, mailto subject, and the shared Get-in-touch strip live once in `siteSettings` instead of being repeated per page.
 - Initial values prefill the current live site copy so Laura edits rather than writes from blank.
-- The website reads this content at build time: TanStack route loaders fetch the singletons, ordered services, and ordered collections (with photo references expanded) via GROQ during static prerender, and components render CMS copy, Sanity CDN artwork (hotspot-aware crops, required alt text), collection pages, and per-page SEO with code fallbacks. No `siteContent.ts` remains.
+- The website reads this content at build time: a build step captures the singletons, ordered services, and ordered collections (with photo references expanded) via four GROQ queries before Vite runs; TanStack route loaders reuse that snapshot during prerender and browser navigation, and components render CMS copy, Sanity CDN artwork (hotspot-aware crops, required alt text), collection pages, and per-page SEO with code fallbacks. No `siteContent.ts` remains.
 - Service cards link `/contact?service=<slug>`; the Contact page keeps its hardcoded hero and reads shared contact details from `siteSettings`.
-- Browser-side route transitions re-read published content from the Sanity API, so the production Pages origin and local dev/e2e origins are registered as project CORS origins.
+- Browser-side route transitions, preloads and gallery swipes read bundled content without Sanity API requests. Published changes become visible after a rebuild and deployment. Image CDN bandwidth still counts toward Sanity usage. See [build-time content](./laura-build-time-content.md).
 
 ## Acceptance criteria
 
@@ -38,7 +38,7 @@ When Laura edits her own site content in Sanity Studio, I want every editable wo
 - Standalone TypeScript Studio at `apps/laura-studio` (config, CLI config, desk structure, schema types, unit tests) plus root script wiring (`dev:laura-studio`, `build:laura-studio`, unit/typecheck/lint coverage).
 - Schema deployment to `uag6kepo/production` and a hosted `*.sanity.studio` Studio.
 - Seed content matching the current live copy so the Studio opens with real values.
-- Website wiring in `apps/laura-faichney-web`: `lauraSanity.ts` data layer (`@sanity/client` for image URLs, plain-fetch GROQ, zod validation), route loaders, CMS-driven components and head metadata, and unit tests with mocked Sanity responses.
+- Website wiring in `apps/laura-faichney-web`: `scripts/lauraSanitySource.ts` build data layer (`@sanity/client` for image URLs, plain-fetch GROQ, zod validation), bundled snapshot and shared `lauraSanity.ts` types/helpers, route loaders, CMS-driven components and head metadata, and unit tests with mocked Sanity responses.
 
 ### Not included
 

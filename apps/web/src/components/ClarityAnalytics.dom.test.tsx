@@ -107,10 +107,15 @@ test('Clarity stays off without consent', () => {
 });
 
 test('Clarity stays off without a project ID', () => {
-  setConsentCookie('accepted');
-  const { unmount } = renderUi(<ClarityAnalytics />);
+  vi.stubEnv('VITE_CLARITY_PROJECT_ID', '');
+  try {
+    setConsentCookie('accepted');
+    const { unmount } = renderUi(<ClarityAnalytics />);
 
-  expect(document.head.querySelector(`#${CLARITY_SCRIPT_ID}`)).toBeNull();
-  expect(window.clarity).toBeUndefined();
-  unmount();
+    expect(document.head.querySelector(`#${CLARITY_SCRIPT_ID}`)).toBeNull();
+    expect(window.clarity).toBeUndefined();
+    unmount();
+  } finally {
+    vi.unstubAllEnvs();
+  }
 });

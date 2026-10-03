@@ -11,9 +11,11 @@ import styles from 'virtual:laura-styles';
 import { SiteFooter } from '../features/site/SiteFooter';
 import { SiteHeader } from '../features/site/SiteHeader';
 import { useGalleryTransitions } from '../features/site/useGalleryTransitions';
+import { usePageTransitions } from '../features/site/usePageTransitions';
 
 function RootDocument() {
   useGalleryTransitions();
+  usePageTransitions();
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });

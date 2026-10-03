@@ -10,18 +10,19 @@ export function ServicesPreview(props: {
   return (
     <section className="section services-preview" id="services">
       <div className="container">
-        <div className="section-heading centered" data-motion="brush">
-          <Eyebrow brush>Creative services</Eyebrow>
+        <div className="section-heading centered">
+          <Eyebrow>Creative services</Eyebrow>
           <h2>{props.heading}</h2>
         </div>
-        <div className="service-grid">
+        <div className="service-grid" data-motion="services">
           {props.services.map((service, index) => (
             <a
               className="service-card"
               href="/services"
               key={service.slug}
-              data-motion="card"
-              style={{ animationDelay: `${index * 45}ms` }}
+              style={{
+                animationDelay: `calc(${index} * var(--motion-stagger))`,
+              }}
             >
               <div className="service-image-frame">
                 <ServiceImage

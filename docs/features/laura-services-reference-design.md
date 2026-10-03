@@ -14,7 +14,7 @@ As someone considering artwork or a creative event, I want to understand Laura�
 - Published service names, descriptions, images and contact details continue to come from Sanity. Category wording comes from the supplied reference and is associated with the five existing service slugs. Other services retain their published content without inferred categories.
 - “How It Works” explains Share Your Idea, Discuss the Brief, and Create Something Special using three icons and arrows. Desktop and tablet steps sit below the centered heading, with aligned icons, titles and descriptions and arrows centered between the icons. Phone steps stack in reading order.
 - Each service opens the contact page with its service query parameter. The navy contact band retains phone, email and Start a Project actions.
-- The shared footer includes accessible Instagram and Facebook icons. At the user’s request, they temporarily link to the platform homepages; they do not identify verified Laura profiles.
+- The shared footer includes accessible Instagram and Facebook icons on every page. Facebook opens the profile URL supplied by the user. Instagram temporarily links to its platform homepage at the user’s request.
 
 ## Acceptance criteria
 
@@ -24,7 +24,7 @@ As someone considering artwork or a creative event, I want to understand Laura�
 - At 320, 390 and 640px, descriptions remain fully visible, details use separate padded rows without vertical separators, category text wraps inside the panel, and images precede service copy.
 - All five routes fit within the viewport at 320, 390, 640, 700, 900 and 1440px; shared footer social links do not introduce overflow.
 - Phone body text remains at least 16px. Visible phone links and buttons have at least 44px tap areas. Navigation and service enquiry links work with the keyboard, with visible focus and reduced-motion support.
-- Contact actions use published phone/email settings. Instagram and Facebook placeholders use accessible names and are easy to replace in `SiteFooter.tsx`.
+- Contact actions use published phone/email settings. The social links use accessible names; Facebook links to `https://www.facebook.com/profile.php?id=61553821975045`.
 - Focused unit and browser tests, final visual inspection, and the required repository build pass.
 
 ## Scope and sources
@@ -34,6 +34,8 @@ The redesign targets `/services` in `apps/laura-faichney-web`, plus its shared s
 Design and new category/process wording: user-supplied `clipboard-2026-10-01-155524-D4C647C9.png`, accessed 2026-10-01. Placeholder social links: explicitly requested by the user on 2026-10-01. The user subsequently requested an image asset for the motto and removal of the repeated introduction on 2026-10-01. The user then supplied `codex-clipboard-lhWEFM.png` as a gold handwriting reference and requested regeneration. Image provenance and the final generation prompt remain in `apps/laura-faichney-web/ASSETS.md`.
 
 Process alignment and phone details layout fixes: user-supplied `clipboard-2026-10-02-133110-D9C59A33.png` and `clipboard-2026-10-02-133136-6BBF4F6A.png`, accessed 2026-10-02. These changes apply to services page styling only.
+
+Facebook profile URL: supplied by the user on 2026-10-02, `https://www.facebook.com/profile.php?id=61553821975045`. The shared footer uses this exact destination without inferring profile details.
 
 ## Verification
 

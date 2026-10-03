@@ -77,7 +77,7 @@ without creating a production application.
 - A proposal-gallery landing page, the Juliet Rose Beauty Studio concept, The
   Dog Salon concept, two distinct Spotless Dog Grooming directions, and a
   shared research document.
-- Local review through `bun run dev:proposals`.
+- Local review through `bun run dev:design-proposals`.
 
 ### Not included
 
