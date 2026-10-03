@@ -816,10 +816,14 @@ h2 {
   color: var(--text-secondary);
 }
 .collection-pictures {
+  order: -1;
   position: relative;
   min-width: 0;
 }
 @media (min-width: 1024px) {
+  .collection-pictures {
+    order: 0;
+  }
   .collection-detail-layout {
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     align-items: start;
