@@ -13,3 +13,5 @@
 - [Single `props` parameter for React components](react-props-param.md) — Available
 - [Issue reporting](issue-reporting.md) — Removed
 - [Static design proposals](static-design-proposals.md) — Available
+
+- [Locale homepage](locale-homepage.md) — Available
