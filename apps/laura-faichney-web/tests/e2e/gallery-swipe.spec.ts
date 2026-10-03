@@ -1,5 +1,5 @@
 import { devices, webkit, type CDPSession, type Page } from '@playwright/test';
-import { expect, test, routeGalleryFixture } from '../fixtures/gallery-test';
+import { expect, test, createOfflinePage } from '../fixtures/gallery-test';
 import { browsableCollections, galleryCollections } from './galleryCms';
 
 test.use({
@@ -314,14 +314,12 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
     baseURL,
   }) => {
     const browser = await webkit.launch();
-    const context = await browser.newContext({
+    const { context, page } = await createOfflinePage(browser, {
       ...devices['iPhone 13'],
       baseURL,
       reducedMotion,
     });
-    await routeGalleryFixture(context);
     try {
-      const page = await context.newPage();
       const [collection] = await browsableCollections();
       if (!collection) throw new Error('Browsable collection is missing');
       const collections = await galleryCollections();

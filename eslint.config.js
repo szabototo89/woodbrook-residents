@@ -1,4 +1,5 @@
 import eslint from '@eslint/js';
+import { lauraOfflineTestsConfig } from './eslint.laura-offline-tests.js';
 import tseslint from 'typescript-eslint';
 
 import { reactOneComponentConfig } from './eslint.react-one-component.js';
@@ -6,6 +7,7 @@ import { reactPropsParamConfig } from './eslint.react-props-param.js';
 import { zodDescribeConfig } from './eslint.zod-describe.js';
 
 export default tseslint.config(
+  lauraOfflineTestsConfig,
   {
     ignores: [
       '**/node_modules/**',

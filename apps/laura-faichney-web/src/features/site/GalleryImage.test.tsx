@@ -44,3 +44,16 @@ test('unrecognised image URLs keep their source and alternative text', () => {
   expect(html).toContain('alt="A blue painting"');
   expect(html).not.toContain('srcSet=');
 });
+
+test('offline audit gallery images retain their supplied responsive sources', () => {
+  const html = renderToStaticMarkup(
+    <GalleryImage
+      src="/site-images/large.webp"
+      srcSet="/site-images/small.webp 160w, /site-images/large.webp 640w"
+      alt="Local painting"
+    />,
+  );
+  expect(html).toContain(
+    'srcSet="/site-images/small.webp 160w, /site-images/large.webp 640w"',
+  );
+});

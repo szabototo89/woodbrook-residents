@@ -29,3 +29,13 @@ test('lighthouse omits chrome-path when no path is provided', () => {
   expect(args.some((arg) => arg.startsWith('--chrome-path='))).toBe(false);
   expect(args).toContain('--preset=desktop');
 });
+
+for (const formFactor of ['mobile', 'desktop'] as const) {
+  test(`Lighthouse blocks Sanity downloads on ${formFactor}`, () => {
+    expect(
+      lighthouseArgs('http://127.0.0.1:4176/', '/tmp/report.json', {
+        formFactor,
+      }),
+    ).toContain('--blocked-url-patterns=*sanity.io*');
+  });
+}

@@ -155,7 +155,8 @@ export function CollectionPictures(props: {
                     src={loadImage ? image.fullImage.url : undefined}
                     srcSet={
                       loadImage
-                        ? galleryPhotoSrcSet(image.fullImage.url)
+                        ? (image.fullImage.srcSet ??
+                          galleryPhotoSrcSet(image.fullImage.url))
                         : undefined
                     }
                     sizes={galleryPictureSizes(image.fullImage.url)}
@@ -227,6 +228,7 @@ export function CollectionPictures(props: {
             >
               <GalleryImage
                 src={image.image.url}
+                srcSet={image.image.srcSet}
                 alt={image.alt}
                 sizes={`(max-width: 640px) calc((100vw - ${40 + 8 * (total - 1)}px) / ${total} - 12px), (max-width: 700px) calc((100vw - ${48 + 8 * (total - 1)}px) / ${total} - 12px), 148px`}
               />

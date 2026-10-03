@@ -25,6 +25,7 @@ export function lighthouseArgs(
     `--output-path=${reportPath}`,
     `--only-categories=${LIGHTHOUSE_CATEGORIES.join(',')}`,
     '--chrome-flags=--headless --no-sandbox --disable-gpu --disable-dev-shm-usage',
+    '--blocked-url-patterns=*sanity.io*',
     '--quiet',
   ];
   if (options.chromePath) {

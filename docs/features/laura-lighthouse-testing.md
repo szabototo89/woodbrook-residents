@@ -8,16 +8,17 @@ When Laura's artwork or website changes, I want to check every public page on mo
 
 ## Visible behavior
 
-- `bun run test:lighthouse:laura` builds the production static site and checks its five main pages and every published collection from the generated sitemap.
+- `bun run test:lighthouse:laura` builds a static audit site using local content and image fixtures and checks its five main pages and every fixture collection from the generated sitemap. Gallery pictures are bundled only in this offline audit artifact; production galleries continue to use Sanity.
 - The runner uses Lighthouse 13.5.0 and checks mobile and desktop separately. Performance must reach 90; accessibility, best practices, and SEO must reach 100.
-- It serves actual prerendered HTML with gzip compression on the default preview origin (`http://127.0.0.1:4176`). The port must be free. `--base-url` audits an already running server without modifying its responses.
+- It serves actual prerendered HTML with gzip compression on the default preview origin (`http://127.0.0.1:4176`). The port must be free. `--base-url` audits an already running server, which must serve artwork locally. Sanity URLs are always blocked, and a report containing an attempted Sanity request fails.
 - JSON reports and a readable summary are saved to `apps/laura-faichney-web/lighthouse-reports/`. Raw reports are generated artifacts; baseline and final summaries are kept in Git.
 - `--route=/contact`, `--form-factor=mobile`, `--skip-build`, `--port=4176`, and `--retries=0` narrow local runs. A single retry of failing combinations is the default.
 - The site loads responsive artwork, compact decorations and logos, a favicon, and readable testimonial labels. Its current hero artwork uses AVIF with WebP fallback derived from the exact original CMS asset. New CMS images and crop edits retain responsive WebP delivery through the build image cache. Known AVIF variants are copied to content-hashed `/site-images/` URLs alongside cached WebP artwork. Minified styles arrive with the HTML and hydration reuses them without downloading another copy. Initial navigation reuses its rendered route data; other page data loads from the built snapshot module when navigation needs it. The DM Sans delivery font retains its glyphs and the used 400–700 weight range at 23KB.
 
 ## Acceptance criteria
 
-- All main pages and published collections meet the category minimums in both form factors.
+- All main pages and fixture collections meet the category minimums in both form factors.
+- Audit content capture, prerendering and browser image loading make no live Sanity requests. Unknown fixtures fail without a network fallback. `--skip-build` requires a `build:static:offline` artifact.
 - Hero artwork loads without browser errors; links and forms preserve their existing behavior.
 - The testimonial eyebrow meets a contrast ratio of at least 4.5:1.
 - Missing static routes return 404 rather than a successful unrelated page.
@@ -25,13 +26,15 @@ When Laura's artwork or website changes, I want to check every public page on mo
 
 ## Scope
 
-Included: a local production audit command, generated reports, delivery and contrast fixes, and regression tests.
+Included: a local offline audit command, generated reports, delivery and contrast fixes, and regression tests. Offline scores validate fixture rendering; they do not establish performance for newly published CMS artwork.
 
 Excluded: deployment, CMS publishing changes, and automatic modification of user-supplied original artwork.
 
 ## Verification
 
-Verified on 2026-10-03 with Lighthouse 13.5.0 against the production static build on port 4188, with retries disabled. All nine pages pass in both form factors. Accessibility, best practices, and SEO score 100 throughout.
+The offline audit build verifies all nine fixture pages. All 18 mobile/desktop network reports contain zero Sanity requests; every page meets the score thresholds after focused rechecks of Home and Services. Home used the existing single retry, and both finish at 90 mobile performance. Laura's 80 UI/unit tests, 32 script tests, 12 ESLint guard cases and all 117 browser regressions pass. Published-content scores below remain historical and are not replaced by fixture scores.
+
+Historical published-content baseline, verified on 2026-10-03 before audits became offline, with Lighthouse 13.5.0 against the production static build on port 4188, with retries disabled. All nine pages pass in both form factors. Accessibility, best practices, and SEO score 100 throughout.
 
 | Page                         | Mobile performance | Desktop performance |
 | ---------------------------- | -----------------: | ------------------: |

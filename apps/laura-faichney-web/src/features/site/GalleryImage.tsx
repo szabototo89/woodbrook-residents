@@ -5,6 +5,7 @@ import {
 
 export function GalleryImage(props: {
   src: string;
+  srcSet?: string;
   alt: string;
   sizes?: string;
   loading?: 'eager' | 'lazy';
@@ -12,7 +13,7 @@ export function GalleryImage(props: {
   return (
     <img
       src={props.src}
-      srcSet={galleryPhotoSrcSet(props.src)}
+      srcSet={props.srcSet ?? galleryPhotoSrcSet(props.src)}
       alt={props.alt}
       sizes={props.sizes ?? collectionCoverSizes}
       width="640"
