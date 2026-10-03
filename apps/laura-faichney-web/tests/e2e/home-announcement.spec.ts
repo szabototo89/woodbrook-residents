@@ -23,8 +23,11 @@ for (const width of [320, 390, 640, 700, 900, 1440]) {
     ]);
     if (!hero || !section || !services || !button)
       throw new Error('Home content is missing');
-    expect(section.y).toBeGreaterThanOrEqual(hero.y + hero.height);
-    expect(section.y + section.height).toBeLessThanOrEqual(services.y);
+    const header = await page.getByRole('banner').boundingBox();
+    if (!header) throw new Error('Site header is missing');
+    expect(section.y).toBeGreaterThanOrEqual(header.y + header.height);
+    expect(section.y + section.height).toBeLessThanOrEqual(hero.y);
+    expect(hero.y + hero.height).toBeLessThanOrEqual(services.y);
     expect(button.height).toBeGreaterThanOrEqual(44);
     expect(button.x).toBeGreaterThanOrEqual(0);
     expect(button.x + button.width).toBeLessThanOrEqual(width);

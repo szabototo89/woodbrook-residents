@@ -75,7 +75,7 @@ export const homePage = defineType({
       title: 'Homepage announcement',
       type: 'object',
       description:
-        'Optional update below the home page banner. Publish, then rebuild and deploy the website to show changes.',
+        'Optional update above the home page banner. Publish, then rebuild and deploy the website to show changes.',
       validation: (rule) => rule.custom(validateAnnouncement),
       fields: [
         defineField({
@@ -89,7 +89,7 @@ export const homePage = defineType({
           name: 'title',
           title: 'Announcement heading',
           type: 'string',
-          description: 'Short heading for the update below the banner.',
+          description: 'Short heading for the update above the banner.',
         }),
         defineField({
           name: 'message',

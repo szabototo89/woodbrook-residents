@@ -17,6 +17,9 @@ export function HomePage(props: { data: HomeData }) {
   const motionRoot = useEditorialMotion();
   return (
     <main id="main-content" ref={motionRoot}>
+      {data.announcement && (
+        <HomeAnnouncement announcement={data.announcement} />
+      )}
       <section className="hero home-hero">
         <div className="container hero-inner">
           <div className="hero-copy">
@@ -62,9 +65,6 @@ export function HomePage(props: { data: HomeData }) {
           </div>
         </div>
       </section>
-      {data.announcement && (
-        <HomeAnnouncement announcement={data.announcement} />
-      )}
       <ServicesPreview
         services={data.services}
         heading={data.servicesHeading}

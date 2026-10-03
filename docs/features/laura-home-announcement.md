@@ -8,7 +8,7 @@ When Laura has an update to share, she can highlight it on her homepage so visit
 
 ## Visible behavior
 
-- A single optional announcement sits between the artwork-led hero and creative services.
+- A single optional announcement sits directly below the site header and above the artwork-led hero, so visitors see the update first.
 - The card uses the existing cream and blush palette, gold accent, navy serif heading, and pink action button. It shares the homepage container alignment.
 - It shows “From the studio”, an editor-supplied heading and message, and an optional button. Message line breaks are preserved.
 - On phones, the message and button stack with readable text and a minimum 44px tap target. On wider screens, the action sits beside the message.
@@ -19,7 +19,7 @@ When Laura has an update to share, she can highlight it on her homepage so visit
 
 ## Acceptance criteria
 
-- An enabled announcement appears after the hero and before services, with an accessible section name and a level-two heading.
+- An enabled announcement appears below the header and before the hero, with an accessible section name and a level-two heading.
 - An announcement without a button remains a complete informational section.
 - Existing Home documents without the new field build successfully and retain their layout.
 - A disabled announcement with unfinished content is ignored; an enabled announcement with missing required content fails validation.

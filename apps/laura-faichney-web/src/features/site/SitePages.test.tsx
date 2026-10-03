@@ -413,7 +413,7 @@ test('home presents the artwork-led journey and accessible contact actions', () 
   expect(html.match(/<h1\b/g)).toHaveLength(1);
 });
 
-test('home displays an announcement between the hero and services with an optional action', () => {
+test('home displays an announcement before the hero with an optional action', () => {
   const html = renderToStaticMarkup(
     <HomePage
       data={{
@@ -433,8 +433,8 @@ test('home displays an announcement between the hero and services with an option
   expect(html).toContain('This is a sample announcement for the homepage.');
   expect(html).toContain('href="/about"');
   expect(html).toContain('Read the update');
-  expect(html.indexOf('An update from the studio')).toBeGreaterThan(
-    html.indexOf('View My Work'),
+  expect(html.indexOf('An update from the studio')).toBeLessThan(
+    html.indexOf('Bold Art'),
   );
   expect(html.indexOf('An update from the studio')).toBeLessThan(
     html.indexOf('Art for Homes'),

@@ -301,7 +301,7 @@ h2 {
   object-position: center top;
 }
 .home-announcement {
-  padding-block: 28px 0;
+  padding-block: 24px;
 }
 .announcement-card {
   display: flex;
