@@ -413,6 +413,57 @@ test('home presents the artwork-led journey and accessible contact actions', () 
   expect(html.match(/<h1\b/g)).toHaveLength(1);
 });
 
+test('home displays an announcement between the hero and services with an optional action', () => {
+  const html = renderToStaticMarkup(
+    <HomePage
+      data={{
+        ...homeData,
+        announcement: {
+          title: 'An update from the studio',
+          message: 'This is a sample announcement for the homepage.',
+          link: { label: 'Read the update', href: '/about' },
+        },
+      }}
+    />,
+  );
+  expect(html).toContain('aria-labelledby="home-announcement-title"');
+  expect(html).toContain(
+    '<h2 id="home-announcement-title">An update from the studio</h2>',
+  );
+  expect(html).toContain('This is a sample announcement for the homepage.');
+  expect(html).toContain('href="/about"');
+  expect(html).toContain('Read the update');
+  expect(html.indexOf('An update from the studio')).toBeGreaterThan(
+    html.indexOf('View My Work'),
+  );
+  expect(html.indexOf('An update from the studio')).toBeLessThan(
+    html.indexOf('Art for Homes'),
+  );
+  expect(html.match(/<h1\b/g)).toHaveLength(1);
+});
+
+test('home announcements can be informational without a link, and missing announcements leave no section', () => {
+  const html = renderToStaticMarkup(
+    <HomePage
+      data={{
+        ...homeData,
+        announcement: {
+          title: 'Studio note',
+          message: 'A sample update without a link.',
+        },
+      }}
+    />,
+  );
+  const section = html.match(
+    /<section[^>]*aria-labelledby="home-announcement-title"[^>]*>([\s\S]*?)<\/section>/,
+  )?.[1];
+  expect(section).toContain('A sample update without a link.');
+  expect(section).not.toContain('<a');
+  expect(renderToStaticMarkup(<HomePage data={homeData} />)).not.toContain(
+    'home-announcement',
+  );
+});
+
 test('services expose all five supplied offerings as complete links', () => {
   const html = renderToStaticMarkup(<ServicesPage data={servicesData} />);
 

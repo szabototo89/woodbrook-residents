@@ -3,7 +3,7 @@ import {expect, test} from 'vitest'
 import {galleryItem} from './galleryItem'
 import {service} from './service'
 import {schemaTypes} from './index'
-import {invokeAllValidations, preparePreview} from './test-helpers'
+import {createMockRule, invokeAllValidations, preparePreview} from './test-helpers'
 
 function fieldsOf(typeName: string): Array<Record<string, unknown>> {
   const type = schemaTypes.find((candidate) => candidate.name === typeName)
@@ -16,6 +16,51 @@ function fieldsOf(typeName: string): Array<Record<string, unknown>> {
 function fieldNames(typeName: string): Array<string> {
   return fieldsOf(typeName).map((field) => String(field['name']))
 }
+
+test('home has an optional announcement with an explicit visibility switch and optional action', () => {
+  const field = fieldsOf('homePage').find((field) => field['name'] === 'announcement')
+  expect(field).toMatchObject({title: 'Homepage announcement', type: 'object'})
+  const fields = field?.['fields'] as Array<Record<string, unknown>>
+  expect(fields.map((field) => field['name'])).toEqual(['enabled', 'title', 'message', 'link'])
+  expect(fields[0]).toMatchObject({type: 'boolean', initialValue: false})
+  const {rule, capturedCustom} = createMockRule()
+  const validation = field?.['validation'] as Function
+  validation(rule)
+  const validate = capturedCustom[0]!
+  for (const value of [
+    undefined,
+    {enabled: false},
+    {enabled: true, title: 'Update', message: 'Sample message.'},
+    {
+      enabled: true,
+      title: 'Update',
+      message: 'Sample message.',
+      link: {label: 'Read more', href: '/about'},
+    },
+    {
+      enabled: true,
+      title: 'Update',
+      message: 'Sample message.',
+      link: {label: 'Read more', href: 'https://example.com/update'},
+    },
+  ]) {
+    expect(validate(value)).toBe(true)
+  }
+  for (const value of [
+    {enabled: true},
+    {enabled: true, title: 'Update', message: ' '},
+    ...[
+      {},
+      {label: 'Read more'},
+      {label: ' ', href: '/about'},
+      {label: 'Read more', href: 'javascript:alert(1)'},
+      {label: 'Read more', href: '//example.com'},
+      {label: 'Read more', href: '/\\example.com'},
+    ].map((link) => ({enabled: true, title: 'Update', message: 'Sample message.', link})),
+  ]) {
+    expect(typeof validate(value)).toBe('string')
+  }
+})
 
 test('page singletons share the hero and SEO shapes', () => {
   for (const typeName of ['homePage', 'aboutPage', 'servicesPage', 'galleryPage']) {

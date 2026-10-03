@@ -1,6 +1,27 @@
 import {HomeIcon} from '@sanity/icons/Home'
 import {defineField, defineType} from 'sanity'
 
+type Announcement = {
+  enabled?: boolean
+  title?: string
+  message?: string
+  link?: {label?: string; href?: string}
+}
+
+function validateAnnouncement(value: Announcement | undefined): true | string {
+  if (!value?.enabled) return true
+  if (!value.title?.trim() || !value.message?.trim()) {
+    return 'Add a heading and message before showing the announcement.'
+  }
+  if (!value.link) return true
+  if (!value.link.label?.trim() || !value.link.href?.trim()) {
+    return 'Add both button text and a link, or remove the optional button.'
+  }
+  const href = value.link.href.trim()
+  if (/^\/(?![/\\])/.test(href) || (URL.canParse(href) && /^https?:\/\//.test(href))) return true
+  return 'Use a site path such as /contact or a full https:// address.'
+}
+
 export const homePage = defineType({
   name: 'homePage',
   title: 'Home page',
@@ -48,6 +69,57 @@ export const homePage = defineType({
         'Describe the portrait for visitors who cannot see it. Example: Expressive painted portrait in vivid pink, blue, orange and yellow.',
       validation: (rule) =>
         rule.required().error('Describe the portrait so screen readers can announce it.'),
+    }),
+    defineField({
+      name: 'announcement',
+      title: 'Homepage announcement',
+      type: 'object',
+      description:
+        'Optional update below the home page banner. Publish, then rebuild and deploy the website to show changes.',
+      validation: (rule) => rule.custom(validateAnnouncement),
+      fields: [
+        defineField({
+          name: 'enabled',
+          title: 'Show announcement',
+          type: 'boolean',
+          initialValue: false,
+          description: 'Turn off to hide the whole section while keeping your draft text.',
+        }),
+        defineField({
+          name: 'title',
+          title: 'Announcement heading',
+          type: 'string',
+          description: 'Short heading for the update below the banner.',
+        }),
+        defineField({
+          name: 'message',
+          title: 'Announcement message',
+          type: 'text',
+          rows: 3,
+          description: 'Explain the update in a short paragraph. Line breaks are preserved.',
+        }),
+        defineField({
+          name: 'link',
+          title: 'Optional button',
+          type: 'object',
+          description:
+            'Add a button only when visitors have a next step; remove it for a message without a link.',
+          fields: [
+            defineField({
+              name: 'label',
+              title: 'Button text',
+              type: 'string',
+              description: 'Describe the action, for example View the gallery.',
+            }),
+            defineField({
+              name: 'href',
+              title: 'Button link',
+              type: 'string',
+              description: 'Use a site path such as /gallery or a full https:// address.',
+            }),
+          ],
+        }),
+      ],
     }),
     defineField({
       name: 'servicesHeading',

@@ -97,6 +97,38 @@ const seoSchema = z
   })
   .catchall(z.unknown());
 
+const announcementSchema = z.preprocess(
+  (value) =>
+    value &&
+    typeof value === 'object' &&
+    'enabled' in value &&
+    value.enabled === true
+      ? value
+      : undefined,
+  z
+    .object({
+      title: z.string().trim().min(1).describe('Announcement heading'),
+      message: z.string().trim().min(1).describe('Announcement message'),
+      link: z
+        .object({
+          label: z.string().trim().min(1).describe('Announcement action text'),
+          href: z
+            .union([
+              z
+                .string()
+                .trim()
+                .regex(/^\/(?![/\\])/),
+              z.url({ protocol: /^https?$/ }),
+            ])
+            .describe('Site path or HTTP(S) link'),
+        })
+        .nullish()
+        .transform((value) => value ?? undefined)
+        .describe('Optional announcement action'),
+    })
+    .optional(),
+);
+
 const settingsSchema = z
   .object({
     contactEmail: z.string().describe('Shared contact email address'),
@@ -406,6 +438,9 @@ export class LauraSanitySource {
       z
         .object({
           hero: heroSchema.describe('Home page banner'),
+          announcement: announcementSchema.describe(
+            'Optional homepage announcement',
+          ),
           servicesHeading: z.string().describe('Services section heading'),
           muralEyebrow: z.string().describe('Mural section tagline'),
           muralHeading: z.string().describe('Mural section heading'),
@@ -445,6 +480,7 @@ export class LauraSanitySource {
 
     return {
       hero: mapHero(this.config, 'homePage hero', home.hero, 1374),
+      announcement: home.announcement,
       servicesHeading: home.servicesHeading,
       mural: {
         eyebrow: home.muralEyebrow,

@@ -120,6 +120,98 @@ beforeEach(() => {
   vi.unstubAllGlobals();
 });
 
+test('loads an enabled announcement and its optional action from the home singleton', async () => {
+  const announcement = {
+    enabled: true,
+    title: ' Studio update ',
+    message: ' Sample message. ',
+    link: { label: ' Read more ', href: '/about' },
+  };
+  mockSanity({ ...homeResult, home: { ...homeResult.home, announcement } });
+  expect((await new LauraSanitySource().loadHome()).announcement).toEqual({
+    title: 'Studio update',
+    message: 'Sample message.',
+    link: { label: 'Read more', href: '/about' },
+  });
+});
+
+test.each([
+  undefined,
+  null,
+  {},
+  { enabled: false, title: 'Hidden update', link: {} },
+])(
+  'unset or disabled announcements do not change the homepage: %j',
+  async (announcement) => {
+    mockSanity({ ...homeResult, home: { ...homeResult.home, announcement } });
+    expect(
+      (await new LauraSanitySource().loadHome()).announcement,
+    ).toBeUndefined();
+  },
+);
+
+test('an enabled announcement does not need an action', async () => {
+  mockSanity({
+    ...homeResult,
+    home: {
+      ...homeResult.home,
+      announcement: {
+        enabled: true,
+        title: 'Studio update',
+        message: 'Sample message.',
+      },
+    },
+  });
+  expect((await new LauraSanitySource().loadHome()).announcement).toEqual({
+    title: 'Studio update',
+    message: 'Sample message.',
+  });
+});
+
+test.each([
+  { enabled: true, title: ' ', message: 'Sample message.' },
+  { enabled: true, title: 'Studio update', message: '' },
+  {
+    enabled: true,
+    title: 'Studio update',
+    message: 'Sample message.',
+    link: { label: 'Read more' },
+  },
+  {
+    enabled: true,
+    title: 'Studio update',
+    message: 'Sample message.',
+    link: { label: '', href: '/about' },
+  },
+  ...['javascript:alert(1)', '//example.com', '/\\example.com'].map((href) => ({
+    enabled: true,
+    title: 'Studio update',
+    message: 'Sample message.',
+    link: { label: 'Read more', href },
+  })),
+])(
+  'incomplete active announcements fail content validation: %j',
+  async (announcement) => {
+    mockSanity({ ...homeResult, home: { ...homeResult.home, announcement } });
+    await expect(new LauraSanitySource().loadHome()).rejects.toThrow(
+      'announcement',
+    );
+  },
+);
+
+test('announcements accept an external HTTPS action', async () => {
+  const announcement = {
+    enabled: true,
+    title: 'Studio update',
+    message: 'Sample message.',
+    link: { label: 'Read more', href: 'https://example.com/update' },
+  };
+  mockSanity({ ...homeResult, home: { ...homeResult.home, announcement } });
+  expect(
+    (await new LauraSanitySource().loadHome()).announcement?.link?.href,
+  ).toBe('https://example.com/update');
+});
+
 test('resolves the Laura project and dataset by default', () => {
   expect(resolveLauraSanityConfig({})).toMatchObject({
     projectId: 'uag6kepo',

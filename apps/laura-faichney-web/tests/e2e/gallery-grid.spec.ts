@@ -25,8 +25,14 @@ test('collection cards adapt to the available width on the home page and gallery
       const cards = page.getByRole('link', { name: /View collection:/ });
       await expect(cards.first()).toBeVisible();
       const grid = await page.locator('.gallery-collections').boundingBox();
-      const first = await cards.first().boundingBox();
-      const second = await cards.nth(1).boundingBox();
+      // Read both cards together so scroll restoration cannot move the viewport
+      // between measurements after a screenshot or breakpoint change.
+      const [first, second] = await cards.evaluateAll((elements) =>
+        elements.slice(0, 2).map((element) => {
+          const { x, y, width, height } = element.getBoundingClientRect();
+          return { x, y, width, height };
+        }),
+      );
       if (!grid || !first || !second)
         throw new Error('Collection cards are missing');
       const gap = width <= 640 ? 8 : 30;
