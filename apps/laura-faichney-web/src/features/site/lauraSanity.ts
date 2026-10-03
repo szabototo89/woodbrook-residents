@@ -66,8 +66,15 @@ export type CmsSettings = {
   copy: string;
 };
 
+export type CmsAnnouncement = {
+  title: string;
+  message: string;
+  link?: { label: string; href: string };
+};
+
 export type HomeData = {
   hero: CmsHero;
+  announcement?: CmsAnnouncement;
   servicesHeading: string;
   mural: {
     eyebrow: string;

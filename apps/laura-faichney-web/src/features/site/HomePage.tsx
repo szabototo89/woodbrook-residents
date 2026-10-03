@@ -10,6 +10,7 @@ import { Testimonial } from './Testimonial';
 import { useEditorialMotion } from './useEditorialMotion';
 import { TitleLines } from './TitleLines';
 import type { HomeData } from './lauraSanity';
+import { HomeAnnouncement } from './HomeAnnouncement';
 
 export function HomePage(props: { data: HomeData }) {
   const { data } = props;
@@ -61,6 +62,9 @@ export function HomePage(props: { data: HomeData }) {
           </div>
         </div>
       </section>
+      {data.announcement && (
+        <HomeAnnouncement announcement={data.announcement} />
+      )}
       <ServicesPreview
         services={data.services}
         heading={data.servicesHeading}

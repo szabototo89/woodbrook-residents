@@ -1,6 +1,12 @@
 {
   "homePage": {
     "home": {
+      "announcement": {
+        "enabled": true,
+        "title": "A little news from the studio",
+        "message": "This sample announcement shows where Laura can share her latest update. Add a short message and an optional link for visitors who want to find out more.",
+        "link": { "label": "Meet Laura", "href": "/about" }
+      },
       "hero": {
         "eyebrow": "Bold art \u00b7 brighter spaces \u00b7 happier people",
         "titleLines": ["Bold Art", "Brighter Spaces"],
