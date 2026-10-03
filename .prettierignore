@@ -29,3 +29,7 @@ apps/web/public/google*.html
 .githooks/post-worktree-remove
 
 apps/laura-faichney-web/lighthouse-reports/
+
+# Locale generated routing and Lighthouse artifacts.
+apps/locale-web/src/routeTree.gen.ts
+apps/locale-web/lighthouse-reports/
