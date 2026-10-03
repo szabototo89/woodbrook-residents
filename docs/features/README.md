@@ -15,3 +15,5 @@
 - [Static design proposals](static-design-proposals.md) — Available
 
 - [Locale homepage](locale-homepage.md) — Available
+
+- [Locale blog](locale-blog.md) — Available
