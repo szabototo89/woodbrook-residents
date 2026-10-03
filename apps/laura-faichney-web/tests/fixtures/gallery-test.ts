@@ -1,48 +1,21 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { test as base, type BrowserContext } from '@playwright/test';
+import { expect, test as base, type BrowserContext } from '@playwright/test';
+import { fixtureResponse } from './site-fixtures';
 
 export { expect } from '@playwright/test';
 
-const artworkRoot = fileURLToPath(
-  new URL('../../public/artwork/', import.meta.url),
-);
-
 export async function routeGalleryFixture(context: BrowserContext) {
-  // Public artwork also needs to load on isolated preview ports.
+  await context.route(
+    /https:\/\/[^/]+\.(?:api|apicdn)\.sanity\.io\//,
+    (route) => route.abort(),
+  );
   await context.route('https://cdn.sanity.io/**', async (route) => {
-    const headers = Object.fromEntries(
-      Object.entries(route.request().headers()).filter(
-        ([name]) => name !== 'origin',
-      ),
-    );
-    const response = await route.fetch({ headers });
+    const response = await fixtureResponse(route.request().url());
     await route.fulfill({
-      response,
-      headers: { ...response.headers(), 'access-control-allow-origin': '*' },
+      body: Buffer.from(await response.arrayBuffer()),
+      contentType: 'image/webp',
+      headers: { 'access-control-allow-origin': '*' },
     });
   });
-  await context.route(
-    'https://cdn.sanity.io/**/d9bb83bbbb07c39f42f8c62a2c96a096c4c0e457-*',
-    (route) => {
-      const width = Number(
-        new URL(route.request().url()).searchParams.get('w'),
-      );
-      const variant =
-        width <= 320
-          ? '-320'
-          : width <= 640
-            ? '-640'
-            : width <= 960
-              ? '-960'
-              : '';
-      return route.fulfill({
-        path: path.join(artworkRoot, `gallery-hero-cutout${variant}.webp`),
-        contentType: 'image/webp',
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      });
-    },
-  );
 }
 
 export const test = base.extend({
@@ -52,7 +25,13 @@ export const test = base.extend({
     await page.context().unrouteAll({ behavior: 'ignoreErrors' });
   },
   context: async ({ context }, use) => {
+    const apiRequests: string[] = [];
+    context.on('request', (request) => {
+      if (/\.(?:api|apicdn)\.sanity\.io\//.test(request.url()))
+        apiRequests.push(request.url());
+    });
     await routeGalleryFixture(context);
     await use(context);
+    expect(apiRequests).toEqual([]);
   },
 });

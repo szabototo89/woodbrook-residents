@@ -101,6 +101,7 @@ async function gesture(
       type: 'touchMove',
       touchPoints: points(step / 5),
     });
+    await page.waitForTimeout(20);
   }
   await session.send('Input.dispatchTouchEvent', {
     type: 'touchEnd',
@@ -250,21 +251,19 @@ test('taps, short drags, vertical scrolling and two-finger gestures keep the sel
     .poll(() => page.evaluate(() => window.scrollY))
     .toBeGreaterThan(before);
   await expect(picture).toHaveAttribute('alt', first);
-  // Start the next swipe only after native scroll inertia has settled.
+  // Wait for native scroll inertia instead of assuming it ends after 300ms.
   await page.evaluate(
     () =>
       new Promise<void>((resolve) => {
-        let previous = window.scrollY;
-        let stationaryFrames = 0;
-        const check = () => {
-          const current = window.scrollY;
-          stationaryFrames =
-            Math.abs(current - previous) < 0.5 ? stationaryFrames + 1 : 0;
-          previous = current;
-          if (stationaryFrames >= 6) resolve();
-          else requestAnimationFrame(check);
+        const scroll = { y: window.scrollY, stableFrames: 0 };
+        const settle = () => {
+          scroll.stableFrames =
+            window.scrollY === scroll.y ? scroll.stableFrames + 1 : 0;
+          scroll.y = window.scrollY;
+          if (scroll.stableFrames >= 10) resolve();
+          else requestAnimationFrame(settle);
         };
-        requestAnimationFrame(check);
+        requestAnimationFrame(settle);
       }),
   );
   // A cancelled scroll or multi-touch gesture must not block the next swipe.

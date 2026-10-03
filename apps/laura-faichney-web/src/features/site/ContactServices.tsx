@@ -57,7 +57,10 @@ export function ContactServices(props: { services: CmsService[] }) {
                 href={`/contact?service=${encodeURIComponent(first.slug)}#enquiry`}
                 key={group.title}
               >
-                <ServiceImage image={first.image} />
+                <ServiceImage
+                  image={first.image}
+                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 768px) 90vw, (max-width: 1333px) calc((90vw - 40px) / 3), 387px"
+                />
                 <div className="contact-service-copy">
                   <span className="contact-icon">
                     <group.icon

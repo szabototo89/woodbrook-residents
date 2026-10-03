@@ -7,6 +7,7 @@ import type {
   HomeData,
   ServicesData,
 } from '../src/features/site/lauraSanity';
+import { cacheLauraImages, imageCacheDirectory } from './lauraImageAssets';
 
 export type LauraSnapshot = {
   home: HomeData;
@@ -34,8 +35,13 @@ export async function loadLauraSnapshot(
 
 export async function generateLauraSnapshot(
   config: LauraSanityConfig,
+  mode = 'production',
 ): Promise<LauraSnapshot> {
-  const snapshot = await loadLauraSnapshot(new LauraSanitySource(config));
+  const content = await loadLauraSnapshot(new LauraSanitySource(config));
+  const snapshot = await cacheLauraImages(content, {
+    cacheDirectory: imageCacheDirectory(mode),
+    publicDirectory: fileURLToPath(new URL('../public/', import.meta.url)),
+  });
   await mkdir(fileURLToPath(new URL('../.cache/', import.meta.url)), {
     recursive: true,
   });

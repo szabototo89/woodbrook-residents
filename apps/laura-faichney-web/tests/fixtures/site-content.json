@@ -1,0 +1,633 @@
+{
+  "homePage": {
+    "home": {
+      "hero": {
+        "eyebrow": "Bold art \u00b7 brighter spaces \u00b7 happier people",
+        "titleLines": ["Bold Art", "Brighter Spaces"],
+        "description": "Commissioned paintings, murals, signage, facepainting and art tutoring - bringing more colour and creativity to everyday spaces.",
+        "image": {
+          "asset": {
+            "_ref": "image-3325501aef2b0082139bad8fabec12e8d19c1e8a-1374x1145-png"
+          }
+        },
+        "ctaLabel": "Explore Recent Work",
+        "title": "Bold Art\nBrighter Spaces",
+        "imageAlt": "Expressive painted portrait in vivid pink, blue, orange and yellow"
+      },
+      "servicesHeading": "Art for Homes, Businesses & Events",
+      "galleryHeading": "A glimpse of my work",
+      "seo": {
+        "title": "Laura Faichney All Things Art",
+        "description": "Colourful paintings, murals, signage, facepainting and art tutoring by Laura Faichney."
+      },
+      "muralEyebrow": "Transform spaces",
+      "muralHeading": "Murals that bring spaces to life",
+      "muralCopy": "From homes and nurseries to businesses and events, a hand-painted mural adds colour and character to a space.",
+      "muralCtaLabel": "Tell Me About Your Mural",
+      "muralImage": {
+        "asset": {
+          "_ref": "image-56f7a815e06b8dc32777f6d44672f91e95d605f1-1254x1254-png"
+        }
+      },
+      "muralImageAlt": "Large pink painted flower with green leaves",
+      "aboutHeading": "Art, colour and people are what inspire me",
+      "aboutCopy": "Hi, I\u2019m Laura - an artist and creative all-rounder. I love transforming spaces with bold, colourful art and helping people discover their creativity through painting, facepainting and art tutoring.",
+      "aboutImage": {
+        "asset": {
+          "_ref": "image-5b7739acb7674b9e33bd37b480f6effabe3cc0b1-1448x1086-webp"
+        }
+      },
+      "aboutImageAlt": "Paintbrushes, palettes and colourful canvases in an artist\u2019s studio",
+      "testimonialQuote": "Laura created a stunning mural for our nursery. It has completely transformed the space and the children absolutely love it!",
+      "testimonialAuthor": "Sarah O\u2019Connor",
+      "testimonialRole": "Nursery owner"
+    },
+    "settings": {
+      "contactEmail": "lauralfaichney@gmail.com",
+      "contactPhone": "089-4007747",
+      "contactMailtoSubject": "Art project enquiry",
+      "contactEyebrow": "Let\u2019s create something special",
+      "contactHeading": "Get in Touch",
+      "contactCopy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+    },
+    "services": [
+      {
+        "title": "Commissioned Paintings",
+        "slug": {
+          "current": "commissioned-paintings"
+        },
+        "description": "Unique, hand-painted artwork made for your space or a special gift.",
+        "image": {
+          "asset": {
+            "_ref": "image-e31807d572fbe68ee33f28c40a908bc8591bef0d-1448x1086-webp"
+          }
+        },
+        "order": 0,
+        "imageAlt": "Colourful cow painting with a crown of bright wildflowers"
+      },
+      {
+        "title": "Murals (Indoor & Outdoor)",
+        "slug": {
+          "current": "murals-indoor-outdoor"
+        },
+        "description": "Colourful large-scale artwork for homes, businesses and events.",
+        "image": {
+          "asset": {
+            "_ref": "image-058c63ac168bd4c0b7f8b54317215cf08d20f5e9-1448x1086-webp"
+          }
+        },
+        "order": 1,
+        "imageAlt": "Pink peony mural with green and gold leaves on a navy wall"
+      },
+      {
+        "title": "Signage",
+        "slug": {
+          "current": "signage"
+        },
+        "description": "Hand-painted signs that bring a personal touch to your space.",
+        "image": {
+          "asset": {
+            "_ref": "image-25d211d18daea4f4b44d5ed5b957d59b60702f5b-1448x1086-webp"
+          }
+        },
+        "order": 2,
+        "imageAlt": "Gold Welcome lettering on a charcoal wooden sign with foliage"
+      },
+      {
+        "title": "Facepainting",
+        "slug": {
+          "current": "facepainting"
+        },
+        "description": "Colourful facepainting for parties and events.",
+        "image": {
+          "asset": {
+            "_ref": "image-a22b8eb712a411006a5402b1bc6e03556c5dd119-1448x1086-webp"
+          }
+        },
+        "order": 3,
+        "imageAlt": "Pink, lilac and turquoise butterfly facepainting"
+      },
+      {
+        "title": "Art Tutoring",
+        "slug": {
+          "current": "art-tutoring"
+        },
+        "description": "Creative art tutoring to build skills and confidence.",
+        "image": {
+          "asset": {
+            "_ref": "image-d9dafbf2f23ada70f12f69701ad2aaeffe6d05fd-1448x1086-webp"
+          }
+        },
+        "order": 4,
+        "imageAlt": "Artist paintbrushes beside a colourful watercolour palette"
+      }
+    ],
+    "collections": [
+      {
+        "title": "Colour & nature",
+        "slug": {
+          "current": "colour-and-nature"
+        },
+        "description": "A study in natural colour, from blossoms to summer fruit.",
+        "order": 0,
+        "photos": [
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Pink flowers against a blue sky",
+            "alt": "Pink flowers against a blue sky",
+            "order": 0
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-d854d44adc674ded75531906c9fb813b0bed4dca-640x480-webp"
+              }
+            },
+            "imageAlt": "Fresh strawberries in rich pink and red tones",
+            "alt": "Fresh strawberries in rich pink and red tones",
+            "order": 1
+          }
+        ]
+      },
+      {
+        "title": "Everyday inspiration",
+        "slug": {
+          "current": "everyday-inspiration"
+        },
+        "description": "Quiet moments and creative corners.",
+        "order": 1,
+        "photos": [
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-c1949059522fb58517fa0e2696ce24ca46565f89-640x480-webp"
+              }
+            },
+            "imageAlt": "Coffee cups on a wooden caf\u00e9 table",
+            "alt": "Coffee cups on a wooden caf\u00e9 table",
+            "order": 0
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-c11c7d1590363c8864a94a5a0c86e96539fe6c09-640x480-webp"
+              }
+            },
+            "imageAlt": "An open book on a wooden table",
+            "alt": "An open book on a wooden table",
+            "order": 1
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-7da3b550ea1bcb7889533d8199ddbb20796928b3-640x480-webp"
+              }
+            },
+            "imageAlt": "A notebook, camera and laptop on a creative desk",
+            "alt": "A notebook, camera and laptop on a creative desk",
+            "order": 2
+          }
+        ]
+      },
+      {
+        "title": "Single picture study",
+        "slug": {
+          "current": "single-picture-study"
+        },
+        "description": "A standalone picture for the single-picture viewing scenario.",
+        "order": 2,
+        "photos": [
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "A single flower study",
+            "alt": "A single flower study",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "title": "Availability examples",
+        "slug": {
+          "current": "availability-examples"
+        },
+        "description": "Test artwork availability",
+        "order": 3,
+        "photos": [
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Available painting",
+            "alt": "Available painting",
+            "order": 0,
+            "saleStatus": "for-sale"
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-d854d44adc674ded75531906c9fb813b0bed4dca-640x480-webp"
+              }
+            },
+            "imageAlt": "Portfolio painting",
+            "alt": "Portfolio painting",
+            "order": 1,
+            "saleStatus": "not-for-sale"
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Unlabelled painting",
+            "alt": "Unlabelled painting",
+            "order": 2,
+            "saleStatus": null
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Hidden availability painting",
+            "alt": "Hidden availability painting",
+            "order": 3,
+            "saleStatus": "none"
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Unset availability painting",
+            "alt": "Unset availability painting",
+            "order": 4
+          }
+        ]
+      }
+    ]
+  },
+  "aboutPage": {
+    "about": {
+      "hero": {
+        "eyebrow": "About Laura",
+        "titleLines": ["A love for art", "and community"],
+        "description": "I\u2019m Laura Faichney, an artist based in Ireland, creating colourful paintings, murals and bespoke pieces for homes, businesses and events. I also offer facepainting and art tutoring, sharing my passion for creativity with all ages.",
+        "image": {
+          "asset": {
+            "_ref": "image-039ccadcad11f40cb3edf73e3badd086e040239c-1374x1145-webp"
+          }
+        },
+        "ctaLabel": "Tell Me About Your Idea",
+        "title": "A love for art\nand community",
+        "imageAlt": "Painted flower study in an open sketchbook with a palette and brushes"
+      },
+      "values": [
+        {
+          "icon": "palette",
+          "title": "Creative & Bespoke",
+          "text": "Artwork tailored for homes, businesses and events."
+        },
+        {
+          "icon": "heart",
+          "title": "All Ages Welcome",
+          "text": "From children\u2019s facepainting to art tutoring."
+        },
+        {
+          "icon": "sparkles",
+          "title": "Brighter Spaces",
+          "text": "Art that brings colour and character to everyday spaces."
+        },
+        {
+          "icon": "pin",
+          "title": "Local & Community Focused",
+          "text": "Creative work for people and places in Ireland."
+        }
+      ],
+      "storyHeading": "My Story",
+      "storyBody": "Art has always been a big part of my life. I love how it can transform a space, bring people together and create moments of joy. Whether it\u2019s a mural, a painting for a home, or a first experience with facepainting, my goal is to make everyday spaces a little brighter.",
+      "storyImage": {
+        "asset": {
+          "_ref": "image-6dc8b4ce1ddd05917a67627ed1140f7230f2ac9d-1122x1402-png"
+        }
+      },
+      "seo": {
+        "title": "About Laura",
+        "description": "Laura Faichney is an artist in Ireland creating colourful paintings, murals and bespoke pieces for homes, businesses and events."
+      },
+      "settings": {
+        "email": "lauralfaichney@gmail.com",
+        "phone": "089-4007747",
+        "mailtoSubject": "Art project enquiry",
+        "eyebrow": "Let\u2019s create something special",
+        "heading": "Get in Touch",
+        "copy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+      },
+      "storyImageAlt": "Colourful painted portrait"
+    },
+    "settings": {
+      "contactEmail": "lauralfaichney@gmail.com",
+      "contactPhone": "089-4007747",
+      "contactMailtoSubject": "Art project enquiry",
+      "contactEyebrow": "Let\u2019s create something special",
+      "contactHeading": "Get in Touch",
+      "contactCopy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+    }
+  },
+  "servicesPage": {
+    "page": {
+      "hero": {
+        "eyebrow": "My services",
+        "titleLines": ["Art for Every", "Space and Occasion"],
+        "description": "From bespoke paintings to large-scale murals, facepainting and art tutoring, I offer creative services for homes, businesses and events.",
+        "image": {
+          "asset": {
+            "_ref": "image-7da19494c0d4338fc98b7b0373afa921a5b32f3f-1374x1145-webp"
+          }
+        },
+        "title": "Art for Every\nSpace and Occasion",
+        "imageAlt": "Paintbrushes in a paint-splashed cup with sweeping colourful brushstrokes"
+      },
+      "seo": {
+        "title": "Services",
+        "description": "From bespoke paintings to large-scale murals, facepainting and art tutoring, creative services for homes, businesses and events."
+      }
+    },
+    "settings": {
+      "contactEmail": "lauralfaichney@gmail.com",
+      "contactPhone": "089-4007747",
+      "contactMailtoSubject": "Art project enquiry",
+      "contactEyebrow": "Let\u2019s create something special",
+      "contactHeading": "Get in Touch",
+      "contactCopy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+    },
+    "services": [
+      {
+        "title": "Commissioned Paintings",
+        "slug": {
+          "current": "commissioned-paintings"
+        },
+        "description": "Unique, hand-painted artwork made for your space or a special gift.",
+        "image": {
+          "asset": {
+            "_ref": "image-e31807d572fbe68ee33f28c40a908bc8591bef0d-1448x1086-webp"
+          }
+        },
+        "order": 0,
+        "imageAlt": "Colourful cow painting with a crown of bright wildflowers"
+      },
+      {
+        "title": "Murals (Indoor & Outdoor)",
+        "slug": {
+          "current": "murals-indoor-outdoor"
+        },
+        "description": "Colourful large-scale artwork for homes, businesses and events.",
+        "image": {
+          "asset": {
+            "_ref": "image-058c63ac168bd4c0b7f8b54317215cf08d20f5e9-1448x1086-webp"
+          }
+        },
+        "order": 1,
+        "imageAlt": "Pink peony mural with green and gold leaves on a navy wall"
+      },
+      {
+        "title": "Signage",
+        "slug": {
+          "current": "signage"
+        },
+        "description": "Hand-painted signs that bring a personal touch to your space.",
+        "image": {
+          "asset": {
+            "_ref": "image-25d211d18daea4f4b44d5ed5b957d59b60702f5b-1448x1086-webp"
+          }
+        },
+        "order": 2,
+        "imageAlt": "Gold Welcome lettering on a charcoal wooden sign with foliage"
+      },
+      {
+        "title": "Facepainting",
+        "slug": {
+          "current": "facepainting"
+        },
+        "description": "Colourful facepainting for parties and events.",
+        "image": {
+          "asset": {
+            "_ref": "image-a22b8eb712a411006a5402b1bc6e03556c5dd119-1448x1086-webp"
+          }
+        },
+        "order": 3,
+        "imageAlt": "Pink, lilac and turquoise butterfly facepainting"
+      },
+      {
+        "title": "Art Tutoring",
+        "slug": {
+          "current": "art-tutoring"
+        },
+        "description": "Creative art tutoring to build skills and confidence.",
+        "image": {
+          "asset": {
+            "_ref": "image-d9dafbf2f23ada70f12f69701ad2aaeffe6d05fd-1448x1086-webp"
+          }
+        },
+        "order": 4,
+        "imageAlt": "Artist paintbrushes beside a colourful watercolour palette"
+      }
+    ]
+  },
+  "galleryPage": {
+    "page": {
+      "hero": {
+        "eyebrow": "Gallery",
+        "titleLines": ["A glimpse of my work"],
+        "description": "Explore a selection of colourful paintings and creative work.",
+        "image": {
+          "asset": {
+            "_ref": "image-d9bb83bbbb07c39f42f8c62a2c96a096c4c0e457-1374x1145-webp"
+          }
+        },
+        "title": "A glimpse of my work",
+        "imageAlt": "A collection of colourful paintings featuring a flower, a cow, and a coastal scene"
+      },
+      "seo": {
+        "title": "Gallery",
+        "description": "A glimpse of Laura Faichney paintings and creative work."
+      }
+    },
+    "settings": {
+      "contactEmail": "lauralfaichney@gmail.com",
+      "contactPhone": "089-4007747",
+      "contactMailtoSubject": "Art project enquiry",
+      "contactEyebrow": "Let\u2019s create something special",
+      "contactHeading": "Get in Touch",
+      "contactCopy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+    },
+    "collections": [
+      {
+        "title": "Colour & nature",
+        "slug": {
+          "current": "colour-and-nature"
+        },
+        "description": "A study in natural colour, from blossoms to summer fruit.",
+        "order": 0,
+        "photos": [
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Pink flowers against a blue sky",
+            "alt": "Pink flowers against a blue sky",
+            "order": 0
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-d854d44adc674ded75531906c9fb813b0bed4dca-640x480-webp"
+              }
+            },
+            "imageAlt": "Fresh strawberries in rich pink and red tones",
+            "alt": "Fresh strawberries in rich pink and red tones",
+            "order": 1
+          }
+        ]
+      },
+      {
+        "title": "Everyday inspiration",
+        "slug": {
+          "current": "everyday-inspiration"
+        },
+        "description": "Quiet moments and creative corners.",
+        "order": 1,
+        "photos": [
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-c1949059522fb58517fa0e2696ce24ca46565f89-640x480-webp"
+              }
+            },
+            "imageAlt": "Coffee cups on a wooden caf\u00e9 table",
+            "alt": "Coffee cups on a wooden caf\u00e9 table",
+            "order": 0
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-c11c7d1590363c8864a94a5a0c86e96539fe6c09-640x480-webp"
+              }
+            },
+            "imageAlt": "An open book on a wooden table",
+            "alt": "An open book on a wooden table",
+            "order": 1
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-7da3b550ea1bcb7889533d8199ddbb20796928b3-640x480-webp"
+              }
+            },
+            "imageAlt": "A notebook, camera and laptop on a creative desk",
+            "alt": "A notebook, camera and laptop on a creative desk",
+            "order": 2
+          }
+        ]
+      },
+      {
+        "title": "Single picture study",
+        "slug": {
+          "current": "single-picture-study"
+        },
+        "description": "A standalone picture for the single-picture viewing scenario.",
+        "order": 2,
+        "photos": [
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "A single flower study",
+            "alt": "A single flower study",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "title": "Availability examples",
+        "slug": {
+          "current": "availability-examples"
+        },
+        "description": "Test artwork availability",
+        "order": 3,
+        "photos": [
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Available painting",
+            "alt": "Available painting",
+            "order": 0,
+            "saleStatus": "for-sale"
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-d854d44adc674ded75531906c9fb813b0bed4dca-640x480-webp"
+              }
+            },
+            "imageAlt": "Portfolio painting",
+            "alt": "Portfolio painting",
+            "order": 1,
+            "saleStatus": "not-for-sale"
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Unlabelled painting",
+            "alt": "Unlabelled painting",
+            "order": 2,
+            "saleStatus": null
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Hidden availability painting",
+            "alt": "Hidden availability painting",
+            "order": 3,
+            "saleStatus": "none"
+          },
+          {
+            "image": {
+              "asset": {
+                "_ref": "image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp"
+              }
+            },
+            "imageAlt": "Unset availability painting",
+            "alt": "Unset availability painting",
+            "order": 4
+          }
+        ]
+      }
+    ]
+  }
+}
