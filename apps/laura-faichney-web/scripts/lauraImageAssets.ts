@@ -14,11 +14,16 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export function imageCacheDirectory(mode: string): string {
-  const directory = mode === 'test' ? 'test-image-assets' : 'image-assets';
+  const directory =
+    mode === 'test' || mode === 'audit' ? 'test-image-assets' : 'image-assets';
   return fileURLToPath(new URL(`../.cache/${directory}/`, import.meta.url));
 }
 
-type AssetDirectories = { cacheDirectory: string; publicDirectory: string };
+type AssetDirectories = {
+  cacheDirectory: string;
+  publicDirectory: string;
+  includeGallery?: boolean;
+};
 
 function isWebP(bytes: Uint8Array): boolean {
   const buffer = Buffer.from(bytes);
@@ -64,6 +69,15 @@ export async function cacheLauraImages(
   options: AssetDirectories,
 ): Promise<LauraSnapshot> {
   const result = structuredClone(snapshot);
+  const galleryImages = options.includeGallery
+    ? [...result.home.collections, ...result.gallery.collections].flatMap(
+        (collection) =>
+          collection.photos.flatMap((picture) => [
+            picture.image,
+            picture.fullImage,
+          ]),
+      )
+    : [];
   const images: CmsImage[] = [
     result.home.hero.image,
     result.home.mural.image,
@@ -74,6 +88,7 @@ export async function cacheLauraImages(
     result.gallery.hero.image,
     ...result.home.services.map((service) => service.image),
     ...result.services.services.map((service) => service.image),
+    ...galleryImages,
   ];
   await mkdir(options.cacheDirectory, { recursive: true });
   const files = new Set<string>();
@@ -103,7 +118,10 @@ export async function cacheLauraImages(
     if (!Number.isInteger(originalWidth) || originalWidth < 1)
       throw new Error(`Site image has no valid width: ${image.url}`);
     const widths = [
-      ...[320, 640, 768, 960, 1280].filter((width) => width < originalWidth),
+      ...(galleryImages.includes(image)
+        ? [160, 240, 320, 480, 640, 768, 960, 1280]
+        : [320, 640, 768, 960, 1280]
+      ).filter((width) => width < originalWidth),
       originalWidth,
     ];
     const variants: string[] = [];

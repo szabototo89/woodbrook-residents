@@ -10,6 +10,7 @@ export default defineConfig({
   use: {
     baseURL: `http://127.0.0.1:${port}`,
     screenshot: 'only-on-failure',
+    serviceWorkers: 'block',
   },
   webServer: {
     command: `bun run preview -- --host 127.0.0.1 --port ${port}`,

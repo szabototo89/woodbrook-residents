@@ -10,6 +10,7 @@ import {
 } from './lighthouse-config';
 import { lighthouseArgs, resolveChromePath } from './lighthouse-chrome';
 import { startStaticPreview } from './static-preview';
+import { assertOfflineAuditReport } from './lighthouse-offline';
 import {
   evaluateLighthouseScores,
   failedCombinations,
@@ -100,6 +101,7 @@ async function runLighthouseForRoute(
     }),
   ]);
   const report = await Bun.file(reportPath).json();
+  assertOfflineAuditReport(report);
   const scoreFor = (category: LighthouseCategory): number => {
     const rawScore = report.categories[category]?.score;
     return typeof rawScore === 'number' ? Math.round(rawScore * 100) : 0;
@@ -186,7 +188,7 @@ async function runLighthouse() {
 
   if (!skipBuild) {
     console.log('Building the web app for Lighthouse...');
-    await runChecked(['bun', 'run', 'build:static']);
+    await runChecked(['bun', 'run', 'build:static:offline']);
   }
 
   const LIGHTHOUSE_ROUTES = lighthouseRoutes(

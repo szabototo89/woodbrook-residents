@@ -115,9 +115,12 @@ See `docs/features/laura-google-form-enquiries.md` for verification and scope.
 ## Lighthouse
 
 From the repository root, run `bun run test:lighthouse:laura`. It builds the
-production static site, serves the prerendered files with gzip on port 4176,
-and audits all main pages and published collections on mobile and desktop.
-Keep that port free while the audit runs. `CHROME_PATH` can select Chrome.
+static site from local content and image fixtures, serves the prerendered files
+with gzip on port 4176, and audits all main pages and fixture collections on mobile
+and desktop. No live Sanity content or image requests are allowed.
+`build:static:offline` creates this audit artifact. `--skip-build` requires that
+offline artifact; `--base-url` must also serve images locally. Sanity URLs are
+blocked, and attempted Sanity requests fail the audit. Keep the port free while the audit runs. `CHROME_PATH` can select Chrome.
 
 Reports and summaries are written to `lighthouse-reports/`. Every route must
 score at least 90 for performance and 100 for accessibility, best practices,

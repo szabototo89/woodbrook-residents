@@ -24,7 +24,18 @@ async function runChecked(command: string[]) {
 }
 
 try {
-  await runChecked(['bun', 'scripts/generate-content.ts', 'static']);
+  const offline = process.argv.includes('--offline');
+  await runChecked(
+    offline
+      ? [
+          'bun',
+          '--preload',
+          './tests/fixtures/gallery-fetch.mjs',
+          'scripts/generate-content.ts',
+          'audit',
+        ]
+      : ['bun', 'scripts/generate-content.ts', 'static'],
+  );
   await runChecked(['bunx', 'vite', 'build', '--mode', 'static']);
   await runChecked(['bun', 'scripts/generate-seo-files.ts']);
   await runChecked(['bun', 'run', 'verify:static']);

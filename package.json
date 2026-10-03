@@ -40,7 +40,7 @@
     "deploy:laura": "bun scripts/deploy-laura.ts",
     "worktree:remove": "scripts/worktree-remove.sh",
     "sync:content": "bun scripts/sync-content.ts",
-    "test:scripts": "bun test scripts/sync-content.test.ts scripts/app.test.ts",
+    "test:scripts": "bun test scripts/sync-content.test.ts scripts/app.test.ts scripts/eslint-laura-offline-tests.test.ts",
     "test:sync-content": "bun test scripts/sync-content.test.ts",
     "test": "bun run test:scripts && bun run test:unit && bun run test:browser && bun run test:e2e",
     "test:install-browser": "bun run --cwd apps/web playwright install chromium webkit",

@@ -1,5 +1,5 @@
 import { readLauraSnapshot } from '../../scripts/lauraSnapshot';
-import { expect, test } from '@playwright/test';
+import { expect, test, createOfflinePage } from '../fixtures/gallery-test';
 
 for (const path of ['/', '/about', '/services', '/gallery', '/contact']) {
   test(`${path} loads its hero and favicon without browser errors`, async ({
@@ -85,11 +85,10 @@ test('initial page styling is available without a separate stylesheet request', 
   browser,
   baseURL,
 }) => {
-  const context = await browser.newContext({
+  const { context, page } = await createOfflinePage(browser, {
     javaScriptEnabled: false,
     baseURL,
   });
-  const page = await context.newPage();
   await page.route('**/*.css', (route) => route.abort());
   await page.goto('/');
   await expect(page.locator('body')).toHaveCSS(

@@ -40,6 +40,7 @@ export async function generateLauraSnapshot(
   const content = await loadLauraSnapshot(new LauraSanitySource(config));
   const snapshot = await cacheLauraImages(content, {
     cacheDirectory: imageCacheDirectory(mode),
+    includeGallery: mode === 'audit',
     publicDirectory: fileURLToPath(new URL('../public/', import.meta.url)),
   });
   await mkdir(fileURLToPath(new URL('../.cache/', import.meta.url)), {

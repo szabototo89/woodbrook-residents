@@ -1,7 +1,25 @@
-import { expect, test as base, type BrowserContext } from '@playwright/test';
+import {
+  expect,
+  test as base,
+  type Browser,
+  type BrowserContext,
+  type BrowserContextOptions,
+} from '@playwright/test';
 import { fixtureResponse } from './site-fixtures';
 
 export { expect } from '@playwright/test';
+
+export async function createOfflinePage(
+  browser: Browser,
+  options: BrowserContextOptions = {},
+) {
+  const context = await browser.newContext({
+    ...options,
+    serviceWorkers: 'block',
+  });
+  await routeGalleryFixture(context);
+  return { context, page: await context.newPage() };
+}
 
 export async function routeGalleryFixture(context: BrowserContext) {
   await context.route(

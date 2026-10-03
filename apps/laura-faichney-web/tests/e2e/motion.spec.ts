@@ -1,5 +1,5 @@
 import { readLauraSnapshot } from '../../scripts/lauraSnapshot';
-import { expect, test } from '../fixtures/gallery-test';
+import { expect, test, createOfflinePage } from '../fixtures/gallery-test';
 import { browsableCollections } from './galleryCms';
 
 type CmsHome = {
@@ -408,12 +408,11 @@ test('gallery covers zoom gently and their caption arrows respond to keyboard fo
 test('mobile uses shorter composition motion and a simple mural fade without sticky hover', async ({
   browser,
 }) => {
-  const context = await browser.newContext({
+  const { context, page } = await createOfflinePage(browser, {
     viewport: { width: 390, height: 600 },
     isMobile: true,
     hasTouch: true,
   });
-  const page = await context.newPage();
   await page.goto('/');
   await page.waitForLoadState('networkidle');
   const services = page.locator('.service-grid');

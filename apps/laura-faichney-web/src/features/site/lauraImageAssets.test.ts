@@ -185,3 +185,72 @@ test('responsive variants respect a small source crop without upscaling it', asy
     requests.every((url) => url.searchParams.get('rect') === '100,0,600,450'),
   ).toBe(true);
 });
+
+test('offline audits bundle gallery covers, full pictures and thumbnails without a live fetch fallback', async () => {
+  vi.stubGlobal('fetch', fixtureResponse);
+  const original = await loadLauraSnapshot();
+  const bytes = await sharp({
+    create: { width: 8, height: 8, channels: 3, background: '#d92755' },
+  })
+    .webp()
+    .toBuffer();
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(
+      async () =>
+        new Response(new Uint8Array(bytes), {
+          headers: { 'Content-Type': 'image/webp' },
+        }),
+    ),
+  );
+  const directory = await mkdtemp(path.join(tmpdir(), 'laura-offline-audit-'));
+  directories.push(directory);
+  const options = {
+    cacheDirectory: path.join(directory, 'cache'),
+    publicDirectory: path.join(directory, 'public'),
+    includeGallery: true,
+  };
+  const siteSnapshot = await cacheLauraImages(original, {
+    ...options,
+    includeGallery: false,
+  });
+  const snapshot = await cacheLauraImages(original, options);
+  expect(snapshot.home.hero.image).toEqual(siteSnapshot.home.hero.image);
+  expect(snapshot.services.services.map((service) => service.image)).toEqual(
+    siteSnapshot.services.services.map((service) => service.image),
+  );
+  const pictures = [
+    ...snapshot.home.collections,
+    ...snapshot.gallery.collections,
+  ].flatMap((collection) => collection.photos);
+  expect(pictures.length).toBeGreaterThan(0);
+  for (const picture of pictures) {
+    for (const image of [picture.image, picture.fullImage]) {
+      expect(image.url).toMatch(/^\/site-images\//);
+      expect(image.srcSet).toContain('160w');
+      expect(image.srcSet).toContain('320w');
+      for (const variant of image.srcSet!.split(', ')) {
+        const file = variant.split(' ')[0]!;
+        expect(
+          (
+            await sharp(
+              await readFile(path.join(options.publicDirectory, file)),
+            ).metadata()
+          ).format,
+        ).toBe('webp');
+      }
+    }
+  }
+  expect(JSON.stringify(original.gallery.collections)).toContain(
+    'cdn.sanity.io',
+  );
+  vi.stubGlobal(
+    'fetch',
+    vi.fn().mockRejectedValue(new Error('Network forbidden')),
+  );
+  expect(await cacheLauraImages(original, options)).toEqual(snapshot);
+  expect(fetch).not.toHaveBeenCalled();
+  expect(imageCacheDirectory('audit')).not.toBe(
+    imageCacheDirectory('production'),
+  );
+});

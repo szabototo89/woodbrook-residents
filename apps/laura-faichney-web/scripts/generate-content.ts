@@ -11,4 +11,8 @@ const config = resolveLauraSanityConfig({
 });
 
 await generateLauraSnapshot(config, mode);
-console.log('Captured published Laura content with four Sanity queries.');
+console.log(
+  mode === 'test' || mode === 'audit'
+    ? 'Captured local Laura fixtures without live Sanity requests.'
+    : 'Captured published Laura content with four Sanity queries.',
+);

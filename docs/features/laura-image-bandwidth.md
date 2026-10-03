@@ -16,7 +16,7 @@ When people browse Laura's site, I want site artwork to load at appropriate size
 
 ## Acceptance criteria
 
-- Routine browser builds and browser checks read local content/image fixtures without live Sanity requests or a network fallback.
+- Routine browser and Lighthouse builds and checks read local content/image fixtures without live Sanity requests or a network fallback. ESLint rejects direct Playwright test imports, unprotected browser sessions and live route fetching in Laura tests.
 - Cached non-gallery image variants exist in the static output, including every responsive source. A repeat build needs no image downloads for unchanged assets.
 - Updating an asset or transformation downloads a new variant and replaces obsolete generated public files without deleting the persistent cache.
 - Phone browsers choose smaller local sources while artwork alt text, transparency and desktop layouts remain intact.
@@ -30,9 +30,9 @@ Excluded: gallery artwork migration, Sanity Studio or CMS schema changes, change
 
 ## Verification
 
-- Unit checks cover offline capture, cache reuse, changed crops, incomplete downloads, bounded source dimensions and carousel source selection.
+- Unit checks cover offline capture, cache reuse, changed crops, incomplete downloads, bounded source dimensions and carousel source selection. ESLint regression tests reject fixture bypasses, and all 117 browser checks pass using protected contexts.
 - Browser checks cover local responsive sources, arbitrary thumbnail jumps, keyboard selection, native Chromium touch and mobile WebKit swipes, transparency and layouts.
-- The production static build verifies every main and collection page. All 58 generated site-image variants referenced by its HTML were present, with immutable cache headers.
+- The offline audit build verifies every fixture page; all 18 mobile/desktop audit network reports contain zero Sanity requests. The production static build verifies every main and collection page. All 58 generated site-image variants referenced by its HTML were present, with immutable cache headers.
 - `bun run build` passed across the repository.
 
 Cached images remain part of Sanity bandwidth when first downloaded by a build. Cloudflare Pages dashboard builds need their own persistent cache; the repository's GitHub deploy workflow restores `.cache/image-assets` between runs. Test builds use a separate `.cache/test-image-assets` cache and cannot populate the production cache.

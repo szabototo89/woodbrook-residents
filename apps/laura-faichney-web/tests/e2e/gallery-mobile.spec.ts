@@ -1,4 +1,4 @@
-import { expect, test, routeGalleryFixture } from '../fixtures/gallery-test';
+import { expect, test, createOfflinePage } from '../fixtures/gallery-test';
 import { browsableCollections, galleryCollections } from './galleryCms';
 
 test('the mobile picture viewer stays stable when browsing portrait and landscape uploads', async ({
@@ -80,12 +80,10 @@ test('phones download smaller transparent hero assets and appropriately sized th
   const [collection] = await browsableCollections();
   if (!collection) throw new Error('Browsable collection is missing');
   for (const deviceScaleFactor of [1, 2]) {
-    const context = await browser.newContext({
+    const { context, page } = await createOfflinePage(browser, {
       viewport: { width: 390, height: 844 },
       deviceScaleFactor,
     });
-    await routeGalleryFixture(context);
-    const page = await context.newPage();
     await page.goto('/gallery');
     const hero = page.locator('.page-hero-art img');
     await expect(hero).toBeVisible();

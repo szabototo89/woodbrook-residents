@@ -14,7 +14,8 @@
     "verify:static": "bun scripts/verify-static-build.ts",
     "content:generate": "bun scripts/generate-content.ts",
     "build:e2e": "bun --preload ./tests/fixtures/gallery-fetch.mjs scripts/generate-content.ts test && vite build",
-    "test:lighthouse": "bun scripts/lighthouse.ts"
+    "test:lighthouse": "bun scripts/lighthouse.ts",
+    "build:static:offline": "bun scripts/build-static.ts --offline"
   },
   "dependencies": {
     "@fontsource-variable/cormorant-garamond": "^5.3.0",

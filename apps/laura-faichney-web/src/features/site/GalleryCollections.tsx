@@ -24,6 +24,7 @@ export function GalleryCollections(props: {
             <figure>
               <GalleryImage
                 src={cover.image.url}
+                srcSet={cover.image.srcSet}
                 alt={cover.alt}
                 loading={props.eager ? 'eager' : 'lazy'}
               />

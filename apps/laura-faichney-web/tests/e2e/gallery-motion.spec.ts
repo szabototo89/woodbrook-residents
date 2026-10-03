@@ -1,4 +1,4 @@
-import { expect, test, routeGalleryFixture } from '../fixtures/gallery-test';
+import { expect, test, createOfflinePage } from '../fixtures/gallery-test';
 
 import { browsableCollections } from './galleryCms';
 
@@ -215,13 +215,11 @@ test('touch selects collections and pictures while the mobile nav indicator stay
   const { second } = await motionGallery();
   const deskPhotoAlt = second.photos[second.photos.length - 1];
   if (!deskPhotoAlt) throw new Error('Collection photos are missing');
-  const context = await browser.newContext({
+  const { context, page } = await createOfflinePage(browser, {
     viewport: { width: 390, height: 844 },
     hasTouch: true,
     isMobile: true,
   });
-  await routeGalleryFixture(context);
-  const page = await context.newPage();
   await page.goto('/');
   await page.waitForLoadState('networkidle');
   await page.getByRole('button', { name: 'Open menu' }).tap();
@@ -255,9 +253,9 @@ test('without JavaScript, services, artwork and collection links remain readable
   browser,
 }) => {
   const { first } = await motionGallery();
-  const context = await browser.newContext({ javaScriptEnabled: false });
-  await routeGalleryFixture(context);
-  const page = await context.newPage();
+  const { context, page } = await createOfflinePage(browser, {
+    javaScriptEnabled: false,
+  });
   await page.goto('/');
   expect(
     await page
