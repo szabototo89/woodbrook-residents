@@ -1,3 +1,4 @@
+import { Arrow } from './Arrow';
 import { GalleryImage } from './GalleryImage';
 import {
   galleryCollectionPath,
@@ -26,7 +27,10 @@ export function GalleryCollections(props: {
                 alt={cover.alt}
                 loading={props.eager ? 'eager' : 'lazy'}
               />
-              <figcaption>{collection.title}</figcaption>
+              <figcaption>
+                {collection.title}
+                <Arrow />
+              </figcaption>
             </figure>
           </a>
         );
