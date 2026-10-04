@@ -1,6 +1,6 @@
 # Forma Studio website
 
-A responsive implementation of the supplied Locale design, rebranded as Forma Studio, including the home page and the requested blog subpage. The app directory and package name remain `apps/locale-web` and `locale-web`.
+A responsive implementation of the supplied Locale design, rebranded as Forma Studio, including the home page and the requested blog subpage. The app directory and package name are `apps/forma-studio-web` and `forma-studio-web`.
 
 ## Development
 
@@ -8,21 +8,21 @@ Use Bun from the repository root:
 
 ```sh
 bun install
-bun run --cwd apps/locale-web dev
-bun run --cwd apps/locale-web test:unit
-bun run --cwd apps/locale-web typecheck
-bun run --cwd apps/locale-web test:e2e
-bun run --cwd apps/locale-web build
-bun run --cwd apps/locale-web test:lighthouse --skip-build
+bun run --cwd apps/forma-studio-web dev
+bun run --cwd apps/forma-studio-web test:unit
+bun run --cwd apps/forma-studio-web typecheck
+bun run --cwd apps/forma-studio-web test:e2e
+bun run --cwd apps/forma-studio-web build
+bun run --cwd apps/forma-studio-web test:lighthouse --skip-build
 ```
 
-Development uses port 3005; production preview uses 4178. Install Playwright Chromium with `bun run --cwd apps/locale-web playwright install chromium` if needed. Lighthouse uses installed Chrome, or `CHROME_PATH`.
+Development uses port 3005; production preview uses 4178. Install Playwright Chromium with `bun run --cwd apps/forma-studio-web playwright install chromium` if needed. Lighthouse uses installed Chrome, or `CHROME_PATH`.
 
 ## Stack and hosting
 
-Matches `apps/laura-faichney-web`: React 19, TanStack Start/Router, TypeScript, Vite, plain CSS, DM Sans, Lucide and Bun. Production builds prerender `/` and `/blog` to static HTML under `dist/client`. Publish **only `apps/locale-web/dist/client`** to Cloudflare Pages using `wrangler.jsonc`; no runtime server or credentials are needed. `dist/server` is used during prerendering, not deployed. The home page and blog index are the only product routes.
+Matches `apps/laura-faichney-web`: React 19, TanStack Start/Router, TypeScript, Vite, plain CSS, DM Sans, Lucide and Bun. Production builds prerender `/` and `/blog` to static HTML under `dist/client`. Publish **only `apps/forma-studio-web/dist/client`** to Cloudflare Pages using `wrangler.jsonc`; no runtime server or credentials are needed. `dist/server` is used during prerendering, not deployed. The home page and blog index are the only product routes.
 
-Cloudflare build command from the monorepo root: `bun run --cwd apps/locale-web build`. This implementation prepares hosting but does not create or deploy a Cloudflare project.
+Cloudflare build command from the monorepo root: `bun run --cwd apps/forma-studio-web build`. The site is deployed to the Cloudflare Pages project `forma-studio-web` at https://forma-studio-web-ddv.pages.dev.
 
 ## Content and future Sanity
 

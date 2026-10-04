@@ -27,7 +27,7 @@ As a local business owner, read practical guidance about a website, local discov
 
 ## Explicit scope
 
-This extends the original homepage-only request with a single blog index containing expandable guides. Individual article routes, categories, search, pagination, author management, subscriptions, comments and a Sanity project/schema/Studio integration are not implemented. Draft guide data is isolated in `apps/locale-web/src/features/blog/blogContent.ts` for a future build-time CMS snapshot.
+This extends the original homepage-only request with a single blog index containing expandable guides. Individual article routes, categories, search, pagination, author management, subscriptions, comments and a Sanity project/schema/Studio integration are not implemented. Draft guide data is isolated in `apps/forma-studio-web/src/features/blog/blogContent.ts` for a future build-time CMS snapshot.
 
 ## Verification
 
@@ -38,4 +38,4 @@ Verified on 2026-10-03:
 - Repository production build, TypeScript and ESLint pass.
 - Blog Lighthouse desktop: performance 100, accessibility 100, best practices 100, SEO 100.
 - Blog Lighthouse mobile: performance 98, accessibility 100, best practices 100, SEO 100.
-- Desktop/mobile screenshots were visually reviewed. Report summaries are retained under `apps/locale-web/lighthouse-reports/`.
+- Desktop/mobile screenshots were visually reviewed. Report summaries are retained under `apps/forma-studio-web/lighthouse-reports/`.

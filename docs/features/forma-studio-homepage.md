@@ -28,7 +28,7 @@ As a small business owner, understand Forma Studio's digital services, compare s
 
 ## Explicit scope
 
-`/` and the subsequently requested `/blog` are implemented. Other pages, actual customer claims, a working enquiry backend, deployment, and a Sanity project/Studio or integration are outside scope. Data is isolated for later build-time CMS integration. Replace the placeholder email and approve draft pricing, FAQ and testimonial content before a public launch. No production domain is assumed.
+`/` and the subsequently requested `/blog` are implemented. Other pages, actual customer claims, a working enquiry backend, and a Sanity project/Studio or integration are outside scope. Data is isolated for later build-time CMS integration. Replace the placeholder email and approve draft pricing, FAQ and testimonial content before a public launch. The production deployment is the Cloudflare Pages project `forma-studio-web` at https://forma-studio-web-ddv.pages.dev.
 
 ## Verification
 
@@ -41,4 +41,4 @@ Verified on 2026-10-03:
 - Mobile Lighthouse: performance 93, accessibility 100, best practices 100, SEO 100.
 - Desktop and mobile screenshots were inspected; the supplied design's hierarchy and layout are preserved, with mobile content stacked for readable use.
 
-Commands and coverage boundaries are documented in `apps/locale-web/README.md`. Score summaries are retained in `apps/locale-web/lighthouse-reports/`. Lighthouse measurements describe local production previews, not a deployed Cloudflare origin.
+Commands and coverage boundaries are documented in `apps/forma-studio-web/README.md`. Score summaries are retained in `apps/forma-studio-web/lighthouse-reports/`. Lighthouse measurements describe local production previews.

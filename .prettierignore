@@ -30,6 +30,6 @@ apps/web/public/google*.html
 
 apps/laura-faichney-web/lighthouse-reports/
 
-# Locale generated routing and Lighthouse artifacts.
-apps/locale-web/src/routeTree.gen.ts
-apps/locale-web/lighthouse-reports/
+# Forma Studio generated routing and Lighthouse artifacts.
+apps/forma-studio-web/src/routeTree.gen.ts
+apps/forma-studio-web/lighthouse-reports/
