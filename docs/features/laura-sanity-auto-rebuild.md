@@ -9,7 +9,7 @@ When Laura publishes a content change in Sanity Studio, I want the static Cloudf
 ## Visible behavior
 
 - Sanity project `uag6kepo` ("Laura Faichney All Things Art"), dataset `production`, has a GROQ-powered webhook named e.g. `laura-github-rebuild`.
-- The webhook fires on published `create`, `update`, and `delete` for `_type in [homePage, aboutPage, servicesPage, galleryPage, siteSettings, service, galleryItem]`; drafts and versions are ignored.
+- The webhook fires on published `create`, `update`, and `delete` for `_type in [homePage, aboutPage, servicesPage, galleryPage, siteSettings, service, galleryCollection, galleryItem]`; drafts and versions are ignored.
 - The webhook `POST`s to `https://api.github.com/repos/szabototo89/woodbrook-residents/dispatches` with headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, and `Authorization: Bearer <fine-grained PAT>`, and a projection body of `{"event_type": "sanity-update", "client_payload": {"_id": _id, "_type": _type}}`.
 - The `Deploy Laura Faichney` GitHub workflow accepts `repository_dispatch` type `sanity-update` in addition to its existing `push` and `workflow_dispatch` triggers, logs the triggering event and `client_payload`, then runs the unchanged static build (`bun run --cwd apps/laura-faichney-web build:static`) and Cloudflare Pages deploy (`laura-faichney-all-things-art`, branch `main`).
 - Overlapping publishes queue behind `concurrency: group: laura-faichney-pages, cancel-in-progress: false`, matching Sanity's at-least-once delivery (1 concurrent request, 2 retries at 30s, 30s timeout); rebuilds are idempotent.
