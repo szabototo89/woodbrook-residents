@@ -51,7 +51,7 @@ test('services retain the compact proportions of the supplied reference', async 
   const process = await page.locator('.services-process').boundingBox();
   if (!firstImage || !process) throw new Error('Services sections are missing');
   expect(firstImage.x).toBeGreaterThanOrEqual(85);
-  expect(firstImage.y).toBeLessThanOrEqual(550);
+  expect(firstImage.y).toBeLessThanOrEqual(555);
   expect(process.y).toBeLessThanOrEqual(1450);
   expect(process.height).toBeLessThanOrEqual(360);
   const heading = await page

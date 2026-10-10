@@ -28,8 +28,8 @@ body:has(.contact-reference-page) .site-footer .container {
 .contact-reference-page .page-hero-copy > p:not(.eyebrow, .contact-location) {
   max-width: 450px;
   margin-bottom: 16px;
-  font-size: clamp(17px, 2vw, 22px);
-  line-height: 1.35;
+  font-size: 17px;
+  line-height: 1.45;
 }
 .contact-reference-page .contact-hero .button {
   min-height: 50px;

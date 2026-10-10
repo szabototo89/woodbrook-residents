@@ -27,8 +27,8 @@ body:has(.services-page) .site-footer .container {
 .services-page .page-hero-copy > p:not(.eyebrow, .services-motto) {
   max-width: 475px;
   margin-bottom: 12px;
-  font-size: clamp(14px, 1.55vw, 21px);
-  line-height: 1.4;
+  font-size: 17px;
+  line-height: 1.45;
 }
 .services-page .services-motto {
   width: clamp(180px, 18vw, 240px);
