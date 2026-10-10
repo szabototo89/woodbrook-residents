@@ -42,7 +42,7 @@ body:has(.contact-reference-page) .site-footer .container {
   margin-top: 12px;
 }
 .contact-reference-page .contact-hero .contact-links a {
-  font-size: clamp(16px, 2vw, 20px);
+  font-size: 14px;
   overflow-wrap: anywhere;
   gap: 14px;
 }
@@ -486,7 +486,8 @@ body:has(.contact-reference-page) .site-footer .container {
   .contact-service-copy p,
   .enquiry-form .enquiry-help,
   .contact-reference-page .contact-section p:not(.eyebrow),
-  .contact-reference-page .contact-section .contact-links a {
+  .contact-reference-page .contact-section .contact-links a,
+  .contact-reference-page .contact-hero .contact-links a {
     font-size: 16px;
   }
   .contact-reference-page .enquiry-form .button {
