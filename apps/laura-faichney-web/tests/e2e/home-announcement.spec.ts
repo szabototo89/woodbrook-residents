@@ -13,7 +13,9 @@ for (const width of [320, 390, 640, 700, 900, 1440]) {
     await expect(announcement).toContainText(
       'This sample announcement shows where Laura can share her latest update.',
     );
-    const action = announcement.getByRole('link', { name: 'Meet Laura' });
+    const action = announcement.getByRole('link', {
+      name: 'Meet Laura (opens in a new tab)',
+    });
     await expect(action).toHaveAttribute('href', '/about');
     const [hero, section, services, button] = await Promise.all([
       page.locator('.home-hero').boundingBox(),
@@ -65,8 +67,12 @@ for (const width of [320, 390, 640, 700, 900, 1440]) {
     }
     await action.focus();
     await expect(action).toBeFocused();
+    const popupPromise = page.waitForEvent('popup');
     await page.keyboard.press('Enter');
-    await expect(page).toHaveURL(/\/about$/);
+    const popup = await popupPromise;
+    await expect(popup).toHaveURL(/\/about$/);
+    await expect(page).toHaveURL(/\/$/);
+    await popup.close();
   });
 }
 
@@ -81,12 +87,19 @@ test('announcement copy and action are available without JavaScript', async ({
     name: 'A little news from the studio',
   });
   await expect(announcement).toBeVisible();
-  await announcement.getByRole('link', { name: 'Meet Laura' }).click();
-  await expect(page).toHaveURL(/\/about$/);
+  const action = announcement.getByRole('link', {
+    name: 'Meet Laura (opens in a new tab)',
+  });
+  await expect(action).toHaveAttribute('rel', 'noopener noreferrer');
+  const popupPromise = page.waitForEvent('popup');
+  await action.click();
+  const popup = await popupPromise;
+  await expect(popup).toHaveURL(/\/about$/);
+  await expect(page).toHaveURL(/\/$/);
   await context.close();
 });
 
-test('announcement eyebrow has readable contrast across the card background', async ({
+test('announcement eyebrow has readable contrast against the cream band', async ({
   page,
 }) => {
   await page.goto('/');
@@ -108,15 +121,33 @@ test('announcement eyebrow has readable contrast across the card background', as
       );
     };
     const foreground = luminance(getComputedStyle(eyebrow).color);
-    const backgrounds =
-      getComputedStyle(card).backgroundImage.match(/rgb\([^)]+\)/g);
-    if (!backgrounds)
-      throw new Error('Announcement background colours are missing');
-    return Math.min(
-      ...backgrounds.map(
-        (color) => (luminance(color) + 0.05) / (foreground + 0.05),
-      ),
-    );
+    const section = card.closest('.home-announcement');
+    if (!section) throw new Error('Announcement section is missing');
+    const background = luminance(getComputedStyle(section).backgroundColor);
+    return (background + 0.05) / (foreground + 0.05);
   });
   expect(contrast).toBeGreaterThanOrEqual(4.5);
+});
+
+test('announcement uses the homepage cream section style without an accent border', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const announcement = page.getByRole('region', {
+    name: 'A little news from the studio',
+  });
+  const card = announcement.locator('.announcement-card');
+  for (const side of ['top', 'right', 'bottom', 'left']) {
+    await expect(card).toHaveCSS(`border-${side}-width`, '0px');
+  }
+  await expect(card).toHaveCSS('border-radius', '0px');
+  await expect(card).toHaveCSS('background-image', 'none');
+  const cream = await page
+    .locator('.about-preview')
+    .evaluate((element) => getComputedStyle(element).backgroundColor);
+  await expect(announcement).toHaveCSS('background-color', cream);
+  const copy = await announcement.locator('.announcement-copy').boundingBox();
+  const hero = await page.locator('.hero-copy').boundingBox();
+  if (!copy || !hero) throw new Error('Homepage copy is missing');
+  expect(copy.x).toBe(hero.x);
 });

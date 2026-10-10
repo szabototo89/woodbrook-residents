@@ -9,9 +9,9 @@ When Laura has an update to share, she can highlight it on her homepage so visit
 ## Visible behavior
 
 - A single optional announcement sits directly below the site header and above the artwork-led hero, so visitors see the update first.
-- The card uses the existing cream and blush palette, gold accent, navy serif heading, and pink action button. It shares the homepage container alignment.
-- Compact padding and a small heading keep the notice secondary to the hero. Body copy remains 16px, the button keeps its full tap area, and longer messages grow naturally without truncation.
-- It shows “From the studio”, an editor-supplied heading and message, and an optional button. Message line breaks are preserved.
+- The announcement uses the same flat warm cream background as the About preview, navy serif heading, and pink action button. It forms a full-width section with copy aligned to the hero and header; it has no accent border, gradient, shadow, or rounded card frame.
+- Compact vertical spacing and a small heading keep the notice secondary to the hero. Body copy remains 16px, the button keeps its full tap area, and longer messages grow naturally without truncation.
+- It shows “From the studio”, an editor-supplied heading and message, and an optional button. The button opens its destination in a new tab and announces that behavior to screen readers. Message line breaks are preserved.
 - On phones, the message and button stack with readable text and a minimum 44px tap target. On wider screens, the action sits beside the message.
 - In Laura’s Sanity Studio, open **Home → Homepage announcement**. Fill in the heading and message, optionally add button text and a site path or HTTP(S) address, and enable **Show announcement**.
 - An unset or disabled announcement renders no section or extra spacing. Turning it off retains the editor’s text.
@@ -26,7 +26,7 @@ When Laura has an update to share, she can highlight it on her homepage so visit
 - A disabled announcement with unfinished content is ignored; an enabled announcement with missing required content fails validation.
 - Internal paths and HTTP(S) links work; script URLs and protocol-relative destinations are rejected.
 - At 320, 390, 640, 700, 900 and 1440px, the card and text stay within the viewport and do not overlap adjacent sections.
-- The optional action works with the keyboard and without JavaScript.
+- The optional action opens a new tab with the keyboard and without JavaScript, leaves the homepage open, and uses `noopener noreferrer`.
 
 ## Scope
 

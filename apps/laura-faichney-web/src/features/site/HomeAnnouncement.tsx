@@ -19,6 +19,9 @@ export function HomeAnnouncement(props: { announcement: CmsAnnouncement }) {
             <a
               className="button button-primary announcement-action"
               href={announcement.link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${announcement.link.label} (opens in a new tab)`}
             >
               {announcement.link.label} <Arrow />
             </a>
