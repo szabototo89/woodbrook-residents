@@ -8,7 +8,7 @@ When a visitor explores Laura's gallery, they can choose a named collection, rea
 
 ## Visible behavior
 
-- The gallery and home preview show named collection cards with a cover image and title.
+- The gallery shows every named collection card with a cover image and title. The home preview shows only the first four collections in gallery (CMS `order`) order with the same card design and a "View full gallery" link to the full overview.
 - Each card opens `/gallery/{collection-slug}` with its own title, description and canonical metadata.
 - Breadcrumbs show Home, Gallery and the current collection; Home and Gallery are clickable.
 - At 1024px and wider, the collection title, description and return link occupy the left third beside the picture viewer in the right two-thirds, with a 48px gap. Breadcrumbs sit above both columns. Below 1024px, the picture viewer, controls and thumbnails appear before the introduction, so description length does not move the artwork when browsing collections.
@@ -27,7 +27,7 @@ When a visitor explores Laura's gallery, they can choose a named collection, rea
 
 ## Acceptance criteria
 
-- Collection cards on both entry points use collection URLs, with no individual-picture detail links.
+- Collection cards on both entry points use collection URLs, with no individual-picture detail links. The home preview is limited to the first four collections in gallery order; the gallery overview shows every collection.
 - Each existing photo belongs to exactly one initial collection. The photo records contain no individual descriptions.
 - The collection title and description render on direct loads and reloads; the description appears only once.
 - At 1024, 1280 and 1440px, the title, description and return link sit to the left of the selected picture; the viewer is approximately twice the introduction's width. At 320–1023px and in narrow landscape view, the full-width viewer precedes the introduction. Picture controls and thumbnails stay beneath the viewer in its column. Increasing the collection description length does not change the viewer's vertical position on mobile.

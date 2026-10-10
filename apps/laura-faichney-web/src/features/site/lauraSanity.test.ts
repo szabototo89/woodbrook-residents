@@ -8,9 +8,12 @@ import { beforeEach, expect, test, vi } from 'vitest';
 import {
   galleryCollectionPath,
   getGalleryCollection,
+  HOME_GALLERY_PREVIEW_LIMIT,
   pageHeadFromSeo,
+  selectHomeGalleryCollections,
   splitBalancedLines,
   splitTitleLines,
+  type CmsGalleryCollection,
 } from './lauraSanity';
 
 const cmsImage = (id: string) => ({
@@ -505,3 +508,93 @@ test.each([
     }
   },
 );
+
+function stubCollection(slug: string, order: number): CmsGalleryCollection {
+  return {
+    title: slug,
+    slug,
+    description: `${slug} description`,
+    order,
+    photos: [],
+  };
+}
+
+test('home gallery preview limit is four', () => {
+  expect(HOME_GALLERY_PREVIEW_LIMIT).toBe(4);
+});
+
+test('selects the first four collections in gallery order without mutating', () => {
+  const input = [
+    stubCollection('fifth', 4),
+    stubCollection('first', 0),
+    stubCollection('sixth', 5),
+    stubCollection('third', 2),
+    stubCollection('second', 1),
+    stubCollection('fourth', 3),
+  ];
+  const selected = selectHomeGalleryCollections(input);
+  expect(selected.map((collection) => collection.slug)).toEqual([
+    'first',
+    'second',
+    'third',
+    'fourth',
+  ]);
+  expect(input.map((collection) => collection.slug)).toEqual([
+    'fifth',
+    'first',
+    'sixth',
+    'third',
+    'second',
+    'fourth',
+  ]);
+});
+
+test('keeps every collection when the gallery has four or fewer', () => {
+  const input = [stubCollection('b', 1), stubCollection('a', 0)];
+  expect(selectHomeGalleryCollections(input).map((c) => c.slug)).toEqual([
+    'a',
+    'b',
+  ]);
+});
+
+test('loads only the first four collections for home while gallery keeps all', async () => {
+  const six = [0, 1, 2, 3, 4, 5].map((order) => ({
+    title: `Collection ${order}`,
+    slug: { current: `collection-${order}` },
+    description: `Description ${order}`,
+    order,
+    photos: [
+      {
+        image: cmsImage('image-photo1-640x480-webp'),
+        imageAlt: `Photo ${order}`,
+        order: 0,
+      },
+    ],
+  }));
+  mockSanity({
+    ...homeResult,
+    collections: six,
+    page: { hero: homeResult.home.hero, seo: {} },
+  });
+  const source = new LauraSanitySource({
+    projectId: 'uag6kepo',
+    dataset: 'production',
+    apiVersion: '2025-09-01',
+  });
+  const home = await source.loadHome();
+  expect(home.collections.map((collection) => collection.slug)).toEqual([
+    'collection-0',
+    'collection-1',
+    'collection-2',
+    'collection-3',
+  ]);
+  const gallery = await source.loadGallery();
+  expect(gallery.collections.map((collection) => collection.slug)).toEqual([
+    'collection-0',
+    'collection-1',
+    'collection-2',
+    'collection-3',
+    'collection-4',
+    'collection-5',
+  ]);
+});

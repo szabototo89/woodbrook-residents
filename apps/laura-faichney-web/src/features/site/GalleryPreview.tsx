@@ -1,7 +1,10 @@
 import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
 import { GalleryCollections } from './GalleryCollections';
-import type { CmsGalleryCollection } from './lauraSanity';
+import {
+  selectHomeGalleryCollections,
+  type CmsGalleryCollection,
+} from './lauraSanity';
 
 export function GalleryPreview(props: {
   collections: CmsGalleryCollection[];
@@ -19,7 +22,9 @@ export function GalleryPreview(props: {
             View full gallery <Arrow />
           </a>
         </div>
-        <GalleryCollections collections={props.collections} />
+        <GalleryCollections
+          collections={selectHomeGalleryCollections(props.collections)}
+        />
       </div>
     </section>
   );
