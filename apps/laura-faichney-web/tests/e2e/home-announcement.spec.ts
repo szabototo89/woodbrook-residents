@@ -28,6 +28,15 @@ for (const width of [320, 390, 640, 700, 900, 1440]) {
     expect(section.y).toBeGreaterThanOrEqual(header.y + header.height);
     expect(section.y + section.height).toBeLessThanOrEqual(hero.y);
     expect(hero.y + hero.height).toBeLessThanOrEqual(services.y);
+    const card = await announcement.locator('.announcement-card').boundingBox();
+    if (!card) throw new Error('Announcement card is missing');
+    if (width === 1440) expect(card.height).toBeLessThanOrEqual(132);
+    if (width === 390) expect(card.height).toBeLessThanOrEqual(250);
+    expect(
+      await announcement
+        .locator('.announcement-message')
+        .evaluate((element) => parseFloat(getComputedStyle(element).fontSize)),
+    ).toBeGreaterThanOrEqual(16);
     expect(button.height).toBeGreaterThanOrEqual(44);
     expect(button.x).toBeGreaterThanOrEqual(0);
     expect(button.x + button.width).toBeLessThanOrEqual(width);

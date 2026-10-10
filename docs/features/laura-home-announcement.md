@@ -10,6 +10,7 @@ When Laura has an update to share, she can highlight it on her homepage so visit
 
 - A single optional announcement sits directly below the site header and above the artwork-led hero, so visitors see the update first.
 - The card uses the existing cream and blush palette, gold accent, navy serif heading, and pink action button. It shares the homepage container alignment.
+- Compact padding and a small heading keep the notice secondary to the hero. Body copy remains 16px, the button keeps its full tap area, and longer messages grow naturally without truncation.
 - It shows “From the studio”, an editor-supplied heading and message, and an optional button. Message line breaks are preserved.
 - On phones, the message and button stack with readable text and a minimum 44px tap target. On wider screens, the action sits beside the message.
 - In Laura’s Sanity Studio, open **Home → Homepage announcement**. Fill in the heading and message, optionally add button text and a site path or HTTP(S) address, and enable **Show announcement**.
