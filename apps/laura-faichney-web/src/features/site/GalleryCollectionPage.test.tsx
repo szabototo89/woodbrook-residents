@@ -199,3 +199,50 @@ test('unknown collection slugs and retired picture IDs are rejected', () => {
     expect(getGalleryCollection(galleryCollections, slug)).toBeUndefined();
   }
 });
+
+function previewCollection(
+  slug: string,
+  title: string,
+  order: number,
+): CmsGalleryCollection {
+  return {
+    title,
+    slug,
+    description: `${title} description`,
+    order,
+    photos: [
+      photo(
+        `${title} cover`,
+        'image-86bcd7146fcd95f2c8d1ea40f421767d5d8aadf2-640x480-webp',
+        0,
+      ),
+    ],
+  };
+}
+
+test('home preview shows only the first four collections while the gallery shows all', () => {
+  const six = [
+    previewCollection('sixth', 'Sixth collection', 5),
+    previewCollection('first', 'First collection', 0),
+    previewCollection('fourth', 'Fourth collection', 3),
+    previewCollection('second', 'Second collection', 1),
+    previewCollection('fifth', 'Fifth collection', 4),
+    previewCollection('third', 'Third collection', 2),
+  ];
+  const preview = renderToStaticMarkup(
+    <GalleryPreview collections={six} heading="A glimpse of my work" />,
+  );
+  for (const slug of ['first', 'second', 'third', 'fourth']) {
+    expect(preview).toContain(`href="/gallery/${slug}"`);
+  }
+  for (const slug of ['fifth', 'sixth']) {
+    expect(preview).not.toContain(`href="/gallery/${slug}"`);
+  }
+  expect(preview).toContain('View full gallery');
+  const gallery = renderToStaticMarkup(
+    <GalleryPage data={{ ...galleryPageData(), collections: six }} />,
+  );
+  for (const slug of ['first', 'second', 'third', 'fourth', 'fifth', 'sixth']) {
+    expect(gallery).toContain(`href="/gallery/${slug}"`);
+  }
+});

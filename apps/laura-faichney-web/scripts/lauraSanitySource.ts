@@ -3,6 +3,7 @@ import imageUrlBuilder from '@sanity/image-url';
 import { z } from 'zod';
 
 import {
+  selectHomeGalleryCollections,
   splitTitleLines,
   type CmsImage,
   type CmsHero,
@@ -469,14 +470,16 @@ export class LauraSanitySource {
         mapService(this.config, parseDoc('service', serviceSchema, item)),
       )
       .sort((a, b) => a.order - b.order);
-    const galleryPreview = data.collections
-      .map((item) =>
-        mapGalleryCollection(
-          this.config,
-          parseDoc('galleryCollection', galleryCollectionSchema, item),
-        ),
-      )
-      .sort((a, b) => a.order - b.order);
+    const galleryPreview = selectHomeGalleryCollections(
+      data.collections
+        .map((item) =>
+          mapGalleryCollection(
+            this.config,
+            parseDoc('galleryCollection', galleryCollectionSchema, item),
+          ),
+        )
+        .sort((a, b) => a.order - b.order),
+    );
 
     return {
       hero: mapHero(this.config, 'homePage hero', home.hero, 1374),

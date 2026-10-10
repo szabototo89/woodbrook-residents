@@ -57,6 +57,16 @@ export function getGalleryCollection(
   return collections.find((collection) => collection.slug === slug);
 }
 
+export const HOME_GALLERY_PREVIEW_LIMIT = 4;
+
+export function selectHomeGalleryCollections(
+  collections: CmsGalleryCollection[],
+): CmsGalleryCollection[] {
+  return [...collections]
+    .sort((a, b) => a.order - b.order)
+    .slice(0, HOME_GALLERY_PREVIEW_LIMIT);
+}
+
 export type CmsSettings = {
   email: string;
   phone: string;
