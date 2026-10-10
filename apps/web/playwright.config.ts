@@ -3,7 +3,10 @@ import { defineConfig, devices } from '@playwright/test';
 const isContinuousIntegration = Boolean(process.env.CI);
 const stubPort = Number(process.env.E2E_STRAPI_STUB_PORT ?? 1338);
 const stubUrl = `http://127.0.0.1:${stubPort}`;
-const strapiUrl = process.env.STRAPI_URL ?? stubUrl;
+// Always test against the co-located stub. An ambient STRAPI_URL (e.g. from
+// the repo-root .env, which points at a dev CMS that may not be running)
+// would render every seed-content page "temporarily unavailable".
+const strapiUrl = stubUrl;
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -38,13 +41,19 @@ export default defineConfig({
     {
       command: `E2E_STRAPI_STUB_PORT=${stubPort} bun run tests/e2e/strapi-stub.ts`,
       url: `${stubUrl}/api/site-setting`,
-      reuseExistingServer: !isContinuousIntegration,
+      // Never reuse: a stray stub serves outdated seed content and the
+      // failure looks like a content regression instead of a setup issue.
+      reuseExistingServer: false,
       timeout: 30_000,
     },
     {
-      command: `CONTENT_SOURCE=strapi STRAPI_URL=${strapiUrl} bun run preview -- --host 127.0.0.1 --port 4173`,
+      command: `CONTENT_SOURCE=strapi STRAPI_URL=${strapiUrl} bun run preview -- --host 127.0.0.1 --port 4173 --strictPort`,
       url: 'http://127.0.0.1:4173',
-      reuseExistingServer: !isContinuousIntegration,
+      // Never reuse: a preview started without the e2e env serves different
+      // content and fails the seed-content assertions. strictPort turns a
+      // port collision into a loud startup error instead of silently testing
+      // the wrong server.
+      reuseExistingServer: false,
       timeout: 120_000,
     },
   ],

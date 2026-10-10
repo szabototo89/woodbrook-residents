@@ -16,7 +16,7 @@
     "preview": "vite preview",
     "test:unit": "vitest run --coverage src --exclude 'src/**/*.browser.test.tsx'",
     "test:browser": "vitest run --config vitest.browser.config.ts",
-    "test:e2e": "bun run build && playwright test",
+    "test:e2e": "VITE_PUBLIC_SITE_URL=https://woodbrook.shankill.workers.dev bun run build && playwright test",
     "test:lighthouse": "bun scripts/lighthouse.ts",
     "typecheck": "tsc --noEmit",
     "verify:static": "bun scripts/verify-static-build.ts"
