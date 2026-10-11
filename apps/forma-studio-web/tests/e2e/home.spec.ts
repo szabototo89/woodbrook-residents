@@ -107,16 +107,14 @@ test('keyboard users can skip navigation and operate FAQs', async ({
   await expect(page.getByText(/Choose the support/)).toBeVisible();
 });
 
-test('generated branding and hero note remain transparent and fit the laptop image', async ({
+test('branding fits and the hero note is readable against a solid background', async ({
   page,
 }) => {
   await page.goto('/');
   const logo = page
     .getByRole('link', { name: 'Forma Studio home' })
     .locator('img');
-  const note = page.getByRole('img', {
-    name: 'Websites that work for real businesses.',
-  });
+  const note = page.getByText('Websites that work for real businesses.');
   await expect(logo).toBeVisible();
   const logoRatios = await logo.evaluate((image: HTMLImageElement) => ({
     reserved:
@@ -133,14 +131,20 @@ test('generated branding and hero note remain transparent and fit the laptop ima
   const noteBounds = await note.boundingBox();
   expect(heroBounds).not.toBeNull();
   expect(noteBounds).not.toBeNull();
-  expect(noteBounds!.width).toBeLessThan(heroBounds!.width / 3);
+  expect(noteBounds!.width).toBeLessThan(heroBounds!.width * 0.6);
   expect(noteBounds!.height).toBeLessThan(heroBounds!.height * 0.7);
   expect(noteBounds!.x + noteBounds!.width).toBeLessThanOrEqual(
     heroBounds!.x + heroBounds!.width,
   );
-  expect(
-    await note.evaluate((image) => getComputedStyle(image).backgroundColor),
-  ).toBe('rgba(0, 0, 0, 0)');
+  const noteStyle = await note.evaluate((element) => ({
+    background: getComputedStyle(element).backgroundColor,
+    color: getComputedStyle(element).color,
+    fontSize: parseFloat(getComputedStyle(element).fontSize),
+  }));
+  expect(noteStyle.background).toBe('rgb(250, 248, 241)');
+  expect(noteStyle.color).toBe('rgb(29, 64, 45)');
+  expect(noteStyle.fontSize).toBeGreaterThanOrEqual(14);
+  expect(noteBounds!.y).toBeGreaterThanOrEqual(heroBounds!.y);
 });
 
 test('blog route is prerendered and the menu navigates between the home and guides', async ({
@@ -313,4 +317,57 @@ test('content and controls remain readable at tablet and small phone widths', as
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+});
+
+test('the project preview fills the card above a compact summary', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const work = page.getByRole('region', { name: 'A website in the wild' });
+  await work.scrollIntoViewIfNeeded();
+  const preview = work.getByRole('img', {
+    name: /Laura Faichney’s live website/i,
+  });
+  const card = await work.getByRole('article').boundingBox();
+  const image = await preview.boundingBox();
+  const title = await work
+    .getByRole('heading', {
+      name: 'Laura Faichney · All Things Art',
+    })
+    .boundingBox();
+  expect(image!.width).toBeGreaterThanOrEqual(card!.width - 2);
+  expect(image!.height / image!.width).toBeCloseTo(540 / 1440, 2);
+  expect(image!.y + image!.height).toBeLessThanOrEqual(title!.y);
+  const link = work.getByRole('link', {
+    name: 'Preview Laura Faichney’s live website',
+  });
+  await link.focus();
+  await expect(link).toBeFocused();
+  await expect(link).toHaveAttribute(
+    'href',
+    'https://laura-faichney-all-things-art.pages.dev',
+  );
+});
+
+test('the hero note stays compact and its text fits on the smallest phones', async ({
+  page,
+}) => {
+  for (const width of [320, 360]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto('/');
+    const note = page.getByText('Websites that work for real businesses.');
+    const photo = await page
+      .getByRole('img', { name: /laptop displaying Laura Faichney/i })
+      .boundingBox();
+    const bounds = await note.boundingBox();
+    expect(bounds!.height).toBeLessThanOrEqual(photo!.height * 0.4);
+    const text = await note.evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      const bounds = range.getBoundingClientRect();
+      return { left: bounds.left, right: bounds.right };
+    });
+    expect(text.left).toBeGreaterThanOrEqual(bounds!.x);
+    expect(text.right).toBeLessThanOrEqual(bounds!.x + bounds!.width);
+  }
 });

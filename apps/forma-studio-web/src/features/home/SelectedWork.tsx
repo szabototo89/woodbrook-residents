@@ -14,36 +14,46 @@ export function SelectedWork() {
         </div>
         <p>Explore the experience for yourself</p>
       </div>
-      <article className="work-card panel">
-        <img
-          src="/images/laura-project.jpg"
-          width={1440}
-          height={540}
-          loading="lazy"
-          alt="Laura Faichney’s live website, with its artwork hero and service introduction"
-        />
+      <article className="work-card">
+        <a
+          className="work-preview"
+          href="https://laura-faichney-all-things-art.pages.dev"
+          aria-label="Preview Laura Faichney’s live website"
+        >
+          <div className="work-preview-bar" aria-hidden="true">
+            <span className="work-window-dots">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span>All Things Art</span>
+            <ArrowUpRight size={15} />
+          </div>
+          <img
+            src="/images/laura-project.jpg"
+            width={1440}
+            height={540}
+            loading="lazy"
+            alt="Laura Faichney’s live website, with its artwork hero and service introduction"
+          />
+        </a>
         <div className="work-copy">
-          <p className="eyebrow">Artist website</p>
-          <h3>Laura Faichney · All Things Art</h3>
-          <p>
-            A colourful home for an artist’s work, with artwork collections,
-            service details and a direct enquiry path.
-          </p>
-          <ul className="work-tags" aria-label="Website features">
-            <li>Artwork gallery</li>
-            <li>Service information</li>
-            <li>Mobile layouts</li>
-          </ul>
-          <a
-            className="text-link"
-            href="https://laura-faichney-all-things-art.pages.dev"
-          >
-            Visit the website <ArrowUpRight size={17} aria-hidden="true" />
-          </a>
-          <p className="work-note">
-            Website preview captured October 2026. Explore the live site for the
-            latest work.
-          </p>
+          <div>
+            <p className="eyebrow">Artist website</p>
+            <h3>Laura Faichney · All Things Art</h3>
+          </div>
+          <div className="work-summary">
+            <p>
+              An art-filled website with a gallery, clear service details and an
+              easy way to enquire.
+            </p>
+            <a
+              className="text-link"
+              href="https://laura-faichney-all-things-art.pages.dev"
+            >
+              Visit the website <ArrowUpRight size={17} aria-hidden="true" />
+            </a>
+          </div>
         </div>
       </article>
     </section>

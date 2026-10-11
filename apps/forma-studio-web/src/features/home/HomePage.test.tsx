@@ -132,7 +132,7 @@ test('prospects can inspect real work without fictional social proof', () => {
   ).toHaveAttribute('href', 'https://laura-faichney-all-things-art.pages.dev');
   expect(
     within(work).getByText(
-      /artwork collections, service details and a direct enquiry path/i,
+      /gallery, clear service details and an easy way to enquire/i,
     ),
   ).toBeVisible();
   expect(
@@ -195,7 +195,7 @@ test('collapsed FAQs retain a valid controlled panel and answers stay hidden', a
   expect(panel).not.toBeVisible();
 });
 
-test('homepage uses the generated logo and handwritten hero annotation as image assets', () => {
+test('homepage uses its logo and a readable text annotation over the hero', () => {
   render(<HomePage />);
   const brand = screen.getByRole('link', { name: 'Forma Studio home' });
   expect(brand.querySelector('img')).toHaveAttribute(
@@ -207,10 +207,8 @@ test('homepage uses the generated logo and handwritten hero annotation as image 
     screen.getByText('Forma Studio · Websites for local businesses'),
   ).toBeVisible();
   expect(
-    screen.getByRole('img', {
-      name: 'Websites that work for real businesses.',
-    }),
-  ).toHaveAttribute('src', '/images/handwritten-hero-note.webp');
+    screen.getByText('Websites that work for real businesses.'),
+  ).toBeVisible();
 });
 
 test('hero showcases Laura Faichney’s homepage with truthful project credit', () => {
@@ -261,4 +259,20 @@ test('Escape dismisses an open menu when focus is outside the header', async () 
   await user.keyboard('{Escape}');
   expect(toggle).toHaveAttribute('aria-expanded', 'false');
   expect(toggle).toHaveFocus();
+});
+
+test('the project preview itself opens the live website', () => {
+  render(<HomePage />);
+  const preview = screen.getByRole('link', {
+    name: 'Preview Laura Faichney’s live website',
+  });
+  expect(preview).toHaveAttribute(
+    'href',
+    'https://laura-faichney-all-things-art.pages.dev',
+  );
+  expect(
+    within(preview).getByRole('img', {
+      name: /Laura Faichney’s live website/i,
+    }),
+  ).toBeVisible();
 });

@@ -12,7 +12,7 @@ As a small business owner, understand Forma Studio's digital services, compare s
 - Services, Work, How we work and Contact navigation points to homepage sections. Service disclosures explain deliverables. The hero and package actions point to the contact panel; its email action opens the visitor's email client with an editable project brief.
 - Mobile navigation opens and closes, including after selecting a section. FAQ buttons expose one answer at a time and support keyboard interaction.
 - A skip link, semantic landmarks, visible focus, descriptive image text and reduced-motion styling support accessible use.
-- A generated transparent logo and handwritten annotation accompany a cafe mockup showing Laura Faichney’s actual homepage. The cafe imagery is labelled illustrative; the portfolio shows the real website and customer enquiries use the approved address.
+- A generated transparent logo and a readable text note on a solid cream background accompany a cafe mockup showing Laura Faichney’s actual homepage. The cafe imagery is labelled illustrative; the portfolio shows the real website and customer enquiries use the approved address.
 
 - The header presents the generated Forma Studio logo with a matching favicon; page titles, journal, footer and illustrative copy use the same brand. The longer wordmark remains readable with usable navigation on narrow phones.
 

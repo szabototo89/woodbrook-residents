@@ -10,7 +10,7 @@ As a prospective small-business customer, learn what Forma Studio can help with,
 
 - A concise hero explains web design, local SEO and enquiry tools. Its primary action reaches contact; its secondary action reaches a dedicated work section.
 - Each service exposes proposed deliverables through a keyboard-operable disclosure.
-- Selected work shows an actual capture of Laura Faichney's website, describes observable capabilities and links to the live site. The separate café hero is labelled as an illustrative mockup.
+- Selected work gives an actual capture of Laura Faichney's website the full card width, with a concise project summary underneath. Both the preview and the text action open the live site. The separate café hero is labelled as an illustrative mockup and its message uses crisp text on a solid cream background.
 - Every package offers a named discussion action. Starting prices are qualified by a final scope, hosting and ongoing-cost quote; the highlighted plan makes no popularity claim.
 - “How we work” covers scope and quote, design feedback, launch and handover. A preparation panel explains what the visitor can bring.
 - Email actions use the user-approved `szabototo89@gmail.com`, with an editable project brief. The address is visible for visitors who prefer to copy it. Nothing is sent automatically.
@@ -19,7 +19,8 @@ As a prospective small-business customer, learn what Forma Studio can help with,
 
 ## Acceptance criteria
 
-- Work links reveal a real portfolio section and a working live destination.
+- Work links reveal a real portfolio section and a working live destination. The uncropped preview fills the card above its summary on desktop and phones.
+- The hero annotation is real text at least 14px, with dark green lettering on a solid cream background, contained within the photograph.
 - Service details expand and collapse without navigating away.
 - Each package leads to the contact panel.
 - Email links address the approved inbox and include a project subject and editable brief.
@@ -49,3 +50,13 @@ Verified on 2026-10-11:
 Lighthouse results describe the local production preview, not field performance. See [the UX review](../reviews/forma-studio-ux-review.md) for findings, sources and follow-up decisions.
 
 Further phone layout and WebKit verification are documented in [Forma Studio mobile design](forma-studio-mobile-design.md).
+
+### Portfolio and hero presentation follow-up
+
+Verified on 2026-10-11 after visual feedback:
+
+- Replaced the padded split project card with a full-width, uncropped website preview and a compact summary underneath. The image itself is a keyboard-focusable live-site link. Removed redundant feature pills and the dated preview note; capture provenance remains in the app README.
+- Replaced the handwritten raster annotation with 16px desktop / 14px phone HTML text on a solid cream note. The phone note uses two lines to reduce obstruction of the photograph.
+- The new preview layout, readable annotation and narrow-phone text-containment tests were observed failing before implementation. All 21 component/configuration tests pass with 100% coverage; 47 browser checks pass, with seven phone-only cases skipped on desktop.
+- High-resolution Playwright captures were inspected at 1440px desktop, 390px mobile WebKit and 320px mobile Chromium, covering both the hero and selected work.
+- The repository build and full pre-commit quality checks pass. Changes are local; no deployment is included.

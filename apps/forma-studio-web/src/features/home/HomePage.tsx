@@ -51,13 +51,7 @@ export function HomePage() {
               alt="Laptop displaying Laura Faichney’s homepage in a warm, plant-filled café"
               fetchPriority="high"
             />
-            <img
-              className="hero-note"
-              src="/images/handwritten-hero-note.webp"
-              width={400}
-              height={596}
-              alt="Websites that work for real businesses."
-            />
+            <p className="hero-note">Websites that work for real businesses.</p>
             <figcaption>
               Laura Faichney website · Illustrative café mockup
             </figcaption>

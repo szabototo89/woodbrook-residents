@@ -43,7 +43,7 @@ Images are generated with the built-in imagegen tool, then resized and encoded t
 - Logo: exact “Forma Studio” horizontal wordmark, with Forma slightly heavier than Studio, a geometric F assembled from solid forest-green and sage forms, and modern rounded sans-serif typography on a genuinely transparent background; no leaf, panel, slogan, shadow or watermark.
 - Portrait: a fictional smiling cafe owner, brown shoulder-length hair, cream shirt and taupe apron, warm cafe and green plants, soft daylight, editorial portrait; no text or watermark.
 
-The generated logo and annotation preserve transparency. Final assets: `public/images/forma-studio-logo.webp` (720 × 113; approximately 20 KB), `public/images/handwritten-hero-note.webp`, `public/images/laura-website-640.webp`, `public/images/laura-website-1200.webp`, and `public/images/illustrative-owner.webp`.
+The generated logo preserves transparency. The hero annotation is HTML text on a solid cream background for readability. Its earlier handwritten asset is retained but is no longer rendered. Image assets: `public/images/forma-studio-logo.webp` (720 × 113; approximately 20 KB), `public/images/handwritten-hero-note.webp`, `public/images/laura-website-640.webp`, `public/images/laura-website-1200.webp`, and `public/images/illustrative-owner.webp`.
 
 The matching `public/favicon.png` is a 64 × 64 crop of the generated F mark. The previous Locale logo and favicon are superseded. Assets are local under `public/images` and require no remote image service.
 
