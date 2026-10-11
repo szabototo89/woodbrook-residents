@@ -12,31 +12,56 @@ export const services = [
     title: 'Website Design',
     icon: Laptop,
     description:
-      'Modern, mobile-friendly websites that look great and convert visitors into customers.',
+      'A clear, mobile-friendly home for your business, with an easy path from browsing to getting in touch.',
+    includes: [
+      'Responsive page layouts',
+      'Service and contact pages',
+      'A clear enquiry journey',
+    ],
   },
   {
     title: 'Local SEO',
     icon: Search,
     description:
-      'Get found on Google by local customers searching for your services.',
+      'Help nearby customers understand what you offer and where you work when they search online.',
+    includes: [
+      'Page titles and descriptions',
+      'Local service and location copy',
+      'Search-friendly page structure',
+    ],
   },
   {
     title: 'Booking & Enquiries',
     icon: CalendarDays,
     description:
-      'Simple booking systems and enquiry forms to make it easy for customers to get in touch.',
+      'Give visitors a simple way to ask a question or take the next step with your business.',
+    includes: [
+      'Enquiry forms or booking links',
+      'Clear calls to action',
+      'A mobile-friendly contact journey',
+    ],
   },
   {
     title: 'Content Updates',
     icon: NotebookPen,
     description:
-      'Keep your website fresh with easy updates whenever you need a helping hand.',
+      'Keep your services, photos and business details current without starting from scratch.',
+    includes: [
+      'Copy and image changes',
+      'Service and business detail updates',
+      'Help with routine content edits',
+    ],
   },
   {
     title: 'Ongoing Support',
     icon: MessageCircle,
     description:
-      'Friendly, reliable support to keep everything running smoothly as your business grows.',
+      'Get help with your website after launch, with the scope and cost agreed around your needs.',
+    includes: [
+      'Website troubleshooting',
+      'Advice on improvements',
+      'An agreed support plan',
+    ],
   },
 ];
 export const packages = [
@@ -78,16 +103,19 @@ export const packages = [
 ];
 export const steps = [
   {
-    title: 'Chat about your goals',
-    description: 'We learn about your business and what you need.',
+    title: 'Plan your website',
+    description:
+      'Tell us about your business, audience and goals. Together we agree the pages, scope, quote and timeline.',
   },
   {
-    title: 'Design & build',
-    description: 'We create a modern website and set up the essentials.',
+    title: 'Design, build & review',
+    description:
+      'We shape the design around your content. You review it and share feedback before we prepare it for launch.',
   },
   {
-    title: 'Grow together',
-    description: 'Ongoing support, updates and advice when you need it.',
+    title: 'Launch & hand over',
+    description:
+      'We check the website on mobile and desktop, publish it and explain how to keep it current. Support is agreed separately.',
   },
 ];
 export const faqs = [
@@ -107,3 +135,6 @@ export const faqs = [
       'Choose the support that suits your business, from occasional content updates to an ongoing plan. We agree the scope and cost with you first.',
   },
 ];
+
+export const enquiryEmail = 'szabototo89@gmail.com';
+export const enquiryHref = `mailto:${enquiryEmail}?subject=${encodeURIComponent('Website project enquiry')}&body=${encodeURIComponent('Business name: \nCurrent website (if any): \nWhat you need: \nIdeal timing: ')}`;

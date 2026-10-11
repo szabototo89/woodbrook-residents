@@ -6,11 +6,11 @@ test('home page serves complete prerendered content and working section links', 
   request,
 }) => {
   const html = readFileSync('dist/client/index.html', 'utf8');
-  expect(html).toContain('Simple digital');
+  expect(html).toContain('Websites that help');
   expect(html).toContain('Frequently asked questions');
   const response = await request.get('/');
   expect(response.ok()).toBeTruthy();
-  expect(await response.text()).toContain('Simple digital');
+  expect(await response.text()).toContain('Websites that help');
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
@@ -21,8 +21,13 @@ test('home page serves complete prerendered content and working section links', 
     'href',
     '/favicon.png',
   );
+  await expect(
+    page.getByRole('heading', {
+      name: 'Choose a package that suits your goals.',
+    }),
+  ).toBeVisible();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Simple digital services for local businesses.',
+    'Websites that help local businesses grow.',
   );
   await page.getByRole('link', { name: 'See Our Work' }).click();
   await expect(page).toHaveURL(/#work$/);
@@ -247,4 +252,62 @@ test('blog category labels have accessible text contrast', async ({ page }) => {
     });
   expect(ratios).toHaveLength(3);
   ratios.map((ratio) => expect(ratio).toBeGreaterThanOrEqual(4.5));
+});
+
+test('work navigation reveals a project and service details are usable', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: 'See Our Work' }).click();
+  const work = page.getByRole('region', { name: 'A website in the wild' });
+  await expect(work).toBeInViewport();
+  await expect(
+    work.getByRole('link', { name: /visit the website/i }),
+  ).toBeVisible();
+  const seo = page.getByRole('heading', { name: 'Local SEO' }).locator('..');
+  await seo.locator('summary').click();
+  await expect(seo.getByText('Page titles and descriptions')).toBeVisible();
+  await page.getByRole('link', { name: 'Discuss Growth', exact: true }).click();
+  await expect(
+    page.getByText(/your business, what you need and your ideal timing/i),
+  ).toBeVisible();
+});
+
+test('content and controls remain readable at tablet and small phone widths', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.goto('/');
+  const paragraphs = page.locator(
+    '.service-card p, .package-card li, .process-grid p',
+  );
+  expect(
+    await paragraphs.evaluateAll((nodes) =>
+      nodes.every((node) => parseFloat(getComputedStyle(node).fontSize) >= 14),
+    ),
+  ).toBe(true);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.setViewportSize({ width: 320, height: 800 });
+  expect(
+    await page
+      .getByRole('heading', { name: 'Choose a package that suits your goals.' })
+      .innerText(),
+  ).toContain('package that');
+  await expect(
+    page.getByRole('button', { name: 'Open navigation' }),
+  ).toBeVisible();
+  const toggle = await page
+    .getByRole('button', { name: 'Open navigation' })
+    .boundingBox();
+  expect(toggle!.height).toBeGreaterThanOrEqual(44);
+  expect(toggle!.width).toBeGreaterThanOrEqual(44);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
 });

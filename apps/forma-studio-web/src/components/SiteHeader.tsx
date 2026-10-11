@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 
 const sections = [
   { name: 'Services', href: '#services' },
   { name: 'Work', href: '#work' },
-  { name: 'About', href: '#about' },
+  { name: 'How we work', href: '#about' },
   { name: 'Blog', href: '/blog' },
   { name: 'Contact', href: '#contact' },
 ];
@@ -14,8 +14,17 @@ export function SiteHeader(props: { page?: 'home' | 'blog' }) {
   const sectionHref = (href: string) =>
     href.startsWith('#') ? `${homePrefix}${href}` : href;
   const [open, setOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   return (
-    <header className="site-header">
+    <header
+      className="site-header"
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && open) {
+          setOpen(false);
+          toggleRef.current?.focus();
+        }
+      }}
+    >
       <a
         className="brand"
         href={props.page === 'blog' ? '/' : '#main-content'}
@@ -30,6 +39,7 @@ export function SiteHeader(props: { page?: 'home' | 'blog' }) {
       </a>
       <button
         className="menu-toggle"
+        ref={toggleRef}
         type="button"
         aria-label={open ? 'Close navigation' : 'Open navigation'}
         aria-expanded={open}
@@ -59,7 +69,7 @@ export function SiteHeader(props: { page?: 'home' | 'blog' }) {
         ))}
       </nav>
       <a className="button header-cta" href={sectionHref('#contact')}>
-        Get Started <ArrowRight aria-hidden="true" size={16} />
+        Let’s talk <ArrowRight aria-hidden="true" size={16} />
       </a>
     </header>
   );

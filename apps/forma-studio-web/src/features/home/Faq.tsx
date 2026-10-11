@@ -8,9 +8,6 @@ export function Faq() {
     <section className="faq-card" id="faqs" aria-labelledby="faq-title">
       <div className="faq-heading">
         <h2 id="faq-title">Frequently asked questions</h2>
-        <a href="#faqs">
-          View all FAQs <span aria-hidden="true">→</span>
-        </a>
       </div>
       {faqs.map((faq, index) => (
         <div className="faq-item" key={faq.question}>

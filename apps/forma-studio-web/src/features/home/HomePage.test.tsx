@@ -8,7 +8,7 @@ test('homepage presents the reference services, packages, and process', () => {
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: 'Simple digital services for local businesses.',
+      name: 'Websites that help local businesses grow.',
     }),
   ).toBeVisible();
   [
@@ -26,11 +26,11 @@ test('homepage presents the reference services, packages, and process', () => {
     'From £995',
     'From £1,495',
     'From £1,995',
-    'Chat about your goals',
-    'Design & build',
-    'Grow together',
+    'Plan your website',
+    'Design, build & review',
+    'Launch & hand over',
   ].map((copy) => expect(screen.getByText(copy)).toBeVisible());
-  expect(screen.getByText('Most Popular')).toBeVisible();
+  expect(screen.getByText('Website + local SEO')).toBeVisible();
   expect(
     screen.getByRole('img', { name: /laptop displaying/i }),
   ).toHaveAttribute('fetchpriority', 'high');
@@ -39,25 +39,35 @@ test('homepage presents the reference services, packages, and process', () => {
 test('homepage links lead to in-page sections and contact has a useful next step', () => {
   render(<HomePage />);
   const nav = screen.getByRole('navigation', { name: 'Main navigation' });
-  ['Services', 'Work', 'About', 'Contact'].map((name) => {
+  ['Services', 'Work', 'How we work', 'Contact'].map((name) => {
     const link = within(nav).getByRole('link', { name });
     const href = link.getAttribute('href');
     expect(href).toMatch(/^#/);
     expect(document.querySelector(href!)).toBeInTheDocument();
   });
   screen
-    .getAllByRole('link', { name: /get started/i })
+    .getAllByRole('link', { name: /discuss your project/i })
     .map((link) => expect(link).toHaveAttribute('href', '#contact'));
   expect(screen.getByRole('link', { name: 'See Our Work' })).toHaveAttribute(
     'href',
     '#work',
   );
-  expect(screen.getAllByRole('link', { name: /learn more/i })).toHaveLength(5);
-  expect(screen.getByRole('link', { name: /email us/i })).toHaveAttribute(
-    'href',
-    'mailto:hello@forma.example',
+  expect(
+    screen.getAllByText('What’s included', { selector: 'summary' }),
+  ).toHaveLength(5);
+  const enquiry = new URL(
+    screen.getByRole('link', { name: /email us/i }).getAttribute('href')!,
   );
-  expect(screen.getByText(/illustrative testimonial/i)).toBeVisible();
+  expect(enquiry.protocol).toBe('mailto:');
+  expect(enquiry.pathname).toBe('szabototo89@gmail.com');
+  expect(enquiry.searchParams.get('subject')).toBe('Website project enquiry');
+  expect(enquiry.searchParams.get('body')).toContain('What you need:');
+  expect(
+    screen.getByRole('link', { name: 'szabototo89@gmail.com' }),
+  ).toHaveAttribute('href', enquiry.href);
+  expect(
+    screen.getByText(/your business, what you need and your ideal timing/i),
+  ).toBeVisible();
 });
 
 test('FAQ buttons disclose answers and can close again with keyboard', async () => {
@@ -105,17 +115,67 @@ test('mobile menu is labelled, opens, and closes when a section is selected', as
   expect(toggle).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('testimonial stars have an accessible role and the illustrative portrait is decorative', () => {
+test('prospects can inspect real work without fictional social proof', () => {
   render(<HomePage />);
+  const work = screen.getByRole('region', { name: 'A website in the wild' });
   expect(
-    screen.getByRole('img', { name: 'Illustrative five-star rating' }),
+    within(work).getByRole('img', { name: /Laura Faichney’s live website/i }),
+  ).toHaveAttribute('src', '/images/laura-project.jpg');
+  expect(work).toHaveAttribute('id', 'work');
+  expect(
+    within(work).getByRole('heading', {
+      name: 'Laura Faichney · All Things Art',
+    }),
   ).toBeVisible();
-  const testimonial = screen.getByRole('region', {
-    name: 'Illustrative testimonial',
+  expect(
+    within(work).getByRole('link', { name: /visit the website/i }),
+  ).toHaveAttribute('href', 'https://laura-faichney-all-things-art.pages.dev');
+  expect(
+    within(work).getByText(
+      /artwork collections, service details and a direct enquiry path/i,
+    ),
+  ).toBeVisible();
+  expect(
+    screen.queryByRole('region', { name: 'Illustrative testimonial' }),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.getByRole('heading', {
+      name: 'What to bring to our first conversation',
+    }),
+  ).toBeVisible();
+});
+
+test('service details explain deliverables and packages have a next step', async () => {
+  const user = userEvent.setup();
+  render(<HomePage />);
+  const card = screen
+    .getByRole('heading', { name: 'Local SEO' })
+    .closest('article')!;
+  const details = within(card).getByText('What’s included', {
+    selector: 'summary',
   });
-  const portrait = testimonial.querySelector('img');
-  expect(portrait).toHaveAttribute('alt', '');
-  expect(portrait).toHaveAttribute('loading', 'lazy');
+  expect(
+    within(card).getByText('Page titles and descriptions'),
+  ).not.toBeVisible();
+  await user.click(details);
+  expect(within(card).getByText('Page titles and descriptions')).toBeVisible();
+  await user.click(details);
+  expect(
+    within(card).getByText('Page titles and descriptions'),
+  ).not.toBeVisible();
+  ['Essentials', 'Growth', 'Complete'].map((name) => {
+    expect(
+      screen.getByRole('link', { name: `Discuss ${name}` }),
+    ).toHaveAttribute('href', '#contact');
+  });
+  expect(
+    screen.getByText(
+      /final quote confirms scope, hosting and any ongoing costs/i,
+    ),
+  ).toBeVisible();
+  expect(
+    screen.queryByRole('link', { name: /view all faqs/i }),
+  ).not.toBeInTheDocument();
 });
 
 test('collapsed FAQs retain a valid controlled panel and answers stay hidden', async () => {
@@ -163,7 +223,9 @@ test('hero showcases Laura Faichney’s homepage with truthful project credit', 
     'srcset',
     expect.stringContaining('/images/laura-website-640.webp 640w'),
   );
-  expect(screen.getByText('Laura Faichney · All Things Art')).toBeVisible();
+  expect(
+    screen.getByRole('heading', { name: 'Laura Faichney · All Things Art' }),
+  ).toBeVisible();
   expect(
     screen.queryByText('Illustrative website concept · The Gathered Table'),
   ).not.toBeInTheDocument();
@@ -176,4 +238,15 @@ test('homepage main navigation includes the blog subpage', () => {
     'href',
     '/blog',
   );
+});
+
+test('Escape dismisses mobile navigation and returns focus to its control', async () => {
+  const user = userEvent.setup();
+  render(<HomePage />);
+  const toggle = screen.getByRole('button', { name: 'Open navigation' });
+  await user.click(toggle);
+  await user.tab();
+  await user.keyboard('{Escape}');
+  expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  expect(toggle).toHaveFocus();
 });

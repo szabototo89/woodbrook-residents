@@ -1,7 +1,14 @@
-import { ArrowRight, Check, Leaf, Quote, Star } from 'lucide-react';
+import { ArrowRight, Check, Leaf } from 'lucide-react';
 import { SiteHeader } from '../../components/SiteHeader';
 import { Faq } from './Faq';
-import { packages, services, steps } from './homeContent';
+import { SelectedWork } from './SelectedWork';
+import {
+  enquiryEmail,
+  enquiryHref,
+  packages,
+  services,
+  steps,
+} from './homeContent';
 
 export function HomePage() {
   return (
@@ -13,27 +20,27 @@ export function HomePage() {
       <main id="main-content" tabIndex={-1}>
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow">Our services</p>
+            <p className="eyebrow">Web design & digital support</p>
             <h1 id="hero-title">
-              Simple digital
-              <br className="desktop-break" /> services for
-              <br className="desktop-break" /> local businesses.
+              Websites that help
+              <br className="desktop-break" /> local businesses
+              <br className="desktop-break" /> grow.
             </h1>
             <div className="handdrawn-line" aria-hidden="true" />
             <p className="hero-description">
-              Modern websites, local SEO and easy-to-use tools to help you get
-              found, look professional and attract more customers.
+              Web design, local SEO and simple enquiry tools. Help customers
+              find your business, understand your services and get in touch.
             </p>
             <div className="hero-actions">
               <a className="button" href="#contact">
-                Get Started <ArrowRight size={18} aria-hidden="true" />
+                Discuss your project <ArrowRight size={18} aria-hidden="true" />
               </a>
               <a className="text-link" href="#work">
                 See Our Work
               </a>
             </div>
           </div>
-          <figure className="hero-visual" id="work">
+          <figure className="hero-visual">
             <img
               src="/images/laura-website-1200.webp"
               srcSet="/images/laura-website-640.webp 640w, /images/laura-website-1200.webp 1200w"
@@ -51,7 +58,9 @@ export function HomePage() {
               height={596}
               alt="Websites that work for real businesses."
             />
-            <figcaption>Laura Faichney · All Things Art</figcaption>
+            <figcaption>
+              Laura Faichney website · Illustrative café mockup
+            </figcaption>
           </figure>
         </section>
         <section
@@ -78,17 +87,19 @@ export function HomePage() {
                 </div>
                 <h3>{service.title}</h3>
                 <p>{service.description}</p>
-                <a
-                  className="text-link"
-                  href="#packages"
-                  aria-label={`Learn more about ${service.title}`}
-                >
-                  Learn more <ArrowRight size={14} aria-hidden="true" />
-                </a>
+                <details className="service-details">
+                  <summary>What’s included</summary>
+                  <ul>
+                    {service.includes.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </details>
               </article>
             ))}
           </div>
         </section>
+        <SelectedWork />
         <section
           className="packages panel"
           id="packages"
@@ -97,13 +108,12 @@ export function HomePage() {
           <div className="packages-intro">
             <p className="eyebrow">Packages</p>
             <h2 id="packages-title">
-              Choose a package
-              <br />
+              Choose a package <br />
               that suits your goals.
             </h2>
             <p>
-              Simple, transparent options designed for small businesses. No
-              hidden fees.
+              Starting points for your project. Your final quote confirms scope,
+              hosting and any ongoing costs before work begins.
             </p>
             <Leaf className="accent-leaf" size={42} aria-hidden="true" />
           </div>
@@ -116,7 +126,7 @@ export function HomePage() {
                 key={plan.title}
               >
                 {plan.popular && (
-                  <span className="popular-badge">Most Popular</span>
+                  <span className="popular-badge">Website + local SEO</span>
                 )}
                 <h3>{plan.title}</h3>
                 <p>{plan.description}</p>
@@ -131,6 +141,10 @@ export function HomePage() {
                   ))}
                 </ul>
                 <p className="price">From {plan.price}</p>
+                <a className="text-link package-action" href="#contact">
+                  Discuss {plan.title}{' '}
+                  <ArrowRight size={16} aria-hidden="true" />
+                </a>
               </article>
             ))}
           </div>
@@ -164,51 +178,26 @@ export function HomePage() {
         </section>
         <div className="trust-grid">
           <section
-            className="testimonial panel"
-            aria-label="Illustrative testimonial"
+            className="project-preparation panel"
+            aria-labelledby="preparation-title"
           >
-            <img
-              className="testimonial-avatar"
-              src="/images/illustrative-owner.webp"
-              width={116}
-              height={116}
-              alt=""
-              loading="lazy"
-            />
-            <Quote
-              className="quote-icon"
-              fill="currentColor"
-              aria-hidden="true"
-            />
-            <div>
-              <blockquote>
-                “Forma Studio made the whole process so easy. Our new website
-                looks amazing and we’re getting more bookings already!”
-              </blockquote>
-              <div className="quote-credit">
-                <p>
-                  <strong>Sophie Bennett</strong>
-                  <span>The Gathered Table</span>
-                </p>
-                <span
-                  className="stars"
-                  role="img"
-                  aria-label="Illustrative five-star rating"
-                >
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      size={15}
-                      fill="currentColor"
-                      aria-hidden="true"
-                    />
-                  ))}
-                </span>
-              </div>
-              <p className="sample-label">
-                Illustrative testimonial from the design reference.
-              </p>
-            </div>
+            <p className="eyebrow">Let’s make a start</p>
+            <h2 id="preparation-title">
+              What to bring to our first conversation
+            </h2>
+            <p>
+              No finished brief needed. A few details help us understand your
+              project.
+            </p>
+            <ul>
+              <li>Your business and the customers you want to reach</li>
+              <li>Your current website, if you have one</li>
+              <li>What you want to improve and your ideal timing</li>
+            </ul>
+            <a className="text-link" href="#contact">
+              Tell us about your project{' '}
+              <ArrowRight size={16} aria-hidden="true" />
+            </a>
           </section>
           <Faq />
         </div>
@@ -226,21 +215,24 @@ export function HomePage() {
               Let’s build a stronger online presence for your business.
             </h2>
             <p>
-              Get a modern website and the tools you need to attract more local
-              customers.
+              Tell us about your business, what you need and your ideal timing.
+              We’ll discuss the scope and next steps with you.
             </p>
           </div>
           <div className="contact-action">
-            <a className="button" href="mailto:hello@forma.example">
+            <a className="button" href={enquiryHref}>
               Email us <ArrowRight size={16} aria-hidden="true" />
             </a>
-            <p>No obligation. Just a friendly chat.</p>
+            <a className="contact-email text-link" href={enquiryHref}>
+              {enquiryEmail}
+            </a>
+            <p>Opens your email app. No obligation.</p>
           </div>
         </section>
       </main>
       <footer className="site-footer">
         <span>Forma Studio · Websites for local businesses</span>
-        <span>Design preview · Contact address to be confirmed</span>
+        <span>Web design · Local SEO · Ongoing support</span>
       </footer>
     </div>
   );

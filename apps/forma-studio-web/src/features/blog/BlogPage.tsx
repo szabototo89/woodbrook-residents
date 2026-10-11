@@ -90,7 +90,7 @@ export function BlogPage() {
             </p>
           </div>
           <a className="button" href="/#contact">
-            Get Started <ArrowRight size={16} aria-hidden="true" />
+            Discuss your project <ArrowRight size={16} aria-hidden="true" />
           </a>
         </section>
       </main>
