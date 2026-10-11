@@ -19,3 +19,5 @@
 - [Forma Studio blog](forma-studio-blog.md) — Available
 
 - [Forma Studio customer journey](forma-studio-customer-journey.md) — Available
+
+- [Forma Studio mobile design](forma-studio-mobile-design.md) — Available

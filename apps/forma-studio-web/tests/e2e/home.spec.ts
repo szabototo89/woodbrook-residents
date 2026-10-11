@@ -56,6 +56,7 @@ test('home page serves complete prerendered content and working section links', 
 
 test('homepage stays within viewport and navigation works on narrow screens', async ({
   page,
+  isMobile,
 }) => {
   await page.goto('/');
   expect(
@@ -63,7 +64,7 @@ test('homepage stays within viewport and navigation works on narrow screens', as
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-  if (test.info().project.name === 'mobile') {
+  if (isMobile) {
     await page.getByRole('button', { name: 'Open navigation' }).click();
     await page
       .getByRole('navigation')
@@ -88,9 +89,10 @@ test('homepage stays within viewport and navigation works on narrow screens', as
 
 test('keyboard users can skip navigation and operate FAQs', async ({
   page,
+  browserName,
 }) => {
   await page.goto('/');
-  await page.keyboard.press('Tab');
+  await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab');
   await expect(
     page.getByRole('link', { name: 'Skip to content' }),
   ).toBeFocused();
@@ -143,12 +145,13 @@ test('generated branding and hero note remain transparent and fit the laptop ima
 
 test('blog route is prerendered and the menu navigates between the home and guides', async ({
   page,
+  isMobile,
 }) => {
   expect(readFileSync('dist/client/blog/index.html', 'utf8')).toContain(
     'A stronger online presence.',
   );
   await page.goto('/');
-  if (test.info().project.name === 'mobile')
+  if (isMobile)
     await page.getByRole('button', { name: 'Open navigation' }).click();
   await page
     .getByRole('navigation')
@@ -179,7 +182,7 @@ test('blog route is prerendered and the menu navigates between the home and guid
     path: `test-results/blog-${test.info().project.name}.png`,
     fullPage: true,
   });
-  if (test.info().project.name === 'mobile')
+  if (isMobile)
     await page.getByRole('button', { name: 'Open navigation' }).click();
   await page
     .getByRole('navigation')

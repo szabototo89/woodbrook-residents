@@ -250,3 +250,15 @@ test('Escape dismisses mobile navigation and returns focus to its control', asyn
   expect(toggle).toHaveAttribute('aria-expanded', 'false');
   expect(toggle).toHaveFocus();
 });
+
+test('Escape dismisses an open menu when focus is outside the header', async () => {
+  const user = userEvent.setup();
+  render(<HomePage />);
+  const toggle = screen.getByRole('button', { name: 'Open navigation' });
+  await user.click(toggle);
+  await user.click(screen.getByRole('heading', { level: 1 }));
+  expect(toggle).not.toHaveFocus();
+  await user.keyboard('{Escape}');
+  expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  expect(toggle).toHaveFocus();
+});

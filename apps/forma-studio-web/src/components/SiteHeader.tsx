@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 
 const sections = [
@@ -15,16 +15,18 @@ export function SiteHeader(props: { page?: 'home' | 'blog' }) {
     href.startsWith('#') ? `${homePrefix}${href}` : href;
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const dismissOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setOpen(false);
+      toggleRef.current?.focus();
+    };
+    document.addEventListener('keydown', dismissOnEscape);
+    return () => document.removeEventListener('keydown', dismissOnEscape);
+  }, [open]);
   return (
-    <header
-      className="site-header"
-      onKeyDown={(event) => {
-        if (event.key === 'Escape' && open) {
-          setOpen(false);
-          toggleRef.current?.focus();
-        }
-      }}
-    >
+    <header className="site-header">
       <a
         className="brand"
         href={props.page === 'blog' ? '/' : '#main-content'}

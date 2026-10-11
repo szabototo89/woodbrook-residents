@@ -783,7 +783,10 @@ main:focus {
     position: absolute;
     left: 0;
     right: 0;
-    top: 76px;
+    top: 100%;
+    max-height: calc(100dvh - 100%);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: #fff;
     padding: 12px 24px 20px;
     margin: 0;
@@ -802,11 +805,11 @@ main:focus {
     flex-direction: column;
   }
   .hero-copy {
-    padding: 32px 24px;
+    padding: 24px;
     width: 100%;
   }
   h1 {
-    font-size: clamp(38px, 7.5vw, 52px);
+    font-size: clamp(32px, 8.5vw, 48px);
     line-height: 1.08;
     letter-spacing: -1.5px;
   }
@@ -815,14 +818,22 @@ main:focus {
   }
   .handdrawn-line {
     max-width: 330px;
+    height: 14px;
+    margin-top: 12px;
+    margin-bottom: 6px;
   }
   .hero-description {
-    font-size: 17px;
+    font-size: 16px;
     max-width: 540px;
   }
   .hero-actions {
-    gap: 12px 20px;
-    margin-top: 22px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    margin-top: 20px;
+  }
+  .hero-actions .text-link {
+    justify-content: center;
   }
   .hero-visual {
     margin: 0 20px;
@@ -841,9 +852,13 @@ main:focus {
     width: 90px;
   }
   .hero-visual figcaption {
-    font-size: 10px;
-    left: 10px;
-    bottom: 10px;
+    position: static;
+    max-width: none;
+    background: transparent;
+    border-radius: 0;
+    padding: 10px 4px 0;
+    font-size: 12px;
+    line-height: 1.5;
   }
   .content-inset {
     padding-left: 24px;
@@ -872,7 +887,25 @@ main:focus {
     gap: 12px;
   }
   .service-card {
-    padding: 24px;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 14px;
+    padding: 20px;
+  }
+  .service-card .icon-circle {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 0;
+  }
+  .service-card h3 {
+    align-self: center;
+    margin-bottom: 0;
+    line-height: 1.25;
+  }
+  .service-card p,
+  .service-details {
+    grid-column: 1/-1;
+    margin: 0;
   }
   .work-card {
     grid-template-columns: 1fr;
@@ -968,11 +1001,6 @@ main:focus {
   }
   .header-cta {
     padding: 10px 12px;
-  }
-  .hero-actions {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
   }
   .hero-note {
     width: 76px;
@@ -1146,7 +1174,7 @@ main:focus {
     margin-bottom: 25px;
   }
   .blog-intro h1 {
-    font-size: 40px;
+    font-size: clamp(32px, 8.5vw, 40px);
   }
   .blog-intro > p:last-child {
     font-size: 16px;

@@ -16,7 +16,7 @@ bun run --cwd apps/forma-studio-web build
 bun run --cwd apps/forma-studio-web test:lighthouse --skip-build
 ```
 
-Development uses port 3005; production preview uses 4178. Install Playwright Chromium with `bun run --cwd apps/forma-studio-web playwright install chromium` if needed. Lighthouse uses installed Chrome, or `CHROME_PATH`.
+Development uses port 3005; production preview uses 4178. Install Playwright Chromium and WebKit with `bun run --cwd apps/forma-studio-web playwright install chromium webkit` if needed. Lighthouse uses installed Chrome, or `CHROME_PATH`.
 
 ## Stack and hosting
 
@@ -32,7 +32,7 @@ The currency and starting prices match the reference and remain draft commercial
 
 ## Verification
 
-Tests were written and observed failing before implementation. Behavioral component tests exercise copy, destinations, menu state, FAQ disclosure and keyboard interaction. Playwright checks the prerendered response, hydration without errors, real images, navigation, keyboard access and viewport overflow in desktop and mobile Chromium. The coverage gate requires at least 90% statements, branches, functions and lines for all homepage, blog and shared chrome code; routing boilerplate and build scripts are verified by type checks, production build and browser tests. Lighthouse gates the home page and blog in both mobile and desktop mode at 90 for performance, accessibility, best practices and SEO. Reports are written under `lighthouse-reports`; full raw audit files and screenshots are ignored, and the score summaries are retained.
+Tests were written and observed failing before implementation. Behavioral component tests exercise copy, destinations, menu state, FAQ disclosure and keyboard interaction. Playwright checks the prerendered response, hydration without errors, real images, navigation, keyboard access and viewport overflow in desktop Chromium, mobile Chromium and mobile WebKit. The coverage gate requires at least 90% statements, branches, functions and lines for all homepage, blog and shared chrome code; routing boilerplate and build scripts are verified by type checks, production build and browser tests. Lighthouse gates the home page and blog in both mobile and desktop mode at 90 for performance, accessibility, best practices and SEO. Reports are written under `lighthouse-reports`; full raw audit files and screenshots are ignored, and the score summaries are retained.
 
 ## Image provenance
 
@@ -50,3 +50,7 @@ The matching `public/favicon.png` is a 64 × 64 crop of the generated F mark. Th
 ## Customer journey review
 
 The homepage now has expandable service details, a dedicated selected-work section, package discussion links, clearer project stages and keyboard menu dismissal. The portfolio image `public/images/laura-project.jpg` is a Playwright capture of the live Laura homepage hero (1440 × 540), accessed on 2026-10-11. It excludes the temporary announcement immediately above the hero. The café hero remains an illustrative mockup. See [the researched critique](../../docs/reviews/forma-studio-ux-review.md) and [acceptance criteria](../../docs/features/forma-studio-customer-journey.md).
+
+## Mobile design verification
+
+The home and journal are verified in mobile Chromium and WebKit, including 320, 360, 375, 390 and 430px phones and a 640 × 320 landscape menu. Mobile actions, card alignment, horizontal containment, disclosures, contact destinations and keyboard dismissal are covered by observable browser checks. Desktop-only runs intentionally skip the phone matrix. See [mobile design behavior and acceptance criteria](../../docs/features/forma-studio-mobile-design.md).

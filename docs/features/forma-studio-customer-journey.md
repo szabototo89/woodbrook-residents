@@ -47,3 +47,5 @@ Verified on 2026-10-11:
 - The portfolio destination returned HTTP 200; the actual project hero was captured for the local preview asset. Email destination and prefilled content were verified without sending a message.
 
 Lighthouse results describe the local production preview, not field performance. See [the UX review](../reviews/forma-studio-ux-review.md) for findings, sources and follow-up decisions.
+
+Further phone layout and WebKit verification are documented in [Forma Studio mobile design](forma-studio-mobile-design.md).
