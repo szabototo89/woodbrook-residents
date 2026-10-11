@@ -8,11 +8,11 @@ As a small business owner, understand Forma Studio's digital services, compare s
 
 ## Visible behavior
 
-- A responsive single homepage follows the supplied Locale design: navigation, laptop hero, five service cards, three packages, a three-step process, illustrative testimonial, three FAQs and a closing contact panel.
-- Services, Work, About and Contact navigation points to homepage sections. Learn more points to packages. Get Started points to the contact panel; its email action opens the visitor's email client.
+- A responsive single homepage follows the supplied Locale design: navigation, laptop hero, five service cards, three packages, a three-step process, project preparation guidance, three FAQs and a closing contact panel.
+- Services, Work, How we work and Contact navigation points to homepage sections. Service disclosures explain deliverables. The hero and package actions point to the contact panel; its email action opens the visitor's email client with an editable project brief.
 - Mobile navigation opens and closes, including after selecting a section. FAQ buttons expose one answer at a time and support keyboard interaction.
 - A skip link, semantic landmarks, visible focus, descriptive image text and reduced-motion styling support accessible use.
-- A generated transparent logo and handwritten annotation accompany a cafe mockup showing Laura Faichney’s actual homepage. The cafe imagery and testimonial are illustrative, and the contact address is visibly marked for replacement before launch.
+- A generated transparent logo and handwritten annotation accompany a cafe mockup showing Laura Faichney’s actual homepage. The cafe imagery is labelled illustrative; the portfolio shows the real website and customer enquiries use the approved address.
 
 - The header presents the generated Forma Studio logo with a matching favicon; page titles, journal, footer and illustrative copy use the same brand. The longer wordmark remains readable with usable navigation on narrow phones.
 
@@ -28,7 +28,7 @@ As a small business owner, understand Forma Studio's digital services, compare s
 
 ## Explicit scope
 
-`/` and the subsequently requested `/blog` are implemented. Other pages, actual customer claims, a working enquiry backend, and a Sanity project/Studio or integration are outside scope. Data is isolated for later build-time CMS integration. Replace the placeholder email and approve draft pricing, FAQ and testimonial content before a public launch. The production deployment is the Cloudflare Pages project `forma-studio-web` at https://forma-studio-web-ddv.pages.dev.
+`/` and the subsequently requested `/blog` are implemented. Other pages, actual customer outcome claims, a working enquiry backend, and a Sanity project/Studio or integration are outside scope. Data is isolated for later build-time CMS integration. Approve draft pricing, service scope and FAQ commitments before a public launch. Enquiries now use `szabototo89@gmail.com`. The production deployment is the Cloudflare Pages project `forma-studio-web` at https://forma-studio-web-ddv.pages.dev.
 
 ## Verification
 
@@ -42,3 +42,5 @@ Verified on 2026-10-03:
 - Desktop and mobile screenshots were inspected; the supplied design's hierarchy and layout are preserved, with mobile content stacked for readable use.
 
 Commands and coverage boundaries are documented in `apps/forma-studio-web/README.md`. Score summaries are retained in `apps/forma-studio-web/lighthouse-reports/`. Lighthouse measurements describe local production previews.
+
+The 2026-10-11 customer journey improvements and current verification are documented in [Forma Studio customer journey](forma-studio-customer-journey.md).

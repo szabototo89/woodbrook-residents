@@ -17,3 +17,5 @@
 - [Forma Studio homepage](forma-studio-homepage.md) — Available
 
 - [Forma Studio blog](forma-studio-blog.md) — Available
+
+- [Forma Studio customer journey](forma-studio-customer-journey.md) — Available

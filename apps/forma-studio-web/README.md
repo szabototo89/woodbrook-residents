@@ -28,7 +28,7 @@ Cloudflare build command from the monorepo root: `bun run --cwd apps/forma-studi
 
 `src/features/home/homeContent.ts` holds reference services, pricing, process and FAQ copy independently of presentation; `src/features/blog/blogContent.ts` holds the draft blog guides and their source URLs/access dates. A future Sanity integration can replace this with a validated build-time snapshot, following Laura's approach, without exposing tokens or introducing browser API requests. No Sanity project, schema, credentials, Studio, live data or webhook integration is configured in the current scope.
 
-The currency and prices match the reference. The cafe photograph is an illustrative mockup displaying Laura’s real homepage. The sample testimonial and owner portrait remain explicitly illustrative. `hello@forma.example` is an intentional reserved-domain placeholder: replace it with an approved contact address before launch. FAQ timelines are draft marketing copy, not a service commitment. A production origin was not supplied, so no canonical URL or sitemap with an invented origin is generated.
+The currency and starting prices match the reference and remain draft commercial content. The final quote must confirm scope, hosting and ongoing costs. The cafe photograph is an illustrative mockup displaying Laura’s real homepage. The fictional sample testimonial has been removed. Customer enquiries use the user-approved `szabototo89@gmail.com` address with a prefilled, editable project brief. The address is also displayed for visitors who prefer to copy it. FAQ timelines are draft marketing copy, not a service commitment. A production origin was not supplied, so no canonical URL or sitemap with an invented origin is generated.
 
 ## Verification
 
@@ -46,3 +46,7 @@ Images are generated with the built-in imagegen tool, then resized and encoded t
 The generated logo and annotation preserve transparency. Final assets: `public/images/forma-studio-logo.webp` (720 × 113; approximately 20 KB), `public/images/handwritten-hero-note.webp`, `public/images/laura-website-640.webp`, `public/images/laura-website-1200.webp`, and `public/images/illustrative-owner.webp`.
 
 The matching `public/favicon.png` is a 64 × 64 crop of the generated F mark. The previous Locale logo and favicon are superseded. Assets are local under `public/images` and require no remote image service.
+
+## Customer journey review
+
+The homepage now has expandable service details, a dedicated selected-work section, package discussion links, clearer project stages and keyboard menu dismissal. The portfolio image `public/images/laura-project.jpg` is a Playwright capture of the live Laura homepage hero (1440 × 540), accessed on 2026-10-11. It excludes the temporary announcement immediately above the hero. The café hero remains an illustrative mockup. See [the researched critique](../../docs/reviews/forma-studio-ux-review.md) and [acceptance criteria](../../docs/features/forma-studio-customer-journey.md).
