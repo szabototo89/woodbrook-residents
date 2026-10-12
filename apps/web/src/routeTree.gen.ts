@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GetInvolvedRouteImport } from './routes/get-involved'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ApiMobileContentRouteImport } from './routes/api/mobile-content'
 import { Route as EventsIndexRouteImport } from './routes/events/index'
 import { Route as EventsSlugRouteImport } from './routes/events/$slug'
@@ -31,6 +32,11 @@ const IndexRoute = IndexRouteImport.update({
 const GetInvolvedRoute = GetInvolvedRouteImport.update({
   id: '/get-involved',
   path: '/get-involved',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiMobileContentRoute = ApiMobileContentRouteImport.update({
@@ -92,6 +98,7 @@ const UpdatesSlugRoute = UpdatesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/get-involved': typeof GetInvolvedRoute
+  '/search': typeof SearchRoute
   '/api/mobile-content': typeof ApiMobileContentRoute
   '/events/$slug': typeof EventsSlugRoute
   '/local-info/$slug': typeof LocalInfoSlugRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/get-involved': typeof GetInvolvedRoute
+  '/search': typeof SearchRoute
   '/api/mobile-content': typeof ApiMobileContentRoute
   '/events/$slug': typeof EventsSlugRoute
   '/local-info/$slug': typeof LocalInfoSlugRoute
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/get-involved': typeof GetInvolvedRoute
+  '/search': typeof SearchRoute
   '/api/mobile-content': typeof ApiMobileContentRoute
   '/events/$slug': typeof EventsSlugRoute
   '/local-info/$slug': typeof LocalInfoSlugRoute
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/get-involved'
+    | '/search'
     | '/api/mobile-content'
     | '/events/$slug'
     | '/local-info/$slug'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/get-involved'
+    | '/search'
     | '/api/mobile-content'
     | '/events/$slug'
     | '/local-info/$slug'
@@ -170,6 +181,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/get-involved'
+    | '/search'
     | '/api/mobile-content'
     | '/events/$slug'
     | '/local-info/$slug'
@@ -186,6 +198,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GetInvolvedRoute: typeof GetInvolvedRoute
+  SearchRoute: typeof SearchRoute
   ApiMobileContentRoute: typeof ApiMobileContentRoute
   EventsSlugRoute: typeof EventsSlugRoute
   LocalInfoSlugRoute: typeof LocalInfoSlugRoute
@@ -213,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/get-involved'
       fullPath: '/get-involved'
       preLoaderRoute: typeof GetInvolvedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/mobile-content': {
@@ -298,6 +318,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GetInvolvedRoute: GetInvolvedRoute,
+  SearchRoute: SearchRoute,
   ApiMobileContentRoute: ApiMobileContentRoute,
   EventsSlugRoute: EventsSlugRoute,
   LocalInfoSlugRoute: LocalInfoSlugRoute,

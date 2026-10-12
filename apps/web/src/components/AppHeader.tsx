@@ -1,5 +1,5 @@
 import { Link, useRouterState } from '@tanstack/react-router';
-import { Menu } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 const navigation = [
@@ -8,6 +8,7 @@ const navigation = [
   { to: '/projects', label: 'Projects' },
   { to: '/surveys', label: 'Consultations' },
   { to: '/local-info', label: 'Local information' },
+  { to: '/search', label: 'Search' },
 ] as const;
 
 export function AppHeader() {
@@ -58,7 +59,9 @@ export function AppHeader() {
   }
 
   return (
-    <header className="site-header">
+    <header
+      className={`site-header${pathname === '/search' ? ' site-header-search' : ''}`}
+    >
       <div className="shell header-inner">
         <Link className="brand" to="/">
           <span className="brand-mark" aria-hidden="true">
@@ -77,7 +80,11 @@ export function AppHeader() {
               to={item.to}
               activeProps={{ 'aria-current': 'page' }}
             >
-              {item.label}
+              {item.to === '/search' ? (
+                <Search size={19} aria-label="Search" />
+              ) : (
+                item.label
+              )}
             </Link>
           ))}
         </nav>

@@ -20,11 +20,25 @@ import type {
   Update,
 } from './contentTypes';
 import { loadContent } from './loadContent';
+import { buildSearchIndex, type SearchResult } from '../search/searchModel';
 
 const contentMiddleware = __STATIC_SITE_BUILD__
   ? [staticFunctionMiddleware]
   : [];
 const loadSnapshot = () => getContentSnapshot(__STATIC_SITE_BUILD__);
+
+export const getSearchContent = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler((): Promise<ContentCollection<SearchResult>> =>
+    loadContent<ContentCollection<SearchResult>>(
+      async () => ({
+        availability: 'ready',
+        items: buildSearchIndex(await loadSnapshot(), new Date().toISOString()),
+      }),
+      { availability: 'unavailable', items: [] },
+      __STATIC_SITE_BUILD__,
+    ),
+  );
 
 export const getSiteSetting = createServerFn({ method: 'GET' })
   .middleware(contentMiddleware)
