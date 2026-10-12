@@ -20,6 +20,7 @@ import type {
   Update,
 } from './contentTypes';
 import { loadContent } from './loadContent';
+import { createSearchIndex, type SearchResult } from '../search/siteSearch';
 
 const contentMiddleware = __STATIC_SITE_BUILD__
   ? [staticFunctionMiddleware]
@@ -143,4 +144,17 @@ export const getResourceBySlug = createServerFn({ method: 'GET' })
   .validator(slugInputSchema)
   .handler(({ data }): Promise<Resource | undefined> =>
     loadBySlug(async () => (await loadSnapshot()).resources, data.slug),
+  );
+
+export const getSearchContent = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler((): Promise<ContentCollection<SearchResult>> =>
+    loadContent(
+      async (): Promise<ContentCollection<SearchResult>> => ({
+        availability: 'ready',
+        items: createSearchIndex(await loadSnapshot()),
+      }),
+      { availability: 'unavailable', items: [] },
+      __STATIC_SITE_BUILD__,
+    ),
   );
