@@ -4,7 +4,7 @@ Status: Available
 
 ## Job to be done
 
-When editing Woodbrook community content in Sanity Studio, I want the TanStack Start website to read the same canonical snapshot as Strapi and Google Sheets, so editors can use Sanity without changing resident-facing pages.
+When editing Woodbrook community content in Sanity Studio, I want the TanStack Start website to read the same canonical snapshot as Google Sheets, so editors can use Sanity without changing resident-facing pages.
 
 ## Visible behavior
 
@@ -13,7 +13,7 @@ When editing Woodbrook community content in Sanity Studio, I want the TanStack S
 - Every field carries a plain-language subtitle saying what it is, where residents see it on the site, and what breaks without it; fields are grouped into fieldsets ordered by render priority (identity, content, dates, source, featuring).
 - List previews echo the public cards (kind/category pill, formatted date, featured star) and validation messages name the site breakage (e.g. empty dates crash pages); the navbar carries the Woodbrook brand mark.
 - Event documents open with a single inline-editable card that mirrors the public EventCard (forest date badge with Europe/Dublin day/month, plain-language sentence-case fields in Essentials then Details sections, one muted Residents will see preview with no emoji, Appears under pill for this-week/next-week/later/earlier); every card field patches the document via PatchEvent, the slug is the only default field rendered below (no field appears twice), and friendly inline hints flag end-before-start, bad links, and missing dates without crash language.
-- Residents see the same pages and content model regardless of whether `CONTENT_SOURCE=sanity`, `strapi`, or `google-sheets` supplied the build.
+- Residents see the same pages and content model regardless of whether `CONTENT_SOURCE=sanity` or `google-sheets` supplied the build.
 - Only published Sanity documents appear on the public site. Drafts require a token and preview flow.
 - Every seeded factual item includes its source URL and access date. Sanity validation requires `sourceUrl` and `sourceReviewedOn` on all editorial types.
 - Issue reports are create-only operational records in Studio. The public snapshot never lists or reads them.

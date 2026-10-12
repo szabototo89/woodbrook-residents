@@ -23,7 +23,7 @@ When I need practical help nearby, I want to find and contact an appropriate loc
 
 ## Acceptance criteria
 
-- Given Strapi contains published resources, when a resident opens Local information, then the directory renders the CMS entries in configured display order.
+- Given the content source contains published resources, when a resident opens Local information, then the directory renders the entries in configured display order.
 - Given a resident enters a search term, when it matches core content or an additional detail, then only matching contacts remain visible.
 - Given a resident selects a category or the out-of-hours option, when the filter is active, then results and the visible result count update immediately.
 - Given a resident applies directory filters, when they follow a provider and return, reload, or share the URL, then the same filters remain active.
@@ -32,7 +32,7 @@ When I need practical help nearby, I want to find and contact an appropriate loc
 - Given a provider has an address detail, when that address appears on a directory card or provider page, then it links to a Google Maps search for the full address.
 - Given a resident follows a provider’s detail link, when the provider is published, then its full contact methods, metadata, source, and last-reviewed date are visible.
 - Given an unknown or unpublished resource slug, when a resident opens its detail URL, then a useful unavailable state links back to the directory.
-- Given an editor needs to add new metadata, when they edit a Resource in Strapi, then they can add repeatable label/value details and choose whether each appears on the card without a schema change.
+- Given an editor needs to add new metadata, when they edit a Resource in Sanity Studio, then they can add repeatable label/value details and choose whether each appears on the card without a schema change.
 - Given a resident needs to judge the directory’s scope, when they read its guidance, then they can see that inclusion is curated and unpaid, is not comprehensive, and is not a recommendation.
 - Given a resident spots inaccurate information, when they follow the correction link, then they reach the current correction guidance without being offered a non-functional submission form.
 

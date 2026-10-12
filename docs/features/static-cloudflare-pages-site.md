@@ -9,7 +9,7 @@ When the public website is deployed, I want every published page to be generated
 ## User-visible behavior
 
 - Listing pages and every linked update, project, event, and survey detail page are delivered as pre-rendered HTML.
-- Client-side navigation reads immutable JSON emitted alongside the HTML instead of contacting Strapi or a server function.
+- Client-side navigation reads immutable JSON emitted alongside the HTML instead of contacting a server function.
 - Published content reflects the most recent successful build. CMS changes become visible after the next deployment.
 - The public site has no issue-report form or other runtime write action.
 
@@ -18,10 +18,9 @@ When the public website is deployed, I want every published page to be generated
 - Given the selected content source is reachable and contains published content, when `bun run build:static` runs, then the output contains the main routes, every reachable detail route, and static content data under `apps/web/dist/client`.
 - Given a listing links to a published detail route, when the static output is verified, then that route has a corresponding HTML file.
 - Given the selected source cannot be reached or returns content that fails validation, when the static build runs, then it exits unsuccessfully instead of publishing unavailable or empty content.
-- Given the contents of `apps/web/dist/client` are deployed, when a resident browses or navigates between generated pages, then no runtime application server or Strapi connection is required.
+- Given the contents of `apps/web/dist/client` are deployed, when a resident browses or navigates between generated pages, then no runtime application server connection is required.
 - Given the public artifact is inspected, then it contains no issue-report page or runtime write endpoint; the attached read-only mobile content endpoint does not participate in website rendering.
-- Given `CONTENT_SOURCE=strapi` and Wrangler is authenticated, when `bun run deploy` runs without `STRAPI_URL`, then it reuses a ready local Strapi or starts and later stops a temporary seeded instance.
-- Given `CONTENT_SOURCE=google-sheets` and read-only credentials are configured, when `bun run deploy` runs, then it builds from the configured spreadsheet without starting Strapi.
+- Given `CONTENT_SOURCE=google-sheets` and read-only credentials are configured, when `bun run deploy` runs, then it builds from the configured spreadsheet.
 - Given the production Worker is connected to the GitHub repository and its deploy hook is configured, when the daily schedule runs, then Cloudflare rebuilds the latest `main` commit with a fresh Google Sheets snapshot.
 - Given `CONTENT_SOURCE` is absent or invalid, when deployment begins, then it stops with a configuration error before building or publishing.
 
@@ -29,8 +28,8 @@ When the public website is deployed, I want every published page to be generated
 
 ### Included
 
-- Build-time Google Sheets or Strapi reads, static prerendering, linked dynamic-route discovery, immutable client-navigation data, and output verification.
-- Cloudflare Pages build settings, Wrangler deployment to Workers Static Assets, and Strapi-triggered rebuild guidance.
+- Build-time Google Sheets or Sanity reads, static prerendering, linked dynamic-route discovery, immutable client-navigation data, and output verification.
+- Cloudflare Pages build settings, Wrangler deployment to Workers Static Assets, and Sanity-triggered rebuild guidance.
 
 ### Not included
 

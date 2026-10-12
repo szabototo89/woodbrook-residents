@@ -35,7 +35,7 @@ When Laura publishes a content change in Sanity Studio, I want the static Cloudf
 
 - Website code reading from Sanity (`laura-faichney-web` still builds baked-in content until the Sanity read follow-up lands).
 - Storing the GitHub PAT anywhere in the repo; the token lives only in the Sanity webhook header config and is replaced with a placeholder in any shared webhook URL.
-- Draft-preview rebuilds, per-document incremental builds, or changes to the Woodbrook site, Strapi CMS, or other workflows.
+- Draft-preview rebuilds, per-document incremental builds, or changes to the Woodbrook site or other workflows.
 - Creating/rotating the PAT or the Sanity webhook itself from CI; both are manual steps in `manage.sanity.io` confirmed via the Attempts log.
 
 ## Verification

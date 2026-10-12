@@ -17,7 +17,7 @@ The setup borrows the parts of `/Users/tszabo/Development/anki-app` that make ch
 Cloudflare Pages build
   -> TanStack Start prerenderer
        -> configured ContentSource
-            -> Google Sheets API (read-only), Strapi REST API, or Sanity GROQ API (read-only)
+            -> Google Sheets API (read-only) or Sanity GROQ API (read-only)
             -> published content snapshot
                  -> static HTML and JSON in apps/web/dist/client
 
@@ -38,13 +38,13 @@ The deployed browser application reads pre-rendered HTML and immutable JSON asse
 
 ## Content and failure behavior
 
-- `CONTENT_SOURCE` explicitly selects `google-sheets`, `strapi`, or `sanity`.
+- `CONTENT_SOURCE` explicitly selects `google-sheets` or `sanity` (default `google-sheets` when unset).
 - All three adapters normalize their input into one domain-level content snapshot before routes or UI see it.
-- Google Sheets reads the Updates, Events, Projects, Consultations, and Local_Info tabs in one authenticated, read-only batch request. Strapi reads the corresponding published API collections and site settings. Sanity runs GROQ queries for siteSetting, update, project, event, survey, and resource documents and maps slugs, image URLs, and project references into the same snapshot.
+- Google Sheets reads the Updates, Events, Projects, Consultations, and Local_Info tabs in one authenticated, read-only batch request. Sanity runs GROQ queries for siteSetting, update, project, event, survey, and resource documents and maps slugs, image URLs, and project references into the same snapshot.
 - The static build caches one validated snapshot. Dynamic development reloads the selected source so content changes do not require restarting the server.
 - Google Sheets rows are public only when `publish` is `TRUE`; `admin_notes` is never mapped into either the static site or mobile response.
 - Seed content contains current, source-linked Woodbrook and Shankill information researched in September 2026.
-- Dynamic development and server builds show a clear service state if Strapi is unavailable.
+- Dynamic development and server builds show a clear service state if the selected source is unavailable.
 - Static builds fail if selected-source content cannot be fetched, normalized, or validated, preserving the previous successful deployment instead of producing an empty site.
 - Local SQLite data, uploads, build output, coverage, and secrets are excluded from Git.
 
