@@ -1,23 +1,28 @@
 # Woodbrook Residents
 
-A resident information and action hub for Woodbrook, Shankill. The public site is built with TanStack Start and can capture published Strapi content as a fully static Cloudflare deployment.
+A resident information and action hub for Woodbrook, Shankill. The public site is built with TanStack Start and can capture published Sanity or Google Sheets content as a fully static Cloudflare deployment.
 
 ## Prerequisites
 
 - Bun 1.4+
-- Node.js 24 LTS for Strapi
 
 ## Start locally
 
 ```bash
-cp .env.example apps/web/.env
+cp .env.example .env
 bun install
 bun run test:install-browser
 bun run dev
 ```
 
-- Website: `http://localhost:3000`
-- Strapi admin: `http://localhost:1337/admin`
+- Website: `http://localhost:3000` (Google Sheets content source by default)
+- Sanity Studio: `bun run dev:sanity-studio` (`http://localhost:3333`)
+
+To use Sanity locally, run:
+
+```bash
+bun run dev:web:sanity
+```
 
 To review the separate static website concepts gallery, run:
 
@@ -25,9 +30,7 @@ To review the separate static website concepts gallery, run:
 bun run dev:design-proposals
 ```
 
-The proposal server is independent of the Woodbrook website and CMS.
-
-The CMS creates researched starter content on its first run. Create the first Strapi administrator in the admin screen; public content read permissions are configured automatically.
+The proposal server is independent of the Woodbrook website and content sources.
 
 `bun install` also configures the repository's pre-commit hook. Every commit runs
 formatting and ESLint checks, TypeScript checks for both apps, and the unit,
@@ -36,25 +39,27 @@ browser, and end-to-end test suites. Run the same quality gate manually with
 
 ## Build the static site
 
-With Strapi running and reachable at `STRAPI_URL`, run:
+With `CONTENT_SOURCE=google-sheets` (default) or `CONTENT_SOURCE=sanity`, run:
 
 ```bash
-STRAPI_URL=https://cms.example.com \
+CONTENT_SOURCE=google-sheets \
 VITE_PUBLIC_SITE_URL=https://www.example.com \
 bun run build:static
 ```
 
-The command fetches and validates published CMS content, prerenders every reachable route, verifies the generated links and static data, and writes the deployable site to `apps/web/dist/client`. A CMS request or validation failure stops the build so it cannot replace a working deployment with empty content.
+The command fetches and validates published content, prerenders every reachable route, verifies the generated links and static data, and writes the deployable site to `apps/web/dist/client`. A content request or validation failure stops the build so it cannot replace a working deployment with empty content.
 
 Configure Cloudflare Pages from the repository root with:
 
 - Build command: `bun run build:static`
 - Build output directory: `apps/web/dist/client`
-- Build environment variables: `STRAPI_URL`, `VITE_PUBLIC_SITE_URL`, and `BUN_VERSION=1.4.0`
+- Build environment variables: `CONTENT_SOURCE`, `VITE_PUBLIC_SITE_URL`, and `BUN_VERSION=1.4.0`
 
-The public website remains fully static and never contacts Strapi at runtime. The Wrangler deployment also attaches a read-only Worker endpoint used only by the mobile app; it does not change browser page delivery. See Cloudflare's [build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/) documentation for where to enter these values.
+For Google Sheets builds, share the private workbook with a Google service account as a viewer, then set `GOOGLE_SHEETS_SPREADSHEET_ID`, `GOOGLE_SERVICE_ACCOUNT_EMAIL`, and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`. For Sanity builds, set `SANITY_PROJECT_ID` (defaults to `ca34quae`), `SANITY_DATASET` (defaults to `production`), `SANITY_API_VERSION`, and optionally `SANITY_API_TOKEN`.
 
-To publish CMS changes automatically, create a [Cloudflare Pages deploy hook](https://developers.cloudflare.com/pages/configuration/deploy-hooks/) and add its URL as a Strapi webhook for entry and media publish, update, unpublish, and delete events. Treat the deploy-hook URL as a secret.
+The public website remains fully static and never contacts a content API at runtime. The Wrangler deployment also attaches a read-only Worker endpoint used only by the mobile app; it does not change browser page delivery. See Cloudflare's [build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/) documentation for where to enter these values.
+
+To publish Sanity changes automatically, create a [Cloudflare Pages deploy hook](https://developers.cloudflare.com/pages/configuration/deploy-hooks/) and add its URL as a Sanity webhook for published creates, updates, and deletes. Treat the deploy-hook URL as a secret.
 
 ### Deploy with Wrangler
 
@@ -70,16 +75,10 @@ bun run deploy
 ```
 
 `bun run deploy` first builds and verifies the static site with its production
-public URL, then Wrangler uploads `apps/web/dist/client` with the mobile content Worker. When `STRAPI_URL`
-is not set, the command starts a temporary local Strapi instance at
-`http://127.0.0.1:1337`, waits for it to be ready, and stops it after the deploy.
-If Strapi is already running there, the command reuses it and leaves it running.
-Set `STRAPI_URL=https://cms.example.com` to build from another CMS instead.
-Set `WOODBROOK_LOCAL_STRAPI_PORT` if the temporary local instance should use a
-port other than `1337`.
+public URL, then Wrangler uploads `apps/web/dist/client` with the mobile content Worker. It defaults to `CONTENT_SOURCE=google-sheets`; set `CONTENT_SOURCE=sanity` to build from Sanity instead.
 
-For CI, provide `STRAPI_URL`, `CLOUDFLARE_API_TOKEN`, and
-`CLOUDFLARE_ACCOUNT_ID` instead of using the local CMS or interactive login. Configure `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` as Worker secrets for mobile runtime reads. The
+For CI, provide `CONTENT_SOURCE`, `CLOUDFLARE_API_TOKEN`, and
+`CLOUDFLARE_ACCOUNT_ID` instead of using interactive login. Configure `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` as Worker secrets for mobile runtime reads. The
 Cloudflare account must already use `shankill` as its `workers.dev` subdomain
 for the configured Worker name to resolve to the expected URL.
 

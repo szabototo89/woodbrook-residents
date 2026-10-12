@@ -34,4 +34,4 @@ When Woodbrook pages appear in Google, I want correct brand, clean snippet, and 
 
 ### Not included
 
-- Custom-domain migration, Search Console submission, ranking guarantees, content edits in Sheets/Strapi.
+- Custom-domain migration, Search Console submission, ranking guarantees, content edits in Sheets/Sanity.

@@ -7,15 +7,18 @@ Run the development server from the repository root with `bun run dev:web`.
 ## Development content sources
 
 The dev server reads every page from the configured `CONTENT_SOURCE`
-(`strapi` or `google-sheets`) on each request, so content edits do not
+(`google-sheets` by default, or `sanity`) on each request, so content edits do not
 require a restart.
 
-- Strapi (default): `bun run dev:web` from the repository root. Requires a
-  reachable CMS at `STRAPI_URL` (defaults to `http://localhost:1337`).
-- Google Sheets: `bun run dev:web:sheets` from the repository root. It sets
+- Google Sheets (default): `bun run dev:web` from the repository root. It sets
   `CONTENT_SOURCE=google-sheets`, loads repository credentials from
-  `../../.env` (relative to `apps/web`), and starts `apps/web` via its
-  `dev:sheets` script.
+  `../../.env` (relative to `apps/web`), and starts `apps/web`.
+- Sanity: `bun run dev:web:sanity` from the repository root. It sets
+  `CONTENT_SOURCE=sanity`, loads repository credentials from
+  `../../.env`, and starts `apps/web`. `SANITY_PROJECT_ID` defaults to the
+  Woodbrook project (`ca34quae`), `SANITY_DATASET` to `production`, and
+  `SANITY_API_VERSION` to `2025-09-01`. Set `SANITY_API_HOST` to point queries
+  at a local stub during hermetic tests.
 - From inside `apps/web`: `bun run dev:sheets` starts the same Sheets-backed
   server. Provide `GOOGLE_SHEETS_SPREADSHEET_ID` (optional, defaults to the
   Woodbrook workbook), `GOOGLE_SERVICE_ACCOUNT_EMAIL`, and
@@ -37,10 +40,10 @@ bun run build:static
 
 Required build environment:
 
-- `CONTENT_SOURCE`: required; either `strapi` or `google-sheets`.
+- `CONTENT_SOURCE`: optional; either `google-sheets` (default) or `sanity`.
 - `VITE_PUBLIC_SITE_URL`: public origin embedded in canonical and social metadata.
 
-For Strapi builds, set `STRAPI_URL` to the reachable CMS origin. For Google Sheets builds, the workbook defaults to the Woodbrook content spreadsheet and can be overridden with `GOOGLE_SHEETS_SPREADSHEET_ID`. Share the private workbook with a Google service account as a viewer, then set `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` in the build environment. The private key may use escaped `\\n` newlines as shown in `.env.example`.
+For Google Sheets builds, the workbook defaults to the Woodbrook content spreadsheet and can be overridden with `GOOGLE_SHEETS_SPREADSHEET_ID`. Share the private workbook with a Google service account as a viewer, then set `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` in the build environment. The private key may use escaped `\\n` newlines as shown in `.env.example`. For Sanity builds, the project defaults to `ca34quae/production`; override with `SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_API_VERSION`, and optionally `SANITY_API_TOKEN`.
 
 Google Sheets access uses the read-only spreadsheets scope. None of the content-source variables is prefixed with `VITE_`, so credentials remain in server-side code and are not included in client assets.
 

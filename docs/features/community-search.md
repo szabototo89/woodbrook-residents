@@ -28,4 +28,4 @@ When I need information about a local topic, I want to search the community hub 
 
 ## Scope
 
-Search includes published updates, consultations, projects, events and local services from the configured Strapi, Google Sheets or Sanity source. It does not search private submissions. Search is a local text match over public content; it does not provide typo correction, semantic ranking, external web search or a new CMS content model. Queries are limited to 120 characters. The supplied UI reference guides layout and styling; its historical example facts are not seeded.
+Search includes published updates, consultations, projects, events and local services from the configured Google Sheets or Sanity source. It does not search private submissions. Search is a local text match over public content; it does not provide typo correction, semantic ranking, external web search or a new CMS content model. Queries are limited to 120 characters. The supplied UI reference guides layout and styling; its historical example facts are not seeded.

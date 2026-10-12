@@ -1,7 +1,6 @@
 import type { ContentSource } from './contentSource';
 import { GoogleSheetsContentSource } from './googleSheetsContentSource';
 import { SanityContentSource } from './sanityContentSource';
-import { StrapiContentSource } from './strapiContentSource';
 
 const defaultSpreadsheetId = '1X9N_0s7ZN7W6IC43nVegtottBdMbfz-rRKvClccPqgo';
 const defaultSanityProjectId = 'ca34quae';
@@ -20,22 +19,9 @@ function readEnv(environment: ContentEnvironment, ...names: string[]): string {
 export function createContentSource(
   environment: ContentEnvironment = process.env,
 ): ContentSource {
-  const configuredSource = environment.CONTENT_SOURCE?.trim();
-  if (!configuredSource) {
-    throw new Error(
-      'CONTENT_SOURCE must be set to "strapi", "google-sheets", or "sanity".',
-    );
-  }
+  const configuredSource = environment.CONTENT_SOURCE?.trim() || '';
 
-  if (
-    configuredSource !== 'strapi' &&
-    configuredSource !== 'google-sheets' &&
-    configuredSource !== 'sanity'
-  ) {
-    throw new Error(`Unsupported CONTENT_SOURCE "${configuredSource}".`);
-  }
-
-  if (configuredSource === 'google-sheets') {
+  if (!configuredSource || configuredSource === 'google-sheets') {
     return new GoogleSheetsContentSource({
       spreadsheetId:
         environment.GOOGLE_SHEETS_SPREADSHEET_ID?.trim() ||
@@ -61,6 +47,7 @@ export function createContentSource(
     const token =
       readEnv(environment, 'SANITY_API_TOKEN', 'VITE_SANITY_API_TOKEN') ||
       undefined;
+    const apiHost = readEnv(environment, 'SANITY_API_HOST') || undefined;
 
     return new SanityContentSource({
       projectId,
@@ -68,10 +55,9 @@ export function createContentSource(
       apiVersion,
       token,
       useCdn: false,
+      apiHost,
     });
   }
 
-  return new StrapiContentSource(
-    environment.STRAPI_URL?.trim() || 'http://localhost:1337',
-  );
+  throw new Error(`Unsupported CONTENT_SOURCE "${configuredSource}".`);
 }

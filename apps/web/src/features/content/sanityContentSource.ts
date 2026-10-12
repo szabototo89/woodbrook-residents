@@ -26,6 +26,7 @@ export type SanityContentConfig = {
   apiVersion: string;
   token?: string;
   useCdn?: boolean;
+  apiHost?: string;
 };
 
 const sanityEnvelopeSchema = z.object({
@@ -438,6 +439,11 @@ export class SanityContentSource implements ContentSource {
   }
 
   private queryUrl(groq: string): string {
+    const customHost = this.config.apiHost?.trim().replace(/\/$/, '');
+    if (customHost) {
+      const base = `${customHost}/v${this.config.apiVersion}/data/query/${this.config.dataset}`;
+      return `${base}?query=${encodeURIComponent(groq)}`;
+    }
     const host =
       this.config.useCdn === true ? 'apicdn.sanity.io' : 'api.sanity.io';
     const base = `https://${this.config.projectId}.${host}/v${this.config.apiVersion}/data/query/${this.config.dataset}`;
