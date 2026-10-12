@@ -16,6 +16,9 @@ export async function captureSearchDesign(
   ]);
   await page.setViewportSize({ width, height: 1000 });
   await page.goto(query ? `/search?q=${query}` : '/search');
+  await expect(
+    page.getByRole('link', { name: 'Back', exact: true }),
+  ).toHaveCount(0);
   await expect(page.getByRole('article')).toHaveCount(query ? 5 : 0);
   if (!query)
     await expect(

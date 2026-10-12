@@ -1,5 +1,5 @@
-import { Link, useHydrated } from '@tanstack/react-router';
-import { ArrowLeft, Search } from 'lucide-react';
+import { useHydrated } from '@tanstack/react-router';
+import { Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { CmsUnavailable } from '../../components/CmsUnavailable';
@@ -49,10 +49,6 @@ export function SearchPage() {
           Find local services, community updates, projects and events in one
           place.
         </p>
-        <Link className="text-link" to="/">
-          <ArrowLeft size={16} aria-hidden="true" />
-          Back
-        </Link>
       </PageIntro>
       <section className="section shell directory-section">
         <form

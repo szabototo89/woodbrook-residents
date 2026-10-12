@@ -180,6 +180,11 @@ test('leaves shared site navigation to the root layout', async () => {
   const { container, unmount } = renderUi(<SearchPage />);
   try {
     expect(container.querySelector('nav')).toBeNull();
+    expect(
+      Array.from(container.querySelectorAll('a')).some(
+        (link) => link.textContent?.trim() === 'Back',
+      ),
+    ).toBe(false);
   } finally {
     unmount();
   }
