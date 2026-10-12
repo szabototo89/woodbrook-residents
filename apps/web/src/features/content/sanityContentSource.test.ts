@@ -363,6 +363,31 @@ test('SanityContentSource sends the API token and supports the CDN host', async 
   );
 });
 
+test('SanityContentSource supports a custom API host for hermetic tests', async () => {
+  const seen: string[] = [];
+  const fetchMock = vi.fn(async (input: string | URL | Request) => {
+    const url = String(input);
+    seen.push(url);
+    if (decodeURIComponent(url).includes('_type == "siteSetting"')) {
+      return sanityResponse(null);
+    }
+    return sanityResponse([]);
+  });
+  vi.stubGlobal('fetch', fetchMock);
+
+  await new SanityContentSource({
+    projectId: 'ca34quae',
+    dataset: 'production',
+    apiVersion: '2025-09-01',
+    apiHost: 'http://127.0.0.1:1380',
+  }).loadSnapshot();
+
+  expect(seen.length).toBeGreaterThanOrEqual(6);
+  expect(seen.every((url) => url.startsWith('http://127.0.0.1:1380/'))).toBe(
+    true,
+  );
+});
+
 test('SanityContentSource wraps network failures with the query label', async () => {
   vi.stubGlobal(
     'fetch',

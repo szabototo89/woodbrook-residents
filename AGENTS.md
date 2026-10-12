@@ -3,7 +3,7 @@
 ## Architecture
 
 - `apps/web` is the TanStack Start public website.
-- `apps/cms` is the Strapi headless CMS.
+- `apps/sanity-studio` is the Sanity Studio content editor.
 - Use Bun for dependency management and repository scripts.
 - Keep route files focused on routing and loading. Put product UI and domain logic under `apps/web/src/features/`.
 - Keep shared application chrome under `apps/web/src/components/`.
@@ -19,6 +19,14 @@
 - Use a non-interactive merge without rewriting existing history. You are always authorized to resolve merge conflicts autonomously without asking for permission. Preserve the intended behavior of both branches and all user-owned changes, verify the resolved result, and continue the merge.
 - Never use `--no-verify` (or any hook-bypass flag) when committing. If hooks fail, fix the cause instead of bypassing them.
 - After a successful merge, remove the session worktree with `scripts/worktree-remove.sh <path>` (it closes the linked Herdr and cmux workspaces; raw `git worktree remove` fires no hook) and delete the merged session branch.
+
+## Dev server and preview
+
+- After creating the session worktree, `cd` into it and run `bun install`, then start the dev server in the background with `bun run dev`. Do not block the session waiting for it.
+- Wait until the dev server is ready before opening it: the web app responds on `http://localhost:3000` (dashboard on `http://localhost:3001` when relevant).
+- Once ready, open the dev site in a new cmux browser tab: `cmux browser open http://localhost:3000`.
+- Name the tab so the worktree and feature are obvious: `cmux rename-tab "<worktree>: <feature>"` (2-5 words, max ~40 characters, plain text, no emoji, no secrets).
+- Keep the dev server running in the background for the session; stop it when the worktree is removed.
 
 ## Herdr tab title
 

@@ -21,3 +21,9 @@ test('pre-commit hook still gates on lint and tests after formatting', async () 
 
   expect(source).toContain('bun run precommit');
 });
+
+test('pre-commit hook skips symlinks when auto-formatting', async () => {
+  const source = await readFile(join(root, '.githooks', 'pre-commit'), 'utf8');
+
+  expect(source).toContain('-L');
+});

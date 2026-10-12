@@ -1,20 +1,23 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
+
 import { createPageHead } from '../app/siteMetadata';
 import { getSearchContent } from '../features/content/contentApi';
 import { SearchPage } from '../features/search/SearchPage';
-import { parseSearchQuery } from '../features/search/siteSearch';
+import { SearchPending } from '../features/search/SearchPending';
+import { parseSearchParams } from '../features/search/searchModel';
 
 export const Route = createFileRoute('/search')({
-  validateSearch: (search: Record<string, unknown>) => ({
-    q: parseSearchQuery(search.q),
-  }),
+  validateSearch: parseSearchParams,
+  search: { middlewares: [stripSearchParams({ q: '', category: 'all' })] },
   loader: () => getSearchContent(),
   head: () =>
     createPageHead({
-      title: 'Search',
+      title: 'Search results',
       description:
-        'Search published Woodbrook updates, events, projects, consultations and local services.',
+        'Search Woodbrook community updates, projects, events and local services.',
       path: '/search',
+      robots: 'noindex',
     }),
+  pendingComponent: SearchPending,
   component: SearchPage,
 });

@@ -1,9 +1,10 @@
-import { Search, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { CmsUnavailable } from '../../components/CmsUnavailable';
 import { EmptyState } from '../../components/EmptyState';
 import { PageIntro } from '../../components/PageIntro';
+import { SearchField } from '../../components/SearchField';
 import { Route } from '../../routes/local-info/index';
 import { formatLabel } from '../content/contentFormatting';
 import { LocalHighlights } from './LocalHighlights';
@@ -89,18 +90,12 @@ export function LocalInfoPage() {
             <LocalHighlights resources={content.items} today={today} />
 
             <div className="directory-tools">
-              <label className="directory-search">
-                <span>What do you need?</span>
-                <span className="directory-search-field">
-                  <Search size={19} aria-hidden="true" />
-                  <input
-                    type="search"
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Try plumber, GP, pharmacy…"
-                  />
-                </span>
-              </label>
+              <SearchField
+                label="What do you need?"
+                value={query}
+                onChange={setQuery}
+                placeholder="Try plumber, GP, pharmacy…"
+              />
 
               <div className="directory-filters" aria-label="Service category">
                 <button

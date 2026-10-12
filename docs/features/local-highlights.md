@@ -45,7 +45,7 @@ several listings.
 
 - A reusable resource-highlight model and responsive presentation.
 - Editorial selection through the canonical resource `featured` field in
-  Google Sheets and Strapi.
+  Google Sheets and Sanity Studio.
 - Up to three eligible local highlights, preserving directory order.
 
 ### Not included

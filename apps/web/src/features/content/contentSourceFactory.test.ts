@@ -3,15 +3,15 @@ import { expect, test } from 'vitest';
 import { createContentSource } from './contentSourceFactory';
 import { GoogleSheetsContentSource } from './googleSheetsContentSource';
 import { SanityContentSource } from './sanityContentSource';
-import { StrapiContentSource } from './strapiContentSource';
 
-test('createContentSource selects Strapi explicitly', () => {
-  expect(
-    createContentSource({
-      CONTENT_SOURCE: 'strapi',
-      STRAPI_URL: 'https://cms.example.com',
-    }),
-  ).toBeInstanceOf(StrapiContentSource);
+test('createContentSource defaults to Google Sheets when no source is configured', () => {
+  expect(createContentSource({})).toBeInstanceOf(GoogleSheetsContentSource);
+  expect(createContentSource({ CONTENT_SOURCE: '' })).toBeInstanceOf(
+    GoogleSheetsContentSource,
+  );
+  expect(createContentSource({ CONTENT_SOURCE: '   ' })).toBeInstanceOf(
+    GoogleSheetsContentSource,
+  );
 });
 
 test('createContentSource selects the configured Google spreadsheet', () => {
@@ -25,18 +25,12 @@ test('createContentSource selects the configured Google spreadsheet', () => {
   ).toBeInstanceOf(GoogleSheetsContentSource);
 });
 
-test('createContentSource rejects missing or unsupported source selection', () => {
-  expect(() => createContentSource({})).toThrow(
-    'CONTENT_SOURCE must be set to "strapi", "google-sheets", or "sanity".',
-  );
+test('createContentSource rejects unsupported source selection', () => {
   expect(() => createContentSource({ CONTENT_SOURCE: 'filesystem' })).toThrow(
     'Unsupported CONTENT_SOURCE "filesystem".',
   );
-});
-
-test('createContentSource falls back to the local Strapi URL when none is configured', () => {
-  expect(createContentSource({ CONTENT_SOURCE: 'strapi' })).toBeInstanceOf(
-    StrapiContentSource,
+  expect(() => createContentSource({ CONTENT_SOURCE: 'strapi' })).toThrow(
+    'Unsupported CONTENT_SOURCE "strapi".',
   );
 });
 
@@ -65,4 +59,39 @@ test('createContentSource selects Sanity with explicit configuration', () => {
       SANITY_API_VERSION: '2025-09-01',
     }),
   ).toBeInstanceOf(SanityContentSource);
+});
+
+test('createContentSource forwards a custom Sanity API host', async () => {
+  const { vi } = await import('vitest');
+  const seen: string[] = [];
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (input: string | URL | Request) => {
+      const url = String(input);
+      seen.push(url);
+      if (decodeURIComponent(url).includes('_type == "siteSetting"')) {
+        return new Response(JSON.stringify({ result: null }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+      return new Response(JSON.stringify({ result: [] }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }),
+  );
+  try {
+    const source = createContentSource({
+      CONTENT_SOURCE: 'sanity',
+      SANITY_API_HOST: 'http://127.0.0.1:1380',
+    });
+    await source.loadSnapshot();
+    expect(seen.length).toBeGreaterThanOrEqual(6);
+    expect(seen.every((url) => url.startsWith('http://127.0.0.1:1380/'))).toBe(
+      true,
+    );
+  } finally {
+    vi.unstubAllGlobals();
+  }
 });

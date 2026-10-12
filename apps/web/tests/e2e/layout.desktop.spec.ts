@@ -66,7 +66,7 @@ test('homepage search finds public updates, projects, events, consultations and 
   await search.getByRole('button', { name: 'Search', exact: true }).click();
   await expect(page).toHaveURL(/\/search\?q=Woodbrook/);
   await expect(
-    page.getByRole('heading', { name: 'Search Woodbrook', exact: true }),
+    page.getByRole('heading', { name: 'Search results', exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole('heading', {
@@ -75,11 +75,12 @@ test('homepage search finds public updates, projects, events, consultations and 
     }),
   ).toBeVisible();
   await expect(
-    page.getByRole('link', { name: /Woodbrook housing delivery/ }),
+    page.getByRole('link', { name: 'Woodbrook housing delivery', exact: true }),
   ).toHaveAttribute('href', '/projects/woodbrook-housing-delivery');
   await expect(
     page.getByRole('link', {
-      name: /Woodbrook DART Gateway consultation archive/,
+      name: 'Woodbrook DART Gateway consultation archive',
+      exact: true,
     }),
   ).toHaveAttribute(
     'href',
@@ -96,7 +97,9 @@ test('homepage search finds public updates, projects, events, consultations and 
   await expect(
     page.getByRole('heading', { name: 'Shankill Pharmacy' }),
   ).toBeVisible();
-  await page.getByRole('link', { name: /Service Shankill Pharmacy/ }).click();
+  await page
+    .getByRole('link', { name: 'View details: Shankill Pharmacy', exact: true })
+    .click();
   await expect(page).toHaveURL(/\/local-info\/shankill-pharmacy$/);
 });
 

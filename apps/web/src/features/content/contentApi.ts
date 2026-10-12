@@ -20,12 +20,25 @@ import type {
   Update,
 } from './contentTypes';
 import { loadContent } from './loadContent';
-import { createSearchIndex, type SearchResult } from '../search/siteSearch';
+import { buildSearchIndex, type SearchResult } from '../search/searchModel';
 
 const contentMiddleware = __STATIC_SITE_BUILD__
   ? [staticFunctionMiddleware]
   : [];
 const loadSnapshot = () => getContentSnapshot(__STATIC_SITE_BUILD__);
+
+export const getSearchContent = createServerFn({ method: 'GET' })
+  .middleware(contentMiddleware)
+  .handler((): Promise<ContentCollection<SearchResult>> =>
+    loadContent<ContentCollection<SearchResult>>(
+      async () => ({
+        availability: 'ready',
+        items: buildSearchIndex(await loadSnapshot()),
+      }),
+      { availability: 'unavailable', items: [] },
+      __STATIC_SITE_BUILD__,
+    ),
+  );
 
 export const getSiteSetting = createServerFn({ method: 'GET' })
   .middleware(contentMiddleware)
@@ -144,17 +157,4 @@ export const getResourceBySlug = createServerFn({ method: 'GET' })
   .validator(slugInputSchema)
   .handler(({ data }): Promise<Resource | undefined> =>
     loadBySlug(async () => (await loadSnapshot()).resources, data.slug),
-  );
-
-export const getSearchContent = createServerFn({ method: 'GET' })
-  .middleware(contentMiddleware)
-  .handler((): Promise<ContentCollection<SearchResult>> =>
-    loadContent(
-      async (): Promise<ContentCollection<SearchResult>> => ({
-        availability: 'ready',
-        items: createSearchIndex(await loadSnapshot()),
-      }),
-      { availability: 'unavailable', items: [] },
-      __STATIC_SITE_BUILD__,
-    ),
   );

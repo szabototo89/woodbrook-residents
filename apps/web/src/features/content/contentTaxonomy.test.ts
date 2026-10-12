@@ -9,27 +9,38 @@ import {
   updateKinds,
 } from './contentTaxonomy';
 
-type CmsSchema = {
-  attributes: Record<string, { enum?: string[] }>;
-};
-
-function readCmsSchema(type: string) {
+function readStudioValues(file: string, exportName: string): string[] {
   const url = new URL(
-    `../../../../cms/src/api/${type}/content-types/${type}/schema.json`,
+    `../../../../sanity-studio/schemaTypes/${file}`,
     import.meta.url,
   );
-  const parsed: CmsSchema = JSON.parse(readFileSync(url, 'utf8'));
-  return parsed;
+  const source = readFileSync(url, 'utf8');
+  const block = new RegExp(
+    `export const ${exportName} = \\[(.*?)\\] as const`,
+    's',
+  ).exec(source)?.[1];
+  if (!block) {
+    throw new Error(
+      `Could not find ${exportName} in sanity-studio schema ${file}.`,
+    );
+  }
+  return [...block.matchAll(/'([^']+)'/g)].map((match) => match[1] ?? '');
 }
 
-test('content taxonomy keeps interchangeable Strapi enumerations aligned with the domain', () => {
-  const update = readCmsSchema('update');
-  const project = readCmsSchema('project');
-  const resource = readCmsSchema('resource');
-
-  expect(update.attributes.kind?.enum).toEqual([...updateKinds]);
-  expect(project.attributes.category?.enum).toEqual([...projectCategories]);
-  expect(project.attributes.stage?.enum).toEqual([...projectStages]);
-  expect(resource.attributes.category?.enum).toEqual([...resourceCategories]);
-  expect(resource.attributes.providerType?.enum).toEqual([...providerTypes]);
+test('content taxonomy keeps Sanity Studio enumerations aligned with the domain', () => {
+  expect(readStudioValues('update.ts', 'updateKinds')).toEqual([
+    ...updateKinds,
+  ]);
+  expect(readStudioValues('project.ts', 'projectCategories')).toEqual([
+    ...projectCategories,
+  ]);
+  expect(readStudioValues('project.ts', 'projectStages')).toEqual([
+    ...projectStages,
+  ]);
+  expect(readStudioValues('resource.ts', 'resourceCategories')).toEqual([
+    ...resourceCategories,
+  ]);
+  expect(readStudioValues('resource.ts', 'providerTypes')).toEqual([
+    ...providerTypes,
+  ]);
 });

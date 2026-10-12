@@ -16,8 +16,9 @@ test('lists workspace apps by folder name', () => {
   const apps = listApps(repoRoot);
 
   expect(apps).toContain('web');
-  expect(apps).toContain('cms');
+  expect(apps).toContain('sanity-studio');
   expect(apps).toContain('mobile');
+  expect(apps).not.toContain('cms');
   expect(apps).toEqual([...apps].sort());
 });
 
@@ -87,7 +88,7 @@ test('finds apps that implement a task', () => {
   const apps = appsWithTask(repoRoot, 'typecheck');
 
   expect(apps).toContain('web');
-  expect(apps).toContain('cms');
+  expect(apps).toContain('sanity-studio');
   expect(apps).not.toContain('design-proposals');
 });
 

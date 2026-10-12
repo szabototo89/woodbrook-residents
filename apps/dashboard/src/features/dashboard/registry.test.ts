@@ -5,7 +5,9 @@ import { validateRegistry } from './registrySchema';
 
 test('dashboard registry tracks every workspace app with ports and scripts', () => {
   const names = apps.map((app) => app.name);
-  expect(names).toEqual(expect.arrayContaining(['web', 'cms', 'dashboard']));
+  expect(names).toEqual(
+    expect.arrayContaining(['web', 'sanity-studio', 'dashboard']),
+  );
   for (const app of apps) {
     expect(app.description.length).toBeGreaterThan(10);
     expect(app.localUrl).toMatch(/^http:\/\/localhost:\d+$/);

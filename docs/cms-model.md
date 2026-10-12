@@ -1,4 +1,4 @@
-# Content model (Strapi + Sanity)
+# Content model (Sanity)
 
 The model intentionally uses six collection types and one single type. It avoids categories-as-collections, polymorphic page builders, and deeply nested components until there is a proven editorial need. Sanity Studio at `apps/sanity-studio` mirrors the same model with document types `siteSetting`, `update`, `project`, `event`, `survey`, `resource`, and private `issueReport`, plus objects `resourceDetail` and `collectionDate`.
 
@@ -12,7 +12,7 @@ The model intentionally uses six collection types and one single type. It avoids
 | Resource     | Curated local service or contact                      | title, slug, category, service type, provider type, description, contacts, additional details, optional collection dates/document, source, display order |
 | Issue report | Private structured resident submission                | category, location, details, reporter contact, consent, state                                                                                            |
 
-All editorial types use Draft & Publish. Issue reports do not, because they are private operational records rather than public articles. The public role receives read access only to editorial types and create-only access to issue reports.
+All editorial types use Draft & Publish. Issue reports do not, because they are private operational records rather than public articles.
 
 Resources use a repeatable `Resource detail` component for optional metadata. Each detail is an editor-defined label/value pair, allowing entries to expose fields such as address, opening hours, service area, accessibility, credentials, or a secondary contact without changing the content model or public UI. Editors can mark individual details for display on concise directory cards; the provider detail page shows the complete set.
 
