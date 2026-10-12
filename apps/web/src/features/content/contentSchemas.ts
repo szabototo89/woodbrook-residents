@@ -110,6 +110,10 @@ export const eventSchema = z.object({
   slug: z.string().describe('URL-safe event route slug.'),
   summary: z.string().describe('Short public event description.'),
   startsAt: dateString.describe('ISO date-time when the event starts.'),
+  allDay: z
+    .boolean()
+    .optional()
+    .describe('Whether the source specifies a date without an event time.'),
   endsAt: optionalDateString.describe(
     'Optional ISO date-time when the event ends.',
   ),

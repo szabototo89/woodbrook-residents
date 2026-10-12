@@ -69,6 +69,7 @@ export type CommunityEvent = {
   summary: string;
   startsAt: string;
   endsAt?: string;
+  allDay?: boolean;
   location: string;
   bookingUrl?: string;
   sourceUrl: string;

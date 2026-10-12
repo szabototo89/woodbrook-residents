@@ -1294,3 +1294,41 @@ test('GoogleSheetsContentSource credential handling treats ranges without values
     resources: [],
   });
 });
+
+test('published spreadsheet events preserve their all-day flag', () => {
+  const snapshot = parseGoogleSheetsContent({
+    Updates: [[]],
+    Projects: [[]],
+    Consultations: [[]],
+    Local_Info: [[]],
+    Events: [
+      eventHeaders,
+      [
+        'sample-event',
+        'sample-event',
+        true,
+        true,
+        'community',
+        'scheduled',
+        'Sample community date',
+        'Published date without a time',
+        '2030-10-31',
+        '',
+        'Europe/Dublin',
+        true,
+        'Sample venue',
+        '',
+        '',
+        'Sample organiser',
+        '',
+        '',
+        'Sample source',
+        'https://example.com/event',
+        '2026-10-12',
+        1,
+        '',
+      ],
+    ],
+  });
+  expect(snapshot.events[0]?.allDay).toBe(true);
+});

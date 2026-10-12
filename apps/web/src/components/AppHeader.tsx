@@ -1,6 +1,7 @@
 import { Link, useRouterState } from '@tanstack/react-router';
-import { Menu } from 'lucide-react';
+import { ArrowRight, Menu } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { SiteSearch } from './SiteSearch';
 
 const navigation = [
   { to: '/updates', label: 'Updates' },
@@ -61,12 +62,13 @@ export function AppHeader() {
     <header className="site-header">
       <div className="shell header-inner">
         <Link className="brand" to="/">
-          <span className="brand-mark" aria-hidden="true">
-            W
-          </span>
-          <span className="brand-copy">
-            <strong>Woodbrook Residents</strong>
-            <span aria-hidden="true">Community hub · Shankill</span>
+          <span className="brand-image-frame">
+            <img
+              src="/images/woodbrook-wordmark.png"
+              alt="Woodbrook Residents"
+              width="2048"
+              height="683"
+            />
           </span>
         </Link>
 
@@ -82,8 +84,10 @@ export function AppHeader() {
           ))}
         </nav>
 
+        <SiteSearch compact />
+
         <Link className="button button-small header-action" to="/get-involved">
-          Get involved
+          Get involved <ArrowRight size={15} aria-hidden="true" />
         </Link>
 
         <div className="mobile-nav" ref={mobileNavigationRef}>

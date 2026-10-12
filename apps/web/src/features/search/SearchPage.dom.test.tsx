@@ -1,5 +1,6 @@
 // @vitest-environment happy-dom
 import { expect, test, vi } from 'vitest';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { renderUi } from '../../test-utils/renderUi';
 import type { ContentCollection } from '../content/contentTypes';
 import type { SearchResult } from './siteSearch';
@@ -85,4 +86,22 @@ test('search explains a source outage without pretending there are no matches', 
   expect(container.textContent).toContain('temporarily unavailable');
   expect(container.textContent).not.toContain('0 results');
   unmount();
+});
+
+test('static search starts with the same markup before browser query hydration', () => {
+  state.q = 'park';
+  state.content = {
+    availability: 'ready',
+    items: [
+      {
+        title: 'Park project',
+        summary: 'Paths',
+        type: 'Project',
+        href: '/projects/park',
+      },
+    ],
+  };
+  const markup = renderToStaticMarkup(<SearchPage />);
+  expect(markup).toContain('Enter a search');
+  expect(markup).not.toContain('1 result for');
 });

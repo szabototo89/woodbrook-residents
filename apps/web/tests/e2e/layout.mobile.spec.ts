@@ -2,61 +2,52 @@ import { expect, test } from '@playwright/test';
 
 const mobileLayoutTolerancePx = 4;
 
-test('the homepage has no horizontal overflow on a phone', async ({ page }) => {
+test('the homepage follows the mobile reference using the header navigation', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  await page.evaluate(() => document.fonts?.ready);
-
+  await page.evaluate(() => document.fonts.ready);
+  await page.getByRole('button', { name: 'Reject', exact: true }).click();
+  await expect(
+    page.getByRole('heading', {
+      level: 1,
+      name: 'Find what’s happening in Woodbrook, fast.',
+    }),
+  ).toBeVisible();
+  const shortcuts = page
+    .getByRole('navigation', { name: 'Explore Woodbrook' })
+    .getByRole('link');
+  await expect(shortcuts).toHaveCount(4);
+  const boxes = await shortcuts.evaluateAll((links) =>
+    links.slice(0, 4).map((link) => link.getBoundingClientRect().toJSON()),
+  );
+  expect(Math.abs(boxes[0].top - boxes[1].top)).toBeLessThanOrEqual(
+    mobileLayoutTolerancePx,
+  );
+  expect(boxes[2].top).toBeGreaterThan(boxes[0].bottom);
   const dimensions = await page.evaluate(() => ({
     clientWidth: document.documentElement.clientWidth,
     scrollWidth: document.documentElement.scrollWidth,
   }));
-
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(
     dimensions.clientWidth + 1,
   );
   await expect(
-    page.getByRole('heading', {
-      level: 1,
-      name: 'Local information and ways to take part.',
-    }),
+    page.getByRole('heading', { name: 'Need something quickly?' }),
   ).toBeVisible();
-
-  const startingPoints = [
-    page.getByRole('link', { name: /find practical help/i }),
-    page.getByRole('link', { name: /stay informed/i }),
-    page.getByRole('link', { name: /take part/i }),
-    page.getByRole('link', { name: /have your say/i }),
-  ];
-  for (const startingPoint of startingPoints) {
-    await expect(startingPoint).toBeVisible();
-  }
-  const cardWidths = await Promise.all(
-    startingPoints.map((startingPoint) =>
-      startingPoint.evaluate(
-        (element) => element.getBoundingClientRect().width,
-      ),
-    ),
-  );
-
-  expect(Math.max(...cardWidths) - Math.min(...cardWidths)).toBeLessThanOrEqual(
-    mobileLayoutTolerancePx,
-  );
-
+  if (process.env.DESIGN_SCREENSHOT_DIR)
+    await page.screenshot({
+      path: `${process.env.DESIGN_SCREENSHOT_DIR}/mobile.png`,
+      fullPage: true,
+      scale: 'device',
+    });
+  await page.getByRole('button', { name: 'Open navigation' }).click();
   await page
-    .getByRole('link', { name: 'Choose where to start', exact: true })
+    .getByRole('navigation', { name: 'Mobile navigation' })
+    .getByRole('link', { name: 'Local information' })
     .click();
-  const anchorClearance = await page.evaluate(() => {
-    const headerBottom = document
-      .querySelector('.site-header')!
-      .getBoundingClientRect().bottom;
-    const eyebrowTop = document
-      .querySelector('#community-start .eyebrow')!
-      .getBoundingClientRect().top;
-
-    return eyebrowTop - headerBottom;
-  });
-
-  expect(anchorClearance).toBeGreaterThanOrEqual(0);
+  await expect(page).toHaveURL(/\/local-info$/);
 });
 
 test('the mobile navigation can be dismissed accessibly', async ({ page }) => {

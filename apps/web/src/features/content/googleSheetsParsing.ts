@@ -401,7 +401,6 @@ function mapEvents(values: unknown[][]): CommunityEvent[] {
     (row) => {
       row.enum('category', eventCategories);
       row.enum('status', eventStatuses);
-      row.boolean('all_day', true);
       row.text('source_name', true);
       row.url('map_url');
       const timeZone = row.text('timezone', true) ?? spreadsheetTimeZone;
@@ -413,6 +412,7 @@ function mapEvents(values: unknown[][]): CommunityEvent[] {
         title: row.text('title', true)!,
         summary: row.text('summary', true)!,
         startsAt: row.dateTime('start_at', timeZone, true)!,
+        allDay: row.boolean('all_day', true),
         endsAt: row.dateTime('end_at', timeZone),
         location:
           locationName ?? address ?? row.error('location_name', 'is required.'),

@@ -115,12 +115,12 @@ const fullContent: HomeContent = {
   ],
 };
 
-test('home start-here grid links to projects', async () => {
+test('home shortcuts deep-link to trades and services', async () => {
   mockContent = emptyContent;
   const { HomePage } = await import('./HomePage');
   const { container, unmount } = renderUi(<HomePage />);
   expect(
-    container.querySelector('.room-grid a[href="/projects"]'),
+    container.querySelector('a[href="/local-info?category=trades"]'),
   ).not.toBeNull();
   unmount();
 });
@@ -138,10 +138,129 @@ test('home page shows content sections when content is ready', async () => {
   const { HomePage } = await import('./HomePage');
   const { container, unmount } = renderUi(<HomePage />);
   expect(container.textContent).toContain('Custom tagline');
-  expect(container.textContent).toContain('Useful things to know');
-  expect(container.textContent).toContain('Coming up nearby');
+  expect(container.textContent).toContain('What’s new in Woodbrook');
+  expect(container.textContent).toContain('Upcoming event');
   expect(container.textContent).toContain('Public consultations');
-  expect(container.textContent).toContain('Projects shaping the place');
-  expect(container.textContent).toContain('1 upcoming date');
+  expect(container.textContent).toContain('Community projects');
+  expect(
+    container.querySelector('a[href="/events/test-event"]'),
+  ).not.toBeNull();
+  unmount();
+});
+
+test('homepage offers a public search and direct everyday service shortcuts', async () => {
+  mockContent = emptyContent;
+  const { HomePage } = await import('./HomePage');
+  const { container, unmount } = renderUi(<HomePage />);
+  expect(container.querySelector('h1')?.textContent).toBe(
+    'Find what’s happening in Woodbrook, fast.',
+  );
+  expect(
+    container.querySelector('form[role="search"]')?.getAttribute('action'),
+  ).toBe('/search');
+  expect(
+    container.querySelector('input[type="search"]')?.getAttribute('name'),
+  ).toBe('q');
+  expect(container.textContent).toContain('Need something quickly?');
+  expect(
+    container.querySelector('a[href="/local-info?category=health"]')
+      ?.textContent,
+  ).toContain('Healthcare');
+  expect(container.textContent).toContain('No upcoming events published');
+  expect(container.textContent).toContain('No updates published yet');
+  unmount();
+});
+
+test('homepage preserves published images, detail URLs and event end time', async () => {
+  mockContent = {
+    ...fullContent,
+    updates: [
+      {
+        ...fullContent.updates[0]!,
+        imagePath: '/images/woodbrook-station.jpg',
+        imageAlt: 'Published station photo',
+      },
+      {
+        ...fullContent.updates[0]!,
+        documentId: 'u2',
+        slug: 'second-update',
+        imagePath: '/images/shankill-coast.jpg',
+      },
+    ],
+    projects: [
+      {
+        ...fullContent.projects[0]!,
+        imagePath: '/images/woodbrook-station.jpg',
+        imageAlt: 'Published project photo',
+      },
+      {
+        ...fullContent.projects[0]!,
+        documentId: 'p2',
+        slug: 'second-project',
+        imagePath: '/images/shankill-coast.jpg',
+      },
+    ],
+    events: [{ ...fullContent.events[0]!, endsAt: '2030-09-20T12:00:00.000Z' }],
+  };
+  const { HomePage } = await import('./HomePage');
+  const { container, unmount } = renderUi(<HomePage />);
+  expect(
+    container
+      .querySelector('img[alt="Published station photo"]')
+      ?.getAttribute('src'),
+  ).toBe('/images/woodbrook-station.jpg');
+  expect(
+    container.querySelector('a[href="/updates/second-update"]'),
+  ).not.toBeNull();
+  expect(
+    container
+      .querySelector('img[alt="Published project photo"]')
+      ?.getAttribute('src'),
+  ).toBe('/images/woodbrook-station.jpg');
+  expect(
+    container.querySelector('a[href="/projects/second-project"]'),
+  ).not.toBeNull();
+  expect(container.textContent).toContain('11:00 – 13:00');
+  unmount();
+});
+
+test('featured all-day events show the date without a misleading midnight time', async () => {
+  mockContent = {
+    ...fullContent,
+    events: [
+      {
+        ...fullContent.events[0]!,
+        startsAt: '2030-10-31T00:00:00.000Z',
+        allDay: true,
+      },
+    ],
+  };
+  const { HomePage } = await import('./HomePage');
+  const { container, unmount } = renderUi(<HomePage />);
+  expect(container.querySelector('.home-event-meta')?.textContent).toContain(
+    '31 October 2030',
+  );
+  expect(
+    container.querySelector('.home-event-meta')?.textContent,
+  ).not.toContain('0:00');
+  unmount();
+});
+
+test('published Halloween events use seasonal illustration with their actual details', async () => {
+  mockContent = {
+    ...fullContent,
+    events: [{ ...fullContent.events[0]!, title: 'Sample Halloween party' }],
+  };
+  const { HomePage } = await import('./HomePage');
+  const { container, unmount } = renderUi(<HomePage />);
+  expect(container.querySelector('#home-event-title')?.textContent).toBe(
+    'Sample Halloween party',
+  );
+  expect(
+    container.querySelector('.home-featured-event img')?.getAttribute('src'),
+  ).toBe('/images/halloween-event.png');
+  expect(
+    container.querySelector('.home-featured-event a')?.getAttribute('href'),
+  ).toBe('/events/test-event');
   unmount();
 });

@@ -7,3 +7,22 @@
 - `woodbrook-community-hub-social-v2.png` — generated social preview for the selected warm community-hub design. Its open threshold, coast, and hillside shapes are abstract identity cues, not a documentary view of Woodbrook.
 - `woodbrook-estate-aerial-lda.jpg` — Woodbrook construction progress aerial from the [Land Development Agency Woodbrook project page](https://lda.ie/projects/woodbrook-shankill), used with a visible source caption in the local design concepts.
 - `woodbrook-coast-aerial.jpg` — aerial photograph of Woodbrook's coastal setting from the official [Woodbrook Shankill South Coast page](https://www.woodbrookshankill.ie/south-coast), credited in the home-page caption. Copyright metadata names Barrow Coakley. Accessed 6 September 2026.
+
+## Coastal redesign assets
+
+Generated with the built-in `image_gen` tool on 12 October 2026. These graphics
+are branding and illustration, not documentary local photographs.
+
+- `woodbrook-logo.png`: neighbourhood rooflines, a flowing shoreline and a
+  golden sun in forest green and ivory. The matching favicon and touch icon are
+  downscaled exports of this symbol.
+- `woodbrook-wordmark.png`: the coastal symbol with only Woodbrook Residents
+  in restrained humanist sans-serif lettering; no subtitle or W monogram.
+- `coast-note.png`: handwritten Our community / by the coast with a curved
+  arrow. White matte, blended over the hero with CSS multiply.
+- `halloween-event.png`: two glowing pumpkins, autumn leaves and amber bokeh,
+  used as thematic illustration when a published event title mentions Halloween.
+- `meadow.svg`: a code-native decorative flower illustration.
+
+Final generation prompts are recorded in
+[the asset prompt record](../../../../docs/features/woodbrook-asset-prompts.md).

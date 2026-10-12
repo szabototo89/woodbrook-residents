@@ -8,7 +8,7 @@ test('shows researched community content and supports primary navigation', async
   await expect(
     page.getByRole('heading', {
       level: 1,
-      name: 'Local information and ways to take part.',
+      name: 'Find what’s happening in Woodbrook, fast.',
     }),
   ).toBeVisible();
   const estateImage = page.getByRole('img', {
@@ -60,7 +60,10 @@ test('shows researched community content and supports primary navigation', async
     )
     .toBeGreaterThanOrEqual(480);
   await expect(
-    page.getByRole('link', { name: 'Woodbrook Shankill', exact: true }),
+    page.getByRole('link', {
+      name: 'Woodbrook Shankill · Image source',
+      exact: true,
+    }),
   ).toHaveAttribute('href', 'https://www.woodbrookshankill.ie/south-coast');
   await expect(
     page.getByRole('heading', {

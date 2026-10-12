@@ -2,6 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 const isContinuousIntegration = Boolean(process.env.CI);
 const stubPort = Number(process.env.E2E_STRAPI_STUB_PORT ?? 1338);
+const webPort = Number(process.env.E2E_WEB_PORT ?? 4173);
+const webUrl = `http://127.0.0.1:${webPort}`;
 const stubUrl = `http://127.0.0.1:${stubPort}`;
 // Always test against the co-located stub. An ambient STRAPI_URL (e.g. from
 // the repo-root .env, which points at a dev CMS that may not be running)
@@ -18,7 +20,7 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   reporter: isContinuousIntegration ? 'line' : 'list',
   use: {
-    baseURL: 'http://127.0.0.1:4173',
+    baseURL: webUrl,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
     video: 'off',
@@ -47,8 +49,8 @@ export default defineConfig({
       timeout: 30_000,
     },
     {
-      command: `CONTENT_SOURCE=strapi STRAPI_URL=${strapiUrl} bun run preview -- --host 127.0.0.1 --port 4173 --strictPort`,
-      url: 'http://127.0.0.1:4173',
+      command: `CONTENT_SOURCE=strapi STRAPI_URL=${strapiUrl} bun run preview -- --host 127.0.0.1 --port ${webPort} --strictPort`,
+      url: webUrl,
       // Never reuse: a preview started without the e2e env serves different
       // content and fails the seed-content assertions. strictPort turns a
       // port collision into a loud startup error instead of silently testing

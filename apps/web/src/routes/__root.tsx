@@ -3,6 +3,8 @@ import { createRootRoute } from '@tanstack/react-router';
 import { NotFoundPage } from '../app/NotFoundPage';
 import { RootDocument } from '../app/RootDocument';
 import appCss from '../styles.css?url';
+import themeCss from '../components/site-theme.css?url';
+import homeCss from '../features/home/home.css?url';
 
 export const Route = createRootRoute({
   head: () => ({
@@ -40,6 +42,8 @@ export const Route = createRootRoute({
         rel: 'stylesheet',
         href: appCss,
       },
+      { rel: 'stylesheet', href: themeCss },
+      { rel: 'stylesheet', href: homeCss },
     ],
   }),
   notFoundComponent: NotFoundPage,

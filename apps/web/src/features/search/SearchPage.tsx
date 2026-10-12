@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { CmsUnavailable } from '../../components/CmsUnavailable';
 import { PageIntro } from '../../components/PageIntro';
 import { SiteSearch } from '../../components/SiteSearch';
@@ -8,7 +9,10 @@ import { searchPublicContent } from './siteSearch';
 export function SearchPage() {
   const content = Route.useLoaderData();
   const { q } = Route.useSearch();
-  const results = searchPublicContent(content.items, q);
+  const [query, setQuery] = useState('');
+  // Prerendered search HTML has no query. Apply the browser URL after hydration.
+  useEffect(() => setQuery(q), [q]);
+  const results = searchPublicContent(content.items, query);
   return (
     <main id="main-content">
       <PageIntro eyebrow="Find it locally" title="Search Woodbrook">
@@ -18,17 +22,17 @@ export function SearchPage() {
         </p>
       </PageIntro>
       <section className="section shell search-page-results">
-        <SiteSearch key={q} query={q} />
+        <SiteSearch key={query} query={query} />
         {content.availability === 'unavailable' ? (
           <CmsUnavailable />
         ) : (
           <>
             <p role="status">
-              {q
-                ? `${results.length} ${results.length === 1 ? 'result' : 'results'} for “${q}”`
+              {query
+                ? `${results.length} ${results.length === 1 ? 'result' : 'results'} for “${query}”`
                 : 'Enter a search to find published local information.'}
             </p>
-            {q && results.length === 0 ? (
+            {query && results.length === 0 ? (
               <p>
                 Try a broader search, such as transport, health or Woodbrook.
               </p>

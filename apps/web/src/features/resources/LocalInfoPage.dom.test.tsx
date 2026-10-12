@@ -1,5 +1,6 @@
 // @vitest-environment happy-dom
 import { act } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, test, vi } from 'vitest';
 import type { ReactNode } from 'react';
 
@@ -267,4 +268,16 @@ test('directory describes active category and out-of-hours filters', async () =>
   } finally {
     unmount();
   }
+});
+
+test('filtered directory links hydrate from the unfiltered static page without losing the URL filter', async () => {
+  mockContent = { availability: 'ready', items: [resource] };
+  mockSearch = { category: 'health' };
+  const { LocalInfoPage } = await import('./LocalInfoPage');
+  const markup = renderToStaticMarkup(<LocalInfoPage />);
+  expect(markup).toContain('Test plumber');
+  const { container, unmount } = renderUi(<LocalInfoPage />);
+  expect(container.textContent).toContain('No matching contacts');
+  expect(container.textContent).not.toContain('Test plumber');
+  unmount();
 });

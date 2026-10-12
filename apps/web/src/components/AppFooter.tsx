@@ -9,9 +9,14 @@ export function AppFooter() {
       <div className="shell footer-grid">
         <div>
           <Link className="footer-brand" to="/">
-            <span className="brand-mark brand-mark-light" aria-hidden="true">
-              W
-            </span>
+            <img
+              className="brand-symbol"
+              src="/images/woodbrook-logo.png"
+              alt=""
+              width="44"
+              height="44"
+              loading="lazy"
+            />
             <span>
               <strong>Woodbrook Residents</strong>
               <small>

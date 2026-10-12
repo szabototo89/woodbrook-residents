@@ -1,5 +1,8 @@
 # Capability index
 
+- [Public content search](public-content-search.md) — Available
+- [Responsive coastal homepage](responsive-coastal-homepage.md) — Available
+- [Woodbrook Residents brand assets](woodbrook-brand-assets.md) — Available
 - [Community information hub](community-information-hub.md) — Available
 - [Event timeline](event-timeline.md) — Available
 - [Add to calendar](add-to-calendar.md) — Available

@@ -1,0 +1,224 @@
+/* Coastal community homepage and shared navigation. */
+:root {
+  --ink: #102e2b;
+  --ink-soft: #58666b;
+  --forest: #254f40;
+  --forest-2: #173d32;
+  --paper: #f8f7f2;
+  --white: #ffffff;
+  --sun: #f5dc82;
+}
+
+.site-header {
+  background: rgba(255, 255, 255, 0.96);
+}
+.header-inner {
+  min-height: 72px;
+  gap: 22px;
+}
+.brand {
+  border-radius: 12px;
+}
+.brand-mark {
+  width: 42px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #39604e, #1c4639);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  font-size: 1.6rem;
+}
+.brand-copy strong {
+  font-size: 1.45rem;
+  font-weight: 650;
+}
+.brand-copy span {
+  display: block;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.desktop-nav {
+  gap: 22px;
+}
+.desktop-nav a {
+  padding-block: 26px;
+  font-size: 0.76rem;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.header-action {
+  min-height: 42px;
+  padding: 10px 16px;
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+.site-search {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 15px;
+  height: 43px;
+  padding: 4px 5px 4px 20px;
+  border: 1px solid #d5ddd8;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(25, 53, 44, 0.04);
+}
+.site-search > svg {
+  flex-shrink: 0;
+  color: var(--ink);
+}
+.site-search input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+.site-search input::placeholder {
+  color: #727b8b;
+}
+.site-search:focus-within {
+  outline: 2px solid var(--forest);
+  outline-offset: 3px;
+}
+.site-search button {
+  height: 100%;
+  padding-inline: 29px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--forest);
+  color: white;
+  font-size: 0.87rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+.site-search button:hover {
+  background: var(--forest-2);
+}
+.site-search-compact {
+  width: 230px;
+  height: 38px;
+  gap: 9px;
+  padding-left: 13px;
+  border-radius: 16px;
+  box-shadow: none;
+}
+.site-search-compact input {
+  font-size: 0.69rem;
+}
+.site-search-compact > svg {
+  width: 16px;
+}
+.site-search-compact button {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.site-search-compact button:focus-visible {
+  position: static;
+  width: auto;
+  height: 100%;
+  padding: 4px 8px;
+  clip-path: none;
+}
+
+/* One readable scale across the homepage, listings and detail pages. */
+:root {
+  --type-caption: 0.75rem;
+  --type-small: 0.875rem;
+  --type-body: 1rem;
+  --type-lede: 1.125rem;
+  --type-card: 1.375rem;
+  --type-section: clamp(1.5rem, 2.1vw, 1.875rem);
+  --type-page: clamp(2.5rem, 4.7vw, 4.6rem);
+}
+h1,
+.page-intro h1 {
+  font-size: var(--type-page);
+  line-height: 1.02;
+  font-weight: 600;
+}
+h2,
+.section-heading h2,
+.event-period-header h2 {
+  font-size: var(--type-section);
+  line-height: 1.08;
+  font-weight: 600;
+}
+h3,
+.content-card h3,
+.event-card h2,
+.event-card h3,
+.survey-card h2,
+.resource-card h2 {
+  font-size: var(--type-card);
+  line-height: 1.12;
+  font-weight: 600;
+}
+.card-body > p,
+.event-card p,
+.survey-card p {
+  font-size: var(--type-small);
+  line-height: 1.5;
+}
+.page-intro-copy p {
+  font-size: var(--type-lede);
+}
+.tag,
+.card-meta,
+.text-link,
+.event-meta,
+.survey-date {
+  font-size: var(--type-caption);
+}
+.desktop-nav a,
+.header-action,
+.site-search input,
+.site-search button {
+  font-size: var(--type-small);
+}
+.site-search-compact input {
+  font-size: var(--type-caption);
+}
+.brand-symbol {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.brand-image-frame {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 220px;
+  height: 43px;
+}
+.brand-image-frame img {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: auto;
+  transform: translateY(-50%);
+}
+@media (max-width: 760px) {
+  .brand-image-frame {
+    width: 220px;
+    height: 43px;
+  }
+}
+@media (max-width: 360px) {
+  .brand-image-frame {
+    width: 210px;
+    height: 41px;
+  }
+}

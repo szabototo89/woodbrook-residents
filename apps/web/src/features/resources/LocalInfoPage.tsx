@@ -1,5 +1,5 @@
 import { Search, X } from 'lucide-react';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { CmsUnavailable } from '../../components/CmsUnavailable';
 import { EmptyState } from '../../components/EmptyState';
@@ -21,7 +21,12 @@ import {
 export function LocalInfoPage() {
   const { content, today } = Route.useLoaderData();
   const rawSearch = Route.useSearch();
-  const { query, category, outOfHoursOnly } = parseLocalInfoSearch(rawSearch);
+  const [hasHydrated, setHasHydrated] = useState(false);
+  // Static directory HTML is unfiltered; apply URL filters after hydration.
+  useEffect(() => setHasHydrated(true), []);
+  const { query, category, outOfHoursOnly } = parseLocalInfoSearch(
+    hasHydrated ? rawSearch : {},
+  );
   const navigate = Route.useNavigate();
 
   function updateFilters(next: Partial<LocalInfoFilters>) {
