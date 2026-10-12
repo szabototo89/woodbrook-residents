@@ -40,6 +40,8 @@
     "deploy:laura": "bun scripts/deploy-laura.ts",
     "worktree:remove": "scripts/worktree-remove.sh",
     "worktree:list-old": "bun scripts/list-old-worktrees.ts",
+    "worktree:clean-old": "bun scripts/list-old-worktrees.ts --clean",
+    "worktree:clean-stale": "bun scripts/list-old-worktrees.ts --clean --stale-only",
     "preinstall": "bun scripts/list-old-worktrees.ts --days 7 || true",
     "sync:content": "bun scripts/sync-content.ts",
     "test:scripts": "bun test scripts/sync-content.test.ts scripts/app.test.ts scripts/list-old-worktrees.test.ts scripts/eslint-laura-offline-tests.test.ts",
