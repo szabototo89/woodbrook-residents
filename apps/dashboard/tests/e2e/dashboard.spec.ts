@@ -16,9 +16,11 @@ test('environment search persists in the URL and clears cleanly', async ({
   page,
 }) => {
   await page.goto('/environments');
-  await page.getByLabel('Search environments').fill('cms');
-  await expect(page).toHaveURL(/search=cms/);
-  await expect(page.getByRole('link', { name: 'cms-local' })).toBeVisible();
+  await page.getByLabel('Search environments').fill('sanity');
+  await expect(page).toHaveURL(/search=sanity/);
+  await expect(
+    page.getByRole('link', { name: 'sanity-studio-local' }),
+  ).toBeVisible();
   await expect(page.getByRole('link', { name: 'web-local' })).toHaveCount(0);
 
   await page.getByRole('button', { name: 'Clear filters' }).first().click();
@@ -47,9 +49,11 @@ test('legacy app URLs redirect to environment detail', async ({ page }) => {
   await page.goto('/app/web');
   await expect(page).toHaveURL('/environments/web-local');
 
-  await page.goto('/app/cms/scripts');
-  await expect(page).toHaveURL('/environments/cms-local?tab=scripts');
-  await expect(page.getByText('bun run --cwd apps/cms develop')).toBeVisible();
+  await page.goto('/app/sanity-studio/scripts');
+  await expect(page).toHaveURL('/environments/sanity-studio-local?tab=scripts');
+  await expect(
+    page.getByText('bun run --cwd apps/sanity-studio dev'),
+  ).toBeVisible();
 });
 
 test('sidebar navigates the operational sections', async ({ page }) => {
@@ -60,7 +64,7 @@ test('sidebar navigates the operational sections', async ({ page }) => {
 
   await page.getByRole('link', { name: 'Projects' }).click();
   await expect(page).toHaveURL('/projects');
-  await expect(page.getByRole('link', { name: 'cms' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'sanity-studio' })).toBeVisible();
 });
 
 test('command palette opens with the keyboard shortcut', async ({ page }) => {

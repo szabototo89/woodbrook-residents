@@ -29,14 +29,14 @@ export const apps: DashboardApp[] = [
     infraGroups: ['source', 'hosting', 'analytics'],
   },
   {
-    name: 'cms',
+    name: 'sanity-studio',
     description:
-      'Strapi headless CMS holding Woodbrook content types. Publishes trigger static rebuilds.',
-    stack: 'Strapi 5 · SQLite · Node 24',
-    localUrl: 'http://localhost:1337',
+      'Sanity Studio holding Woodbrook content types. Publishes trigger static rebuilds.',
+    stack: 'Sanity Studio · GROQ · React 19',
+    localUrl: 'http://localhost:3333',
     scripts: {
-      develop: 'bun run --cwd apps/cms develop',
-      build: 'bun run --cwd apps/cms build',
+      dev: 'bun run --cwd apps/sanity-studio dev',
+      build: 'bun run --cwd apps/sanity-studio build',
     },
     infraGroups: ['cms', 'source', 'hosting'],
   },
@@ -84,8 +84,8 @@ export const infraLinks: InfraLink[] = [
     group: 'hosting',
   },
   {
-    label: 'Strapi local admin',
-    url: 'https://docs.strapi.io/cms/admin-panel',
+    label: 'Sanity Studio',
+    url: 'https://www.sanity.io/docs/studio',
     group: 'cms',
   },
   {

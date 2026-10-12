@@ -55,8 +55,8 @@ test('environment filtering supports search, status, owner, and lifecycle', () =
   const envs = getWorkspaceEnvironments(apps);
   expect(filterEnvironments(envs, {}).length).toBe(envs.length);
   expect(
-    filterEnvironments(envs, { search: 'cms' }).every((env) =>
-      `${env.name} ${env.project}`.includes('cms'),
+    filterEnvironments(envs, { search: 'sanity' }).every((env) =>
+      `${env.name} ${env.project}`.includes('sanity'),
     ),
   ).toBe(true);
   expect(filterEnvironments(envs, { status: 'running' })).toEqual([]);
@@ -93,18 +93,18 @@ test('environment summary counts operational states without invented data', () =
 test('environment filters round-trip through URL search params', () => {
   const filters = parseEnvironmentFilters(
     new URLSearchParams(
-      'search=cms&status=stopped&owner=engineering&template=strapi&lifecycle=no-ttl',
+      'search=sanity&status=stopped&owner=engineering&template=sanity&lifecycle=no-ttl',
     ),
   );
   expect(filters).toEqual({
-    search: 'cms',
+    search: 'sanity',
     status: 'stopped',
     owner: 'engineering',
-    template: 'strapi',
+    template: 'sanity',
     lifecycle: 'no-ttl',
   });
   const params = serializeEnvironmentFilters(filters);
-  expect(params.get('search')).toBe('cms');
+  expect(params.get('search')).toBe('sanity');
   expect(params.get('status')).toBe('stopped');
   expect(params.get('lifecycle')).toBe('no-ttl');
   expect(serializeEnvironmentFilters({}).toString()).toBe('');

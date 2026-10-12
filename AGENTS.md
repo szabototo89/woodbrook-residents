@@ -3,7 +3,7 @@
 ## Architecture
 
 - `apps/web` is the TanStack Start public website.
-- `apps/cms` is the Strapi headless CMS.
+- `apps/sanity-studio` is the Sanity Studio content editor.
 - Use Bun for dependency management and repository scripts.
 - Keep route files focused on routing and loading. Put product UI and domain logic under `apps/web/src/features/`.
 - Keep shared application chrome under `apps/web/src/components/`.

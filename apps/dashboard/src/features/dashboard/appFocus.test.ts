@@ -12,15 +12,15 @@ test('app focus resolves each tracked app by name', () => {
 
 test('app focus shows only the infra groups relevant to the app', () => {
   const web = getAppByName(apps, 'web');
-  const cms = getAppByName(apps, 'cms');
-  if (!web || !cms) throw new Error('registry apps missing');
+  const studio = getAppByName(apps, 'sanity-studio');
+  if (!web || !studio) throw new Error('registry apps missing');
   const webLinks = getAppInfraLinks(web, infraLinks);
-  const cmsLinks = getAppInfraLinks(cms, infraLinks);
+  const studioLinks = getAppInfraLinks(studio, infraLinks);
   expect(webLinks.length).toBeGreaterThan(0);
   expect(webLinks.every((link) => web.infraGroups.includes(link.group))).toBe(
     true,
   );
-  expect(cmsLinks.some((link) => link.group === 'cms')).toBe(true);
+  expect(studioLinks.some((link) => link.group === 'cms')).toBe(true);
   expect(webLinks.some((link) => link.group === 'cms')).toBe(false);
 });
 
