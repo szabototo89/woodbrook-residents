@@ -1,9 +1,12 @@
 import { expect, test } from 'bun:test';
 
 import {
+  buildRemoveCommand,
   isOlderThan,
   parseArgs,
   parseWorktreePorcelain,
+  planTargetAction,
+  selectCleanTargets,
   selectOldWorktrees,
 } from './list-old-worktrees';
 
@@ -135,4 +138,135 @@ test('excludes the main checkout unless requested', () => {
       includeMain: true,
     }),
   ).toHaveLength(1);
+});
+
+test('parses cleanup flags', () => {
+  expect(parseArgs([])).toMatchObject({
+    clean: false,
+    staleOnly: false,
+    force: false,
+    exclude: [],
+  });
+  expect(parseArgs(['--clean', '--stale-only', '--force'])).toMatchObject({
+    clean: true,
+    staleOnly: true,
+    force: true,
+  });
+});
+
+test('parses repeatable --exclude paths', () => {
+  expect(parseArgs(['--exclude', '/tmp/a']).exclude).toEqual(['/tmp/a']);
+  expect(
+    parseArgs(['--exclude=/tmp/a', '--exclude', '/tmp/b']).exclude,
+  ).toEqual(['/tmp/a', '/tmp/b']);
+  expect(() => parseArgs(['--exclude'])).toThrow('--exclude');
+});
+
+test('clean targets never include main, cwd, or excluded paths', () => {
+  const now = Date.UTC(2026, 9, 12);
+  const day = 86_400_000;
+  const old = selectOldWorktrees(
+    [
+      { path: '/repo', birthMs: now - 90 * day, exists: true },
+      {
+        path: '/tmp/wt-self',
+        birthMs: now - 10 * day,
+        exists: true,
+      },
+      {
+        path: '/tmp/wt-old',
+        branch: 'refs/heads/session/old',
+        birthMs: now - 10 * day,
+        exists: true,
+      },
+      {
+        path: '/tmp/wt-skip',
+        birthMs: now - 10 * day,
+        exists: true,
+      },
+      {
+        path: '/tmp/wt-broken',
+        prunable: 'gitdir file points to non-existent location',
+        birthMs: now - 9 * day,
+        exists: true,
+      },
+    ],
+    { days: 7, nowMs: now, mainPath: '/repo', includeMain: true },
+  );
+
+  const targets = selectCleanTargets(old, {
+    exclude: ['/tmp/wt-skip'],
+    currentPath: '/tmp/wt-self',
+  });
+  expect(targets.map((entry) => entry.path)).toEqual([
+    '/tmp/wt-old',
+    '/tmp/wt-broken',
+  ]);
+});
+
+test('stale-only cleanup keeps just stale targets', () => {
+  const now = Date.UTC(2026, 9, 12);
+  const day = 86_400_000;
+  const old = selectOldWorktrees(
+    [
+      {
+        path: '/tmp/wt-old',
+        birthMs: now - 10 * day,
+        exists: true,
+      },
+      {
+        path: '/tmp/wt-broken',
+        prunable: 'gitdir file points to non-existent location',
+        birthMs: now - 9 * day,
+        exists: true,
+      },
+    ],
+    { days: 7, nowMs: now },
+  );
+
+  expect(
+    selectCleanTargets(old, { staleOnly: true }).map((entry) => entry.path),
+  ).toEqual(['/tmp/wt-broken']);
+});
+
+test('plans prune+delete for stale targets and remove for healthy ones', () => {
+  const now = Date.UTC(2026, 9, 12);
+  const day = 86_400_000;
+  const old = selectOldWorktrees(
+    [
+      {
+        path: '/tmp/wt-old',
+        birthMs: now - 10 * day,
+        exists: true,
+      },
+      {
+        path: '/tmp/wt-broken',
+        prunable: 'gitdir file points to non-existent location',
+        birthMs: now - 9 * day,
+        exists: true,
+      },
+    ],
+    { days: 7, nowMs: now },
+  );
+
+  expect(planTargetAction(old[0]!)).toBe('remove');
+  expect(planTargetAction(old[1]!)).toBe('prune+delete');
+});
+
+test('builds the wrapper remove command with optional force', () => {
+  expect(
+    buildRemoveCommand(
+      '/repo/scripts/worktree-remove.sh',
+      '/tmp/wt-old',
+      false,
+    ),
+  ).toEqual(['sh', '/repo/scripts/worktree-remove.sh', '/tmp/wt-old']);
+  expect(
+    buildRemoveCommand('/repo/scripts/worktree-remove.sh', '/tmp/wt-old', true),
+  ).toEqual([
+    'sh',
+    '/repo/scripts/worktree-remove.sh',
+    '--force',
+    '/tmp/wt-old',
+  ]);
 });
