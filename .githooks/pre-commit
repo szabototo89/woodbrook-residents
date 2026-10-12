@@ -5,6 +5,8 @@ set -eu
 cd "$(git rev-parse --show-toplevel)"
 # Auto-format staged files so commits never fail on formatting.
 staged_prettier="$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(ts|tsx|js|jsx|mjs|cjs|json|css|md)$' || true)"
+# Prettier errors on symlinks passed explicitly; skip them.
+staged_prettier="$(printf '%s\n' "$staged_prettier" | while IFS= read -r f; do [ -n "$f" ] && [ ! -L "$f" ] && printf '%s\n' "$f"; done || true)"
 if [ -n "$staged_prettier" ]; then
   printf '%s\n' "$staged_prettier" | xargs bunx prettier --write
   printf '%s\n' "$staged_prettier" | xargs git add

@@ -20,6 +20,14 @@
 - Never use `--no-verify` (or any hook-bypass flag) when committing. If hooks fail, fix the cause instead of bypassing them.
 - After a successful merge, remove the session worktree with `scripts/worktree-remove.sh <path>` (it closes the linked Herdr and cmux workspaces; raw `git worktree remove` fires no hook) and delete the merged session branch.
 
+## Dev server and preview
+
+- After creating the session worktree, `cd` into it and run `bun install`, then start the dev server in the background with `bun run dev`. Do not block the session waiting for it.
+- Wait until the dev server is ready before opening it: the web app responds on `http://localhost:3000` (dashboard on `http://localhost:3001` when relevant).
+- Once ready, open the dev site in a new cmux browser tab: `cmux browser open http://localhost:3000`.
+- Name the tab so the worktree and feature are obvious: `cmux rename-tab "<worktree>: <feature>"` (2-5 words, max ~40 characters, plain text, no emoji, no secrets).
+- Keep the dev server running in the background for the session; stop it when the worktree is removed.
+
 ## Herdr tab title
 
 - Keep the current Herdr tab title in sync with the task: set it once at session start after the topic is known, and again only when the topic pivots (new feature, different bug, different area, explicit redirect). Do not rename on every message.
