@@ -142,6 +142,9 @@ test('shares heading and body typography with the updates page and prioritises s
   const typography = (element: Element) => ({
     family: getComputedStyle(element).fontFamily,
     weight: getComputedStyle(element).fontWeight,
+    size: getComputedStyle(element).fontSize,
+    lineHeight: getComputedStyle(element).lineHeight,
+    color: getComputedStyle(element).color,
   });
   await page.goto('/updates');
   const heading = await page
@@ -171,11 +174,7 @@ test('shares heading and body typography with the updates page and prioritises s
       .evaluate(typography),
   ).toEqual(cardHeading);
   expect(
-    await page
-      .getByRole('article')
-      .first()
-      .locator('.search-result-summary')
-      .evaluate(typography),
+    await page.getByRole('article').first().locator('p').evaluate(typography),
   ).toEqual(body);
   await expect(
     page
@@ -192,9 +191,10 @@ test('shares heading and body typography with the updates page and prioritises s
 
 test.describe('desktop design review', () => {
   test.use({ deviceScaleFactor: 2 });
-  test('matches the reference layout with loaded thumbnails', async ({
+  test('uses shared page and card layouts with loaded thumbnails', async ({
     page,
   }, testInfo) => {
     await captureSearchDesign(page, testInfo, 1440, 'desktop');
+    await captureSearchDesign(page, testInfo, 1440, 'desktop', '');
   });
 });

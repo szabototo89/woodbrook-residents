@@ -1,8 +1,11 @@
 import { Link, useHydrated } from '@tanstack/react-router';
-import { ChevronLeft, Search, X } from 'lucide-react';
+import { ArrowLeft, Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { CmsUnavailable } from '../../components/CmsUnavailable';
+import { EmptyState } from '../../components/EmptyState';
+import { PageIntro } from '../../components/PageIntro';
+import { SearchField } from '../../components/SearchField';
 import { Route } from '../../routes/search';
 import {
   parseSearchParams,
@@ -11,7 +14,6 @@ import {
   type SearchParams,
 } from './searchModel';
 import { SearchResultCard } from './SearchResultCard';
-import './search.css';
 
 export function SearchPage() {
   const content = Route.useLoaderData();
@@ -41,63 +43,37 @@ export function SearchPage() {
 
   const emptyCategory = counts.all > 0 && params.category !== 'all';
   return (
-    <>
-      <main id="main-content" className="search-page">
-        <div className="search-shell">
-          <Link className="search-back" to="/">
-            <ChevronLeft size={20} aria-hidden="true" />
-            Back
-          </Link>
-          <h1>Search results</h1>
-          <p className="search-count" role="status" aria-live="polite">
-            {content.availability === 'unavailable' ? (
-              'Search is temporarily unavailable'
-            ) : params.q ? (
-              <>
-                {results.length} {results.length === 1 ? 'result' : 'results'}{' '}
-                for <strong>“{params.q}”</strong>
-              </>
-            ) : (
-              'Find what matters in your neighbourhood'
-            )}
-          </p>
-          <form
-            role="search"
-            className="community-search"
-            onSubmit={(event) => {
-              event.preventDefault();
-              updateSearch(parseSearchParams({ q: draft, category: 'all' }));
-            }}
-          >
-            <button
-              className="search-submit"
-              type="submit"
-              aria-label="Submit search"
-            >
-              <Search size={25} aria-hidden="true" />
-            </button>
-            <input
-              ref={inputRef}
-              type="search"
-              aria-label="Search community information"
-              placeholder="Search updates, projects, events…"
-              maxLength={120}
-              value={draft}
-              onChange={(event) => setDraft(event.target.value)}
-            />
-            {draft ? (
-              <button
-                className="search-clear"
-                type="button"
-                aria-label="Clear search"
-                onClick={clearSearch}
-              >
-                <X size={18} aria-hidden="true" />
-              </button>
-            ) : null}
-          </form>
+    <main id="main-content">
+      <PageIntro eyebrow="Find what you need" title="Search results">
+        <p>
+          Find local services, community updates, projects and events in one
+          place.
+        </p>
+        <Link className="text-link" to="/">
+          <ArrowLeft size={16} aria-hidden="true" />
+          Back
+        </Link>
+      </PageIntro>
+      <section className="section shell directory-section">
+        <form
+          className="directory-tools"
+          role="search"
+          onSubmit={(event) => {
+            event.preventDefault();
+            updateSearch(parseSearchParams({ q: draft, category: 'all' }));
+          }}
+        >
+          <SearchField
+            label="Search community information"
+            placeholder="Try a service, update, project or event…"
+            value={draft}
+            onChange={setDraft}
+            inputRef={inputRef}
+            submitButton
+            onClear={clearSearch}
+          />
           <div
-            className="search-filters"
+            className="directory-filters"
             role="group"
             aria-label="Filter search results"
           >
@@ -114,48 +90,64 @@ export function SearchPage() {
               </button>
             ))}
           </div>
-          {content.availability === 'unavailable' ? (
-            <>
-              <CmsUnavailable />
-              <a className="text-link search-retry" href="">
-                Try again
-              </a>
-            </>
-          ) : results.length ? (
-            <section className="search-results" aria-label="Search results">
-              {results.map((result) => (
-                <SearchResultCard key={result.id} result={result} />
-              ))}
-            </section>
-          ) : (
-            <section className="search-empty">
-              <Search size={34} aria-hidden="true" />
-              <h2>
-                {!params.q
-                  ? 'What are you looking for?'
-                  : emptyCategory
-                    ? `No ${params.category} found`
-                    : 'No results found'}
-              </h2>
-              <p>
-                {!params.q
-                  ? 'Search community updates, projects, events and local services.'
-                  : emptyCategory
-                    ? 'Try another category or view all results for this search.'
-                    : 'Try a different word, check your spelling, or use a broader search.'}
-              </p>
-              {emptyCategory ? (
-                <button
-                  className="button"
-                  onClick={() => updateSearch({ q: params.q, category: 'all' })}
-                >
-                  View all results
-                </button>
-              ) : null}
-            </section>
-          )}
+        </form>
+        <div className="directory-results-heading">
+          <p role="status" aria-live="polite">
+            {content.availability === 'unavailable' ? (
+              'Search is temporarily unavailable'
+            ) : params.q ? (
+              <>
+                {results.length} {results.length === 1 ? 'result' : 'results'}{' '}
+                for <strong>“{params.q}”</strong>
+              </>
+            ) : (
+              'Enter a search to find community information'
+            )}
+          </p>
         </div>
-      </main>
-    </>
+        {content.availability === 'unavailable' ? (
+          <>
+            <CmsUnavailable />
+            <a className="text-link" href="">
+              Try again
+            </a>
+          </>
+        ) : results.length ? (
+          <section className="card-grid" aria-label="Search results">
+            {results.map((result) => (
+              <SearchResultCard key={result.id} result={result} />
+            ))}
+          </section>
+        ) : (
+          <EmptyState
+            icon={Search}
+            title={
+              !params.q
+                ? 'What are you looking for?'
+                : emptyCategory
+                  ? `No ${params.category} found`
+                  : 'No results found'
+            }
+            message={
+              !params.q
+                ? 'Search local services, community updates, projects and events.'
+                : emptyCategory
+                  ? 'Try another category or view all results for this search.'
+                  : 'Try a different word, check your spelling, or use a broader search.'
+            }
+          >
+            {emptyCategory ? (
+              <button
+                type="button"
+                className="button button-secondary"
+                onClick={() => updateSearch({ q: params.q, category: 'all' })}
+              >
+                View all results
+              </button>
+            ) : null}
+          </EmptyState>
+        )}
+      </section>
+    </main>
   );
 }

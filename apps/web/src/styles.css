@@ -917,6 +917,10 @@ summary:focus-visible {
   margin-bottom: 0;
 }
 
+.empty-state .button {
+  margin-top: 20px;
+}
+
 .empty-state {
   display: grid;
   justify-items: center;
@@ -3417,6 +3421,38 @@ p {
   outline: 0;
   background: transparent;
   color: var(--ink);
+}
+
+.directory-search-field
+  .search-input-custom-clear::-webkit-search-cancel-button {
+  display: none;
+}
+
+.directory-search-field > svg {
+  flex-shrink: 0;
+}
+
+.search-field-button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--forest);
+  cursor: pointer;
+}
+
+.search-field-button:hover {
+  background: var(--sage-pale);
+}
+
+.search-field-button:focus-visible {
+  outline: 3px solid var(--sage);
+  outline-offset: 2px;
 }
 
 .directory-filters {

@@ -4,26 +4,15 @@ import { hydrateRoot } from 'react-dom/client';
 import { renderToString } from 'react-dom/server';
 import { expect, test, vi } from 'vitest';
 
-import type { SearchParams } from './searchModel';
+import { buildSearchIndex, type SearchParams } from './searchModel';
+import { sampleSearchSnapshot } from '../../test-utils/searchContent';
 
 let search: SearchParams = { q: '', category: 'all' };
 vi.mock('../../routes/search', () => ({
   Route: {
     useLoaderData: () => ({
       availability: 'ready',
-      items: [
-        {
-          id: 'sample',
-          category: 'services',
-          title: 'Sample DART service',
-          summary: 'Sample transport information',
-          href: '/local-info/sample',
-          badge: 'Local service',
-          tone: 'blue',
-          typeLabel: 'Transport',
-          searchText: 'Sample DART service',
-        },
-      ],
+      items: buildSearchIndex(sampleSearchSnapshot),
     }),
     useSearch: () => search,
     useNavigate: () => vi.fn(),
@@ -31,8 +20,18 @@ vi.mock('../../routes/search', () => ({
 }));
 vi.mock('@tanstack/react-router', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@tanstack/react-router')>()),
-  Link: (props: { to: string; children: ReactNode; className?: string }) => (
-    <a href={props.to} className={props.className}>
+  Link: (props: {
+    to: string;
+    params?: { slug: string };
+    children: ReactNode;
+    className?: string;
+  }) => (
+    <a
+      href={
+        props.params ? props.to.replace('$slug', props.params.slug) : props.to
+      }
+      className={props.className}
+    >
       {props.children}
     </a>
   ),

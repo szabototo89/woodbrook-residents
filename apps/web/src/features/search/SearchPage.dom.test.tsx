@@ -4,7 +4,8 @@ import { afterEach, expect, test, vi } from 'vitest';
 import type { ReactNode } from 'react';
 
 import { click, getButtonByName, renderUi } from '../../test-utils/renderUi';
-import type { SearchResult } from './searchModel';
+import { buildSearchIndex, type SearchResult } from './searchModel';
+import { sampleSearchSnapshot } from '../../test-utils/searchContent';
 
 const navigate = vi.fn();
 let params = { q: 'DART', category: 'all' };
@@ -18,74 +19,52 @@ vi.mock('../../routes/search', () => ({
 }));
 vi.mock('@tanstack/react-router', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@tanstack/react-router')>()),
-  Link: (props: { to: string; children: ReactNode; className?: string }) => (
-    <a href={props.to} className={props.className}>
+  Link: (props: {
+    to: string;
+    params?: { slug: string };
+    children: ReactNode;
+    className?: string;
+  }) => (
+    <a
+      href={
+        props.params ? props.to.replace('$slug', props.params.slug) : props.to
+      }
+      className={props.className}
+    >
       {props.children}
     </a>
   ),
 }));
 
-const item: SearchResult = {
-  id: 'sample',
-  category: 'updates',
-  title: 'Sample DART update',
-  summary: 'Sample information.',
-  href: '/updates/sample',
-  badge: 'Local update',
-  tone: 'green',
-  typeLabel: 'Transport',
-  sourceName: 'Sample source',
-  date: '2026-10-12',
-  searchText: 'Sample DART update',
-};
-
+const items = buildSearchIndex(sampleSearchSnapshot);
 afterEach(() => {
   navigate.mockClear();
   params = { q: 'DART', category: 'all' };
 });
 
-test('shows linked cards, counts, source and dates, thumbnails and event metadata', async () => {
-  content = {
-    availability: 'ready',
-    items: [
-      item,
-      { ...item, id: 'image', imagePath: '/sample.jpg' },
-      {
-        ...item,
-        id: 'event',
-        category: 'events',
-        title: 'Sample DART event',
-        event: {
-          documentId: 'event',
-          slug: 'event',
-          title: 'Sample event',
-          summary: 'Sample',
-          startsAt: '2026-11-07T19:00:00Z',
-          endsAt: '2026-11-07T20:30:00Z',
-          location: 'Sample venue',
-          sourceUrl: 'https://example.com',
-          sourceReviewedOn: '2026-10-12',
-          featured: false,
-        },
-      },
-    ],
-  };
+test('uses the shared intro and content cards with their existing visible details', async () => {
+  content = { availability: 'ready', items };
   const { SearchPage } = await import('./SearchPage');
   const { container, unmount } = renderUi(<SearchPage />);
   try {
-    expect(container.querySelector('h1')?.textContent).toBe('Search results');
-    expect(container.textContent).toContain('3 results for “DART”');
-    expect(container.querySelector('h2 a')?.getAttribute('href')).toBe(
+    expect(container.querySelector('.page-intro h1')?.textContent).toBe(
+      'Search results',
+    );
+    expect(container.textContent).toContain('5 results for “DART”');
+    expect(container.querySelector('article h3 a')?.getAttribute('href')).toBe(
       '/updates/sample',
     );
-    expect(container.textContent).toContain('Sample source');
-    expect(container.textContent).toContain('Updated 12 October 2026');
+    expect(container.textContent).toContain('Reviewed 12 October 2026');
     expect(container.textContent).toContain('Sample venue');
     expect(container.textContent).toContain('19:00');
-    expect(container.textContent).toContain('20:30');
     expect(container.querySelector('img')?.getAttribute('src')).toBe(
-      '/sample.jpg',
+      '/images/sample.jpg',
     );
+    expect(container.querySelectorAll('.update-card')).toHaveLength(1);
+    expect(container.querySelectorAll('.project-card')).toHaveLength(1);
+    expect(container.querySelectorAll('.event-card')).toHaveLength(1);
+    expect(container.querySelectorAll('.survey-card')).toHaveLength(1);
+    expect(container.querySelectorAll('.resource-card')).toHaveLength(1);
     expect(
       getButtonByName(container, 'Updates (2)').getAttribute('aria-pressed'),
     ).toBe('false');
@@ -95,7 +74,7 @@ test('shows linked cards, counts, source and dates, thumbnails and event metadat
 });
 
 test('submits the draft query, preserves scroll on filtering, and clears into a focused field', async () => {
-  content = { availability: 'ready', items: [item] };
+  content = { availability: 'ready', items: [items[0]!] };
   const { SearchPage } = await import('./SearchPage');
   const { container, unmount } = renderUi(<SearchPage />);
   try {
@@ -169,10 +148,12 @@ test('explains blank queries, unmatched searches, empty categories, unavailable 
     },
   ] as const) {
     params = { q: state.q, category: state.category };
-    content = { availability: state.availability, items: [item] };
+    content = { availability: state.availability, items: [items[0]!] };
     const { container, unmount } = renderUi(<SearchPage />);
     try {
       expect(container.textContent).toContain(state.heading);
+      if (state.availability === 'ready')
+        expect(container.querySelector('.empty-state')).not.toBeNull();
       if (state.heading === 'No projects found') {
         click(getButtonByName(container, 'View all results'));
         expect(navigate).toHaveBeenLastCalledWith(
@@ -193,25 +174,8 @@ test('explains blank queries, unmatched searches, empty categories, unavailable 
   }
 });
 
-test('uses a location icon for non-transport services', async () => {
-  params.category = 'services';
-  content = {
-    availability: 'ready',
-    items: [{ ...item, category: 'services', typeLabel: 'Health' }],
-  };
-  const { SearchPage } = await import('./SearchPage');
-  const { container, unmount } = renderUi(<SearchPage />);
-  try {
-    expect(
-      container.querySelector('.search-result-image .lucide-map-pin'),
-    ).not.toBeNull();
-  } finally {
-    unmount();
-  }
-});
-
 test('leaves shared site navigation to the root layout', async () => {
-  content = { availability: 'ready', items: [item] };
+  content = { availability: 'ready', items: [items[0]!] };
   const { SearchPage } = await import('./SearchPage');
   const { container, unmount } = renderUi(<SearchPage />);
   try {
@@ -221,43 +185,19 @@ test('leaves shared site navigation to the root layout', async () => {
   }
 });
 
-test('filters to a singular service result and renders events without end times', async () => {
+test('renders services with the directory card and a singular result count', async () => {
   params.category = 'services';
-  content = {
-    availability: 'ready',
-    items: [
-      { ...item, category: 'services', sourceName: undefined, date: undefined },
-    ],
-  };
+  content = { availability: 'ready', items };
   const { SearchPage } = await import('./SearchPage');
-  let rendered = renderUi(<SearchPage />);
+  const { container, unmount } = renderUi(<SearchPage />);
   try {
-    expect(rendered.container.textContent).toContain('1 result for “DART”');
+    expect(container.textContent).toContain('1 result for “DART”');
+    expect(
+      container.querySelector('.resource-card h2 a')?.getAttribute('href'),
+    ).toBe('/local-info/sample');
+    expect(container.textContent).toContain('Timetables and fares');
+    expect(container.textContent).toContain('Sample stop');
   } finally {
-    rendered.unmount();
-  }
-  params.category = 'events';
-  content.items = [
-    {
-      ...item,
-      category: 'events',
-      event: {
-        documentId: 'sample',
-        title: 'Sample',
-        slug: 'sample',
-        summary: 'Sample',
-        startsAt: '2026-11-07T19:00:00Z',
-        location: 'Sample venue',
-        sourceUrl: 'https://example.com',
-        sourceReviewedOn: '2026-10-12',
-        featured: false,
-      },
-    },
-  ];
-  rendered = renderUi(<SearchPage />);
-  try {
-    expect(rendered.container.textContent).toContain('19:00');
-  } finally {
-    rendered.unmount();
+    unmount();
   }
 });

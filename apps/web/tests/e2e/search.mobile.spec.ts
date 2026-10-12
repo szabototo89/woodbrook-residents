@@ -44,4 +44,5 @@ test('captures the phone design with loaded thumbnails', async ({
     }));
     expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.client + 1);
   }
+  await captureSearchDesign(page, testInfo, 430, 'mobile', '');
 });

@@ -33,7 +33,7 @@ export const getSearchContent = createServerFn({ method: 'GET' })
     loadContent<ContentCollection<SearchResult>>(
       async () => ({
         availability: 'ready',
-        items: buildSearchIndex(await loadSnapshot(), new Date().toISOString()),
+        items: buildSearchIndex(await loadSnapshot()),
       }),
       { availability: 'unavailable', items: [] },
       __STATIC_SITE_BUILD__,

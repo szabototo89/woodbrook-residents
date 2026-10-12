@@ -5,6 +5,7 @@ export async function captureSearchDesign(
   testInfo: TestInfo,
   width: number,
   name: string,
+  query = 'DART',
 ) {
   await page.context().addCookies([
     {
@@ -14,10 +15,14 @@ export async function captureSearchDesign(
     },
   ]);
   await page.setViewportSize({ width, height: 1000 });
-  await page.goto('/search?q=DART');
-  await expect(page.getByRole('article')).toHaveCount(5);
+  await page.goto(query ? `/search?q=${query}` : '/search');
+  await expect(page.getByRole('article')).toHaveCount(query ? 5 : 0);
+  if (!query)
+    await expect(
+      page.getByRole('heading', { name: 'What are you looking for?' }),
+    ).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
-  const images = page.locator('.search-result img');
+  const images = page.getByRole('article').locator('img');
   for (const image of await images.all()) {
     await expect(image).toBeVisible();
     await expect
@@ -36,23 +41,22 @@ export async function captureSearchDesign(
   const cards = await page.getByRole('article').evaluateAll((elements) =>
     elements.map((element) => {
       const card = element.getBoundingClientRect();
-      const image = element
-        .querySelector('.search-result-image')!
-        .getBoundingClientRect();
-      const title = element.querySelector('h2')!.getBoundingClientRect();
+      const title = element.querySelector('h2, h3')!.getBoundingClientRect();
       return {
-        imageRight: image.right,
         titleLeft: title.left,
         titleRight: title.right,
+        cardLeft: card.left,
         cardRight: card.right,
       };
     }),
   );
   for (const card of cards) {
-    expect(card.titleLeft).toBeGreaterThan(card.imageRight);
+    expect(card.titleLeft).toBeGreaterThanOrEqual(card.cardLeft);
     expect(card.titleRight).toBeLessThanOrEqual(card.cardRight);
   }
-  const path = testInfo.outputPath(`search-${name}.png`);
+  const path = testInfo.outputPath(
+    `search-${name}${query ? '' : '-empty'}.png`,
+  );
   await page.screenshot({ path, animations: 'disabled', fullPage: true });
   await testInfo.attach(`${name} search design — repository test content`, {
     path,
