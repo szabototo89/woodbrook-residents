@@ -210,6 +210,17 @@ test('uses a location icon for non-transport services', async () => {
   }
 });
 
+test('leaves shared site navigation to the root layout', async () => {
+  content = { availability: 'ready', items: [item] };
+  const { SearchPage } = await import('./SearchPage');
+  const { container, unmount } = renderUi(<SearchPage />);
+  try {
+    expect(container.querySelector('nav')).toBeNull();
+  } finally {
+    unmount();
+  }
+});
+
 test('filters to a singular service result and renders events without end times', async () => {
   params.category = 'services';
   content = {

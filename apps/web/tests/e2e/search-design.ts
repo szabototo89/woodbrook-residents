@@ -28,10 +28,6 @@ export async function captureSearchDesign(
       )
       .toBeGreaterThan(0);
   }
-  const height = await page
-    .getByRole('main')
-    .evaluate((element) => Math.ceil(element.getBoundingClientRect().bottom));
-  await page.setViewportSize({ width, height });
   const dimensions = await page.evaluate(() => ({
     client: document.documentElement.clientWidth,
     scroll: document.documentElement.scrollWidth,
@@ -57,7 +53,7 @@ export async function captureSearchDesign(
     expect(card.titleRight).toBeLessThanOrEqual(card.cardRight);
   }
   const path = testInfo.outputPath(`search-${name}.png`);
-  await page.screenshot({ path, animations: 'disabled' });
+  await page.screenshot({ path, animations: 'disabled', fullPage: true });
   await testInfo.attach(`${name} search design — repository test content`, {
     path,
     contentType: 'image/png',

@@ -59,9 +59,7 @@ export function AppHeader() {
   }
 
   return (
-    <header
-      className={`site-header${pathname === '/search' ? ' site-header-search' : ''}`}
-    >
+    <header className="site-header">
       <div className="shell header-inner">
         <Link className="brand" to="/">
           <span className="brand-mark" aria-hidden="true">

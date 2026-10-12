@@ -5,6 +5,7 @@ import {
   buildSearchIndex,
   parseSearchParams,
   searchContent,
+  searchCategories,
 } from './searchModel';
 
 const source = {
@@ -64,6 +65,16 @@ const snapshot: ContentSnapshot = {
   ],
   surveys: [{ ...base, stage: 'closed' }],
 };
+
+test('places services immediately after all results', () => {
+  expect(searchCategories.map((category) => category.label)).toEqual([
+    'All',
+    'Services',
+    'Updates',
+    'Projects',
+    'Events',
+  ]);
+});
 
 test('validates URL state and bounds the search input', () => {
   expect(parseSearchParams({ q: '  DART  ', category: 'events' })).toEqual({

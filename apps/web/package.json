@@ -14,7 +14,7 @@
     "check:search-console": "bun scripts/check-search-console.ts",
     "check:pagespeed": "bun scripts/check-pagespeed.ts",
     "preview": "vite preview",
-    "test:unit": "vitest run --coverage src --exclude 'src/**/*.browser.test.tsx'",
+    "test:unit": "vitest run --coverage src --exclude 'src/**/*.browser.test.tsx' --exclude 'src/**/*.static.test.tsx' && vitest run --mode static src/features/search/SearchPage.static.test.tsx",
     "test:browser": "vitest run --config vitest.browser.config.ts",
     "test:e2e": "VITE_PUBLIC_SITE_URL=https://woodbrook.shankill.workers.dev bun run build && playwright test",
     "test:lighthouse": "bun scripts/lighthouse.ts",

@@ -3,10 +3,10 @@ import type { CommunityEvent, ContentSnapshot } from '../content/contentTypes';
 
 export const searchCategories = [
   { value: 'all', label: 'All' },
+  { value: 'services', label: 'Services' },
   { value: 'updates', label: 'Updates' },
   { value: 'projects', label: 'Projects' },
   { value: 'events', label: 'Events' },
-  { value: 'services', label: 'Services' },
 ] as const;
 
 export type SearchCategory = (typeof searchCategories)[number]['value'];

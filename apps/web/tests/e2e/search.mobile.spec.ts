@@ -10,7 +10,7 @@ test('phone search keeps cards and filters usable without horizontal overflow', 
   ).toBeVisible();
   await expect(
     page.getByRole('navigation', { name: 'Quick navigation' }),
-  ).toBeVisible();
+  ).toHaveCount(0);
   await page.getByRole('button', { name: /^Services \(/ }).click();
   await expect(
     page.getByRole('link', { name: 'TFI journey planner', exact: true }),
@@ -27,14 +27,8 @@ test('phone search keeps cards and filters usable without horizontal overflow', 
       .getByRole('link', { name: 'Search', exact: true }),
   ).toBeVisible();
   await page.keyboard.press('Escape');
-  await page
-    .getByRole('navigation', { name: 'Quick navigation' })
-    .getByText('More', { exact: true })
-    .click();
   await expect(
-    page
-      .getByRole('navigation', { name: 'More destinations' })
-      .getByRole('link', { name: 'Projects' }),
+    page.getByRole('contentinfo').getByRole('link', { name: 'Projects' }),
   ).toBeVisible();
 });
 

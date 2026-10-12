@@ -1,8 +1,7 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useHydrated } from '@tanstack/react-router';
 import { ChevronLeft, Search, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-import { AppBottomNavigation } from '../../components/AppBottomNavigation';
 import { CmsUnavailable } from '../../components/CmsUnavailable';
 import { Route } from '../../routes/search';
 import {
@@ -16,7 +15,12 @@ import './search.css';
 
 export function SearchPage() {
   const content = Route.useLoaderData();
-  const params = Route.useSearch();
+  const urlParams = Route.useSearch();
+  const hydrated = useHydrated();
+  // Static HTML is built without query parameters. Match that HTML during
+  // hydration before displaying the query from a bookmarked search URL.
+  const params =
+    __STATIC_SITE_BUILD__ && !hydrated ? parseSearchParams({}) : urlParams;
   const navigate = Route.useNavigate();
   const [draft, setDraft] = useState(params.q);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -152,7 +156,6 @@ export function SearchPage() {
           )}
         </div>
       </main>
-      <AppBottomNavigation />
     </>
   );
 }
