@@ -32,8 +32,7 @@ jobs:
 
       - name: Run Chrome Lighthouse checks
         env:
-          CONTENT_SOURCE: strapi
-          STRAPI_URL: http://127.0.0.1:1337
+          CONTENT_SOURCE: sanity
         run: bun run test:lighthouse
         working-directory: apps/web
 
