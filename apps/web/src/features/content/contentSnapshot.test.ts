@@ -24,7 +24,7 @@ const emptySnapshot = {
 const stubSource = (
   loadSnapshot: () => Promise<typeof emptySnapshot>,
 ): ContentSource => ({
-  name: 'strapi',
+  name: 'google-sheets',
   loadSnapshot,
 });
 
@@ -41,7 +41,7 @@ test('createContentSnapshotLoader loads and validates a source only once', async
     surveys: [],
     resources: [],
   });
-  const source: ContentSource = { name: 'strapi', loadSnapshot };
+  const source: ContentSource = { name: 'google-sheets', loadSnapshot };
   const load = createContentSnapshotLoader(source);
 
   const [first, second] = await Promise.all([load(), load()]);
@@ -58,7 +58,7 @@ test('createContentSnapshotLoader can reload content outside a static build', as
     surveys: [],
     resources: [],
   });
-  const source: ContentSource = { name: 'strapi', loadSnapshot };
+  const source: ContentSource = { name: 'google-sheets', loadSnapshot };
 
   await loadContentSnapshot(source);
   await loadContentSnapshot(source);
