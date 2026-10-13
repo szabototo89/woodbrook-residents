@@ -1,6 +1,5 @@
 import {
   BusFront,
-  ChevronRight,
   CirclePlus,
   GraduationCap,
   Phone,
@@ -49,7 +48,6 @@ export function HomeServices() {
           <a key={service.label} href={service.href}>
             <service.icon size={29} strokeWidth={1.6} aria-hidden="true" />
             <span>{service.label}</span>
-            <ChevronRight size={15} aria-hidden="true" />
           </a>
         ))}
       </nav>

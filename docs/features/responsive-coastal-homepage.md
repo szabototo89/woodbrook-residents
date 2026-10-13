@@ -12,6 +12,16 @@ can stay informed and decide where to go next.
 
 - An ivory, forest-green and soft-yellow design uses the site's Newsreader and
   Inter fonts on one shared typography scale, with Lucide icons.
+- Home and inner pages use medium-weight headings, semibold action labels and
+  relaxed heading line spacing. Updates have separated rows and compact icon
+  fallbacks when photography is absent, leaving more width for headlines.
+- Contact guidance uses padded links with regular-weight descriptions and a
+  responsive grid. Everyday-service tiles pair one icon with a centered label,
+  without decorative arrows. The featured event action sits at the foot of its
+  card, with clear space below the description.
+- Card badges share title casing, padding, line height and weight across updates,
+  projects and consultations. Embedded consultation content has no rounded
+  clipping edge, so its status and details action remain fully visible.
 - The homepage starts with a sourced coastal photograph, a clear headline,
   working public-content search and primary section shortcuts, including a direct Trades & services link to
   the directory filtered to trades.
@@ -45,7 +55,9 @@ can stay informed and decide where to go next.
    restores focus after Escape, and closes when a destination is followed.
 5. Search works with submit and Enter, preserves query text in the URL, handles
    no matches, and reaches public detail pages. It never indexes submissions.
-6. Home and listing cards share heading font family, heading size and body size.
+6. Home and listing cards share heading font family, heading size, weight and
+   line height. Contact descriptions use the listing-card body style. Links
+   remain readable and usable at phone, tablet and desktop widths.
 7. The generated assets load at desktop and mobile sizes; the brand's home link
    has the accessible name Woodbrook Residents.
 8. A Google Sheets static build validates the published content and generated

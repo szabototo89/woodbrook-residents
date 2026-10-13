@@ -54,14 +54,14 @@ export function HomeEventCard(props: { event: CommunityEvent }) {
           </span>
         </div>
         <p className="home-event-summary">{props.event.summary}</p>
-        <Link
-          className="button"
-          to="/events/$slug"
-          params={{ slug: props.event.slug }}
-        >
-          View event details <ArrowRight size={18} aria-hidden="true" />
-        </Link>
       </div>
+      <Link
+        className="button"
+        to="/events/$slug"
+        params={{ slug: props.event.slug }}
+      >
+        View event details <ArrowRight size={18} aria-hidden="true" />
+      </Link>
     </article>
   );
 }

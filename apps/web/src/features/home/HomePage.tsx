@@ -88,30 +88,32 @@ export function HomePage() {
           >
             <h2 id="home-contact-title">Who should I contact?</h2>
             <p>Find a starting point for your question.</p>
-            <a href="/local-info?category=council">
-              <Landmark size={24} aria-hidden="true" />
-              <span>
-                <strong>Council services</strong>
-                <small>Public services and local information</small>
-              </span>
-              <ChevronRight size={17} aria-hidden="true" />
-            </a>
-            <Link to="/local-info">
-              <Phone size={24} aria-hidden="true" />
-              <span>
-                <strong>Useful contacts</strong>
-                <small>Find a local service or provider</small>
-              </span>
-              <ChevronRight size={17} aria-hidden="true" />
-            </Link>
-            <Link to="/get-involved">
-              <Users size={24} aria-hidden="true" />
-              <span>
-                <strong>Get involved</strong>
-                <small>Ways to take part and find help</small>
-              </span>
-              <ChevronRight size={17} aria-hidden="true" />
-            </Link>
+            <div className="home-contact-links">
+              <a href="/local-info?category=council">
+                <Landmark size={24} aria-hidden="true" />
+                <span>
+                  <strong>Council services</strong>
+                  <small>Public services and local information</small>
+                </span>
+                <ChevronRight size={17} aria-hidden="true" />
+              </a>
+              <Link to="/local-info">
+                <Phone size={24} aria-hidden="true" />
+                <span>
+                  <strong>Useful contacts</strong>
+                  <small>Find a local service or provider</small>
+                </span>
+                <ChevronRight size={17} aria-hidden="true" />
+              </Link>
+              <Link to="/get-involved">
+                <Users size={24} aria-hidden="true" />
+                <span>
+                  <strong>Get involved</strong>
+                  <small>Ways to take part and find help</small>
+                </span>
+                <ChevronRight size={17} aria-hidden="true" />
+              </Link>
+            </div>
           </section>
         </div>
         <section className="home-about">
