@@ -1,0 +1,66 @@
+.update-markdown {
+  color: var(--ink);
+  font-family: 'Newsreader Variable', Georgia, serif;
+  font-size: 1.26rem;
+  line-height: 1.72;
+  overflow-wrap: anywhere;
+}
+
+.update-markdown > :first-child {
+  margin-top: 0;
+}
+
+.update-markdown :is(h1, h2, h3, h4, h5, h6) {
+  margin: 1.5em 0 0.6em;
+  line-height: 1.2;
+}
+
+.update-markdown :is(ul, ol) {
+  margin: 0 0 1.2em;
+  padding-left: 1.4em;
+}
+
+.update-markdown li + li {
+  margin-top: 0.45em;
+}
+
+.update-markdown blockquote {
+  margin: 1.3em 0;
+  padding: 0.15em 0 0.15em 1em;
+  border-left: 3px solid var(--tide);
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.update-markdown blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.update-markdown a {
+  color: var(--tide);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.update-markdown code {
+  padding: 0.15em 0.3em;
+  border-radius: 4px;
+  background: var(--paper-deep);
+  font-size: 0.8em;
+}
+
+.update-markdown pre {
+  padding: 1em;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: var(--paper-deep);
+}
+
+.update-markdown pre code {
+  padding: 0;
+}
+
+.update-markdown img {
+  max-width: 100%;
+  height: auto;
+}
