@@ -36,12 +36,17 @@ test('the homepage follows the mobile reference using the header navigation', as
   await expect(
     page.getByRole('heading', { name: 'Need something quickly?' }),
   ).toBeVisible();
-  if (process.env.DESIGN_SCREENSHOT_DIR)
+  if (process.env.DESIGN_SCREENSHOT_DIR) {
     await page.screenshot({
       path: `${process.env.DESIGN_SCREENSHOT_DIR}/mobile.png`,
       fullPage: true,
       scale: 'device',
     });
+    await page.getByRole('banner').screenshot({
+      path: `${process.env.DESIGN_SCREENSHOT_DIR}/mobile-header.png`,
+      scale: 'device',
+    });
+  }
   await page.getByRole('button', { name: 'Open navigation' }).click();
   await page
     .getByRole('navigation', { name: 'Mobile navigation' })
