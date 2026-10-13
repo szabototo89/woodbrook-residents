@@ -1,8 +1,10 @@
 import { Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, CalendarDays } from 'lucide-react';
+import Markdown from 'react-markdown';
 
 import { formatDate, formatLabel } from '../content/contentFormatting';
 import { Route } from '../../routes/updates/$slug';
+import './update-markdown.css';
 
 export function UpdateDetailPage() {
   const update = Route.useLoaderData();
@@ -57,9 +59,9 @@ export function UpdateDetailPage() {
           </figure>
         ) : null}
         <div className="article-body shell narrow">
-          {update.body.split('\n').map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
+          <div className="update-markdown">
+            <Markdown skipHtml>{update.body}</Markdown>
+          </div>
           <aside className="source-note">
             <p className="eyebrow">Source and freshness</p>
             <p>
