@@ -16,9 +16,10 @@ can stay informed and decide where to go next.
   relaxed heading line spacing. Updates have separated rows and compact icon
   fallbacks when photography is absent, leaving more width for headlines.
 - Contact guidance uses single-link navigation cards in a responsive grid. Each
-  has an aligned icon and title, a separate full-width description row and a
-  bottom-right navigation arrow. Hover underlines the title; keyboard focus
-  outlines the entire card. Everyday-service tiles pair one icon with a centered label,
+  has an aligned icon and underlined linked title, with a separate full-width
+  description row. There are no decorative navigation arrows. Hover changes
+  the card surface and border; keyboard focus outlines the entire card.
+  Everyday-service tiles pair one icon with a centered label,
   without decorative arrows. The featured event action sits at the foot of its
   card, with clear space below the description.
 - Card badges share title casing, padding, line height and weight across updates,
@@ -61,8 +62,8 @@ can stay informed and decide where to go next.
    line height. Contact descriptions use the listing-card body style. Links
    remain readable and usable at phone, tablet and desktop widths.
    Contact-card icons align with their titles, descriptions start at the card's
-   content edge and arrows align at the lower card edge even when descriptions
-   wrap differently. Each card
+   content edge and use the full available width, without a reserved arrow
+   column. Each card
    has one focus target and supports whole-card clicks and Enter activation.
 7. The generated assets load at desktop and mobile sizes; the brand's home link
    has the accessible name Woodbrook Residents.

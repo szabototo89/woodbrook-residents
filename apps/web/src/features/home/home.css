@@ -409,7 +409,7 @@
 }
 .home-contact-links > a {
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr) 18px;
+  grid-template-columns: 24px minmax(0, 1fr);
   grid-template-rows: auto 1fr;
   align-content: start;
   gap: 12px;
@@ -422,12 +422,6 @@
   grid-row: 1;
   align-self: center;
 }
-.home-contact-links > a > svg:last-child {
-  grid-column: 3;
-  grid-row: 2;
-  align-self: end;
-  justify-self: end;
-}
 .home-contact strong,
 .home-contact small {
   display: block;
@@ -437,7 +431,11 @@
   grid-column: 2 / -1;
   grid-row: 1;
   align-self: center;
+  color: var(--forest);
   font-weight: var(--weight-label);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 .home-contact-links > a > svg {
   flex-shrink: 0;
@@ -449,11 +447,6 @@
 .home-contact-links > a:focus-visible {
   outline: 3px solid var(--forest);
   outline-offset: 3px;
-}
-.home-contact-links > a:hover strong,
-.home-contact-links > a:focus-visible strong {
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 .home-contact small {
   grid-column: 1 / 3;
