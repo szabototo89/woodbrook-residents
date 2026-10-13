@@ -8,7 +8,7 @@ When I need information about a local topic, I want to search the community hub 
 
 ## Visible behavior
 
-- `/search` is available from the shared desktop header and mobile navigation.
+- The desktop header has one search field that submits to `/search`, without a duplicate Search navigation link. The mobile navigation retains its Search link.
 - The page displays a search field, query-aware result count, clear control and filters with counts in this order: All, Services, Updates, Projects, Events. Services are immediately beside All. Navigation uses the shared header; the search page has no Back control.
 - Search submits with Enter or the search icon. The query and selected category are recorded in the URL, restored on reload, and follow browser back/forward navigation.
 - Results match every search word, without case sensitivity, across titles, summaries, full editorial text, relevant categories, provider names and service details. Filter counts refer to the complete matching set; the heading counts the displayed results.

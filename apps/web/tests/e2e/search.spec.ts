@@ -110,10 +110,27 @@ test('search submits, filters with accurate counts, restores URL state, clears a
   await expect(page).toHaveURL(/\/local-info\/tfi-journey-planner$/);
 });
 
-test('search is discoverable from the shared header', async ({ page }) => {
+test('desktop header offers one search control and submits its query', async ({
+  page,
+}) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'Search', exact: true }).click();
-  await expect(page).toHaveURL(/\/search$/);
+  const header = page.getByRole('banner');
+  await expect(
+    header
+      .getByRole('navigation', { name: 'Main navigation' })
+      .getByRole('link', { name: 'Search', exact: true }),
+  ).toHaveCount(0);
+  await expect(header.getByRole('search')).toHaveCount(1);
+  const searchbox = header.getByRole('searchbox', {
+    name: 'Search updates, events and services',
+  });
+  await expect(searchbox).toBeVisible();
+  await searchbox.fill('DART');
+  await searchbox.press('Enter');
+  await expect(page).toHaveURL(/\/search\?q=DART$/);
+  await expect(
+    page.getByRole('searchbox', { name: 'Search community information' }),
+  ).toHaveValue('DART');
 });
 
 test('reuses the site header branding and footer', async ({ page }) => {
@@ -145,7 +162,7 @@ test('reuses the site header branding and footer', async ({ page }) => {
   }
   await page.goto('/');
   const sharedAppearance = await chromeAppearance();
-  await page.getByRole('link', { name: 'Search', exact: true }).click();
+  await page.goto('/search');
   expect(await chromeAppearance()).toEqual(sharedAppearance);
 });
 

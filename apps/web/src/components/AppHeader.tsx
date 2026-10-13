@@ -1,5 +1,5 @@
 import { Link, useRouterState } from '@tanstack/react-router';
-import { ArrowRight, Menu, Search } from 'lucide-react';
+import { ArrowRight, Menu } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { SiteSearch } from './SiteSearch';
 
@@ -74,19 +74,17 @@ export function AppHeader() {
         </Link>
 
         <nav className="desktop-nav" aria-label="Main navigation">
-          {navigation.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeProps={{ 'aria-current': 'page' }}
-            >
-              {item.to === '/search' ? (
-                <Search size={19} aria-label="Search" />
-              ) : (
-                item.label
-              )}
-            </Link>
-          ))}
+          {navigation
+            .filter((item) => item.to !== '/search')
+            .map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeProps={{ 'aria-current': 'page' }}
+              >
+                {item.label}
+              </Link>
+            ))}
         </nav>
 
         <SiteSearch compact />
