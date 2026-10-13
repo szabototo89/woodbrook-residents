@@ -14,6 +14,12 @@ test('contact cards align the icon with the title and give the description its o
       .getByRole('link');
     await expect(cards).toHaveCount(3);
     for (const card of await cards.all()) {
+      await expect(card.locator('svg')).toHaveCount(1);
+      expect(
+        await card
+          .locator('strong')
+          .evaluate((element) => getComputedStyle(element).textDecorationLine),
+      ).toBe('underline');
       const layout = await card.evaluate((element) => {
         const box = (selector: string) =>
           element.querySelector(selector)!.getBoundingClientRect().toJSON();
@@ -23,7 +29,6 @@ test('contact cards align the icon with the title and give the description its o
           icon: box('svg:first-of-type'),
           title: box('strong'),
           description: box('small'),
-          arrow: box('svg:last-of-type'),
         };
       });
       expect(
@@ -42,12 +47,9 @@ test('contact cards align the icon with the title and give the description its o
       ).toBeGreaterThanOrEqual(12);
       expect(
         Math.abs(
-          layout.arrow.bottom - (layout.card.bottom - layout.padding - 1),
+          layout.description.right - (layout.card.right - layout.padding - 1),
         ),
       ).toBeLessThanOrEqual(2);
-      expect(layout.description.right).toBeLessThanOrEqual(
-        layout.arrow.left - 10,
-      );
       expect(layout.card.left).toBeGreaterThanOrEqual(0);
       expect(layout.card.right).toBeLessThanOrEqual(width);
       await expect(card.locator('a, button')).toHaveCount(0);

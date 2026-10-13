@@ -86,19 +86,16 @@ export function HomePage() {
                 <Landmark size={24} strokeWidth={1.6} aria-hidden="true" />
                 <strong>Council services</strong>
                 <small>Public services and local information</small>
-                <ArrowRight size={18} aria-hidden="true" />
               </a>
               <Link to="/local-info">
                 <Phone size={24} strokeWidth={1.6} aria-hidden="true" />
                 <strong>Useful contacts</strong>
                 <small>Find a local service or provider</small>
-                <ArrowRight size={18} aria-hidden="true" />
               </Link>
               <Link to="/get-involved">
                 <Users size={24} strokeWidth={1.6} aria-hidden="true" />
                 <strong>Get involved</strong>
                 <small>Ways to take part and find help</small>
-                <ArrowRight size={18} aria-hidden="true" />
               </Link>
             </div>
           </section>
