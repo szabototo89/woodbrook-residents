@@ -62,14 +62,19 @@ export function AppHeader() {
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link className="brand" to="/">
-          <span className="brand-image-frame">
-            <img
-              src="/images/woodbrook-wordmark-community-hub.png"
-              alt="Woodbrook Residents"
-              width="2169"
-              height="725"
-            />
+        <Link className="brand header-brand" to="/">
+          <img
+            className="header-brand-symbol"
+            src="/images/woodbrook-logo.png"
+            alt=""
+            width="38"
+            height="38"
+          />
+          <span className="header-brand-copy">
+            <strong className="header-brand-title">Woodbrook Residents</strong>
+            <span className="header-brand-subtitle" aria-hidden="true">
+              Community Hub
+            </span>
           </span>
         </Link>
 

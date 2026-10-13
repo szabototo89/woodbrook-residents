@@ -154,7 +154,7 @@ test('home and inner pages share the typography scale', async ({ page }) => {
   expect(homeBody).toEqual(cardBody);
 });
 
-test('generated brand assets replace the header lettering and coastal annotation', async ({
+test('header uses readable live lettering with a smaller muted subtitle', async ({
   page,
 }) => {
   await page.goto('/');
@@ -162,32 +162,59 @@ test('generated brand assets replace the header lettering and coastal annotation
     .getByRole('banner')
     .getByRole('link', { name: 'Woodbrook Residents', exact: true });
   await expect(brand).toHaveAttribute('href', '/');
-  await expect(
-    brand.getByRole('img', { name: 'Woodbrook Residents' }),
-  ).toHaveAttribute('src', '/images/woodbrook-wordmark-community-hub.png');
+  const title = brand.getByText('Woodbrook Residents', { exact: true });
+  const subtitle = brand.getByText('Community Hub', { exact: true });
+  await expect(title).toBeVisible();
+  await expect(subtitle).toBeVisible();
+  await expect(brand.locator('img')).toHaveAttribute(
+    'src',
+    '/images/woodbrook-logo.png',
+  );
+  await expect(brand.locator('img')).toHaveAttribute('alt', '');
   const annotation = page.locator('img.coast-note');
   await expect(annotation).toHaveAttribute('src', '/images/coast-note.png');
   await expect(annotation).toHaveAttribute('alt', '');
   await expect(
     page.getByRole('navigation', { name: 'Bottom navigation' }),
   ).toHaveCount(0);
-  for (const path of [
-    '/images/woodbrook-wordmark-community-hub.png',
-    '/images/woodbrook-logo.png',
-    '/images/coast-note.png',
-  ]) {
+  for (const path of ['/images/woodbrook-logo.png', '/images/coast-note.png']) {
     const response = await page.request.get(path);
     expect(response.ok()).toBe(true);
     expect(response.headers()['content-type']).toContain('image/png');
   }
 
-  for (const width of [320, 390, 768, 1440]) {
+  await page.evaluate(() => document.fonts.ready);
+  for (const width of [320, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    const logo = brand.getByRole('img', { name: 'Woodbrook Residents' });
+    const logo = brand.locator('img');
     await expect(logo).toBeVisible();
     expect(
       await logo.evaluate((image: HTMLImageElement) => image.naturalWidth),
-    ).toBe(2169);
+    ).toBeGreaterThan(0);
+    const titleBounds = await title.boundingBox();
+    const subtitleBounds = await subtitle.boundingBox();
+    expect(Math.abs(titleBounds!.x - subtitleBounds!.x)).toBeLessThan(1);
+    expect(subtitleBounds!.y).toBeGreaterThanOrEqual(
+      titleBounds!.y + titleBounds!.height + 3,
+    );
+    const typography = await brand.evaluate((element) => {
+      const titleStyle = getComputedStyle(element.querySelector('strong')!);
+      const subtitleStyle = getComputedStyle(
+        element.querySelector('[aria-hidden="true"]')!,
+      );
+      return {
+        titleSize: parseFloat(titleStyle.fontSize),
+        subtitleSize: parseFloat(subtitleStyle.fontSize),
+        titleWeight: Number(titleStyle.fontWeight),
+        titleColour: titleStyle.color,
+        subtitleColour: subtitleStyle.color,
+      };
+    });
+    expect(typography.subtitleSize).toBeLessThanOrEqual(
+      typography.titleSize * 0.75,
+    );
+    expect(typography.titleWeight).toBeLessThanOrEqual(500);
+    expect(typography.subtitleColour).not.toBe(typography.titleColour);
     const bounds = await brand.boundingBox();
     expect(bounds!.x).toBeGreaterThanOrEqual(0);
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);

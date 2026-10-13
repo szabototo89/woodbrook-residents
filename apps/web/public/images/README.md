@@ -18,10 +18,12 @@ are branding and illustration, not documentary local photographs.
   downscaled exports of this symbol.
 - `woodbrook-wordmark.png`: the coastal symbol with only Woodbrook Residents
   in restrained humanist sans-serif lettering; no subtitle or W monogram.
-- `woodbrook-wordmark-community-hub.png`: updated header lockup generated with
+- `woodbrook-wordmark-community-hub.png`: superseded header lockup generated with
   the built-in `image_gen` tool on 13 October 2026 from the supplied logo. Only
   the Community Hub subtitle is muted grey-green; the name and icon remain in
-  full colour. The original wordmark is preserved.
+  full colour. The website now uses the standalone symbol with live text to keep
+  lettering crisp, lighter and properly spaced at header size. Both generated
+  wordmarks are preserved as design drafts.
 - `coast-note.png`: handwritten Our community / by the coast with a curved
   arrow. White matte, blended over the hero with CSS multiply.
 - `halloween-event.png`: two glowing pumpkins, autumn leaves and amber bokeh,

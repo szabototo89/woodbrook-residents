@@ -9,10 +9,10 @@ that remains recognizable on a phone, computer or browser tab.
 
 ## Visible behavior
 
-- A compact generated sans-serif header wordmark pairs Woodbrook Residents
-  with a neighbourhood symbol inspired by homes, shoreline and sun. It has a
-  muted grey-green Community Hub subtitle below the full-colour name and leaves
-  room for navigation.
+- The header pairs the coastal icon with crisp live sans-serif lettering.
+  Woodbrook Residents uses a restrained medium-light weight in forest green.
+  Community Hub is smaller and muted grey-green, with clear space below the
+  title. Both lines align and remain visible on phones and computers.
 - The symbol is a standalone image logo and browser identity asset; no W
   monogram is required.
 - A handwritten coastal note and curved arrow are one image asset,
@@ -23,17 +23,21 @@ that remains recognizable on a phone, computer or browser tab.
 ## Acceptance criteria
 
 - All assets are stored in the repository and load successfully.
-- The header lockup is readable without distortion at desktop and mobile sizes.
+- The header uses selectable live text without distortion at desktop and mobile
+  sizes, including 320px phone screens. Its home link is named Woodbrook Residents.
 - The logo and wordmark use a consistent symbol, colours and proportions.
-- Only the Community Hub subtitle is dimmed; the icon and Woodbrook Residents
-  lettering retain their original forest-green and golden-yellow colours.
+- Only the Community Hub subtitle is muted; the icon and title retain the
+  forest-green and golden-yellow identity. The subtitle is at most three quarters
+  of the title's font size and has at least 3px separation from its line.
 - The annotation overlays the hero without covering its headline or controls.
 - Playwright verifies asset loading and captures the resulting header/hero in
   both viewports.
 
 ## Scope
 
-Generated raster assets, their integration, provenance and visual checks.
+Generated raster symbols and illustrations, live header typography, integration,
+provenance and visual checks. Generated wordmark drafts remain stored as assets
+but are no longer used in the header.
 No fictional local photography or printed collateral.
 
 ## Design research
