@@ -10,8 +10,9 @@ that remains recognizable on a phone, computer or browser tab.
 ## Visible behavior
 
 - A compact generated sans-serif header wordmark pairs Woodbrook Residents
-  with a neighbourhood symbol inspired by homes, shoreline and sun. It has no
-  subtitle and leaves room for navigation.
+  with a neighbourhood symbol inspired by homes, shoreline and sun. It has a
+  muted grey-green Community Hub subtitle below the full-colour name and leaves
+  room for navigation.
 - The symbol is a standalone image logo and browser identity asset; no W
   monogram is required.
 - A handwritten coastal note and curved arrow are one image asset,
@@ -24,6 +25,8 @@ that remains recognizable on a phone, computer or browser tab.
 - All assets are stored in the repository and load successfully.
 - The header lockup is readable without distortion at desktop and mobile sizes.
 - The logo and wordmark use a consistent symbol, colours and proportions.
+- Only the Community Hub subtitle is dimmed; the icon and Woodbrook Residents
+  lettering retain their original forest-green and golden-yellow colours.
 - The annotation overlays the hero without covering its headline or controls.
 - Playwright verifies asset loading and captures the resulting header/hero in
   both viewports.

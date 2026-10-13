@@ -164,7 +164,7 @@ test('generated brand assets replace the header lettering and coastal annotation
   await expect(brand).toHaveAttribute('href', '/');
   await expect(
     brand.getByRole('img', { name: 'Woodbrook Residents' }),
-  ).toHaveAttribute('src', '/images/woodbrook-wordmark.png');
+  ).toHaveAttribute('src', '/images/woodbrook-wordmark-community-hub.png');
   const annotation = page.locator('img.coast-note');
   await expect(annotation).toHaveAttribute('src', '/images/coast-note.png');
   await expect(annotation).toHaveAttribute('alt', '');
@@ -172,7 +172,7 @@ test('generated brand assets replace the header lettering and coastal annotation
     page.getByRole('navigation', { name: 'Bottom navigation' }),
   ).toHaveCount(0);
   for (const path of [
-    '/images/woodbrook-wordmark.png',
+    '/images/woodbrook-wordmark-community-hub.png',
     '/images/woodbrook-logo.png',
     '/images/coast-note.png',
   ]) {
@@ -180,6 +180,23 @@ test('generated brand assets replace the header lettering and coastal annotation
     expect(response.ok()).toBe(true);
     expect(response.headers()['content-type']).toContain('image/png');
   }
+
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    const logo = brand.getByRole('img', { name: 'Woodbrook Residents' });
+    await expect(logo).toBeVisible();
+    expect(
+      await logo.evaluate((image: HTMLImageElement) => image.naturalWidth),
+    ).toBe(2169);
+    const bounds = await brand.boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
+  }
+  if (process.env.DESIGN_SCREENSHOT_DIR)
+    await page.getByRole('banner').screenshot({
+      path: `${process.env.DESIGN_SCREENSHOT_DIR}/desktop-header.png`,
+      scale: 'device',
+    });
 });
 
 test('project summaries retain readable text width when imagery is absent', async ({

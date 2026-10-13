@@ -33,6 +33,24 @@ Frame the artwork TIGHTLY edge to edge with only 2% white outer padding, NO larg
 blank top/bottom or left/right margins. Wide horizontal 5:1 lockup, not a
 presentation board. No W monogram. Output only the finished compact website logo.
 
+## Header with subtitle — `woodbrook-wordmark-community-hub.png`
+
+Mode: built-in `image_gen`, 13 October 2026. The user supplied the original
+header logo, requested Community Hub below Woodbrook Residents, and selected
+the version with only the subtitle dimmed. The following prompt produced the
+final asset from the full-colour two-line draft:
+
+Use case: precise-object-edit. Edit target: supplied original full-colour
+Woodbrook Residents header logo. Make exactly one change: change ONLY the colour
+of the subtitle text "Community Hub" from dark forest green to a muted medium
+grey-green, approximately #87958f, giving it a dimmed secondary appearance.
+Preserve the left icon at its original full colour: rich dark forest-green square,
+bright golden-yellow sun, crisp white roof outlines and waves. Preserve
+"Woodbrook Residents" at its original rich dark forest-green colour and full
+intensity. Preserve all wording, typography, sizes, alignment, spacing, icon
+artwork, canvas dimensions and plain white background exactly. Only
+"Community Hub" is dimmed. No blur or other changes.
+
 ## Coastal annotation — `coast-note.png`
 
 Create a flat production website decoration image, on a PURE WHITE #ffffff

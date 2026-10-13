@@ -65,10 +65,10 @@ export function AppHeader() {
         <Link className="brand" to="/">
           <span className="brand-image-frame">
             <img
-              src="/images/woodbrook-wordmark.png"
+              src="/images/woodbrook-wordmark-community-hub.png"
               alt="Woodbrook Residents"
-              width="2048"
-              height="683"
+              width="2169"
+              height="725"
             />
           </span>
         </Link>
