@@ -36,7 +36,7 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
     await expect(metadata).toContainText('opencode');
     await expect(metadata).toContainText('Session');
     await expect(metadata).toContainText(/ses_/);
-    await expect(metadata).toContainText('session/handoffs-landing-ui');
+    await expect(metadata).toContainText('session/handoff-agent-metadata');
     await expect(metadata.locator('time')).toHaveAttribute('datetime', /Z$/);
     const statusBounds = await metadata.locator('> div').nth(0).boundingBox();
     const agentBounds = await metadata.locator('> div').nth(1).boundingBox();

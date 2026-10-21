@@ -8,6 +8,8 @@ import desktop from './assets/handoffs-1440.png';
 import mobile from './assets/handoffs-390.png';
 import architectureDesktop from './assets/architecture-1440.png';
 import architectureMobile from './assets/architecture-390.png';
+import metadataDesktop from './assets/metadata-1440.png';
+import metadataMobile from './assets/metadata-390.png';
 import verification from './assets/plantuml-verification.txt?url';
 import navigationVideo from './assets/diagram-navigation.webm';
 
@@ -17,12 +19,12 @@ export const metadata = {
   agent: 'opencode',
   session: 'ses_ea0d75a2affeX0qjZtKMYF7zwi',
   worktree:
-    '/Users/tszabo/.local/share/opencode/worktree/a4af1e/handoffs-landing-ui',
-  branch: 'session/handoffs-landing-ui',
-  commit: 'b5e1045',
-  updatedAt: '2026-10-21T16:56:00Z',
+    '/Users/tszabo/.local/share/opencode/worktree/a4af1e/handoff-agent-metadata',
+  branch: 'session/handoff-agent-metadata',
+  commit: '608b44d',
+  updatedAt: '2026-10-21T19:18:21Z',
   summary:
-    'Repository MDX documents with search, time windows, sorting, icons, and C4 architecture diagrams.',
+    'Repository MDX documents with search, sorting, icons, C4 diagrams and coding-agent context.',
 };
 
 ## Goal
@@ -71,7 +73,7 @@ The landing page separates orientation from browsing. The left column holds the 
 
 ## Appearance
 
-The reader uses a compact metadata header with status, coding agent, session, worktree and Git context, section shortcuts, and a comfortable text width. The index keeps a sticky orientation and control column beside a readable card list. Search, update windows and sorting combine without leaving the page, and each card names its status, update time and summary before the open action. Tables scroll within the document on phones. Diagrams expand into a bounded frame, start fitted to show their full contents, and offer compact zoom/fit icons, drag, pinch and keyboard navigation. Ordinary scrolling reads the page; Ctrl + scroll zooms the diagram. Source and full-size SVGs remain available, including a readable source fallback on errors. The screenshots below show the implemented viewer using its real handoff document.
+The reader uses a compact metadata header with status, coding agent, session, worktree and Git context, section shortcuts, and a comfortable text width. The index keeps a sticky orientation and control column beside a readable card list. Search, update windows and sorting combine without leaving the page, and each card names its status, update time and summary before the open action. Tables scroll within the document on phones. Diagrams expand into a bounded frame, start fitted to show their full contents, and offer compact zoom/fit icons, drag, pinch and keyboard navigation. Ordinary scrolling reads the page; Ctrl + scroll zooms the diagram. Source and full-size SVGs remain available, including a readable source fallback on errors. The screenshots below show the metadata header, index and diagram viewer using the real handoff document.
 
 <AppearanceGallery
   images={[
@@ -103,6 +105,20 @@ The reader uses a compact metadata header with status, coding agent, session, wo
       description:
         'Check that the complete diagram fits the phone frame, controls do not cover its title, and source and full-size actions remain accessible.',
     },
+    {
+      src: metadataDesktop,
+      title: 'Desktop metadata',
+      alt: 'Desktop handoff metadata with coding agent, session and Git context',
+      description:
+        'Check that coding agent, session, branch, recorded HEAD, update time and full-width worktree fit without clipping.',
+    },
+    {
+      src: metadataMobile,
+      title: 'Mobile metadata',
+      alt: 'Mobile handoff metadata with coding agent, session and Git context',
+      description:
+        'Check that labels stay visible and long session, branch and worktree values wrap without horizontal overflow.',
+    },
   ]}
 />
 
@@ -130,7 +146,7 @@ Change: added an independent static viewer with live folder discovery; each hand
 
 ### C3 - Viewer components
 
-Change: added a compact Git context header, section navigation, scrollable tables, expandable diagrams, screenshot review galleries, and an index with search, update windows and sorting. Diagrams now use local PlantUML SVGs with react-zoom-pan-pinch for fitted viewing and navigation.
+Change: added a compact metadata header with coding agent and session, section navigation, scrollable tables, expandable diagrams, screenshot review galleries, and an index with search, update windows and sorting. Diagrams now use local PlantUML SVGs with react-zoom-pan-pinch for fitted viewing and navigation.
 
 <PlantUmlDiagram
   title="Viewer components"
@@ -146,15 +162,15 @@ Change: added a compact Git context header, section navigation, scrollable table
 | Unit and interaction tests     | PASS           | 9 files and 53 tests, with statements, branches, functions and lines at 100%. Search, range, sort, empty states, agent/session metadata and SSR index covered.        |
 | Browser journeys               | PASS           | Six journeys verify browsing, search/range/sort, metadata, galleries, six local C4 SVGs, complete fit, zoom, keyboard navigation, pinch, touch dragging and recovery. |
 | Typecheck and build            | PASS           | bun run build includes TypeScript and Vite.                                                                                                                           |
-| Repository pre-commit          | PASS           | bun run lint and the repository unit, browser and e2e suites passed in commit b5e1045.                                                                                |
-| Visual review                  | PASS           | 1440 and 390 widths inspected: metadata, controls and cards fit, no horizontal overflow, and mobile gallery controls stack without wrapped labels.                    |
+| Repository pre-commit          | PASS           | bun run lint and the repository unit, browser and e2e suites passed in commit 608b44d.                                                                                |
+| Visual review                  | PASS           | 1440, 390 and 320 widths inspected: coding agent and session labels fit, long values wrap, no horizontal overflow, and gallery controls stack cleanly.                |
 
 <a href={verification}>Verification command output</a>
 
-The initial viewer and gallery passed full repository hooks in commits `8059f01` and `96f54b3`. Prerequisite `3e5e6b3` stabilises existing calendar fixtures. The discovery update passed full repository hooks in `b5e1045`; screenshots and verification output were refreshed from the merged viewer. The viewer remains independent of the public website.
+The initial viewer and gallery passed full repository hooks in commits `8059f01` and `96f54b3`. Prerequisite `3e5e6b3` stabilises existing calendar fixtures. The discovery update passed full repository hooks in `b5e1045`; its screenshots and verification output were refreshed from the merged viewer. The coding-agent metadata update passed full repository hooks in `608b44d`. The viewer remains independent of the public website.
 
 The PlantUML update includes researched authoring guidance in `HANDOFF.md`, with primary sources for abstraction levels, relationship semantics, layout and review. All six diagrams and the guide's illustrative C2 example were rendered locally with PlantUML 1.2026.9. The recorded commit is the session base before this update.
 
 ## Next steps
 
-None for implementation. Run `bun run dev:handoffs` to open `http://127.0.0.1:3002/`. Follow `HANDOFF.md` for recorded Git metadata, per-image review descriptions and a short change summary under each C4 level. Each handoff owns its folder and assets. Search, update windows and sorting run client-side over the build-time inventory, so production previews need rebuilding after document changes.
+None for implementation. Run `bun run dev:handoffs` to open `http://127.0.0.1:3002/`. Follow `HANDOFF.md` for recorded Git and agent metadata, per-image review descriptions and a short change summary under each C4 level. Each handoff owns its folder and assets. Search, update windows and sorting run client-side over the build-time inventory, so production previews need rebuilding after document changes.

@@ -1,9 +1,9 @@
-Observed verification on 2026-10-21 for the handoff index discovery update.
+Observed verification on 2026-10-21 for the coding agent and session metadata update.
 
 Command: bun run test:unit (apps/handoffs)
 $ vitest run --coverage
 Test Files  9 passed (9)
-     Tests  52 passed (52)
+     Tests  53 passed (53)
 
 Coverage summary
 Statements   : 100% (192/192)
@@ -27,12 +27,12 @@ Running 6 tests using 1 worker
 Command: bun run build (apps/handoffs), including c4:check, TypeScript and Vite
 Result: PASS (exit 0)
 
-Command: repository pre-commit hook in commit b5e1045
+Command: repository pre-commit hook in commit 608b44d
 Result: PASS, including lint, unit, browser and e2e suites.
 
 Manual review:
-- Desktop 1440px and phone 390px index screenshots captured at 2x from the live viewer.
-- Narrow 320px index and detail pages have no horizontal overflow.
-- Search, 7-day window, oldest/title/newest sorting, no-match and no-recent empty states inspected.
-- Desktop and mobile diagram screenshots captured with the open diagram and Lucide toolbar.
-- Phone gallery previous/next controls stack above a centred full-size link without wrapped labels.
+- Every handoff frontmatter contains agent and session fields; historical values remain explicitly Not recorded.
+- Desktop 1440px, phone 390px and narrow 320px metadata headers show coding agent and session without horizontal overflow.
+- Long session identifiers and worktree paths wrap inside their cells; worktree uses the full metadata row.
+- Desktop and phone index screenshots captured at 2x from the live viewer after the metadata update.
+- Search, update windows, sorting and both empty states inspected.
