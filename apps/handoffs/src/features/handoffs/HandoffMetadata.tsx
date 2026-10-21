@@ -1,15 +1,23 @@
 import {
+  Bot,
   CircleDot,
   Clock3,
   FolderOpen,
   GitBranch,
   GitCommitHorizontal,
+  Hash,
 } from 'lucide-react';
 import type { HandoffMetadataValue } from './handoffs';
 
 export function HandoffMetadata(props: { metadata: HandoffMetadataValue }) {
   const fields = [
     { label: 'Status', value: props.metadata.status, Icon: CircleDot },
+    {
+      label: 'Coding agent',
+      value: props.metadata.agent,
+      Icon: Bot,
+    },
+    { label: 'Session', value: props.metadata.session, Icon: Hash },
     { label: 'Branch', value: props.metadata.branch, Icon: GitBranch },
     {
       label: 'Recorded HEAD',

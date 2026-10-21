@@ -491,7 +491,7 @@ h3 {
   border-radius: 8px;
 }
 .handoff-metadata > div:last-child {
-  grid-column: span 2;
+  grid-column: 1 / -1;
 }
 .handoff-metadata dt {
   display: inline-flex;

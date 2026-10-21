@@ -4,7 +4,7 @@ After developing a feature, create `docs/handoffs/<feature-slug>/index.mdx` at t
 
 Run the independent viewer with `bun run dev:handoffs` and open <http://127.0.0.1:3002/>. Documents open at `/#/<feature-slug>`; built previews need rebuilding after changes.
 
-Use this small starting template. Record actual worktree, branch, HEAD and UTC update time; these fields appear in the document header. Status: in progress / blocked / ready for review / complete.
+Use this small starting template. Record actual worktree, branch, HEAD, coding agent and agent session, and UTC update time; these fields appear in the document header. Status: in progress / blocked / ready for review / complete. Use `opencode`, `codex`, `claude` or the actual agent name, and paste the agent's session identifier. Use `Not recorded` only for historical documents whose session was not captured.
 
 ```mdx
 import desktop from './assets/desktop.png';
@@ -13,6 +13,8 @@ import mobile from './assets/mobile.png';
 export const metadata = {
   title: 'Feature name',
   status: 'in progress',
+  agent: 'opencode',
+  session: 'ses_...',
   worktree: '/absolute/path/to/session-worktree',
   branch: 'session/feature-name',
   commit: 'Recorded Git HEAD',

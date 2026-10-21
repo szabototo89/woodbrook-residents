@@ -32,13 +32,24 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
     await expect(page).toHaveURL(/#\/agent-handoffs$/);
     const metadata = page.locator('.handoff-metadata');
     await expect(metadata).toContainText('Worktree');
+    await expect(metadata).toContainText('Coding agent');
+    await expect(metadata).toContainText('opencode');
+    await expect(metadata).toContainText('Session');
+    await expect(metadata).toContainText(/ses_/);
     await expect(metadata).toContainText('session/handoffs-landing-ui');
     await expect(metadata.locator('time')).toHaveAttribute('datetime', /Z$/);
     const statusBounds = await metadata.locator('> div').nth(0).boundingBox();
-    const branchBounds = await metadata.locator('> div').nth(1).boundingBox();
-    expect(statusBounds!.y).toBe(branchBounds!.y);
-    expect(branchBounds!.x).toBeGreaterThan(statusBounds!.x);
-    expect((await metadata.boundingBox())!.height).toBeLessThan(240);
+    const agentBounds = await metadata.locator('> div').nth(1).boundingBox();
+    const sessionBounds = await metadata.locator('> div').nth(2).boundingBox();
+    expect(statusBounds!.y).toBe(agentBounds!.y);
+    expect(agentBounds!.x).toBeGreaterThan(statusBounds!.x);
+    if (width === 1440) {
+      expect(sessionBounds!.y).toBe(statusBounds!.y);
+      expect(sessionBounds!.x).toBeGreaterThan(agentBounds!.x);
+    }
+    expect((await metadata.boundingBox())!.height).toBeLessThan(
+      width === 1440 ? 240 : 380,
+    );
     await page
       .getByRole('navigation', { name: 'On this page' })
       .getByRole('button', { name: 'Appearance', exact: true })

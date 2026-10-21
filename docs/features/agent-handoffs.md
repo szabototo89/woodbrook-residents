@@ -14,7 +14,7 @@ When another agent continues a feature, it needs the current context, decisions,
 - Hash links such as `/#/agent-handoffs` open documents on any static server.
 - Each handoff has its own folder containing index.mdx and assets; no handoff shares an asset directory.
 - Appearance galleries support thumbnails, previous/next buttons, arrow keys, full-size images, and a per-image description of what to check.
-- The document header shows recorded status, worktree, Git branch/HEAD and UTC update time in a compact grid.
+- The document header shows recorded status, coding agent, agent session, worktree, Git branch/HEAD and UTC update time in a compact grid.
 - Lucide icons supplement visible labels for status badges, search, filters, card actions, metadata, section outline, gallery controls and diagram controls.
 - Section navigation jumps within the document; readable text width and expandable diagrams keep the document easy to scan.
 - Development detects added/removed handoff folders without restarting. An empty index explains where to add documents.
@@ -28,6 +28,7 @@ When another agent continues a feature, it needs the current context, decisions,
 
 - Root and web guidance point to the simple `HANDOFF.md` template and require MDX under the repository's `docs/handoffs/` directory.
 - Search, update windows and sorting combine without leaving the index, report an accurate visible count, and keep the full list recoverable from an empty result.
+- Every handoff records a coding agent, agent session, worktree, Git branch/HEAD and UTC update time in its metadata; the header shows each recorded value or an explicit missing value.
 - Metadata stays compact on desktop/mobile; section navigation preserves the current document URL.
 - Handoff browsing runs independently of the public website and its CMS.
 - Each handoff owns its document and all assets; gallery images include descriptions of what the reviewer should check.

@@ -28,6 +28,13 @@ test('the catalog discovers repository MDX documents and resolves known slugs on
   expect(getHandoff('../HANDOFF')).toBeUndefined();
 });
 
+test('every handoff records its coding agent and session', () => {
+  for (const handoff of handoffs) {
+    expect(handoff.agent?.trim(), `${handoff.slug} coding agent`).toBeTruthy();
+    expect(handoff.session?.trim(), `${handoff.slug} session`).toBeTruthy();
+  }
+});
+
 test('the handoff index links the document with its summary', () => {
   const markup = renderToStaticMarkup(createElement(HandoffsPage));
   expect(markup).toContain('Agent handoffs');

@@ -14,6 +14,8 @@ import navigationVideo from './assets/diagram-navigation.webm';
 export const metadata = {
   title: 'Browseable agent handoffs',
   status: 'complete',
+  agent: 'opencode',
+  session: 'ses_ea0d75a2affeX0qjZtKMYF7zwi',
   worktree:
     '/Users/tszabo/.local/share/opencode/worktree/a4af1e/handoffs-landing-ui',
   branch: 'session/handoffs-landing-ui',
@@ -37,6 +39,7 @@ Keep that feature context in `woodbrook/docs/handoffs/` and make it readable in 
 | Documents    | Each docs/handoffs/feature-slug/index.mdx document and its assets stay in one folder.                                                                             |
 | Browser      | The independent viewer at 127.0.0.1:3002 lists documents with search, update windows and sorting; /#/agent-handoffs opens this document.                          |
 | Discovery    | Search matches title, summary and status; All/7/30/90-day windows and newest/oldest/title sorts combine and announce the visible count.                           |
+| Authorship   | Frontmatter records the coding agent and agent session; the header shows both, with Not recorded for historical documents whose session was not captured.         |
 | Architecture | PlantUML C4 sources and locally rendered SVGs are versioned together; the viewer shows SVG, source and full-size links.                                           |
 | Iconography  | Lucide icons mark status, filters, actions, metadata, outlines, galleries and diagram controls while every control keeps a visible text label or accessible name. |
 
@@ -48,6 +51,8 @@ Keep that feature context in `woodbrook/docs/handoffs/` and make it readable in 
 Decisions: keep the viewer in apps/handoffs, independent of the public website; reuse React and Vite; use MDX and remark-gfm for documents and C4-PlantUML for architecture diagrams. Render diagrams locally to SVG with PlantUML 1.2026.9 and the bundled C4 library. The browser loads versioned assets and needs no diagram service, Java runtime or client renderer. Documents are trusted repository code, compiled at build time. This feature adds no editor or upload endpoint.
 
 The index keeps orientation copy and controls in a sticky left column beside the document cards. Search, ranges and sorting are client-side because the document inventory is built at compile time. Time windows use each document's UTC `updatedAt`; undated documents appear only under All and sort after dated documents. Lucide icons supplement visible labels rather than replacing them, so status, actions and metadata remain understandable without color or icon recognition.
+
+Handoff metadata also records the coding agent and its session identifier. The header exposes both next to the worktree, branch, recorded HEAD and update time so the next agent can find the originating conversation. Historical documents show Not recorded rather than inventing a value.
 
 The October 2026 diagram update replaces all six existing Mermaid C4 diagrams across this handoff and the Clerk handoff. It changes presentation only; the Clerk diagrams retain their original recorded architecture and readiness context.
 
@@ -66,7 +71,7 @@ The landing page separates orientation from browsing. The left column holds the 
 
 ## Appearance
 
-The reader uses a compact Git context header, section shortcuts, and a comfortable text width. The index keeps a sticky orientation and control column beside a readable card list. Search, update windows and sorting combine without leaving the page, and each card names its status, update time and summary before the open action. Tables scroll within the document on phones. Diagrams expand into a bounded frame, start fitted to show their full contents, and offer compact zoom/fit icons, drag, pinch and keyboard navigation. Ordinary scrolling reads the page; Ctrl + scroll zooms the diagram. Source and full-size SVGs remain available, including a readable source fallback on errors. The screenshots below show the implemented viewer using its real handoff document.
+The reader uses a compact metadata header with status, coding agent, session, worktree and Git context, section shortcuts, and a comfortable text width. The index keeps a sticky orientation and control column beside a readable card list. Search, update windows and sorting combine without leaving the page, and each card names its status, update time and summary before the open action. Tables scroll within the document on phones. Diagrams expand into a bounded frame, start fitted to show their full contents, and offer compact zoom/fit icons, drag, pinch and keyboard navigation. Ordinary scrolling reads the page; Ctrl + scroll zooms the diagram. Source and full-size SVGs remain available, including a readable source fallback on errors. The screenshots below show the implemented viewer using its real handoff document.
 
 <AppearanceGallery
   images={[
@@ -135,14 +140,14 @@ Change: added a compact Git context header, section navigation, scrollable table
 
 ## Verification
 
-| Check                          | Result         | Evidence                                                                                                                                                    |
-| ------------------------------ | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Regression checks before fixes | FAIL, expected | The old index had no search, update windows, sorting, status or visible update time; the new interaction and rendering tests failed first.                  |
-| Unit and interaction tests     | PASS           | 9 files and 52 tests, with statements, branches, functions and lines at 100%. Search, range, sort, both empty states, status icons and SSR index covered.   |
-| Browser journeys               | PASS           | Six journeys verify browsing, search/range/sort, galleries, six local C4 SVGs, complete fit, zoom, keyboard navigation, pinch, touch dragging and recovery. |
-| Typecheck and build            | PASS           | bun run build includes TypeScript and Vite.                                                                                                                 |
-| Repository pre-commit          | PASS           | bun run lint and the repository unit, browser and e2e suites passed in commit b5e1045.                                                                      |
-| Visual review                  | PASS           | 1440, 390 and 320 widths inspected: controls fit, no horizontal overflow, and mobile gallery controls stack without wrapped labels.                         |
+| Check                          | Result         | Evidence                                                                                                                                                              |
+| ------------------------------ | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Regression checks before fixes | FAIL, expected | The old index had no search, update windows, sorting, status or visible update time; the new interaction and rendering tests failed first.                            |
+| Unit and interaction tests     | PASS           | 9 files and 53 tests, with statements, branches, functions and lines at 100%. Search, range, sort, empty states, agent/session metadata and SSR index covered.        |
+| Browser journeys               | PASS           | Six journeys verify browsing, search/range/sort, metadata, galleries, six local C4 SVGs, complete fit, zoom, keyboard navigation, pinch, touch dragging and recovery. |
+| Typecheck and build            | PASS           | bun run build includes TypeScript and Vite.                                                                                                                           |
+| Repository pre-commit          | PASS           | bun run lint and the repository unit, browser and e2e suites passed in commit b5e1045.                                                                                |
+| Visual review                  | PASS           | 1440 and 390 widths inspected: metadata, controls and cards fit, no horizontal overflow, and mobile gallery controls stack without wrapped labels.                    |
 
 <a href={verification}>Verification command output</a>
 
