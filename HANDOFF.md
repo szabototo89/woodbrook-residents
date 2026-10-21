@@ -1,12 +1,15 @@
 # Agent handoffs
 
-After developing a feature, save `docs/handoffs/<feature-slug>.mdx` at the repository root (`woodbrook/docs/handoffs/`). Update the same document when continuing a feature. Record observed facts, durable evidence, and explicit unknowns; never include secrets.
+After developing a feature, create `docs/handoffs/<feature-slug>/index.mdx` at the repository root. Keep all related screenshots, C4 sources, and evidence in that handoff's `assets/` folder; never share asset folders between handoffs. Update the same handoff when continuing the feature. Record observed facts and explicit unknowns; never include secrets.
 
-The standalone viewer lists these documents at `http://127.0.0.1:3002/` and opens each at `/#/<feature-slug>`. Run `bun run dev:handoffs` from the repository root. It is independent of `apps/web`; built previews include documents present at build time.
+Run the independent viewer with `bun run dev:handoffs` and open <http://127.0.0.1:3002/>. Documents open at `/#/<feature-slug>`; built previews need rebuilding after changes.
 
 Use this small starting template:
 
 ```mdx
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+
 export const metadata = {
   title: 'Feature name',
   summary: 'One sentence about the task and its current state.',
@@ -22,15 +25,32 @@ What success looks like and what is in scope.
 
 ## Current state
 
-What changed, what works, and any decisions or uncommitted work to preserve.
+What changed, what works, and decisions or uncommitted work to preserve.
 
 ## Appearance
 
-Screenshots of desktop and mobile, with sample content clearly labelled. Omit for features without a UI.
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop',
+      alt: 'Desktop feature view',
+      description:
+        'Describe exactly what the reviewer should check in this image.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile',
+      alt: 'Mobile feature view',
+      description:
+        'Describe the mobile layout or behavior the reviewer should check.',
+    },
+  ]}
+/>
 
 ## Architecture
 
-Link version-controlled C4 diagrams: C1 context, C2 containers, and C3 components when needed. Add a short summary under each level explaining what changed.
+C1 context, C2 containers, and C3 components when needed. Under each level, include its diagram and a short summary of what changed.
 
 ## Verification
 
@@ -38,15 +58,19 @@ Commands/checks, actual PASS / FAIL / NOT RUN results, and evidence. NOT RUN is 
 
 ## Next steps
 
-The next concrete action, remaining work, blockers, and open questions. Write "None" when complete.
+Next concrete action, remaining work, blockers, and questions. Write "None" when complete.
 ```
 
-Use fenced `mermaid` blocks for C4 diagrams; they render in the browser with expandable source. To reuse a version-controlled diagram without duplicating it:
+The appearance gallery supports thumbnails, previous/next controls, arrow keys, and full-size images. Every image requires a review description. Clearly label sample content; omit Appearance and screenshot imports for features without a UI.
+
+Use fenced `mermaid` blocks for C4 diagrams, or import a source from the handoff's own assets folder:
 
 ```mdx
-import context from '../architecture/c1-feature.mmd?raw';
+import context from './assets/c1-context.mmd?raw';
 
 <MermaidDiagram source={context} />
+
+Change: describe the system-context change in one sentence.
 ```
 
-Keep screenshots in `docs/handoffs/assets/` and import them in MDX, for example `import desktop from './assets/feature-desktop.png';` followed by `<img src={desktop} alt="Desktop appearance" />`. This keeps browser links working after the session worktree is removed. Link the handoff and show desktop/mobile screenshots inline in the final response.
+Link the handoff and show desktop/mobile screenshots inline in the final response.

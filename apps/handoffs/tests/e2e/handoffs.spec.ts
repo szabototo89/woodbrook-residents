@@ -25,6 +25,36 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
     ).toBeVisible();
     await expect(page.getByRole('table').first()).toContainText('Guidance');
     await expect(page.getByRole('checkbox').first()).toBeDisabled();
+    const gallery = page.getByRole('region', { name: 'Appearance gallery' });
+    await expect(
+      gallery.getByRole('img', { name: 'Desktop handoff index' }),
+    ).toBeVisible();
+    await gallery.getByRole('button', { name: 'Show Mobile index' }).click();
+    await expect(
+      gallery.getByRole('img', { name: 'Mobile handoff index' }),
+    ).toBeVisible();
+    await expect(
+      gallery.getByText(
+        'Check that the card fits the phone width, text remains readable and the read link is easy to reach.',
+      ),
+    ).toBeVisible();
+    expect(
+      await gallery
+        .getByRole('img', { name: 'Mobile handoff index' })
+        .evaluate((image: HTMLImageElement) => image.naturalWidth),
+    ).toBeGreaterThan(0);
+    await expect(
+      gallery.getByRole('link', { name: 'Open full size' }),
+    ).toHaveAttribute('href', /\.png$/);
+    await gallery.getByRole('button', { name: 'Next image' }).click();
+    await expect(
+      gallery.getByRole('img', { name: 'Desktop handoff index' }),
+    ).toBeVisible();
+    if (process.env.HANDOFF_SCREENSHOT_DIR)
+      await gallery.screenshot({
+        path: `${process.env.HANDOFF_SCREENSHOT_DIR}/gallery-${width}.png`,
+        scale: 'device',
+      });
     await expect(
       page.getByText(
         'Change: added a standalone handoff viewer outside the public website.',

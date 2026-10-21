@@ -1,4 +1,4 @@
-Observed standalone verification on 2026-10-21.
+Observed verification on 2026-10-21 for the independent viewer, interactive gallery and encapsulated handoff assets.
 
 Command: bun run test:unit (apps/handoffs)
 $ vitest run --coverage
@@ -7,10 +7,10 @@ $ vitest run --coverage
       Coverage enabled with v8
 
 
- Test Files  3 passed (3)
-      Tests  10 passed (10)
-   Start at  11:28:33
-   Duration  506ms (transform 96ms, setup 0ms, import 171ms, tests 248ms, environment 229ms)
+ Test Files  4 passed (4)
+      Tests  12 passed (12)
+   Start at  11:35:39
+   Duration  560ms (transform 114ms, setup 0ms, import 224ms, tests 270ms, environment 463ms)
 
  % Coverage report from v8
 -------------------|---------|----------|---------|---------|-------------------
@@ -19,27 +19,27 @@ File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 -------------------|---------|----------|---------|---------|-------------------
 
 =============================== Coverage summary ===============================
-Statements   : 100% ( 37/37 )
-Branches     : 100% ( 18/18 )
-Functions    : 100% ( 16/16 )
-Lines        : 100% ( 31/31 )
+Statements   : 100% ( 53/53 )
+Branches     : 100% ( 26/26 )
+Functions    : 100% ( 24/24 )
+Lines        : 100% ( 46/46 )
 ================================================================================
 
 Command: bunx playwright test (apps/handoffs)
 [WebServer] $ vite preview --host 127.0.0.1 --port 4182 --strictPort
-[WebServer] (node:47571) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (node:66522) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 [WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
 
 Running 2 tests using 1 worker
 
-(node:47572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:66531) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
-  ✓  1 tests/e2e/handoffs.spec.ts:5:1 › repository MDX handoffs open with tables, checklists and rendered C4 diagrams (941ms)
-  ✓  2 tests/e2e/handoffs.spec.ts:65:1 › unknown handoffs show a recovery link (218ms)
+  ✓  1 tests/e2e/handoffs.spec.ts:5:1 › repository MDX handoffs open with tables, checklists and rendered C4 diagrams (1.2s)
+  ✓  2 tests/e2e/handoffs.spec.ts:75:1 › unknown handoffs show a recovery link (179ms)
 
-  2 passed (2.0s)
+  2 passed (2.2s)
 
 Command: bun run build (apps/handoffs)
-Result: PASS (exit 0), including tsc --noEmit and Vite build.
+Result: PASS (exit 0), including TypeScript and Vite.
 
-Manual review: standalone desktop/mobile screenshots and C4 diagrams inspected.
+Manual review: desktop/mobile gallery screenshots and C4 change summaries inspected.

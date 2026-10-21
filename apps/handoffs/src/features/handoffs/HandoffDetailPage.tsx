@@ -1,8 +1,9 @@
 import type { handoffs } from './handoffs';
 import { HandoffPre } from './HandoffPre';
 import { MermaidDiagram } from './MermaidDiagram';
+import { AppearanceGallery } from './AppearanceGallery';
 
-const components = { pre: HandoffPre, MermaidDiagram };
+const components = { pre: HandoffPre, MermaidDiagram, AppearanceGallery };
 
 export function HandoffDetailPage(props: {
   handoff: (typeof handoffs)[number];

@@ -1,14 +1,16 @@
 C4Component
   title Agent handoffs - viewer components
-  Container_Boundary(web, "apps/handoffs") {
+  Container_Boundary(viewer, "apps/handoffs") {
     Component(routes, "Hash navigation", "React", "Lists documents and resolves slugs")
     Component(catalog, "Handoff catalog", "Vite import glob", "Loads repository MDX modules")
-    Component(reader, "MDX reader", "React and remark-gfm", "Displays content, tables and task lists")
+    Component(reader, "MDX reader", "React and remark-gfm", "Displays MDX and appearance galleries")
     Component(diagrams, "Diagram renderer", "Mermaid", "Renders C4 with source fallback")
+    Component(gallery, "Appearance gallery", "React", "Pairs screenshots with review descriptions")
   }
   Rel(routes, catalog, "Finds")
   Rel(catalog, reader, "Loads")
   Rel(reader, diagrams, "Renders")
+  Rel(reader, gallery, "Displays")
   UpdateRelStyle(routes, catalog, $offsetY="-30")
   UpdateRelStyle(catalog, reader, $offsetY="-30")
   UpdateRelStyle(reader, diagrams, $offsetY="-30")

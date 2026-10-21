@@ -7,14 +7,14 @@ type HandoffModule = {
 };
 
 const documents = import.meta.glob<HandoffModule>(
-  '../../../../../docs/handoffs/*.mdx',
+  '../../../../../docs/handoffs/*/index.mdx',
   { eager: true },
 );
 
 export const handoffs = Object.keys(documents)
   .sort()
   .map((path) => ({
-    slug: path.slice(path.lastIndexOf('/') + 1, -4),
+    slug: path.split('/').at(-2)!,
     ...documents[path]!.metadata,
     Content: documents[path]!.default,
   }));

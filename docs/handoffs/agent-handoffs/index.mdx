@@ -1,0 +1,98 @@
+import context from './assets/c1-handoffs.mmd?raw';
+import containers from './assets/c2-handoffs.mmd?raw';
+import components from './assets/c3-handoffs.mmd?raw';
+import desktop from './assets/handoffs-1440.png';
+import mobile from './assets/handoffs-390.png';
+import verification from './assets/verification.txt?url';
+
+export const metadata = {
+  title: 'Browseable agent handoffs',
+  summary:
+    'Repository MDX documents with decisions, verification evidence, and C4 architecture diagrams.',
+};
+
+# Browseable agent handoffs
+
+Status: ready for review
+
+## Goal
+
+Keep feature context in `woodbrook/docs/handoffs/` and make it readable in a browser. Use an independent viewer and the small template in the repository's `HANDOFF.md`.
+
+## Current state
+
+| Area         | Change                                                                                           |
+| ------------ | ------------------------------------------------------------------------------------------------ |
+| Guidance     | Root and web AGENTS.md require a feature handoff.                                                |
+| Documents    | Each docs/handoffs/feature-slug/index.mdx document and its assets stay in one folder.            |
+| Browser      | The independent viewer at 127.0.0.1:3002 lists documents; /#/agent-handoffs opens this document. |
+| Architecture | Mermaid renders version-controlled C4 source files and fenced code blocks.                       |
+
+- [x] Keep documents in the repository root.
+- [x] Use MDX with tables and task lists.
+- [x] Complete verification and visual review.
+
+Decisions: keep the viewer in apps/handoffs, independent of the public website; reuse React and Vite; use MDX, remark-gfm and Mermaid for their existing document and diagram support. Documents are trusted repository code, compiled at build time. This feature adds no editor or upload endpoint.
+
+## Appearance
+
+The reader has its own neutral typography and styling, without public website navigation or branding. Tables scroll within the document on phones. Diagrams include expandable source and a readable fallback on errors. The screenshots below show this implemented feature, using its real handoff document.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop index',
+      alt: 'Desktop handoff index',
+      description:
+        'Check that the document title, summary and read link are clear, with comfortable spacing.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile index',
+      alt: 'Mobile handoff index',
+      description:
+        'Check that the card fits the phone width, text remains readable and the read link is easy to reach.',
+    },
+  ]}
+/>
+
+## Architecture
+
+These diagrams describe the handoff feature's boundary, containers, and viewer components. The underlying sources live in this handoff’s `assets/` folder; the handoff imports them without duplicating their definitions.
+
+### C1 - System context
+
+<MermaidDiagram source={context} />
+
+Change: added a standalone handoff viewer outside the public website.
+
+### C2 - Containers
+
+<MermaidDiagram source={containers} />
+
+Change: added an independent static viewer; every handoff now owns its MDX document and assets folder.
+
+### C3 - Viewer components
+
+<MermaidDiagram source={components} />
+
+Change: added folder-based discovery, hash navigation, MDX, Mermaid, and an interactive gallery with per-image review descriptions.
+
+## Verification
+
+| Check                              | Result         | Evidence                                                                                                                    |
+| ---------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Gallery test before implementation | FAIL, expected | AppearanceGallery did not exist.                                                                                            |
+| Standalone unit tests and coverage | PASS           | 12 tests; configured coverage thresholds passed.                                                                            |
+| Browser journeys                   | PASS           | 2 tests across desktop/mobile, including gallery navigation, review descriptions, image loading, C4 summaries and recovery. |
+| Typecheck and build                | PASS           | bun run build includes TypeScript and Vite.                                                                                 |
+| Visual review                      | PASS           | Desktop/mobile galleries, descriptions and C4 diagrams inspected.                                                           |
+
+<a href={verification}>Verification command output</a>
+
+The initial viewer and prerequisite calendar-test correction passed the full repository precommit suite in commits `8059f01` and `3e5e6b3`. The viewer has no public-site runtime dependency.
+
+## Next steps
+
+None for implementation. Review the screenshots and use `bun run dev:handoffs` to open `http://127.0.0.1:3002/`. Each future handoff should use its own folder and provide an explicit review description for each appearance image. Built previews need rebuilding when documents change.

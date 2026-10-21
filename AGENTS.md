@@ -55,7 +55,7 @@
 
 ## Feature documentation
 
-- After developing a feature, read the project's `HANDOFF.md` (fall back to the repository root) and save its handoff to `docs/handoffs/<feature-slug>.mdx` at the repository root. Link it in the final response.
+- After developing a feature, read the project's `HANDOFF.md` (fall back to the repository root) and save its handoff to `docs/handoffs/<feature-slug>/index.mdx` at the repository root. Link it in the final response.
 - Document user-visible capabilities in `docs/features/` using a job-to-be-done, visible behavior, acceptance criteria, and explicit scope.
 - Use one of these statuses: `Requested`, `In progress`, `Available`, `Deferred`, or `Removed`.
 - Mark a capability `Available` only after implementation and verification agree.

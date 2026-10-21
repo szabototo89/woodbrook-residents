@@ -212,7 +212,92 @@ h3 {
   font-size: 0.85rem;
   padding-top: 12px;
 }
+.appearance-gallery {
+  margin-block: 24px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.appearance-gallery figure {
+  margin: 0;
+}
+.handoff-document .gallery-image {
+  display: block;
+  width: 100%;
+  height: 420px;
+  object-fit: contain;
+  background: var(--paper);
+}
+.appearance-gallery figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+}
+.appearance-gallery figcaption span {
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.gallery-review {
+  padding: 16px;
+  background: var(--paper);
+  border-radius: 8px;
+}
+.gallery-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+.appearance-gallery button {
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+}
+.appearance-gallery button:focus-visible,
+.appearance-gallery a:focus-visible {
+  outline: 3px solid var(--forest);
+  outline-offset: 3px;
+}
+.appearance-gallery button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.gallery-thumbnails {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  overflow-x: auto;
+  padding: 4px;
+}
+.gallery-thumbnails button {
+  flex: 0 0 130px;
+  font-size: 0.85rem;
+}
+.gallery-thumbnails button[aria-pressed='true'] {
+  border-color: var(--forest);
+  box-shadow: 0 0 0 1px var(--forest);
+}
+.handoff-document .gallery-thumbnails img {
+  width: 100%;
+  height: 72px;
+  object-fit: cover;
+  object-position: top;
+  margin-bottom: 8px;
+}
 @media (max-width: 600px) {
+  .appearance-gallery {
+    padding: 12px;
+  }
+  .handoff-document .gallery-image {
+    height: 280px;
+  }
   .handoffs-page,
   .handoff-detail {
     padding-block: 36px 64px;
