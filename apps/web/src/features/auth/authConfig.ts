@@ -1,4 +1,4 @@
-export const AUTH_FEATURE_FLAG = 'clerk-auth';
+export const AUTH_FEATURE_FLAG = 'firebase-auth';
 
 export function isAuthEnabled(
   search: string,
@@ -21,11 +21,26 @@ export function authHref(path: string, search: string): string {
   return query.size ? `${path}?${query}` : path;
 }
 
-export function isPublishableKey(key: string): boolean {
-  if (!/^pk_(test|live)_/.test(key)) return false;
-  try {
-    return /^([a-z0-9-]+\.)+[a-z]{2,}\$$/i.test(atob(key.slice(8)));
-  } catch {
-    return false;
-  }
+export type FirebaseConfig = {
+  apiKey: string;
+  authDomain: string;
+  projectId: string;
+  appId: string;
+};
+
+export function readFirebaseConfig(
+  env: Record<string, unknown>,
+): FirebaseConfig | null {
+  const value = (name: string) =>
+    typeof env[name] === 'string' ? env[name].trim() : '';
+  const config = {
+    apiKey: value('VITE_FIREBASE_API_KEY'),
+    authDomain: value('VITE_FIREBASE_AUTH_DOMAIN'),
+    projectId: value('VITE_FIREBASE_PROJECT_ID'),
+    appId: value('VITE_FIREBASE_APP_ID'),
+  };
+  return Object.values(config).every(Boolean) &&
+    /^([a-z0-9-]+\.)+[a-z]{2,}$/i.test(config.authDomain)
+    ? config
+    : null;
 }

@@ -117,3 +117,7 @@ plus WebKit for Laura’s mobile Safari carousel checks. Rerun it when the pinne
 Playwright version changes or when setting up these mobile checks for the first time.
 
 See [Architecture](docs/architecture.md), [CMS model](docs/cms-model.md), and the [feature index](docs/features/README.md).
+
+## Resident accounts
+
+The optional account pages use Firebase Authentication. See [Firebase setup and rollout](docs/features/firebase-authentication.md) for configuring the existing `workers.dev` website, email/password, Google/Facebook providers, and feature flags.

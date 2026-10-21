@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { useAuthFeature } from './AuthProvider';
 import { authHref } from './authConfig';
-const ClerkAccount = lazy(() => import('./ClerkAccount'));
+const FirebaseAccount = lazy(() => import('./FirebaseAccount'));
 
 export function AccountLinks() {
   const { enabled, configured, search } = useAuthFeature();
@@ -15,7 +15,7 @@ export function AccountLinks() {
     <div className="account-links">
       {configured ? (
         <Suspense fallback={links}>
-          <ClerkAccount />
+          <FirebaseAccount />
         </Suspense>
       ) : (
         links

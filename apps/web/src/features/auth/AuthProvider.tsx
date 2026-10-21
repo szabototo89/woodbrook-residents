@@ -8,9 +8,9 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { isAuthEnabled, isPublishableKey } from './authConfig';
+import { isAuthEnabled, readFirebaseConfig } from './authConfig';
 
-const ClerkRuntime = lazy(() => import('./ClerkRuntime'));
+const FirebaseRuntime = lazy(() => import('./FirebaseRuntime'));
 const AuthFeatureContext = createContext({
   enabled: false,
   configured: false,
@@ -27,18 +27,16 @@ export function AuthProvider(props: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
   const enabled =
-    ready && isAuthEnabled(search, import.meta.env['VITE_CLERK_AUTH_ENABLED']);
-  const publishableKey =
-    import.meta.env['VITE_CLERK_PUBLISHABLE_KEY']?.trim() ?? '';
-  const configured = isPublishableKey(publishableKey);
+    ready &&
+    isAuthEnabled(search, import.meta.env['VITE_FIREBASE_AUTH_ENABLED']);
+  const config = readFirebaseConfig(import.meta.env);
+  const configured = config !== null;
 
   return (
     <AuthFeatureContext value={{ enabled, configured, ready, search }}>
-      {enabled && configured ? (
+      {enabled && config ? (
         <Suspense fallback={<p role="status">Loading account access…</p>}>
-          <ClerkRuntime publishableKey={publishableKey} search={search}>
-            {props.children}
-          </ClerkRuntime>
+          <FirebaseRuntime config={config}>{props.children}</FirebaseRuntime>
         </Suspense>
       ) : (
         props.children

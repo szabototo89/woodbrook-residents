@@ -9,36 +9,49 @@ test('authentication is off by default and only exact true enables the environme
 });
 
 test('authentication accepts its named query flag among other flags', () => {
-  expect(isAuthEnabled('?feature_flag=clerk-auth', undefined)).toBe(true);
+  expect(isAuthEnabled('?feature_flag=firebase-auth', undefined)).toBe(true);
   expect(
-    isAuthEnabled('?feature_flag=other,clerk-auth&source=test', undefined),
+    isAuthEnabled('?feature_flag=other,firebase-auth&source=test', undefined),
   ).toBe(true);
   expect(
-    isAuthEnabled('?feature_flag=other&feature_flag=clerk-auth', undefined),
+    isAuthEnabled('?feature_flag=other&feature_flag=firebase-auth', undefined),
   ).toBe(true);
-  expect(isAuthEnabled('?feature_flag=clerk-auth-extra', undefined)).toBe(
+  expect(isAuthEnabled('?feature_flag=firebase-auth-extra', undefined)).toBe(
     false,
   );
-  expect(isAuthEnabled('?clerk-auth=true', undefined)).toBe(false);
+  expect(isAuthEnabled('?firebase-auth=true', undefined)).toBe(false);
 });
 
 test('account links retain only feature flags and never arbitrary redirect destinations', () => {
   expect(
     authHref(
       '/register',
-      '?feature_flag=clerk-auth&redirect_url=https://evil.example',
+      '?feature_flag=firebase-auth&redirect_url=https://evil.example',
     ),
-  ).toBe('/register?feature_flag=clerk-auth');
+  ).toBe('/register?feature_flag=firebase-auth');
   expect(authHref('/', '')).toBe('/');
 });
 
-test('invalid Clerk keys remain unconfigured instead of crashing the public site', async () => {
-  const { isPublishableKey } = await import('./authConfig');
-  expect(isPublishableKey('')).toBe(false);
-  expect(isPublishableKey('sk_test_secret')).toBe(false);
-  expect(isPublishableKey('pk_test_invalid')).toBe(false);
+test('Firebase requires all public web configuration before collecting credentials', async () => {
+  const { readFirebaseConfig } = await import('./authConfig');
+  expect(readFirebaseConfig({})).toBeNull();
+  expect(readFirebaseConfig({ VITE_FIREBASE_API_KEY: 'key' })).toBeNull();
+  const env = {
+    VITE_FIREBASE_API_KEY: 'sample-key',
+    VITE_FIREBASE_AUTH_DOMAIN: 'woodbrook.firebaseapp.com',
+    VITE_FIREBASE_PROJECT_ID: 'woodbrook',
+    VITE_FIREBASE_APP_ID: '1:123:web:456',
+  };
+  expect(readFirebaseConfig(env)).toEqual({
+    apiKey: 'sample-key',
+    authDomain: 'woodbrook.firebaseapp.com',
+    projectId: 'woodbrook',
+    appId: '1:123:web:456',
+  });
   expect(
-    isPublishableKey(`pk_test_${btoa('example.clerk.accounts.dev$')}`),
-  ).toBe(true);
-  expect(isPublishableKey(`pk_live_${btoa('clerk.example.com$')}`)).toBe(true);
+    readFirebaseConfig({
+      ...env,
+      VITE_FIREBASE_AUTH_DOMAIN: 'https://bad/path',
+    }),
+  ).toBeNull();
 });

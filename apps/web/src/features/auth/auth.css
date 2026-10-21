@@ -135,15 +135,25 @@
   white-space: nowrap;
   font-weight: 500;
 }
-.auth-card .cl-rootBox,
-.auth-card .cl-cardBox {
-  width: 100%;
-  max-width: 100%;
-  box-shadow: none;
+.auth-social {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
 }
-.auth-card .cl-card {
-  box-shadow: none;
-  padding-inline: 0;
+.auth-social button {
+  width: 100%;
+}
+.auth-account {
+  display: grid;
+  gap: 20px;
+  overflow-wrap: anywhere;
+}
+.auth-account .button {
+  width: 100%;
+}
+.auth-form input:focus-visible {
+  outline: 2px solid var(--forest);
+  outline-offset: 2px;
 }
 @media (max-width: 1100px) {
   .header-inner:has(.account-links) {

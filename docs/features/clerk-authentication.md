@@ -1,6 +1,8 @@
 # Clerk accounts
 
-Status: Available
+Status: Removed
+
+Clerk has been replaced in the website by [Firebase Authentication](firebase-authentication.md). The instructions below describe the historical Clerk integration and must not be used for current setup.
 
 ## Job to be done
 

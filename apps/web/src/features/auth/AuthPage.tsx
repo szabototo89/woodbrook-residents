@@ -2,7 +2,7 @@ import { ArrowLeft, KeyRound, ShieldCheck } from 'lucide-react';
 import { lazy, Suspense } from 'react';
 import { useAuthFeature } from './AuthProvider';
 import { authHref } from './authConfig';
-const ClerkForms = lazy(() => import('./ClerkForms'));
+const FirebaseForms = lazy(() => import('./FirebaseForms'));
 
 export type AuthPageName = 'login' | 'register' | 'forgot-password';
 const copy = {
@@ -66,7 +66,7 @@ export function AuthPage(props: { page: AuthPageName }) {
               <Suspense
                 fallback={<p role="status">Loading secure account access…</p>}
               >
-                <ClerkForms page={props.page} />
+                <FirebaseForms page={props.page} />
               </Suspense>
             ) : (
               <div role="status">

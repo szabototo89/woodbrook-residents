@@ -16,13 +16,13 @@
     "preview": "vite preview",
     "test:unit": "vitest run --coverage src --exclude 'src/**/*.browser.test.tsx' --exclude 'src/**/*.static.test.tsx' && vitest run --mode static src/features/search/SearchPage.static.test.tsx",
     "test:browser": "vitest run --config vitest.browser.config.ts",
-    "test:e2e": "VITE_PUBLIC_SITE_URL=https://woodbrook.shankill.workers.dev bun run build && playwright test",
+    "test:e2e": "VITE_FIREBASE_API_KEY= VITE_FIREBASE_AUTH_ENABLED=false VITE_PUBLIC_SITE_URL=https://woodbrook.shankill.workers.dev bun run build && playwright test && bun run test:auth",
     "test:lighthouse": "bun scripts/lighthouse.ts",
     "typecheck": "tsc --noEmit",
-    "verify:static": "bun scripts/verify-static-build.ts"
+    "verify:static": "bun scripts/verify-static-build.ts",
+    "test:auth": "playwright test --config playwright.firebase.config.ts"
   },
   "dependencies": {
-    "@clerk/react": "^6.18.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/newsreader": "^5.3.0",
     "@sanity/client": "^8.7.0",
@@ -31,6 +31,7 @@
     "@tanstack/react-start": "1.168.58",
     "@tanstack/start-static-server-functions": "^1.167.34",
     "add-to-calendar-button": "^3.1.2",
+    "firebase": "^13.1.0",
     "google-auth-library": "^11.0.2",
     "lucide-react": "^0.544.0",
     "react": "^19.2.0",
