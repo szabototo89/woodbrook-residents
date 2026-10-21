@@ -9,6 +9,8 @@ test('the header shows recorded Git context and its UTC timestamp', () => {
         title: 'Test handoff',
         summary: 'Summary',
         status: 'ready for review',
+        agent: 'opencode',
+        session: 'ses_test',
         worktree: '/tmp/session-worktree',
         branch: 'session/test-feature',
         commit: 'abc1234',
@@ -18,6 +20,10 @@ test('the header shows recorded Git context and its UTC timestamp', () => {
   );
   expect(markup).toContain('Worktree');
   expect(markup).toContain('/tmp/session-worktree');
+  expect(markup).toContain('Coding agent');
+  expect(markup).toContain('opencode');
+  expect(markup).toContain('Session');
+  expect(markup).toContain('ses_test');
   expect(markup).toContain('session/test-feature');
   expect(markup).toContain('Recorded HEAD');
   expect(markup).toContain('abc1234');
@@ -32,5 +38,5 @@ test('older handoffs explicitly show when metadata has not been recorded', () =>
       metadata={{ title: 'Old document', summary: 'Summary' }}
     />,
   );
-  expect(markup.match(/Not recorded/g)).toHaveLength(5);
+  expect(markup.match(/Not recorded/g)).toHaveLength(7);
 });

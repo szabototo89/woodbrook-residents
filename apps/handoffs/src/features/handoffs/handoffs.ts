@@ -5,6 +5,8 @@ export type HandoffMetadataValue = {
   title: string;
   summary: string;
   status?: string;
+  agent?: string;
+  session?: string;
   worktree?: string;
   branch?: string;
   commit?: string;

@@ -55,7 +55,9 @@
 
 ## Feature documentation
 
-- After developing a feature, read the project's `HANDOFF.md` (fall back to the repository root) and save its handoff to `docs/handoffs/<feature-slug>/index.mdx` at the repository root. Link it in the final response.
+- After developing a feature, read the project's `HANDOFF.md` (fall back to the repository root) and create a new handoff at `docs/handoffs/<new-feature-slug>/index.mdx` at the repository root. Link it in the final response.
+- For every feature, create a separate handoff document. Never edit a completed handoff to document a new feature. A completed handoff is an immutable historical record: preserve its title, summary, body, evidence, screenshots, worktree, branch, commit and `updatedAt`, and use a new slug for subsequent work.
+- While a feature is in progress, update its own handoff. Once it is complete, stop editing it. The only permitted change to a completed handoff is adding a newly required frontmatter field during a repository-wide metadata migration; record that migration in the new handoff.
 - Document user-visible capabilities in `docs/features/` using a job-to-be-done, visible behavior, acceptance criteria, and explicit scope.
 - Use one of these statuses: `Requested`, `In progress`, `Available`, `Deferred`, or `Removed`.
 - Mark a capability `Available` only after implementation and verification agree.

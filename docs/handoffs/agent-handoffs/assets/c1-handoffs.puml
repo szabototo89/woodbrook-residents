@@ -1,0 +1,18 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Context>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Engineering handoffs — C1 system context
+
+Person(handoff_engineer, "Engineer or coding agent", "Reviews and continues engineering work")
+System(handoff_system, "Engineering handoff tool", "Displays implementation notes, screenshots and test evidence")
+System_Ext(git_repository, "Git repository", "Versions the engineering documents and their assets")
+
+Rel(handoff_engineer, handoff_system, "Reviews implementation notes using")
+Rel(git_repository, handoff_system, "Supplies versioned documents for compilation")
+SHOW_LEGEND()
+@enduml

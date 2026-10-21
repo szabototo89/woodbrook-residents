@@ -1,0 +1,38 @@
+Observed on 2026-10-21 in session/plantuml-handoffs.
+
+PASS: PlantUML 1.2026.9 rendered all six C4 sources locally as SVG using
+the bundled C4 library and Smetana. No remote includes or Graphviz were used.
+Command flags: -Djava.awt.headless=true -tsvg -nometadata -failfast2
+
+PASS: The illustrative C2 example in HANDOFF.md was extracted and rendered
+successfully using the same renderer and flags.
+
+PASS: bun run test:unit (apps/handoffs)
+8 files, 44 tests; statements, branches, functions and lines all 100%.
+Before implementation, the new local-SVG component tests failed as expected.
+The initial browser regression also failed because Fit controls were absent.
+
+PASS: bun run build (apps/handoffs), including TypeScript and Vite.
+
+PASS: bun run playwright test (apps/handoffs), 5 tests:
+- Repository handoff browsing, metadata, galleries and rendered C4 diagrams.
+- Unknown handoff recovery.
+- Complete initial fit, compact toolbar placement, zoom, arrow navigation,
+  Fit reset, source and full-size SVG links at desktop and phone widths.
+- All six migrated diagrams load and fit without diagram-service requests.
+- Emulated phone pinch zoom, touch dragging and tap-to-fit.
+
+PASS: Desktop (1440px) and phone (390px) screenshots at 2x pixel density
+captured with Playwright. The diagram overview, source/full-size controls
+and toolbar placement were visually reviewed.
+Touch navigation video: diagram-navigation.webm.
+
+Research: Official C4 model abstractions, context/container/component views,
+dynamic/deployment views, notation, maintenance and diagram checklist;
+C4-PlantUML layout guidance; PlantUML local rendering and standard library.
+Primary source links and access date are recorded in HANDOFF.md.
+
+PASS: Zod validates the shared docs/architecture/c4-model.json inventory.
+Canonical model tests reject invalid shape, missing references, incorrect scopes,
+wrong abstraction levels, repeated references and sources outside the handoff.
+PASS: bun run c4:check verifies generated sources against the canonical model.

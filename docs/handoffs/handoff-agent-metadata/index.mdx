@@ -1,0 +1,71 @@
+import metadataDesktop from './assets/metadata-1440.png';
+import metadataMobile from './assets/metadata-390.png';
+
+export const metadata = {
+  title: 'Coding agent and session metadata',
+  status: 'complete',
+  agent: 'opencode',
+  session: 'ses_ea0d75a2affeX0qjZtKMYF7zwi',
+  worktree:
+    '/Users/tszabo/.local/share/opencode/worktree/a4af1e/handoff-agent-metadata',
+  branch: 'session/handoff-agent-metadata',
+  commit: 'c1703a1',
+  updatedAt: '2026-10-21T19:36:11Z',
+  summary:
+    'Handoff frontmatter records the coding agent and session, and the document header shows both.',
+};
+
+## Goal
+
+A handoff records the context another engineer or coding agent needs to continue the work. That context is incomplete when it names the worktree and Git HEAD but not the coding agent or the agent session that produced it. This feature adds the coding agent and session to every handoff's frontmatter and displays both in the document header so the next agent can find the originating conversation.
+
+Completed handoffs are historical records. This feature is documented in a new handoff rather than by rewriting the completed `agent-handoffs` document.
+
+## Current state
+
+- `HandoffMetadataValue` accepts `agent` and `session`; the viewer header renders them as **Coding agent** and **Session** with Lucide `Bot` and `Hash` icons.
+- `HANDOFF.md` requires both fields in new handoffs and documents `opencode`, `codex` and `claude` as example values.
+- Every repository handoff has non-empty `agent` and `session` frontmatter. Historical records that did not capture a session use `Not recorded` rather than inventing one.
+- Existing completed handoffs keep their recorded content, evidence, screenshots, worktree, branch, commit and `updatedAt`. They received only the required metadata fields.
+- The worktree cell spans the full metadata row, so the longer header stays readable at desktop, phone and narrow widths.
+
+## Appearance
+
+<AppearanceGallery
+  images={[
+    {
+      src: metadataDesktop,
+      title: 'Desktop metadata',
+      alt: 'Desktop handoff metadata with coding agent, session and Git context',
+      description:
+        'Check that coding agent, session, branch, recorded HEAD, update time and full-width worktree fit without clipping.',
+    },
+    {
+      src: metadataMobile,
+      title: 'Mobile metadata',
+      alt: 'Mobile handoff metadata with coding agent, session and Git context',
+      description:
+        'Check that labels stay visible and long session, branch and worktree values wrap without horizontal overflow.',
+    },
+  ]}
+/>
+
+## Architecture
+
+No new containers or components are introduced. The existing handoff document reader renders two additional frontmatter fields beside the recorded Git context; there are no service, data-store or C4 diagram changes.
+
+## Verification
+
+| Check                      | Result | Evidence                                                                                                                                                      |
+| -------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unit and interaction tests | PASS   | 9 files and 53 tests, with statements, branches, functions and lines at 100%. Header labels, values, fallbacks and every handoff's agent/session are covered. |
+| Browser journeys           | PASS   | Six handoff journeys verify browsing, search, sorting, metadata labels and values, galleries, C4 diagrams and phone gestures.                                 |
+| Typecheck and build        | PASS   | `bun run build` completed for all repository apps, including the handoffs TypeScript and Vite build.                                                          |
+| Repository pre-commit      | PASS   | `bun run lint` and the repository unit, browser and e2e suites passed in commit `608b44d`.                                                                    |
+| Visual review              | PASS   | 1440, 390 and 320 widths inspected: labels fit, long values wrap, the worktree uses the full row, and no horizontal overflow appears.                         |
+
+The initial implementation and verification passed in commit `608b44d`; this handoff records the follow-up documentation and repository rule.
+
+## Next steps
+
+None for implementation. New handoffs must record the coding agent and session in frontmatter. Do not edit a completed handoff to document a new feature; create a new handoff with a new slug.

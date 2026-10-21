@@ -1,0 +1,364 @@
+{
+  "audience": "A new engineer who is not familiar with the product; explain purpose, people, responsibilities and terminology before implementation details.",
+  "elements": {
+    "handoff_engineer": {
+      "kind": "person",
+      "name": "Engineer or coding agent",
+      "description": "Reviews and continues engineering work"
+    },
+    "handoff_system": {
+      "kind": "system",
+      "name": "Engineering handoff tool",
+      "description": "Displays implementation notes, screenshots and test evidence"
+    },
+    "git_repository": {
+      "kind": "system",
+      "name": "Git repository",
+      "description": "Versions the engineering documents and their assets"
+    },
+    "handoff_browser": {
+      "kind": "container",
+      "name": "Handoff browser reader",
+      "description": "Lets an engineer browse documents and inspect diagrams",
+      "technology": "React",
+      "parent": "handoff_system"
+    },
+    "handoff_server": {
+      "kind": "container",
+      "name": "Handoff file server",
+      "description": "Serves the standalone reader and its compiled documents",
+      "technology": "Vite or a static HTTP server",
+      "parent": "handoff_system"
+    },
+    "handoff_documents": {
+      "kind": "database",
+      "name": "Engineering handoff documents",
+      "description": "Stores implementation notes, diagrams and verification evidence",
+      "technology": "Markdown with React (MDX), PlantUML and SVG",
+      "parent": "handoff_system"
+    },
+    "handoff_navigation": {
+      "kind": "component",
+      "name": "Document navigation",
+      "description": "Opens a feature handoff from its browser URL",
+      "technology": "React hash navigation",
+      "parent": "handoff_browser"
+    },
+    "handoff_catalog": {
+      "kind": "component",
+      "name": "Document catalog",
+      "description": "Finds the repository handoffs available to the reader",
+      "technology": "Vite module discovery",
+      "parent": "handoff_browser"
+    },
+    "handoff_reader": {
+      "kind": "component",
+      "name": "Document reader",
+      "description": "Displays the handoff, recorded Git context and section links",
+      "technology": "React and MDX",
+      "parent": "handoff_browser"
+    },
+    "handoff_diagrams": {
+      "kind": "component",
+      "name": "Architecture diagram viewer",
+      "description": "Fits diagrams into a frame and provides zoom, pan and source inspection",
+      "technology": "React, SVG and react-zoom-pan-pinch",
+      "parent": "handoff_browser"
+    },
+    "handoff_gallery": {
+      "kind": "component",
+      "name": "Screenshot gallery",
+      "description": "Shows interface screenshots and explains what to review",
+      "technology": "React",
+      "parent": "handoff_browser"
+    },
+    "resident": {
+      "kind": "person",
+      "name": "Resident",
+      "description": "Reads community information and may opt into an account"
+    },
+    "woodbrook_system": {
+      "kind": "system",
+      "name": "Woodbrook community website",
+      "description": "Public information and community action hub for residents"
+    },
+    "clerk_service": {
+      "kind": "system",
+      "name": "Clerk account service",
+      "description": "Manages sign-in, user profiles, verification and sessions"
+    },
+    "site_operator": {
+      "kind": "person",
+      "name": "Site operator",
+      "description": "Configures the account service and checks its readiness"
+    },
+    "woodbrook_browser": {
+      "kind": "container",
+      "name": "Public website application",
+      "description": "Displays resident information and optional account pages",
+      "technology": "TanStack Start and React",
+      "parent": "woodbrook_system"
+    },
+    "woodbrook_host": {
+      "kind": "container",
+      "name": "Website asset host",
+      "description": "Serves the website and its existing read-only content endpoint",
+      "technology": "Cloudflare Worker with Static Assets",
+      "parent": "woodbrook_system"
+    },
+    "clerk_cli": {
+      "kind": "container",
+      "name": "Account configuration tool",
+      "description": "Links the Clerk application and updates sign-in settings",
+      "technology": "Clerk CLI 4.0.0",
+      "parent": "woodbrook_system"
+    },
+    "auth_config": {
+      "kind": "component",
+      "name": "Account opt-in configuration",
+      "description": "Checks whether account UI is enabled and the public Clerk key is valid",
+      "technology": "React and TypeScript",
+      "parent": "woodbrook_browser"
+    },
+    "auth_runtime": {
+      "kind": "component",
+      "name": "Account session integration",
+      "description": "Loads Clerk and supplies account session context when enabled",
+      "technology": "Lazy ClerkProvider",
+      "parent": "woodbrook_browser"
+    },
+    "auth_pages": {
+      "kind": "component",
+      "name": "Sign-in and registration pages",
+      "description": "Displays account forms, setup messages and account links",
+      "technology": "React and Clerk forms",
+      "parent": "woodbrook_browser"
+    },
+    "auth_navigation": {
+      "kind": "component",
+      "name": "Account navigation",
+      "description": "Shows sign-in links, account profile access and sign out",
+      "technology": "React and Clerk UserButton",
+      "parent": "woodbrook_browser"
+    },
+    "auth_recovery": {
+      "kind": "component",
+      "name": "Password recovery",
+      "description": "Handles email reset codes, password confirmation and session completion",
+      "technology": "React and Clerk useSignIn",
+      "parent": "woodbrook_browser"
+    }
+  },
+  "relationships": {
+    "handoff_review": {
+      "to": "handoff_system",
+      "label": "Reviews implementation notes using",
+      "from": "handoff_engineer"
+    },
+    "handoff_versioned_input": {
+      "to": "handoff_system",
+      "label": "Supplies versioned documents for compilation",
+      "from": "git_repository"
+    },
+    "handoff_browse": {
+      "to": "handoff_browser",
+      "label": "Browses implementation notes using",
+      "from": "handoff_engineer",
+      "technology": "Browser"
+    },
+    "handoff_load": {
+      "to": "handoff_server",
+      "label": "Requests the reader and documents from",
+      "from": "handoff_browser",
+      "technology": "HTTP"
+    },
+    "handoff_compile": {
+      "to": "handoff_server",
+      "label": "Supplies documents compiled into static assets",
+      "from": "handoff_documents",
+      "technology": "Vite build"
+    },
+    "handoff_find": {
+      "to": "handoff_catalog",
+      "label": "Finds a document in",
+      "from": "handoff_navigation"
+    },
+    "handoff_open": {
+      "to": "handoff_reader",
+      "label": "Loads a selected document into",
+      "from": "handoff_catalog"
+    },
+    "handoff_show_diagrams": {
+      "to": "handoff_diagrams",
+      "label": "Displays architecture using",
+      "from": "handoff_reader"
+    },
+    "handoff_show_gallery": {
+      "to": "handoff_gallery",
+      "label": "Displays review screenshots using",
+      "from": "handoff_reader"
+    },
+    "resident_website": {
+      "to": "woodbrook_system",
+      "label": "Reads community information and opens account pages using",
+      "from": "resident"
+    },
+    "website_accounts": {
+      "to": "clerk_service",
+      "label": "Delegates account management to",
+      "from": "woodbrook_system"
+    },
+    "operator_accounts": {
+      "to": "clerk_service",
+      "label": "Configures sign-in policy in",
+      "from": "site_operator"
+    },
+    "resident_browser": {
+      "to": "woodbrook_browser",
+      "label": "Reads information and opens account pages using",
+      "from": "resident",
+      "technology": "Browser"
+    },
+    "browser_assets": {
+      "to": "woodbrook_host",
+      "label": "Loads website assets from",
+      "from": "woodbrook_browser",
+      "technology": "HTTPS"
+    },
+    "browser_accounts": {
+      "to": "clerk_service",
+      "label": "Authenticates and manages account sessions with",
+      "from": "woodbrook_browser",
+      "technology": "Clerk browser SDK over HTTPS"
+    },
+    "cli_accounts": {
+      "to": "clerk_service",
+      "label": "Updates account configuration in",
+      "from": "clerk_cli",
+      "technology": "Authenticated API"
+    },
+    "config_runtime": {
+      "to": "auth_runtime",
+      "label": "Loads conditionally",
+      "from": "auth_config"
+    },
+    "runtime_pages": {
+      "to": "auth_pages",
+      "label": "Provides account session context to",
+      "from": "auth_runtime"
+    },
+    "runtime_navigation": {
+      "to": "auth_navigation",
+      "label": "Provides account session context to",
+      "from": "auth_runtime"
+    },
+    "pages_recovery": {
+      "to": "auth_recovery",
+      "label": "Displays the password recovery flow using",
+      "from": "auth_pages"
+    }
+  },
+  "diagrams": {
+    "handoffs_context": {
+      "level": "C1",
+      "scope": "handoff_system",
+      "title": "Engineering handoffs — C1 system context",
+      "handoff": "agent-handoffs",
+      "source": "docs/handoffs/agent-handoffs/assets/c1-handoffs.puml",
+      "elements": ["handoff_engineer", "handoff_system", "git_repository"],
+      "relationships": ["handoff_review", "handoff_versioned_input"]
+    },
+    "handoffs_containers": {
+      "level": "C2",
+      "scope": "handoff_system",
+      "title": "Engineering handoffs — C2 containers",
+      "handoff": "agent-handoffs",
+      "source": "docs/handoffs/agent-handoffs/assets/c2-handoffs.puml",
+      "elements": [
+        "handoff_engineer",
+        "handoff_browser",
+        "handoff_server",
+        "handoff_documents"
+      ],
+      "relationships": ["handoff_browse", "handoff_load", "handoff_compile"]
+    },
+    "handoffs_components": {
+      "level": "C3",
+      "scope": "handoff_browser",
+      "title": "Handoff browser reader — C3 components",
+      "handoff": "agent-handoffs",
+      "source": "docs/handoffs/agent-handoffs/assets/c3-handoffs.puml",
+      "elements": [
+        "handoff_navigation",
+        "handoff_catalog",
+        "handoff_reader",
+        "handoff_diagrams",
+        "handoff_gallery"
+      ],
+      "relationships": [
+        "handoff_find",
+        "handoff_open",
+        "handoff_show_diagrams",
+        "handoff_show_gallery"
+      ]
+    },
+    "clerk_context": {
+      "level": "C1",
+      "scope": "woodbrook_system",
+      "title": "Woodbrook accounts — C1 system context",
+      "handoff": "clerk-authentication",
+      "source": "docs/handoffs/clerk-authentication/assets/c1-context.puml",
+      "elements": [
+        "resident",
+        "woodbrook_system",
+        "clerk_service",
+        "site_operator"
+      ],
+      "relationships": [
+        "resident_website",
+        "website_accounts",
+        "operator_accounts"
+      ]
+    },
+    "clerk_containers": {
+      "level": "C2",
+      "scope": "woodbrook_system",
+      "title": "Woodbrook accounts — C2 containers",
+      "handoff": "clerk-authentication",
+      "source": "docs/handoffs/clerk-authentication/assets/c2-containers.puml",
+      "elements": [
+        "resident",
+        "woodbrook_browser",
+        "woodbrook_host",
+        "clerk_cli",
+        "clerk_service"
+      ],
+      "relationships": [
+        "resident_browser",
+        "browser_assets",
+        "browser_accounts",
+        "cli_accounts"
+      ]
+    },
+    "clerk_components": {
+      "level": "C3",
+      "scope": "woodbrook_browser",
+      "title": "Public website application — C3 account components",
+      "handoff": "clerk-authentication",
+      "source": "docs/handoffs/clerk-authentication/assets/c3-components.puml",
+      "elements": [
+        "auth_config",
+        "auth_runtime",
+        "auth_pages",
+        "auth_navigation",
+        "auth_recovery"
+      ],
+      "relationships": [
+        "config_runtime",
+        "runtime_pages",
+        "runtime_navigation",
+        "pages_recovery"
+      ]
+    }
+  }
+}
