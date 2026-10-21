@@ -1,0 +1,9 @@
+C4Context
+  title Clerk accounts - system context
+  Person(resident, "Resident", "Reads public information and manages a personal account")
+  System(site, "Woodbrook website", "Public community hub with opt-in account access")
+  System_Ext(clerk, "Clerk", "Authentication, account profiles, sessions and verification")
+  Person(operator, "Site operator", "Configures the development and production instances")
+  Rel(resident, site, "Browses and opens account pages", "HTTPS")
+  Rel(site, clerk, "Authenticates and manages the resident account", "Clerk browser SDK")
+  Rel(operator, clerk, "Configures identifiers and checks readiness", "Clerk CLI and Dashboard")

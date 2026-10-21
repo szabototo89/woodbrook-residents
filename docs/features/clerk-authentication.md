@@ -81,6 +81,16 @@ Automated checks mock the Clerk SDK for configured login/registration, profile c
 4. Verify the three account URLs load directly and refresh successfully, including hash-based Clerk steps. Test signup/email verification, recovery, profile management, and sign out on the deployed origin.
 5. Set `VITE_CLERK_AUTH_ENABLED=true` and rebuild when ready for rollout. To remove account UI for ordinary visitors, set it to false and rebuild. A visitor with the explicit preview query can still enable it.
 
+## CLI configuration and current production status
+
+The official Clerk CLI is installed globally with `bun add --global clerk` (verified version `4.0.0`) and linked to the existing Woodbrook application. Use `clerk whoami` to verify the target before changes. `clerk config pull`, `clerk config schema`, and `clerk config patch --dry-run` inspect and validate narrow updates; explicitly select the development or production instance when applying a patch.
+
+The development instance currently requires verified email for registration and permits email sign-in. Phone registration, sign-in and SMS second factors are disabled. The existing password policy and Google/Facebook providers were preserved. These are Clerk instance settings, not code or feature-flag changes.
+
+As checked on 2026-10-21, `clerk deploy status` reports that production setup has not started. The selected public URL is `https://woodbrook.shankill.workers.dev`. Clerk's standard production setup requires a domain with DNS control for authentication and email-sending records; that prerequisite is unresolved for the current hosted address. No production instance, production key, hosting configuration change or website deployment was created by this setup request. The Frontend API proxy option does not replace production email-domain setup.
+
+See the [Clerk handoff](../handoffs/clerk-authentication/index.mdx) for verified configuration, screenshots, architecture and remaining production steps.
+
 ## Acceptance criteria
 
 - Disabled authentication leaves the public hub usable and makes no Clerk requests.

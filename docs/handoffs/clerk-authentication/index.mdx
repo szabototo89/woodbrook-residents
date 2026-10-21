@@ -1,0 +1,135 @@
+import context from './assets/c1-context.mmd?raw';
+import containers from './assets/c2-containers.mmd?raw';
+import components from './assets/c3-components.mmd?raw';
+import loginDesktop from './assets/login-desktop.png';
+import loginMobile from './assets/login-mobile.png';
+import registerDesktop from './assets/register-desktop.png';
+import registerMobile from './assets/register-mobile.png';
+import verification from './assets/verification.txt?url';
+
+export const metadata = {
+  title: 'Clerk accounts and email authentication',
+  status: 'blocked',
+  worktree: '/private/tmp/woodbrook-clerk-production',
+  branch: 'session/clerk-production',
+  commit: '98b75b118aefa3184019f869937c68c87de9ff2c',
+  updatedAt: '2026-10-21T14:57:45Z',
+  summary:
+    'Account code is merged into main and development email authentication is verified. Production awaits a domain with DNS control.',
+};
+
+## Goal
+
+Provide Clerk user management on the static Woodbrook website behind an environment or query flag, with login, registration, password recovery, profile management and sign out. Replace phone authentication with verified email while preserving Google, Facebook and the existing password policy. Set up production when its domain requirements can be met.
+
+## Current state
+
+| Area                       | Observed state                                                                                                                                                                      |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Application code           | Commit `3ab001e` is already merged into local `main`; this handoff was created afterwards from `98b75b1`.                                                                           |
+| Feature flag               | `VITE_CLERK_AUTH_ENABLED=true` or `?feature_flag=clerk-auth`. Disabled by default; the query flag survives internal navigation.                                                     |
+| Account routes             | `/login`, `/register`, `/forgot-password`; account pages carry `noindex`.                                                                                                           |
+| Public access              | Community content remains public; the flag controls account UI and is not API authorization.                                                                                        |
+| Missing key                | Enabled pages show an honest setup message and collect no credentials.                                                                                                              |
+| Clerk CLI                  | Version `4.0.0`, installed globally at `~/.bun/bin/clerk`; Bun's bin directory was added to the login-shell PATH.                                                                   |
+| CLI target                 | Linked to the existing **Woodbrook Residents \| Community Hub** application; no replacement application was created.                                                                |
+| Development authentication | Email required for sign-up, email verification codes enabled, and email sign-in enabled. Phone sign-up, sign-in and SMS second factors disabled.                                    |
+| Preserved configuration    | Password settings unchanged, including the existing required password policy; Google and Facebook remain visible in login and registration.                                         |
+| Preview                    | `http://localhost:3000/login?feature_flag=clerk-auth`, using the ignored environment file in `/private/tmp/woodbrook-clerk-preview/apps/web`. The development key is not committed. |
+| Production                 | `clerk deploy status` reports `not_started`, with no production instance, domain or production publishable key.                                                                     |
+| Requested public URL       | The user selected the current site: `https://woodbrook.shankill.workers.dev`.                                                                                                       |
+
+The development application is `app_3L08mUjxt1JOVSX35m24KPJGPiV`, instance `ins_3L08mTb8zc8eQqWEP2U4LAB7cng`. These identifiers are operational references, not credentials. Authentication tokens, secret keys and publishable-key values are omitted from this handoff.
+
+### Production blocker
+
+Clerk's standard production setup requires a domain the operator owns and can add DNS records to, including authentication and email-sending records. The existing `workers.dev` address does not provide that DNS control. Clerk's Frontend API proxy option addresses the Frontend API connection, not the separate production email-domain requirements.
+
+No production instance was created, no production settings or Cloudflare build variables were changed, and no website deployment was performed during this setup request. A development key must not be substituted for a completed production setup.
+
+Production Google and Facebook connections also need their own provider credentials. Clerk's shared development OAuth credentials do not carry over to production. Email authentication can be configured independently once a valid production domain is available.
+
+References: [Clerk production setup](https://clerk.com/docs/guides/development/deployment/production), [Frontend API proxying](https://clerk.com/docs/guides/dashboard/dns-domains/proxy-fapi), and [production email delivery](https://clerk.com/docs/guides/development/troubleshooting/email-deliverability), accessed 2026-10-21.
+
+## Appearance
+
+These screenshots show the actual configured development instance, not sample account data. Review the visible email fields, preserved social providers, account-page navigation and mobile fit. No resident account was created and no real verification email was sent during the checks.
+
+<AppearanceGallery
+  images={[
+    {
+      src: loginDesktop,
+      title: 'Desktop login',
+      alt: 'Woodbrook login with Facebook, Google and an email address field',
+      description:
+        'Confirm that the existing site header includes Log in, the account card uses email instead of phone, and Facebook and Google remain available.',
+    },
+    {
+      src: loginMobile,
+      title: 'Mobile login',
+      alt: 'Mobile Woodbrook email login page',
+      description:
+        'Check the header, stacked social buttons, email field and account links. The card should stay within the phone width without horizontal scrolling.',
+    },
+    {
+      src: registerDesktop,
+      title: 'Desktop registration',
+      alt: 'Woodbrook registration with email and password fields',
+      description:
+        'Verify the email and password registration fields, the preserved social providers, and the link back to login. Phone must not be requested.',
+    },
+    {
+      src: registerMobile,
+      title: 'Mobile registration',
+      alt: 'Mobile Woodbrook email registration page',
+      description:
+        'Check readable labels, field spacing and the stacked layout on a phone. The registration card must remain within the viewport.',
+    },
+  ]}
+/>
+
+## Architecture
+
+### C1 - System context
+
+Change: residents can opt into Clerk-managed accounts while the community information hub remains public. Operators configure identifiers using the Clerk CLI and Dashboard.
+
+<MermaidDiagram source={context} />
+
+### C2 - Containers
+
+Change: the existing static website loads Clerk in the browser without adding a runtime user database. The CLI is linked to the existing development instance; the production instance remains a documented prerequisite rather than an active service.
+
+<MermaidDiagram source={containers} />
+
+### C3 - Web components
+
+Change: account UI lives under `src/features/auth/`, shared header controls remain in application chrome, and route files only select account pages and metadata. SDK loading is gated and password recovery is a separate email-code flow.
+
+<MermaidDiagram source={components} />
+
+## Verification
+
+| Check                                                    | Result  | Evidence                                                                                                                                                                                        |
+| -------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Original implementation TDD                              | PASS    | Failing feature-flag, account-page and recovery tests were written before implementation.                                                                                                       |
+| Original required repository hooks                       | PASS    | Feature commit `3ab001e` passed lint, type checks, unit, browser and end-to-end checks without bypass flags. Web unit suite: 317 tests; full web end-to-end suite: 44 tests.                    |
+| Static hosting                                           | PASS    | Static build verified 42 HTML files, 31 CMS data files and generated internal links against the repository's content fixture server.                                                            |
+| CLI installation and link                                | PASS    | `clerk --version` reports `4.0.0`; `clerk whoami` resolves the existing Woodbrook application.                                                                                                  |
+| Email replacement                                        | PASS    | Narrow `config patch --dry-run` validated the email/phone changes before applying. A subsequent `config pull` confirmed verified email enabled, phone disabled and password settings unchanged. |
+| Live account UI                                          | PASS    | Playwright verified login and registration at widths 320, 390 and 1440; email present, phone absent, Google/Facebook present, and no horizontal overflow.                                       |
+| Live email delivery, OAuth completion and password reset | NOT RUN | No resident/test account was created and no real email, password reset or social authentication was submitted.                                                                                  |
+| Clerk production readiness                               | BLOCKED | Explicit read-only status reports no production instance; current requested hostname does not meet standard DNS ownership requirements.                                                         |
+| Current handoff build and review                         | PASS    | Handoff viewer and web builds passed. Playwright verified this document at 390 and 1440 pixels: metadata, gallery switching, three C4 diagrams and no horizontal overflow.                      |
+
+[Verification command summary]({verification})
+
+## Next steps
+
+1. Supply an owned domain with DNS control for the production setup. The user selected the existing `workers.dev` URL; the DNS prerequisite remains unresolved.
+2. Create the production instance for the existing Clerk application using the selected domain, complete DNS/email verification, and apply verified-email configuration with phone disabled.
+3. Configure production Google/Facebook credentials if those providers should be available at launch.
+4. Set the production publishable key in the Cloudflare build environment, keep `VITE_CLERK_AUTH_ENABLED=false` for initial query-flag review, and rebuild/deploy through the repository's normal workflow.
+5. Verify real registration, email delivery, login, recovery, profile management and sign out on the deployed origin before an environment-enabled rollout.
+
+Detailed setup and scope: [Clerk accounts feature guide](../../features/clerk-authentication.md).

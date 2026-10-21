@@ -1,0 +1,35 @@
+Clerk account setup — verification summary
+Recorded 2026-10-21 UTC. No credentials or authentication tokens are included.
+
+Already merged application code: 3ab001e.
+Current documentation session starts at HEAD 98b75b118aefa3184019f869937c68c87de9ff2c.
+
+Historical implementation checks for 3ab001e:
+- Required pre-commit lint/typecheck/unit/browser/e2e pipeline: PASS.
+- Web unit suite: 317 passed.
+- Full web e2e suite: 44 passed.
+- bun run build: PASS.
+- Static build with the repository's sample content service: PASS.
+- Static verifier: 42 HTML files, 31 CMS data files, all generated internal links verified.
+
+Live development configuration checks:
+- clerk --version: 4.0.0.
+- clerk whoami: linked to existing Woodbrook Residents | Community Hub application.
+- clerk config patch --dry-run: validation passed before applying.
+- clerk config pull after applying: email sign-in/sign-up/verification enabled; phone sign-in/sign-up/second-factor disabled.
+- Password settings before/after: equal.
+- Playwright login/register checks at 320px, 390px and 1440px: PASS.
+- Each page displayed email, Facebook and Google; no phone field or horizontal overflow.
+- No real account was created and no verification email or social sign-in was submitted.
+
+Production inspection:
+- clerk deploy status: complete=false, state=not_started, productionInstanceId=null, domain=null.
+- No production instance, production key or live deployment was created.
+- Requested current URL: https://woodbrook.shankill.workers.dev.
+- Standard production setup awaits an owned domain with DNS control for authentication and email records.
+
+Current handoff build/review: PASS.
+- bun run --cwd apps/handoffs build: PASS.
+- bun run --cwd apps/web build: PASS.
+- Playwright handoff checks at 390px and 1440px: PASS.
+- Verified context metadata, interactive screenshot switching, three rendered C4 diagrams and no horizontal overflow.
