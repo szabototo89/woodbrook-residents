@@ -21,7 +21,7 @@ test('compact search preserves a labelled form and keyboard submit action', () =
     'Header search',
   );
   expect(container.querySelector('input')?.getAttribute('aria-label')).toBe(
-    'Search updates, events and services',
+    'Search news, events and services',
   );
   expect(container.querySelector('button')?.textContent).toBe('Search');
   unmount();

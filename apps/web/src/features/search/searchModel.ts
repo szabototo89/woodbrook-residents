@@ -10,7 +10,7 @@ import type {
 export const searchCategories = [
   { value: 'all', label: 'All' },
   { value: 'services', label: 'Services' },
-  { value: 'updates', label: 'Updates' },
+  { value: 'updates', label: 'News' },
   { value: 'projects', label: 'Projects' },
   { value: 'events', label: 'Events' },
 ] as const;

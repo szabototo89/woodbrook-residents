@@ -122,7 +122,7 @@ test('desktop header offers one search control and submits its query', async ({
   ).toHaveCount(0);
   await expect(header.getByRole('search')).toHaveCount(1);
   const searchbox = header.getByRole('searchbox', {
-    name: 'Search updates, events and services',
+    name: 'Search news, events and services',
   });
   await expect(searchbox).toBeVisible();
   await searchbox.fill('DART');
@@ -178,7 +178,7 @@ test('shares heading and body typography with the updates page and prioritises s
   });
   await page.goto('/updates');
   const heading = await page
-    .getByRole('heading', { name: 'Updates', level: 1 })
+    .getByRole('heading', { name: 'News', level: 1 })
     .evaluate(typography);
   const cardHeading = await page
     .getByRole('article')
@@ -213,7 +213,7 @@ test('shares heading and body typography with the updates page and prioritises s
   ).toHaveText([
     'All (5)',
     'Services (1)',
-    'Updates (3)',
+    'News (3)',
     'Projects (1)',
     'Events (0)',
   ]);

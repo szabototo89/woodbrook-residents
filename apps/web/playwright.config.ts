@@ -49,7 +49,7 @@ export default defineConfig({
       timeout: 30_000,
     },
     {
-      command: `CONTENT_SOURCE=sanity SANITY_API_HOST=${sanityApiHost} node --import ./tests/e2e/fixed-clock.mjs ./node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port ${webPort} --strictPort`,
+      command: `NODE_OPTIONS="--import=./tests/e2e/fixed-clock.mjs" CONTENT_SOURCE=sanity SANITY_API_HOST=${sanityApiHost} bun run preview -- --host 127.0.0.1 --port ${webPort} --strictPort`,
       url: webUrl,
       // Never reuse: a preview started without the e2e env serves different
       // content and fails the seed-content assertions. strictPort turns a

@@ -1,5 +1,6 @@
 # Capability index
 
+- [Clerk accounts](clerk-authentication.md) — Available
 - [Public content search](public-content-search.md) — Available
 - [Responsive coastal homepage](responsive-coastal-homepage.md) — Available
 - [Woodbrook Residents brand assets](woodbrook-brand-assets.md) — Available

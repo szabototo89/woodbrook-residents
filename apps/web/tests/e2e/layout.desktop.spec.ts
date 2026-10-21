@@ -7,7 +7,8 @@ const layoutTolerancePx = 4;
 test('the homepage follows the desktop reference with aligned highlights and quick services', async ({
   page,
 }) => {
-  await page.clock.setFixedTime(new Date('2026-09-10T12:00:00.000Z'));
+  // Keep the published fixture event upcoming while testing its layout.
+  await page.clock.setFixedTime(new Date('2026-10-01T12:00:00.000Z'));
   await page.setViewportSize({ width: 1440, height: 1100 });
   await page.goto('/');
   await page.evaluate(() => document.fonts.ready);

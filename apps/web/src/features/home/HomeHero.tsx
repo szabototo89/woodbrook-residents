@@ -10,7 +10,7 @@ import {
 import { SiteSearch } from '../../components/SiteSearch';
 
 const shortcuts = [
-  { href: '/updates', label: 'Latest updates', icon: FileText },
+  { href: '/updates', label: 'Latest news', icon: FileText },
   { href: '/events', label: 'Upcoming events', icon: CalendarDays },
   {
     href: '/local-info?category=trades',
@@ -47,8 +47,8 @@ export function HomeHero() {
             Woodbrook, <span>fast.</span>
           </h1>
           <p className="coastal-hero-lede">
-            Local updates, events, projects and practical information for
-            Woodbrook and nearby Shankill.
+            Local news, events, projects and practical information for Woodbrook
+            and nearby Shankill.
           </p>
           <SiteSearch />
         </div>

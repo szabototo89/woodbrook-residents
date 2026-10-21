@@ -8,9 +8,9 @@ export const Route = createFileRoute('/updates/')({
   loader: () => getUpdates(),
   head: () =>
     createPageHead({
-      title: 'Updates',
+      title: 'News',
       description:
-        'Source-linked updates on transport, planning, public spaces, and practical changes affecting Woodbrook residents.',
+        'Source-linked news on transport, planning, public spaces, and practical changes affecting Woodbrook residents.',
       path: '/updates',
     }),
   component: UpdatesPage,

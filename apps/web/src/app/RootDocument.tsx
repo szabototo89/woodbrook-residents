@@ -6,6 +6,7 @@ import { AppHeader } from '../components/AppHeader';
 import { CloudflareWebAnalytics } from '../components/CloudflareWebAnalytics';
 import { ClarityAnalytics } from '../components/ClarityAnalytics';
 import { CookieConsentBanner } from '../components/CookieConsent';
+import { AuthProvider } from '../features/auth/AuthProvider';
 import { SiteStructuredData } from './SiteStructuredData';
 
 export function RootDocument(props: { children: ReactNode }) {
@@ -23,9 +24,11 @@ export function RootDocument(props: { children: ReactNode }) {
         <a className="skip-link" href="#main-content">
           Skip to main content
         </a>
-        <AppHeader />
-        {props.children}
-        <AppFooter />
+        <AuthProvider>
+          <AppHeader />
+          {props.children}
+          <AppFooter />
+        </AuthProvider>
         <CookieConsentBanner />
         <Scripts />
       </body>

@@ -7,13 +7,11 @@ import type { ContentCollection } from '../content/contentTypes';
 import type { CommunityEvent } from '../content/contentTypes';
 
 beforeEach(() => {
-  vi.useFakeTimers();
-  vi.setSystemTime(new Date('2026-09-10T12:00:00.000Z'));
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(new Date('2026-10-01T12:00:00.000Z'));
 });
 
-afterEach(() => {
-  vi.useRealTimers();
-});
+afterEach(() => vi.useRealTimers());
 
 const readyEvent: CommunityEvent = {
   documentId: 'e1',

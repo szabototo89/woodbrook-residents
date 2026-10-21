@@ -38,7 +38,7 @@ export function UpdateCard(props: { update: Update }) {
           params={{ slug: props.update.slug }}
           aria-label={`Read ${props.update.title}`}
         >
-          Read update <ArrowRight size={15} aria-hidden="true" />
+          Read news <ArrowRight size={15} aria-hidden="true" />
         </Link>
       </div>
     </article>

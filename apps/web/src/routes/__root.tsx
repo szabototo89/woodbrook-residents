@@ -1,12 +1,27 @@
-import { createRootRoute } from '@tanstack/react-router';
+import { createRootRoute, retainSearchParams } from '@tanstack/react-router';
 
 import { NotFoundPage } from '../app/NotFoundPage';
 import { RootDocument } from '../app/RootDocument';
 import appCss from '../styles.css?url';
 import themeCss from '../components/site-theme.css?url';
+import authCss from '../features/auth/auth.css?url';
 import homeCss from '../features/home/home.css?url';
 
 export const Route = createRootRoute({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { feature_flag?: string } => ({
+    ...(typeof search.feature_flag === 'string' ||
+    (Array.isArray(search.feature_flag) &&
+      search.feature_flag.every((flag) => typeof flag === 'string'))
+      ? {
+          feature_flag: Array.isArray(search.feature_flag)
+            ? search.feature_flag.join(',')
+            : search.feature_flag,
+        }
+      : {}),
+  }),
+  search: { middlewares: [retainSearchParams(['feature_flag'])] },
   head: () => ({
     meta: [
       {
@@ -44,6 +59,7 @@ export const Route = createRootRoute({
       },
       { rel: 'stylesheet', href: themeCss },
       { rel: 'stylesheet', href: homeCss },
+      { rel: 'stylesheet', href: authCss },
     ],
   }),
   notFoundComponent: NotFoundPage,
