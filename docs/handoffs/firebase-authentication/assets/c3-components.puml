@@ -1,0 +1,29 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Public website application — C3 Firebase components — current
+
+System_Ext(firebase_service, "Firebase Authentication", "Manages resident identities, email verification, password resets and sessions")
+Container_Boundary(woodbrook_browser, "Public website application") {
+  Component(firebase_auth_config, "Account opt-in and project configuration", "React and TypeScript", "Checks the feature flag and public Firebase project settings")
+  Component(firebase_auth_runtime, "Account session context", "React context and lazy Firebase runtime", "Loads the authentication client and observes the current account")
+  Component(firebase_auth_client, "Firebase account adapter", "Firebase JavaScript SDK", "Submits account operations and exposes only account display data")
+  Component(firebase_auth_forms, "Resident account forms", "React forms and AccountPanel", "Handles login, registration, email recovery and account controls")
+  Component(firebase_auth_navigation, "Account navigation", "React header links", "Opens login or signed-in account controls while retaining feature flags")
+  Component(firebase_auth_requests, "Account request state", "React state and request guard", "Prevents duplicate requests and displays safe status and error messages")
+}
+
+Rel(firebase_auth_config, firebase_auth_runtime, "Loads conditionally with validated public configuration")
+Rel(firebase_auth_runtime, firebase_auth_client, "Initializes and subscribes to session changes through")
+Rel(firebase_auth_runtime, firebase_auth_forms, "Provides account state and available operations to")
+Rel(firebase_auth_runtime, firebase_auth_navigation, "Provides signed-in state to")
+Rel(firebase_auth_forms, firebase_auth_client, "Submits account operations through")
+Rel(firebase_auth_forms, firebase_auth_requests, "Guards pending operations and displays their outcomes with")
+Rel(firebase_auth_client, firebase_service, "Creates accounts, signs in and manages email actions and sessions with", "Firebase SDK over HTTPS")
+SHOW_LEGEND()
+@enduml

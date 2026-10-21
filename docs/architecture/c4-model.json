@@ -147,6 +147,53 @@
       "description": "Handles email reset codes, password confirmation and session completion",
       "technology": "React and Clerk useSignIn",
       "parent": "woodbrook_browser"
+    },
+    "firebase_service": {
+      "kind": "system",
+      "name": "Firebase Authentication",
+      "description": "Manages resident identities, email verification, password resets and sessions"
+    },
+    "firebase_auth_config": {
+      "kind": "component",
+      "name": "Account opt-in and project configuration",
+      "description": "Checks the feature flag and public Firebase project settings",
+      "technology": "React and TypeScript",
+      "parent": "woodbrook_browser"
+    },
+    "firebase_auth_runtime": {
+      "kind": "component",
+      "name": "Account session context",
+      "description": "Loads the authentication client and observes the current account",
+      "technology": "React context and lazy Firebase runtime",
+      "parent": "woodbrook_browser"
+    },
+    "firebase_auth_client": {
+      "kind": "component",
+      "name": "Firebase account adapter",
+      "description": "Submits account operations and exposes only account display data",
+      "technology": "Firebase JavaScript SDK",
+      "parent": "woodbrook_browser"
+    },
+    "firebase_auth_forms": {
+      "kind": "component",
+      "name": "Resident account forms",
+      "description": "Handles login, registration, email recovery and account controls",
+      "technology": "React forms and AccountPanel",
+      "parent": "woodbrook_browser"
+    },
+    "firebase_auth_navigation": {
+      "kind": "component",
+      "name": "Account navigation",
+      "description": "Opens login or signed-in account controls while retaining feature flags",
+      "technology": "React header links",
+      "parent": "woodbrook_browser"
+    },
+    "firebase_auth_requests": {
+      "kind": "component",
+      "name": "Account request state",
+      "description": "Prevents duplicate requests and displays safe status and error messages",
+      "technology": "React state and request guard",
+      "parent": "woodbrook_browser"
     }
   },
   "relationships": {
@@ -256,6 +303,58 @@
       "to": "auth_recovery",
       "label": "Displays the password recovery flow using",
       "from": "auth_pages"
+    },
+    "website_firebase": {
+      "from": "woodbrook_system",
+      "to": "firebase_service",
+      "label": "Delegates account authentication to"
+    },
+    "operator_firebase": {
+      "from": "site_operator",
+      "to": "firebase_service",
+      "label": "Configures sign-in policy and providers in"
+    },
+    "browser_firebase": {
+      "from": "woodbrook_browser",
+      "to": "firebase_service",
+      "label": "Authenticates and manages account sessions with",
+      "technology": "Firebase browser SDK over HTTPS"
+    },
+    "firebase_config_runtime": {
+      "from": "firebase_auth_config",
+      "to": "firebase_auth_runtime",
+      "label": "Loads conditionally with validated public configuration"
+    },
+    "firebase_runtime_client": {
+      "from": "firebase_auth_runtime",
+      "to": "firebase_auth_client",
+      "label": "Initializes and subscribes to session changes through"
+    },
+    "firebase_runtime_forms": {
+      "from": "firebase_auth_runtime",
+      "to": "firebase_auth_forms",
+      "label": "Provides account state and available operations to"
+    },
+    "firebase_runtime_navigation": {
+      "from": "firebase_auth_runtime",
+      "to": "firebase_auth_navigation",
+      "label": "Provides signed-in state to"
+    },
+    "firebase_forms_client": {
+      "from": "firebase_auth_forms",
+      "to": "firebase_auth_client",
+      "label": "Submits account operations through"
+    },
+    "firebase_forms_requests": {
+      "from": "firebase_auth_forms",
+      "to": "firebase_auth_requests",
+      "label": "Guards pending operations and displays their outcomes with"
+    },
+    "firebase_client_service": {
+      "from": "firebase_auth_client",
+      "to": "firebase_service",
+      "label": "Creates accounts, signs in and manages email actions and sessions with",
+      "technology": "Firebase SDK over HTTPS"
     }
   },
   "diagrams": {
@@ -358,6 +457,67 @@
         "runtime_pages",
         "runtime_navigation",
         "pages_recovery"
+      ]
+    },
+    "firebase_context": {
+      "level": "C1",
+      "scope": "woodbrook_system",
+      "title": "Woodbrook Firebase accounts — C1 system context — current",
+      "handoff": "firebase-authentication",
+      "source": "docs/handoffs/firebase-authentication/assets/c1-context.puml",
+      "elements": [
+        "resident",
+        "woodbrook_system",
+        "firebase_service",
+        "site_operator"
+      ],
+      "relationships": [
+        "resident_website",
+        "website_firebase",
+        "operator_firebase"
+      ]
+    },
+    "firebase_containers": {
+      "level": "C2",
+      "scope": "woodbrook_system",
+      "title": "Woodbrook Firebase accounts — C2 containers — current",
+      "handoff": "firebase-authentication",
+      "source": "docs/handoffs/firebase-authentication/assets/c2-containers.puml",
+      "elements": [
+        "resident",
+        "woodbrook_browser",
+        "woodbrook_host",
+        "firebase_service"
+      ],
+      "relationships": [
+        "resident_browser",
+        "browser_assets",
+        "browser_firebase"
+      ]
+    },
+    "firebase_components": {
+      "level": "C3",
+      "scope": "woodbrook_browser",
+      "title": "Public website application — C3 Firebase components — current",
+      "handoff": "firebase-authentication",
+      "source": "docs/handoffs/firebase-authentication/assets/c3-components.puml",
+      "elements": [
+        "firebase_auth_config",
+        "firebase_auth_runtime",
+        "firebase_auth_client",
+        "firebase_auth_forms",
+        "firebase_auth_navigation",
+        "firebase_auth_requests",
+        "firebase_service"
+      ],
+      "relationships": [
+        "firebase_config_runtime",
+        "firebase_runtime_client",
+        "firebase_runtime_forms",
+        "firebase_runtime_navigation",
+        "firebase_forms_client",
+        "firebase_forms_requests",
+        "firebase_client_service"
       ]
     }
   }

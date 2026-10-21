@@ -1,0 +1,20 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Context>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Woodbrook Firebase accounts — C1 system context — current
+
+Person(resident, "Resident", "Reads community information and may opt into an account")
+System(woodbrook_system, "Woodbrook community website", "Public information and community action hub for residents")
+System_Ext(firebase_service, "Firebase Authentication", "Manages resident identities, email verification, password resets and sessions")
+Person(site_operator, "Site operator", "Configures the account service and checks its readiness")
+
+Rel(resident, woodbrook_system, "Reads community information and opens account pages using")
+Rel(woodbrook_system, firebase_service, "Delegates account authentication to")
+Rel(site_operator, firebase_service, "Configures sign-in policy and providers in")
+SHOW_LEGEND()
+@enduml

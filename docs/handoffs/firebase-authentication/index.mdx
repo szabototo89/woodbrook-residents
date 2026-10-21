@@ -1,0 +1,152 @@
+import loginDesktop from './assets/login-desktop.png';
+import loginMobile from './assets/login-mobile.png';
+import registerDesktop from './assets/register-desktop.png';
+import registerMobile from './assets/register-mobile.png';
+import recoveryDesktop from './assets/forgot-password-desktop.png';
+import recoveryMobile from './assets/forgot-password-mobile.png';
+import context from './assets/c1-context.puml?raw';
+import contextImage from './assets/c1-context.svg';
+import containers from './assets/c2-containers.puml?raw';
+import containersImage from './assets/c2-containers.svg';
+import components from './assets/c3-components.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+
+export const metadata = {
+  title: 'Firebase resident authentication',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a15df6-6061-7243-aa70-f2d9e58e7fdb',
+  worktree: '/private/tmp/woodbrook-firebase-auth',
+  branch: 'session/firebase-auth',
+  commit: 'a3dadf7',
+  updatedAt: '2026-10-21T20:55:03Z',
+  summary:
+    'Replaces Clerk with feature-flagged Firebase accounts on the existing Cloudflare website, with email/password and Google configured.',
+};
+
+## Goal
+
+Woodbrook is a public information and action hub for residents of Shankill, Ireland. Residents should be able to create and manage an optional account while browsing community information freely. Migrate account access from Clerk to Firebase Authentication, using the existing `woodbrook.shankill.workers.dev` website without purchasing a domain or hosting an authentication server.
+
+## Current state
+
+The migration code was verified, merged into local `main` at `a3dadf7`, and deployed to the existing Cloudflare Worker on 2026-10-21 as version `e057a7f5-e61f-478b-adcf-cdd13a04890b`. The public review URL is [Firebase login](https://woodbrook.shankill.workers.dev/login/?feature_flag=firebase-auth); accounts stay off without the flag.
+
+The browser integration uses the official Firebase JavaScript SDK. Clerk imports, dependency, configuration and account components have been removed from the web application. The historical Clerk handoff remains unchanged by this migration.
+
+- `?feature_flag=firebase-auth` enables account navigation and `/login`, `/register`, and `/forgot-password`; the flag survives public navigation. The old Clerk flag no longer enables accounts. `VITE_FIREBASE_AUTH_ENABLED=true` enables accounts for everyone; the shipped default is off.
+- Registration creates an email/password account, saves the display name and requests an email verification link. Signed-in residents can change their display name, resend verification, request a password reset and sign out. Sessions persist through reloads. Recovery uses Firebase's managed email action page to choose the new password.
+- Shared request state prevents duplicate requests and preserves errors even when account creation succeeds before email delivery fails. Delayed profile updates respect the current session, including sign-out in another tab.
+- Firebase project `woodbrook-auth-20261021` is on the no-cost Spark plan. Email/password and Google are enabled. The project authorizes the current `workers.dev` address and localhost, requires passwords of at least eight characters, and enables email enumeration protection. Phone and anonymous sign-in are disabled. Google uses the support email explicitly approved by the user.
+- The public project profile in `firebaseProject.json` makes builds repeatable. Environment variables can override the profile. No service-account credential or OAuth client secret is committed. Google is shown by default when the account feature is enabled; Facebook stays hidden because a production Meta application ID and secret have not been supplied to Firebase.
+- A count-only check found one Clerk account. The user explicitly requested leaving it untouched. No account record, password or private metadata was exported or transferred, and no Clerk application/user was deleted. Firebase accounts are separate.
+
+See [Firebase feature and setup guide](../../features/firebase-authentication.md) for project overrides, provider setup, rollout and scope.
+
+## Appearance
+
+These images show the implemented forms with empty fields; no sample resident account or personal account information appears in them. Captures use 1440px desktop and 390px mobile viewports at twice the pixel density.
+
+<AppearanceGallery
+  images={[
+    {
+      src: loginDesktop,
+      title: 'Desktop login',
+      alt: 'Woodbrook Firebase email and Google login on desktop',
+      description:
+        'Review the two-column introduction, labelled email/password fields, Google button, and registration/recovery links.',
+    },
+    {
+      src: loginMobile,
+      title: 'Mobile login',
+      alt: 'Woodbrook Firebase login on a phone',
+      description:
+        'Review stacked content, full-width controls, visible header login/navigation and the absence of horizontal overflow.',
+    },
+    {
+      src: registerDesktop,
+      title: 'Desktop registration',
+      alt: 'Woodbrook Firebase registration on desktop',
+      description:
+        'Review display name, email, matching-password fields, password guidance and the Google alternative.',
+    },
+    {
+      src: registerMobile,
+      title: 'Mobile registration',
+      alt: 'Woodbrook Firebase registration on a phone',
+      description:
+        'Review the complete registration form and account navigation on the narrow layout.',
+    },
+    {
+      src: recoveryDesktop,
+      title: 'Desktop recovery',
+      alt: 'Firebase email password recovery on desktop',
+      description:
+        'Review the email-only reset request. Firebase sends the link and hosts the new-password action page.',
+    },
+    {
+      src: recoveryMobile,
+      title: 'Mobile recovery',
+      alt: 'Firebase email password recovery on a phone',
+      description:
+        'Review readable recovery guidance, labelled email field and reachable reset action on a phone.',
+    },
+  ]}
+/>
+
+## Architecture
+
+Firebase Authentication is Google's managed identity service: it stores account identities, verifies email, manages passwords and issues authentication sessions. The Woodbrook website remains a static browser application served by a Cloudflare Worker. A C4 container below means a running application or data store; it does not mean a Docker container. Account feature flags control interface availability, not authorization for private APIs. Existing issue-report privacy rules are unchanged.
+
+### C1: System context
+
+<PlantUmlDiagram
+  title="Firebase system context"
+  source={context}
+  image={contextImage}
+/>
+
+Change: Woodbrook delegates account operations to Firebase instead of Clerk. Residents and the operator interact with the same public website and a managed account service.
+
+### C2: Containers
+
+<PlantUmlDiagram
+  title="Firebase containers"
+  source={containers}
+  image={containersImage}
+/>
+
+Change: The existing Cloudflare asset host continues serving the browser application. Its browser-side Firebase SDK communicates directly with managed authentication; no custom authentication server, custom domain or Firebase deployment of the Woodbrook website is added.
+
+### C3: Browser components
+
+<PlantUmlDiagram
+  title="Firebase browser components"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: Opt-in configuration lazily loads the Firebase session runtime. A small adapter exposes account operations and display data. Forms and header links consume session state, while shared request state guards requests and displays safe outcomes. This replaces the Clerk provider, prebuilt forms, profile button and code-based recovery implementation.
+
+The shared C4 registry has new Firebase-specific component and relationship IDs. Existing Clerk component definitions and generated historical sources are preserved. Each new PlantUML source and rendered SVG belongs only to this handoff.
+
+## Verification
+
+- PASS: failing tests were written before implementing Firebase configuration, forms and SDK operations. Additional regressions first reproduced lost verification errors and stale state after cross-tab sign-out, then passed after the fixes.
+- PASS: focused authentication unit/DOM tests and per-file coverage gates; type checking; full repository hooks on the migration implementation.
+- PASS: the real Firebase browser SDK with simulated REST responses on desktop and mobile: registration, verification/reset requests, login, profile changes, persistence through reload, sign-out persistence, social button visibility and 320px layout. Simulated tests create no real accounts and send no real emails.
+- PASS: live Firebase configuration reads confirm email/password, Google, password policy, privacy protection and the existing `workers.dev` authorized domain. A deliberately invalid live email login returns `INVALID_LOGIN_CREDENTIALS`; no account was created and no email was sent by that check.
+- PASS: production-origin static build verifies 96 HTML documents, 85 static CMS data files and all generated internal links. The Worker bundle passed a dry-run deployment check.
+- PASS: C4 sources generated from the canonical registry and rendered locally using PlantUML 1.2026.9, the bundled C4 library and Smetana. C1/C2/C3 renderings were visually reviewed for readable labels, correct scope and clear relationships.
+- NOT RUN: delivery of a real verification/reset email and completion of a real Google or Facebook OAuth login. These require a resident-controlled account; configured-provider and simulated-session checks are not claims of completed live OAuth or email delivery.
+
+- PASS: deployed default-off behavior makes no authentication requests; live invalid-login handling shows safe copy; Google opens its Accounts sign-in service and cancellation returns to the form. No real account was selected or created.
+- PASS: all three diagrams in this handoff load and fit on desktop/mobile, zoom, pan with arrow keys, reset to fit, disclose their local source and link to the full-size SVG. The handoff build and unit tests pass.
+
+Detailed final command outcomes and rollout state are recorded in `assets/verification.txt` and `assets/live-review.txt`.
+
+## Next steps
+
+None for the implemented and deployed email/password and Google migration. This handoff records the code merge and live deployment before its separate documentation commit. GitHub publication is a separate action; the scheduled Cloudflare build will use the Firebase profile when this local history is published.
+
+Optional follow-up: configure a production Meta app in Firebase before enabling Facebook. It remains disabled in both the public profile and the interface until its credentials are supplied. A resident can complete a real signup/email recovery and Google login when reviewing; the automated checks do not claim live email delivery or a completed Google session.

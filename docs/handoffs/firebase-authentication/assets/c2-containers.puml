@@ -1,0 +1,22 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Woodbrook Firebase accounts — C2 containers — current
+
+Person(resident, "Resident", "Reads community information and may opt into an account")
+System_Ext(firebase_service, "Firebase Authentication", "Manages resident identities, email verification, password resets and sessions")
+System_Boundary(woodbrook_system, "Woodbrook community website") {
+  Container(woodbrook_browser, "Public website application", "TanStack Start and React", "Displays resident information and optional account pages")
+  Container(woodbrook_host, "Website asset host", "Cloudflare Worker with Static Assets", "Serves the website and its existing read-only content endpoint")
+}
+
+Rel(resident, woodbrook_browser, "Reads information and opens account pages using", "Browser")
+Rel(woodbrook_browser, woodbrook_host, "Loads website assets from", "HTTPS")
+Rel(woodbrook_browser, firebase_service, "Authenticates and manages account sessions with", "Firebase browser SDK over HTTPS")
+SHOW_LEGEND()
+@enduml

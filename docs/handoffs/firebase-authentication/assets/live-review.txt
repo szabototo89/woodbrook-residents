@@ -1,0 +1,5 @@
+PASS: deployed account feature stays disabled without its flag and makes no auth requests.
+PASS: deployed browser SDK reaches live Firebase and renders the expected safe invalid-login error. No user created and no email sent.
+PASS: deployed Google button reaches the Google Accounts sign-in service; no Google account selected and no OAuth login completed.
+PASS: desktop handoff shows metadata/gallery and all three C4 SVGs fit, zoom, pan with arrow keys, reset to fit, expose source and link to full size.
+PASS: mobile handoff shows metadata/gallery and all three C4 SVGs fit, zoom, pan with arrow keys, reset to fit, expose source and link to full size.

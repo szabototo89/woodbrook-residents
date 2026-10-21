@@ -1,6 +1,6 @@
 # Firebase resident accounts
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
@@ -69,3 +69,9 @@ Included: browser authentication and account controls, setup/rollout documentati
 ## Sources
 
 Firebase [web setup](https://firebase.google.com/docs/auth/web/start), [email/password](https://firebase.google.com/docs/auth/web/password-auth), [user management and email actions](https://firebase.google.com/docs/auth/web/manage-users), and [social redirect/storage behavior](https://firebase.google.com/docs/auth/web/redirect-best-practices), accessed 2026-10-21.
+
+## Verified rollout
+
+The migration code was merged into local `main` at `a3dadf7` and deployed to the existing Worker as version `e057a7f5-e61f-478b-adcf-cdd13a04890b` on 2026-10-21. Accounts remain query-flag-only. Live browser checks confirmed disabled default behavior without auth requests, configured account forms, safe invalid-login errors, and a Google Accounts sign-in popup. Real OAuth completion and delivery of a real verification/reset email were not performed.
+
+The deployment uses the committed public project profile. Saving additional Cloudflare dashboard build variables was not confirmed and is not required for this build. The existing scheduled Cloudflare rebuild reads GitHub `main`; local commits must be published there to keep the migration in subsequent automated builds.

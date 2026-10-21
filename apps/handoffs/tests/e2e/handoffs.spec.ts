@@ -12,14 +12,14 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
       page.getByRole('heading', { name: 'Agent handoffs', exact: true }),
     ).toBeVisible();
     const cards = page.locator('.handoff-card');
-    await expect(cards).toHaveCount(4);
+    await expect(cards).toHaveCount(5);
     await expect(cards.first()).toContainText('Complete');
     await expect(cards.first()).toContainText(
       /Updated \d{1,2} [A-Z][a-z]{2} \d{4}, \d{2}:\d{2} UTC/,
     );
-    await expect(page.getByText('4 handoffs', { exact: false })).toBeVisible();
+    await expect(page.getByText('5 handoffs', { exact: false })).toBeVisible();
     await expect(page.locator('.handoff-card h2').first()).toHaveText(
-      'Coding agent and session metadata',
+      'Firebase resident authentication',
     );
     await page.evaluate(() => document.fonts.ready);
     if (process.env.HANDOFF_SCREENSHOT_DIR)
@@ -165,14 +165,14 @@ test('the index searches, filters by update time and sorts', async ({
   await search.fill('blocked');
   await expect(cards).toHaveCount(1);
   await expect(cards.first()).toContainText('Clerk accounts');
-  await expect(count).toHaveText('1 of 4 handoffs');
+  await expect(count).toHaveText('1 of 5 handoffs');
 
   await search.fill('rare-term');
   await expect(
     page.getByRole('heading', { name: 'No matching handoffs' }),
   ).toBeVisible();
   await page.getByRole('button', { name: 'Show all handoffs' }).click();
-  await expect(cards).toHaveCount(4);
+  await expect(cards).toHaveCount(5);
 
   const range = page.getByRole('group', { name: 'Updated' });
   await range.getByRole('button', { name: '7 days' }).click();
@@ -180,7 +180,7 @@ test('the index searches, filters by update time and sorts', async ({
     'aria-pressed',
     'true',
   );
-  await expect(count).toContainText('of 4 handoffs');
+  await expect(count).toContainText('of 5 handoffs');
   await range.getByRole('button', { name: 'All' }).click();
   await expect(range.getByRole('button', { name: 'All' })).toHaveAttribute(
     'aria-pressed',
@@ -198,7 +198,7 @@ test('the index searches, filters by update time and sorts', async ({
   );
   await sort.selectOption('newest');
   await expect(cards.locator('h2').first()).toHaveText(
-    'Coding agent and session metadata',
+    'Firebase resident authentication',
   );
 });
 

@@ -1,0 +1,40 @@
+Firebase migration verification — 2026-10-21
+
+Public project: woodbrook-auth-20261021
+Web app: 1:812221768097:web:4127dd56cc2c8317106be0
+Firebase Authentication: email/password and Google configured; phone/anonymous disabled.
+Password minimum: 8, enforced server-side. Email enumeration protection: enabled.
+Authorized domains include woodbrook.shankill.workers.dev and localhost.
+No billing account was attached; Firebase console showed Spark, $0/month.
+
+PASS: 49 focused auth tests; all per-file coverage gates. TypeScript passes.
+PASS: initial implementation, latest-main merge, and final Firebase refinements passed mandatory repository hooks.
+PASS: actual Firebase browser SDK with simulated REST responses, 6 desktop/mobile checks.
+PASS: ordinary account-navigation browser checks, 5 checks.
+PASS: production-origin static build, 96 HTML documents, 85 static CMS files, all generated internal links.
+PASS: Worker bundle dry-run (no production deployment in that check).
+PASS: live invalid email/password login returns INVALID_LOGIN_CREDENTIALS; no user created/email sent.
+PASS: PlantUML C1/C2/C3 sources generated, rendered locally with 1.2026.9 and Smetana, visually reviewed.
+
+Clerk account handling: count-only check found 1 account. User explicitly said to leave it untouched.
+No Clerk account record exported/imported/deleted. Firebase accounts are separate.
+
+Cloudflare dashboard: saving additional build variables was not confirmed. The public project
+profile supplies the production browser configuration without those variables. Environment
+overrides remain supported; no authentication/admin secrets are stored in the public profile.
+
+NOT RUN: real email delivery, new-password submission through a received live email,
+or a completed real Google/Facebook OAuth session. The UI browser suite uses simulated responses.
+Facebook requires a production Meta app ID and secret in Firebase and remains disabled.
+
+PASS: migration code merged into clean local main at a3dadf7.
+PASS: production static deployment e057a7f5-e61f-478b-adcf-cdd13a04890b.
+Live URL: https://woodbrook.shankill.workers.dev/login/?feature_flag=firebase-auth
+PASS: production account forms captured at desktop/mobile viewport sizes with no entered credentials.
+PASS: live browser feature gating and safe invalid-login handling.
+PASS: Google button reaches Google Accounts sign-in; no account selected or OAuth login completed.
+PASS: popup cancellation eventually displays the safe retry error after Firebase's detection delay.
+PASS: new handoff build and unit tests; desktop/mobile C4 fit/zoom/keyboard pan/reset/source/full-size review.
+Details: live-review.txt.
+
+This record captures the verified code merge and live deployment. The handoff and its assets are committed separately after the code merge. GitHub publication follows the user-approved repository workflow and is a separate action.
