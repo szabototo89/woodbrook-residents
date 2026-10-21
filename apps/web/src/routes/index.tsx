@@ -10,7 +10,7 @@ export const Route = createFileRoute('/')({
     createPageHead({
       title: 'Woodbrook Residents',
       description:
-        'Local updates, services, events, projects, and public consultations for Woodbrook residents in Shankill.',
+        'Local news, services, events, projects, and public consultations for Woodbrook residents in Shankill.',
       path: '/',
     }),
   component: HomePage,

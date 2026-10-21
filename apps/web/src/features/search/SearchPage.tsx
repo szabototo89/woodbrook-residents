@@ -46,8 +46,7 @@ export function SearchPage() {
     <main id="main-content">
       <PageIntro eyebrow="Find what you need" title="Search results">
         <p>
-          Find local services, community updates, projects and events in one
-          place.
+          Find local services, community news, projects and events in one place.
         </p>
       </PageIntro>
       <section className="section shell directory-section">
@@ -61,7 +60,7 @@ export function SearchPage() {
         >
           <SearchField
             label="Search community information"
-            placeholder="Try a service, update, project or event…"
+            placeholder="Try a service, news article, project or event…"
             value={draft}
             onChange={setDraft}
             inputRef={inputRef}
@@ -121,12 +120,12 @@ export function SearchPage() {
               !params.q
                 ? 'What are you looking for?'
                 : emptyCategory
-                  ? `No ${params.category} found`
+                  ? `No ${params.category === 'updates' ? 'news' : params.category} found`
                   : 'No results found'
             }
             message={
               !params.q
-                ? 'Search local services, community updates, projects and events.'
+                ? 'Search local services, community news, projects and events.'
                 : emptyCategory
                   ? 'Try another category or view all results for this search.'
                   : 'Try a different word, check your spelling, or use a broader search.'

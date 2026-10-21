@@ -12,12 +12,12 @@ export function HomeUpdates(props: { updates: Update[] }) {
       <div className="home-section-heading">
         <h2 id="home-updates-title">What’s new in Woodbrook</h2>
         <Link to="/updates">
-          View all updates <ArrowRight size={14} aria-hidden="true" />
+          View all news <ArrowRight size={14} aria-hidden="true" />
         </Link>
       </div>
       {props.updates.length === 0 ? (
         <p className="home-empty">
-          No updates published yet. Check back for source-linked local news.
+          No news published yet. Check back for source-linked local news.
         </p>
       ) : (
         <div className="home-update-list">

@@ -167,7 +167,7 @@ test('homepage offers a public search and direct everyday service shortcuts', as
       ?.textContent,
   ).toContain('Healthcare');
   expect(container.textContent).toContain('No upcoming events published');
-  expect(container.textContent).toContain('No updates published yet');
+  expect(container.textContent).toContain('No news published yet');
   unmount();
 });
 

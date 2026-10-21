@@ -4,19 +4,19 @@ Status: Available
 
 ## Job to be done
 
-When I need to understand what is happening around Woodbrook, I want one trustworthy, organised place for updates, projects, events, consultations, and local services, so I can stay informed and take the right next step.
+When I need to understand what is happening around Woodbrook, I want one trustworthy, organised place for news, projects, events, consultations, and local services, so I can stay informed and take the right next step.
 
 ## User-visible behavior
 
-- Residents can browse current updates, initiatives, events, surveys, and a searchable directory of local services.
+- Residents can browse current news, initiatives, events, surveys, and a searchable directory of local services.
 - Website content is captured during deployment and remains available without a runtime CMS connection; the iOS app loads its public snapshot at runtime.
 - Residents can open dedicated detail pages for local service providers while directory cards remain concise.
-- Residents can open dedicated detail pages for updates, projects, events, and surveys from their listing cards.
+- Residents can open dedicated detail pages for news, projects, events, and surveys from their listing cards.
 - Detail pages use a consistent reading layout while surfacing the dates, status, location, next step, action, and source information relevant to each content type.
 - Event detail pages let residents download an event to their calendar and open its location in Google Maps.
 - The site consistently identifies itself as Woodbrook Residents, with Community hub · Shankill as supporting context.
 - The home page states plainly that it provides local information and ways to take part.
-- Navigation, page headings, and calls to action consistently use Updates, Events, Projects, Consultations, and Local information.
+- Navigation, page headings, and calls to action consistently use News, Events, Projects, Consultations, and Local information.
 - The home page Have your say starting point links to Consultations rather than Projects.
 - The home page presents its five resident starting points as one balanced row on wide screens and a compact single-column sequence on phones.
 - The five resident starting points align their titles consistently on wide screens.
@@ -34,6 +34,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - On phones, the navigation menu closes when a resident taps outside it, presses Escape, follows a link, changes route, or activates the menu button again. Escape returns focus to the menu button, whose accessible expanded state stays in sync.
 - Listing cards make their whole surface clickable to the detail page while keeping direct contact actions reachable.
 - The events listing renders the same date-grouped timeline on the server and client to avoid content swapping after load.
+- News is used in navigation, homepage actions, search, listing and article states, and page metadata. Existing `/updates` links remain valid.
 
 ## Acceptance criteria
 
@@ -54,12 +55,13 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 - Given a wide desktop viewport, when a resident reaches the homepage starting points, then all five paths have equal visual weight with no empty grid quadrant.
 - Given a wide desktop viewport, when resident starting points, featured cards, and contribution actions are shown, then related elements align consistently without being displaced by differing copy lengths.
 - Given resident-facing content contains a date or time, when it is rendered, then its numerals use conventional unslashed forms.
+- Given a resident browses or searches for local news, then labels consistently say News, including empty and unavailable states, while existing listing and article URLs continue to work.
 
 ## Scope
 
 ### Included
 
-- Updates, projects, events, surveys, local information, volunteering, and source attribution.
+- News, projects, events, surveys, local information, volunteering, and source attribution.
 - Search-engine and social metadata.
 
 ### Not included

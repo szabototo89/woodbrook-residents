@@ -12,13 +12,13 @@ export function UpdateDetailPage() {
   if (!update) {
     return (
       <main id="main-content" className="section shell narrow">
-        <p className="eyebrow">Update unavailable</p>
-        <h1>We couldn’t find that update</h1>
+        <p className="eyebrow">News unavailable</p>
+        <h1>We couldn’t find that news article</h1>
         <p>
           It may have been unpublished, or the content service may be offline.
         </p>
         <Link className="text-link" to="/updates">
-          <ArrowLeft size={16} aria-hidden="true" /> Back to updates
+          <ArrowLeft size={16} aria-hidden="true" /> Back to news
         </Link>
       </main>
     );
@@ -29,7 +29,7 @@ export function UpdateDetailPage() {
       <article className="article-page">
         <header className="article-header shell narrow">
           <Link className="back-link" to="/updates">
-            <ArrowLeft size={15} aria-hidden="true" /> All updates
+            <ArrowLeft size={15} aria-hidden="true" /> All news
           </Link>
           <div className="card-meta">
             <span className="tag">{formatLabel(update.kind)}</span>

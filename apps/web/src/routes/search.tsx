@@ -14,7 +14,7 @@ export const Route = createFileRoute('/search')({
     createPageHead({
       title: 'Search results',
       description:
-        'Search Woodbrook community updates, projects, events and local services.',
+        'Search Woodbrook community news, projects, events and local services.',
       path: '/search',
       robots: 'noindex',
     }),

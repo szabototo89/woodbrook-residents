@@ -14,8 +14,8 @@ export const Route = createFileRoute('/updates/$slug')({
     const path = `/updates/${params.slug}`;
     if (!loaderData) {
       return createPageHead({
-        title: 'Update unavailable',
-        description: 'This Woodbrook Residents update is unavailable.',
+        title: 'News unavailable',
+        description: 'This Woodbrook Residents news article is unavailable.',
         path,
         robots: 'noindex',
       });
@@ -33,7 +33,7 @@ export const Route = createFileRoute('/updates/$slug')({
           siteUrl,
           items: [
             { name: 'Home', path: '/' },
-            { name: 'Updates', path: '/updates' },
+            { name: 'News', path: '/updates' },
             { name: loaderData.title, path },
           ],
         }),

@@ -5,8 +5,7 @@ export function SearchPending() {
     <main id="main-content">
       <PageIntro eyebrow="Find what you need" title="Search results">
         <p>
-          Find local services, community updates, projects and events in one
-          place.
+          Find local services, community news, projects and events in one place.
         </p>
       </PageIntro>
       <section className="section shell" role="status">
