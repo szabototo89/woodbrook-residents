@@ -32,7 +32,7 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
     await expect(page).toHaveURL(/#\/agent-handoffs$/);
     const metadata = page.locator('.handoff-metadata');
     await expect(metadata).toContainText('Worktree');
-    await expect(metadata).toContainText('session/plantuml-handoffs');
+    await expect(metadata).toContainText('session/handoffs-landing-ui');
     await expect(metadata.locator('time')).toHaveAttribute('datetime', /Z$/);
     const statusBounds = await metadata.locator('> div').nth(0).boundingBox();
     const branchBounds = await metadata.locator('> div').nth(1).boundingBox();
@@ -59,7 +59,7 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
     ).toBeVisible();
     await expect(
       gallery.getByText(
-        'Check that the card fits the phone width, text remains readable and the read link is easy to reach.',
+        'Check that controls stack cleanly, the update chips fit, and status and update time remain readable at phone width.',
       ),
     ).toBeVisible();
     expect(
