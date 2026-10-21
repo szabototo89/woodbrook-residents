@@ -8,11 +8,18 @@ export function getHomeContentFromSnapshot(
   return {
     availability: 'ready',
     siteSetting: snapshot.siteSetting,
-    updates: snapshot.updates.slice(0, 3),
+    updates: getUpdatesFromSnapshot(snapshot).slice(0, 3),
     projects: snapshot.projects.slice(0, 3),
     events: getUpcomingEvents(snapshot.events, now),
     surveys: snapshot.surveys,
   };
+}
+
+export function getUpdatesFromSnapshot(snapshot: ContentSnapshot) {
+  return [...snapshot.updates].sort(
+    (left, right) =>
+      Date.parse(right.publishedOn) - Date.parse(left.publishedOn),
+  );
 }
 
 export function getCollection<T>(items: T[], limit = 25) {

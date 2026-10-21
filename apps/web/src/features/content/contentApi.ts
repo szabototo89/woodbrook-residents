@@ -7,6 +7,7 @@ import {
   getCollection,
   getHomeContentFromSnapshot,
   getSiteSettingFromSnapshot,
+  getUpdatesFromSnapshot,
 } from './contentQueries';
 import { getContentSnapshot } from './contentSnapshot';
 import type {
@@ -80,7 +81,7 @@ function loadCollection<T>(select: () => Promise<T[]>, limit = 25) {
 export const getUpdates = createServerFn({ method: 'GET' })
   .middleware(contentMiddleware)
   .handler((): Promise<ContentCollection<Update>> =>
-    loadCollection(async () => (await loadSnapshot()).updates),
+    loadCollection(async () => getUpdatesFromSnapshot(await loadSnapshot())),
   );
 
 export const getProjects = createServerFn({ method: 'GET' })

@@ -1,0 +1,79 @@
+import homeDesktop from './assets/home-desktop.png';
+import homeMobile from './assets/home-mobile.png';
+import newsDesktop from './assets/news-desktop.png';
+import newsMobile from './assets/news-mobile.png';
+
+export const metadata = {
+  title: 'News publication order',
+  status: 'complete',
+  worktree: '/private/tmp/woodbrook-news-publication-order',
+  branch: 'session/news-publication-order',
+  commit: '98b75b118aefa3184019f869937c68c87de9ff2c',
+  updatedAt: '2026-10-21T14:57:00Z',
+  summary:
+    'Landing page and News page show articles newest first by publication date.',
+};
+
+## Goal
+
+Show the most recently published news first on the landing page and `/updates`.
+
+## Current state
+
+Both page loaders use one shared publication-date sort before applying their existing collection limits. The homepage selects the three newest articles. Featured flags and spreadsheet row order cannot place older articles first. Equal publication dates retain source order, date-time offsets are compared chronologically, and sorting leaves the source snapshot unchanged.
+
+The recorded HEAD is the session base at handoff authoring. This change requires the site's normal build and deployment to reach production; deployment is outside this request.
+
+## Appearance
+
+Screenshots use the existing source-linked Playwright sample content, not live CMS data. Desktop is 1440 × 1100 and mobile is 390 × 844, both captured at double pixel density.
+
+<AppearanceGallery
+  images={[
+    {
+      src: homeDesktop,
+      title: 'Landing page — desktop',
+      alt: 'Landing page showing newest news first',
+      description:
+        'Sample content: the two September 2026 articles precede the August 2025 article.',
+    },
+    {
+      src: homeMobile,
+      title: 'Landing page — mobile',
+      alt: 'Mobile landing page showing the newest article',
+      description:
+        'Sample content: the existing compact mobile news panel shows the latest article.',
+    },
+    {
+      src: newsDesktop,
+      title: 'News — desktop',
+      alt: 'News cards ordered by publication date on desktop',
+      description:
+        'Sample content: publication dates descend from left to right; articles sharing a date retain source order.',
+    },
+    {
+      src: newsMobile,
+      title: 'News — mobile',
+      alt: 'News cards ordered by publication date on mobile',
+      description:
+        'Sample content: the newest cards appear first in the single-column listing.',
+    },
+  ]}
+/>
+
+## Architecture
+
+The existing content sources and routes are unchanged. `getUpdatesFromSnapshot` in the content query layer copies and sorts validated updates by descending publication timestamp. The homepage selector and News collection loader both call it before truncating their collections.
+
+## Verification
+
+- PASS: regression tests first reproduced incorrect homepage selection before implementation.
+- PASS: `bun run vitest run src/features/content/contentQueries.test.ts` — nine tests, covering newest-three selection, listing order before limits, source immutability, equal dates, empty collections, and timestamp offsets.
+- PASS: `bun run playwright test tests/e2e/news-order.spec.ts` — both landing and News page ordering checks.
+- PASS: `bun run build` in `apps/web`.
+- PASS: `bun run typecheck` in `apps/web`.
+- PASS: Playwright desktop and mobile screenshots of both pages, visually reviewed.
+
+## Next steps
+
+None.
