@@ -55,6 +55,6 @@ The dynamic development server and production Cloudflare Worker expose `GET /api
 
 Before deploying, configure `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` as Worker secrets. `GOOGLE_SHEETS_SPREADSHEET_ID` is optional and otherwise uses the current Woodbrook workbook. The Worker serves the existing static website assets unchanged for all non-API requests.
 
-## Clerk accounts
+## Firebase accounts
 
-See [Clerk setup and rollout](../../docs/features/clerk-authentication.md) for application configuration, environment variables, feature-flag previews, and verification of login, registration, password recovery, and account management. Accounts are disabled by default; preview with `?feature_flag=clerk-auth` after configuring `VITE_CLERK_PUBLISHABLE_KEY`.
+See [Firebase setup and rollout](../../docs/features/firebase-authentication.md) for project configuration, login, registration, password recovery, and account management. Accounts are disabled by default; preview with `?feature_flag=firebase-auth`. The bundled public Firebase profile supports the deployed website; environment overrides are documented in the setup guide.

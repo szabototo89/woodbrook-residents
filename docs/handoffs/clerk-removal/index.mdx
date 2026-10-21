@@ -1,0 +1,42 @@
+export const metadata = {
+  title: 'Clerk removal',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a15df6-6061-7243-aa70-f2d9e58e7fdb',
+  worktree: '/private/tmp/woodbrook-remove-clerk',
+  branch: 'session/remove-clerk',
+  commit: '4eeea2c',
+  updatedAt: '2026-10-21T21:08:47Z',
+  summary:
+    'Retires obsolete Clerk setup instructions and local tooling after the Firebase migration.',
+};
+
+## Goal
+
+Remove remaining Clerk setup and tooling from the Woodbrook resident website workflow. Preserve the existing hosted Clerk account and historical handoffs, following the user’s earlier instructions.
+
+## Current state
+
+The deployed website already uses Firebase Authentication, Google’s managed service for account identities and password recovery. No Clerk dependency or provider remains in the web application. The web README now links to Firebase setup; the capability index identifies Firebase as available and Clerk as removed. The former Clerk setup walkthrough is replaced by a short removal notice.
+
+The local Clerk CLI has been signed out and uninstalled. The obsolete, clean and already-merged Clerk preview worktree and development server are retired. No hosted Clerk account, application or user was read, changed or deleted during this cleanup.
+
+## Architecture
+
+Woodbrook serves public community information through Cloudflare and uses Firebase for optional resident accounts. This cleanup changes documentation and local developer tooling; deployed authentication architecture is unchanged. Historical Clerk diagrams and completed handoffs remain unchanged as records of the previous implementation. Regression tests retain references to Clerk to verify that the removed feature flag stays disabled and no obsolete authentication requests occur.
+
+## Verification
+
+- PASS: web `bun run build`.
+- PASS: all five authentication configuration tests, including rejection of the retired Clerk flag.
+- PASS: no Clerk SDK/import/dependency remains in application code, package manifests or lockfile; remaining test references assert removal behavior or exercise archived handoffs.
+- PASS: `clerk auth logout` removed local CLI credentials, then `bun remove --global clerk` removed the package and executable.
+- PASS: the old Clerk preview was clean and already merged; its server, worktree and branch were removed through the repository cleanup workflow.
+- PASS: prior completed handoffs are unchanged.
+- Initial handoff browser checks correctly failed after adding a sixth document; their count and newest-title expectations were updated for this cleanup record. The normal commit hook runs all repository checks before accepting the commit.
+
+No new website UI is introduced, so this cleanup does not require new appearance screenshots. No cloud authentication settings or hosted user data were changed.
+
+## Next steps
+
+None for Clerk cleanup. Firebase remains the current account provider; the hosted Clerk account is retained at the user’s request.

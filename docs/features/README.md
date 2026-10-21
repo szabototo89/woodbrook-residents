@@ -1,6 +1,7 @@
 # Capability index
 
-- [Clerk accounts](clerk-authentication.md) — Available
+- [Firebase accounts](firebase-authentication.md) — Available
+- [Clerk accounts](clerk-authentication.md) — Removed
 - [Public content search](public-content-search.md) — Available
 - [Responsive coastal homepage](responsive-coastal-homepage.md) — Available
 - [Woodbrook Residents brand assets](woodbrook-brand-assets.md) — Available
