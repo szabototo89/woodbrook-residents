@@ -1,6 +1,6 @@
 # Agent handoffs
 
-After developing a feature, create `docs/handoffs/<feature-slug>/index.mdx` at the repository root. Keep all related screenshots, C4 sources, and evidence in that handoff's `assets/` folder; never share asset folders between handoffs. Update the same handoff when continuing the feature. Record observed facts and explicit unknowns; never include secrets.
+After developing a feature, create a new handoff at `docs/handoffs/<new-feature-slug>/index.mdx` at the repository root. Keep all related screenshots, C4 sources, and evidence in that handoff's `assets/` folder; never share asset folders between handoffs. While a feature is in progress, update its own handoff. Once it is complete, do not edit it to document another feature; create a new handoff with a new slug. A completed handoff is an immutable historical record: preserve its title, summary, body, evidence, screenshots, worktree, branch, commit and `updatedAt`. The only permitted change is adding a newly required frontmatter field during a repository-wide metadata migration. Record observed facts and explicit unknowns; never include secrets.
 
 Run the independent viewer with `bun run dev:handoffs` and open <http://127.0.0.1:3002/>. Documents open at `/#/<feature-slug>`; built previews need rebuilding after changes.
 

@@ -30,6 +30,7 @@ When another agent continues a feature, it needs the current context, decisions,
 - Search, update windows and sorting combine without leaving the index, report an accurate visible count, and keep the full list recoverable from an empty result.
 - Every handoff records a coding agent, agent session, worktree, Git branch/HEAD and UTC update time in its metadata; the header shows each recorded value or an explicit missing value.
 - Metadata stays compact on desktop/mobile; section navigation preserves the current document URL.
+- Completed handoffs are historical records: new work gets a new handoff slug, and only a required frontmatter metadata migration may change an old handoff.
 - Handoff browsing runs independently of the public website and its CMS.
 - Each handoff owns its document and all assets; gallery images include descriptions of what the reviewer should check.
 - Repository MDX is listed and renders tables, task lists, screenshots, C4 diagrams and per-level change summaries.
