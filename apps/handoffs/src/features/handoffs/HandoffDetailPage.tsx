@@ -1,3 +1,4 @@
+import { ArrowLeft } from 'lucide-react';
 import type { handoffs } from './handoffs';
 import { PlantUmlDiagram } from './PlantUmlDiagram';
 import { AppearanceGallery } from './AppearanceGallery';
@@ -18,7 +19,8 @@ export function HandoffDetailPage(props: {
   return (
     <main id="main-content" className="handoff-detail shell">
       <a className="handoff-back" href="#/">
-        ← All handoffs
+        <ArrowLeft size={15} aria-hidden="true" />
+        All handoffs
       </a>
       <div className="handoff-reading-layout">
         <HandoffOutline slug={props.handoff.slug} />

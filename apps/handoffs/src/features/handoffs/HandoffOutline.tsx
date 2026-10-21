@@ -1,3 +1,4 @@
+import { List } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export function HandoffOutline(props: { slug: string }) {
@@ -11,7 +12,10 @@ export function HandoffOutline(props: { slug: string }) {
   }, [props.slug]);
   return (
     <nav className="handoff-outline" aria-label="On this page">
-      <p>On this page</p>
+      <p>
+        <List size={12} aria-hidden="true" />
+        On this page
+      </p>
       <div>
         {headings.map((heading, index) => (
           <button

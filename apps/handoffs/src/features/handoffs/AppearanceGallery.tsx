@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 
 type AppearanceImage = {
@@ -48,10 +49,12 @@ export function AppearanceGallery(props: { images: AppearanceImage[] }) {
           onClick={() => move(-1)}
           disabled={props.images.length === 1}
         >
+          <ChevronLeft size={15} aria-hidden="true" />
           Previous image
         </button>
         <a href={image.src} target="_blank" rel="noreferrer">
           Open full size
+          <ExternalLink size={13} aria-hidden="true" />
         </a>
         <button
           type="button"
@@ -59,6 +62,7 @@ export function AppearanceGallery(props: { images: AppearanceImage[] }) {
           disabled={props.images.length === 1}
         >
           Next image
+          <ChevronRight size={15} aria-hidden="true" />
         </button>
       </div>
       <div className="gallery-thumbnails" aria-label="Choose a screenshot">

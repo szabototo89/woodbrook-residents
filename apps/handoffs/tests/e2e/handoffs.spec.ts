@@ -11,6 +11,16 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
     await expect(
       page.getByRole('heading', { name: 'Agent handoffs', exact: true }),
     ).toBeVisible();
+    const cards = page.locator('.handoff-card');
+    await expect(cards).toHaveCount(3);
+    await expect(cards.first()).toContainText('Complete');
+    await expect(cards.first()).toContainText(
+      /Updated \d{1,2} [A-Z][a-z]{2} \d{4}, \d{2}:\d{2} UTC/,
+    );
+    await expect(page.getByText('3 handoffs', { exact: false })).toBeVisible();
+    await expect(page.locator('.handoff-card h2').first()).toHaveText(
+      'Browseable agent handoffs',
+    );
     await page.evaluate(() => document.fonts.ready);
     if (process.env.HANDOFF_SCREENSHOT_DIR)
       await page.screenshot({
@@ -131,6 +141,54 @@ test('unknown handoffs show a recovery link', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Agent handoffs', exact: true }),
   ).toBeVisible();
+});
+
+test('the index searches, filters by update time and sorts', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const search = page.getByRole('searchbox', { name: 'Search handoffs' });
+  const cards = page.locator('.handoff-card');
+  const count = page.locator('.handoffs-count');
+
+  await search.fill('blocked');
+  await expect(cards).toHaveCount(1);
+  await expect(cards.first()).toContainText('Clerk accounts');
+  await expect(count).toHaveText('1 of 3 handoffs');
+
+  await search.fill('rare-term');
+  await expect(
+    page.getByRole('heading', { name: 'No matching handoffs' }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Show all handoffs' }).click();
+  await expect(cards).toHaveCount(3);
+
+  const range = page.getByRole('group', { name: 'Updated' });
+  await range.getByRole('button', { name: '7 days' }).click();
+  await expect(range.getByRole('button', { name: '7 days' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await expect(count).toContainText('of 3 handoffs');
+  await range.getByRole('button', { name: 'All' }).click();
+  await expect(range.getByRole('button', { name: 'All' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+
+  const sort = page.getByLabel('Sort');
+  await sort.selectOption('oldest');
+  await expect(cards.locator('h2').first()).toHaveText(
+    'News publication order',
+  );
+  await sort.selectOption('title');
+  await expect(cards.locator('h2').first()).toHaveText(
+    'Browseable agent handoffs',
+  );
+  await sort.selectOption('newest');
+  await expect(cards.locator('h2').first()).toHaveText(
+    'Browseable agent handoffs',
+  );
 });
 
 test('PlantUML diagrams fit the viewer and support zoom, pan and reset at desktop and phone widths', async ({
