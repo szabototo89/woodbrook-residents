@@ -9,6 +9,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 ## User-visible behavior
 
 - Residents can browse current news, initiatives, events, surveys, and a searchable directory of local services.
+- News appears newest first by publication date on the landing page and News page; the landing page selects the three newest articles regardless of source row order or featured status.
 - Website content is captured during deployment and remains available without a runtime CMS connection; the iOS app loads its public snapshot at runtime.
 - Residents can open dedicated detail pages for local service providers while directory cards remain concise.
 - Residents can open dedicated detail pages for news, projects, events, and surveys from their listing cards.
@@ -39,6 +40,7 @@ When I need to understand what is happening around Woodbrook, I want one trustwo
 ## Acceptance criteria
 
 - Given the selected source contains published content when the site is built, when a resident opens the home page, then featured and recent content from that build is rendered.
+- Given news arrives in any source order, when a resident opens the landing page or News page, then articles appear in descending publication date order before collection limits are applied; articles sharing a publication date retain their source order.
 - Given a resident opens the home page, when the hero loads, then a high-resolution Woodbrook photograph and its linked source credit are visible.
 - Given a resident uses the site, when they read the header, footer, page metadata, or social preview, then Woodbrook Residents is the consistent primary identity.
 - Given a resident chooses Have your say on the home page, when they follow the link, then they reach Consultations.
