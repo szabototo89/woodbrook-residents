@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SiteSearch } from './SiteSearch';
 
 const navigation = [
-  { to: '/updates', label: 'Updates' },
+  { to: '/updates', label: 'News' },
   { to: '/events', label: 'Events' },
   { to: '/projects', label: 'Projects' },
   { to: '/surveys', label: 'Consultations' },

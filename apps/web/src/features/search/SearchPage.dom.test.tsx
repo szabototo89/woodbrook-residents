@@ -66,7 +66,7 @@ test('uses the shared intro and content cards with their existing visible detail
     expect(container.querySelectorAll('.survey-card')).toHaveLength(1);
     expect(container.querySelectorAll('.resource-card')).toHaveLength(1);
     expect(
-      getButtonByName(container, 'Updates (2)').getAttribute('aria-pressed'),
+      getButtonByName(container, 'News (2)').getAttribute('aria-pressed'),
     ).toBe('false');
   } finally {
     unmount();
@@ -142,13 +142,22 @@ test('explains blank queries, unmatched searches, empty categories, unavailable 
     },
     {
       q: 'DART',
+      category: 'updates',
+      availability: 'ready',
+      heading: 'No news found',
+    },
+    {
+      q: 'DART',
       category: 'all',
       availability: 'unavailable',
       heading: 'Community information is temporarily unavailable',
     },
   ] as const) {
     params = { q: state.q, category: state.category };
-    content = { availability: state.availability, items: [items[0]!] };
+    content = {
+      availability: state.availability,
+      items: items.filter((item) => item.category === 'services'),
+    };
     const { container, unmount } = renderUi(<SearchPage />);
     try {
       expect(container.textContent).toContain(state.heading);

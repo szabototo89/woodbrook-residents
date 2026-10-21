@@ -123,7 +123,7 @@ test('offers a way back when the update is unavailable', () => {
   const rendered = renderUi(<UpdateDetailPage />);
   unmount = rendered.unmount;
   expect(rendered.container.querySelector('h1')?.textContent).toBe(
-    'We couldn’t find that update',
+    'We couldn’t find that news article',
   );
   expect(rendered.container.querySelector('a')?.getAttribute('href')).toBe(
     '/updates',

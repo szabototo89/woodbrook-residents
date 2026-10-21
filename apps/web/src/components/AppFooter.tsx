@@ -31,7 +31,7 @@ export function AppFooter() {
         </div>
         <div>
           <h2>Explore</h2>
-          <Link to="/updates">Updates</Link>
+          <Link to="/updates">News</Link>
           <Link to="/projects">Projects</Link>
           <Link to="/events">Events</Link>
           <Link to="/surveys">Consultations</Link>

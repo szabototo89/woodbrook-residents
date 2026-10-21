@@ -13,8 +13,8 @@ export function SiteSearch(props: { compact?: boolean; query?: string }) {
       <input
         type="search"
         name="q"
-        aria-label="Search updates, events and services"
-        placeholder="Search updates, events, services…"
+        aria-label="Search news, events and services"
+        placeholder="Search news, events, services…"
         defaultValue={props.query}
         maxLength={120}
       />

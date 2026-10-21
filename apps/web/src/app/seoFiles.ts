@@ -227,7 +227,7 @@ export function createWebsiteJsonLd(siteUrl: string) {
     url: `${origin}/`,
     inLanguage: 'en-IE',
     description:
-      'Local updates, services, events, projects, and public consultations for Woodbrook residents in Shankill.',
+      'Local news, services, events, projects, and public consultations for Woodbrook residents in Shankill.',
     publisher: {
       '@type': 'Organization',
       name: SITE_NAME,

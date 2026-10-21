@@ -12,7 +12,7 @@ test('places services immediately after all results', () => {
   expect(searchCategories.map((category) => category.label)).toEqual([
     'All',
     'Services',
-    'Updates',
+    'News',
     'Projects',
     'Events',
   ]);

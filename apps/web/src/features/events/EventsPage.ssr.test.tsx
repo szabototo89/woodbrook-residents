@@ -1,10 +1,17 @@
 import { createElement } from 'react';
 import type { ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 
 import type { ContentCollection } from '../content/contentTypes';
 import type { CommunityEvent } from '../content/contentTypes';
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(new Date('2026-10-01T12:00:00.000Z'));
+});
+
+afterEach(() => vi.useRealTimers());
 
 const readyEvent: CommunityEvent = {
   documentId: 'e1',

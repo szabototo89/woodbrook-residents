@@ -83,6 +83,8 @@ test('everyday service tiles have one icon and a lighter label without redundant
 test('featured event action rests at the foot of its card with space below the description', async ({
   page,
 }) => {
+  // Keep the published fixture event upcoming while testing its layout.
+  await page.clock.setFixedTime(new Date('2026-10-01T12:00:00.000Z'));
   for (const width of [390, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/');

@@ -9,7 +9,7 @@ export function UpdatesPage() {
 
   return (
     <main id="main-content">
-      <PageIntro eyebrow="Stay informed" title="Updates">
+      <PageIntro eyebrow="Stay informed" title="News">
         <p>
           Clear, source-linked notes on transport, planning, public spaces, and
           the practical changes residents need to know about.
@@ -19,8 +19,8 @@ export function UpdatesPage() {
         {content.availability === 'unavailable' ? <CmsUnavailable /> : null}
         {content.availability === 'ready' && content.items.length === 0 ? (
           <EmptyState
-            title="No updates published"
-            message="There are no published community updates yet."
+            title="No news published"
+            message="There are no published community news yet."
           />
         ) : null}
         <div className="card-grid">
