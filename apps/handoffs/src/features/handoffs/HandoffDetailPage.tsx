@@ -1,15 +1,13 @@
 import type { handoffs } from './handoffs';
-import { HandoffPre } from './HandoffPre';
-import { MermaidDiagram } from './MermaidDiagram';
+import { PlantUmlDiagram } from './PlantUmlDiagram';
 import { AppearanceGallery } from './AppearanceGallery';
 import { HandoffMetadata } from './HandoffMetadata';
 import { HandoffOutline } from './HandoffOutline';
 import { HandoffTable } from './HandoffTable';
 
 const components = {
-  pre: HandoffPre,
   table: HandoffTable,
-  MermaidDiagram,
+  PlantUmlDiagram,
   AppearanceGallery,
 };
 

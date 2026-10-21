@@ -331,17 +331,71 @@ h3 {
   font-weight: 600;
   cursor: pointer;
 }
-.diagram-disclosure > [role='img'] {
-  margin-top: 16px;
-  overflow: auto;
-  max-height: 540px;
+.diagram-viewer {
+  position: relative;
+  margin-top: 12px;
+  padding-top: 60px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: white;
+  overflow: hidden;
 }
-.handoff-diagram svg {
+.diagram-viewer .diagram-canvas {
+  width: 100%;
+  height: 440px;
+  cursor: grab;
+}
+.diagram-canvas:active {
+  cursor: grabbing;
+}
+.handoff-document .diagram-canvas img {
   display: block;
-  min-width: 480px;
-  max-width: 100%;
+  width: auto;
+  max-width: none;
   height: auto;
-  margin-inline: auto;
+  user-select: none;
+}
+.diagram-toolbar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  display: flex;
+  padding: 3px;
+  border: 1px solid #dde3ec;
+  border-radius: 8px;
+  background: #fffffff2;
+  box-shadow: 0 2px 8px #172b4510;
+}
+.diagram-toolbar button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.diagram-toolbar button:hover {
+  background: #edf2f8;
+  color: var(--accent);
+}
+.diagram-toolbar button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.diagram-help {
+  margin-block: 8px 0;
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+}
+.diagram-full-size {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.8rem;
 }
 .diagram-disclosure > details {
   margin-top: 12px;
@@ -532,8 +586,8 @@ h3 {
   .gallery-thumbnails button {
     flex-basis: 96px;
   }
-  .diagram-disclosure > [role='img'] {
-    max-height: 440px;
+  .diagram-viewer .diagram-canvas {
+    height: 360px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

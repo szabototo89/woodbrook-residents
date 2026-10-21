@@ -1,0 +1,24 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Woodbrook accounts — C2 containers
+
+Person(resident, "Resident", "Reads community information and may opt into an account")
+System_Ext(clerk_service, "Clerk account service", "Manages sign-in, user profiles, verification and sessions")
+System_Boundary(woodbrook_system, "Woodbrook community website") {
+  Container(woodbrook_browser, "Public website application", "TanStack Start and React", "Displays resident information and optional account pages")
+  Container(woodbrook_host, "Website asset host", "Cloudflare Worker with Static Assets", "Serves the website and its existing read-only content endpoint")
+  Container(clerk_cli, "Account configuration tool", "Clerk CLI 4.0.0", "Links the Clerk application and updates sign-in settings")
+}
+
+Rel(resident, woodbrook_browser, "Reads information and opens account pages using", "Browser")
+Rel(woodbrook_browser, woodbrook_host, "Loads website assets from", "HTTPS")
+Rel(woodbrook_browser, clerk_service, "Authenticates and manages account sessions with", "Clerk browser SDK over HTTPS")
+Rel(clerk_cli, clerk_service, "Updates account configuration in", "Authenticated API")
+SHOW_LEGEND()
+@enduml

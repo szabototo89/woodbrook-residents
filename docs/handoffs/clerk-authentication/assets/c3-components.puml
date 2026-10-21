@@ -1,0 +1,24 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Public website application — C3 account components
+
+Container_Boundary(woodbrook_browser, "Public website application") {
+  Component(auth_config, "Account opt-in configuration", "React and TypeScript", "Checks whether account UI is enabled and the public Clerk key is valid")
+  Component(auth_runtime, "Account session integration", "Lazy ClerkProvider", "Loads Clerk and supplies account session context when enabled")
+  Component(auth_pages, "Sign-in and registration pages", "React and Clerk forms", "Displays account forms, setup messages and account links")
+  Component(auth_navigation, "Account navigation", "React and Clerk UserButton", "Shows sign-in links, account profile access and sign out")
+  Component(auth_recovery, "Password recovery", "React and Clerk useSignIn", "Handles email reset codes, password confirmation and session completion")
+}
+
+Rel(auth_config, auth_runtime, "Loads conditionally")
+Rel(auth_runtime, auth_pages, "Provides account session context to")
+Rel(auth_runtime, auth_navigation, "Provides account session context to")
+Rel(auth_pages, auth_recovery, "Displays the password recovery flow using")
+SHOW_LEGEND()
+@enduml

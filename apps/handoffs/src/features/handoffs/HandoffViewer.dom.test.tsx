@@ -4,8 +4,8 @@ import { expect, test, vi } from 'vitest';
 import { renderUi } from '../../test-utils/renderUi';
 import { HandoffViewer } from './HandoffViewer';
 
-vi.mock('./MermaidDiagram', () => ({
-  MermaidDiagram: () => <p>Architecture diagram</p>,
+vi.mock('./PlantUmlDiagram', () => ({
+  PlantUmlDiagram: () => <p>Architecture diagram</p>,
 }));
 
 test('the standalone viewer navigates between its index, a handoff and missing documents', () => {

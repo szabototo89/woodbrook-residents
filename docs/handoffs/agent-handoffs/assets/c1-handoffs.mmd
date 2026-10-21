@@ -1,9 +1,0 @@
-C4Context
-  title Agent handoffs - system context
-  Person(agent, "Engineering agent", "Writes or continues a feature")
-  System(viewer, "Handoff viewer", "Independent reader for engineering handoffs")
-  System_Ext(repository, "Git repository", "Reviewed MDX documents and architecture sources")
-  Rel(agent, viewer, "Reviews")
-  Rel(repository, viewer, "Supplies MDX")
-  UpdateRelStyle(agent, viewer, $offsetY="-30")
-  UpdateRelStyle(repository, viewer, $offsetY="-30")

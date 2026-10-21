@@ -1,43 +1,55 @@
-import context from './assets/c1-handoffs.mmd?raw';
-import containers from './assets/c2-handoffs.mmd?raw';
-import components from './assets/c3-handoffs.mmd?raw';
+import context from './assets/c1-handoffs.puml?raw';
+import containers from './assets/c2-handoffs.puml?raw';
+import components from './assets/c3-handoffs.puml?raw';
+import contextImage from './assets/c1-handoffs.svg';
+import containersImage from './assets/c2-handoffs.svg';
+import componentsImage from './assets/c3-handoffs.svg';
 import desktop from './assets/handoffs-1440.png';
 import mobile from './assets/handoffs-390.png';
-import verification from './assets/verification.txt?url';
+import architectureDesktop from './assets/architecture-1440.png';
+import architectureMobile from './assets/architecture-390.png';
+import verification from './assets/plantuml-verification.txt?url';
+import navigationVideo from './assets/diagram-navigation.webm';
 
 export const metadata = {
   title: 'Browseable agent handoffs',
-  status: 'ready for review',
-  worktree: '/private/tmp/woodbrook-feature-handoff',
-  branch: 'session/feature-handoff-guidance',
-  commit: '96f54b3',
-  updatedAt: '2026-10-21T10:54:17Z',
+  status: 'complete',
+  worktree: '/private/tmp/woodbrook-plantuml-handoffs',
+  branch: 'session/plantuml-handoffs',
+  commit: '81034aa',
+  updatedAt: '2026-10-21T15:24:00Z',
   summary:
     'Repository MDX documents with decisions, verification evidence, and C4 architecture diagrams.',
 };
 
 ## Goal
 
-Keep feature context in `woodbrook/docs/handoffs/` and make it readable in a browser. Use an independent viewer and the small template in the repository's `HANDOFF.md`.
+Woodbrook is a public information and action hub for residents. This handoff describes a separate engineering tool, not a resident-facing feature: a browser reader for implementation notes, screenshots, test results and architecture. A handoff records the context another engineer or coding agent needs to continue the work. Documents use MDX, which combines Markdown text with React components.
+
+Keep that feature context in `woodbrook/docs/handoffs/` and make it readable in a browser. Use the independent viewer and the small template in the repository's `HANDOFF.md`.
 
 ## Current state
 
-| Area         | Change                                                                                           |
-| ------------ | ------------------------------------------------------------------------------------------------ |
-| Guidance     | Root and web AGENTS.md require a feature handoff.                                                |
-| Documents    | Each docs/handoffs/feature-slug/index.mdx document and its assets stay in one folder.            |
-| Browser      | The independent viewer at 127.0.0.1:3002 lists documents; /#/agent-handoffs opens this document. |
-| Architecture | Mermaid renders version-controlled C4 source files and fenced code blocks.                       |
+| Area         | Change                                                                                                                  |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| Guidance     | Root and web AGENTS.md require a feature handoff.                                                                       |
+| Documents    | Each docs/handoffs/feature-slug/index.mdx document and its assets stay in one folder.                                   |
+| Browser      | The independent viewer at 127.0.0.1:3002 lists documents; /#/agent-handoffs opens this document.                        |
+| Architecture | PlantUML C4 sources and locally rendered SVGs are versioned together; the viewer shows SVG, source and full-size links. |
 
 - [x] Keep documents in the repository root.
 - [x] Use MDX with tables and task lists.
 - [x] Complete verification and visual review.
 
-Decisions: keep the viewer in apps/handoffs, independent of the public website; reuse React and Vite; use MDX, remark-gfm and Mermaid for their existing document and diagram support. Documents are trusted repository code, compiled at build time. This feature adds no editor or upload endpoint.
+Decisions: keep the viewer in apps/handoffs, independent of the public website; reuse React and Vite; use MDX and remark-gfm for documents and C4-PlantUML for architecture diagrams. Render diagrams locally to SVG with PlantUML 1.2026.9 and the bundled C4 library. The browser loads versioned assets and needs no diagram service, Java runtime or client renderer. Documents are trusted repository code, compiled at build time. This feature adds no editor or upload endpoint.
+
+The October 2026 diagram update replaces all six existing Mermaid C4 diagrams across this handoff and the Clerk handoff. It changes presentation only; the Clerk diagrams retain their original recorded architecture and readiness context.
+
+The shared inventory in `docs/architecture/c4-model.json` now supplies consistent names, responsibilities, boundaries and relationships to every diagram. Zod validates the inventory and references; PlantUML sources are generated from it, and the build rejects stale sources. All descriptions assume a new engineer who does not know the product. The Clerk context/container views consistently show one account service; environment readiness remains documented in that handoff rather than being modeled as separate software systems.
 
 ## Appearance
 
-The reader uses a compact Git context header, section shortcuts, and a comfortable text width. Tables scroll within the document on phones. Diagrams expand on demand, retain their source, and show a readable fallback on errors. The screenshots below show this implemented feature, using its real handoff document.
+The reader uses a compact Git context header, section shortcuts, and a comfortable text width. Tables scroll within the document on phones. Diagrams expand into a bounded frame, start fitted to show their full contents, and offer compact zoom/fit icons, drag, pinch and keyboard navigation. Ordinary scrolling reads the page; Ctrl + scroll zooms the diagram. Source and full-size SVGs remain available, including a readable source fallback on errors. The screenshots below show the implemented viewer using its real handoff document.
 
 <AppearanceGallery
   images={[
@@ -55,8 +67,24 @@ The reader uses a compact Git context header, section shortcuts, and a comfortab
       description:
         'Check that the card fits the phone width, text remains readable and the read link is easy to reach.',
     },
+    {
+      src: architectureDesktop,
+      title: 'Desktop diagrams',
+      alt: 'Desktop PlantUML diagram viewer',
+      description:
+        'Check that the entire C4 diagram fits the frame and the compact zoom and fit toolbar stays above the diagram.',
+    },
+    {
+      src: architectureMobile,
+      title: 'Mobile diagrams',
+      alt: 'Mobile PlantUML diagram viewer',
+      description:
+        'Check that the complete diagram fits the phone frame, controls do not cover its title, and source and full-size actions remain accessible.',
+    },
   ]}
 />
+
+<a href={navigationVideo}>Touch navigation screencast: pinch, drag and fit</a>
 
 ## Architecture
 
@@ -66,33 +94,43 @@ These diagrams describe the handoff feature's boundary, containers, and viewer c
 
 Change: added a standalone handoff viewer outside the public website.
 
-<MermaidDiagram source={context} />
+<PlantUmlDiagram title="System context" source={context} image={contextImage} />
 
 ### C2 - Containers
 
 Change: added an independent static viewer with live folder discovery; each handoff owns its document and assets.
 
-<MermaidDiagram source={containers} />
+<PlantUmlDiagram
+  title="Containers"
+  source={containers}
+  image={containersImage}
+/>
 
 ### C3 - Viewer components
 
-Change: added a compact Git context header, section navigation, scrollable tables, expandable diagrams, and screenshot review galleries.
+Change: added a compact Git context header, section navigation, scrollable tables, expandable diagrams, and screenshot review galleries. Diagrams now use local PlantUML SVGs with react-zoom-pan-pinch for fitted viewing and navigation.
 
-<MermaidDiagram source={components} />
+<PlantUmlDiagram
+  title="Viewer components"
+  source={components}
+  image={componentsImage}
+/>
 
 ## Verification
 
-| Check                          | Result         | Evidence                                                                                                        |
-| ------------------------------ | -------------- | --------------------------------------------------------------------------------------------------------------- |
-| Regression checks before fixes | FAIL, expected | Live folder additions were not discovered; metadata and section navigation were absent.                         |
-| Unit and integration tests     | PASS           | 17 tests, including adding/removing folders outside the app root, empty state, metadata and section navigation. |
-| Browser journeys               | PASS           | 2 journeys at desktop/mobile widths, covering metadata, section jumps, galleries, C4 diagrams and recovery.     |
-| Typecheck and build            | PASS           | bun run build includes TypeScript and Vite.                                                                     |
-| Visual review                  | PASS           | Compact metadata, readable text width, mobile tables and desktop/mobile screenshots inspected.                  |
+| Check                          | Result         | Evidence                                                                                                                                                   |
+| ------------------------------ | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Regression checks before fixes | FAIL, expected | Live folder additions were not discovered; metadata and section navigation were absent.                                                                    |
+| Unit and integration tests     | PASS           | 44 tests with full coverage, including Zod model validation, canonical source consistency, SVG display, source fallback, controls and document navigation. |
+| Browser journeys               | PASS           | Five journeys verify galleries, six local C4 SVGs, complete fit, zoom, keyboard navigation, pinch, touch dragging, reset, source and full-size links.      |
+| Typecheck and build            | PASS           | bun run build includes TypeScript and Vite.                                                                                                                |
+| Visual review                  | PASS           | Compact metadata, readable text width, mobile tables and desktop/mobile screenshots inspected.                                                             |
 
 <a href={verification}>Verification command output</a>
 
 The initial viewer and gallery passed full repository hooks in commits `8059f01` and `96f54b3`. Prerequisite `3e5e6b3` stabilises existing calendar fixtures. The viewer remains independent of the public website.
+
+The PlantUML update includes researched authoring guidance in `HANDOFF.md`, with primary sources for abstraction levels, relationship semantics, layout and review. All six diagrams and the guide's illustrative C2 example were rendered locally with PlantUML 1.2026.9. The recorded commit is the session base before this update.
 
 ## Next steps
 

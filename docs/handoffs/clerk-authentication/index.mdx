@@ -1,6 +1,9 @@
-import context from './assets/c1-context.mmd?raw';
-import containers from './assets/c2-containers.mmd?raw';
-import components from './assets/c3-components.mmd?raw';
+import context from './assets/c1-context.puml?raw';
+import containers from './assets/c2-containers.puml?raw';
+import components from './assets/c3-components.puml?raw';
+import contextImage from './assets/c1-context.svg';
+import containersImage from './assets/c2-containers.svg';
+import componentsImage from './assets/c3-components.svg';
 import loginDesktop from './assets/login-desktop.png';
 import loginMobile from './assets/login-mobile.png';
 import registerDesktop from './assets/register-desktop.png';
@@ -19,6 +22,8 @@ export const metadata = {
 };
 
 ## Goal
+
+Woodbrook is a public information and action hub for residents. Optional accounts let a resident sign in without making public information require a login. Clerk is the external service that manages account identity, sign-in and sessions. The diagrams introduce these responsibilities before showing the website implementation; development/production readiness is recorded separately below.
 
 Provide Clerk user management on the static Woodbrook website behind an environment or query flag, with login, registration, password recovery, profile management and sign out. Replace phone authentication with verified email while preserving Google, Facebook and the existing password policy. Set up production when its domain requirements can be met.
 
@@ -94,19 +99,27 @@ These screenshots show the actual configured development instance, not sample ac
 
 Change: residents can opt into Clerk-managed accounts while the community information hub remains public. Operators configure identifiers using the Clerk CLI and Dashboard.
 
-<MermaidDiagram source={context} />
+<PlantUmlDiagram title="System context" source={context} image={contextImage} />
 
 ### C2 - Containers
 
 Change: the existing static website loads Clerk in the browser without adding a runtime user database. The CLI is linked to the existing development instance; the production instance remains a documented prerequisite rather than an active service.
 
-<MermaidDiagram source={containers} />
+<PlantUmlDiagram
+  title="Containers"
+  source={containers}
+  image={containersImage}
+/>
 
 ### C3 - Web components
 
 Change: account UI lives under `src/features/auth/`, shared header controls remain in application chrome, and route files only select account pages and metadata. SDK loading is gated and password recovery is a separate email-code flow.
 
-<MermaidDiagram source={components} />
+<PlantUmlDiagram
+  title="Web components"
+  source={components}
+  image={componentsImage}
+/>
 
 ## Verification
 

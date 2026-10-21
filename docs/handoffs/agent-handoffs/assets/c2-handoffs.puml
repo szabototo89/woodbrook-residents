@@ -1,0 +1,22 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Engineering handoffs — C2 containers
+
+Person(handoff_engineer, "Engineer or coding agent", "Reviews and continues engineering work")
+System_Boundary(handoff_system, "Engineering handoff tool") {
+  Container(handoff_browser, "Handoff browser reader", "React", "Lets an engineer browse documents and inspect diagrams")
+  Container(handoff_server, "Handoff file server", "Vite or a static HTTP server", "Serves the standalone reader and its compiled documents")
+  ContainerDb(handoff_documents, "Engineering handoff documents", "Markdown with React (MDX), PlantUML and SVG", "Stores implementation notes, diagrams and verification evidence")
+}
+
+Rel(handoff_engineer, handoff_browser, "Browses implementation notes using", "Browser")
+Rel(handoff_browser, handoff_server, "Requests the reader and documents from", "HTTP")
+Rel(handoff_documents, handoff_server, "Supplies documents compiled into static assets", "Vite build")
+SHOW_LEGEND()
+@enduml
