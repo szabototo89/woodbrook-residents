@@ -1,8 +1,18 @@
 import type { ComponentType } from 'react';
 import type { MDXComponents } from 'mdx/types';
 
+export type HandoffMetadataValue = {
+  title: string;
+  summary: string;
+  status?: string;
+  worktree?: string;
+  branch?: string;
+  commit?: string;
+  updatedAt?: string;
+};
+
 type HandoffModule = {
-  metadata: { title: string; summary: string };
+  metadata: HandoffMetadataValue;
   default: ComponentType<{ components?: MDXComponents }>;
 };
 

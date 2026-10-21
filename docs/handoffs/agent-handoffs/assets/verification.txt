@@ -1,16 +1,19 @@
-Observed verification on 2026-10-21 for the independent viewer, interactive gallery and encapsulated handoff assets.
+Observed verification on 2026-10-21 for the independent handoff viewer and reading improvements.
 
 Command: bun run test:unit (apps/handoffs)
 $ vitest run --coverage
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./src/features/handoffs/watchHandoffDocuments" without a file extension (vite.config.ts:6:39). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
 
  RUN  v4.1.11 /private/tmp/woodbrook-feature-handoff/apps/handoffs
       Coverage enabled with v8
 
 
- Test Files  4 passed (4)
-      Tests  12 passed (12)
-   Start at  11:35:39
-   Duration  560ms (transform 114ms, setup 0ms, import 224ms, tests 270ms, environment 463ms)
+ Test Files  7 passed (7)
+      Tests  17 passed (17)
+   Start at  11:52:44
+   Duration  656ms (transform 231ms, setup 0ms, import 523ms, tests 450ms, environment 824ms)
 
  % Coverage report from v8
 -------------------|---------|----------|---------|---------|-------------------
@@ -19,27 +22,27 @@ File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 -------------------|---------|----------|---------|---------|-------------------
 
 =============================== Coverage summary ===============================
-Statements   : 100% ( 53/53 )
-Branches     : 100% ( 26/26 )
-Functions    : 100% ( 24/24 )
-Lines        : 100% ( 46/46 )
+Statements   : 100% ( 75/75 )
+Branches     : 100% ( 38/38 )
+Functions    : 100% ( 35/35 )
+Lines        : 100% ( 68/68 )
 ================================================================================
 
 Command: bunx playwright test (apps/handoffs)
 [WebServer] $ vite preview --host 127.0.0.1 --port 4182 --strictPort
-[WebServer] (node:66522) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (node:95689) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 [WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
 
 Running 2 tests using 1 worker
 
-(node:66531) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:95710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
-  ✓  1 tests/e2e/handoffs.spec.ts:5:1 › repository MDX handoffs open with tables, checklists and rendered C4 diagrams (1.2s)
-  ✓  2 tests/e2e/handoffs.spec.ts:75:1 › unknown handoffs show a recovery link (179ms)
+  ✓  1 tests/e2e/handoffs.spec.ts:5:1 › repository MDX handoffs open with tables, checklists and rendered C4 diagrams (5.7s)
+  ✓  2 tests/e2e/handoffs.spec.ts:108:1 › unknown handoffs show a recovery link (191ms)
 
-  2 passed (2.2s)
+  2 passed (6.8s)
 
 Command: bun run build (apps/handoffs)
 Result: PASS (exit 0), including TypeScript and Vite.
 
-Manual review: desktop/mobile gallery screenshots and C4 change summaries inspected.
+Manual review: live development landing page, compact metadata, desktop/mobile reading layout, screenshot galleries, and C4 change summaries inspected.

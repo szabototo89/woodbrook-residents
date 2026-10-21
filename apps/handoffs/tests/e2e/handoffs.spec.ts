@@ -20,6 +20,20 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
       });
     await page.getByRole('link', { name: 'Browseable agent handoffs' }).click();
     await expect(page).toHaveURL(/#\/agent-handoffs$/);
+    const metadata = page.locator('.handoff-metadata');
+    await expect(metadata).toContainText('Worktree');
+    await expect(metadata).toContainText('session/feature-handoff-guidance');
+    await expect(metadata.locator('time')).toHaveAttribute('datetime', /Z$/);
+    const statusBounds = await metadata.locator('> div').nth(0).boundingBox();
+    const branchBounds = await metadata.locator('> div').nth(1).boundingBox();
+    expect(statusBounds!.y).toBe(branchBounds!.y);
+    expect(branchBounds!.x).toBeGreaterThan(statusBounds!.x);
+    expect((await metadata.boundingBox())!.height).toBeLessThan(240);
+    await page
+      .getByRole('navigation', { name: 'On this page' })
+      .getByRole('button', { name: 'Appearance', exact: true })
+      .click();
+    await expect(page).toHaveURL(/#\/agent-handoffs$/);
     await expect(
       page.getByRole('heading', { name: 'Current state', exact: true }),
     ).toBeVisible();
@@ -61,6 +75,10 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
         { exact: true },
       ),
     ).toBeVisible();
+    for (const disclosure of await page
+      .locator('.diagram-disclosure > summary')
+      .all())
+      await disclosure.click();
     await expect(
       page.getByRole('img', { name: 'C4 architecture diagram' }).first(),
     ).toBeVisible();

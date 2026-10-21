@@ -12,6 +12,9 @@ When another agent continues a feature, it needs the current context, decisions,
 - Hash links such as `/#/agent-handoffs` open documents on any static server.
 - Each handoff has its own folder containing index.mdx and assets; no handoff shares an asset directory.
 - Appearance galleries support thumbnails, previous/next buttons, arrow keys, full-size images, and a per-image description of what to check.
+- The document header shows recorded status, worktree, Git branch/HEAD and UTC update time in a compact grid.
+- Section navigation jumps within the document; readable text width and expandable diagrams keep the document easy to scan.
+- Development detects added/removed handoff folders without restarting. An empty index explains where to add documents.
 - MDX renders headings, tables, disabled task lists, imported screenshots, and code.
 - Mermaid fences and the `MermaidDiagram` component render C4 diagrams with expandable source. Every C4 level has a short summary of what changed.
 - Tables and diagrams scroll within the document on mobile. Unknown documents show a recovery link.
@@ -19,6 +22,7 @@ When another agent continues a feature, it needs the current context, decisions,
 ## Acceptance criteria
 
 - Root and web guidance point to the simple `HANDOFF.md` template and require MDX under the repository's `docs/handoffs/` directory.
+- Metadata stays compact on desktop/mobile; section navigation preserves the current document URL.
 - Handoff browsing runs independently of the public website and its CMS.
 - Each handoff owns its document and all assets; gallery images include descriptions of what the reviewer should check.
 - Repository MDX is listed and renders tables, task lists, screenshots, C4 diagrams and per-level change summaries.

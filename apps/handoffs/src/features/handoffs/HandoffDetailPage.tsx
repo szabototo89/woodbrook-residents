@@ -2,8 +2,16 @@ import type { handoffs } from './handoffs';
 import { HandoffPre } from './HandoffPre';
 import { MermaidDiagram } from './MermaidDiagram';
 import { AppearanceGallery } from './AppearanceGallery';
+import { HandoffMetadata } from './HandoffMetadata';
+import { HandoffOutline } from './HandoffOutline';
+import { HandoffTable } from './HandoffTable';
 
-const components = { pre: HandoffPre, MermaidDiagram, AppearanceGallery };
+const components = {
+  pre: HandoffPre,
+  table: HandoffTable,
+  MermaidDiagram,
+  AppearanceGallery,
+};
 
 export function HandoffDetailPage(props: {
   handoff: (typeof handoffs)[number];
@@ -14,9 +22,18 @@ export function HandoffDetailPage(props: {
       <a className="handoff-back" href="#/">
         ← All handoffs
       </a>
-      <article className="handoff-document">
-        <Content components={components} />
-      </article>
+      <div className="handoff-reading-layout">
+        <HandoffOutline slug={props.handoff.slug} />
+        <article className="handoff-document">
+          <header className="handoff-document-header">
+            <p className="eyebrow">Agent handoff</p>
+            <h1>{props.handoff.title}</h1>
+            <p className="handoff-summary">{props.handoff.summary}</p>
+            <HandoffMetadata metadata={props.handoff} />
+          </header>
+          <Content components={components} />
+        </article>
+      </div>
     </main>
   );
 }

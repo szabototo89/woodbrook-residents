@@ -7,13 +7,14 @@ import verification from './assets/verification.txt?url';
 
 export const metadata = {
   title: 'Browseable agent handoffs',
+  status: 'ready for review',
+  worktree: '/private/tmp/woodbrook-feature-handoff',
+  branch: 'session/feature-handoff-guidance',
+  commit: '96f54b3',
+  updatedAt: '2026-10-21T10:54:17Z',
   summary:
     'Repository MDX documents with decisions, verification evidence, and C4 architecture diagrams.',
 };
-
-# Browseable agent handoffs
-
-Status: ready for review
 
 ## Goal
 
@@ -36,7 +37,7 @@ Decisions: keep the viewer in apps/handoffs, independent of the public website; 
 
 ## Appearance
 
-The reader has its own neutral typography and styling, without public website navigation or branding. Tables scroll within the document on phones. Diagrams include expandable source and a readable fallback on errors. The screenshots below show this implemented feature, using its real handoff document.
+The reader uses a compact Git context header, section shortcuts, and a comfortable text width. Tables scroll within the document on phones. Diagrams expand on demand, retain their source, and show a readable fallback on errors. The screenshots below show this implemented feature, using its real handoff document.
 
 <AppearanceGallery
   images={[
@@ -63,36 +64,36 @@ These diagrams describe the handoff feature's boundary, containers, and viewer c
 
 ### C1 - System context
 
-<MermaidDiagram source={context} />
-
 Change: added a standalone handoff viewer outside the public website.
+
+<MermaidDiagram source={context} />
 
 ### C2 - Containers
 
-<MermaidDiagram source={containers} />
+Change: added an independent static viewer with live folder discovery; each handoff owns its document and assets.
 
-Change: added an independent static viewer; every handoff now owns its MDX document and assets folder.
+<MermaidDiagram source={containers} />
 
 ### C3 - Viewer components
 
-<MermaidDiagram source={components} />
+Change: added a compact Git context header, section navigation, scrollable tables, expandable diagrams, and screenshot review galleries.
 
-Change: added folder-based discovery, hash navigation, MDX, Mermaid, and an interactive gallery with per-image review descriptions.
+<MermaidDiagram source={components} />
 
 ## Verification
 
-| Check                              | Result         | Evidence                                                                                                                    |
-| ---------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Gallery test before implementation | FAIL, expected | AppearanceGallery did not exist.                                                                                            |
-| Standalone unit tests and coverage | PASS           | 12 tests; configured coverage thresholds passed.                                                                            |
-| Browser journeys                   | PASS           | 2 tests across desktop/mobile, including gallery navigation, review descriptions, image loading, C4 summaries and recovery. |
-| Typecheck and build                | PASS           | bun run build includes TypeScript and Vite.                                                                                 |
-| Visual review                      | PASS           | Desktop/mobile galleries, descriptions and C4 diagrams inspected.                                                           |
+| Check                          | Result         | Evidence                                                                                                        |
+| ------------------------------ | -------------- | --------------------------------------------------------------------------------------------------------------- |
+| Regression checks before fixes | FAIL, expected | Live folder additions were not discovered; metadata and section navigation were absent.                         |
+| Unit and integration tests     | PASS           | 17 tests, including adding/removing folders outside the app root, empty state, metadata and section navigation. |
+| Browser journeys               | PASS           | 2 journeys at desktop/mobile widths, covering metadata, section jumps, galleries, C4 diagrams and recovery.     |
+| Typecheck and build            | PASS           | bun run build includes TypeScript and Vite.                                                                     |
+| Visual review                  | PASS           | Compact metadata, readable text width, mobile tables and desktop/mobile screenshots inspected.                  |
 
 <a href={verification}>Verification command output</a>
 
-The initial viewer and prerequisite calendar-test correction passed the full repository precommit suite in commits `8059f01` and `3e5e6b3`. The viewer has no public-site runtime dependency.
+The initial viewer and gallery passed full repository hooks in commits `8059f01` and `96f54b3`. Prerequisite `3e5e6b3` stabilises existing calendar fixtures. The viewer remains independent of the public website.
 
 ## Next steps
 
-None for implementation. Review the screenshots and use `bun run dev:handoffs` to open `http://127.0.0.1:3002/`. Each future handoff should use its own folder and provide an explicit review description for each appearance image. Built previews need rebuilding when documents change.
+None for implementation. Run `bun run dev:handoffs` to open `http://127.0.0.1:3002/`. Follow `HANDOFF.md` for recorded Git metadata, per-image review descriptions and a short change summary under each C4 level. Each handoff owns its folder and assets. Production previews need rebuilding after document changes.

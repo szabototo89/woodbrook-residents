@@ -1,6 +1,7 @@
 import { handoffs } from './handoffs';
 
-export function HandoffsPage() {
+export function HandoffsPage(props: { documents?: typeof handoffs }) {
+  const documents = props.documents ?? handoffs;
   return (
     <main id="main-content" className="handoffs-page shell">
       <header className="handoffs-intro">
@@ -11,7 +12,14 @@ export function HandoffsPage() {
         </p>
       </header>
       <section aria-label="Handoff documents" className="handoff-list">
-        {handoffs.map((handoff) => (
+        {documents.length === 0 ? (
+          <p role="status">
+            No handoffs yet. Add{' '}
+            <code>docs/handoffs/&lt;feature-slug&gt;/index.mdx</code> to get
+            started.
+          </p>
+        ) : null}
+        {documents.map((handoff) => (
           <a
             key={handoff.slug}
             className="handoff-card"

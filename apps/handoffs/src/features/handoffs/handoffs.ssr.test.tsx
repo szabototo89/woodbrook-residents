@@ -28,6 +28,12 @@ test('the handoff index links the document with its summary', () => {
   expect(markup).toContain('Repository MDX documents');
 });
 
+test('an empty handoff index explains where documents belong', () => {
+  const markup = renderToStaticMarkup(<HandoffsPage documents={[]} />);
+  expect(markup).toContain('No handoffs yet');
+  expect(markup).toContain('docs/handoffs/&lt;feature-slug&gt;/index.mdx');
+});
+
 test('the MDX reader renders the real handoff with tables, disabled checklists and architecture source', () => {
   const markup = renderToStaticMarkup(
     createElement(HandoffDetailPage, {

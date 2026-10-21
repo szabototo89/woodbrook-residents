@@ -26,25 +26,28 @@ export function MermaidDiagram(props: { source: string }) {
 
   return (
     <figure className="handoff-diagram">
-      {result && 'svg' in result ? (
-        <div
-          role="img"
-          aria-label="C4 architecture diagram"
-          tabIndex={0}
-          dangerouslySetInnerHTML={{ __html: result.svg }}
-        />
-      ) : (
-        <p role="status">
-          {result
-            ? 'Diagram could not be rendered. The source is available below.'
-            : 'Rendering architecture diagram…'}
-        </p>
-      )}
-      <details>
-        <summary>Diagram source</summary>
-        <pre>
-          <code>{props.source}</code>
-        </pre>
+      <details className="diagram-disclosure">
+        <summary>View diagram</summary>
+        {result && 'svg' in result ? (
+          <div
+            role="img"
+            aria-label="C4 architecture diagram"
+            tabIndex={0}
+            dangerouslySetInnerHTML={{ __html: result.svg }}
+          />
+        ) : (
+          <p role="status">
+            {result
+              ? 'Diagram could not be rendered. The source is available below.'
+              : 'Rendering architecture diagram…'}
+          </p>
+        )}
+        <details>
+          <summary>Diagram source</summary>
+          <pre>
+            <code>{props.source}</code>
+          </pre>
+        </details>
       </details>
     </figure>
   );
