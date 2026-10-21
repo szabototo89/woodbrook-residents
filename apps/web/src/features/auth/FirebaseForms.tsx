@@ -6,7 +6,8 @@ import { useAuthRequest } from './useAuthRequest';
 
 export default function FirebaseForms(props: { page: AuthPageName }) {
   const { status, user, actions, providers } = useAuthSession();
-  const { busy, error, message, run, setError } = useAuthRequest();
+  const request = useAuthRequest();
+  const { busy, error, message, run, setError } = request;
   const register = props.page === 'register';
   const recovery = props.page === 'forgot-password';
   if (status === 'loading')
@@ -18,7 +19,8 @@ export default function FirebaseForms(props: { page: AuthPageName }) {
         try again.
       </p>
     );
-  if (user) return <AccountPanel user={user} actions={actions} />;
+  if (user)
+    return <AccountPanel user={user} actions={actions} request={request} />;
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

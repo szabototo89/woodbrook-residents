@@ -55,3 +55,33 @@ test('Firebase requires all public web configuration before collecting credentia
     }),
   ).toBeNull();
 });
+
+test('a public project profile supports repeatable builds with explicit environment overrides', async () => {
+  const { readFirebaseConfig, readSocialProviders } =
+    await import('./authConfig');
+  const defaults = {
+    apiKey: 'public-key',
+    authDomain: 'sample.firebaseapp.com',
+    projectId: 'sample',
+    appId: 'sample-app',
+  };
+  expect(readFirebaseConfig({}, defaults)).toEqual(defaults);
+  expect(
+    readFirebaseConfig({ VITE_FIREBASE_API_KEY: 'other-key' }, defaults)
+      ?.apiKey,
+  ).toBe('other-key');
+  expect(
+    readFirebaseConfig({ VITE_FIREBASE_API_KEY: '' }, defaults),
+  ).toBeNull();
+  expect(
+    readFirebaseConfig({ VITE_FIREBASE_PROJECT_ID: null }, defaults),
+  ).toBeNull();
+  expect(readSocialProviders({})).toEqual({ google: true, facebook: false });
+  expect(
+    readSocialProviders({
+      VITE_FIREBASE_GOOGLE_ENABLED: 'false',
+      VITE_FIREBASE_FACEBOOK_ENABLED: 'true',
+    }),
+  ).toEqual({ google: false, facebook: true });
+  expect(isAuthEnabled('?feature_flag=clerk-auth', undefined)).toBe(false);
+});

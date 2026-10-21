@@ -1,12 +1,13 @@
 import type { FormEvent } from 'react';
 import type { AccountUser, AuthActions } from './AuthSession';
-import { useAuthRequest } from './useAuthRequest';
+import type { useAuthRequest } from './useAuthRequest';
 
 export function AccountPanel(props: {
   user: AccountUser;
   actions: AuthActions;
+  request: ReturnType<typeof useAuthRequest>;
 }) {
-  const { busy, error, message, run } = useAuthRequest();
+  const { busy, error, message, run } = props.request;
   function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const name = String(

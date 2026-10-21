@@ -14,12 +14,20 @@ Registration collects a display name, email, and matching passwords of at least 
 
 Password recovery requests a link with account-neutral confirmation copy. Firebase's hosted action page handles verification and choosing a new password; no custom domain, email server, or Firebase Hosting deployment for the Woodbrook website is needed. Social login uses a popup, which may need browser permission. Account errors use safe public messages and requests cannot be double submitted. Missing configuration shows a setup message without collecting credentials; a runtime error leaves the public hub available.
 
-## Setup
+## Configured project
+
+The website ships the public configuration for Firebase project `woodbrook-auth-20261021` in `apps/web/src/features/auth/firebaseProject.json`. Email/password and Google are enabled in that Firebase project; its default managed auth domain is used. Google uses the approved support email. Facebook remains disabled until an app ID and secret are configured in Firebase. Phone and anonymous authentication are disabled. Firebase enforces an eight-character minimum and email enumeration protection; the current `workers.dev` domain and localhost are authorized. The project remains on the no-cost Spark plan, with no billing account attached.
+
+The public profile makes Cloudflare builds repeatable without dashboard configuration. Environment values override the profile; explicitly setting the API key to an empty string disables configured auth for tests or setup previews. The feature itself remains off by default and still requires the query flag or explicit rollout environment flag. Firebase browser API keys are public project identifiers, not administrator credentials; see [Firebase API-key guidance](https://firebase.google.com/docs/projects/api-keys), accessed 2026-10-21.
+
+One existing Clerk account was detected by a count-only check. The user explicitly requested leaving that account untouched. No Clerk account data is exported, imported, or deleted by this migration.
+
+## Setup or project override
 
 1. Create or select a Firebase project on the free Spark plan and register a web application. Keep the existing Google Sheets content project separate.
 2. In Authentication, enable Email/Password (not email-link-only sign-in). Set the required password minimum to eight characters and enable email enumeration protection.
 3. In Authentication settings, add `woodbrook.shankill.workers.dev` and `localhost` as authorized domains. Keep the project's default `PROJECT_ID.firebaseapp.com` domain for authentication helpers and email action pages.
-4. Copy the public web configuration into the worktree's ignored `apps/web/.env.local`, or into the Cloudflare build environment:
+4. To override the bundled project, copy its public web configuration into the worktree's ignored `apps/web/.env.local`, or into the Cloudflare build environment:
 
 ```dotenv
 VITE_FIREBASE_API_KEY=PUBLIC_WEB_API_KEY
@@ -27,13 +35,13 @@ VITE_FIREBASE_AUTH_DOMAIN=PROJECT_ID.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=PROJECT_ID
 VITE_FIREBASE_APP_ID=WEB_APP_ID
 VITE_FIREBASE_AUTH_ENABLED=false
-VITE_FIREBASE_GOOGLE_ENABLED=false
+VITE_FIREBASE_GOOGLE_ENABLED=true
 VITE_FIREBASE_FACEBOOK_ENABLED=false
 ```
 
 These are build-time variables. Updating Worker runtime bindings alone does not update the browser bundle. Rebuild and redeploy after changes. Firebase web configuration identifies the project; service-account credentials and OAuth client secrets must never enter `VITE_` variables or Git.
 
-5. Enable Google in Firebase and choose the support email. For Facebook, supply your own Facebook app ID and secret in Firebase and register Firebase's displayed OAuth redirect URL in the Facebook app. Use production-ready provider settings. Set each corresponding `VITE_FIREBASE_*_ENABLED=true` only after its provider is configured. Firebase keeps the secrets; the website only receives public configuration.
+5. Enable Google in Firebase and choose the support email. For Facebook, supply your own Facebook app ID and secret in Firebase and register Firebase's displayed OAuth redirect URL in the Facebook app. Use production-ready provider settings. Set each corresponding `VITE_FIREBASE_*_ENABLED=true` only after its provider is configured. The bundled project already enables the Google button and keeps Facebook hidden. Firebase keeps the secrets; the website only receives public configuration.
 6. Run `bun install`, then `bun run dev` from the session worktree. Open the port Vite reports at `/login?feature_flag=firebase-auth`.
 7. For Cloudflare, build with the public environment values and deploy the existing Worker. Keep the global auth flag false for initial review. Check direct route loads and refreshes, signup/verification, password recovery, profile changes, persistent login, social login, and sign-out before enabling globally.
 

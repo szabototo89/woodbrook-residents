@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import publicProject from './firebaseProject.json';
 import { isAuthEnabled, readFirebaseConfig } from './authConfig';
 
 const FirebaseRuntime = lazy(() => import('./FirebaseRuntime'));
@@ -29,7 +30,7 @@ export function AuthProvider(props: { children: ReactNode }) {
   const enabled =
     ready &&
     isAuthEnabled(search, import.meta.env['VITE_FIREBASE_AUTH_ENABLED']);
-  const config = readFirebaseConfig(import.meta.env);
+  const config = readFirebaseConfig(import.meta.env, publicProject.config);
   const configured = config !== null;
 
   return (

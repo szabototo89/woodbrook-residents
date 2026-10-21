@@ -129,3 +129,19 @@ test('an existing named Firebase app is reused and profile changes refresh subsc
   expect(changed).toHaveBeenCalledTimes(2);
   stop();
 });
+
+test('a delayed profile update does not restore an account that signed out in another tab', async () => {
+  const pending = Promise.withResolvers<void>();
+  sdk.updateProfile.mockReturnValueOnce(pending.promise);
+  const client = createFirebaseClient(config);
+  const changed = vi.fn();
+  const stop = client.subscribe(changed, vi.fn());
+  const original = sdk.auth.currentUser;
+  const saving = client.actions.updateName('Sample');
+  Object.assign(sdk.auth, { currentUser: null });
+  pending.resolve();
+  await saving;
+  expect(changed).toHaveBeenLastCalledWith(null);
+  Object.assign(sdk.auth, { currentUser: original });
+  stop();
+});

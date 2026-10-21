@@ -16,6 +16,11 @@ for (const viewport of [
   for (const route of ['login', 'register', 'forgot-password']) {
     await page.goto(`${origin}/${route}?feature_flag=firebase-auth`);
     await page.getByLabel('Email address', { exact: true }).waitFor();
+    const rejectCookies = page.getByRole('button', {
+      name: 'Reject',
+      exact: true,
+    });
+    if (await rejectCookies.isVisible()) await rejectCookies.click();
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({
       path: `${output}/${route}-${viewport.name}.png`,

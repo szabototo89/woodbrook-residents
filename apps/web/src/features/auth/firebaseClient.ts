@@ -46,7 +46,7 @@ export function createFirebaseClient(config: FirebaseConfig) {
         password,
       );
       await updateProfile(user, { displayName: name });
-      observer.current?.(displayUser(user));
+      observer.current?.(displayUser(auth.currentUser));
       await sendEmailVerification(user);
     },
     async socialLogin(provider) {
@@ -63,7 +63,7 @@ export function createFirebaseClient(config: FirebaseConfig) {
     async updateName(name) {
       const user = currentUser();
       await updateProfile(user, { displayName: name });
-      observer.current?.(displayUser(user));
+      observer.current?.(displayUser(auth.currentUser));
     },
     async sendVerification() {
       await sendEmailVerification(currentUser());

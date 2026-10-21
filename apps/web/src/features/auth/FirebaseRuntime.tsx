@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import type { FirebaseConfig } from './authConfig';
+import { readSocialProviders, type FirebaseConfig } from './authConfig';
 import { AuthSessionContext, type AuthSession } from './AuthSession';
 import { createFirebaseClient } from './firebaseClient';
 
@@ -12,10 +12,7 @@ export default function FirebaseRuntime(props: {
     status: 'loading',
     user: null,
     actions: null,
-    providers: {
-      google: import.meta.env['VITE_FIREBASE_GOOGLE_ENABLED'] === 'true',
-      facebook: import.meta.env['VITE_FIREBASE_FACEBOOK_ENABLED'] === 'true',
-    },
+    providers: readSocialProviders(import.meta.env),
   });
   useEffect(() => {
     const failed = () =>

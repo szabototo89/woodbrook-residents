@@ -1,3 +1,5 @@
+import publicProject from './firebaseProject.json';
+
 export const AUTH_FEATURE_FLAG = 'firebase-auth';
 
 export function isAuthEnabled(
@@ -30,17 +32,35 @@ export type FirebaseConfig = {
 
 export function readFirebaseConfig(
   env: Record<string, unknown>,
+  defaults?: FirebaseConfig,
 ): FirebaseConfig | null {
-  const value = (name: string) =>
-    typeof env[name] === 'string' ? env[name].trim() : '';
+  const value = (name: string, key: keyof FirebaseConfig) => {
+    const candidate = env[name] === undefined ? defaults?.[key] : env[name];
+    return typeof candidate === 'string' ? candidate.trim() : '';
+  };
   const config = {
-    apiKey: value('VITE_FIREBASE_API_KEY'),
-    authDomain: value('VITE_FIREBASE_AUTH_DOMAIN'),
-    projectId: value('VITE_FIREBASE_PROJECT_ID'),
-    appId: value('VITE_FIREBASE_APP_ID'),
+    apiKey: value('VITE_FIREBASE_API_KEY', 'apiKey'),
+    authDomain: value('VITE_FIREBASE_AUTH_DOMAIN', 'authDomain'),
+    projectId: value('VITE_FIREBASE_PROJECT_ID', 'projectId'),
+    appId: value('VITE_FIREBASE_APP_ID', 'appId'),
   };
   return Object.values(config).every(Boolean) &&
     /^([a-z0-9-]+\.)+[a-z]{2,}$/i.test(config.authDomain)
     ? config
     : null;
+}
+
+export function readSocialProviders(env: Record<string, unknown>) {
+  const enabled = (name: string, fallback: boolean) =>
+    env[name] === undefined ? fallback : env[name] === 'true';
+  return {
+    google: enabled(
+      'VITE_FIREBASE_GOOGLE_ENABLED',
+      publicProject.providers.google,
+    ),
+    facebook: enabled(
+      'VITE_FIREBASE_FACEBOOK_ENABLED',
+      publicProject.providers.facebook,
+    ),
+  };
 }

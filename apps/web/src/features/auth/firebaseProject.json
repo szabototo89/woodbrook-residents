@@ -1,0 +1,12 @@
+{
+  "config": {
+    "apiKey": "AIzaSyAeMSIxnIJKKHjZikS5ykyeqQP0pTT2p-A",
+    "authDomain": "woodbrook-auth-20261021.firebaseapp.com",
+    "projectId": "woodbrook-auth-20261021",
+    "appId": "1:812221768097:web:4127dd56cc2c8317106be0"
+  },
+  "providers": {
+    "google": true,
+    "facebook": false
+  }
+}

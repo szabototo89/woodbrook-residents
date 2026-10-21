@@ -203,3 +203,30 @@ test('verified accounts with no profile name have a blank editable name and no r
   );
   ui.unmount();
 });
+
+test('a verification failure after account creation remains visible and can be retried', async () => {
+  state.actions.register.mockImplementationOnce(async () => {
+    state.user = {
+      email: 'resident@example.com',
+      displayName: 'Sample Resident',
+      emailVerified: false,
+    };
+    throw { code: 'auth/too-many-requests' };
+  });
+  const ui = renderUi(<FirebaseForms page="register" />);
+  fill(ui.container, 'name', 'Sample Resident');
+  fill(ui.container, 'email', 'resident@example.com');
+  fill(ui.container, 'password', 'long-password');
+  fill(ui.container, 'confirmPassword', 'long-password');
+  await submit(ui.container);
+  expect(ui.container.textContent).toContain('Your Woodbrook account');
+  expect(ui.container.querySelector('[role="alert"]')?.textContent).toContain(
+    'Too many attempts',
+  );
+  await press(ui.container, 'Send verification email');
+  expect(ui.container.querySelector('[role="alert"]')).toBeNull();
+  expect(ui.container.querySelector('[role="status"]')?.textContent).toContain(
+    'Verification email sent',
+  );
+  ui.unmount();
+});
