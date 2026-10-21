@@ -1,3 +1,11 @@
+import {
+  ExternalLink,
+  FileCode2,
+  Maximize2,
+  Network,
+  ZoomIn,
+  ZoomOut,
+} from 'lucide-react';
 import { useState } from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
@@ -11,7 +19,10 @@ export function PlantUmlDiagram(props: {
   return (
     <figure className="handoff-diagram">
       <details className="diagram-disclosure">
-        <summary>View diagram</summary>
+        <summary>
+          <Network size={14} aria-hidden="true" />
+          View diagram
+        </summary>
         {failedImage === props.image ? (
           <p role="status">
             Diagram could not be loaded. The source is available below.
@@ -40,18 +51,7 @@ export function PlantUmlDiagram(props: {
                       title="Zoom out"
                       onClick={() => void zoomOut(0.3, 0)}
                     >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.7"
-                        strokeLinecap="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M5 12h14" />
-                      </svg>
+                      <ZoomOut size={16} aria-hidden="true" />
                     </button>
                     <button
                       type="button"
@@ -59,18 +59,7 @@ export function PlantUmlDiagram(props: {
                       title="Zoom in"
                       onClick={() => void zoomIn(0.3, 0)}
                     >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.7"
-                        strokeLinecap="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M5 12h14M12 5v14" />
-                      </svg>
+                      <ZoomIn size={16} aria-hidden="true" />
                     </button>
                     <button
                       type="button"
@@ -78,19 +67,7 @@ export function PlantUmlDiagram(props: {
                       aria-label="Fit diagram"
                       title="Fit diagram"
                     >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.7"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6" />
-                      </svg>
+                      <Maximize2 size={16} aria-hidden="true" />
                     </button>
                   </div>
                   <TransformComponent
@@ -125,9 +102,13 @@ export function PlantUmlDiagram(props: {
           rel="noreferrer"
         >
           Open full size
+          <ExternalLink size={13} aria-hidden="true" />
         </a>
         <details>
-          <summary>Diagram source</summary>
+          <summary>
+            <FileCode2 size={14} aria-hidden="true" />
+            Diagram source
+          </summary>
           <pre>
             <code>{props.source}</code>
           </pre>

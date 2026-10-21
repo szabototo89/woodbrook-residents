@@ -1,48 +1,38 @@
-Observed verification on 2026-10-21 for the independent handoff viewer and reading improvements.
+Observed verification on 2026-10-21 for the handoff index discovery update.
 
 Command: bun run test:unit (apps/handoffs)
 $ vitest run --coverage
-(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
-  - import "./src/features/handoffs/watchHandoffDocuments" without a file extension (vite.config.ts:6:39). Add the file extension
-Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+Test Files  9 passed (9)
+     Tests  52 passed (52)
 
- RUN  v4.1.11 /private/tmp/woodbrook-feature-handoff/apps/handoffs
-      Coverage enabled with v8
+Coverage summary
+Statements   : 100% (192/192)
+Branches     : 100% (133/133)
+Functions    : 100% (71/71)
+Lines        : 100% (175/175)
 
+Command: bun run test:e2e (apps/handoffs)
+$ bun run build && playwright test
+Running 6 tests using 1 worker
 
- Test Files  7 passed (7)
-      Tests  17 passed (17)
-   Start at  11:52:44
-   Duration  656ms (transform 231ms, setup 0ms, import 523ms, tests 450ms, environment 824ms)
+  PASS  repository MDX handoffs open with tables, checklists and rendered C4 diagrams
+  PASS  unknown handoffs show a recovery link
+  PASS  the index searches, filters by update time and sorts
+  PASS  PlantUML diagrams fit the viewer and support zoom, pan and reset at desktop and phone widths
+  PASS  all migrated C4 diagrams load locally and fit inside their viewer
+  PASS  phone gestures pinch to zoom and drag to navigate the diagram
 
- % Coverage report from v8
--------------------|---------|----------|---------|---------|-------------------
-File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
--------------------|---------|----------|---------|---------|-------------------
--------------------|---------|----------|---------|---------|-------------------
+  6 passed
 
-=============================== Coverage summary ===============================
-Statements   : 100% ( 75/75 )
-Branches     : 100% ( 38/38 )
-Functions    : 100% ( 35/35 )
-Lines        : 100% ( 68/68 )
-================================================================================
+Command: bun run build (apps/handoffs), including c4:check, TypeScript and Vite
+Result: PASS (exit 0)
 
-Command: bunx playwright test (apps/handoffs)
-[WebServer] $ vite preview --host 127.0.0.1 --port 4182 --strictPort
-[WebServer] (node:95689) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+Command: repository pre-commit hook in commit b5e1045
+Result: PASS, including lint, unit, browser and e2e suites.
 
-Running 2 tests using 1 worker
-
-(node:95710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
-  ✓  1 tests/e2e/handoffs.spec.ts:5:1 › repository MDX handoffs open with tables, checklists and rendered C4 diagrams (5.7s)
-  ✓  2 tests/e2e/handoffs.spec.ts:108:1 › unknown handoffs show a recovery link (191ms)
-
-  2 passed (6.8s)
-
-Command: bun run build (apps/handoffs)
-Result: PASS (exit 0), including TypeScript and Vite.
-
-Manual review: live development landing page, compact metadata, desktop/mobile reading layout, screenshot galleries, and C4 change summaries inspected.
+Manual review:
+- Desktop 1440px and phone 390px index screenshots captured at 2x from the live viewer.
+- Narrow 320px index and detail pages have no horizontal overflow.
+- Search, 7-day window, oldest/title/newest sorting, no-match and no-recent empty states inspected.
+- Desktop and mobile diagram screenshots captured with the open diagram and Lucide toolbar.
+- Phone gallery previous/next controls stack above a centred full-size link without wrapped labels.

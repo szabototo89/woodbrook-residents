@@ -14,12 +14,13 @@ import navigationVideo from './assets/diagram-navigation.webm';
 export const metadata = {
   title: 'Browseable agent handoffs',
   status: 'complete',
-  worktree: '/private/tmp/woodbrook-plantuml-handoffs',
-  branch: 'session/plantuml-handoffs',
-  commit: '81034aa',
-  updatedAt: '2026-10-21T15:24:00Z',
+  worktree:
+    '/Users/tszabo/.local/share/opencode/worktree/a4af1e/handoffs-landing-ui',
+  branch: 'session/handoffs-landing-ui',
+  commit: 'b5e1045',
+  updatedAt: '2026-10-21T16:56:00Z',
   summary:
-    'Repository MDX documents with decisions, verification evidence, and C4 architecture diagrams.',
+    'Repository MDX documents with search, time windows, sorting, icons, and C4 architecture diagrams.',
 };
 
 ## Goal
@@ -30,54 +31,70 @@ Keep that feature context in `woodbrook/docs/handoffs/` and make it readable in 
 
 ## Current state
 
-| Area         | Change                                                                                                                  |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| Guidance     | Root and web AGENTS.md require a feature handoff.                                                                       |
-| Documents    | Each docs/handoffs/feature-slug/index.mdx document and its assets stay in one folder.                                   |
-| Browser      | The independent viewer at 127.0.0.1:3002 lists documents; /#/agent-handoffs opens this document.                        |
-| Architecture | PlantUML C4 sources and locally rendered SVGs are versioned together; the viewer shows SVG, source and full-size links. |
+| Area         | Change                                                                                                                                                            |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Guidance     | Root and web AGENTS.md require a feature handoff.                                                                                                                 |
+| Documents    | Each docs/handoffs/feature-slug/index.mdx document and its assets stay in one folder.                                                                             |
+| Browser      | The independent viewer at 127.0.0.1:3002 lists documents with search, update windows and sorting; /#/agent-handoffs opens this document.                          |
+| Discovery    | Search matches title, summary and status; All/7/30/90-day windows and newest/oldest/title sorts combine and announce the visible count.                           |
+| Architecture | PlantUML C4 sources and locally rendered SVGs are versioned together; the viewer shows SVG, source and full-size links.                                           |
+| Iconography  | Lucide icons mark status, filters, actions, metadata, outlines, galleries and diagram controls while every control keeps a visible text label or accessible name. |
 
 - [x] Keep documents in the repository root.
 - [x] Use MDX with tables and task lists.
+- [x] Add search, update windows, sorting and recovery states.
 - [x] Complete verification and visual review.
 
 Decisions: keep the viewer in apps/handoffs, independent of the public website; reuse React and Vite; use MDX and remark-gfm for documents and C4-PlantUML for architecture diagrams. Render diagrams locally to SVG with PlantUML 1.2026.9 and the bundled C4 library. The browser loads versioned assets and needs no diagram service, Java runtime or client renderer. Documents are trusted repository code, compiled at build time. This feature adds no editor or upload endpoint.
+
+The index keeps orientation copy and controls in a sticky left column beside the document cards. Search, ranges and sorting are client-side because the document inventory is built at compile time. Time windows use each document's UTC `updatedAt`; undated documents appear only under All and sort after dated documents. Lucide icons supplement visible labels rather than replacing them, so status, actions and metadata remain understandable without color or icon recognition.
 
 The October 2026 diagram update replaces all six existing Mermaid C4 diagrams across this handoff and the Clerk handoff. It changes presentation only; the Clerk diagrams retain their original recorded architecture and readiness context.
 
 The shared inventory in `docs/architecture/c4-model.json` now supplies consistent names, responsibilities, boundaries and relationships to every diagram. Zod validates the inventory and references; PlantUML sources are generated from it, and the build rejects stale sources. All descriptions assume a new engineer who does not know the product. The Clerk context/container views consistently show one account service; environment readiness remains documented in that handoff rather than being modeled as separate software systems.
 
+## Index discovery
+
+The landing page separates orientation from browsing. The left column holds the purpose statement, search, update windows and sort control; the right column lists one card per document with status, UTC update time, summary and a single open action. The layout becomes one column on tablets and phones.
+
+- Search matches title, summary and status, ignoring case and surrounding whitespace. Clear and Escape restore the full list.
+- Update windows use `updatedAt` relative to the current time. All includes undated documents; the 7, 30 and 90-day windows do not.
+- Newest and oldest put undated documents last; title sorts A–Z.
+- Filters combine. The count announces the visible subset, and both empty states offer Show all handoffs.
+- Icons supplement visible labels: status badges, filter labels, the card action, metadata, outline, gallery and diagram controls.
+- On phones, gallery previous/next controls occupy their own row above a centred full-size link so their labels do not wrap.
+
 ## Appearance
 
-The reader uses a compact Git context header, section shortcuts, and a comfortable text width. Tables scroll within the document on phones. Diagrams expand into a bounded frame, start fitted to show their full contents, and offer compact zoom/fit icons, drag, pinch and keyboard navigation. Ordinary scrolling reads the page; Ctrl + scroll zooms the diagram. Source and full-size SVGs remain available, including a readable source fallback on errors. The screenshots below show the implemented viewer using its real handoff document.
+The reader uses a compact Git context header, section shortcuts, and a comfortable text width. The index keeps a sticky orientation and control column beside a readable card list. Search, update windows and sorting combine without leaving the page, and each card names its status, update time and summary before the open action. Tables scroll within the document on phones. Diagrams expand into a bounded frame, start fitted to show their full contents, and offer compact zoom/fit icons, drag, pinch and keyboard navigation. Ordinary scrolling reads the page; Ctrl + scroll zooms the diagram. Source and full-size SVGs remain available, including a readable source fallback on errors. The screenshots below show the implemented viewer using its real handoff document.
 
 <AppearanceGallery
   images={[
     {
       src: desktop,
       title: 'Desktop index',
-      alt: 'Desktop handoff index',
+      alt: 'Desktop handoff index with search, update windows, sort control and three cards',
       description:
-        'Check that the document title, summary and read link are clear, with comfortable spacing.',
+        'Check that search, update windows and sort fit beside the card list, with status and UTC update time readable before each summary.',
     },
     {
       src: mobile,
       title: 'Mobile index',
-      alt: 'Mobile handoff index',
+      alt: 'Mobile handoff index with stacked controls and cards',
       description:
-        'Check that the card fits the phone width, text remains readable and the read link is easy to reach.',
+        'Check that controls stack cleanly, the update chips fit, and status and update time remain readable at phone width.',
     },
     {
       src: architectureDesktop,
       title: 'Desktop diagrams',
-      alt: 'Desktop PlantUML diagram viewer',
+      alt: 'Desktop PlantUML diagram viewer with Lucide toolbar icons',
       description:
-        'Check that the entire C4 diagram fits the frame and the compact zoom and fit toolbar stays above the diagram.',
+        'Check that the entire C4 diagram fits the frame and the compact zoom, fit, full-size and source controls stay clear of the diagram.',
     },
     {
       src: architectureMobile,
       title: 'Mobile diagrams',
-      alt: 'Mobile PlantUML diagram viewer',
+      alt: 'Mobile PlantUML diagram viewer with Lucide toolbar icons',
       description:
         'Check that the complete diagram fits the phone frame, controls do not cover its title, and source and full-size actions remain accessible.',
     },
@@ -108,7 +125,7 @@ Change: added an independent static viewer with live folder discovery; each hand
 
 ### C3 - Viewer components
 
-Change: added a compact Git context header, section navigation, scrollable tables, expandable diagrams, and screenshot review galleries. Diagrams now use local PlantUML SVGs with react-zoom-pan-pinch for fitted viewing and navigation.
+Change: added a compact Git context header, section navigation, scrollable tables, expandable diagrams, screenshot review galleries, and an index with search, update windows and sorting. Diagrams now use local PlantUML SVGs with react-zoom-pan-pinch for fitted viewing and navigation.
 
 <PlantUmlDiagram
   title="Viewer components"
@@ -118,20 +135,21 @@ Change: added a compact Git context header, section navigation, scrollable table
 
 ## Verification
 
-| Check                          | Result         | Evidence                                                                                                                                                   |
-| ------------------------------ | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Regression checks before fixes | FAIL, expected | Live folder additions were not discovered; metadata and section navigation were absent.                                                                    |
-| Unit and integration tests     | PASS           | 44 tests with full coverage, including Zod model validation, canonical source consistency, SVG display, source fallback, controls and document navigation. |
-| Browser journeys               | PASS           | Five journeys verify galleries, six local C4 SVGs, complete fit, zoom, keyboard navigation, pinch, touch dragging, reset, source and full-size links.      |
-| Typecheck and build            | PASS           | bun run build includes TypeScript and Vite.                                                                                                                |
-| Visual review                  | PASS           | Compact metadata, readable text width, mobile tables and desktop/mobile screenshots inspected.                                                             |
+| Check                          | Result         | Evidence                                                                                                                                                    |
+| ------------------------------ | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Regression checks before fixes | FAIL, expected | The old index had no search, update windows, sorting, status or visible update time; the new interaction and rendering tests failed first.                  |
+| Unit and interaction tests     | PASS           | 9 files and 52 tests, with statements, branches, functions and lines at 100%. Search, range, sort, both empty states, status icons and SSR index covered.   |
+| Browser journeys               | PASS           | Six journeys verify browsing, search/range/sort, galleries, six local C4 SVGs, complete fit, zoom, keyboard navigation, pinch, touch dragging and recovery. |
+| Typecheck and build            | PASS           | bun run build includes TypeScript and Vite.                                                                                                                 |
+| Repository pre-commit          | PASS           | bun run lint and the repository unit, browser and e2e suites passed in commit b5e1045.                                                                      |
+| Visual review                  | PASS           | 1440, 390 and 320 widths inspected: controls fit, no horizontal overflow, and mobile gallery controls stack without wrapped labels.                         |
 
 <a href={verification}>Verification command output</a>
 
-The initial viewer and gallery passed full repository hooks in commits `8059f01` and `96f54b3`. Prerequisite `3e5e6b3` stabilises existing calendar fixtures. The viewer remains independent of the public website.
+The initial viewer and gallery passed full repository hooks in commits `8059f01` and `96f54b3`. Prerequisite `3e5e6b3` stabilises existing calendar fixtures. The discovery update passed full repository hooks in `b5e1045`; its screenshots and verification output were captured from that revision. The viewer remains independent of the public website.
 
 The PlantUML update includes researched authoring guidance in `HANDOFF.md`, with primary sources for abstraction levels, relationship semantics, layout and review. All six diagrams and the guide's illustrative C2 example were rendered locally with PlantUML 1.2026.9. The recorded commit is the session base before this update.
 
 ## Next steps
 
-None for implementation. Run `bun run dev:handoffs` to open `http://127.0.0.1:3002/`. Follow `HANDOFF.md` for recorded Git metadata, per-image review descriptions and a short change summary under each C4 level. Each handoff owns its folder and assets. Production previews need rebuilding after document changes.
+None for implementation. Run `bun run dev:handoffs` to open `http://127.0.0.1:3002/`. Follow `HANDOFF.md` for recorded Git metadata, per-image review descriptions and a short change summary under each C4 level. Each handoff owns its folder and assets. Search, update windows and sorting run client-side over the build-time inventory, so production previews need rebuilding after document changes.
