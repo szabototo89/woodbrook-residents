@@ -54,3 +54,7 @@ Deploy `dist/client` when the Pages project root is `apps/web`, or `apps/web/dis
 The dynamic development server and production Cloudflare Worker expose `GET /api/mobile-content`. The endpoint reloads and validates the Google Sheets snapshot at request time, returns only published public fields, and responds with a short public cache window. Other HTTP methods are rejected.
 
 Before deploying, configure `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` as Worker secrets. `GOOGLE_SHEETS_SPREADSHEET_ID` is optional and otherwise uses the current Woodbrook workbook. The Worker serves the existing static website assets unchanged for all non-API requests.
+
+## Clerk accounts
+
+See [Clerk setup and rollout](../../docs/features/clerk-authentication.md) for application configuration, environment variables, feature-flag previews, and verification of login, registration, password recovery, and account management. Accounts are disabled by default; preview with `?feature_flag=clerk-auth` after configuring `VITE_CLERK_PUBLISHABLE_KEY`.

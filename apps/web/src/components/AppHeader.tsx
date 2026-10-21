@@ -1,6 +1,7 @@
 import { Link, useRouterState } from '@tanstack/react-router';
 import { ArrowRight, Menu } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { AccountLinks } from '../features/auth/AccountLinks';
 import { SiteSearch } from './SiteSearch';
 
 const navigation = [
@@ -97,6 +98,8 @@ export function AppHeader() {
         <Link className="button button-small header-action" to="/get-involved">
           Get involved <ArrowRight size={15} aria-hidden="true" />
         </Link>
+
+        <AccountLinks />
 
         <div className="mobile-nav" ref={mobileNavigationRef}>
           <button
