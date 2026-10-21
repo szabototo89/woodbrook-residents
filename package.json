@@ -53,7 +53,9 @@
     "typecheck:scripts": "tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --strict --noImplicitAny --noImplicitOverride --noImplicitReturns --noUncheckedIndexedAccess --skipLibCheck --types bun scripts/app.ts scripts/app.test.ts scripts/list-old-worktrees.ts scripts/list-old-worktrees.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "bun run format:check && eslint \"apps/*/src/**\" \"apps/*/tests/**\" \"apps/sanity-studio/schemaTypes/**\" \"apps/sanity-studio/components/**\" \"apps/sanity-studio/*.ts\" \"apps/laura-studio/schemaTypes/**\" \"apps/laura-studio/*.ts\" scripts && bun run typecheck"
+    "lint": "bun run format:check && eslint \"apps/*/src/**\" \"apps/*/tests/**\" \"apps/sanity-studio/schemaTypes/**\" \"apps/sanity-studio/components/**\" \"apps/sanity-studio/*.ts\" \"apps/laura-studio/schemaTypes/**\" \"apps/laura-studio/*.ts\" scripts && bun run typecheck",
+    "dev:handoffs": "bun scripts/app.ts dev handoffs",
+    "build:handoffs": "bun scripts/app.ts build handoffs"
   },
   "dependencies": {
     "google-auth-library": "^11.0.2"

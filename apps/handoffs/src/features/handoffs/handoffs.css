@@ -1,0 +1,232 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #25324a;
+  background: #f6f7f9;
+  --ink: #25324a;
+  --ink-soft: #586579;
+  --paper: #f6f7f9;
+  --line: #dbe1e9;
+  --forest: #315e9a;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+a {
+  color: inherit;
+}
+.shell {
+  width: min(1180px, calc(100% - 40px));
+  margin-inline: auto;
+}
+.viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px max(20px, calc((100vw - 1180px) / 2));
+  border-bottom: 1px solid var(--line);
+  background: white;
+}
+.viewer-header a {
+  font-weight: 700;
+  text-decoration: none;
+}
+.viewer-header span {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+.eyebrow {
+  color: var(--forest);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+h1,
+h2,
+h3 {
+  letter-spacing: -0.03em;
+}
+.handoffs-page,
+.handoff-detail {
+  padding-block: 64px 100px;
+  min-height: 65vh;
+}
+.handoffs-intro {
+  max-width: 760px;
+  margin-bottom: 48px;
+}
+.handoffs-intro h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  margin: 16px 0;
+}
+.handoffs-intro > p:last-child {
+  color: var(--ink-soft);
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+.handoff-list {
+  display: grid;
+  gap: 20px;
+  max-width: 900px;
+}
+.handoff-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: white;
+  color: var(--ink);
+  text-decoration: none;
+}
+.handoff-card > svg {
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.handoff-card h2 {
+  font-size: 1.6rem;
+  margin: 0 0 12px;
+}
+.handoff-card p {
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.handoff-card span,
+.handoff-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.handoff-card:hover {
+  border-color: var(--forest);
+}
+.handoff-card:focus-visible {
+  outline: 3px solid var(--forest);
+  outline-offset: 4px;
+}
+.handoff-back {
+  margin-bottom: 32px;
+}
+.handoff-document {
+  max-width: 1100px;
+  padding: clamp(20px, 4vw, 56px);
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+.handoff-document h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
+  margin: 0 0 24px;
+}
+.handoff-document h2 {
+  font-size: 1.6rem;
+  padding-top: 28px;
+  margin: 40px 0 20px;
+  border-top: 1px solid var(--line);
+}
+.handoff-document h3 {
+  font-size: 1.15rem;
+  margin-block: 28px 12px;
+}
+.handoff-document p,
+.handoff-document ul,
+.handoff-document ol {
+  margin-block: 16px;
+}
+.handoff-document a {
+  text-decoration: underline;
+}
+.handoff-document table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.handoff-document th,
+.handoff-document td {
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  min-width: 130px;
+  text-align: left;
+  vertical-align: top;
+}
+.handoff-document th {
+  background: var(--paper);
+  font-weight: 600;
+}
+.handoff-document pre {
+  padding: 20px;
+  background: var(--paper);
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  white-space: pre;
+}
+.handoff-document code {
+  font-size: 0.9em;
+}
+.handoff-document img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.handoff-document .contains-task-list {
+  list-style: none;
+  padding-left: 0;
+}
+.handoff-document input[type='checkbox'] {
+  margin-right: 8px;
+}
+.handoff-diagram {
+  margin: 24px 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.handoff-diagram > div {
+  overflow-x: auto;
+}
+.handoff-diagram svg {
+  display: block;
+  min-width: 480px;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+.handoff-diagram summary {
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  padding-top: 12px;
+}
+@media (max-width: 600px) {
+  .handoffs-page,
+  .handoff-detail {
+    padding-block: 36px 64px;
+  }
+  .handoff-card {
+    gap: 16px;
+    padding: 24px;
+  }
+  .handoff-card h2 {
+    font-size: 1.35rem;
+  }
+  .handoff-document th,
+  .handoff-document td {
+    min-width: 120px;
+    padding: 10px;
+  }
+}

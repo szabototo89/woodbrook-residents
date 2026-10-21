@@ -1,0 +1,45 @@
+Observed standalone verification on 2026-10-21.
+
+Command: bun run test:unit (apps/handoffs)
+$ vitest run --coverage
+
+ RUN  v4.1.11 /private/tmp/woodbrook-feature-handoff/apps/handoffs
+      Coverage enabled with v8
+
+
+ Test Files  3 passed (3)
+      Tests  10 passed (10)
+   Start at  11:28:33
+   Duration  506ms (transform 96ms, setup 0ms, import 171ms, tests 248ms, environment 229ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 100% ( 37/37 )
+Branches     : 100% ( 18/18 )
+Functions    : 100% ( 16/16 )
+Lines        : 100% ( 31/31 )
+================================================================================
+
+Command: bunx playwright test (apps/handoffs)
+[WebServer] $ vite preview --host 127.0.0.1 --port 4182 --strictPort
+[WebServer] (node:47571) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:47572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/handoffs.spec.ts:5:1 › repository MDX handoffs open with tables, checklists and rendered C4 diagrams (941ms)
+  ✓  2 tests/e2e/handoffs.spec.ts:65:1 › unknown handoffs show a recovery link (218ms)
+
+  2 passed (2.0s)
+
+Command: bun run build (apps/handoffs)
+Result: PASS (exit 0), including tsc --noEmit and Vite build.
+
+Manual review: standalone desktop/mobile screenshots and C4 diagrams inspected.
