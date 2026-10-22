@@ -146,6 +146,32 @@ test('private location details can be saved, reloaded, edited, retried and remov
       scale: 'device',
     });
   }
+  await page
+    .getByLabel('Address (optional)', { exact: true })
+    .fill('Discard this sample edit');
+  await expect(
+    page.getByText('Unsaved changes', { exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole('button', { name: 'Discard changes', exact: true })
+    .click();
+  await expect(
+    page.getByLabel('Address (optional)', { exact: true }),
+  ).toHaveValue('Sample home\nExample street');
+  await expect(
+    page.getByRole('button', { name: 'Discard changes', exact: true }),
+  ).toHaveCount(0);
+  await page.getByLabel('Eircode (optional)', { exact: true }).fill('bad');
+  await page.getByRole('button', { name: 'Save details', exact: true }).click();
+  await expect(
+    page.getByLabel('Eircode (optional)', { exact: true }),
+  ).toBeFocused();
+  await expect(
+    page.getByLabel('Eircode (optional)', { exact: true }),
+  ).toHaveAttribute('aria-invalid', 'true');
+  await page
+    .getByRole('button', { name: 'Discard changes', exact: true })
+    .click();
   profile.failNextWrite();
   await page
     .getByLabel('Address (optional)', { exact: true })
