@@ -258,9 +258,34 @@ test('published Halloween events use seasonal illustration with their actual det
   );
   expect(
     container.querySelector('.home-featured-event img')?.getAttribute('src'),
-  ).toBe('/images/halloween-event.png');
+  ).toBe('/images/halloween-event-768.webp');
   expect(
     container.querySelector('.home-featured-event a')?.getAttribute('href'),
   ).toBe('/events/test-event');
+  unmount();
+});
+
+test('news and projects without photos prioritise text instead of repeated placeholder icons', async () => {
+  mockContent = fullContent;
+  const { HomePage } = await import('./HomePage');
+  const { container, unmount } = renderUi(<HomePage />);
+  for (const selector of ['.home-update', '.home-project-row']) {
+    const row = container.querySelector(selector)!;
+    expect(row.querySelector('img')).toBeNull();
+    // Only the navigation chevron remains; no decorative media tile.
+    expect(row.querySelectorAll('svg')).toHaveLength(1);
+    expect(row.querySelector('h3 a')?.textContent).toContain('Test');
+  }
+  const project = container.querySelector('.home-project-row')!;
+  expect(project.textContent).toContain('Housing');
+  expect(project.textContent).toContain('Active');
+  const news = container.querySelector('.home-update')!;
+  expect(news.querySelector('time')?.getAttribute('dateTime')).toBe(
+    '2026-09-10',
+  );
+  expect(news.querySelector('.home-row-meta')?.textContent).toContain(
+    '10 September 2026',
+  );
+  expect(news.querySelector('.home-update-source')?.textContent).toBe('Source');
   unmount();
 });

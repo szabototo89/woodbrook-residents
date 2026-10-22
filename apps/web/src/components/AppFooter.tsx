@@ -11,7 +11,7 @@ export function AppFooter() {
           <Link className="footer-brand" to="/">
             <img
               className="brand-symbol"
-              src="/images/woodbrook-logo.png"
+              src="/images/woodbrook-logo-128.webp"
               alt=""
               width="44"
               height="44"

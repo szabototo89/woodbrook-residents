@@ -192,21 +192,24 @@ async function runLighthouse() {
   await Bun.$`mkdir -p ${reportDir}`.quiet();
 
   if (!skipBuild) {
-    console.log('Building the web app for Lighthouse...');
-    await runChecked(['bun', 'run', 'build']);
+    console.log('Building the static production website for Lighthouse...');
+    await runChecked(['bun', 'run', 'build:static']);
   }
 
   console.log(`Starting preview server at ${baseUrl}...`);
   const preview = Bun.spawn(
     [
-      'bun',
-      'run',
-      'preview',
-      '--',
-      '--host',
+      'bunx',
+      'wrangler',
+      'dev',
+      '--local',
+      '--config',
+      '../../wrangler.jsonc',
+      '--ip',
       '127.0.0.1',
       '--port',
       String(port),
+      '--show-interactive-dev-session=false',
     ],
     {
       cwd: appRoot,

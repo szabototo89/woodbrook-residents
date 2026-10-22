@@ -26,8 +26,8 @@ export function HomeHero() {
       <picture className="coastal-hero-image">
         <source
           type="image/webp"
-          srcSet="/images/woodbrook-coast-aerial-480.webp 480w, /images/woodbrook-coast-aerial-768.webp 768w, /images/woodbrook-coast-aerial-1200.webp 1200w, /images/woodbrook-coast-aerial-1920.webp 1920w"
-          sizes="100vw"
+          srcSet="/images/woodbrook-coast-aerial-light-480.webp 480w, /images/woodbrook-coast-aerial-light-768.webp 768w, /images/woodbrook-coast-aerial-light-1200.webp 1200w, /images/woodbrook-coast-aerial-light-1920.webp 1920w"
+          sizes="(max-width: 760px) 85vw, 67vw"
         />
         <img
           src="/images/woodbrook-coast-aerial-1200.jpg"
@@ -54,7 +54,7 @@ export function HomeHero() {
         </div>
         <img
           className="coast-note"
-          src="/images/coast-note.png"
+          src="/images/coast-note-400.webp"
           alt=""
           width="1536"
           height="1024"
