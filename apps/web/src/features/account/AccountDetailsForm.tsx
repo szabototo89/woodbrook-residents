@@ -1,4 +1,4 @@
-import { Check, LockKeyhole, MapPin } from 'lucide-react';
+import { Check, LockKeyhole } from 'lucide-react';
 import {
   useCallback,
   useEffect,
@@ -113,22 +113,17 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    void persist(false);
+    if (dirty) void persist(false);
   }
 
   return (
     <div data-clarity-mask="true" className="account-details-private">
       <header className="account-location-heading">
-        <div className="account-location-title">
-          <span className="account-location-icon">
-            <MapPin size={22} aria-hidden="true" />
-          </span>
-          <h2>Your location</h2>
-          <span className="account-private-badge">
-            <LockKeyhole size={12} aria-hidden="true" /> Private
-          </span>
-        </div>
-        <p>Add an Eircode, an address, or both. All fields are optional.</p>
+        <h2>Your location</h2>
+        <p className="account-privacy-note">
+          <LockKeyhole size={15} aria-hidden="true" /> Your location is never
+          shown publicly.
+        </p>
       </header>
       {loading && (
         <p className="account-feedback" role="status">
@@ -181,7 +176,7 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
               id="account-address"
               name="address"
               autoComplete="street-address"
-              rows={4}
+              rows={3}
               maxLength={500}
               value={details.address}
               onChange={(event) => change('address', event.target.value)}
@@ -189,7 +184,7 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
           </div>
           <div className="account-save-area">
             <div className="account-save-actions">
-              <button className="button" type="submit">
+              <button className="button" type="submit" disabled={!dirty}>
                 {busy ? 'Saving…' : 'Save details'}
               </button>
               {dirty && (
@@ -214,16 +209,12 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
               </p>
             ) : (
               <p className="account-save-status">
-                {dirty ? 'Unsaved changes' : 'Save when you’re ready.'}
+                {dirty ? 'Unsaved changes' : 'No unsaved changes'}
               </p>
             )}
           </div>
           {saved && (
             <div className="account-remove-area">
-              <div>
-                <strong>Prefer not to keep your location?</strong>
-                <p>This removes both fields from your account.</p>
-              </div>
               <button
                 className="account-remove"
                 type="button"
@@ -231,6 +222,7 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
               >
                 Remove saved location
               </button>
+              <p>This removes your Eircode and address.</p>
             </div>
           )}
         </fieldset>

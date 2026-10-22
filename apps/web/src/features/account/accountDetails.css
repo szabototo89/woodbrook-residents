@@ -1,135 +1,64 @@
 .account-details-page.auth-page {
-  max-width: 1040px;
-  padding-block: 28px 64px;
+  max-width: 640px;
   min-height: 0;
+  padding-block: 28px 56px;
 }
 .account-settings {
-  margin-top: 32px;
+  margin-top: 28px;
 }
 .account-settings-heading {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 .account-settings-heading h1 {
-  margin: 12px 0;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  line-height: 1.12;
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 4vw, 2.4rem);
+  line-height: 1.15;
 }
 .account-settings-heading > p {
-  margin-bottom: 0;
-  font-size: 0.94rem;
-}
-.account-settings-layout {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  align-items: start;
-  gap: 40px;
-}
-.account-settings-sidebar nav {
-  display: grid;
-  gap: 8px;
-}
-.account-settings-sidebar nav a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 48px;
-  border-radius: 8px;
-  padding: 12px 14px;
-  font-size: 0.82rem;
-  line-height: 1.5;
-}
-.account-settings-sidebar nav svg {
-  flex-shrink: 0;
-}
-.account-settings-sidebar nav a:hover {
-  background: var(--sage-pale);
-}
-.account-settings-current {
-  background: var(--sage-pale);
-  color: var(--forest);
-  font-weight: 600;
-}
-.account-privacy-note {
-  display: flex;
-  align-items: start;
-  gap: 12px;
-  padding: 24px 14px;
-  margin-top: 20px;
-  border-top: 1px solid var(--line);
-}
-.account-privacy-note > svg {
-  flex-shrink: 0;
-  color: var(--forest);
-}
-.account-privacy-note strong {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-.account-privacy-note p {
-  font-size: 0.78rem;
-  margin: 8px 0 0;
+  margin: 0;
+  font-size: 0.88rem;
 }
 .account-location-card {
   min-width: 0;
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: 14px;
-  box-shadow: 0 4px 16px #183e3205;
   overflow: hidden;
 }
 .account-location-heading,
 .account-location-card > :not(.account-details-private) {
-  padding: 28px 32px;
+  padding: 24px 28px 0;
 }
-.account-location-heading {
-  border-bottom: 1px solid var(--line);
+.account-location-card > :not(.account-details-private) {
+  padding-bottom: 24px;
 }
-.account-location-title {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.account-location-title h2 {
-  font-family: inherit;
-  font-size: 1.15rem;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  line-height: 1.3;
+.account-location-heading h2 {
   margin: 0;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
 }
-.account-location-icon {
-  display: inline-flex;
-  color: var(--forest);
-}
-.account-private-badge {
-  display: inline-flex;
+.account-location-heading .account-privacy-note {
+  display: flex;
   align-items: center;
-  gap: 5px;
-  margin-left: auto;
-  background: var(--sage-pale);
-  color: var(--forest);
-  padding: 5px 8px;
-  border-radius: 5px;
-  font-size: 0.68rem;
-  font-weight: 500;
+  gap: 7px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  margin: 8px 0 0;
 }
-.account-location-heading p {
-  margin: 12px 0 0;
-  font-size: 0.82rem;
+.account-privacy-note svg {
+  color: var(--forest);
+  flex-shrink: 0;
 }
 .account-details-private fieldset {
   display: grid;
-  gap: 22px;
+  gap: 20px;
   min-width: 0;
   border: 0;
-  padding: 28px 32px 0;
+  padding: 24px 28px 0;
   margin: 0;
-}
-.account-details-private textarea {
-  resize: vertical;
-  min-height: 108px;
-  font: inherit;
 }
 .account-details-field {
   display: grid;
@@ -146,28 +75,35 @@
 .account-details-field input {
   max-width: 240px;
 }
+.account-details-private textarea {
+  resize: vertical;
+  min-height: 98px;
+  font: inherit;
+}
 .account-details-field input[aria-invalid='true'] {
   border-color: #a02828;
 }
 .account-details-private .account-details-hint {
+  margin: -12px 0 0;
   color: var(--ink-soft);
   font-size: 0.75rem;
   line-height: 1.5;
-  margin: -14px 0 0;
 }
 .account-save-area {
-  display: grid;
-  gap: 14px;
-  margin: 2px -32px 0;
-  padding: 22px 32px;
-  background: #f6f8f5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
   border-top: 1px solid var(--line);
+  margin: 4px -28px 0;
+  padding: 20px 28px;
 }
 .account-save-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
   flex-wrap: wrap;
+  gap: 8px;
 }
 .account-save-actions .button {
   min-height: 44px;
@@ -176,16 +112,19 @@
   box-shadow: none;
   font-size: 0.85rem;
 }
+.account-details-private button:disabled {
+  cursor: default;
+}
 .account-discard,
 .account-remove {
   min-height: 44px;
-  padding: 8px 12px;
-  border: 1px solid transparent;
+  border: 0;
   border-radius: 6px;
+  padding: 8px 12px;
   color: var(--ink-soft);
   background: transparent;
-  cursor: pointer;
   font-size: 0.78rem;
+  cursor: pointer;
 }
 .account-discard:hover,
 .account-remove:hover {
@@ -206,29 +145,45 @@
 .account-remove-area {
   display: flex;
   align-items: center;
-  gap: 16px;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0 16px;
   border-top: 1px solid var(--line);
-  margin: -22px -32px 0;
-  padding: 20px 32px;
+  margin: -20px -28px 0;
+  padding: 10px 28px;
 }
-.account-remove-area strong {
-  font-size: 0.75rem;
-  font-weight: 500;
+.account-remove {
+  padding-inline: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .account-remove-area p {
-  margin: 6px 0 0;
+  margin: 0;
   font-size: 0.72rem;
   line-height: 1.5;
 }
-.account-remove {
+.account-security-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding-block: 12px;
+  margin-top: 14px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.account-security-link > svg {
   flex-shrink: 0;
+}
+.account-security-link > svg:last-child {
+  margin-left: auto;
+}
+.account-security-link:hover span {
   text-decoration: underline;
   text-underline-offset: 3px;
-  padding-inline: 0;
 }
 .account-feedback {
-  margin: 20px 32px 0;
+  margin: 20px 28px 0;
   padding: 12px 16px;
   font-size: 0.85rem;
   border-radius: 6px;
@@ -240,73 +195,49 @@
   border-left: 3px solid #a02828;
 }
 .account-details-private > .button {
-  margin: 20px 32px 0;
+  margin: 20px 28px 0;
 }
 .account-settings a:focus-visible,
 .account-settings button:focus-visible {
   outline: 2px solid var(--forest);
   outline-offset: 3px;
 }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   .account-details-page.auth-page {
-    padding-block: 24px 40px;
+    padding-block: 20px 32px;
   }
   .account-settings {
-    margin-top: 28px;
+    margin-top: 24px;
   }
   .account-settings-heading {
-    margin-bottom: 24px;
-  }
-  .account-settings-layout {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .account-settings-sidebar nav {
-    grid-template-columns: 1fr 1fr;
-  }
-  .account-settings-sidebar nav a {
-    font-size: 0.72rem;
-    gap: 8px;
-    padding: 10px;
-  }
-  .account-settings-sidebar nav a > svg:last-child:not(:first-child) {
-    display: none;
-  }
-  .account-privacy-note {
-    padding: 16px 0 0;
-    margin-top: 16px;
-  }
-  .account-privacy-note p {
-    margin-top: 4px;
+    margin-bottom: 20px;
   }
   .account-location-heading,
   .account-location-card > :not(.account-details-private) {
-    padding: 22px 20px;
+    padding-inline: 20px;
   }
   .account-details-private fieldset {
-    padding: 22px 20px 0;
+    padding: 20px 20px 0;
   }
   .account-save-area {
+    display: grid;
+    justify-content: stretch;
     margin-inline: -20px;
     padding: 20px;
   }
+  .account-save-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .account-save-actions .button:only-child {
+    grid-column: 1 / -1;
+  }
   .account-remove-area {
+    display: block;
     margin-inline: -20px;
-    padding: 20px;
-    align-items: start;
-    flex-direction: column;
-    gap: 8px;
+    padding: 8px 20px 16px;
   }
   .account-feedback {
     margin-inline: 20px;
-  }
-  .account-private-badge {
-    font-size: 0.65rem;
-  }
-  .account-location-title {
-    gap: 8px;
-  }
-  .account-location-title h2 {
-    font-size: 1rem;
   }
 }

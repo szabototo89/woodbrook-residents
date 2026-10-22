@@ -90,7 +90,7 @@ async function logIn(page: Page) {
   await expect(page).toHaveURL(/\/account\?feature_flag=firebase-auth$/);
   await expect(
     page.getByRole('button', { name: 'Save details', exact: true }),
-  ).toBeEnabled();
+  ).toBeDisabled();
 }
 
 test('private location details can be saved, reloaded, edited, retried and removed', async ({
@@ -240,4 +240,36 @@ test('direct URLs stay private and the form fits a 320px phone', async ({
   await expect(
     page.getByLabel('Address (optional)', { exact: true }),
   ).toBeVisible();
+});
+
+test('the phone form presents its fields and save action without a long preamble', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await privateProfile(page);
+  await logIn(page);
+  const save = page.getByRole('button', { name: 'Save details', exact: true });
+  const bounds = await save.boundingBox();
+  expect(bounds).not.toBeNull();
+  expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(844);
+  expect(bounds!.width).toBeGreaterThanOrEqual(280);
+  await expect(
+    page.getByLabel('Eircode (optional)', { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('navigation', { name: 'Account settings' }),
+  ).toHaveCount(0);
+});
+
+test('the desktop account form keeps a readable line length', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await privateProfile(page);
+  await logIn(page);
+  const panel = await page
+    .getByRole('region', { name: 'Account details', exact: true })
+    .boundingBox();
+  expect(panel).not.toBeNull();
+  expect(panel!.width).toBeLessThanOrEqual(680);
 });

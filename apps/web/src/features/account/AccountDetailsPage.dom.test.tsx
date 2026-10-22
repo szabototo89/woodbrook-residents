@@ -132,3 +132,24 @@ test('account switching ignores delayed reads from the previous resident and cle
   expect(container.querySelector('[name="address"]')).toBeNull();
   expect(container.textContent).not.toContain('Second sample address');
 });
+
+test('keeps privacy guidance in the location panel and provides a separate security link', async () => {
+  state.session.user = {
+    uid: 'one',
+    email: 'sample@example.com',
+    displayName: 'Sample resident',
+    emailVerified: true,
+  };
+  await render();
+  const panel = container.querySelector(
+    'section[aria-label="Account details"]',
+  )!;
+  expect(panel.textContent).toContain('Your location is never shown publicly.');
+  expect(
+    container.querySelector('nav[aria-label="Account settings"]'),
+  ).toBeNull();
+  expect(
+    container.querySelector('a[href="/login?feature_flag=firebase-auth"]')
+      ?.textContent,
+  ).toContain('Name, sign-in and security settings');
+});

@@ -174,3 +174,21 @@ test('removing a saved location clears validation errors from unsaved edits', as
     container.querySelector('[name="eircode"]')!.hasAttribute('aria-invalid'),
   ).toBe(false);
 });
+
+test('only enables saving after an edit and returns to a saved state after saving', async () => {
+  const client = await render();
+  const save = container.querySelector<HTMLButtonElement>(
+    'button[type="submit"]',
+  )!;
+  expect(save.disabled).toBe(true);
+  await act(async () =>
+    container
+      .querySelector('form')!
+      .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })),
+  );
+  expect(client.saveDetails).not.toHaveBeenCalled();
+  await act(async () => input('address', 'Sample address'));
+  expect(save.disabled).toBe(false);
+  await act(async () => save.click());
+  expect(save.disabled).toBe(true);
+});
