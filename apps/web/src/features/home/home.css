@@ -245,9 +245,11 @@
   position: absolute;
   z-index: -1;
   inset: 0;
+}
+.home-event-art:not(.home-event-illustration) {
   background:
     linear-gradient(90deg, rgba(14, 40, 32, 0.98), rgba(14, 40, 32, 0.7)),
-    url('/images/shankill-coast.jpg') center / cover;
+    url('/images/shankill-coast-768.webp') center / cover;
 }
 .home-event-art span {
   position: absolute;

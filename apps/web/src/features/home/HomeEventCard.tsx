@@ -12,10 +12,17 @@ export function HomeEventCard(props: { event: CommunityEvent }) {
   const isHalloween = /halloween/i.test(props.event.title);
   return (
     <article className="home-featured-event" aria-labelledby="home-event-title">
-      <div className="home-event-art" aria-hidden="true">
+      <div
+        className={
+          isHalloween
+            ? 'home-event-art home-event-illustration'
+            : 'home-event-art'
+        }
+        aria-hidden="true"
+      >
         {isHalloween ? (
           <img
-            src="/images/halloween-event.png"
+            src="/images/halloween-event-768.webp"
             alt=""
             width="1536"
             height="1024"

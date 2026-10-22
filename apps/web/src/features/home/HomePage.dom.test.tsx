@@ -258,7 +258,7 @@ test('published Halloween events use seasonal illustration with their actual det
   );
   expect(
     container.querySelector('.home-featured-event img')?.getAttribute('src'),
-  ).toBe('/images/halloween-event.png');
+  ).toBe('/images/halloween-event-768.webp');
   expect(
     container.querySelector('.home-featured-event a')?.getAttribute('href'),
   ).toBe('/events/test-event');
