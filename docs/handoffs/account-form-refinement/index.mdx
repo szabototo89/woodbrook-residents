@@ -1,0 +1,92 @@
+import desktop from './assets/account-desktop.png';
+import mobile from './assets/account-mobile.png';
+
+export const metadata = {
+  title: 'Compact account location form',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a16397-028f-75b3-a940-8e7623519e48',
+  worktree: '/private/tmp/woodbrook-account-form-refinement',
+  branch: 'session/account-form-refinement',
+  commit: '9a6d6df95b7d516282fe99c424b7065d8a4f32db',
+  updatedAt: '2026-10-22T13:07:18Z',
+  summary:
+    'Replaces the account sidebar with a compact single-column form so residents reach their details and save action sooner.',
+};
+
+## Goal
+
+Give residents one clear place to edit their private location, with the fields and save action visible sooner on phones.
+
+## Technical changes
+
+Baseline: `5e5dfc6`. Implementation: `9a6d6df95b7d516282fe99c424b7065d8a4f32db`.
+
+| Area             | Before                                          | After                                                                 | Why                                        | Code                                                                         |
+| ---------------- | ----------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------- |
+| Layout           | Wide panel beside account navigation            | One centered column, limited to 640px                                 | Give two fields a suitable reading width   | `apps/web/src/features/account/AccountDetailsPage.tsx`; `accountDetails.css` |
+| Privacy          | Separate sidebar note and badge                 | One privacy line inside the form                                      | Keep reassurance beside the private inputs | `AccountDetailsForm.tsx`                                                     |
+| Security link    | Navigation item beside the form                 | Secondary link below the form                                         | Keep the primary editing task clear        | `AccountDetailsPage.tsx`                                                     |
+| Save state       | Save works without edits                        | Save enables after an edit; unchanged submissions do nothing          | Prevent duplicate writes and clarify state | `AccountDetailsForm.tsx`                                                     |
+| Phone actions    | Save area uses a narrow content track           | Full-width idle save button; save and discard share an edited row     | Make the primary action easy to reach      | `accountDetails.css`                                                         |
+| Copy and spacing | Repeated headings and large removal explanation | Short introduction, smaller address field and one removal explanation | Reduce scrolling and repeated information  | `AccountDetailsForm.tsx`; `accountDetails.css`                               |
+
+No dependencies, routes, feature flags or stored fields change. Existing save, retry, discard, removal, privacy masking and validation focus remain.
+
+The design follows the previously reviewed [GOV.UK form guidance](https://design-system.service.gov.uk/patterns/question-pages/) and [W3C form feedback guidance](https://www.w3.org/WAI/tutorials/forms/notifications/), accessed 22 October 2026. The single-column composition is a design judgment verified through browser layout checks and screenshot review.
+
+## Architecture changes
+
+Woodbrook is a public community hub. Its account editor uses Firebase Authentication for identity and Cloud Firestore for private location documents. This revision changes presentation and the local submit guard.
+
+| Level | Change                                                                                                          | Evidence                                           |
+| ----- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| C1    | Unchanged: residents use the same hub and identity service                                                      | `AccountDetailsAccess.tsx`                         |
+| C2    | Unchanged: browser application and private document store keep their interfaces                                 | `accountDetailsStore.ts`                           |
+| C3    | Unchanged: page, editor and store keep their responsibilities; only layout and unchanged-submit behavior change | `AccountDetailsPage.tsx`; `AccountDetailsForm.tsx` |
+
+No architecture diagram is added because boundaries and dependencies do not change.
+
+## Verification
+
+| Check                   | Result  | Evidence                                                                                                                              |
+| ----------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Test-first workflow     | PASS    | Privacy placement and unchanged-save tests failed before implementation; width and phone-button checks failed before their CSS fixes. |
+| Account unit tests      | PASS    | `bun run --cwd apps/web vitest run src/features/account`: 4 files, 14 tests passed.                                                   |
+| Web unit regression     | PASS    | `bun run --cwd apps/web test:unit`: 361 tests and 1 static test passed.                                                               |
+| Production build        | PASS    | `bun run --cwd apps/web build`: exit 0.                                                                                               |
+| Type check              | PASS    | `bun run --cwd apps/web typecheck`: exit 0.                                                                                           |
+| Account browser flows   | PASS    | Isolated `test:auth` account suite: 8 tests passed, including save, reload, discard, error focus, retry, removal and access controls. |
+| Phone layout            | PASS    | At 390 × 844, save ends within the viewport and spans at least 280px; no overflow at 320px.                                           |
+| Desktop layout          | PASS    | At 1440px, the panel stays below 680px; implemented maximum is 640px.                                                                 |
+| Screenshot review       | PASS    | Sample data only; desktop 2880 × 2640 and mobile 780 × 3432, both captured at scale 2.                                                |
+| Repository hook         | PASS    | Normal implementation commit hook completed formatting, lint, types, unit, component-browser and end-to-end checks; exit 0.           |
+| Optional artifact tests | NOT RUN | Standard hook skips opt-in Forma and homepage captures; this account revision has its own desktop/mobile captures.                    |
+| Handoff structure       | PASS    | `bun run --cwd apps/handoffs docs:check`: completed before documentation commit.                                                      |
+
+## Appearance
+
+Both screenshots use a synthetic account and sample location. The desktop panel is centered; the phone view brings fields and save ahead of secondary account settings.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop — sample location',
+      alt: 'Centered account location form with privacy guidance and a secondary security link',
+      description:
+        'Review the readable form width, single privacy line and compact save and removal areas. Sample data.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile — sample location',
+      alt: 'Compact phone account form with a full-width save button',
+      description:
+        'Review field spacing, save-button width and the secondary security link below the form. Sample data.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None.

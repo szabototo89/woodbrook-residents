@@ -1,0 +1,20 @@
+Account form refinement verification
+Base: 5e5dfc6
+Implementation: 9a6d6df95b7d516282fe99c424b7065d8a4f32db
+
+Failing tests first: privacy placement, unchanged submissions, desktop panel width, mobile save-button width.
+Account unit suite: 14 passed.
+Web unit suite: 361 passed plus 1 static test.
+Production build and web TypeScript: exit 0.
+Focused account browser suite: 8 passed.
+Full normal precommit: exit 0.
+Combined Firebase authentication/account suite: 14 passed.
+Web general end-to-end suite: 49 passed; 1 opt-in visual capture skipped.
+Forma end-to-end suite: 47 passed; 7 optional artifacts skipped.
+Handoff viewer suite: 7 passed.
+Other required workspace checks passed in the same hook.
+Desktop: 1440x1000 CSS viewport, scale 2; PNG 2880x2640.
+Mobile: 390x844 CSS viewport, scale 2; PNG 780x3432.
+Phone save-button bottom <=844px; width >=280px.
+No horizontal overflow at 320px.
+All screenshots use synthetic identity and sample location data.
