@@ -367,6 +367,72 @@ test('an unknown view has an actionable error', () => {
   expect(() => renderC4Diagram(model, 'missing')).toThrow('Unknown diagram');
 });
 
+test('change annotations appear on elements, boundaries and relationships without changing historical views', () => {
+  const changed = structuredClone(model);
+  changed.diagrams.containers!.changes = {
+    elements: {
+      tooling: {
+        status: 'changed',
+        description: 'Free text becomes validated handoffs.',
+      },
+      reader: { status: 'added', description: 'Adds a browser reader.' },
+      notes: {
+        status: 'removed',
+        description: 'Replaced by bundled documents.',
+      },
+    },
+    relationships: {
+      read: {
+        status: 'changed',
+        description: 'Raw files become compiled assets.',
+      },
+    },
+  };
+  const source = renderC4Diagram(changed, 'containers');
+  expect(source).toContain('[CHANGED] Handoff tooling');
+  expect(source).toContain('Change: Free text becomes validated handoffs.');
+  expect(source).toContain('[ADDED] Browser reader');
+  expect(source).toContain('[REMOVED] Feature notes');
+  expect(source).toContain('Change: Adds a browser reader.');
+  expect(source).toContain('[CHANGED] Loads compiled notes from');
+  expect(source).toContain('Raw files become compiled assets.');
+  expect(source).toContain('Unmarked = unchanged context');
+  expect(renderC4Diagram(changed, 'context')).toBe(
+    renderC4Diagram(model, 'context'),
+  );
+});
+
+test.each(['elements', 'relationships'] as const)(
+  'change annotations must refer to %s in that view',
+  (kind) => {
+    const changed = structuredClone(model);
+    changed.diagrams.containers!.changes = {
+      [kind]: { missing: { status: 'added', description: 'Not in view' } },
+    };
+    expect(() => validateC4Model(changed)).toThrow('outside diagram');
+  },
+);
+
+test('unchanged views disclose their reason without claiming changes', () => {
+  const changed = structuredClone(model);
+  changed.diagrams.context!.unchangedReason =
+    'Same actors and system boundary.';
+  expect(renderC4Diagram(changed, 'context')).toContain(
+    'Unchanged: Same actors and system boundary.',
+  );
+});
+
+test('a view cannot claim changes and also claim it is unchanged', () => {
+  const changed = structuredClone(model);
+  changed.diagrams.context!.unchangedReason = 'No change';
+  changed.diagrams.context!.changes = {
+    elements: {
+      tooling: { status: 'changed', description: 'New responsibility' },
+    },
+  };
+  expect(() => validateC4Model(changed)).toThrow('changes or unchangedReason');
+});
+
 test('every registered diagram has an up-to-date source in its own handoff folder', () => {
   const root = resolve(import.meta.dirname, '../../../../..');
   const registry = validateC4Model(

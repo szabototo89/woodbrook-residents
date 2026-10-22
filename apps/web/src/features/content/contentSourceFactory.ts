@@ -19,9 +19,9 @@ function readEnv(environment: ContentEnvironment, ...names: string[]): string {
 export function createContentSource(
   environment: ContentEnvironment = process.env,
 ): ContentSource {
-  const configuredSource = environment.CONTENT_SOURCE?.trim() || '';
+  const configuredSource = environment.CONTENT_SOURCE?.trim() || 'sanity';
 
-  if (!configuredSource || configuredSource === 'google-sheets') {
+  if (configuredSource === 'google-sheets') {
     return new GoogleSheetsContentSource({
       spreadsheetId:
         environment.GOOGLE_SHEETS_SPREADSHEET_ID?.trim() ||

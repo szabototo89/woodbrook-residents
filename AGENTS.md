@@ -55,6 +55,10 @@
 
 ## Feature documentation
 
+- Every new handoff must follow `HANDOFF.md`: lead with technical changes relative to a recorded base commit, including before/after behavior, reasons and code references. Do not use a Current state section.
+- Reflect the technical changes in the C4 diagrams themselves using per-view added/changed/removed annotations for elements and relationships. Account for C1/C2/C3; explicitly explain unchanged levels without inventing changes.
+- Verification must be a Markdown table with `Check`, `Result` and `Evidence` columns. Use only `PASS`, `FAIL` or `NOT RUN`; put commands, observed outcomes and limitations in the evidence cells.
+- Run `bun run --cwd apps/handoffs docs:check` before completing a handoff. The handoff build and repository precommit typecheck enforce the structure. Never expand the frozen historical exemption list to bypass these rules.
 - After developing a feature, read the project's `HANDOFF.md` (fall back to the repository root) and create a new handoff at `docs/handoffs/<new-feature-slug>/index.mdx` at the repository root. Link it in the final response.
 - For every feature, create a separate handoff document. Never edit a completed handoff to document a new feature. A completed handoff is an immutable historical record: preserve its title, summary, body, evidence, screenshots, worktree, branch, commit and `updatedAt`, and use a new slug for subsequent work.
 - While a feature is in progress, update its own handoff. Once it is complete, stop editing it. The only permitted change to a completed handoff is adding a newly required frontmatter field during a repository-wide metadata migration; record that migration in the new handoff.

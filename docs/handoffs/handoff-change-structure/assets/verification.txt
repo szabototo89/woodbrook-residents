@@ -1,0 +1,29 @@
+Verification on 2026-10-22 (UTC)
+Baseline: c41728e
+
+bun run --cwd apps/handoffs test:unit
+Exit 0: 10 test files, 73 tests. Coverage: 99.63% statements, 98.01% branches,
+98.98% functions, 99.60% lines. All per-file thresholds pass.
+
+bun run --cwd apps/handoffs test:e2e
+Exit 0: 7 tests. Desktop 1440x1000 and mobile 390x1000, device scale 2.
+Checks cover old handoffs, new technical/verification tables, local C4 SVGs,
+result-label wrapping, table keyboard scrolling, and page overflow.
+
+bun run --cwd apps/handoffs docs:check
+Exit 0 with the real document. A temporary new document with only Current state
+and skipValidation metadata failed with exit 1. Temporary fixture removed.
+
+bun run --cwd apps/handoffs c4:check
+Exit 0. Canonical model and all 12 generated sources agree.
+Three new SVGs rendered with local PlantUML 1.2026.9, bundled C4 and Smetana.
+
+bun run build
+Exit 0 across all repository apps.
+
+bun run precommit
+Exit 0: format check, ESLint, repository typechecks, script tests, app unit tests,
+app browser tests and app end-to-end tests including Firebase emulator checks.
+
+Historical records: no tracked changes in existing docs/handoffs folders or assets.
+Physical phone review: NOT RUN; browser emulation only.

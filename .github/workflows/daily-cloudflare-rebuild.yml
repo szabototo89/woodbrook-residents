@@ -1,4 +1,4 @@
-name: Daily Cloudflare rebuild
+name: Daily Sanity Cloudflare rebuild
 
 on:
   schedule:
@@ -10,9 +10,11 @@ permissions:
 
 jobs:
   rebuild:
-    name: Trigger production rebuild
+    name: Trigger production Sanity rebuild
     runs-on: ubuntu-latest
     steps:
+      # Content selection belongs to the Cloudflare build environment:
+      # CONTENT_SOURCE=sanity. Action env values are not forwarded by the hook.
       - name: Trigger Cloudflare Workers Build
         env:
           DEPLOY_HOOK_URL: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}

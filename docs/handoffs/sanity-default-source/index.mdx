@@ -1,0 +1,106 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import cloudflare from './assets/cloudflare-source.jpg';
+
+export const metadata = {
+  title: 'Sanity as the default Woodbrook source',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a1634f-fee9-7551-9949-5fcb45290328',
+  worktree: '/private/tmp/woodbrook-sanity-default',
+  branch: 'session/sanity-default',
+  commit: 'fb3b71c3e6938214c9343743041a9abf0e5fd136',
+  updatedAt: '2026-10-22T11:37:22Z',
+  summary:
+    'Sanity is the default web content source; deployment settings use Sanity and all 52 existing collection dates are published there.',
+};
+
+## Goal
+
+Use published Sanity content for the Woodbrook resident website by default, align development and deployment configuration, and copy the existing spreadsheet collection dates into Sanity at the user's request.
+
+## Technical changes
+
+Baseline: `c41728e`. Implementation: `fb3b71c`. The source switch was deployed before this record was integrated with the concurrent handoff-format changes from `5a319b9`. The original document was marked complete prematurely while integration was still in progress; this version completes the same feature under the merged authoring contract.
+
+| Area                 | Before                                              | After                                                                                                                                               | Why                                                        | Code                                                                             |
+| -------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Web source selection | Missing or blank source selected Google Sheets      | Missing, empty and whitespace source selects Sanity project `ca34quae`, dataset `production`, API version `2025-09-01`; explicit Sheets still works | Make Sanity the normal content source                      | `apps/web/src/features/content/contentSourceFactory.ts`                          |
+| Development          | Root development commands forced Sheets             | `dev`, `dev:web`, and `dev:web:content` select Sanity; `dev:web:sheets` remains available                                                           | Avoid an older local environment silently selecting Sheets | `package.json`, `.env.example`                                                   |
+| Deployment           | Deploy script defaulted to Sheets                   | Defaults to Sanity, preserves explicit supported overrides, rejects invalid values before building                                                  | Align development and deployment                           | `scripts/deploy.ts`, `scripts/deploy.test.ts`                                    |
+| Scheduled rebuild    | Workflow and hook described a Sheets rebuild        | Daily 03:15 UTC and manual hook invocation remain; labels identify Sanity                                                                           | Reflect the selected production source                     | `.github/workflows/daily-cloudflare-rebuild.yml`                                 |
+| Cloudflare settings  | Build variable explicitly selected `google-sheets`  | Saved `CONTENT_SOURCE=sanity` and renamed existing hook to `Daily Sanity rebuild`                                                                   | Dashboard environment overrides the application fallback   | Cloudflare `woodbrook` build configuration; settings screenshot below            |
+| Collection dates     | Published Sanity schedule had no dates and no draft | 52 existing spreadsheet dates copied into `collectionDates` with stable array keys and a revision-checked patch                                     | Preserve the existing calendar when switching sources      | Existing `collectionDate` schema, GROQ projection and `assets/copied-dates.json` |
+| Integration tests    | Handoff tests assumed an earlier inventory          | Index tests derive the inventory size and restore the original newest title after sorting; the Sanity handoff link is explicitly checked            | Preserve both branches while verifying the combined index  | `apps/handoffs/tests/e2e/handoffs.spec.ts`                                       |
+
+Cloudflare's hook URL, build command, deploy command, account, analytics, authentication and credentials were preserved. The existing primary checkout's ignored `.env` override now selects Sanity. The separate mobile content Worker still uses its existing Sheets source and secrets. No synchronization service, new schema, route or UI was added. Only `collectionDates` changed in the Sanity record; a fresh application-adapter read matched all date and stream values against Sheets.
+
+## Content provenance
+
+The source is the existing [Woodbrook spreadsheet](https://docs.google.com/spreadsheets/d/1X9N_0s7ZN7W6IC43nVegtottBdMbfz-rRKvClccPqgo/edit), accessed **22 October 2026**. Its resource credits [Thorntons Recycling](https://thorntons-recycling.ie/) and retains its existing review date of **9 September 2026**. This was an exact copy of existing data, not a new verification of the provider's calendar or a claim that every address uses the same route. The exact copied values and provenance are recorded in `assets/copied-dates.json`.
+
+## Architecture changes
+
+Woodbrook is a public information hub for residents in Shankill. Editors publish content in Sanity; a static build validates the content, generates HTML and navigation data, and Cloudflare serves the generated website. CMS changes reach residents after a successful rebuild.
+
+| Level | Change                                                                                                                                                                                                                 | Evidence                                                                           |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| C1    | Unchanged: residents, editors, the website, Sanity and Google Sheets already existed; no actor or system boundary was added                                                                                            | Existing content adapters and public routes                                        |
+| C2    | Unchanged: the web build and Cloudflare static deployment remain the same applications; the existing Sanity store becomes the default source                                                                           | `apps/web/scripts/build-static.ts`, `wrangler.jsonc`                               |
+| C3    | Unchanged: the existing factory still selects an existing adapter; validation, caching and schedule rendering retain their responsibilities and interfaces. Only the default selection and configuration values change | `contentSourceFactory.ts`, `scripts/deploy.ts`, unchanged `verify-static-build.ts` |
+
+The scheduler only invokes a Cloudflare hook, while Cloudflare owns the build environment. As documented in the [Cloudflare Builds API reference](https://developers.cloudflare.com/workers/ci-cd/builds/api-reference/) (accessed 22 October 2026), build variables and runtime Worker variables have separate scopes. Runtime Wrangler settings therefore need no change for the static website. A prose responsibility delta is sufficient for this small source-selection change; no new C4 view was added.
+
+## Verification
+
+| Check                        | Result | Evidence                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD regression               | PASS   | Tests first failed for the previous source fallback, development commands and deploy environment; 107 focused content tests and 3 deploy-script tests passed after implementation                                                                                                                                                                                                                          |
+| Repository lint              | PASS   | `bun run lint`: formatting, ESLint and all app TypeScript checks passed before integration                                                                                                                                                                                                                                                                                                                 |
+| Repository build             | PASS   | `bun run build` exited 0 before integration and again after resolving the concurrent changes                                                                                                                                                                                                                                                                                                               |
+| Static production build      | PASS   | `VITE_PUBLIC_SITE_URL=https://woodbrook.shankill.workers.dev bun run build:static` against real Sanity: 85 HTML files, 74 static data files, 74 sitemap URLs, 23 calendar files and every internal link verified; original schedule check unchanged                                                                                                                                                        |
+| Date transfer                | PASS   | All 52 date/stream pairs from the published Sanity adapter equal the existing spreadsheet exactly; `assets/copied-dates.json` records the values and provenance                                                                                                                                                                                                                                            |
+| Desktop and mobile           | PASS   | Playwright on live production at 1440 × 1100 and 390 × 844, 2× resolution: recycling 27 October 2026, waste/compost 3 November 2026, no horizontal overflow; screenshots below                                                                                                                                                                                                                             |
+| Cloudflare settings          | PASS   | `CONTENT_SOURCE=sanity` and renamed hook persisted after a dashboard reload; `assets/cloudflare-source.jpg`                                                                                                                                                                                                                                                                                                |
+| Production rebuild           | PASS   | [Build 07f4510f](https://dash.cloudflare.com/e314b1fc6ed42c211154ffaae0193554/workers/services/view/woodbrook/production/builds/07f4510f-7343-44e6-a030-0055de11ca03) completed; version `e82fe3b4` served 100% of traffic; live schedule HTTP response includes both expected dates                                                                                                                       |
+| GitHub workflow              | PASS   | Code commit `fb3b71c` merged into clean local main and pushed; renamed `Daily Sanity Cloudflare rebuild` is active and existing Actions secret names required no change                                                                                                                                                                                                                                    |
+| Required commit checks       | PASS   | Full `bun run precommit` passed for implementation and the original handoff commit: repository unit, browser and end-to-end suites; seven intentionally skipped browser cases remained skipped. Combined integration checks run again before merging                                                                                                                                                       |
+| Handoff viewer               | PASS   | Viewer production build and desktop/mobile image-loading checks passed; focused 6 browser tests passed after updating the original inventory expectations                                                                                                                                                                                                                                                  |
+| Concurrent document contract | FAIL   | Initial integration `docs:check` correctly rejected the original handoff format; the record is being finalized under the new format, preserving the source-switch implementation                                                                                                                                                                                                                           |
+| Final document contract      | PASS   | `bun run --cwd apps/handoffs docs:check` validated 2 change-focused handoffs and preserved 6 historical records                                                                                                                                                                                                                                                                                            |
+| GitHub Lighthouse            | FAIL   | [Run 39770306125](https://github.com/szabototo89/woodbrook-residents/actions/runs/39770306125): performance below 90 on home and several mobile routes. [Earlier run 39675179217](https://github.com/szabototo89/woodbrook-residents/actions/runs/39675179217) had the same performance failures, including mobile home 84 and mobile events/local-info 70. Deployment succeeded; no threshold was relaxed |
+| Development preview          | PASS   | Server used port 3004 because 3000–3003 were occupied. Ready server opened in cmux; tab rename returned `Tab not found`. Other sessions were preserved; session previews were stopped before cleanup                                                                                                                                                                                                       |
+
+## Appearance
+
+These screenshots show real Sanity content on the live production website, not sample content. The analytics prompt was rejected to keep the dates visible. Playwright checked both next-date values and absence of horizontal overflow.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop — Sanity collection schedule',
+      alt: 'Desktop collection schedule showing 27 October recycling and 3 November waste and compost',
+      description:
+        '1440 × 1100 viewport at 2× resolution. Review both next dates, route limitation and original source attribution.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile — Sanity collection schedule',
+      alt: 'Mobile collection schedule with the two next dates in stacked cards',
+      description:
+        '390 × 844 viewport at 2× resolution. Review the stacked date cards and readable source details without horizontal scrolling.',
+    },
+    {
+      src: cloudflare,
+      title: 'Cloudflare — saved build source',
+      alt: 'Woodbrook Cloudflare build settings with CONTENT_SOURCE set to sanity',
+      description:
+        'The persisted build variable was verified after a dashboard reload. Existing credentials remain encrypted.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None for the source switch or date copy; both are live. The integration commit runs all required checks before it is accepted and merged. Existing Lighthouse performance failures are separate follow-up work. Future Sanity publishes reach the static website through a successful rebuild; the existing daily schedule and manual action remain available.

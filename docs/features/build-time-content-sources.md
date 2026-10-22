@@ -8,6 +8,7 @@ When maintaining the public website, I want to choose the Woodbrook Google sprea
 
 ## User-visible behavior
 
+- Sanity supplies published content by default; Google Sheets remains an explicit opt-in.
 - Residents see the same pages and content model regardless of which source supplied the build.
 - Only rows explicitly marked for publishing in Google Sheets appear on the public site.
 - Published content changes become visible after the next successful static build and deployment.
@@ -17,6 +18,7 @@ When maintaining the public website, I want to choose the Woodbrook Google sprea
 
 ## Acceptance criteria
 
+- Given `CONTENT_SOURCE` is missing, empty, or whitespace, when content is loaded, then it selects Sanity with the Woodbrook project defaults.
 - Given `CONTENT_SOURCE=sanity`, when the site loads content, then it runs GROQ queries against the configured Sanity project (`ca34quae`) and dataset (`production`) into one validated snapshot. See [Sanity Studio content](sanity-studio-content.md).
 - Given `CONTENT_SOURCE=google-sheets`, when the static build runs with read-only service-account credentials, then it reads the configured spreadsheet tabs in one batch and maps published rows into the canonical content model.
 - Given a Google Sheets row has `publish != TRUE`, when content is loaded, then the row is ignored and its private `admin_notes` value is never included in the snapshot.

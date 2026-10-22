@@ -52,7 +52,7 @@ test('root web sheets development loads repository credentials into the web shee
     'CONTENT_SOURCE=google-sheets bun scripts/app.ts dev:sheets web --env-file=../../.env',
   );
 });
-test('mobile content development loads Google Sheets credentials from the repository environment', () => {
+test('content development uses Sanity and mobile loads the repository environment', () => {
   const rootPackage: RootPackage = JSON.parse(
     readFileSync(
       new URL('../../../../../package.json', import.meta.url),
@@ -61,9 +61,42 @@ test('mobile content development loads Google Sheets credentials from the reposi
   );
 
   expect(rootPackage.scripts['dev:web:content']).toBe(
-    'CONTENT_SOURCE=google-sheets bun scripts/app.ts dev web --env-file=../../.env',
+    'CONTENT_SOURCE=sanity bun scripts/app.ts dev web --env-file=../../.env',
   );
   expect(rootPackage.scripts['dev:mobile']).toBe(
     'bun scripts/app.ts dev mobile --env-file=../../.env',
   );
+});
+
+test('default development commands select Sanity even with an older Sheets environment', () => {
+  const rootPackage: RootPackage = JSON.parse(
+    readFileSync(
+      new URL('../../../../../package.json', import.meta.url),
+      'utf8',
+    ),
+  );
+  for (const script of ['dev', 'dev:web', 'dev:web:sanity']) {
+    expect(rootPackage.scripts[script]).toBe(
+      'CONTENT_SOURCE=sanity bun scripts/app.ts dev web --env-file=../../.env',
+    );
+  }
+  const exampleEnvironment = readFileSync(
+    new URL('../../../../../.env.example', import.meta.url),
+    'utf8',
+  );
+  expect(exampleEnvironment).toMatch(/^CONTENT_SOURCE=sanity$/m);
+});
+
+test('scheduled rebuild identifies Sanity and delegates to the existing Cloudflare build hook', () => {
+  const workflow = readFileSync(
+    new URL(
+      '../../../../../.github/workflows/daily-cloudflare-rebuild.yml',
+      import.meta.url,
+    ),
+    'utf8',
+  );
+  expect(workflow).toContain('name: Daily Sanity Cloudflare rebuild');
+  expect(workflow).toContain("cron: '15 3 * * *'");
+  expect(workflow).toContain('secrets.CLOUDFLARE_DEPLOY_HOOK_URL');
+  expect(workflow).toContain('--request POST');
 });
