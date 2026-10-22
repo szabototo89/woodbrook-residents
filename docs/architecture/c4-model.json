@@ -194,6 +194,34 @@
       "description": "Prevents duplicate requests and displays safe status and error messages",
       "technology": "React state and request guard",
       "parent": "woodbrook_browser"
+    },
+    "handoff_build": {
+      "kind": "container",
+      "name": "Handoff build tool",
+      "description": "Validates and compiles repository documents into the browser reader",
+      "technology": "Bun CLI, TypeScript and Vite",
+      "parent": "handoff_system"
+    },
+    "handoff_structure_check": {
+      "kind": "component",
+      "name": "Handoff structure checker",
+      "description": "Checks sections, change tables, verification evidence and diagram annotations",
+      "technology": "MDX parser and TypeScript",
+      "parent": "handoff_build"
+    },
+    "handoff_c4_generator": {
+      "kind": "component",
+      "name": "C4 model validator and generator",
+      "description": "Validates architecture references and generates change-labeled PlantUML sources",
+      "technology": "Zod and TypeScript",
+      "parent": "handoff_build"
+    },
+    "handoff_compiler": {
+      "kind": "component",
+      "name": "Document compiler",
+      "description": "Compiles trusted MDX and local assets for the standalone reader",
+      "technology": "Vite and MDX",
+      "parent": "handoff_build"
     }
   },
   "relationships": {
@@ -355,13 +383,43 @@
       "to": "firebase_service",
       "label": "Creates accounts, signs in and manages email actions and sessions with",
       "technology": "Firebase SDK over HTTPS"
+    },
+    "handoff_build_reads": {
+      "from": "handoff_build",
+      "to": "handoff_documents",
+      "label": "Validates and compiles versioned documents from",
+      "technology": "Local file reads"
+    },
+    "handoff_build_outputs": {
+      "from": "handoff_build",
+      "to": "handoff_server",
+      "label": "Produces static reader assets for",
+      "technology": "Vite build output"
+    },
+    "handoff_structure_reads": {
+      "from": "handoff_structure_check",
+      "to": "handoff_documents",
+      "label": "Parses and checks handoff structure in",
+      "technology": "Local MDX parsing"
+    },
+    "handoff_c4_reads": {
+      "from": "handoff_c4_generator",
+      "to": "handoff_documents",
+      "label": "Checks annotations and generates diagram sources in",
+      "technology": "Local JSON and PlantUML files"
+    },
+    "handoff_compile_reads": {
+      "from": "handoff_compiler",
+      "to": "handoff_documents",
+      "label": "Bundles checked documents from",
+      "technology": "Vite module imports"
     }
   },
   "diagrams": {
     "handoffs_context": {
       "level": "C1",
       "scope": "handoff_system",
-      "title": "Engineering handoffs — C1 system context",
+      "title": "Engineering handoffs \u2014 C1 system context",
       "handoff": "agent-handoffs",
       "source": "docs/handoffs/agent-handoffs/assets/c1-handoffs.puml",
       "elements": ["handoff_engineer", "handoff_system", "git_repository"],
@@ -370,7 +428,7 @@
     "handoffs_containers": {
       "level": "C2",
       "scope": "handoff_system",
-      "title": "Engineering handoffs — C2 containers",
+      "title": "Engineering handoffs \u2014 C2 containers",
       "handoff": "agent-handoffs",
       "source": "docs/handoffs/agent-handoffs/assets/c2-handoffs.puml",
       "elements": [
@@ -384,7 +442,7 @@
     "handoffs_components": {
       "level": "C3",
       "scope": "handoff_browser",
-      "title": "Handoff browser reader — C3 components",
+      "title": "Handoff browser reader \u2014 C3 components",
       "handoff": "agent-handoffs",
       "source": "docs/handoffs/agent-handoffs/assets/c3-handoffs.puml",
       "elements": [
@@ -404,7 +462,7 @@
     "clerk_context": {
       "level": "C1",
       "scope": "woodbrook_system",
-      "title": "Woodbrook accounts — C1 system context",
+      "title": "Woodbrook accounts \u2014 C1 system context",
       "handoff": "clerk-authentication",
       "source": "docs/handoffs/clerk-authentication/assets/c1-context.puml",
       "elements": [
@@ -422,7 +480,7 @@
     "clerk_containers": {
       "level": "C2",
       "scope": "woodbrook_system",
-      "title": "Woodbrook accounts — C2 containers",
+      "title": "Woodbrook accounts \u2014 C2 containers",
       "handoff": "clerk-authentication",
       "source": "docs/handoffs/clerk-authentication/assets/c2-containers.puml",
       "elements": [
@@ -442,7 +500,7 @@
     "clerk_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "Public website application — C3 account components",
+      "title": "Public website application \u2014 C3 account components",
       "handoff": "clerk-authentication",
       "source": "docs/handoffs/clerk-authentication/assets/c3-components.puml",
       "elements": [
@@ -462,7 +520,7 @@
     "firebase_context": {
       "level": "C1",
       "scope": "woodbrook_system",
-      "title": "Woodbrook Firebase accounts — C1 system context — current",
+      "title": "Woodbrook Firebase accounts \u2014 C1 system context \u2014 current",
       "handoff": "firebase-authentication",
       "source": "docs/handoffs/firebase-authentication/assets/c1-context.puml",
       "elements": [
@@ -480,7 +538,7 @@
     "firebase_containers": {
       "level": "C2",
       "scope": "woodbrook_system",
-      "title": "Woodbrook Firebase accounts — C2 containers — current",
+      "title": "Woodbrook Firebase accounts \u2014 C2 containers \u2014 current",
       "handoff": "firebase-authentication",
       "source": "docs/handoffs/firebase-authentication/assets/c2-containers.puml",
       "elements": [
@@ -498,7 +556,7 @@
     "firebase_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "Public website application — C3 Firebase components — current",
+      "title": "Public website application \u2014 C3 Firebase components \u2014 current",
       "handoff": "firebase-authentication",
       "source": "docs/handoffs/firebase-authentication/assets/c3-components.puml",
       "elements": [
@@ -519,6 +577,79 @@
         "firebase_forms_requests",
         "firebase_client_service"
       ]
+    },
+    "handoff_changes_context": {
+      "level": "C1",
+      "scope": "handoff_system",
+      "title": "Handoff authoring \u2014 C1 \u2014 changes from c41728e",
+      "handoff": "handoff-change-structure",
+      "source": "docs/handoffs/handoff-change-structure/assets/c1-changes.puml",
+      "elements": ["handoff_engineer", "handoff_system", "git_repository"],
+      "relationships": ["handoff_review", "handoff_versioned_input"],
+      "unchangedReason": "Same engineer, handoff tool and Git repository; enforcement changes inside the build."
+    },
+    "handoff_changes_containers": {
+      "level": "C2",
+      "scope": "handoff_system",
+      "title": "Handoff authoring \u2014 C2 \u2014 changes from c41728e",
+      "handoff": "handoff-change-structure",
+      "source": "docs/handoffs/handoff-change-structure/assets/c2-changes.puml",
+      "elements": ["handoff_build", "handoff_documents", "handoff_server"],
+      "relationships": ["handoff_build_reads", "handoff_build_outputs"],
+      "changes": {
+        "elements": {
+          "handoff_build": {
+            "status": "changed",
+            "description": "Previously compiled free-form MDX; now checks the handoff contract before compilation."
+          }
+        },
+        "relationships": {
+          "handoff_build_reads": {
+            "status": "changed",
+            "description": "Document reads now require change and verification tables."
+          }
+        }
+      }
+    },
+    "handoff_changes_components": {
+      "level": "C3",
+      "scope": "handoff_build",
+      "title": "Handoff authoring \u2014 C3 \u2014 changes from c41728e",
+      "handoff": "handoff-change-structure",
+      "source": "docs/handoffs/handoff-change-structure/assets/c3-changes.puml",
+      "elements": [
+        "handoff_structure_check",
+        "handoff_c4_generator",
+        "handoff_compiler",
+        "handoff_documents"
+      ],
+      "relationships": [
+        "handoff_structure_reads",
+        "handoff_c4_reads",
+        "handoff_compile_reads"
+      ],
+      "changes": {
+        "elements": {
+          "handoff_structure_check": {
+            "status": "added",
+            "description": "New parser rejects incomplete sections, tables and diagram annotations."
+          },
+          "handoff_c4_generator": {
+            "status": "changed",
+            "description": "Previously rendered static architecture; now labels per-view changes."
+          }
+        },
+        "relationships": {
+          "handoff_structure_reads": {
+            "status": "added",
+            "description": "Checks every new handoff; six historical documents are exempt."
+          },
+          "handoff_c4_reads": {
+            "status": "changed",
+            "description": "Checks changed IDs belong to the view before generating labels."
+          }
+        }
+      }
     }
   }
 }

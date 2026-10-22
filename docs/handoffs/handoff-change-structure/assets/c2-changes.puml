@@ -1,0 +1,21 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Handoff authoring — C2 — changes from c41728e
+
+System_Boundary(handoff_system, "Engineering handoff tool") {
+  Container(handoff_build, "[CHANGED] Handoff build tool", "Bun CLI, TypeScript and Vite", "Validates and compiles repository documents into the browser reader\nChange: Previously compiled free-form MDX; now checks the handoff contract before compilation.")
+  ContainerDb(handoff_documents, "Engineering handoff documents", "Markdown with React (MDX), PlantUML and SVG", "Stores implementation notes, diagrams and verification evidence")
+  Container(handoff_server, "Handoff file server", "Vite or a static HTTP server", "Serves the standalone reader and its compiled documents")
+}
+
+Rel(handoff_build, handoff_documents, "[CHANGED] Validates and compiles versioned documents from\nChange: Document reads now require change and verification tables.", "Local file reads")
+Rel(handoff_build, handoff_server, "Produces static reader assets for", "Vite build output")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

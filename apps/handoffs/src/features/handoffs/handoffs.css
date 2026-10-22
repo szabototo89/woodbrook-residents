@@ -585,12 +585,14 @@ h3 {
 }
 .handoff-table th,
 .handoff-table td {
+  min-width: 90px;
   padding: 11px 14px;
   text-align: left;
   vertical-align: top;
   border-bottom: 1px solid var(--line);
 }
 .handoff-table th {
+  white-space: nowrap;
   background: var(--paper);
   color: var(--ink-soft);
   font-size: 0.7rem;

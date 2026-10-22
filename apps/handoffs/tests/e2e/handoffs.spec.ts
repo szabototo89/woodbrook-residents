@@ -12,14 +12,16 @@ test('repository MDX handoffs open with tables, checklists and rendered C4 diagr
       page.getByRole('heading', { name: 'Agent handoffs', exact: true }),
     ).toBeVisible();
     const cards = page.locator('.handoff-card');
-    await expect(cards).toHaveCount(6);
-    await expect(cards.first()).toContainText('Complete');
+    await expect(cards).toHaveCount(7);
+    await expect(cards.first()).toContainText(
+      /Complete|In progress|Ready for review/,
+    );
     await expect(cards.first()).toContainText(
       /Updated \d{1,2} [A-Z][a-z]{2} \d{4}, \d{2}:\d{2} UTC/,
     );
-    await expect(page.getByText('6 handoffs', { exact: false })).toBeVisible();
+    await expect(page.getByText('7 handoffs', { exact: false })).toBeVisible();
     await expect(page.locator('.handoff-card h2').first()).toHaveText(
-      'Clerk removal',
+      'Change-focused handoffs',
     );
     await page.evaluate(() => document.fonts.ready);
     if (process.env.HANDOFF_SCREENSHOT_DIR)
@@ -165,14 +167,14 @@ test('the index searches, filters by update time and sorts', async ({
   await search.fill('blocked');
   await expect(cards).toHaveCount(1);
   await expect(cards.first()).toContainText('Clerk accounts');
-  await expect(count).toHaveText('1 of 6 handoffs');
+  await expect(count).toHaveText('1 of 7 handoffs');
 
   await search.fill('rare-term');
   await expect(
     page.getByRole('heading', { name: 'No matching handoffs' }),
   ).toBeVisible();
   await page.getByRole('button', { name: 'Show all handoffs' }).click();
-  await expect(cards).toHaveCount(6);
+  await expect(cards).toHaveCount(7);
 
   const range = page.getByRole('group', { name: 'Updated' });
   await range.getByRole('button', { name: '7 days' }).click();
@@ -180,7 +182,7 @@ test('the index searches, filters by update time and sorts', async ({
     'aria-pressed',
     'true',
   );
-  await expect(count).toContainText('of 6 handoffs');
+  await expect(count).toContainText('of 7 handoffs');
   await range.getByRole('button', { name: 'All' }).click();
   await expect(range.getByRole('button', { name: 'All' })).toHaveAttribute(
     'aria-pressed',
@@ -197,7 +199,9 @@ test('the index searches, filters by update time and sorts', async ({
     'Browseable agent handoffs',
   );
   await sort.selectOption('newest');
-  await expect(cards.locator('h2').first()).toHaveText('Clerk removal');
+  await expect(cards.locator('h2').first()).toHaveText(
+    'Change-focused handoffs',
+  );
 });
 
 test('PlantUML diagrams fit the viewer and support zoom, pan and reset at desktop and phone widths', async ({
@@ -382,5 +386,104 @@ test('phone gestures pinch to zoom and drag to navigate the diagram', async ({
       await video.saveAs(
         `${process.env.HANDOFF_SCREENSHOT_DIR}/diagram-navigation.webm`,
       );
+  }
+});
+
+test('change-focused handoffs show before/after details, tabular verification and annotated architecture', async ({
+  page,
+}) => {
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/');
+    await page.goto('/#/handoff-change-structure');
+    await expect(
+      page.getByRole('heading', {
+        name: 'Change-focused handoffs',
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Current state', exact: true }),
+    ).toHaveCount(0);
+    const changes = page.getByRole('table').filter({
+      has: page.getByRole('columnheader', { name: 'Before', exact: true }),
+    });
+    await expect(changes.getByRole('columnheader')).toHaveText([
+      'Area',
+      'Before',
+      'After',
+      'Why',
+      'Code',
+    ]);
+    await expect(changes).toContainText('handoffStructure.ts');
+    const verification = page.getByRole('table').filter({
+      has: page.getByRole('columnheader', { name: 'Result', exact: true }),
+    });
+    await expect(verification.getByRole('columnheader')).toHaveText([
+      'Check',
+      'Result',
+      'Evidence',
+    ]);
+    await expect(verification).toContainText('PASS');
+    expect(
+      await verification
+        .getByRole('cell', { name: 'PASS', exact: true })
+        .first()
+        .evaluate((cell) => {
+          const range = document.createRange();
+          range.selectNodeContents(cell);
+          return range.getClientRects().length;
+        }),
+    ).toBe(1);
+    await page
+      .getByRole('heading', { name: 'Technical changes', exact: true })
+      .evaluate((heading) => heading.scrollIntoView({ block: 'start' }));
+    if (process.env.HANDOFF_CHANGE_SCREENSHOT_DIR)
+      await page.screenshot({
+        path: `${process.env.HANDOFF_CHANGE_SCREENSHOT_DIR}/technical-${width}.png`,
+        scale: 'device',
+      });
+    await page
+      .getByRole('heading', { name: 'Verification', exact: true })
+      .evaluate((heading) => heading.scrollIntoView({ block: 'start' }));
+    if (process.env.HANDOFF_CHANGE_SCREENSHOT_DIR)
+      await verification.locator('..').screenshot({
+        path: `${process.env.HANDOFF_CHANGE_SCREENSHOT_DIR}/verification-${width}.png`,
+        scale: 'device',
+      });
+    const diagrams = page.locator('.handoff-diagram');
+    await expect(diagrams).toHaveCount(3);
+    for (const diagram of await diagrams.all()) {
+      await diagram.getByText('View diagram', { exact: true }).click();
+      const image = diagram.getByRole('img');
+      await expect
+        .poll(() =>
+          image.evaluate((node: HTMLImageElement) => node.naturalWidth),
+        )
+        .toBeGreaterThan(0);
+      const svg = await (
+        await page.request.get((await image.getAttribute('src'))!)
+      ).text();
+      expect(svg).toContain('<svg');
+      expect(svg).toMatch(/Unchanged:|\[CHANGED\]/);
+    }
+    if (process.env.HANDOFF_CHANGE_SCREENSHOT_DIR)
+      await diagrams.last().screenshot({
+        path: `${process.env.HANDOFF_CHANGE_SCREENSHOT_DIR}/architecture-${width}.png`,
+        scale: 'device',
+      });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    if (width === 390) {
+      const region = verification.locator('..');
+      await region.focus();
+      await page.keyboard.press('ArrowRight');
+      await expect
+        .poll(() => region.evaluate((node) => node.scrollLeft))
+        .toBeGreaterThan(0);
+    }
   }
 });
