@@ -1,0 +1,138 @@
+import desktop from './assets/technical-1440.png';
+import mobile from './assets/technical-390.png';
+import architectureDesktop from './assets/architecture-1440.png';
+import architectureMobile from './assets/architecture-390.png';
+import contextSource from './assets/c1-changes.puml?raw';
+import contextImage from './assets/c1-changes.svg';
+import containerSource from './assets/c2-changes.puml?raw';
+import containerImage from './assets/c2-changes.svg';
+import componentSource from './assets/c3-changes.puml?raw';
+import componentImage from './assets/c3-changes.svg';
+
+export const metadata = {
+  title: 'Change-focused handoffs',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a1634a-c69d-7593-a5a8-9cf5a4c23d9c',
+  worktree: '/private/tmp/woodbrook-handoff-change-structure',
+  branch: 'session/handoff-change-structure',
+  commit: 'c41728e',
+  updatedAt: '2026-10-22T11:25:52Z',
+  summary:
+    'Replaces state summaries with technical change tables, labels changes inside C4 views, and enforces tabular verification in future handoffs.',
+};
+
+## Goal
+
+Make a handoff explain the engineering delta: what changed, why it changed, which architecture responsibilities and interactions it affects, and what evidence verifies it. Enforce the same structure for future handoffs through repository guidance and build checks.
+
+## Technical changes
+
+Baseline: `c41728e` on local main. This handoff compares the session changes with that commit. The header records the actual Git HEAD at authoring; the implementation commit is created after verification.
+
+| Area                | Before                                                                    | After                                                                                                | Why                                                      | Code                                                                                                 |
+| ------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Authoring contract  | Current state narrative and free-form verification                        | Before/after technical changes, architecture impact and verification tables                          | Let reviewers scan the delta, decisions and evidence     | `HANDOFF.md`, `AGENTS.md`                                                                            |
+| Document validation | Any trusted MDX could compile                                             | A parser checks required sections and table columns, nonempty cells, results and diagram annotations | Enforce the new format before a handoff is accepted      | `apps/handoffs/src/features/handoffs/handoffStructure.ts`, `apps/handoffs/scripts/check-handoffs.ts` |
+| Build integration   | C4 source consistency was checked before compilation                      | Document checks also run in build and typecheck, including the repository precommit hook             | Catch incomplete handoffs during the normal workflow     | `apps/handoffs/package.json`                                                                         |
+| C4 deltas           | Diagrams showed architecture with change summaries only in adjacent prose | Per-view added/changed/removed labels and concrete descriptions appear on elements and arrows        | Make the implementation delta visible inside the diagram | `apps/handoffs/src/features/handoffs/c4Model.ts`, `docs/architecture/c4-model.json`                  |
+| Historical records  | Six handoffs used the previous format                                     | Those six slugs remain frozen exceptions; all new slugs are checked                                  | Preserve historical evidence while enforcing future work | `apps/handoffs/scripts/check-handoffs.ts`                                                            |
+| Table readability   | Narrow columns could split result labels across lines on phones           | Minimum cell widths and unwrapped headers keep result labels readable; tables scroll locally         | Preserve readable checks and outcomes at phone width     | `apps/handoffs/src/features/handoffs/handoffs.css`                                                   |
+| Parser dependency   | The MDX compiler was transitive through the Vite integration              | Declared directly as a development dependency for parsing                                            | Make the checker dependency explicit                     | `apps/handoffs/package.json`, `bun.lock`                                                             |
+
+The checker parses Markdown with React (MDX) and GitHub-flavored Markdown tables. It does not execute document metadata or attempt to prove that a PASS claim is truthful; the author must record observed results and evidence. Build/typecheck failures name the handoff and the violated rule. New handoffs cannot opt out through a metadata flag.
+
+C4 annotations belong to individual views, preserving canonical labels and all previous generated sources. Removed labels describe a retired path for comparison rather than an active dependency. This feature adds support for all three statuses; its own implementation introduces and changes responsibilities without removing a runtime component.
+
+## Architecture changes
+
+The engineering handoff tool lets engineers and coding agents review versioned implementation notes in a standalone browser reader. Its build tool compiles repository-authored MDX and local assets. C1/C2/C3 show system context, containers and components respectively: here a container is an application or data store, not a Docker image.
+
+| Level | Change                                                                                                | Evidence                                                  |
+| ----- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| C1    | Unchanged: the engineer, handoff tool and Git repository have the same system boundary                | System context view below                                 |
+| C2    | Changed: the existing build tool validates document structure before compiling assets                 | Build tool and document-read labels in the container view |
+| C3    | Added: document structure checker; changed: C4 validation and generation, including annotation checks | Component view and `check-handoffs.ts` / `c4Model.ts`     |
+
+### C1 — System context
+
+<PlantUmlDiagram
+  title="Handoff context: unchanged"
+  source={contextSource}
+  image={contextImage}
+/>
+
+Change: none at the system boundary. The footer states why this supporting context view is unchanged.
+
+### C2 — Build and document flow
+
+<PlantUmlDiagram
+  title="Handoff build changes"
+  source={containerSource}
+  image={containerImage}
+/>
+
+Change: the build tool and its document-read relationship are marked CHANGED because free-form compilation now requires a checked handoff contract. Unmarked nodes describe unchanged context. This is a static dependency view, not a build sequence.
+
+### C3 — Validation responsibilities
+
+<PlantUmlDiagram
+  title="Handoff validation changes"
+  source={componentSource}
+  image={componentImage}
+/>
+
+Change: the structure checker and its read interaction are ADDED. The C4 generator and its source-check interaction are CHANGED to validate and render per-view deltas. The document compiler remains unchanged context.
+
+## Verification
+
+| Check                        | Result  | Evidence                                                                                                                                       |
+| ---------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD regressions              | PASS    | Structure and C4 tests failed before implementation; the mobile result-label test reproduced wrapping before the CSS fix                       |
+| Handoff unit tests           | PASS    | `bun run --cwd apps/handoffs test:unit`: 73 tests; 99.63% statements, 98.01% branches; all per-file thresholds pass                            |
+| Desktop/mobile browser tests | PASS    | `bun run --cwd apps/handoffs test:e2e`: 7 tests; 1440px and 390px at 2× scale; local SVGs, table scrolling and unbroken result labels verified |
+| Contract enforcement         | PASS    | `docs:check` rejected a temporary unstructured new handoff with exit 1, including with skipValidation metadata; the fixture was removed        |
+| C4 sources and rendering     | PASS    | `c4:check` passes; three new SVGs rendered locally with PlantUML 1.2026.9 and reviewed at desktop/mobile sizes                                 |
+| Repository build             | PASS    | `bun run build` exited 0 for all repository apps                                                                                               |
+| Repository lint and tests    | PASS    | `bun run precommit` exited 0, including formatting, lint, all app typechecks, unit/browser/end-to-end suites                                   |
+| Historical records           | PASS    | The six existing handoff folders and their generated assets are unchanged; new evidence belongs only to this handoff                           |
+| Physical phone review        | NOT RUN | Browser emulation only; screenshots and automated checks do not represent testing on physical hardware                                         |
+
+## Appearance
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop changes',
+      alt: 'Desktop technical change table',
+      description:
+        'Check the before/after implementation details, reasons and code references at 1440px. This is the actual handoff content.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile changes',
+      alt: 'Mobile technical change table',
+      description:
+        'Check readable column widths and local horizontal scrolling at 390px, with no page overflow.',
+    },
+    {
+      src: architectureDesktop,
+      title: 'Desktop architecture',
+      alt: 'Desktop change-annotated C3 diagram',
+      description:
+        'Check ADDED and CHANGED labels on responsibilities and interactions, plus the unchanged context key.',
+    },
+    {
+      src: architectureMobile,
+      title: 'Mobile architecture',
+      alt: 'Mobile change-annotated C3 diagram',
+      description:
+        'Check the fitted diagram frame and visible zoom/fit controls; zoom to inspect the change labels.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None for the implemented handoff structure and enforcement.

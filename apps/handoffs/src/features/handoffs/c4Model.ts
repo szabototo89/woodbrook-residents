@@ -44,7 +44,42 @@ const relationshipSchema = z.object({
       'Implementation technology or communication mechanism when applicable.',
     ),
 });
+const changeSchema = z.object({
+  status: z
+    .enum(['added', 'changed', 'removed'])
+    .describe(
+      'Kind of implementation change relative to the handoff baseline.',
+    ),
+  description: z
+    .string()
+    .trim()
+    .min(1)
+    .describe('Concrete before/after delta shown inside the diagram.'),
+});
 const diagramSchema = z.object({
+  changes: z
+    .object({
+      elements: z
+        .record(stableId, changeSchema)
+        .optional()
+        .describe(
+          'Per-view changes to elements, including the scope boundary.',
+        ),
+      relationships: z
+        .record(stableId, changeSchema)
+        .optional()
+        .describe('Per-view changes to directed interactions.'),
+    })
+    .optional()
+    .describe('Implementation deltas belonging only to this view.'),
+  unchangedReason: z
+    .string()
+    .trim()
+    .min(1)
+    .optional()
+    .describe(
+      'Why an unchanged view provides useful context for this handoff.',
+    ),
   level: z.enum(['C1', 'C2', 'C3']).describe('C4 level shown by this view.'),
   scope: stableId.describe('System or container whose architecture is shown.'),
   title: z
@@ -158,6 +193,21 @@ export const c4ModelSchema = z
             );
           return [
             ...reportWhen(
+              Boolean(diagram.changes && diagram.unchangedReason),
+              ['diagrams', id],
+              `Diagram ${id} must use changes or unchangedReason, not both.`,
+            ),
+            ...(['elements', 'relationships'] as const).flatMap((kind) =>
+              Object.keys(diagram.changes?.[kind] ?? {}).flatMap((ref) =>
+                reportWhen(
+                  !diagram[kind].includes(ref) &&
+                    !(kind === 'elements' && ref === diagram.scope),
+                  ['diagrams', id, 'changes', kind, ref],
+                  `Change ${ref} is outside diagram ${id}.`,
+                ),
+              ),
+            ),
+            ...reportWhen(
               (diagram.level === 'C1' &&
                 !['person', 'system'].includes(element.kind)) ||
                 (diagram.level === 'C2' && element.kind === 'component'),
@@ -237,6 +287,10 @@ export function renderC4Diagram(input: C4Model, diagramId: string) {
     diagram.level
   ];
   const quote = (value: string) => JSON.stringify(value);
+  const elementName = (id: string) => {
+    const change = diagram.changes?.elements?.[id];
+    return `${change ? `[${change.status.toUpperCase()}] ` : ''}${model.elements[id]!.name}`;
+  };
   const renderElement = (id: string) => {
     const element = model.elements[id]!;
     const macros = {
@@ -246,9 +300,14 @@ export function renderC4Diagram(input: C4Model, diagramId: string) {
       database: 'ContainerDb',
       component: 'Component',
     };
-    const values = [quote(element.name)];
+    const change = diagram.changes?.elements?.[id];
+    const values = [quote(elementName(id))];
     if (element.technology) values.push(quote(element.technology));
-    values.push(quote(element.description));
+    values.push(
+      quote(
+        element.description + (change ? `\nChange: ${change.description}` : ''),
+      ),
+    );
     return `${macros[element.kind]}(${id}, ${values.join(', ')})`;
   };
   const inside =
@@ -262,15 +321,23 @@ export function renderC4Diagram(input: C4Model, diagramId: string) {
   if (inside.length > 0) {
     const boundary =
       diagram.level === 'C2' ? 'System_Boundary' : 'Container_Boundary';
+    const scopeChange = diagram.changes?.elements?.[diagram.scope];
+    const boundaryLabel =
+      elementName(diagram.scope) +
+      (scopeChange ? `\nChange: ${scopeChange.description}` : '');
     declarations.push(
-      `${boundary}(${diagram.scope}, ${quote(model.elements[diagram.scope]!.name)}) {`,
+      `${boundary}(${diagram.scope}, ${quote(boundaryLabel)}) {`,
       ...inside.map((id) => `  ${renderElement(id)}`),
       '}',
     );
   }
   const relations = diagram.relationships.map((id) => {
     const relation = model.relationships[id]!;
-    const values = [relation.from, relation.to, quote(relation.label)];
+    const change = diagram.changes?.relationships?.[id];
+    const label = change
+      ? `[${change.status.toUpperCase()}] ${relation.label}\nChange: ${change.description}`
+      : relation.label;
+    const values = [relation.from, relation.to, quote(label)];
     if (relation.technology) values.push(quote(relation.technology));
     return `Rel(${values.join(', ')})`;
   });
@@ -289,6 +356,14 @@ export function renderC4Diagram(input: C4Model, diagramId: string) {
     '',
     ...relations,
     'SHOW_LEGEND()',
+    ...(diagram.changes
+      ? [
+          'footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context',
+        ]
+      : []),
+    ...(diagram.unchangedReason
+      ? [`footer Unchanged: ${diagram.unchangedReason}`]
+      : []),
     '@enduml',
     '',
   ].join('\n');

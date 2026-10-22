@@ -4,10 +4,14 @@ Status: Available
 
 ## Job to be done
 
-When another agent continues a feature, it needs the current context, decisions, appearance, architecture, and verification evidence in a durable document it can also review in a browser.
+When another agent continues a feature, it needs the technical changes, their reasons, appearance, architecture impact, and verification evidence in a durable document it can also review in a browser.
 
 ## Visible behavior
 
+- New handoffs lead with a Technical changes table containing Area, Before, After, Why and Code; the comparison baseline is recorded in the document.
+- Architecture changes account for C1/C2/C3, with concrete delta descriptions inside diagrams, including changed relationships. Unchanged levels explain why.
+- Verification is a Check / Result / Evidence table using PASS, FAIL or NOT RUN, with commands, observed outcomes and limitations in the evidence cells.
+- The handoff build and typecheck reject new documents that omit the required sections/tables or introduce diagrams without change annotations or unchanged reasons. Six historical records are exempt and remain unchanged.
 - An independent viewer in `apps/handoffs` lists `docs/handoffs/*/index.mdx`, opened with `bun run dev:handoffs` at `http://127.0.0.1:3002/`.
 - The index combines search, quick update windows and sorting. Search matches title, summary and status; All, 7, 30 and 90-day windows use `updatedAt`; sort options are newest, oldest and title. Undated documents appear under All and sort after dated documents.
 - The visible count announces the filtered subset, and empty searches or windows offer `Show all handoffs` to restore the full list.
@@ -26,6 +30,8 @@ When another agent continues a feature, it needs the current context, decisions,
 
 ## Acceptance criteria
 
+- Invalid new handoffs fail `docs:check`, the viewer build and the repository precommit typecheck.
+- Per-view C4 changes render textual added/changed/removed labels and descriptions on elements and relationships, plus a key; annotations must refer to IDs in the view.
 - Root and web guidance point to the simple `HANDOFF.md` template and require MDX under the repository's `docs/handoffs/` directory.
 - Search, update windows and sorting combine without leaving the index, report an accurate visible count, and keep the full list recoverable from an empty result.
 - Every handoff records a coding agent, agent session, worktree, Git branch/HEAD and UTC update time in its metadata; the header shows each recorded value or an explicit missing value.
@@ -44,7 +50,7 @@ When another agent continues a feature, it needs the current context, decisions,
 
 ## Scope
 
-Included: a small starting template, repository-authored MDX, an independent browser reader with client-side search, update windows and sorting, C4-PlantUML source and SVG assets, and a zoomable diagram viewer.
+Included: an enforced change-focused template, MDX structure checks, per-view C4 change annotations, repository-authored MDX, an independent browser reader with client-side search, update windows and sorting, C4-PlantUML source and SVG assets, and a zoomable diagram viewer.
 
 Excluded: public website integration, editing, uploads, CMS storage, access control, and automatic publication. MDX is trusted repository code. Built output needs rebuilding when documents change.
 

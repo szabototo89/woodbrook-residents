@@ -1,0 +1,23 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Handoff authoring — C3 — changes from c41728e
+
+ContainerDb(handoff_documents, "Engineering handoff documents", "Markdown with React (MDX), PlantUML and SVG", "Stores implementation notes, diagrams and verification evidence")
+Container_Boundary(handoff_build, "Handoff build tool") {
+  Component(handoff_structure_check, "[ADDED] Handoff structure checker", "MDX parser and TypeScript", "Checks sections, change tables, verification evidence and diagram annotations\nChange: New parser rejects incomplete sections, tables and diagram annotations.")
+  Component(handoff_c4_generator, "[CHANGED] C4 model validator and generator", "Zod and TypeScript", "Validates architecture references and generates change-labeled PlantUML sources\nChange: Previously rendered static architecture; now labels per-view changes.")
+  Component(handoff_compiler, "Document compiler", "Vite and MDX", "Compiles trusted MDX and local assets for the standalone reader")
+}
+
+Rel(handoff_structure_check, handoff_documents, "[ADDED] Parses and checks handoff structure in\nChange: Checks every new handoff; six historical documents are exempt.", "Local MDX parsing")
+Rel(handoff_c4_generator, handoff_documents, "[CHANGED] Checks annotations and generates diagram sources in\nChange: Checks changed IDs belong to the view before generating labels.", "Local JSON and PlantUML files")
+Rel(handoff_compiler, handoff_documents, "Bundles checked documents from", "Vite module imports")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml
