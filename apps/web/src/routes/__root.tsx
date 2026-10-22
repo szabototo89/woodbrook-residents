@@ -2,10 +2,9 @@ import { createRootRoute, retainSearchParams } from '@tanstack/react-router';
 
 import { NotFoundPage } from '../app/NotFoundPage';
 import { RootDocument } from '../app/RootDocument';
-import appCss from '../styles.css?url';
-import themeCss from '../components/site-theme.css?url';
-import authCss from '../features/auth/auth.css?url';
-import homeCss from '../features/home/home.css?url';
+import appCss from '../app/site.css?url';
+import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import newsreaderFont from '@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url';
 
 export const Route = createRootRoute({
   validateSearch: (
@@ -57,9 +56,20 @@ export const Route = createRootRoute({
         rel: 'stylesheet',
         href: appCss,
       },
-      { rel: 'stylesheet', href: themeCss },
-      { rel: 'stylesheet', href: homeCss },
-      { rel: 'stylesheet', href: authCss },
+      {
+        rel: 'preload',
+        href: interFont,
+        as: 'font',
+        type: 'font/woff2',
+        crossOrigin: 'anonymous',
+      },
+      {
+        rel: 'preload',
+        href: newsreaderFont,
+        as: 'font',
+        type: 'font/woff2',
+        crossOrigin: 'anonymous',
+      },
     ],
   }),
   notFoundComponent: NotFoundPage,

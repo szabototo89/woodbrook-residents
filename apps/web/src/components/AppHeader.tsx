@@ -66,7 +66,7 @@ export function AppHeader() {
         <Link className="brand header-brand" to="/">
           <img
             className="header-brand-symbol"
-            src="/images/woodbrook-logo.png"
+            src="/images/woodbrook-logo-128.webp"
             alt=""
             width="38"
             height="38"

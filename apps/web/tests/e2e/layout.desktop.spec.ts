@@ -170,19 +170,25 @@ test('header uses readable live lettering with a smaller muted subtitle', async 
   await expect(subtitle).toBeVisible();
   await expect(brand.locator('img')).toHaveAttribute(
     'src',
-    '/images/woodbrook-logo.png',
+    '/images/woodbrook-logo-128.webp',
   );
   await expect(brand.locator('img')).toHaveAttribute('alt', '');
   const annotation = page.locator('img.coast-note');
-  await expect(annotation).toHaveAttribute('src', '/images/coast-note.png');
+  await expect(annotation).toHaveAttribute(
+    'src',
+    '/images/coast-note-400.webp',
+  );
   await expect(annotation).toHaveAttribute('alt', '');
   await expect(
     page.getByRole('navigation', { name: 'Bottom navigation' }),
   ).toHaveCount(0);
-  for (const path of ['/images/woodbrook-logo.png', '/images/coast-note.png']) {
+  for (const path of [
+    '/images/woodbrook-logo-128.webp',
+    '/images/coast-note-400.webp',
+  ]) {
     const response = await page.request.get(path);
     expect(response.ok()).toBe(true);
-    expect(response.headers()['content-type']).toContain('image/png');
+    expect(response.headers()['content-type']).toContain('image/webp');
   }
 
   await page.evaluate(() => document.fonts.ready);
