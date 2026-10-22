@@ -4,13 +4,13 @@ import { createContentSource } from './contentSourceFactory';
 import { GoogleSheetsContentSource } from './googleSheetsContentSource';
 import { SanityContentSource } from './sanityContentSource';
 
-test('createContentSource defaults to Google Sheets when no source is configured', () => {
-  expect(createContentSource({})).toBeInstanceOf(GoogleSheetsContentSource);
+test('createContentSource defaults to Sanity when no source is configured', () => {
+  expect(createContentSource({})).toBeInstanceOf(SanityContentSource);
   expect(createContentSource({ CONTENT_SOURCE: '' })).toBeInstanceOf(
-    GoogleSheetsContentSource,
+    SanityContentSource,
   );
   expect(createContentSource({ CONTENT_SOURCE: '   ' })).toBeInstanceOf(
-    GoogleSheetsContentSource,
+    SanityContentSource,
   );
 });
 
@@ -83,7 +83,6 @@ test('createContentSource forwards a custom Sanity API host', async () => {
   );
   try {
     const source = createContentSource({
-      CONTENT_SOURCE: 'sanity',
       SANITY_API_HOST: 'http://127.0.0.1:1380',
     });
     await source.loadSnapshot();
