@@ -206,11 +206,11 @@ test('direct URLs stay private and the form fits a 320px phone', async ({
   await privateProfile(page);
   await logIn(page);
   await page.setViewportSize({ width: 320, height: 780 });
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
+  await expect
+    .poll(() =>
+      page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+    )
+    .toBe(true);
   await expect(
     page.getByLabel('Address (optional)', { exact: true }),
   ).toBeVisible();

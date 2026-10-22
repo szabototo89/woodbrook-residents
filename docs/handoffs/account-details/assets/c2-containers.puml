@@ -1,0 +1,25 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Private account details — C2 containers — changes from c41728e
+
+Person(resident, "Resident", "Reads community information and may opt into an account")
+System_Ext(firebase_service, "Firebase Authentication", "Manages resident identities, email verification, password resets and sessions")
+System_Ext(account_details_firestore, "[ADDED] Cloud Firestore private profiles", "Stores optional resident locations and enforces per-account access using Firebase sign-in\nChange: New private profile store; identities remain in Firebase Authentication.")
+System_Boundary(woodbrook_system, "Woodbrook community website") {
+  Container(woodbrook_browser, "Public website application", "TanStack Start and React", "Displays resident information and optional account pages")
+  Container(woodbrook_host, "Website asset host", "Cloudflare Worker with Static Assets", "Serves the website and its existing read-only content endpoint")
+}
+
+Rel(resident, woodbrook_browser, "Reads information and opens account pages using", "Browser")
+Rel(woodbrook_browser, woodbrook_host, "Loads website assets from", "HTTPS")
+Rel(woodbrook_browser, firebase_service, "Authenticates and manages account sessions with", "Firebase browser SDK over HTTPS")
+Rel(woodbrook_browser, account_details_firestore, "[ADDED] Reads and updates the signed-in account location\nChange: New authenticated per-account document reads and explicit writes.", "Firestore Lite REST over HTTPS")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

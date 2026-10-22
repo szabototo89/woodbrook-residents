@@ -1,0 +1,21 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Context>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Private account details — C1 system context — changes from c41728e
+
+Person(resident, "Resident", "Reads community information and may opt into an account")
+System(woodbrook_system, "Woodbrook community website", "Public information and community action hub for residents")
+System_Ext(firebase_service, "Firebase Authentication", "Manages resident identities, email verification, password resets and sessions")
+System_Ext(account_details_firestore, "[ADDED] Cloud Firestore private profiles", "Stores optional resident locations and enforces per-account access using Firebase sign-in\nChange: New private profile store; identities remain in Firebase Authentication.")
+
+Rel(resident, woodbrook_system, "Reads community information and opens account pages using")
+Rel(woodbrook_system, firebase_service, "Delegates account authentication to")
+Rel(woodbrook_system, account_details_firestore, "[ADDED] Stores optional private resident locations in\nChange: New optional location storage, separate from public information.")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

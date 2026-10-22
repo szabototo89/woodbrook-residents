@@ -1,0 +1,123 @@
+import desktop from './assets/account-desktop.png';
+import mobile from './assets/account-mobile.png';
+import contextImage from './assets/c1-context.svg';
+import contextSource from './assets/c1-context.puml?raw';
+import containersImage from './assets/c2-containers.svg';
+import containersSource from './assets/c2-containers.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+import componentsSource from './assets/c3-components.puml?raw';
+
+export const metadata = {
+  title: 'Private resident account details',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a15df6-6061-7243-aa70-f2d9e58e7fdb',
+  worktree: '/private/tmp/woodbrook-account-details',
+  branch: 'session/account-details',
+  commit: '2412d31',
+  updatedAt: '2026-10-22T12:00:38Z',
+  summary:
+    'Adds optional private Eircode and address editing with per-account Firestore rules and official Firebase CLI configuration.',
+};
+
+## Goal
+
+Let a signed-in Woodbrook resident save, change or remove an optional Eircode and/or exact address. Keep resident locations private and use the existing Firebase account feature flag and free Spark project.
+
+## Technical changes
+
+Baseline: `c41728e`. Verified implementation: `2412d31`, including core feature commit `7635e4e`. Concurrent main `0f94045` was integrated before verification; its Sanity default and stricter handoff contract are preserved and described in their own handoffs. The following delta describes the account feature.
+
+| Area               | Before                                                   | After                                                                                                                                                           | Why                                                                                                       | Code                                                                                                    |
+| ------------------ | -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Account navigation | Account opened the login/security panel                  | Signed-in Account opens `/account`; security panel links to account details; query flags persist                                                                | Make the resident editor discoverable without changing sign-in flows                                      | `apps/web/src/features/auth/FirebaseAccount.tsx`, `AccountPanel.tsx`, `apps/web/src/routes/account.tsx` |
+| Location editor    | No resident location fields                              | Optional Eircode/address; initial load, format validation, explicit save, safe retry and removal                                                                | Let residents control their own information                                                               | `apps/web/src/features/account/AccountDetailsForm.tsx`, `accountDetails.ts`                             |
+| Session contract   | Public account display fields and authentication actions | Stable Firebase user ID plus load/save/remove actions bound internally to the current account                                                                   | Prevent callers from choosing another resident's document                                                 | `apps/web/src/features/auth/AuthSession.ts`, `firebaseClient.ts`                                        |
+| Persistence        | Authentication stored identities only                    | Lazy Firestore Lite reads and writes one `residentProfiles/{uid}` record containing only Eircode, address and server timestamp                                  | Store optional profile data separately from identity and public content; avoid persistent offline storage | `apps/web/src/features/account/accountDetailsStore.ts`                                                  |
+| Access control     | No profile database                                      | Default-deny rules allow only owner single-document operations, strict field/type/length/format checks and server timestamps; collection listing remains denied | Enforce privacy independently of UI or browser API key                                                    | `firebase/firestore.rules`                                                                              |
+| Privacy and layout | No private address editor                                | Form masked for Clarity; account changes reset form; delayed reads ignored; 320px layout supported                                                              | Avoid analytics capture and prior-account display                                                         | `AccountDetailsAccess.tsx`, `AccountDetailsForm.tsx`, `accountDetails.css`                              |
+| Configuration      | No Firestore project configuration or rules emulator     | Official Firebase CLI 15.34.1 installed globally and in repository; project alias, rules deployment, isolated emulator and CI                                   | Make configuration and rule verification reproducible                                                     | `.firebaserc`, `firebase.json`, `package.json`, `.github/workflows/firestore-rules.yml`                 |
+
+Both fields are optional. Eircode validation checks format only and does not verify a real address or residency. Saving both fields blank or selecting Remove saved location deletes the document; it does not delete the authentication account. Failed writes preserve edits, and failed initial reads prevent editing until retry succeeds. Private data is never placed in URLs or static HTML. The existing `?feature_flag=firebase-auth` or `VITE_FIREBASE_AUTH_ENABLED=true` opt-in controls the entire account feature.
+
+The first default Firestore database in project `woodbrook-auth-20261021` is Standard edition, Native mode, `europe-west1` (Belgium), with `freeTier: true` and point-in-time recovery disabled. No billing upgrade, real resident record migration or Clerk account operation was performed. The browser receives no administrative credential. Firebase administrators retain normal administrative access. See the [capability contract](../../features/account-details.md) for exact scope and CLI commands.
+
+## Architecture changes
+
+Woodbrook is a public information and action hub for residents of Shankill. Firebase Authentication manages sign-in identities; its stable user identifier (UID) is the key for a separate private Cloud Firestore profile. The website runs the editor in the browser and communicates directly with Firebase services over HTTPS. Firestore rules authorize each request using the signed-in identity; Cloudflare continues serving static website assets.
+
+| Level | Change                                                                                                                      | Evidence                                                                                                            |
+| ----- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| C1    | Added external private profile storage; residents, website and identity provider retain their roles                         | Context view; `firebase/firestore.rules`                                                                            |
+| C2    | Browser now accesses Firestore through its authenticated Lite SDK; Cloudflare hosting and public content remain unchanged   | Container view; `accountDetailsStore.ts`                                                                            |
+| C3    | Added location editor and current-account persistence responsibility, receiving state/actions from existing account context | Component view; `AccountDetailsAccess.tsx`, `AccountDetailsForm.tsx`, `firebaseClient.ts`, `accountDetailsStore.ts` |
+
+Change: compared with `c41728e`, the website gains private profile storage alongside its existing authentication provider. Unmarked elements and relationships are unchanged context.
+
+<PlantUmlDiagram
+  image={contextImage}
+  source={contextSource}
+  title="Private account details — C1 context"
+/>
+
+Change: the browser gains authenticated single-document reads and explicit writes. Static hosting remains unchanged; no profile API runs on Cloudflare.
+
+<PlantUmlDiagram
+  image={containersImage}
+  source={containersSource}
+  title="Private account details — C2 containers"
+/>
+
+Change: the browser gains a resident editor and a private persistence responsibility. The latter spans the current-user guard in `firebaseClient.ts` and the lazy Firestore store. Its interface does not accept a caller-selected UID. This focused view omits unchanged sign-in internals.
+
+<PlantUmlDiagram
+  image={componentsImage}
+  source={componentsSource}
+  title="Private account details — C3 browser components"
+/>
+
+## Verification
+
+| Check                            | Result  | Evidence                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| -------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD and focused coverage         | PASS    | Failing tests preceded implementation; `bun run --cwd apps/web vitest run src/features/account src/features/auth --coverage`: 60 tests across 11 files; every file meets the repository 90% thresholds                                                                                                                                                                                                                                                           |
+| Owner access and rule validation | PASS    | Java 21+ `bun run test:firestore`: 4 emulator tests covering own CRUD, anonymous/cross-account denial, list denial, malformed fields/timestamps and unknown collections; isolated `demo-woodbrook-profiles`, no production records                                                                                                                                                                                                                               |
+| SDK browser regression           | PASS    | `bun run --cwd apps/web test:auth`: 10 tests with actual browser SDKs and synthetic Firebase REST responses, including save/reload/edit/retry/remove/sign-out and no-flag gates                                                                                                                                                                                                                                                                                  |
+| Desktop and mobile               | PASS    | Playwright screenshots at 1440 × 1000 and 390 × 844, device scale 2; also checked 320px width without horizontal overflow. Gallery contains synthetic example location data                                                                                                                                                                                                                                                                                      |
+| Full combined repository checks  | PASS    | `CI=true E2E_SANITY_STUB_PORT=1486 E2E_WEB_PORT=4286 bun run precommit` exited 0 on `2412d31`; includes lint, typecheck, repository unit/browser/end-to-end suites, 46 public-site and 10 Firebase browser checks. Seven pre-existing skipped browser cases remain skipped                                                                                                                                                                                       |
+| Repository build                 | PASS    | `bun run build` exited 0 for the implemented feature and combined branch                                                                                                                                                                                                                                                                                                                                                                                         |
+| Firebase CLI and database        | PASS    | Official CLI authenticated with the approved Google account; `firebase firestore:databases:list` confirmed the default EU Standard free-tier database                                                                                                                                                                                                                                                                                                            |
+| Deployed access rules            | PASS    | `firebase deploy --only firestore:rules --project woodbrook-auth-20261021 --non-interactive` compiled and released; anonymous get of a synthetic nonexistent profile with the public browser key returned HTTP 403 Missing or insufficient permissions                                                                                                                                                                                                           |
+| Real production profile CRUD     | NOT RUN | No real Firebase user or resident profile was created, read, changed or deleted. Successful CRUD was tested on the emulator and SDK browser fixtures                                                                                                                                                                                                                                                                                                             |
+| Live route and publication       | PASS    | Main `2412d31` pushed; [Cloudflare build 68e81622](https://dash.cloudflare.com/e314b1fc6ed42c211154ffaae0193554/workers/services/view/woodbrook/production/builds/68e81622-c92e-4a63-b81d-3850e398e95c) succeeded, version `b1928355-05eb-486d-b37a-8293097bad03`. Live Playwright at 1440px and 390px confirmed HTTP 200, signed-out login guard, flag retention, unflagged disabled state, no Firestore requests and no overflow; `assets/browser-review.json` |
+| Resize check stability           | PASS    | Final commit verification exposed a race immediately after desktop-to-320px resize; changed the assertion to wait for observable responsive layout. `bun run --cwd apps/web test:auth` then passed all 10 checks                                                                                                                                                                                                                                                 |
+| Handoff and C4 review            | PASS    | `bun run --cwd apps/handoffs docs:check`: 3 change-focused handoffs, 6 frozen historical records; build and C4 source checks passed. All three new PlantUML sources rendered to committed SVGs. Playwright at 1440px/390px checked local images, fit, zoom, keyboard navigation, reset, annotated source, full-size links and gallery without overflow; `assets/browser-review.json`                                                                             |
+| Rules CI                         | PASS    | [Private profile security rules](https://github.com/szabototo89/woodbrook-residents/actions/runs/39773667650) passed after main publication                                                                                                                                                                                                                                                                                                                      |
+| Lighthouse CI                    | FAIL    | [Workflow 39773667579](https://github.com/szabototo89/woodbrook-residents/actions/runs/39773667579) finished after the initial review with public-route performance below 90 (home mobile 70, desktop 79). This matches earlier performance failures. The user requested a separate performance fix; thresholds remain unchanged                                                                                                                                 |
+
+## Appearance
+
+These are illustrative sample values (`D6W AB12`, Sample home, Example street) from a synthetic signed-in test account. They do not identify a real resident or validate a real Eircode.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop — sample account',
+      alt: 'Desktop private account details editor using sample location data',
+      description:
+        '1440 × 1000 viewport at 2× resolution. Review optional labels, privacy guidance, save and removal actions.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile — sample account',
+      alt: 'Mobile account details editor using sample location data',
+      description:
+        '390 × 844 viewport at 2× resolution. Review stacked fields, readable help and accessible save/removal controls.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None. The feature and security rules are live; real production resident CRUD remains intentionally untested. Future profile changes should rerun the emulator and SDK browser suites.

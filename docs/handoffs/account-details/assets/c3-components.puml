@@ -1,0 +1,23 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Private account details — C3 browser components — changes from c41728e
+
+System_Ext(account_details_firestore, "[ADDED] Cloud Firestore private profiles", "Stores optional resident locations and enforces per-account access using Firebase sign-in\nChange: New private profile store; identities remain in Firebase Authentication.")
+Container_Boundary(woodbrook_browser, "Public website application") {
+  Component(firebase_auth_runtime, "Account session context", "React context and lazy Firebase runtime", "Loads the authentication client and observes the current account")
+  Component(account_details_editor, "[ADDED] Private location editor", "React account-details page and form", "Loads optional Eircode and address fields, validates edits and shows save or retry outcomes\nChange: New optional location editor with load, save, retry and removal states.")
+  Component(account_details_store, "[ADDED] Private profile persistence", "UID-bound AuthActions and Firestore Lite SDK", "Scopes location operations to the current account and reads, saves or removes its private profile\nChange: New current-UID guard and lazy single-document persistence; no offline cache.")
+}
+
+Rel(firebase_auth_runtime, account_details_editor, "[ADDED] Supplies account state\nChange: New location editor.", "React context")
+Rel(account_details_editor, account_details_store, "[ADDED] Requests own profile changes\nChange: New owner-bound actions.", "AuthActions")
+Rel(account_details_store, account_details_firestore, "[ADDED] Gets, saves or deletes profile\nChange: New owner-only document.", "REST/HTTPS")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

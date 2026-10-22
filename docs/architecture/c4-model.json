@@ -222,6 +222,25 @@
       "description": "Compiles trusted MDX and local assets for the standalone reader",
       "technology": "Vite and MDX",
       "parent": "handoff_build"
+    },
+    "account_details_firestore": {
+      "kind": "system",
+      "name": "Cloud Firestore private profiles",
+      "description": "Stores optional resident locations and enforces per-account access using Firebase sign-in"
+    },
+    "account_details_editor": {
+      "kind": "component",
+      "name": "Private location editor",
+      "description": "Loads optional Eircode and address fields, validates edits and shows save or retry outcomes",
+      "technology": "React account-details page and form",
+      "parent": "woodbrook_browser"
+    },
+    "account_details_store": {
+      "kind": "component",
+      "name": "Private profile persistence",
+      "description": "Scopes location operations to the current account and reads, saves or removes its private profile",
+      "technology": "UID-bound AuthActions and Firestore Lite SDK",
+      "parent": "woodbrook_browser"
     }
   },
   "relationships": {
@@ -413,13 +432,42 @@
       "to": "handoff_documents",
       "label": "Bundles checked documents from",
       "technology": "Vite module imports"
+    },
+    "account_website_storage": {
+      "from": "woodbrook_system",
+      "to": "account_details_firestore",
+      "label": "Stores optional private resident locations in"
+    },
+    "account_browser_storage": {
+      "from": "woodbrook_browser",
+      "to": "account_details_firestore",
+      "label": "Reads and updates the signed-in account location",
+      "technology": "Firestore Lite REST over HTTPS"
+    },
+    "account_context_editor": {
+      "from": "firebase_auth_runtime",
+      "to": "account_details_editor",
+      "label": "Supplies account state",
+      "technology": "React context"
+    },
+    "account_store_database": {
+      "from": "account_details_store",
+      "to": "account_details_firestore",
+      "label": "Gets, saves or deletes profile",
+      "technology": "REST/HTTPS"
+    },
+    "account_editor_store": {
+      "from": "account_details_editor",
+      "to": "account_details_store",
+      "label": "Requests own profile changes",
+      "technology": "AuthActions"
     }
   },
   "diagrams": {
     "handoffs_context": {
       "level": "C1",
       "scope": "handoff_system",
-      "title": "Engineering handoffs \u2014 C1 system context",
+      "title": "Engineering handoffs — C1 system context",
       "handoff": "agent-handoffs",
       "source": "docs/handoffs/agent-handoffs/assets/c1-handoffs.puml",
       "elements": ["handoff_engineer", "handoff_system", "git_repository"],
@@ -428,7 +476,7 @@
     "handoffs_containers": {
       "level": "C2",
       "scope": "handoff_system",
-      "title": "Engineering handoffs \u2014 C2 containers",
+      "title": "Engineering handoffs — C2 containers",
       "handoff": "agent-handoffs",
       "source": "docs/handoffs/agent-handoffs/assets/c2-handoffs.puml",
       "elements": [
@@ -442,7 +490,7 @@
     "handoffs_components": {
       "level": "C3",
       "scope": "handoff_browser",
-      "title": "Handoff browser reader \u2014 C3 components",
+      "title": "Handoff browser reader — C3 components",
       "handoff": "agent-handoffs",
       "source": "docs/handoffs/agent-handoffs/assets/c3-handoffs.puml",
       "elements": [
@@ -462,7 +510,7 @@
     "clerk_context": {
       "level": "C1",
       "scope": "woodbrook_system",
-      "title": "Woodbrook accounts \u2014 C1 system context",
+      "title": "Woodbrook accounts — C1 system context",
       "handoff": "clerk-authentication",
       "source": "docs/handoffs/clerk-authentication/assets/c1-context.puml",
       "elements": [
@@ -480,7 +528,7 @@
     "clerk_containers": {
       "level": "C2",
       "scope": "woodbrook_system",
-      "title": "Woodbrook accounts \u2014 C2 containers",
+      "title": "Woodbrook accounts — C2 containers",
       "handoff": "clerk-authentication",
       "source": "docs/handoffs/clerk-authentication/assets/c2-containers.puml",
       "elements": [
@@ -500,7 +548,7 @@
     "clerk_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "Public website application \u2014 C3 account components",
+      "title": "Public website application — C3 account components",
       "handoff": "clerk-authentication",
       "source": "docs/handoffs/clerk-authentication/assets/c3-components.puml",
       "elements": [
@@ -520,7 +568,7 @@
     "firebase_context": {
       "level": "C1",
       "scope": "woodbrook_system",
-      "title": "Woodbrook Firebase accounts \u2014 C1 system context \u2014 current",
+      "title": "Woodbrook Firebase accounts — C1 system context — current",
       "handoff": "firebase-authentication",
       "source": "docs/handoffs/firebase-authentication/assets/c1-context.puml",
       "elements": [
@@ -538,7 +586,7 @@
     "firebase_containers": {
       "level": "C2",
       "scope": "woodbrook_system",
-      "title": "Woodbrook Firebase accounts \u2014 C2 containers \u2014 current",
+      "title": "Woodbrook Firebase accounts — C2 containers — current",
       "handoff": "firebase-authentication",
       "source": "docs/handoffs/firebase-authentication/assets/c2-containers.puml",
       "elements": [
@@ -556,7 +604,7 @@
     "firebase_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "Public website application \u2014 C3 Firebase components \u2014 current",
+      "title": "Public website application — C3 Firebase components — current",
       "handoff": "firebase-authentication",
       "source": "docs/handoffs/firebase-authentication/assets/c3-components.puml",
       "elements": [
@@ -581,7 +629,7 @@
     "handoff_changes_context": {
       "level": "C1",
       "scope": "handoff_system",
-      "title": "Handoff authoring \u2014 C1 \u2014 changes from c41728e",
+      "title": "Handoff authoring — C1 — changes from c41728e",
       "handoff": "handoff-change-structure",
       "source": "docs/handoffs/handoff-change-structure/assets/c1-changes.puml",
       "elements": ["handoff_engineer", "handoff_system", "git_repository"],
@@ -591,7 +639,7 @@
     "handoff_changes_containers": {
       "level": "C2",
       "scope": "handoff_system",
-      "title": "Handoff authoring \u2014 C2 \u2014 changes from c41728e",
+      "title": "Handoff authoring — C2 — changes from c41728e",
       "handoff": "handoff-change-structure",
       "source": "docs/handoffs/handoff-change-structure/assets/c2-changes.puml",
       "elements": ["handoff_build", "handoff_documents", "handoff_server"],
@@ -614,7 +662,7 @@
     "handoff_changes_components": {
       "level": "C3",
       "scope": "handoff_build",
-      "title": "Handoff authoring \u2014 C3 \u2014 changes from c41728e",
+      "title": "Handoff authoring — C3 — changes from c41728e",
       "handoff": "handoff-change-structure",
       "source": "docs/handoffs/handoff-change-structure/assets/c3-changes.puml",
       "elements": [
@@ -647,6 +695,120 @@
           "handoff_c4_reads": {
             "status": "changed",
             "description": "Checks changed IDs belong to the view before generating labels."
+          }
+        }
+      }
+    },
+    "account_details_context": {
+      "level": "C1",
+      "scope": "woodbrook_system",
+      "title": "Private account details — C1 system context — changes from c41728e",
+      "handoff": "account-details",
+      "source": "docs/handoffs/account-details/assets/c1-context.puml",
+      "elements": [
+        "resident",
+        "woodbrook_system",
+        "firebase_service",
+        "account_details_firestore"
+      ],
+      "relationships": [
+        "resident_website",
+        "website_firebase",
+        "account_website_storage"
+      ],
+      "changes": {
+        "elements": {
+          "account_details_firestore": {
+            "status": "added",
+            "description": "New private profile store; identities remain in Firebase Authentication."
+          }
+        },
+        "relationships": {
+          "account_website_storage": {
+            "status": "added",
+            "description": "New optional location storage, separate from public information."
+          }
+        }
+      }
+    },
+    "account_details_containers": {
+      "level": "C2",
+      "scope": "woodbrook_system",
+      "title": "Private account details — C2 containers — changes from c41728e",
+      "handoff": "account-details",
+      "source": "docs/handoffs/account-details/assets/c2-containers.puml",
+      "elements": [
+        "resident",
+        "woodbrook_browser",
+        "woodbrook_host",
+        "firebase_service",
+        "account_details_firestore"
+      ],
+      "relationships": [
+        "resident_browser",
+        "browser_assets",
+        "browser_firebase",
+        "account_browser_storage"
+      ],
+      "changes": {
+        "elements": {
+          "account_details_firestore": {
+            "status": "added",
+            "description": "New private profile store; identities remain in Firebase Authentication."
+          }
+        },
+        "relationships": {
+          "account_browser_storage": {
+            "status": "added",
+            "description": "New authenticated per-account document reads and explicit writes."
+          }
+        }
+      }
+    },
+    "account_details_components": {
+      "level": "C3",
+      "scope": "woodbrook_browser",
+      "title": "Private account details — C3 browser components — changes from c41728e",
+      "handoff": "account-details",
+      "source": "docs/handoffs/account-details/assets/c3-components.puml",
+      "elements": [
+        "firebase_auth_runtime",
+        "account_details_editor",
+        "account_details_store",
+        "account_details_firestore"
+      ],
+      "relationships": [
+        "account_context_editor",
+        "account_editor_store",
+        "account_store_database"
+      ],
+      "changes": {
+        "elements": {
+          "account_details_firestore": {
+            "status": "added",
+            "description": "New private profile store; identities remain in Firebase Authentication."
+          },
+          "account_details_editor": {
+            "status": "added",
+            "description": "New optional location editor with load, save, retry and removal states."
+          },
+          "account_details_store": {
+            "status": "added",
+            "description": "New current-UID guard and lazy single-document persistence; no offline cache."
+          }
+        },
+        "relationships": {
+          "account_context_editor": {
+            "status": "added",
+            "description": "New location editor."
+          },
+          "account_editor_store": {
+            "status": "added",
+            "description": "New owner-bound actions."
+          },
+          "account_store_database": {
+            "status": "added",
+            "description": "New owner-only document."
           }
         }
       }

@@ -1,5 +1,6 @@
 # Capability index
 
+- [Private account details](account-details.md) — Available
 - [Firebase accounts](firebase-authentication.md) — Available
 - [Clerk accounts](clerk-authentication.md) — Removed
 - [Public content search](public-content-search.md) — Available

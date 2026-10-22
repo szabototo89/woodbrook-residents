@@ -58,3 +58,5 @@ Before deploying, configure `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_A
 ## Firebase accounts
 
 See [Firebase setup and rollout](../../docs/features/firebase-authentication.md) for project configuration, login, registration, password recovery, and account management. Accounts are disabled by default; preview with `?feature_flag=firebase-auth`. The bundled public Firebase profile supports the deployed website; environment overrides are documented in the setup guide.
+
+See [Private account details](../../docs/features/account-details.md) for optional Eircode/address storage, Firebase CLI commands and per-account Firestore rules.

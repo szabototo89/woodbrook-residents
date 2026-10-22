@@ -1,0 +1,72 @@
+{
+  "codeCommit": "2412d31",
+  "reviewedAt": "2026-10-22T11:55:44Z",
+  "sampleDataOnly": true,
+  "productionResidentDataAccessed": false,
+  "viewer": [
+    {
+      "check": "handoff viewer",
+      "width": 1440,
+      "result": "PASS",
+      "diagrams": 3,
+      "checks": [
+        "local SVGs",
+        "fit",
+        "zoom",
+        "keyboard pan",
+        "reset",
+        "source annotations",
+        "full-size SVG",
+        "sample image gallery",
+        "no overflow"
+      ]
+    },
+    {
+      "check": "handoff viewer",
+      "width": 390,
+      "result": "PASS",
+      "diagrams": 3,
+      "checks": [
+        "local SVGs",
+        "fit",
+        "zoom",
+        "keyboard pan",
+        "reset",
+        "source annotations",
+        "full-size SVG",
+        "sample image gallery",
+        "no overflow"
+      ]
+    }
+  ],
+  "production": {
+    "site": "https://woodbrook.shankill.workers.dev",
+    "commit": "2412d31",
+    "checks": [
+      {
+        "width": 1440,
+        "result": "PASS",
+        "checks": [
+          "flagged route HTTP 200",
+          "signed-out login guard",
+          "flag retained in login link",
+          "unflagged disabled state",
+          "zero Firestore requests",
+          "no overflow"
+        ]
+      },
+      {
+        "width": 390,
+        "result": "PASS",
+        "checks": [
+          "flagged route HTTP 200",
+          "signed-out login guard",
+          "flag retained in login link",
+          "unflagged disabled state",
+          "zero Firestore requests",
+          "no overflow"
+        ]
+      }
+    ]
+  }
+}
