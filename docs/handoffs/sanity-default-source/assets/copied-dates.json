@@ -1,0 +1,221 @@
+{
+  "accessedOn": "2026-10-22",
+  "sourceSpreadsheetUrl": "https://docs.google.com/spreadsheets/d/1X9N_0s7ZN7W6IC43nVegtottBdMbfz-rRKvClccPqgo/edit",
+  "sourceUrl": "https://thorntons-recycling.ie/",
+  "sourceReviewedOn": "2026-09-09",
+  "sanityProjectId": "ca34quae",
+  "sanityDataset": "production",
+  "sanityDocumentId": "resource-thorntons-bin-collection-schedule-2026",
+  "copiedField": "collectionDates",
+  "count": 52,
+  "dates": [
+    {
+      "date": "2026-01-06",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-01-13",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-01-20",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-01-27",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-02-03",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-02-10",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-02-17",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-02-24",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-03-03",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-03-10",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-03-14",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-03-24",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-03-31",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-04-07",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-04-14",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-04-21",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-04-28",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-05-05",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-05-12",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-05-19",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-05-26",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-06-02",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-06-09",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-06-16",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-06-23",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-06-30",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-07-07",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-07-14",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-07-21",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-07-28",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-08-04",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-08-11",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-08-18",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-08-25",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-09-01",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-09-08",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-09-15",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-09-22",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-09-29",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-10-06",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-10-13",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-10-20",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-10-27",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-11-03",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-11-10",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-11-17",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-11-24",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-12-01",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-12-08",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-12-15",
+      "stream": "waste-compost"
+    },
+    {
+      "date": "2026-12-22",
+      "stream": "recycling"
+    },
+    {
+      "date": "2026-12-29",
+      "stream": "waste-compost"
+    }
+  ]
+}

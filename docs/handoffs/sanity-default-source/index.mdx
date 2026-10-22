@@ -1,0 +1,94 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import cloudflare from './assets/cloudflare-source.jpg';
+
+export const metadata = {
+  title: 'Sanity as the default Woodbrook source',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a1634f-fee9-7551-9949-5fcb45290328',
+  worktree: '/private/tmp/woodbrook-sanity-default',
+  branch: 'session/sanity-default',
+  commit: 'fb3b71c3e6938214c9343743041a9abf0e5fd136',
+  updatedAt: '2026-10-22T11:26:47Z',
+  summary:
+    'Sanity is the default web content source; deployment settings use Sanity and all 52 existing collection dates are published there.',
+};
+
+## Goal
+
+Use published Sanity content for the Woodbrook resident website by default, align development and deployment configuration, and copy the existing spreadsheet collection dates into Sanity at the user's request.
+
+## Current state
+
+- Missing, empty and whitespace `CONTENT_SOURCE` values select Sanity project `ca34quae`, dataset `production`, API version `2025-09-01`.
+- Root `dev`, `dev:web` and `dev:web:content` select Sanity; `dev:web:sheets` remains available for an explicit Sheets session. `.env.example` and deployment documentation use Sanity.
+- The deploy script defaults to Sanity, preserves explicit supported overrides, and rejects unsupported sources before starting a build or publishing.
+- The existing GitHub workflow retains its daily 03:15 UTC schedule and manual trigger. Its labels now identify Sanity. It calls the existing Cloudflare deploy hook; setting an Actions environment variable would not change Cloudflare's build environment.
+- Cloudflare's connected `woodbrook` Worker build variable was changed from `google-sheets` to `sanity`, saved, and verified after reloading. Its hook was renamed to `Daily Sanity rebuild`; the hook URL, build command, deploy command, account, analytics, authentication and credentials were preserved. The existing local primary checkout `.env` source override was also changed to Sanity.
+- All 52 existing collection dates were copied from Sheets into the published Sanity resource `resource-thorntons-bin-collection-schedule-2026` with a revision-checked patch. The record previously had an empty date array and no draft. Only `collectionDates` was changed; each entry has a stable Sanity array key. A fresh unauthenticated read through the application's Sanity adapter matched every date and stream exactly against Sheets.
+- The original static verification remains intact. No content synchronization service was added. The separate mobile content Worker continues to use its existing Sheets source and secrets.
+
+## Content provenance
+
+The source is the existing [Woodbrook spreadsheet](https://docs.google.com/spreadsheets/d/1X9N_0s7ZN7W6IC43nVegtottBdMbfz-rRKvClccPqgo/edit), accessed **22 October 2026**. Its resource credits [Thorntons Recycling](https://thorntons-recycling.ie/) and retains its existing review date of **9 September 2026**. This was an exact copy of existing data, not a new verification of the provider's calendar or a claim that every address uses the same route. The exact copied values and provenance are recorded in `assets/copied-dates.json`.
+
+## Appearance
+
+These screenshots show real Sanity content on the live production website, not sample content. The analytics prompt was rejected to keep the dates visible. Playwright checked both next-date values and absence of horizontal overflow.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop — Sanity collection schedule',
+      alt: 'Desktop collection schedule showing 27 October recycling and 3 November waste and compost',
+      description:
+        '1440 × 1100 viewport at 2× resolution. Review both next dates, route limitation and original source attribution.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile — Sanity collection schedule',
+      alt: 'Mobile collection schedule with the two next dates in stacked cards',
+      description:
+        '390 × 844 viewport at 2× resolution. Review the stacked date cards and readable source details without horizontal scrolling.',
+    },
+    {
+      src: cloudflare,
+      title: 'Cloudflare — saved build source',
+      alt: 'Woodbrook Cloudflare build settings with CONTENT_SOURCE set to sanity',
+      description:
+        'The persisted build variable was verified after a dashboard reload. Existing credentials remain encrypted.',
+    },
+  ]}
+/>
+
+## Architecture
+
+Woodbrook is a public information hub for residents in Shankill. Editors publish content in Sanity; a static build reads and validates that content, generates HTML and navigation data, and Cloudflare serves the generated site. CMS changes reach residents after a successful rebuild.
+
+This change alters source selection and deployment configuration within that existing architecture. `createContentSource` chooses the Sanity adapter by default; the deployment script passes its validated selection into the static build. GitHub's scheduler only invokes a Cloudflare hook, while Cloudflare owns the build environment. As documented in the [Cloudflare Builds API reference](https://developers.cloudflare.com/workers/ci-cd/builds/api-reference/) (accessed 22 October 2026), build variables and runtime Worker variables have separate scopes. Runtime Wrangler settings therefore need no change for the static website.
+
+The dates use the existing `collectionDate` Sanity object schema and existing GROQ projection. No schema, route, UI, container or relationship was added, so this change needs no new C4 diagram.
+
+## Verification
+
+- PASS: TDD tests first failed for the prior source fallback, development commands and deploy environment. They passed after implementation.
+- PASS: 107 focused content tests and 3 deployment-script tests.
+- PASS: repository `bun run lint`, including formatting, ESLint and all app TypeScript checks.
+- PASS: repository `bun run build`.
+- PASS: production `bun run build:static` against real Sanity using the fallback default, with 85 HTML files, 74 static CMS data files, 74 sitemap URLs, 23 event calendar files, all internal links and the original resolved-schedule check.
+- PASS: all 52 published dates and streams equal the source spreadsheet exactly.
+- PASS: desktop/mobile Playwright checks and high-resolution screenshots show recycling on 27 October 2026 and waste/compost on 3 November 2026.
+- PASS: Cloudflare build variable and renamed hook persisted after a settings reload.
+- PASS: the full required pre-commit hook (`bun run precommit`) completed without bypassing checks, including repository-wide unit, browser and end-to-end suites. Seven intentionally skipped browser cases remain skipped.
+- PASS: the handoff viewer production build and desktop/mobile image loading checks.
+- PASS: code commit `fb3b71c` merged into clean local `main` and pushed to GitHub. The renamed `Daily Sanity Cloudflare rebuild` workflow is active; existing Actions secret names required no change.
+- PASS: [Cloudflare production build 07f4510f](https://dash.cloudflare.com/e314b1fc6ed42c211154ffaae0193554/workers/services/view/woodbrook/production/builds/07f4510f-7343-44e6-a030-0055de11ca03) completed and version `e82fe3b4` serves 100% of traffic. The live schedule responds successfully with both expected next dates.
+- The additional [GitHub Lighthouse run](https://github.com/szabototo89/woodbrook-residents/actions/runs/39770306125) was still running when this record was written; it is not recorded as PASS here.
+
+The required development server ran on port 3004 because ports 3000–3003 were occupied. The ready server opened in cmux; its tab rename command returned `Tab not found`. Other sessions were preserved.
+
+## Next steps
+
+None for the source switch or collection-date copy. Future Sanity publishes reach the static website through a successful rebuild; the existing daily schedule and manual action remain available.

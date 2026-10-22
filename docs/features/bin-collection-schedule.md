@@ -34,6 +34,7 @@ When I need to put out my bins, I want to see the next dates on the local hub an
 - Google Sheets builds read the comma-separated ISO dates from the
   `recycling_dates` and `waste_compost_dates` Local_Info columns, together with
   the supporting `document_url` and `document_label` fields.
+- Sanity builds read the same 52 dates from the resource’s `collectionDates` array, copied from the existing spreadsheet on 22 October 2026. This is a one-time copy; the sources are not synchronized automatically.
 - An accessible, mobile-friendly summary of the next collections.
 - The original PDF as a supporting download.
 
