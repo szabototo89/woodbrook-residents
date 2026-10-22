@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /residentProfiles/{userId} {
+      function ownsProfile() {
+        return request.auth != null && request.auth.uid == userId;
+      }
+      function validDetails() {
+        let details = request.resource.data;
+        return details.keys().hasAll(['eircode', 'address', 'updatedAt'])
+          && details.keys().hasOnly(['eircode', 'address', 'updatedAt'])
+          && details.eircode is string
+          && (details.eircode == '' || details.eircode.matches('([A-Z][0-9]{2}|D6W) [A-Z0-9]{4}'))
+          && details.address is string
+          && details.address.size() <= 500
+          && details.updatedAt == request.time;
+      }
+      allow get, delete: if ownsProfile();
+      allow create, update: if ownsProfile() && validDetails();
+      allow list: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,12 +1,15 @@
 import type { FormEvent } from 'react';
 import type { AccountUser, AuthActions } from './AuthSession';
 import type { useAuthRequest } from './useAuthRequest';
+import { useAuthFeature } from './AuthProvider';
+import { authHref } from './authConfig';
 
 export function AccountPanel(props: {
   user: AccountUser;
   actions: AuthActions;
   request: ReturnType<typeof useAuthRequest>;
 }) {
+  const { search } = useAuthFeature();
   const { busy, error, message, run } = props.request;
   function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,6 +32,12 @@ export function AccountPanel(props: {
             : 'Please verify your email. Check your inbox for the verification link.'}
         </p>
       </div>
+      <a
+        className="button button-secondary"
+        href={authHref('/account', search)}
+      >
+        Account details
+      </a>
       <form className="auth-form" onSubmit={save}>
         <label>
           Display name

@@ -19,6 +19,7 @@ import type { AccountUser, AuthActions } from './AuthSession';
 const displayUser = (user: User | null): AccountUser | null =>
   user
     ? {
+        uid: user.uid,
         email: user.email,
         displayName: user.displayName,
         emailVerified: user.emailVerified,
@@ -35,7 +36,22 @@ export function createFirebaseClient(config: FirebaseConfig) {
     return auth.currentUser;
   };
   const observer: { current?: (user: AccountUser | null) => void } = {};
+  const detailsStore = async () => {
+    const uid = currentUser().uid;
+    const { createAccountDetailsStore } =
+      await import('../account/accountDetailsStore');
+    return createAccountDetailsStore(app, uid);
+  };
   const actions: AuthActions = {
+    async loadDetails() {
+      return (await detailsStore()).loadDetails();
+    },
+    async saveDetails(details) {
+      await (await detailsStore()).saveDetails(details);
+    },
+    async removeDetails() {
+      await (await detailsStore()).removeDetails();
+    },
     async login(email, password) {
       await signInWithEmailAndPassword(auth, email, password);
     },

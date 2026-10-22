@@ -8,7 +8,10 @@ export default function FirebaseAccount() {
   return status === 'loading' ? (
     <span role="status">Loading account…</span>
   ) : (
-    <a className="account-login" href={authHref('/login', search)}>
+    <a
+      className="account-login"
+      href={authHref(user ? '/account' : '/login', search)}
+    >
       {user ? 'Account' : 'Log in'}
     </a>
   );

@@ -230,3 +230,19 @@ test('a verification failure after account creation remains visible and can be r
   );
   ui.unmount();
 });
+
+test('signed-in residents can open their private account details with the feature flag retained', async () => {
+  state.user = {
+    email: 'sample@example.com',
+    displayName: 'Sample',
+    emailVerified: true,
+  };
+  const view = renderUi(<FirebaseForms page="login" />);
+  const link = Array.from(view.container.querySelectorAll('a')).find(
+    (link) => link.textContent === 'Account details',
+  );
+  expect(link?.getAttribute('href')).toBe(
+    '/account?feature_flag=firebase-auth',
+  );
+  view.unmount();
+});

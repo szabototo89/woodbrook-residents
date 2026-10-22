@@ -1,3 +1,5 @@
+@import '../account/accountDetails.css';
+
 .auth-page {
   padding-block: 36px 80px;
   min-height: 72vh;
@@ -104,7 +106,8 @@
   font-size: 0.85rem;
   font-weight: 500;
 }
-.auth-form input {
+.auth-form input,
+.auth-form textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #bcc9c1;
@@ -151,7 +154,8 @@
 .auth-account .button {
   width: 100%;
 }
-.auth-form input:focus-visible {
+.auth-form input:focus-visible,
+.auth-form textarea:focus-visible {
   outline: 2px solid var(--forest);
   outline-offset: 2px;
 }

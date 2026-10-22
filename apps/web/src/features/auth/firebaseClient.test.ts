@@ -68,7 +68,7 @@ test('login, recovery and sign-out use Firebase without a custom email domain', 
   await client.actions.signOut();
   expect(sdk.signOut).toHaveBeenCalledWith(sdk.auth);
 });
-test('state subscriptions expose only account display data and can unsubscribe', () => {
+test('state subscriptions expose only the uid and account display data and can unsubscribe', () => {
   const unsubscribe = vi.fn();
   sdk.onAuthStateChanged.mockReturnValue(unsubscribe);
   const client = createFirebaseClient(config);
@@ -77,12 +77,14 @@ test('state subscriptions expose only account display data and can unsubscribe',
   const stop = client.subscribe(changed, failed);
   const callback = sdk.onAuthStateChanged.mock.calls[0]?.[1];
   callback({
+    uid: 'resident-one',
     email: 'resident@example.com',
     displayName: 'Sample',
     emailVerified: true,
     refreshToken: 'secret',
   });
   expect(changed).toHaveBeenCalledWith({
+    uid: 'resident-one',
     email: 'resident@example.com',
     displayName: 'Sample',
     emailVerified: true,
@@ -144,4 +146,37 @@ test('a delayed profile update does not restore an account that signed out in an
   expect(changed).toHaveBeenLastCalledWith(null);
   Object.assign(sdk.auth, { currentUser: original });
   stop();
+});
+
+const profileStore = vi.hoisted(() => ({
+  loadDetails: vi.fn(),
+  saveDetails: vi.fn(),
+  removeDetails: vi.fn(),
+  create: vi.fn(),
+}));
+vi.mock('../account/accountDetailsStore', () => ({
+  createAccountDetailsStore: profileStore.create,
+}));
+
+test('private details operations target the signed-in uid and reject signed-out access', async () => {
+  profileStore.create.mockReturnValue(profileStore);
+  Object.assign(sdk.auth.currentUser, { uid: 'resident-one' });
+  const client = createFirebaseClient(config);
+  await client.actions.loadDetails();
+  await client.actions.saveDetails({ eircode: '', address: 'Sample address' });
+  await client.actions.removeDetails();
+  expect(profileStore.create).toHaveBeenCalledWith(
+    { name: 'woodbrook-auth' },
+    'resident-one',
+  );
+  expect(profileStore.loadDetails).toHaveBeenCalledOnce();
+  expect(profileStore.saveDetails).toHaveBeenCalledWith({
+    eircode: '',
+    address: 'Sample address',
+  });
+  expect(profileStore.removeDetails).toHaveBeenCalledOnce();
+  const original = sdk.auth.currentUser;
+  Object.assign(sdk.auth, { currentUser: null });
+  await expect(client.actions.loadDetails()).rejects.toThrow('log in again');
+  Object.assign(sdk.auth, { currentUser: original });
 });

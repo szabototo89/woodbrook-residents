@@ -1,0 +1,47 @@
+.account-details-private fieldset {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.account-details-private textarea {
+  resize: vertical;
+  min-height: 112px;
+  font: inherit;
+}
+.account-details-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.account-details-field input,
+.account-details-field textarea {
+  min-width: 0;
+}
+.account-details-private .account-details-hint {
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+.account-details-private fieldset > .account-details-hint {
+  margin-top: -8px;
+}
+.account-details-private > .auth-form {
+  margin-top: 24px;
+}
+.account-details-private .auth-text-button {
+  justify-self: center;
+  min-height: 44px;
+}
+.account-details-private .auth-text-button:disabled {
+  cursor: default;
+}
+.account-settings-link {
+  display: inline-block;
+  margin-top: 24px;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
