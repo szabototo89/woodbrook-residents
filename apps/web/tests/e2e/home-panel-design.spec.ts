@@ -155,7 +155,7 @@ test('latest updates have relaxed row spacing and share heading weight with list
   }
 });
 
-test('updates without photography keep a compact fallback and give headlines more room', async ({
+test('news without photography gives the media space back to headlines', async ({
   page,
 }) => {
   for (const width of [390, 1440]) {
@@ -165,11 +165,10 @@ test('updates without photography keep a compact fallback and give headlines mor
       .getByRole('region', { name: 'What’s new in Woodbrook' })
       .getByRole('article')
       .first();
-    await expect(update.locator('.home-update-placeholder')).toHaveCount(1);
-    const fallback = await update
-      .locator('.home-update-placeholder')
-      .boundingBox();
-    expect(fallback!.width).toBeLessThanOrEqual(64);
+    await update.locator('img').evaluateAll((images) => {
+      for (const image of images) image.remove();
+    });
+    await expect(update.locator('svg')).toHaveCount(1);
     const title = await update.getByRole('heading').boundingBox();
     expect(title!.width).toBeGreaterThanOrEqual(width < 760 ? 220 : 450);
   }
@@ -249,5 +248,100 @@ test('consultation badges and the details action remain fully exposed inside the
     await expect(page).toHaveURL(
       /\/surveys\/woodbrook-dart-gateway-consultation-2026$/,
     );
+  }
+});
+
+test('news and project rows expose dates, categories, full titles and a single generous link', async ({
+  page,
+}) => {
+  await page.clock.setFixedTime(new Date('2026-10-01T12:00:00.000Z'));
+  for (const width of [320, 390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/');
+    const reject = page.getByRole('button', { name: 'Reject', exact: true });
+    if (await reject.isVisible()) await reject.click();
+    for (const name of ['What’s new in Woodbrook', 'Community projects']) {
+      const panel = page.getByRole('region', { name });
+      const rows = panel.getByRole('article');
+      await expect(rows).toHaveCount(3);
+      // Exercise the source state in the reported screenshots: no editorial photos.
+      await rows.locator('img').evaluateAll((images) => {
+        for (const image of images) image.remove();
+      });
+      for (const row of await rows.all()) {
+        await expect(row).toBeVisible();
+        await expect(row.locator('svg')).toHaveCount(1);
+        const title = row.getByRole('heading');
+        expect(
+          await title.evaluate(
+            (element) => getComputedStyle(element).webkitLineClamp,
+          ),
+        ).toBe('none');
+        const rowBounds = await row.boundingBox();
+        const titleBounds = await title.boundingBox();
+        expect(titleBounds!.x - rowBounds!.x).toBeLessThan(2);
+        expect(rowBounds!.x + rowBounds!.width).toBeLessThanOrEqual(width);
+      }
+      if (name === 'What’s new in Woodbrook') {
+        for (const date of await panel.locator('time').all())
+          await expect(date).toBeVisible();
+      } else {
+        await expect(
+          panel.getByText('Transport', { exact: true }),
+        ).toBeVisible();
+        await expect(panel.getByText('Housing', { exact: true })).toBeVisible();
+      }
+      const first = rows.first();
+      const link = first.getByRole('link');
+      await link.focus();
+      await expect(link).toBeFocused();
+      expect(
+        await first.evaluate(
+          (element) => getComputedStyle(element).outlineStyle,
+        ),
+      ).toBe('solid');
+      // Click the trailing chevron, outside the headline's text box.
+      const bounds = await first.boundingBox();
+      await first.click({
+        position: { x: bounds!.width - 9, y: bounds!.height / 2 },
+      });
+      await expect(page).toHaveURL(
+        name === 'Community projects'
+          ? /\/projects\/[^/]+$/
+          : /\/updates\/[^/]+$/,
+      );
+      await page.goBack();
+    }
+  }
+});
+
+test('capture the news and project redesign on desktop and mobile', async ({
+  page,
+}) => {
+  test.skip(
+    !process.env.DESIGN_SCREENSHOT_DIR,
+    'Opt-in visual review artifacts',
+  );
+  await page.clock.setFixedTime(new Date('2026-10-01T12:00:00.000Z'));
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    const reject = page.getByRole('button', { name: 'Reject', exact: true });
+    if (await reject.isVisible()) await reject.click();
+    for (const [name, file] of [
+      ['What’s new in Woodbrook', 'news'],
+      ['Community projects', 'projects'],
+    ]) {
+      const panel = page.getByRole('region', { name });
+      await panel.locator('article > img').evaluateAll((images) => {
+        for (const image of images) image.remove();
+      });
+      await panel.screenshot({
+        path: `${process.env.DESIGN_SCREENSHOT_DIR}/${file}-${width === 390 ? 'mobile' : 'desktop'}.png`,
+        scale: 'device',
+        style: '.site-header { visibility: hidden !important; }',
+      });
+    }
   }
 });
