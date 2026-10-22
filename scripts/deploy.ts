@@ -30,20 +30,31 @@ async function runChecked(
   }
 }
 
-async function deploy() {
-  const contentSource = process.env.CONTENT_SOURCE?.trim() || 'google-sheets';
+export function buildDeployEnvironment(
+  environment: Record<string, string | undefined>,
+) {
+  const contentSource = environment.CONTENT_SOURCE?.trim() || 'sanity';
   if (contentSource !== 'sanity' && contentSource !== 'google-sheets') {
     throw new Error(
       'CONTENT_SOURCE must be set to "google-sheets" or "sanity" before deploying.',
     );
   }
 
-  await runChecked(['bun', 'run', 'build:static'], {
-    ...process.env,
+  return {
+    ...environment,
     CONTENT_SOURCE: contentSource,
     VITE_PUBLIC_SITE_URL: publicSiteUrl,
-  });
+  };
+}
+
+async function deploy() {
+  await runChecked(
+    ['bun', 'run', 'build:static'],
+    buildDeployEnvironment(process.env),
+  );
   await runChecked(['bunx', 'wrangler', 'deploy', ...Bun.argv.slice(2)]);
 }
 
-await deploy();
+if (import.meta.main) {
+  await deploy();
+}

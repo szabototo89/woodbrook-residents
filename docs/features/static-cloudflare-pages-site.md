@@ -21,8 +21,9 @@ When the public website is deployed, I want every published page to be generated
 - Given the contents of `apps/web/dist/client` are deployed, when a resident browses or navigates between generated pages, then no runtime application server connection is required.
 - Given the public artifact is inspected, then it contains no issue-report page or runtime write endpoint; the attached read-only mobile content endpoint does not participate in website rendering.
 - Given `CONTENT_SOURCE=google-sheets` and read-only credentials are configured, when `bun run deploy` runs, then it builds from the configured spreadsheet.
-- Given the production Worker is connected to the GitHub repository and its deploy hook is configured, when the daily schedule runs, then Cloudflare rebuilds the latest `main` commit with a fresh Google Sheets snapshot.
-- Given `CONTENT_SOURCE` is absent or invalid, when deployment begins, then it stops with a configuration error before building or publishing.
+- Given the production Worker is connected to the GitHub repository and its deploy hook is configured, when the daily schedule runs, then Cloudflare rebuilds the latest `main` commit with a fresh Sanity snapshot.
+- Given `CONTENT_SOURCE` is absent or blank, when deployment begins, then it builds from Sanity using the Woodbrook project defaults.
+- Given `CONTENT_SOURCE` is invalid, when deployment begins, then it stops with a configuration error before building or publishing.
 
 ## Scope
 
