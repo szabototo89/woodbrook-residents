@@ -119,3 +119,58 @@ test('rejects invalid input, preserves edits on failed saves, and removes saved 
     container.querySelector<HTMLTextAreaElement>('[name="address"]')!.value,
   ).toBe('');
 });
+
+test('shows unsaved edits and discards them without writing to the account', async () => {
+  const client = actions();
+  client.loadDetails.mockResolvedValue({
+    eircode: 'A65 F4E2',
+    address: 'Saved sample address',
+  });
+  await render(client);
+  await act(async () => input('address', 'Unsaved sample address'));
+  expect(container.textContent).toContain('Unsaved changes');
+  const discard = Array.from(container.querySelectorAll('button')).find(
+    (button) => button.textContent === 'Discard changes',
+  )!;
+  await act(async () => discard.click());
+  expect(
+    container.querySelector<HTMLTextAreaElement>('[name="address"]')!.value,
+  ).toBe('Saved sample address');
+  expect(container.textContent).not.toContain('Unsaved changes');
+  expect(client.saveDetails).not.toHaveBeenCalled();
+});
+
+test('only offers removal for saved details and focuses an invalid Eircode', async () => {
+  await render();
+  expect(container.textContent).not.toContain('Remove saved location');
+  await act(async () => input('eircode', 'bad'));
+  await act(async () =>
+    container
+      .querySelector('form')!
+      .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })),
+  );
+  const field = container.querySelector<HTMLInputElement>('[name="eircode"]')!;
+  expect(field.getAttribute('aria-invalid')).toBe('true');
+  expect(document.activeElement).toBe(field);
+  expect(field.getAttribute('aria-describedby')).toContain('location-error');
+});
+
+test('removing a saved location clears validation errors from unsaved edits', async () => {
+  const client = actions();
+  client.loadDetails.mockResolvedValue({ eircode: 'A65 F4E2', address: '' });
+  await render(client);
+  await act(async () => input('eircode', 'bad'));
+  await act(async () =>
+    container
+      .querySelector('form')!
+      .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })),
+  );
+  const remove = Array.from(container.querySelectorAll('button')).find(
+    (button) => button.textContent === 'Remove saved location',
+  )!;
+  await act(async () => remove.click());
+  expect(container.querySelector('[role="alert"]')).toBeNull();
+  expect(
+    container.querySelector('[name="eircode"]')!.hasAttribute('aria-invalid'),
+  ).toBe(false);
+});

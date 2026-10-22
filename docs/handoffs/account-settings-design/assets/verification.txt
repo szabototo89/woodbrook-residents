@@ -1,0 +1,26 @@
+Account settings design — verification
+Implementation: dd6d6dd591caf3d9eb55f19984ed5b893b079ae6
+Base: 3644734
+Integration HEAD: b924cb47f0951d8c5ba4136abf348b979879da2e
+Integrated main: 05e30ba
+Account tests after integration: 4 passed; screenshots refreshed.
+
+TDD: discard and invalid-Eircode tests failed before implementation.
+TDD: stale aria-invalid after removal failed before its fix.
+Account unit tests: 4 files, 12 tests passed.
+Web unit suite: 358 tests and 1 static-mode test passed.
+Web build and TypeScript check: exit 0.
+Account Playwright flows: 4 desktop/mobile tests passed.
+Full normal precommit: exit 0.
+Web browser component tests: 9 passed.
+Web end-to-end tests: 46 passed.
+Firebase auth/account end-to-end tests: 10 passed.
+Handoff viewer browser tests: 7 passed.
+Other workspace end-to-end checks also passed in the normal hook.
+Handoff docs:check and build: exit 0.
+
+Screenshots: sample Firebase identity and synthetic location data only.
+Desktop: 1440x1000 CSS viewport, device scale 2, full page 2880x2896.
+Mobile: 390x844 CSS viewport, device scale 2, full page 780x4050.
+Narrow-width assertion: no horizontal overflow at 320px.
+No production deployment or resident usability study was performed.

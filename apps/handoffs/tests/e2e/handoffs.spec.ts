@@ -203,8 +203,8 @@ test('the index searches, filters by update time and sorts', async ({
     'News publication order',
   );
   await sort.selectOption('title');
-  await expect(cards.locator('h2').first()).toHaveText(
-    'Browseable agent handoffs',
+  await expect(cards.locator('h2')).toHaveText(
+    [...originalTitles].sort((left, right) => left.localeCompare(right)),
   );
   await sort.selectOption('newest');
   await expect(cards.locator('h2').first()).toHaveText(originalTitles[0]!);

@@ -1,0 +1,103 @@
+import desktop from './assets/account-desktop.png';
+import mobile from './assets/account-mobile.png';
+
+export const metadata = {
+  title: 'Account settings design and edit feedback',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a16397-028f-75b3-a940-8e7623519e48',
+  worktree: '/private/tmp/woodbrook-account-settings-design',
+  branch: 'session/account-settings-design',
+  commit: 'b924cb47f0951d8c5ba4136abf348b979879da2e',
+  updatedAt: '2026-10-22T12:42:15Z',
+  summary:
+    'Replaces the account hero layout with focused settings navigation and clear edit, save and removal feedback.',
+};
+
+## Goal
+
+Help residents manage optional private location details with less visual separation and clearer actions. Keep existing account access and storage behavior.
+
+## Technical changes
+
+Baseline: `3644734`. Implementation: `dd6d6dd591caf3d9eb55f19984ed5b893b079ae6`. Session HEAD `b924cb4` integrates local main `05e30ba`; the documentation commit adds this record and refreshed screenshots.
+
+| Area              | Before                           | After                                                            | Why                                              | Code                                                   |
+| ----------------- | -------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------ |
+| Page layout       | Large hero beside a narrow form  | Compact heading, account navigation and wider form               | Keep context and task together                   | `apps/web/src/features/account/AccountDetailsPage.tsx` |
+| Responsive styles | Shared login layout              | Scoped account layout with stacked phone navigation              | Fit settings and inputs to available space       | `apps/web/src/features/account/accountDetails.css`     |
+| Edit state        | No discard action                | Compare fields with the last saved baseline; discard restores it | Make unsaved edits visible and reversible        | `apps/web/src/features/account/AccountDetailsForm.tsx` |
+| Validation        | General form alert               | Focus invalid Eircode and associate its alert with the input     | Help keyboard and screen-reader users fix errors | `AccountDetailsForm.tsx`                               |
+| Actions           | Save and removal appear together | Separate save area and conditional removal section               | Clarify each action and its effect               | `AccountDetailsForm.tsx`                               |
+| Privacy           | Repeated explanatory copy        | One privacy note and a short private badge                       | Retain reassurance while reducing repetition     | `AccountDetailsPage.tsx`                               |
+
+The handoff index browser test assumed one historical title was alphabetically first. The new account handoff exposed that assumption. It now checks the full title order from the displayed document set.
+
+No dependencies, migrations, routes, feature flags, authentication contracts or Firestore rules change. The location form retains its analytics mask and explicit Firestore server reads without persistent caching.
+
+### Research and design decisions
+
+Sources accessed on 22 October 2026. These are design-system recommendations, not evidence of resident usability testing.
+
+- [GOV.UK question pages](https://design-system.service.gov.uk/patterns/question-pages/) recommends optional labels and short help text. Both optional labels remain; Eircode guidance is shorter.
+- [GOV.UK buttons](https://design-system.service.gov.uk/components/button/) recommends a clear action hierarchy and reserves warning buttons for serious irreversible consequences. Save is primary; reversible location removal stays secondary.
+- [W3C form notifications](https://www.w3.org/WAI/tutorials/forms/notifications/) recommends explaining errors and confirming successful submissions. The Eircode input references its alert; save and removal results are announced.
+
+The settings navigation, reduced heading and wider panel are design judgments for this page. Resident usability testing remains outside this implementation.
+
+## Architecture changes
+
+Woodbrook is a public information hub. Its browser application uses Firebase Authentication for identity and Cloud Firestore for private location documents. This change stays inside the existing account presentation responsibility.
+
+| Level | Change                                                                                                                                  | Evidence                                                 |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| C1    | Unchanged: residents use the same hub and identity service                                                                              | `apps/web/src/features/account/AccountDetailsAccess.tsx` |
+| C2    | Unchanged: browser application and private document store retain their interfaces                                                       | `apps/web/src/features/account/accountDetailsStore.ts`   |
+| C3    | Unchanged: account editor and store retain their responsibilities and interfaces; changes affect presentation and local edit state only | `AccountDetailsForm.tsx`; `AccountDetailsPage.tsx`       |
+
+No component boundary or dependency changes. A new C4 diagram would repeat the existing account structure without explaining the presentation change.
+
+## Verification
+
+| Check                    | Result | Evidence                                                                                                                 |
+| ------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Test-first development   | PASS   | New discard and validation tests failed before implementation; stale validation on removal also failed before its fix.   |
+| Focused account tests    | PASS   | `bun run --cwd apps/web vitest run src/features/account`: 4 files, 12 tests passed.                                      |
+| Web unit regression      | PASS   | `bun run --cwd apps/web test:unit`: 358 tests plus 1 static test passed.                                                 |
+| Web build                | PASS   | `bun run --cwd apps/web build`: client and server bundles built, exit 0.                                                 |
+| Type check               | PASS   | `bun run --cwd apps/web typecheck`: exit 0.                                                                              |
+| Desktop/mobile flows     | PASS   | Account Playwright suite: 4 tests passed; save, reload, discard, error focus, retry, removal and access gates.           |
+| Integration review       | PASS   | After merging main `05e30ba`, all 4 account browser tests pass; screenshots refreshed against the combined result.       |
+| Narrow phone             | PASS   | Browser assertion found no horizontal overflow at 320px.                                                                 |
+| Desktop screenshot       | PASS   | 1440px viewport, scale 2; `assets/account-desktop.png` is 2880 × 2896.                                                   |
+| Mobile screenshot        | PASS   | 390px viewport, scale 2; `assets/account-mobile.png` is 780 × 4050.                                                      |
+| Repository precommit     | PASS   | Implementation commit `dd6d6dd`: full formatting, lint, type checks, unit, browser and end-to-end suites passed; exit 0. |
+| Handoff index regression | PASS   | New title exposed a hardcoded sort expectation; corrected assertion passes all 7 viewer browser tests.                   |
+| Handoff structure        | PASS   | `bun run --cwd apps/handoffs docs:check`: 4 current handoffs validated; 6 historical records preserved.                  |
+
+## Appearance
+
+Screenshots contain a synthetic account, Eircode and address. They use simulated Firebase responses, not resident records.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop — sample location',
+      alt: 'Desktop account settings with location navigation and a wider form',
+      description:
+        'Review heading scale, selected navigation, shorter Eircode input, save area and separate removal section. Synthetic location data.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile — sample location',
+      alt: 'Mobile account settings with stacked navigation and form',
+      description:
+        'Review the visible privacy note, readable fields and separate save and removal actions. Synthetic location data.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None.

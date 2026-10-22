@@ -1,3 +1,4 @@
+import { Check, LockKeyhole, MapPin } from 'lucide-react';
 import {
   useCallback,
   useEffect,
@@ -14,6 +15,12 @@ import {
 
 export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
   const [details, setDetails] = useState<AccountDetails>(emptyAccountDetails);
+  const [baseline, setBaseline] = useState<AccountDetails>(emptyAccountDetails);
+  const [invalidEircode, setInvalidEircode] = useState(false);
+  const eircodeInput = useRef<HTMLInputElement>(null);
+  const dirty =
+    details.eircode !== baseline.eircode ||
+    details.address !== baseline.address;
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -33,7 +40,8 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
       .then((value) => {
         if (!active.current) return;
         setDetails(value ?? emptyAccountDetails());
-        setSaved(value !== null);
+        setBaseline(value ?? emptyAccountDetails());
+        setSaved(Boolean(value?.eircode || value?.address));
         setLoaded(true);
       })
       .catch(() => {
@@ -51,6 +59,8 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
   const change = useCallback((field: keyof AccountDetails, value: string) => {
     setDetails((current) => ({ ...current, [field]: value }));
     setMessage('');
+    setError('');
+    setInvalidEircode(false);
   }, []);
 
   function validateDetails(remove: boolean): AccountDetails | null {
@@ -63,6 +73,8 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
           : 'Check your location details and try again.',
       );
       setMessage('');
+      setInvalidEircode(true);
+      eircodeInput.current?.focus();
       return null;
     }
   }
@@ -73,12 +85,14 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
     if (!normalized) return;
     pending.current = true;
     setBusy(true);
+    setInvalidEircode(false);
     setError('');
     setMessage('');
     try {
       if (remove) await actions.removeDetails();
       else await actions.saveDetails(normalized);
       setDetails(normalized);
+      setBaseline(normalized);
       setSaved(Boolean(normalized.eircode || normalized.address));
       setMessage(
         remove || (!normalized.eircode && !normalized.address)
@@ -104,14 +118,29 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
 
   return (
     <div data-clarity-mask="true" className="account-details-private">
-      <h2>Your private location</h2>
-      <p>
-        Save an Eircode, an address, or both. These fields are optional and are
-        not shown publicly.
-      </p>
-      {loading && <p role="status">Loading your details…</p>}
+      <header className="account-location-heading">
+        <div className="account-location-title">
+          <span className="account-location-icon">
+            <MapPin size={22} aria-hidden="true" />
+          </span>
+          <h2>Your location</h2>
+          <span className="account-private-badge">
+            <LockKeyhole size={12} aria-hidden="true" /> Private
+          </span>
+        </div>
+        <p>Add an Eircode, an address, or both. All fields are optional.</p>
+      </header>
+      {loading && (
+        <p className="account-feedback" role="status">
+          Loading your details…
+        </p>
+      )}
       {error && (
-        <p className="auth-error" role="alert">
+        <p
+          id="location-error"
+          className="account-feedback account-feedback-error"
+          role="alert"
+        >
           {error}
         </p>
       )}
@@ -128,18 +157,23 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
           <div className="account-details-field">
             <label htmlFor="account-eircode">Eircode (optional)</label>
             <input
+              ref={eircodeInput}
               id="account-eircode"
               name="eircode"
               autoComplete="postal-code"
               maxLength={8}
               value={details.eircode}
               onChange={(event) => change('eircode', event.target.value)}
-              aria-describedby="eircode-help"
+              aria-invalid={invalidEircode || undefined}
+              aria-describedby={
+                invalidEircode ? 'eircode-help location-error' : 'eircode-help'
+              }
+              autoCapitalize="characters"
+              spellCheck={false}
             />
           </div>
           <p id="eircode-help" className="account-details-hint">
-            For example, A65 F4E2. This checks the format only; it does not
-            verify your address.
+            For example, A65 F4E2. We check the format, not the address.
           </p>
           <div className="account-details-field">
             <label htmlFor="account-address">Address (optional)</label>
@@ -153,24 +187,54 @@ export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
               onChange={(event) => change('address', event.target.value)}
             />
           </div>
-          <button className="button" type="submit">
-            {busy ? 'Saving…' : 'Save details'}
-          </button>
-          <button
-            className="auth-text-button"
-            type="button"
-            disabled={!saved}
-            onClick={() => void persist(true)}
-          >
-            Remove saved location
-          </button>
+          <div className="account-save-area">
+            <div className="account-save-actions">
+              <button className="button" type="submit">
+                {busy ? 'Saving…' : 'Save details'}
+              </button>
+              {dirty && (
+                <button
+                  className="account-discard"
+                  type="button"
+                  onClick={() => {
+                    setDetails(baseline);
+                    setError('');
+                    setInvalidEircode(false);
+                    setMessage('');
+                  }}
+                >
+                  Discard changes
+                </button>
+              )}
+            </div>
+            {message ? (
+              <p className="account-save-status" role="status">
+                <Check size={16} aria-hidden="true" />
+                {message}
+              </p>
+            ) : (
+              <p className="account-save-status">
+                {dirty ? 'Unsaved changes' : 'Save when you’re ready.'}
+              </p>
+            )}
+          </div>
+          {saved && (
+            <div className="account-remove-area">
+              <div>
+                <strong>Prefer not to keep your location?</strong>
+                <p>This removes both fields from your account.</p>
+              </div>
+              <button
+                className="account-remove"
+                type="button"
+                onClick={() => void persist(true)}
+              >
+                Remove saved location
+              </button>
+            </div>
+          )}
         </fieldset>
       </form>
-      {message && <p role="status">{message}</p>}
-      <p className="account-details-hint">
-        You can change or remove these details at any time. Leaving both fields
-        blank and saving removes your saved location.
-      </p>
     </div>
   );
 }
