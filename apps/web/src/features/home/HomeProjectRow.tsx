@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { ChevronRight, Hammer } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { formatLabel } from '../content/contentFormatting';
 import type { Project } from '../content/contentTypes';
 
@@ -14,15 +14,16 @@ export function HomeProjectRow(props: { project: Project }) {
           height="82"
           loading="lazy"
         />
-      ) : (
-        <span className="home-project-icon">
-          <Hammer size={24} strokeWidth={1.6} aria-hidden="true" />
-        </span>
-      )}
+      ) : null}
       <div>
-        <span className={`tag status-${props.project.stage}`}>
-          {formatLabel(props.project.stage)}
-        </span>
+        <div className="home-row-meta">
+          <span className="home-project-category">
+            {formatLabel(props.project.category)}
+          </span>
+          <span className={`tag status-${props.project.stage}`}>
+            {formatLabel(props.project.stage)}
+          </span>
+        </div>
         <h3>
           <Link to="/projects/$slug" params={{ slug: props.project.slug }}>
             {props.project.title}
