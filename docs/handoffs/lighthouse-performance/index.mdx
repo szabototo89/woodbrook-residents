@@ -1,0 +1,93 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+
+export const metadata = {
+  title: 'Faster public page loading',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a15df6-6061-7243-aa70-f2d9e58e7fdb',
+  worktree: '/private/tmp/woodbrook-lighthouse-performance',
+  branch: 'session/lighthouse-performance',
+  commit: 'a5b303b919b13a76d75e5dc809905f66d0b4dd01',
+  updatedAt: '2026-10-22T12:41:59Z',
+  summary:
+    'Reduces oversized image transfers and brings shared styles and fonts onto a shorter initial loading path.',
+};
+
+## Goal
+
+Fix the existing Lighthouse performance failures on all seven audited public routes, on mobile and desktop, while preserving the 90-point minimum in every category and the current visual design.
+
+## Technical changes
+
+Baseline: `3644734`. The failing CI report came from `2412d31`; the intervening account handoff and resize-test synchronization do not change public asset loading. Verified implementation: `a5b303b`.
+
+| Area              | Before                                                                                    | After                                                                                                 | Why                                                                                 | Code                                                                                              |
+| ----------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Shared branding   | Every route downloaded a 1.26 MB PNG for a small logo                                     | Both header and footer use the same 128px lossless WebP, about 10 KB                                  | Match the display size at high pixel density and free bandwidth for initial content | `apps/web/src/components/AppHeader.tsx`, `AppFooter.tsx`, `public/images/woodbrook-logo-128.webp` |
+| Home artwork      | Full-resolution seasonal illustration, note and coastal background exceeded 3 MB combined | Existing artwork encoded to smaller WebP assets with preserved transparency                           | Reduce competition with the hero and fonts; original assets retained                | `HomeHero.tsx`, `HomeEventCard.tsx`, `home.css`, `apps/web/public/images/`                        |
+| Shared styles     | Four separate blocking stylesheets                                                        | One combined stylesheet preserves base, theme, home and auth cascade order                            | Reduce initial resource overhead without changing styles                            | `apps/web/src/app/site.css`, `apps/web/src/routes/__root.tsx`                                     |
+| Fonts             | Latin body and heading fonts discovered after styles loaded                               | Anonymous WOFF2 preload hints use the same Vite-hashed URLs as CSS                                    | Discover the two visible fonts directly from HTML without duplicate transfers       | `apps/web/src/routes/__root.tsx`                                                                  |
+| Audit preview     | Dynamic server-rendered preview fetched Sanity during each audited page load              | Verified static production output served by local Wrangler, with the same audit matrix and thresholds | Measure the deployed serving model and keep CMS failures visible at build time      | `apps/web/scripts/lighthouse.ts`, existing `build-static.ts`, `wrangler.jsonc`                    |
+| Regression checks | No image transfer budget                                                                  | Browser tests fetch the image URLs actually rendered and enforce small logo/artwork budgets           | Catch reintroduction of full-resolution images through visible product markup       | `apps/web/tests/e2e/image-loading.spec.ts`                                                        |
+
+The image encoder is an isolated local Pillow tool, not a runtime or repository dependency. It resizes copies with Lanczos and encodes WebP method 6; the logo is lossless, the note and seasonal illustration use quality 85. The hero and darkened coastal fallback use quality 60; its responsive width hint matches the 85% mobile / 67% desktop image region. The note is 400px wide and the fallback background 768px wide. The illustrated event is marked before its child image is parsed so its covered background is never requested. No new artwork, local facts or content source changes were introduced. Lighthouse routes, simulated mobile network, CPU throttling and score thresholds remain unchanged. The harness now runs `build:static` and `wrangler dev --local`, matching production static asset serving. The previous dynamic preview made live Sanity requests during audits; an observed local-info request waited 13 seconds before responding. The content source is still Sanity and is validated while building.
+
+Exact source/output sizes, dimensions and encoding settings are recorded in `assets/image-encodings.json`. The 768px fallback is approximately 43 KB; it remains available for events without an illustration. The decorative note is approximately 9 KB, and the seasonal illustration approximately 55 KB.
+
+## Architecture changes
+
+Woodbrook is a public information and action hub for residents in Shankill. TanStack Start renders its browser interface; Vite prepares versioned assets, and Cloudflare serves the static production website. This change shortens the same browser asset-loading path without adding services.
+
+| Level | Change                                                                                                                                     | Evidence                                                                     |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| C1    | Unchanged: same residents, public website and external content/authentication systems                                                      | No new system or actor; public routes remain the same                        |
+| C2    | Unchanged: same browser application, build and Cloudflare asset host; smaller image payloads and fewer initial stylesheet requests         | Existing static build and `wrangler.jsonc`; root resource hints              |
+| C3    | Unchanged: header, footer and home components keep their responsibilities and interfaces; they select optimized copies of existing artwork | Six focused asset URL substitutions; CSS cascade preserved in `app/site.css` |
+
+No new C4 diagram is needed: the architectural boundaries and interactions are unchanged, and the request/payload changes are recorded in the technical table.
+
+## Verification
+
+| Check                                | Result | Evidence                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Original Lighthouse regression       | FAIL   | [CI run 39773667579](https://github.com/szabototo89/woodbrook-residents/actions/runs/39773667579): home mobile 70/desktop 79; other public mobile routes also below 90                                                                                                                                                                                                                                                                                        |
+| TDD image budget                     | PASS   | New browser budget tests failed twice against the original logo, then both desktop/mobile cases passed after optimized assets were selected                                                                                                                                                                                                                                                                                                                   |
+| Image-only intermediate audit        | FAIL   | All desktop routes improved, but mobile home 85 and other mobile pages remained below 90; `assets/images-only-lighthouse.json`. This led to the shared stylesheet and font hints                                                                                                                                                                                                                                                                              |
+| Styles/font intermediate audit       | FAIL   | Most mobile pages reached 93–96, but home remained 88 and local-info hit 81 during a 13-second Sanity wait; `assets/styles-fonts-lighthouse.json`. This led to further image savings and auditing the production static output                                                                                                                                                                                                                                |
+| Final Lighthouse matrix              | PASS   | `CONTENT_SOURCE=sanity bun run --cwd apps/web test:lighthouse --port=4194` completed all 14 combinations without retries; desktop performance 100 throughout, mobile 91–94, other categories 98–100. Thresholds remain 90 for every category; `assets/final-lighthouse.json`                                                                                                                                                                                  |
+| Repository build and checks          | PASS   | `bun run build` exited 0. Full required `CI=true E2E_SANITY_STUB_PORT=1486 E2E_WEB_PORT=4286 git commit` hooks passed on `a5b303b`: lint/typecheck and repository unit/browser/end-to-end suites, including 48 public-site and 10 Firebase browser cases. Seven existing browser skips remain unchanged. Static audit build verified 86 HTML pages, 74 CMS data files, 74 sitemap URLs, 23 calendar files and internal links                                  |
+| Original brand expectations          | FAIL   | First full commit check found old PNG URL and MIME assertions in the existing desktop brand test. This was an assertion update required by the asset format change                                                                                                                                                                                                                                                                                            |
+| Updated brand and helper regressions | PASS   | Updated assertions preserve visible branding and natural-image checks while expecting the new WebP URLs and MIME type; focused brand test passed, as did 11 Lighthouse helper tests and the final full hooks                                                                                                                                                                                                                                                  |
+| Desktop/mobile visual review         | PASS   | Playwright at 1440 × 1000 and 390 × 844, 2× pixels, real published Sanity content; fonts/hero loaded, no horizontal overflow and no hidden coastal image request under the seasonal illustration. Screenshots below; `assets/browser-review.json`                                                                                                                                                                                                             |
+| Handoff viewer                       | PASS   | Playwright checked this document and its gallery at 1440px and 390px, local images, next/previous controls and no horizontal overflow; `assets/handoff-review.json`                                                                                                                                                                                                                                                                                           |
+| Lighthouse CI                        | PASS   | [GitHub run 39779554184](https://github.com/szabototo89/woodbrook-residents/actions/runs/39779554184) passed all 14 combinations on Linux Chrome: desktop performance 100 throughout, mobile home 91 and other mobile routes 94, other categories 98–100. `assets/ci-lighthouse.json`; before/after lab metrics in `assets/lab-metrics.json`                                                                                                                  |
+| Main integration                     | PASS   | Verified code `a5b303b` merged into main and pushed. An unrelated staged `HANDOFF.md` edit was temporarily preserved and restored with identical working-file and index hashes; it was excluded from the feature commit                                                                                                                                                                                                                                       |
+| Live deployment                      | PASS   | [Cloudflare build 4d5beb91](https://dash.cloudflare.com/e314b1fc6ed42c211154ffaae0193554/workers/services/view/woodbrook/production/builds/4d5beb91-e7c0-4f88-867e-e71cf3ee5edc) succeeded. Production Playwright at 1440px/390px verified HTTP 200, optimized logo and transfer budget, one stylesheet, two font preloads, no overflow and the preserved private-account login guard with zero anonymous Firestore requests; `assets/production-review.json` |
+
+## Appearance
+
+Existing published Sanity content in the local development preview, accessed 22 October 2026. These screenshots show the unchanged visual design with optimized assets; the analytics choice was declined before capture.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop — optimized public home',
+      alt: 'Desktop Woodbrook home page with optimized logo, coastal photograph and event artwork',
+      description:
+        '1440 × 1000 viewport at 2× pixels. Review sharp branding, readable typography, the coastal hero and existing event artwork.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile — optimized public home',
+      alt: 'Mobile Woodbrook home page with the existing hero and stacked navigation tiles',
+      description:
+        '390 × 844 viewport at 2× pixels. Review the existing mobile composition, readable search and shortcut controls, and absence of horizontal overflow.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None. The implementation is live, all 14 Lighthouse CI combinations pass, and the documentation commit runs the repository checks before integration. The audit remains a lab measurement rather than a claim about field-user telemetry.

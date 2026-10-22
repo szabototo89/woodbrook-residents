@@ -1,5 +1,6 @@
 # Capability index
 
+- [Fast public page loading](page-loading.md) — Available
 - [Private account details](account-details.md) — Available
 - [Firebase accounts](firebase-authentication.md) — Available
 - [Clerk accounts](clerk-authentication.md) — Removed

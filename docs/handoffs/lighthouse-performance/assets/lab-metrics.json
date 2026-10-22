@@ -1,0 +1,450 @@
+[
+  {
+    "report": "events.desktop.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 619.6063,
+        "final": 532.210875,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 1649.6063000000001,
+        "final": 640.241,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.0001383090644225199,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1592247,
+        "final": 274552,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "events.mobile.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 2860.0842,
+        "final": 2126.8316999999997,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 9160.084200000001,
+        "final": 2726.8316999999997,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 82,
+        "final": 41,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.0001180393225606457,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1592247,
+        "final": 274583,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "get-involved.desktop.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 573.0853,
+        "final": 502.7256,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 593.0853,
+        "final": 582.7256,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.001407323721722458,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1535048,
+        "final": 267768,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "get-involved.mobile.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 2449.4165999999996,
+        "final": 2133.3078,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 8859.4166,
+        "final": 2658.3078,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.01579713821510239,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1535048,
+        "final": 267754,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "home.desktop.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 625.1387,
+        "final": 503.9801,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 4051.1386999999995,
+        "final": 799.95025,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.003941662960222147,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 5765623,
+        "final": 521371,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "home.mobile.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 2768.2802999999994,
+        "final": 1968.3516,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 19975.2803,
+        "final": 3243.3516,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 8,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.02643168581665946,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 5292741,
+        "final": 414352,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "local-info.desktop.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 668.9771000000002,
+        "final": 579.1168749999999,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 1694.9771,
+        "final": 687.705,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.002668226339266928,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1612279,
+        "final": 282484,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "local-info.mobile.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 2911.947,
+        "final": 2126.10735,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 3211.947,
+        "final": 2801.10735,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 20.5,
+        "final": 9,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.001290627762358448,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1612279,
+        "final": 282475,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "projects.desktop.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 612.2749000000001,
+        "final": 537.3436,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 1652.2749000000001,
+        "final": 662.6784,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.005747393513307983,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1543969,
+        "final": 270228,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "projects.mobile.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 2600.7298,
+        "final": 2130.39,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 9007.729800000001,
+        "final": 2730.39,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.03056622703337855,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1543969,
+        "final": 270234,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "surveys.desktop.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 574.3643000000001,
+        "final": 539.59375,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 1614.3643000000002,
+        "final": 645.25,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.0001383090644225199,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1536163,
+        "final": 268523,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "surveys.mobile.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 2558.3463999999994,
+        "final": 2117.7954,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 8858.346399999999,
+        "final": 2717.7954,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.002265960812062951,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1536163,
+        "final": 268527,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "updates.desktop.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 608.6709,
+        "final": 546.4205,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 1648.6709,
+        "final": 656.052,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.002249567314106232,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1547658,
+        "final": 270848,
+        "unit": "byte"
+      }
+    }
+  },
+  {
+    "report": "updates.mobile.report.json",
+    "baselinePlatform": "GitHub Linux Chrome, dynamic preview, run 39773667579",
+    "finalPlatform": "GitHub Linux Chrome, static Cloudflare runtime, run 39779554184",
+    "metrics": {
+      "first-contentful-paint": {
+        "baseline": 2708.6092,
+        "final": 2127.5415000000003,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "baseline": 9008.609199999999,
+        "final": 2727.5415000000003,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "baseline": 0,
+        "final": 0,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "baseline": 0.0002952502676955529,
+        "final": 0,
+        "unit": "unitless"
+      },
+      "total-byte-weight": {
+        "baseline": 1547658,
+        "final": 270842,
+        "unit": "byte"
+      }
+    }
+  }
+]

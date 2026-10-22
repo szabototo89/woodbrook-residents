@@ -1,0 +1,86 @@
+{
+  "encoder": "Pillow 13.0.0 WebP, method 6, Lanczos resizing",
+  "originalsRetained": true,
+  "images": [
+    {
+      "source": "woodbrook-logo.png",
+      "output": "woodbrook-logo-128.webp",
+      "sourceBytes": 1264537,
+      "outputBytes": 10186,
+      "dimensions": [128, 128],
+      "maximumWidth": 128,
+      "quality": 100,
+      "lossless": true
+    },
+    {
+      "source": "coast-note.png",
+      "output": "coast-note-400.webp",
+      "sourceBytes": 1037431,
+      "outputBytes": 9386,
+      "dimensions": [400, 267],
+      "maximumWidth": 400,
+      "quality": 85,
+      "lossless": false
+    },
+    {
+      "source": "halloween-event.png",
+      "output": "halloween-event-768.webp",
+      "sourceBytes": 1920260,
+      "outputBytes": 54824,
+      "dimensions": [768, 512],
+      "maximumWidth": 768,
+      "quality": 85,
+      "lossless": false
+    },
+    {
+      "source": "shankill-coast.jpg",
+      "output": "shankill-coast-768.webp",
+      "sourceBytes": 673677,
+      "outputBytes": 43336,
+      "dimensions": [768, 576],
+      "maximumWidth": 768,
+      "quality": 60,
+      "lossless": false
+    },
+    {
+      "source": "woodbrook-coast-aerial.jpg",
+      "output": "woodbrook-coast-aerial-light-480.webp",
+      "sourceBytes": 783929,
+      "outputBytes": 28438,
+      "dimensions": [480, 355],
+      "maximumWidth": 480,
+      "quality": 60,
+      "lossless": false
+    },
+    {
+      "source": "woodbrook-coast-aerial.jpg",
+      "output": "woodbrook-coast-aerial-light-768.webp",
+      "sourceBytes": 783929,
+      "outputBytes": 70910,
+      "dimensions": [768, 568],
+      "maximumWidth": 768,
+      "quality": 60,
+      "lossless": false
+    },
+    {
+      "source": "woodbrook-coast-aerial.jpg",
+      "output": "woodbrook-coast-aerial-light-1200.webp",
+      "sourceBytes": 783929,
+      "outputBytes": 177924,
+      "dimensions": [1200, 888],
+      "maximumWidth": 1200,
+      "quality": 60,
+      "lossless": false
+    },
+    {
+      "source": "woodbrook-coast-aerial.jpg",
+      "output": "woodbrook-coast-aerial-light-1920.webp",
+      "sourceBytes": 783929,
+      "outputBytes": 451148,
+      "dimensions": [1920, 1420],
+      "maximumWidth": 1920,
+      "quality": 60,
+      "lossless": false
+    }
+  ]
+}
