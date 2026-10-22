@@ -1,10 +1,33 @@
 # Agent handoffs
 
-After developing a feature, create a new handoff at `docs/handoffs/<new-feature-slug>/index.mdx` at the repository root. Keep all related screenshots, C4 sources, and evidence in that handoff's `assets/` folder; never share asset folders between handoffs. While a feature is in progress, update its own handoff. Once it is complete, do not edit it to document another feature; create a new handoff with a new slug. A completed handoff is an immutable historical record: preserve its title, summary, body, evidence, screenshots, worktree, branch, commit and `updatedAt`. The only permitted change is adding a newly required frontmatter field during a repository-wide metadata migration. Record observed facts and explicit unknowns; never include secrets.
+After developing a feature, create a new handoff at `docs/handoffs/<feature-slug>/index.mdx`. Keep screenshots, C4 sources and evidence in that handoff's own `assets/` folder; never share asset folders between handoffs.
+
+- While the feature is in progress, update its own handoff.
+- Once it is complete, stop editing it. Use a new slug for later work.
+- A completed handoff is an immutable historical record. Preserve its title, summary, body, evidence, screenshots, worktree, branch, commit and `updatedAt`.
+- The only permitted later change is adding a newly required frontmatter field during a repository-wide migration.
+- Record observed facts and explicit unknowns. Never include secrets.
 
 Run the independent viewer with `bun run dev:handoffs` and open <http://127.0.0.1:3002/>. Documents open at `/#/<feature-slug>`; built previews need rebuilding after changes.
 
-Use this small starting template. Record actual worktree, branch, HEAD, coding agent and agent session, and UTC update time; these fields appear in the document header. Status: in progress / blocked / ready for review / complete. Use `opencode`, `codex`, `claude` or the actual agent name, and paste the agent's session identifier. Use `Not recorded` only for historical documents whose session was not captured.
+## Writing standard
+
+A handoff is read by a new engineer and by a non-technical maintainer. Both must be able to follow it. Write in Simple Technical English:
+
+- Short sentences, one idea each. Active voice. Present tense for current behavior, past tense for what changed.
+- Common words. Write "uses", not "leverages"; "shows", not "surfaces"; "must", not "is required to".
+- Define each technical term once, in plain words, at first use. Reuse the names in [`docs/architecture/c4-model.json`](docs/architecture/c4-model.json); do not invent synonyms or new definitions.
+- Concrete facts only: numbers, commands, file paths, URLs, observed results. State an unknown as unknown. Never present a plan as a result.
+- No filler. Drop openings such as "In today's fast-moving landscape", self-praise and vague claims such as "robust", "seamless", "comprehensive" or "better experience".
+- Keep it short. One sentence per summary, one to three sentences per goal, table cells under 25 words. Do not repeat a table in prose.
+- Explain the reason for a change before its mechanics. A reader who does not write code must still follow the summary, the Goal and the Verification table.
+
+| Write this                                                  | Not this                                                          |
+| ----------------------------------------------------------- | ----------------------------------------------------------------- |
+| The page reads one profile document when it opens.          | The page leverages an optimized, seamless data-fetching strategy. |
+| Rules deny list access, so no one can browse all residents. | The security posture comprehensively guards against enumeration.  |
+
+Use this small starting template. Record the real worktree, branch, HEAD, coding agent and agent session, and the UTC update time; these fields appear in the document header. Status is one of in progress, blocked, ready for review or complete. Use `opencode`, `codex`, `claude` or the actual agent name, and paste the agent's session identifier. Use `Not recorded` only for historical documents whose session was not captured. Replace every placeholder and delete guidance you do not need.
 
 ```mdx
 import desktop from './assets/desktop.png';
@@ -19,16 +42,16 @@ export const metadata = {
   branch: 'session/feature-name',
   commit: 'Recorded Git HEAD',
   updatedAt: 'YYYY-MM-DDTHH:mm:ssZ',
-  summary: 'One sentence describing the technical change and its reason.',
+  summary: 'One sentence: what changed and why.',
 };
 
 ## Goal
 
-What success looks like and what is in scope.
+One to three sentences. What the feature does for the user and what is in scope.
 
 ## Technical changes
 
-Baseline: record the base commit and the compared session commit. Explain the implementation delta, data flow, contracts, dependencies, configuration and migration impact where relevant. Add focused prose when the table alone cannot explain a decision.
+Baseline: the base commit and the session commit compared. Explain the implementation delta, data flow, contracts, dependencies, configuration and migration impact only where relevant. Keep each cell to one short sentence.
 
 | Area                   | Before                                 | After                | Why                 | Code                                 |
 | ---------------------- | -------------------------------------- | -------------------- | ------------------- | ------------------------------------ |
@@ -36,7 +59,7 @@ Baseline: record the base commit and the compared session commit. Explain the im
 
 ## Architecture changes
 
-Introduce the product and relevant terms briefly. Explain how the technical changes above affect boundaries, responsibilities and interactions. Account for every C4 level; show diagrams only where useful.
+One short paragraph: what the product does, the terms a reader needs, and how this change moves boundaries, responsibilities or interactions. Account for every C4 level; show a diagram only where it helps.
 
 | Level | Change                                                                             | Evidence                            |
 | ----- | ---------------------------------------------------------------------------------- | ----------------------------------- |
@@ -48,11 +71,11 @@ Embed the relevant change-annotated diagrams here. Each view must show its chang
 
 ## Verification
 
-| Check                 | Result  | Evidence                                                                                        |
-| --------------------- | ------- | ----------------------------------------------------------------------------------------------- |
-| Focused regression    | NOT RUN | Exact command, observed result/counts and evidence path when run; otherwise explain why not run |
-| Repository build      | NOT RUN | `bun run build`; record exit status when run                                                    |
-| Desktop/mobile review | NOT RUN | Viewports, screenshot paths, observed behavior and limitations                                  |
+| Check                 | Result  | Evidence                                                                 |
+| --------------------- | ------- | ------------------------------------------------------------------------ |
+| Focused regression    | NOT RUN | Command, observed result and evidence path; or why the check was not run |
+| Repository build      | NOT RUN | `bun run build` with exit status when run                                |
+| Desktop/mobile review | NOT RUN | Viewports, screenshot paths, observed behavior and limitations           |
 
 ## Appearance
 
@@ -82,7 +105,9 @@ Next concrete action, remaining work, blockers, and questions. Write "None" when
 
 ## Required handoff structure
 
-New handoffs describe what changed relative to the recorded base commit. Use the template's required sections in order: Goal, Technical changes, Architecture changes, Verification, Next steps. Appearance is optional after Verification. Keep the summary focused on the change, and remove the former Current state section. The Technical changes and Architecture changes tables are required; expand them with focused implementation explanations and diagrams as needed.
+New handoffs describe what changed relative to the recorded base commit. Use the template's required sections in order: Goal, Technical changes, Architecture changes, Verification, Next steps. Appearance is optional after Verification. Keep the summary focused on the change; there is no Current state section. Both tables are required; add only the prose and diagrams a reader needs.
+
+Keep the document as short as the facts allow. Prefer a table or one sentence over a paragraph. Do not pad, repeat or add a closing summary.
 
 All verification outcomes belong in the Verification table, including failures, skipped checks, commands, evidence and limitations. Do not replace it with bullet lists or PASS paragraphs. PASS means an observed successful check; FAIL means an observed failure; NOT RUN means no result is available. Preserve useful evidence even when a check fails.
 
