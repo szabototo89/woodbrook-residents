@@ -1,0 +1,50 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "deviceScaleFactor": 2,
+    "result": "PASS",
+    "source": "Local development preview using real published Sanity content",
+    "checks": [
+      "heading and brand visible",
+      "fonts loaded",
+      "optimized hero decoded",
+      "no overflow",
+      "no hidden coastal background under illustration"
+    ],
+    "hero": "/images/woodbrook-coast-aerial-light-1920.webp",
+    "images": [
+      "/images/woodbrook-logo-128.webp",
+      "/images/coast-note-400.webp",
+      "/images/woodbrook-coast-aerial-light-1920.webp",
+      "/images/meadow.svg",
+      "/images/halloween-event-768.webp"
+    ]
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "deviceScaleFactor": 2,
+    "result": "PASS",
+    "source": "Local development preview using real published Sanity content",
+    "checks": [
+      "heading and brand visible",
+      "fonts loaded",
+      "optimized hero decoded",
+      "no overflow",
+      "no hidden coastal background under illustration"
+    ],
+    "hero": "/images/woodbrook-coast-aerial-light-768.webp",
+    "images": [
+      "/images/woodbrook-logo-128.webp",
+      "/images/coast-note-400.webp",
+      "/images/woodbrook-coast-aerial-light-768.webp",
+      "/images/meadow.svg",
+      "/images/halloween-event-768.webp"
+    ]
+  }
+]
