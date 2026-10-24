@@ -40,6 +40,7 @@ export type Update = {
   imageCredit?: string;
   imageCreditUrl?: string;
   featured: boolean;
+  featuredUntil?: string;
 };
 
 export type Project = {
@@ -127,6 +128,7 @@ export type Resource = {
 export type HomeContent = {
   availability: ContentAvailability;
   siteSetting?: SiteSetting;
+  featuredUpdate?: Update;
   updates: Update[];
   projects: Project[];
   events: CommunityEvent[];

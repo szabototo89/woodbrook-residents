@@ -241,6 +241,44 @@
       "description": "Scopes location operations to the current account and reads, saves or removes its private profile",
       "technology": "UID-bound AuthActions and Firestore Lite SDK",
       "parent": "woodbrook_browser"
+    },
+    "news_editor": {
+      "kind": "person",
+      "name": "News editor",
+      "description": "Publishes source-linked local news and selects homepage features"
+    },
+    "sanity_content_lake": {
+      "kind": "system",
+      "name": "Sanity Content Lake",
+      "description": "Stores published community content and editor drafts"
+    },
+    "woodbrook_sanity_studio": {
+      "kind": "container",
+      "name": "Sanity Studio",
+      "description": "Edits and publishes community content",
+      "technology": "Sanity Studio and TypeScript",
+      "parent": "woodbrook_system"
+    },
+    "news_content_adapter": {
+      "kind": "component",
+      "name": "News content adapter",
+      "description": "Loads and validates source-linked articles into the shared content snapshot",
+      "technology": "Sanity client and Zod",
+      "parent": "woodbrook_browser"
+    },
+    "homepage_news_selection": {
+      "kind": "component",
+      "name": "Homepage news selection",
+      "description": "Selects one eligible feature and recent news from published articles",
+      "technology": "TypeScript content queries",
+      "parent": "woodbrook_browser"
+    },
+    "homepage_news_presentation": {
+      "kind": "component",
+      "name": "Homepage news presentation",
+      "description": "Shows a labelled feature and recent headlines with article navigation",
+      "technology": "React and CSS",
+      "parent": "woodbrook_browser"
     }
   },
   "relationships": {
@@ -461,6 +499,42 @@
       "to": "account_details_store",
       "label": "Requests own profile changes",
       "technology": "AuthActions"
+    },
+    "news_editor_studio": {
+      "from": "news_editor",
+      "to": "woodbrook_sanity_studio",
+      "label": "Edits and publishes articles using",
+      "technology": "Browser"
+    },
+    "news_studio_lake": {
+      "from": "woodbrook_sanity_studio",
+      "to": "sanity_content_lake",
+      "label": "Publishes article content and feature metadata to",
+      "technology": "Sanity API over HTTPS"
+    },
+    "news_website_lake": {
+      "from": "woodbrook_browser",
+      "to": "sanity_content_lake",
+      "label": "Reads published news and feature eligibility from",
+      "technology": "GROQ over HTTPS at runtime or static build"
+    },
+    "news_adapter_lake": {
+      "from": "news_content_adapter",
+      "to": "sanity_content_lake",
+      "label": "Queries published articles including feature expiry from",
+      "technology": "GROQ over HTTPS"
+    },
+    "news_selection_adapter": {
+      "from": "homepage_news_selection",
+      "to": "news_content_adapter",
+      "label": "Selects news from the validated snapshot supplied by",
+      "technology": "In-memory TypeScript data"
+    },
+    "news_presentation_selection": {
+      "from": "homepage_news_presentation",
+      "to": "homepage_news_selection",
+      "label": "Displays the feature and recent stories selected by",
+      "technology": "TanStack route loader data"
     }
   },
   "diagrams": {
@@ -809,6 +883,96 @@
           "account_store_database": {
             "status": "added",
             "description": "New owner-only document."
+          }
+        }
+      }
+    },
+    "featured_news_containers": {
+      "level": "C2",
+      "scope": "woodbrook_system",
+      "title": "Homepage featured news — C2 containers — changes from 0adcbc9",
+      "handoff": "featured-homepage-news",
+      "source": "docs/handoffs/featured-homepage-news/assets/c2-containers.puml",
+      "elements": [
+        "news_editor",
+        "resident",
+        "woodbrook_sanity_studio",
+        "woodbrook_browser",
+        "sanity_content_lake"
+      ],
+      "relationships": [
+        "news_editor_studio",
+        "resident_browser",
+        "news_studio_lake",
+        "news_website_lake"
+      ],
+      "changes": {
+        "elements": {
+          "woodbrook_sanity_studio": {
+            "status": "changed",
+            "description": "Previously had an unused featured switch; now explains homepage selection and adds optional expiry."
+          },
+          "woodbrook_browser": {
+            "status": "changed",
+            "description": "Previously showed three recent stories; now shows one eligible feature and two recent stories."
+          }
+        },
+        "relationships": {
+          "news_studio_lake": {
+            "status": "changed",
+            "description": "Article publishing now includes optional featuredUntil."
+          },
+          "news_website_lake": {
+            "status": "changed",
+            "description": "Published article reads now include featuredUntil for homepage selection."
+          }
+        }
+      }
+    },
+    "featured_news_components": {
+      "level": "C3",
+      "scope": "woodbrook_browser",
+      "title": "Homepage featured news — C3 website components — changes from 0adcbc9",
+      "handoff": "featured-homepage-news",
+      "source": "docs/handoffs/featured-homepage-news/assets/c3-components.puml",
+      "elements": [
+        "news_content_adapter",
+        "homepage_news_selection",
+        "homepage_news_presentation",
+        "sanity_content_lake"
+      ],
+      "relationships": [
+        "news_adapter_lake",
+        "news_selection_adapter",
+        "news_presentation_selection"
+      ],
+      "changes": {
+        "elements": {
+          "news_content_adapter": {
+            "status": "changed",
+            "description": "Adds optional expiry to the existing query and validated article contract."
+          },
+          "homepage_news_selection": {
+            "status": "changed",
+            "description": "Selects a feature before limiting news and excludes it from recent stories."
+          },
+          "homepage_news_presentation": {
+            "status": "changed",
+            "description": "Adds one prominent accessible feature card with an optional photo."
+          }
+        },
+        "relationships": {
+          "news_adapter_lake": {
+            "status": "changed",
+            "description": "Reads featuredUntil with existing article fields."
+          },
+          "news_selection_adapter": {
+            "status": "changed",
+            "description": "Uses feature flags and expiry from the full snapshot."
+          },
+          "news_presentation_selection": {
+            "status": "changed",
+            "description": "Receives featuredUpdate separately from recent updates."
           }
         }
       }

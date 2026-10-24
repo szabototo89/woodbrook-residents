@@ -42,6 +42,17 @@ test('update schema wires every validation without throwing', () => {
   invokeAllValidations(update.fields ?? [])
 })
 
+test('editors can feature homepage news with an optional expiry in Irish time', () => {
+  const featured = update.fields.find((field) => field.name === 'featured')
+  expect(featured?.title).toBe('Feature on homepage')
+  expect(featured?.initialValue).toBe(false)
+  expect(featured?.description).toContain('newest')
+  const expiry = update.fields.find((field) => field.name === 'featuredUntil')
+  expect(expiry?.type).toBe('datetime')
+  expect(expiry?.options).toMatchObject({displayTimeZone: 'Europe/Dublin'})
+  expect(expiry?.description).toContain('Leave blank')
+})
+
 test('update image alt validation requires alt text only when a photo is set', () => {
   const image = (update.fields ?? []).find((field) => field.name === 'image')
   const alt = image?.fields?.find((field) => field.name === 'alt')

@@ -172,6 +172,9 @@ const sanityUpdateRawSchema = z.object({
   ),
   image: z.unknown().optional().describe('Raw Sanity image value.'),
   featured: sanityBoolean.describe('Raw update featured flag.'),
+  featuredUntil: sanityOptionalText.describe(
+    'Optional homepage feature expiry.',
+  ),
 });
 
 const sanityProjectRawSchema = z.object({
@@ -338,6 +341,7 @@ function mapUpdate(client: SanityClient, item: unknown) {
     sourceReviewedOn: raw.sourceReviewedOn,
     ...normalizeImageFields(client, meta),
     featured: raw.featured,
+    featuredUntil: raw.featuredUntil,
   };
 }
 

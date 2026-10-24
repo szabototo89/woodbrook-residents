@@ -2,8 +2,12 @@ import { Link } from '@tanstack/react-router';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import { formatDate, formatLabel } from '../content/contentFormatting';
 import type { Update } from '../content/contentTypes';
+import { HomeFeaturedNews } from './HomeFeaturedNews';
 
-type HomeUpdatesProps = { updates: Update[] };
+type HomeUpdatesProps = {
+  updates: Update[];
+  featuredUpdate?: Update;
+};
 
 export function HomeUpdates(props: HomeUpdatesProps) {
   return (
@@ -17,7 +21,13 @@ export function HomeUpdates(props: HomeUpdatesProps) {
           View all news <ArrowRight size={14} aria-hidden="true" />
         </Link>
       </div>
-      {props.updates.length === 0 ? (
+      {props.featuredUpdate ? (
+        <HomeFeaturedNews update={props.featuredUpdate} />
+      ) : null}
+      {props.featuredUpdate && props.updates.length > 0 ? (
+        <p className="home-more-news">More local news</p>
+      ) : null}
+      {props.updates.length === 0 && !props.featuredUpdate ? (
         <p className="home-empty">
           No news published yet. Check back for source-linked local news.
         </p>

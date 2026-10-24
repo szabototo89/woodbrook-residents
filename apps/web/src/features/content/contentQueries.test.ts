@@ -58,17 +58,63 @@ const unorderedUpdates = [
   { ...update(3), publishedOn: '2026-10-01' },
 ];
 
-test('homepage selects the three newest news articles by publication date', () => {
+test('homepage promotes an older editorial pick and keeps two newest other stories', () => {
   const home = getHomeContentFromSnapshot({
     ...snapshot,
     updates: unorderedUpdates,
   });
 
+  expect(home.featuredUpdate?.title).toBe('Update 0');
   expect(home.updates.map((item) => item.title)).toEqual([
     'Update 3',
     'Update 2',
-    'Update 1',
   ]);
+});
+
+test('homepage chooses the newest eligible feature and excludes expired and future picks', () => {
+  const updates = [
+    { ...update(0), featured: true, publishedOn: '2026-09-01' },
+    {
+      ...update(1),
+      featured: true,
+      publishedOn: '2026-09-02',
+      featuredUntil: '2026-10-01T12:00:00Z',
+    },
+    {
+      ...update(2),
+      featured: true,
+      publishedOn: '2026-09-03',
+      featuredUntil: '2026-10-01T11:00:00Z',
+    },
+    { ...update(3), featured: true, publishedOn: '2026-11-01' },
+  ];
+  const content = { ...snapshot, updates };
+  expect(
+    getHomeContentFromSnapshot(content, '2026-10-01T11:59:59Z').featuredUpdate
+      ?.title,
+  ).toBe('Update 1');
+  expect(
+    getHomeContentFromSnapshot(content, '2026-10-01T12:00:00Z').featuredUpdate
+      ?.title,
+  ).toBe('Update 0');
+  expect(content.updates).toEqual(updates);
+});
+
+test('homepage falls back to three latest stories when all feature windows have ended', () => {
+  const home = getHomeContentFromSnapshot(
+    {
+      ...snapshot,
+      updates: [
+        { ...update(0), featured: true, featuredUntil: '2026-09-01T00:00:00Z' },
+        update(1),
+        update(2),
+        update(3),
+      ],
+    },
+    '2026-10-01T00:00:00Z',
+  );
+  expect(home.featuredUpdate).toBeUndefined();
+  expect(home.updates).toHaveLength(3);
 });
 
 test('news listing sorts by publication date before limiting without changing source order', () => {

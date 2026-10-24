@@ -20,7 +20,10 @@ export function HomePage() {
       <div className="shell home-content">
         {content.availability === 'unavailable' ? <CmsUnavailable /> : null}
         <div className="home-highlights">
-          <HomeUpdates updates={content.updates} />
+          <HomeUpdates
+            updates={content.updates}
+            featuredUpdate={content.featuredUpdate}
+          />
           {homeEvent ? (
             <HomeEventCard event={homeEvent} />
           ) : (

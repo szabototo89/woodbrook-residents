@@ -72,6 +72,7 @@ test('SanityContentSource normalizes slugs, images, and project relations', asyn
           sourceUrl: 'https://example.com/path',
           sourceReviewedOn: '2026-09-10',
           featured: true,
+          featuredUntil: '2026-11-01T12:00:00.000Z',
         },
       ]);
     }
@@ -143,6 +144,7 @@ test('SanityContentSource normalizes slugs, images, and project relations', asyn
   expect(snapshot.siteSetting?.name).toBe('Woodbrook');
   expect(snapshot.updates[0]?.slug).toBe('path-works');
   expect(snapshot.updates[0]?.documentId).toBe('update-1');
+  expect(snapshot.updates[0]?.featuredUntil).toBe('2026-11-01T12:00:00.000Z');
   expect(snapshot.surveys[0]?.relatedProjectId).toBe('project-1');
   expect(snapshot.resources[0]?.displayOrder).toBe(1);
 });

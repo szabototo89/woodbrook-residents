@@ -6,17 +6,21 @@ const newestFirst = [
   'Woodbrook DART station is now open',
 ];
 
-test('landing page shows news from newest to oldest publication date', async ({
+test('landing page separates the editorial feature from recent news', async ({
   page,
 }) => {
   await page.goto('/');
 
   const news = page.getByRole('region', { name: 'What’s new in Woodbrook' });
-  await expect(news.getByRole('heading', { level: 3 })).toHaveText(newestFirst);
+  await expect(news.getByRole('heading', { level: 3 })).toHaveText([
+    newestFirst[2]!,
+    newestFirst[0]!,
+    newestFirst[1]!,
+  ]);
   await expect(news.locator('time')).toHaveText([
-    '5 September 2026',
-    '5 September 2026',
     '10 August 2025',
+    '5 September 2026',
+    '5 September 2026',
   ]);
 });
 

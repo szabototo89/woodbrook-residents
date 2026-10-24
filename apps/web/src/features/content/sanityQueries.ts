@@ -18,7 +18,8 @@ export const updatesQuery = `*[_type == "update"] | order(publishedOn desc) {
   sourceUrl,
   sourceReviewedOn,
   image,
-  featured
+  featured,
+  featuredUntil
 }`;
 
 export const projectsQuery = `*[_type == "project"] | order(featured desc, updatedOn desc) {
