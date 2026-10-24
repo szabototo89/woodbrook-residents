@@ -8,7 +8,8 @@ export type Route =
   | { name: 'help' }
   | { name: 'more' }
   | { name: 'collection'; collection: CollectionKey }
-  | { name: 'detail'; collection: CollectionKey; slug: string };
+  | { name: 'detail'; collection: CollectionKey; slug: string }
+  | { name: 'external'; url: string; title: string };
 
 export type CardModel = {
   slug: string;

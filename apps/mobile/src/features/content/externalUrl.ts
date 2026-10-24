@@ -1,6 +1,6 @@
 export const OPEN_URL_EVENT = 'woodbrook:open-url';
 
-export type OpenUrl = (url: string) => void;
+export type OpenUrl = (url: string) => boolean | void;
 
 /** Reads the requested URL from a host event without type assertions. */
 export function requestedUrl(event: Event): string | undefined {
@@ -19,16 +19,31 @@ export function domainOf(url: string): string {
 }
 
 /**
- * Opens an external URL. Lynx bundles have no built-in browser opener, so
- * this uses a window opener when one exists (tests, previews) and otherwise
+ * Opens an external URL and reports whether the tap was handled.
+ * Lynx bundles have no built-in browser opener, so this tries a native
+ * module when one exists, then a window opener (tests, previews), then
  * notifies the browser host through a document event the host listens for.
- * On iOS without a native opener it degrades to a no-op tap target that
- * still exposes an accessible button label.
+ * Returns false on iOS native without an opener so callers can fall back
+ * to an in-app view instead of leaving a dead tap target.
  */
-export function openExternalUrl(url: string): void {
+export function openExternalUrl(url: string): boolean {
+  try {
+    if (typeof NativeModules !== 'undefined') {
+      if (typeof NativeModules.openUrl === 'function') {
+        NativeModules.openUrl(url);
+        return true;
+      }
+      if (typeof NativeModules.bridge?.call === 'function') {
+        NativeModules.bridge.call('openUrl', { url }, () => undefined);
+        return true;
+      }
+    }
+  } catch {
+    // Fall through to window/document handlers.
+  }
   if (typeof globalThis.open === 'function') {
     globalThis.open(url, '_blank', 'noopener,noreferrer');
-    return;
+    return true;
   }
   const targetDocument = globalThis.document;
   // Build the event in the document's own realm so host listeners
@@ -42,5 +57,7 @@ export function openExternalUrl(url: string): void {
         bubbles: true,
       }),
     );
+    return true;
   }
+  return false;
 }
