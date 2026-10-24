@@ -1,0 +1,25 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Homepage featured news — C2 containers — changes from 0adcbc9
+
+Person(news_editor, "News editor", "Publishes source-linked local news and selects homepage features")
+Person(resident, "Resident", "Reads community information and may opt into an account")
+System_Ext(sanity_content_lake, "Sanity Content Lake", "Stores published community content and editor drafts")
+System_Boundary(woodbrook_system, "Woodbrook community website") {
+  Container(woodbrook_sanity_studio, "[CHANGED] Sanity Studio", "Sanity Studio and TypeScript", "Edits and publishes community content\nChange: Previously had an unused featured switch; now explains homepage selection and adds optional expiry.")
+  Container(woodbrook_browser, "[CHANGED] Public website application", "TanStack Start and React", "Displays resident information and optional account pages\nChange: Previously showed three recent stories; now shows one eligible feature and two recent stories.")
+}
+
+Rel(news_editor, woodbrook_sanity_studio, "Edits and publishes articles using", "Browser")
+Rel(resident, woodbrook_browser, "Reads information and opens account pages using", "Browser")
+Rel(woodbrook_sanity_studio, sanity_content_lake, "[CHANGED] Publishes article content and feature metadata to\nChange: Article publishing now includes optional featuredUntil.", "Sanity API over HTTPS")
+Rel(woodbrook_browser, sanity_content_lake, "[CHANGED] Reads published news and feature eligibility from\nChange: Published article reads now include featuredUntil for homepage selection.", "GROQ over HTTPS at runtime or static build")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

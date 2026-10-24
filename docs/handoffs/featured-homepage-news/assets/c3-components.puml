@@ -1,0 +1,23 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Homepage featured news — C3 website components — changes from 0adcbc9
+
+System_Ext(sanity_content_lake, "Sanity Content Lake", "Stores published community content and editor drafts")
+Container_Boundary(woodbrook_browser, "Public website application") {
+  Component(news_content_adapter, "[CHANGED] News content adapter", "Sanity client and Zod", "Loads and validates source-linked articles into the shared content snapshot\nChange: Adds optional expiry to the existing query and validated article contract.")
+  Component(homepage_news_selection, "[CHANGED] Homepage news selection", "TypeScript content queries", "Selects one eligible feature and recent news from published articles\nChange: Selects a feature before limiting news and excludes it from recent stories.")
+  Component(homepage_news_presentation, "[CHANGED] Homepage news presentation", "React and CSS", "Shows a labelled feature and recent headlines with article navigation\nChange: Adds one prominent accessible feature card with an optional photo.")
+}
+
+Rel(news_content_adapter, sanity_content_lake, "[CHANGED] Queries published articles including feature expiry from\nChange: Reads featuredUntil with existing article fields.", "GROQ over HTTPS")
+Rel(homepage_news_selection, news_content_adapter, "[CHANGED] Selects news from the validated snapshot supplied by\nChange: Uses feature flags and expiry from the full snapshot.", "In-memory TypeScript data")
+Rel(homepage_news_presentation, homepage_news_selection, "[CHANGED] Displays the feature and recent stories selected by\nChange: Receives featuredUpdate separately from recent updates.", "TanStack route loader data")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

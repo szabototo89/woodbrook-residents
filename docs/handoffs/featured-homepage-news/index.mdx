@@ -1,0 +1,112 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import containers from './assets/c2-containers.puml?raw';
+import containersImage from './assets/c2-containers.svg';
+import components from './assets/c3-components.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+
+export const metadata = {
+  title: 'Featured homepage news',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a16f4e-3f62-79e3-a49e-29694fc688b0',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/Featured-news-in-the-landing-page',
+  branch: 'szabototo89/Featured-news-in-the-landing-page',
+  commit: 'bc3b6bad5580889e04c579b6c93295561850a910',
+  updatedAt: '2026-10-24T19:20:15Z',
+  summary:
+    'Sanity editors can select a prominent homepage news story with an optional end time.',
+};
+
+## Goal
+
+Help residents identify an editor-selected local story before scanning recent news. Keep the article's date, source and existing detail link visible.
+
+## Technical changes
+
+Baseline: `0adcbc9c26e0fbf885a04e42a75ce547ce9e2004`. Implementation: `bc3b6bad5580889e04c579b6c93295561850a910`. Merge `d5810b3` also brings in newer local main changes without conflicts.
+
+| Area               | Before                                                         | After                                                                                                       | Why                                            | Code                                                                                               |
+| ------------------ | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Editorial controls | Featured switch did not affect homepage news.                  | Feature on homepage explains selection; optional featuredUntil sets an end time in Irish time.              | Reuse the article publishing lifecycle.        | `apps/sanity-studio/schemaTypes/update.ts`                                                         |
+| Article contract   | Featured boolean only.                                         | Optional expiry passes through GROQ, source mapping and runtime validation.                                 | Preserve old documents without migration.      | `apps/web/src/features/content/{sanityQueries,sanityContentSource,contentSchemas,contentTypes}.ts` |
+| Homepage selection | Three newest articles; older picks disappeared before display. | Select newest eligible feature first, then two newest other stories; no feature keeps three recent stories. | Keep editorial priority separate from recency. | `apps/web/src/features/content/contentQueries.ts`                                                  |
+| News presentation  | Three equally weighted rows.                                   | One labelled forest card, optional photo and two quieter recent rows.                                       | Establish a clear visual hierarchy.            | `apps/web/src/features/home/{HomeUpdates,HomeFeaturedNews,HomePage}.tsx`, `featured-news.css`      |
+| News listing       | Newest first.                                                  | Remains newest first; expiry never unpublishes a story.                                                     | Preserve chronological browsing.               | `getUpdatesFromSnapshot`, `tests/e2e/news-order.spec.ts`                                           |
+
+[Design research](./design-research.md) records twelve primary sources, alternatives and the contract chosen before implementation. The [capability document](../../features/featured-homepage-news.md) records acceptance criteria and editor steps.
+
+Existing featured=true stories become eligible on deployment. No live CMS content was changed. Static output evaluates expiry at build time and needs rebuilding to refresh it; runtime loads evaluate the current time. An open page does not refresh automatically.
+
+## Architecture changes
+
+Woodbrook is a public information hub. Sanity Studio is its editor; Sanity Content Lake stores drafts and published content. The Public website application reads articles into a validated snapshot, selects homepage stories and renders them. The feature extends that existing path without adding a service.
+
+| Level | Change                                                                                                            | Evidence                                            |
+| ----- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| C1    | Unchanged: residents, editors, Woodbrook and Sanity retain their existing roles and system boundaries.            | Existing Studio and Sanity adapter; no new service. |
+| C2    | Changed: Studio publishes optional expiry; the website reads it and gives one article priority.                   | C2 diagram and article contract.                    |
+| C3    | Changed: adapter carries expiry, selection separates the feature, and news presentation renders a prominent card. | C3 diagram and Technical changes table.             |
+
+<PlantUmlDiagram
+  title="Featured news — C2 containers"
+  source={containers}
+  image={containersImage}
+/>
+
+Change: Studio and the website exchange optional expiry through the existing Sanity service. The diagram marks changed responsibilities and relationships; unmarked elements are unchanged context.
+
+<PlantUmlDiagram
+  title="Featured news — C3 website components"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: article validation supplies expiry to homepage selection, which sends a separate featuredUpdate to news presentation. These responsibilities remain inside the Public website application.
+
+## Verification
+
+| Check                     | Result  | Evidence                                                                                                                                          |
+| ------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD                       | PASS    | Five web regressions, one Studio regression and the browser styling check failed before their respective implementations.                         |
+| Web units and coverage    | PASS    | `bun run --cwd apps/web test:unit`: 366 standard tests plus one static-search test; per-file coverage passes.                                     |
+| Studio units and coverage | PASS    | `bun run --cwd apps/sanity-studio test:unit`: 53 tests; per-file coverage passes.                                                                 |
+| TypeScript                | PASS    | `bun run --cwd apps/web typecheck` and `bun run --cwd apps/sanity-studio typecheck` exit 0.                                                       |
+| Responsive browser checks | PASS    | Focused Playwright run: 23 passed; one unrelated opt-in screenshot test skipped. Widths 320–1440px; keyboard navigation and story order verified. |
+| Desktop/mobile review     | PASS    | `assets/desktop.png` and `assets/mobile.png`; 1440/390px viewports at 2× density; no-photo sample fixtures visually reviewed.                     |
+| Repository build          | PASS    | `bun run build` exits 0 across all repository apps.                                                                                               |
+| Handoff checks            | PASS    | `bun run --cwd apps/handoffs docs:check` and `c4:check` exit 0; diagrams rendered locally with PlantUML.                                          |
+| Repository hooks          | PASS    | Normal implementation commit hooks complete: formatting, lint, all typechecks and repository unit/browser/e2e suites. No bypass flags.            |
+| Main integration          | PASS    | `git merge --no-edit main` preserves newer mobile/card commits; final `bun run build` exits 0.                                                    |
+| Preview tab               | FAIL    | Port 3000 already occupied; feature server runs on 3001. cmux rejects this process because it was not launched inside cmux.                       |
+| Deployment                | NOT RUN | No website, Studio or live content deployment is part of this change.                                                                             |
+| Handoff viewer            | PASS    | Playwright review at 1440/390px: diagrams, zoom/fit, source disclosure, full-size links and gallery navigation; no overflow or page errors.       |
+| Text contrast             | PASS    | White 12.00:1, summary 10.80:1, metadata 8.85:1 and action 8.91:1 against the forest background.                                                  |
+
+## Appearance
+
+These images use existing source-linked Playwright sample content, not current live news. The older selected article deliberately demonstrates that featuring is independent of publication order.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop news panel',
+      alt: 'Desktop featured news card and two recent stories',
+      description:
+        'Sample content at 1440px and 2× density: inspect the dark lead card, explicit label, source and two recent headlines.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile news panel',
+      alt: 'Mobile featured news card with wrapping metadata and headline',
+      description:
+        'Sample content at 390px and 2× density: inspect the full headline, visible date/source, clear action and recent stories below.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None.
