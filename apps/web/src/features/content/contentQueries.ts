@@ -47,9 +47,9 @@ export function getUpdatesContentFromSnapshot(
   return {
     availability: 'ready',
     featuredUpdate,
-    items: updates
-      .filter((update) => update.documentId !== featuredUpdate?.documentId)
-      .slice(0, featuredUpdate ? 24 : 25),
+    items: updates.filter(
+      (update) => update.documentId !== featuredUpdate?.documentId,
+    ),
   };
 }
 

@@ -171,14 +171,14 @@ test('both news pages feature the most recently published eligible pick and keep
   ]);
 });
 
-test('News selects an older feature before its collection limit and never repeats it in the grid', () => {
+test('News keeps all articles for filtering and never repeats the feature in the grid', () => {
   const featured = { ...update(40), featured: true, publishedOn: '2025-01-01' };
   const news = getUpdatesContentFromSnapshot(
     { ...snapshot, updates: [...snapshot.updates, featured] },
     '2026-10-01T00:00:00Z',
   );
   expect(news.featuredUpdate).toEqual(featured);
-  expect(news.items).toHaveLength(24);
+  expect(news.items).toHaveLength(30);
   expect(
     news.items.some((item) => item.documentId === featured.documentId),
   ).toBe(false);
@@ -201,7 +201,7 @@ test('News falls back to its chronological grid when no feature is eligible, inc
   );
   expect(expired.featuredUpdate).toBeUndefined();
   expect(expired.items).toEqual(content.updates);
-  expect(getUpdatesContentFromSnapshot(snapshot).items).toHaveLength(25);
+  expect(getUpdatesContentFromSnapshot(snapshot).items).toHaveLength(30);
   expect(
     getUpdatesContentFromSnapshot({ ...snapshot, updates: [] }).items,
   ).toEqual([]);
