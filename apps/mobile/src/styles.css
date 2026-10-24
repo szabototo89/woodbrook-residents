@@ -1369,3 +1369,11 @@
   flex: 1;
   flex-direction: column;
 }
+
+.external-view {
+  width: 100%;
+  height: 420px;
+  margin-top: 14px;
+  border-radius: 14px;
+  background-color: #fffefa;
+}

@@ -17,7 +17,7 @@ When I use Woodbrook Residents on an iPhone, I want to browse the same current r
 - Back controls return through visited screens instead of jumping to a fixed parent.
 - Home shows a real image caption (“Woodbrook and the Shankill coastline”), tap chevrons on cards, and explicit “View all updates/events/consultations →” section links.
 - Local information supports text search, horizontally scrollable category chips, and an out-of-hours-only filter, keeps those filters when returning from a contact, retains the website's directory disclaimer, and guarantees 100px bottom scroll padding above the tab bar.
-- Contact details are explicit mobile actions: Call phone, Email address, Get directions (Maps), and Visit website with an external-link indicator; source and action rows show a short host name instead of a full URL.
+- Contact details are explicit mobile actions: Call phone, Email address, Get directions (Maps), and Visit website with an external-link indicator; source and action rows show a short host name instead of a full URL. When no external browser opener exists on iOS native, tapping an http(s) action opens an in-app official-site view with the full link and embedded page instead of a dead button.
 - The official source row shows an external-link indicator and uses Checked (not Verified) with the review date.
 - The app fetches a validated public content snapshot from `/api/mobile-content` at runtime. Loading shows skeleton placeholders, and offline, empty, no-match, and missing-detail states are explicit.
 - If loading takes longer than 12 seconds, the app offers the same offline notice and retry instead of hanging on a spinner.

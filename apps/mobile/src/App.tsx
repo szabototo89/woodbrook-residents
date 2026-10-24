@@ -8,6 +8,7 @@ import { StatusScreen } from './components/StatusScreen.js';
 import { TabBar } from './components/TabBar.js';
 import { CollectionScreen } from './features/content/CollectionScreen.js';
 import { DetailScreen } from './features/content/DetailScreen.js';
+import { ExternalViewScreen } from './features/content/ExternalViewScreen.js';
 import {
   LocalInfoScreen,
   type LocalInfoFilters,
@@ -19,11 +20,18 @@ import {
 } from './features/content/contentModels.js';
 import type { Route } from './features/content/contentModels.js';
 import type { ContentSnapshot } from './features/content/contentTypes.js';
+import {
+  openExternalUrl,
+  type OpenUrl,
+} from './features/content/externalUrl.js';
 import { WaysToHelpScreen } from './features/help/WaysToHelpScreen.js';
 import { HomeScreen } from './features/home/HomeScreen.js';
 import { MoreScreen } from './features/more/MoreScreen.js';
 
-type Props = { loadContent?: () => Promise<ContentSnapshot> };
+type Props = {
+  loadContent?: () => Promise<ContentSnapshot>;
+  openUrl?: OpenUrl;
+};
 
 const emptySnapshot: ContentSnapshot = {
   updates: [],
@@ -49,6 +57,7 @@ function sameRoute(left: Route, right: Route): boolean {
 
 export function App(props: Props) {
   const loadContent = props.loadContent ?? loadMobileContent;
+  const openUrl = props.openUrl ?? openExternalUrl;
   const [history, setHistory] = useState<Route[]>([homeRoute]);
   const [content, setContent] = useState<ContentSnapshot>();
   const [failed, setFailed] = useState(false);
@@ -98,13 +107,30 @@ export function App(props: Props) {
       previous.length > 1 ? previous.slice(0, -1) : [fallback],
     );
 
+  const openExternalOrView = (url: string) => {
+    const handled = openUrl(url);
+    if (handled !== false) return;
+    if (!/^https?:\/\//i.test(url)) return;
+    navigate({ name: 'external', url, title: url });
+  };
+
   const page =
     route.name === 'home' ? (
       <HomeScreen content={content} navigate={navigate} />
     ) : route.name === 'help' ? (
-      <WaysToHelpScreen content={content} navigate={navigate} />
+      <WaysToHelpScreen
+        content={content}
+        navigate={navigate}
+        onOpenUrl={openExternalOrView}
+      />
     ) : route.name === 'more' ? (
       <MoreScreen navigate={navigate} />
+    ) : route.name === 'external' ? (
+      <ExternalViewScreen
+        url={route.url}
+        title={route.title}
+        onBack={() => goBack(homeRoute)}
+      />
     ) : route.name === 'collection' ? (
       route.collection === 'resources' ? (
         <LocalInfoScreen
@@ -125,6 +151,7 @@ export function App(props: Props) {
         collection={route.collection}
         model={getDetailModel(content, route.collection, route.slug)}
         goBack={goBack}
+        onOpenUrl={openExternalOrView}
       />
     );
 

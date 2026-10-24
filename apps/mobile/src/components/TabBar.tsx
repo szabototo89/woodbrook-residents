@@ -6,6 +6,7 @@ export type TabKey = 'home' | 'updates' | 'events' | 'local' | 'more';
 export function topTabFor(route: Route): TabKey {
   if (route.name === 'home') return 'home';
   if (route.name === 'more' || route.name === 'help') return 'more';
+  if (route.name === 'external') return 'more';
   const section = route.collection;
   if (section === 'updates') return 'updates';
   if (section === 'events') return 'events';
