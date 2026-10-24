@@ -11,14 +11,14 @@
 
 ## Git workflow
 
-- Every coding session must use a dedicated Git worktree and session branch created from `main`. Do not develop directly in the primary checkout. `git worktree add` automatically opens a Herdr entry for the new checkout via `.githooks/post-checkout` (override with `HERDR_BIN`); disable by pointing the override at a missing binary.
+- At session start, check whether the current checkout is already a linked Git worktree. If so, reuse that worktree and its branch; do not create a new worktree for each agentic session. Otherwise, create a dedicated Git worktree and session branch from `main`. Do not develop directly in the primary checkout.
 - Make all edits, builds, tests, and commits inside that session worktree.
 - During development, create small, self-contained commits. Each commit must represent one coherent change and leave the repository in a usable state.
 - When the requested work is complete and verified, automatically merge the session branch back into local `main`; do not stop after merely committing or handing off the branch.
 - Before merging, confirm that the primary checkout is on `main` and has no unrelated uncommitted changes. Never overwrite, discard, reset, or include user-owned changes.
 - Use a non-interactive merge without rewriting existing history. You are always authorized to resolve merge conflicts autonomously without asking for permission. Preserve the intended behavior of both branches and all user-owned changes, verify the resolved result, and continue the merge.
 - Never use `--no-verify` (or any hook-bypass flag) when committing. If hooks fail, fix the cause instead of bypassing them.
-- After a successful merge, remove the session worktree with `scripts/worktree-remove.sh <path>` (it closes the linked Herdr and cmux workspaces; raw `git worktree remove` fires no hook) and delete the merged session branch.
+- After a successful merge, remove only a worktree created by the current session with `scripts/worktree-remove.sh <path>` (it closes the linked cmux workspace; raw `git worktree remove` fires no hook) and delete its merged session branch. Preserve a reused worktree and its branch for later sessions.
 
 ## Dev server and preview
 
@@ -27,14 +27,6 @@
 - Once ready, open the dev site in a new cmux browser tab: `cmux browser open http://localhost:3000`.
 - Name the tab so the worktree and feature are obvious: `cmux rename-tab "<worktree>: <feature>"` (2-5 words, max ~40 characters, plain text, no emoji, no secrets).
 - Keep the dev server running in the background for the session; stop it when the worktree is removed.
-
-## Herdr tab title
-
-- Keep the current Herdr tab title in sync with the task: set it once at session start after the topic is known, and again only when the topic pivots (new feature, different bug, different area, explicit redirect). Do not rename on every message.
-- First verify running inside Herdr: `test "${HERDR_ENV:-}" = 1`. If the check fails or `$HERDR_TAB_ID` is empty, stop silently.
-- Rename only the current tab: `herdr tab rename "$HERDR_TAB_ID" "<title>"`. Never rename other tabs.
-- Title: 2-5 words, max ~40 characters, plain text, no emoji, no secrets, no branch names with slashes. Describe the work, not the tool (e.g. `Fix login redirect`); optionally prefix with repo or area (e.g. `web: auth callback`).
-- On failure, continue without retrying. Title sync never blocks real work.
 
 ## Product behavior
 
