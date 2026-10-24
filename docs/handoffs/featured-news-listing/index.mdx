@@ -1,0 +1,99 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import components from './assets/c3-components.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+
+export const metadata = {
+  title: 'Featured story on News',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a16f4e-3f62-79e3-a49e-29694fc688b0',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/Featured-news-in-the-landing-page',
+  branch: 'szabototo89/Featured-news-in-the-landing-page',
+  commit: '1b63cd63b07349772e4f11cb0686e6782c34b439',
+  updatedAt: '2026-10-24T19:38:50Z',
+  summary:
+    'News now leads with the same newest eligible featured story as the homepage.',
+};
+
+## Goal
+
+Show one prominent featured article on `/updates`. When several articles are selected, feature the most recently published eligible story on both pages.
+
+## Technical changes
+
+Baseline: `9a6306fcaad7d03e6eebdf10554ef56b9843eed2`. Local main integration `d8d03db` preserves the newer named React props types. Implementation: `1b63cd6`. Final heading-outline refinement is included with this handoff.
+
+| Area            | Before                                                  | After                                                                                      | Why                                                  | Code                                                                      |
+| --------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------------------------------- |
+| Selection       | Homepage selected a feature; News only sorted articles. | Both selectors use the same newest eligible feature rule before display limits.            | Avoid divergent picks and hidden older selections.   | `apps/web/src/features/content/contentQueries.ts`                         |
+| News response   | Loader returned at most 25 chronological articles.      | UpdatesContent separates featuredUpdate from up to 24 other articles; no feature keeps 25. | Prevent duplicates and preserve the total limit.     | `contentTypes.ts`, `contentApi.ts`                                        |
+| Featured card   | Homepage owned the card and its CSS.                    | FeaturedNewsCard and its styles belong to the news feature and serve both pages.           | Share appearance and preserve named props.           | `apps/web/src/features/updates/FeaturedNewsCard.tsx`, `featured-news.css` |
+| News layout     | Uniform card grid.                                      | One prominent story precedes the remaining grid under Latest news.                         | Match the requested editorial hierarchy.             | `UpdatesPage.tsx`, `updates.css`                                          |
+| Heading outline | Feature only supported the homepage heading level.      | News uses h2; homepage retains h3.                                                         | Preserve each page outline.                          | `FeaturedNewsCard.headingLevel`                                           |
+| Editor guidance | Switch description covered the homepage only.           | Descriptions explain both pages and newest-published selection.                            | Keep one editorial control for one shared selection. | `apps/sanity-studio/schemaTypes/update.ts`                                |
+
+No content migration or live content mutation is needed. Expiry is still evaluated on a runtime load or during a static build; static output needs rebuilding to refresh it. Equal dates retain source order.
+
+## Architecture changes
+
+Woodbrook is a public community information hub. Its Public website application loads source-linked articles and renders public pages. This change shares feature selection and card presentation across its homepage and News page.
+
+| Level | Change                                                                                                        | Evidence                                    |
+| ----- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| C1    | Unchanged: residents, editors and external systems retain their roles and boundaries.                         | Existing website and Sanity integration.    |
+| C2    | Unchanged: the same website and Studio applications read and publish the existing article fields.             | No new service, store or Sanity field.      |
+| C3    | Changed: News receives a separate feature, and both page presentations share selection and the featured card. | Annotated C3 diagram and Technical changes. |
+
+<PlantUmlDiagram
+  title="Featured News page — C3 website components"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: the News page now consumes a separate featured story and shares its visual card with the homepage. The diagram marks changed responsibilities and interactions; unmarked elements are unchanged context.
+
+## Verification
+
+| Check                          | Result  | Evidence                                                                                                                                                                                                     |
+| ------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| TDD                            | PASS    | Five initial regressions fail before implementation: shared newest selection, limit handling, expiry, visible feature and feature-only state. A separate heading-level regression also fails before its fix. |
+| Focused post-integration tests | PASS    | `vitest run` for content queries and both pages: 30 tests after named-props integration.                                                                                                                     |
+| Web units and coverage         | PASS    | `bun run --cwd apps/web test:unit`: 374 standard tests plus one static-search test; per-file thresholds pass.                                                                                                |
+| Studio units and coverage      | PASS    | `bun run --cwd apps/sanity-studio test:unit`: 53 tests and coverage thresholds pass.                                                                                                                         |
+| Responsive browser checks      | PASS    | Initial focused run: 15 passed; final feature/search run: 10 passed, one opt-in screenshot skipped. Widths 320–1440px.                                                                                       |
+| Desktop/mobile review          | PASS    | New `assets/desktop.png` and `assets/mobile.png`; 1440/390px viewports at 2× density, using source-linked sample content.                                                                                    |
+| Repository build               | PASS    | `bun run build` exits 0 after integrating local main and the shared-card changes.                                                                                                                            |
+| Handoff checks                 | PASS    | `docs:check` and `c4:check` pass; Playwright verifies diagram zoom/fit, source and gallery at 1440/390px without overflow.                                                                                   |
+| Repository hooks               | PASS    | Normal implementation commit hooks pass: formatting, lint, typechecks, unit coverage and repository browser suites.                                                                                          |
+| Heading outline                | PASS    | A new failing regression is fixed; 16 page tests pass, followed by full web coverage and browser heading checks.                                                                                             |
+| TypeScript and lint            | PASS    | `bun run --cwd apps/web typecheck` and focused ESLint pass after the final heading refinement.                                                                                                               |
+| Deployment                     | NOT RUN | No production website, Studio or content deployment requested.                                                                                                                                               |
+
+## Appearance
+
+Sample content: two articles are marked featured; the September 2026 article wins over the August 2025 article. Both keep their existing factual source URLs and review dates.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop News',
+      alt: 'Desktop News with a prominent feature and remaining cards',
+      description:
+        'Sample content: inspect the full-width feature, visible source/date and separate Latest news grid.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile News',
+      alt: 'Mobile News with one featured story followed by ordinary cards',
+      description:
+        'Sample content: inspect wrapping headlines, visible metadata, one story action and stacked remaining cards.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None.

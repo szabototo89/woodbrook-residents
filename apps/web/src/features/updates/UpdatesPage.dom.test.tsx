@@ -63,14 +63,14 @@ test('News leads with one labelled featured story before the remaining grid', as
   const articles = container.querySelectorAll('article');
   expect(articles).toHaveLength(2);
   expect(articles[0]?.textContent).toContain('Featured news');
-  expect(articles[0]?.querySelector('h3')?.textContent).toBe(sample.title);
+  expect(articles[0]?.querySelector('h2')?.textContent).toBe(sample.title);
   expect(articles[0]?.querySelectorAll('a')).toHaveLength(1);
   expect(articles[0]?.querySelector('a')?.getAttribute('href')).toBe(
     '/updates/sample-feature',
   );
   expect(articles[0]?.textContent).toContain('Sample source');
   expect(articles[1]?.textContent).toContain('Other local news');
-  expect(container.querySelector('h2')?.textContent).toBe('Latest news');
+  expect(container.querySelectorAll('h2')[1]?.textContent).toBe('Latest news');
   unmount();
 });
 

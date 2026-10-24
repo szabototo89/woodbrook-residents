@@ -15,7 +15,7 @@ When I visit Woodbrook, I want to see the editor's selected local story immediat
 - Two newest other stories appear under More local news. Without an eligible feature, the original three newest stories appear.
 - If several articles are selected, publication date decides the winner. Equal dates retain source order.
 - A future publication date is ineligible for featuring. At the expiry instant the article stops being eligible; it remains published on News and its detail URL.
-- News listing order remains newest first, regardless of featuring.
+- The News page also leads with the selected feature; its remaining article grid stays newest first. See [Featured story on News](./featured-news-listing.md).
 
 ## Acceptance criteria
 
@@ -30,7 +30,7 @@ When I visit Woodbrook, I want to see the editor's selected local story immediat
 
 Included: the existing Sanity Update publishing lifecycle, optional featuredUntil datetime, public validation and mapping, homepage selection and presentation, tests, research and screenshot evidence.
 
-Excluded: changing live editorial data, redesigning news listing/detail pages, multiple featured slots, carousels, a new scheduler, and deployment. The Google Sheets adapter retains its existing featured switch; the new expiry control belongs to Sanity.
+Excluded: changing live editorial data, redesigning article detail pages, multiple featured slots, carousels, a new scheduler, and deployment. The Google Sheets adapter retains its existing featured switch; the new expiry control belongs to Sanity.
 
 ## Publishing and compatibility
 

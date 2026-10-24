@@ -38,7 +38,7 @@
 .featured-news .featured-news-meta > span {
   font-weight: var(--weight-label);
 }
-.featured-news h3 {
+.featured-news .featured-news-title {
   margin: 12px 0;
   color: #fff;
   font-size: clamp(1.7rem, 2.5vw, 2.25rem);
@@ -48,10 +48,10 @@
   overflow-wrap: anywhere;
   text-wrap: pretty;
 }
-.featured-news h3 a {
+.featured-news .featured-news-title a {
   color: inherit;
 }
-.featured-news h3 a::after {
+.featured-news .featured-news-title a::after {
   position: absolute;
   inset: 0;
   border-radius: 12px;

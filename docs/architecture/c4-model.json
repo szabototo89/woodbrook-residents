@@ -279,6 +279,27 @@
       "description": "Shows a labelled feature and recent headlines with article navigation",
       "technology": "React and CSS",
       "parent": "woodbrook_browser"
+    },
+    "featured_news_selection": {
+      "kind": "component",
+      "name": "Featured news selection",
+      "description": "Selects the newest eligible featured article and removes it from the remaining news",
+      "technology": "TypeScript content queries",
+      "parent": "woodbrook_browser"
+    },
+    "shared_featured_news_card": {
+      "kind": "component",
+      "name": "Shared featured news card",
+      "description": "Displays the featured article with its date, source and one detail link on both news pages",
+      "technology": "React and CSS",
+      "parent": "woodbrook_browser"
+    },
+    "news_listing_presentation": {
+      "kind": "component",
+      "name": "News page presentation",
+      "description": "Displays the featured story before a chronological grid of other articles",
+      "technology": "TanStack Start route loader and React",
+      "parent": "woodbrook_browser"
     }
   },
   "relationships": {
@@ -535,6 +556,30 @@
       "to": "homepage_news_selection",
       "label": "Displays the feature and recent stories selected by",
       "technology": "TanStack route loader data"
+    },
+    "news_listing_selection": {
+      "from": "news_listing_presentation",
+      "to": "featured_news_selection",
+      "label": "Displays featured and remaining articles selected by",
+      "technology": "Route loader data"
+    },
+    "news_home_shared_selection": {
+      "from": "homepage_news_presentation",
+      "to": "featured_news_selection",
+      "label": "Uses the same feature eligibility and newest-first rule from",
+      "technology": "Route loader data"
+    },
+    "news_listing_shared_card": {
+      "from": "news_listing_presentation",
+      "to": "shared_featured_news_card",
+      "label": "Displays the selected article using",
+      "technology": "React props"
+    },
+    "news_home_shared_card": {
+      "from": "homepage_news_presentation",
+      "to": "shared_featured_news_card",
+      "label": "Displays the selected article using",
+      "technology": "React props"
     }
   },
   "diagrams": {
@@ -973,6 +1018,59 @@
           "news_presentation_selection": {
             "status": "changed",
             "description": "Receives featuredUpdate separately from recent updates."
+          }
+        }
+      }
+    },
+    "featured_news_listing_components": {
+      "level": "C3",
+      "scope": "woodbrook_browser",
+      "title": "Featured News page — C3 website components — changes from 9a6306f",
+      "handoff": "featured-news-listing",
+      "source": "docs/handoffs/featured-news-listing/assets/c3-components.puml",
+      "elements": [
+        "homepage_news_presentation",
+        "news_listing_presentation",
+        "featured_news_selection",
+        "shared_featured_news_card"
+      ],
+      "relationships": [
+        "news_listing_selection",
+        "news_home_shared_selection",
+        "news_listing_shared_card",
+        "news_home_shared_card"
+      ],
+      "changes": {
+        "elements": {
+          "news_listing_presentation": {
+            "status": "changed",
+            "description": "Previously rendered a uniform grid; now leads with one feature and excludes it from the grid."
+          },
+          "featured_news_selection": {
+            "status": "changed",
+            "description": "Previously served only the homepage; now selects the newest eligible feature for both pages before limits."
+          },
+          "shared_featured_news_card": {
+            "status": "changed",
+            "description": "Previously belonged to the homepage; now serves both pages with named props."
+          }
+        },
+        "relationships": {
+          "news_listing_selection": {
+            "status": "changed",
+            "description": "News loader now receives featuredUpdate separately from remaining articles."
+          },
+          "news_home_shared_selection": {
+            "status": "changed",
+            "description": "Homepage now delegates feature selection to the shared rule."
+          },
+          "news_listing_shared_card": {
+            "status": "changed",
+            "description": "News page now renders the shared featured card."
+          },
+          "news_home_shared_card": {
+            "status": "changed",
+            "description": "Homepage imports the shared news-domain card instead of its own module."
           }
         }
       }

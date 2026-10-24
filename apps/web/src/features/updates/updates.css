@@ -5,7 +5,7 @@
   max-width: 920px;
   padding: clamp(24px, 4vw, 48px);
 }
-.updates-content .featured-news h3 {
+.updates-content .featured-news .featured-news-title {
   max-width: 25ch;
   font-size: clamp(1.85rem, 4vw, 3rem);
 }

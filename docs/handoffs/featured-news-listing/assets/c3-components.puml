@@ -1,0 +1,24 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Featured News page — C3 website components — changes from 9a6306f
+
+Container_Boundary(woodbrook_browser, "Public website application") {
+  Component(homepage_news_presentation, "Homepage news presentation", "React and CSS", "Shows a labelled feature and recent headlines with article navigation")
+  Component(news_listing_presentation, "[CHANGED] News page presentation", "TanStack Start route loader and React", "Displays the featured story before a chronological grid of other articles\nChange: Previously rendered a uniform grid; now leads with one feature and excludes it from the grid.")
+  Component(featured_news_selection, "[CHANGED] Featured news selection", "TypeScript content queries", "Selects the newest eligible featured article and removes it from the remaining news\nChange: Previously served only the homepage; now selects the newest eligible feature for both pages before limits.")
+  Component(shared_featured_news_card, "[CHANGED] Shared featured news card", "React and CSS", "Displays the featured article with its date, source and one detail link on both news pages\nChange: Previously belonged to the homepage; now serves both pages with named props.")
+}
+
+Rel(news_listing_presentation, featured_news_selection, "[CHANGED] Displays featured and remaining articles selected by\nChange: News loader now receives featuredUpdate separately from remaining articles.", "Route loader data")
+Rel(homepage_news_presentation, featured_news_selection, "[CHANGED] Uses the same feature eligibility and newest-first rule from\nChange: Homepage now delegates feature selection to the shared rule.", "Route loader data")
+Rel(news_listing_presentation, shared_featured_news_card, "[CHANGED] Displays the selected article using\nChange: News page now renders the shared featured card.", "React props")
+Rel(homepage_news_presentation, shared_featured_news_card, "[CHANGED] Displays the selected article using\nChange: Homepage imports the shared news-domain card instead of its own module.", "React props")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

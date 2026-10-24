@@ -22,6 +22,9 @@ test('News and homepage agree on the newest feature when multiple stories are se
     await expect(
       feature.getByText('Featured news', { exact: true }),
     ).toBeVisible();
+    await expect(
+      feature.getByRole('heading', { level: 2, name: featuredTitle }),
+    ).toBeVisible();
     await expect(feature.getByRole('link')).toHaveCount(1);
     await expect(feature.locator('time')).toHaveText('5 September 2026');
     await expect(

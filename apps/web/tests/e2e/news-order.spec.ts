@@ -25,7 +25,9 @@ test('news page features the newest editorial pick above the chronological grid'
 }) => {
   await page.goto('/updates');
 
-  await expect(page.getByRole('heading', { level: 3 })).toHaveText(newestFirst);
+  await expect(page.getByRole('article').getByRole('heading')).toHaveText(
+    newestFirst,
+  );
   const featured = page.getByRole('article', { name: newestFirst[0]! });
   await expect(
     featured.getByText('Featured news', { exact: true }),

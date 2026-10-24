@@ -23,7 +23,7 @@ export function UpdatesPage() {
       >
         {content.availability === 'unavailable' ? <CmsUnavailable /> : null}
         {content.featuredUpdate ? (
-          <FeaturedNewsCard update={content.featuredUpdate} />
+          <FeaturedNewsCard update={content.featuredUpdate} headingLevel={2} />
         ) : null}
         {content.featuredUpdate && content.items.length > 0 ? (
           <h2 className="updates-latest-title">Latest news</h2>

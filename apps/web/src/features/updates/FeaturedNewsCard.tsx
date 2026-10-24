@@ -4,9 +4,10 @@ import { formatDate, formatLabel } from '../content/contentFormatting';
 import type { Update } from '../content/contentTypes';
 import './featured-news.css';
 
-type FeaturedNewsCardProps = { update: Update };
+type FeaturedNewsCardProps = { update: Update; headingLevel?: 2 | 3 };
 
 export function FeaturedNewsCard(props: FeaturedNewsCardProps) {
+  const Heading = props.headingLevel === 2 ? 'h2' : 'h3';
   return (
     <article className="featured-news" aria-labelledby="featured-news-title">
       <div className="featured-news-copy">
@@ -17,11 +18,11 @@ export function FeaturedNewsCard(props: FeaturedNewsCardProps) {
             {formatDate(props.update.publishedOn)}
           </time>
         </div>
-        <h3 id="featured-news-title">
+        <Heading id="featured-news-title" className="featured-news-title">
           <Link to="/updates/$slug" params={{ slug: props.update.slug }}>
             {props.update.title}
           </Link>
-        </h3>
+        </Heading>
         <p className="featured-news-summary">{props.update.summary}</p>
         <p className="featured-news-source">{props.update.sourceName}</p>
         <span className="featured-news-action" aria-hidden="true">
