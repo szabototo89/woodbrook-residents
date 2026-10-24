@@ -1,0 +1,23 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title News filtering — C3 website components — changes from 9f48f79
+
+Container_Boundary(woodbrook_browser, "Public website application") {
+  Component(filterable_news_presentation, "[CHANGED] News page presentation with filters", "TanStack Start route and React", "Displays category and date controls, result counts and matching articles\nChange: Previously a fixed listing; now shows category/sort controls, counts, reset and matching results.")
+  Component(complete_news_selection, "[CHANGED] Complete News collection selection", "TypeScript content queries", "Separates the eligible feature and retains all other published articles\nChange: Previously capped News at 25 articles; now retains all published articles for filtering.")
+  Component(news_filtering, "[ADDED] News filter validation and selection", "TypeScript", "Validates category and date order, then selects matching articles\nChange: Adds safe URL defaults, category matching and oldest/newest ordering.")
+  Component(shared_featured_news_card, "Shared featured news card", "React and CSS", "Displays the featured article with its date, source and one detail link on both news pages")
+}
+
+Rel(filterable_news_presentation, complete_news_selection, "[CHANGED] Loads the feature and complete published article collection\nChange: News now receives all articles instead of a truncated collection.", "TanStack server function")
+Rel(filterable_news_presentation, news_filtering, "[ADDED] Validates URL selections and selects chronological matches\nChange: News now validates saved selections and derives matching results.", "TypeScript calls")
+Rel(filterable_news_presentation, shared_featured_news_card, "[CHANGED] Displays the feature in the default view\nChange: The feature is now prominent only with All categories and Newest first.", "React props")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

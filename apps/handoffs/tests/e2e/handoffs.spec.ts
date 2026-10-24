@@ -197,7 +197,7 @@ test('the index searches, filters by update time and sorts', async ({
     'true',
   );
 
-  const sort = page.getByLabel('Sort');
+  const sort = page.getByRole('combobox', { name: 'Sort', exact: true });
   await sort.selectOption('oldest');
   await expect(cards.locator('h2').first()).toHaveText(
     'News publication order',

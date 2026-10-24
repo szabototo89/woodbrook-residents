@@ -1,0 +1,18 @@
+News filtering and sorting — verification record
+Baseline: 9f48f799359269919e670993708eda3c24bbac2c
+Implementation: 016a32b9345a0611e8c24a57cd713a34fc7ffe57
+
+TDD: Initial tests fail for missing filter model/controls and 24/25-item truncation; focused implementation run passes 26 tests.
+bun run --cwd apps/web test:unit: 381 standard tests and two static hydration tests pass; per-file thresholds pass.
+NEWS_FILTER_SCREENSHOT_DIR=<handoff assets> bun run --cwd apps/web playwright test tests/e2e/news-filters.spec.ts: 3 pass.
+Existing News regression tests: 5 pass; one optional capture skipped in focused run.
+Responsive checks: 320, 390, 768, 1440px; no horizontal overflow, keyboard focus and native controls work.
+Screenshots: desktop 1440x1000 and mobile 390x844 viewports, device scale factor 2, full-page capture. Existing source-linked sample content.
+Web typecheck and focused ESLint: exit 0.
+Implementation commit hooks: normal full repository formatting/lint/typecheck/unit/coverage/browser/authentication suites pass.
+Handoff: docs:check, c4:check and build pass. C3 source rendered with local JRE and PlantUML 1.2026.9.
+Handoff regression: new title exposed an ambiguous Sort substring locator; exact combobox role/name fixes it.
+Viewer review: 1440/390px; diagram zoom, fit, source disclosure and full-size URL; gallery navigation; no horizontal overflow.
+Repository build: bun run build exits 0 for all nine targets.
+Preview limitation: cmux denies connection from this process; existing worktree dev server responds HTTP 200 at localhost:3000.
+No production deployment or live CMS mutations.

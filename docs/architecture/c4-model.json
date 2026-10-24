@@ -300,6 +300,27 @@
       "description": "Displays the featured story before a chronological grid of other articles",
       "technology": "TanStack Start route loader and React",
       "parent": "woodbrook_browser"
+    },
+    "filterable_news_presentation": {
+      "kind": "component",
+      "name": "News page presentation with filters",
+      "description": "Displays category and date controls, result counts and matching articles",
+      "technology": "TanStack Start route and React",
+      "parent": "woodbrook_browser"
+    },
+    "complete_news_selection": {
+      "kind": "component",
+      "name": "Complete News collection selection",
+      "description": "Separates the eligible feature and retains all other published articles",
+      "technology": "TypeScript content queries",
+      "parent": "woodbrook_browser"
+    },
+    "news_filtering": {
+      "kind": "component",
+      "name": "News filter validation and selection",
+      "description": "Validates category and date order, then selects matching articles",
+      "technology": "TypeScript",
+      "parent": "woodbrook_browser"
     }
   },
   "relationships": {
@@ -579,6 +600,24 @@
       "from": "homepage_news_presentation",
       "to": "shared_featured_news_card",
       "label": "Displays the selected article using",
+      "technology": "React props"
+    },
+    "filtered_news_load": {
+      "from": "filterable_news_presentation",
+      "to": "complete_news_selection",
+      "label": "Loads the feature and complete published article collection",
+      "technology": "TanStack server function"
+    },
+    "news_apply_filters": {
+      "from": "filterable_news_presentation",
+      "to": "news_filtering",
+      "label": "Validates URL selections and selects chronological matches",
+      "technology": "TypeScript calls"
+    },
+    "filtered_news_feature_card": {
+      "from": "filterable_news_presentation",
+      "to": "shared_featured_news_card",
+      "label": "Displays the feature in the default view",
       "technology": "React props"
     }
   },
@@ -1071,6 +1110,54 @@
           "news_home_shared_card": {
             "status": "changed",
             "description": "Homepage imports the shared news-domain card instead of its own module."
+          }
+        }
+      }
+    },
+    "news_filtering_components": {
+      "level": "C3",
+      "scope": "woodbrook_browser",
+      "title": "News filtering — C3 website components — changes from 9f48f79",
+      "handoff": "news-filtering-sorting",
+      "source": "docs/handoffs/news-filtering-sorting/assets/c3-components.puml",
+      "elements": [
+        "filterable_news_presentation",
+        "complete_news_selection",
+        "news_filtering",
+        "shared_featured_news_card"
+      ],
+      "relationships": [
+        "filtered_news_load",
+        "news_apply_filters",
+        "filtered_news_feature_card"
+      ],
+      "changes": {
+        "elements": {
+          "filterable_news_presentation": {
+            "status": "changed",
+            "description": "Previously a fixed listing; now shows category/sort controls, counts, reset and matching results."
+          },
+          "complete_news_selection": {
+            "status": "changed",
+            "description": "Previously capped News at 25 articles; now retains all published articles for filtering."
+          },
+          "news_filtering": {
+            "status": "added",
+            "description": "Adds safe URL defaults, category matching and oldest/newest ordering."
+          }
+        },
+        "relationships": {
+          "filtered_news_load": {
+            "status": "changed",
+            "description": "News now receives all articles instead of a truncated collection."
+          },
+          "news_apply_filters": {
+            "status": "added",
+            "description": "News now validates saved selections and derives matching results."
+          },
+          "filtered_news_feature_card": {
+            "status": "changed",
+            "description": "The feature is now prominent only with All categories and Newest first."
           }
         }
       }

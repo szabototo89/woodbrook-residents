@@ -4,6 +4,7 @@
 - [Private account details](account-details.md) — Available
 - [Firebase accounts](firebase-authentication.md) — Available
 - [Clerk accounts](clerk-authentication.md) — Removed
+- [News filtering and sorting](news-filtering-sorting.md) — Available
 - [Public content search](public-content-search.md) — Available
 - [Responsive coastal homepage](responsive-coastal-homepage.md) — Available
 - [Woodbrook Residents brand assets](woodbrook-brand-assets.md) — Available

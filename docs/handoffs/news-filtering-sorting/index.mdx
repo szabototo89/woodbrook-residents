@@ -1,0 +1,102 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import components from './assets/c3-components.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+
+export const metadata = {
+  title: 'News filtering and sorting',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a16f75-06ce-7af2-bff2-a477cf0c7d7e',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/woodbrook-add-filtering-sorting-to-the-news-port',
+  branch: 'szabototo89/woodbrook-add-filtering-sorting-to-the-news-port',
+  commit: '016a32b9345a0611e8c24a57cd713a34fc7ffe57',
+  updatedAt: '2026-10-24T19:59:55Z',
+  summary:
+    'News now filters by article category and sorts by publication date with shareable URL selections.',
+};
+
+## Goal
+
+Implement [issue 2](https://github.com/szabototo89/woodbrook-residents/issues/2). Residents can narrow News by category, browse oldest first and share their chosen view.
+
+## Technical changes
+
+Baseline: `9f48f799359269919e670993708eda3c24bbac2c`, after bringing local main into the reused worktree. Implementation: `016a32b9345a0611e8c24a57cd713a34fc7ffe57`.
+
+| Area             | Before                                            | After                                                                                | Why                                                       | Code                                                                      |
+| ---------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------- | ------------------------------------------------------------------------- |
+| URL state        | News had no filter parameters.                    | Category and sort validate into safe defaults and survive navigation.                | Share and restore a chosen view.                          | `apps/web/src/routes/updates/index.tsx`, `newsFilters.parseNewsParams`    |
+| Results          | One featured story and a fixed newest-first grid. | Category filters and oldest/newest ordering apply to all matching articles.          | Find relevant and older stories.                          | `apps/web/src/features/updates/newsFilters.ts`                            |
+| Feature          | The feature always preceded the grid.             | The default retains it; changed selections include it once in chronological results. | Preserve editorial defaults and respect sorting.          | `newsFilters.selectNews`                                                  |
+| Collection       | News returned at most 25 articles.                | News returns the full published collection with its feature separated.               | Avoid excluding older matching articles before filtering. | `apps/web/src/features/content/contentQueries.ts`                         |
+| Controls         | News had no browsing controls or result count.    | Labelled dropdowns, live count, reset and an empty-match message.                    | Make selection and recovery clear.                        | `UpdatesPage.tsx`, `updates.css`                                          |
+| Static rendering | News had no saved-filter hydration path.          | Static default HTML hydrates before applying URL selections.                         | Avoid mismatches on bookmarked static pages.              | `UpdatesPage.tsx`, `UpdatesPage.static.test.tsx`, `apps/web/package.json` |
+
+The URL uses `category` from the existing article taxonomy and `sort=newest|oldest`. Invalid values become `all` and `newest`. No dependency, schema or content migration is needed. Static builds use their existing content snapshot; fresh content still needs a rebuild. Loading all published articles increases the News response as its archive grows.
+
+The new handoff title exposed an ambiguous test selector. The handoff browser test in `apps/handoffs/tests/e2e/handoffs.spec.ts` now selects the exact Sort dropdown by role, so document titles cannot match it.
+
+## Architecture changes
+
+Woodbrook is a public information hub for residents. The Public website application reads published articles. News now validates browser selections and filters its complete article collection within that application.
+
+| Level | Change                                                                                                      | Evidence                                   |
+| ----- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| C1    | Unchanged: residents, editors and external systems keep their roles.                                        | No new actor or external integration.      |
+| C2    | Unchanged: the website and Studio keep their existing content stores and delivery paths.                    | No new application, store or CMS field.    |
+| C3    | Changed: News loads all articles and delegates URL validation and result selection to a new responsibility. | Annotated C3 diagram and `newsFilters.ts`. |
+
+<PlantUmlDiagram
+  title="News filtering — C3 website components"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: News page presentation with filters replaces the fixed listing responsibility; the diagram marks complete collection loading and the added validation/filtering interaction. The shared featured card is unchanged context. Historical model identities and handoffs remain intact.
+
+## Verification
+
+| Check                    | Result  | Evidence                                                                                                                                                      |
+| ------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD                      | PASS    | Initial regressions failed for missing filtering controls/model and the 24/25-article truncation; focused implementation tests then passed.                   |
+| Web unit coverage        | PASS    | `bun run --cwd apps/web test:unit`: 381 standard tests and two static hydration tests; per-file coverage thresholds pass.                                     |
+| Browser behavior         | PASS    | `playwright test tests/e2e/news-filters.spec.ts`: three passed; URL reload/history, category/sort combinations, reset, invalid values and article navigation. |
+| Existing News behavior   | PASS    | Initial focused run: five existing News tests passed; one optional screenshot test skipped.                                                                   |
+| Desktop/mobile review    | PASS    | `assets/desktop.png`, `assets/mobile.png`: 1440px and 390px at 2× density; source-linked sample content, oldest first.                                        |
+| Responsive controls      | PASS    | Playwright checks 320, 390, 768 and 1440px without horizontal overflow; native controls remain visible and focusable.                                         |
+| TypeScript and lint      | PASS    | Web typecheck and focused ESLint exit 0 after preserving optional incoming search parameters.                                                                 |
+| Repository build         | PASS    | `bun run build` exits 0; all nine build targets succeed.                                                                                                      |
+| Handoff and architecture | PASS    | `docs:check`, `c4:check`, viewer build and Playwright diagram/gallery review pass at 1440/390px.                                                              |
+| Handoff selector         | PASS    | The existing index test first failed on a substring match; the exact Sort combobox selector fixes the ambiguity.                                              |
+| Repository hooks         | PASS    | Implementation commit passes normal formatting, lint, typechecks, coverage and all repository browser suites; optional screenshot captures skipped.           |
+| Preview opening          | FAIL    | `cmux browser open` denied this process connection; existing worktree dev server responds HTTP 200 on port 3000.                                              |
+| Deployment               | NOT RUN | Production deployment was outside the issue request.                                                                                                          |
+
+## Appearance
+
+Screenshots use the repository's existing source-linked sample content rather than live CMS data. Both show All categories and Oldest first.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop News filters',
+      alt: 'Desktop News with category and sort controls above chronological cards',
+      description:
+        'Sample content: inspect paired dropdowns, the result count, reset action and oldest-first article dates.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile News filters',
+      alt: 'Mobile News with stacked dropdowns and oldest-first article cards',
+      description:
+        'Sample content: inspect stacked labels and touch targets, wrapping titles and the single-column article list.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None.
