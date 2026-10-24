@@ -266,7 +266,7 @@ h1 {
   background: #f8f9f5;
   border: 1px solid #e8ede2;
   border-radius: 14px;
-  padding: 24px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -320,17 +320,53 @@ h1 {
   background: var(--panel);
   border-radius: 16px;
 }
+/* Reusable card system: single source for consistent margin/padding.
+   Use <Card variant="panel|white|muted" padding="lg|md|none"> instead of
+   hand-rolled card styles. Legacy classes below share the same tokens. */
+.card {
+  border-radius: 16px;
+}
+.card--panel {
+  background: var(--panel);
+  margin-inline: 20px;
+}
+.card--white {
+  background: #fff;
+  border: 1px solid #dfe6d8;
+  border-radius: 14px;
+}
+.card--muted {
+  background: #f8f9f5;
+  border: 1px solid #e8ede2;
+  border-radius: 14px;
+}
+.card--padding-lg {
+  padding: 40px;
+}
+.card--padding-md {
+  padding: 28px;
+}
+.card--padding-none {
+  padding: 0;
+}
+.card--popular {
+  border-color: #79936c;
+  box-shadow: 0 0 0 1px #79936c;
+}
+.trust-grid > .card--panel {
+  margin-inline: 0;
+}
 .selected-work {
   padding-top: 0;
 }
 .work-card {
-  border: 1px solid #e6e8df;
-  border-radius: 16px;
+  border: 1px solid #dfe6d8;
+  border-radius: 14px;
   background: #fff;
 }
 .work-preview {
   display: block;
-  border-radius: 15px 15px 0 0;
+  border-radius: 13px 13px 0 0;
   overflow: hidden;
   background: #faf8f1;
 }
@@ -363,7 +399,7 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  padding: 28px 32px;
+  padding: 28px;
   border-top: 1px solid #e6e4d9;
 }
 .work-copy .eyebrow {
@@ -416,15 +452,15 @@ h1 {
 .package-card {
   background: #fff;
   border: 1px solid #dfe6d8;
-  border-radius: 15px;
+  border-radius: 14px;
   position: relative;
-  padding: 28px 24px 20px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
 }
 .package-card.popular {
-  border: 2px solid #79936c;
-  padding: 27px 23px 19px;
+  border-color: #79936c;
+  box-shadow: 0 0 0 1px #79936c;
 }
 .popular-badge {
   position: absolute;
@@ -547,8 +583,8 @@ h1 {
   margin-top: 8px;
 }
 .faq-card {
-  border-radius: 15px;
-  background: #f6f7f3;
+  border-radius: 16px;
+  background: var(--panel);
   padding: 28px;
 }
 .faq-heading {
@@ -598,7 +634,7 @@ h1 {
   display: flex;
   gap: 32px;
   align-items: center;
-  padding: 36px 40px;
+  padding: 40px;
 }
 .contact-decoration {
   display: none;
@@ -684,6 +720,13 @@ main:focus {
   .packages {
     padding: 32px;
   }
+  .card--padding-lg {
+    padding: 32px;
+  }
+  .blog-contact {
+    padding: 32px;
+    margin-inline: 20px;
+  }
   .site-footer {
     padding-left: 32px;
     padding-right: 32px;
@@ -715,18 +758,20 @@ main:focus {
     padding: 24px;
   }
   .packages {
-    padding: 32px 24px;
+    padding: 32px;
   }
   .package-grid {
     gap: 12px;
   }
-  .package-card {
-    padding-left: 16px;
-    padding-right: 16px;
+  .card--padding-lg {
+    padding: 32px;
   }
-  .package-card.popular {
-    padding-left: 15px;
-    padding-right: 15px;
+  .card--padding-md {
+    padding: 24px;
+  }
+  .blog-contact {
+    padding: 32px;
+    margin-inline: 20px;
   }
   .process-grid {
     gap: 24px;
@@ -907,7 +952,7 @@ main:focus {
     display: grid;
     grid-template-columns: 44px minmax(0, 1fr);
     gap: 14px;
-    padding: 20px;
+    padding: 24px;
   }
   .service-card .icon-circle {
     width: 44px;
@@ -927,7 +972,7 @@ main:focus {
   .work-copy {
     grid-template-columns: 1fr;
     gap: 12px;
-    padding: 20px;
+    padding: 24px;
   }
   .work-copy h3 {
     font-size: 22px;
@@ -960,9 +1005,6 @@ main:focus {
   .package-card {
     padding: 24px;
   }
-  .package-card.popular {
-    padding: 23px;
-  }
   .process-grid {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -984,10 +1026,22 @@ main:focus {
   }
   .contact {
     margin: 0 14px;
-    padding: 28px 24px;
+    padding: 28px 20px;
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
+  }
+  .card--panel {
+    margin-inline: 14px;
+  }
+  .trust-grid > .card--panel {
+    margin-inline: 0;
+  }
+  .card--padding-lg {
+    padding: 28px 20px;
+  }
+  .card--padding-md {
+    padding: 24px;
   }
   .contact h2 {
     font-size: 28px;
@@ -1055,9 +1109,9 @@ main:focus {
 }
 .guide-card {
   padding: 28px;
-  background: var(--panel);
+  background: #f8f9f5;
   border: 1px solid #e8ede2;
-  border-radius: 16px;
+  border-radius: 14px;
   align-self: start;
 }
 .featured-guide {
@@ -1086,7 +1140,7 @@ main:focus {
   line-height: 1.6;
 }
 .featured-guide .guide-copy {
-  padding: 35px;
+  padding: 28px;
 }
 .guide-icon {
   width: 56px;
@@ -1149,8 +1203,8 @@ main:focus {
   font-size: 11px;
 }
 .blog-contact {
-  margin: 0 19px 15px;
-  padding: 30px 50px;
+  margin: 0 20px;
+  padding: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1169,7 +1223,7 @@ main:focus {
     grid-template-columns: 44% 1fr;
   }
   .featured-guide .guide-copy {
-    padding: 25px;
+    padding: 24px;
   }
   .guide-copy h2 {
     font-size: 24px;
@@ -1221,7 +1275,8 @@ main:focus {
   .blog-contact {
     flex-direction: column;
     align-items: flex-start;
-    padding: 25px 24px;
+    padding: 28px 20px;
+    margin-inline: 14px;
   }
   .blog-contact h2 {
     font-size: 25px;

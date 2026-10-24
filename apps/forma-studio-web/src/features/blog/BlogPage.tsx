@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, Leaf } from 'lucide-react';
 import { SiteHeader } from '../../components/SiteHeader';
+import { Card } from '../../components/Card';
 import { guides } from './blogContent';
 
 export function BlogPage() {
@@ -33,7 +34,10 @@ export function BlogPage() {
           aria-label="Business website guides"
         >
           {guides.map((guide, index) => (
-            <article
+            <Card
+              as="article"
+              variant="muted"
+              padding={index === 0 ? 'none' : 'md'}
               className={
                 index === 0 ? 'guide-card featured-guide' : 'guide-card'
               }
@@ -73,11 +77,13 @@ export function BlogPage() {
                   </div>
                 </details>
               </div>
-            </article>
+            </Card>
           ))}
         </section>
-        <section
-          className="blog-contact panel"
+        <Card
+          variant="panel"
+          padding="lg"
+          className="blog-contact"
           aria-labelledby="blog-contact-title"
         >
           <div>
@@ -92,7 +98,7 @@ export function BlogPage() {
           <a className="button" href="/#contact">
             Discuss your project <ArrowRight size={16} aria-hidden="true" />
           </a>
-        </section>
+        </Card>
       </main>
       <footer className="site-footer">
         <span>Forma Studio · Websites for local businesses</span>

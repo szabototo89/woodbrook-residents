@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
+import { Card } from '../../components/Card';
 import { faqs } from './homeContent';
 
 export function Faq() {
   const [expanded, setExpanded] = useState<number | null>(null);
   return (
-    <section className="faq-card" id="faqs" aria-labelledby="faq-title">
+    <Card
+      variant="panel"
+      padding="md"
+      className="faq-card"
+      id="faqs"
+      aria-labelledby="faq-title"
+    >
       <div className="faq-heading">
         <h2 id="faq-title">Frequently asked questions</h2>
       </div>
@@ -38,6 +45,6 @@ export function Faq() {
           </div>
         </div>
       ))}
-    </section>
+    </Card>
   );
 }

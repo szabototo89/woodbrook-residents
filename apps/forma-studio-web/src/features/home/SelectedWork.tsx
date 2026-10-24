@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
+import { Card } from '../../components/Card';
 
 export function SelectedWork() {
   return (
@@ -14,7 +15,7 @@ export function SelectedWork() {
         </div>
         <p>Explore the experience for yourself</p>
       </div>
-      <article className="work-card">
+      <Card as="article" variant="white" padding="none" className="work-card">
         <a
           className="work-preview"
           href="https://laura-faichney-all-things-art.pages.dev"
@@ -55,7 +56,7 @@ export function SelectedWork() {
             </a>
           </div>
         </div>
-      </article>
+      </Card>
     </section>
   );
 }

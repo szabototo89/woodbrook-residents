@@ -1,5 +1,6 @@
 import { ArrowRight, Check, Leaf } from 'lucide-react';
 import { SiteHeader } from '../../components/SiteHeader';
+import { Card } from '../../components/Card';
 import { Faq } from './Faq';
 import { SelectedWork } from './SelectedWork';
 import {
@@ -71,7 +72,12 @@ export function HomePage() {
           </div>
           <div className="service-grid">
             {services.map((service) => (
-              <article className="service-card" key={service.title}>
+              <Card
+                as="article"
+                variant="muted"
+                className="service-card"
+                key={service.title}
+              >
                 <div className="icon-circle">
                   <service.icon
                     size={31}
@@ -89,13 +95,15 @@ export function HomePage() {
                     ))}
                   </ul>
                 </details>
-              </article>
+              </Card>
             ))}
           </div>
         </section>
         <SelectedWork />
-        <section
-          className="packages panel"
+        <Card
+          variant="panel"
+          padding="lg"
+          className="packages"
           id="packages"
           aria-labelledby="packages-title"
         >
@@ -113,7 +121,10 @@ export function HomePage() {
           </div>
           <div className="package-grid">
             {packages.map((plan) => (
-              <article
+              <Card
+                as="article"
+                variant="white"
+                popular={plan.popular}
                 className={
                   plan.popular ? 'package-card popular' : 'package-card'
                 }
@@ -139,10 +150,10 @@ export function HomePage() {
                   Discuss {plan.title}{' '}
                   <ArrowRight size={16} aria-hidden="true" />
                 </a>
-              </article>
+              </Card>
             ))}
           </div>
-        </section>
+        </Card>
         <section
           className="process content-inset"
           id="about"
@@ -171,8 +182,10 @@ export function HomePage() {
           </ol>
         </section>
         <div className="trust-grid">
-          <section
-            className="project-preparation panel"
+          <Card
+            variant="panel"
+            padding="md"
+            className="project-preparation"
             aria-labelledby="preparation-title"
           >
             <p className="eyebrow">Let’s make a start</p>
@@ -192,11 +205,13 @@ export function HomePage() {
               Tell us about your project{' '}
               <ArrowRight size={16} aria-hidden="true" />
             </a>
-          </section>
+          </Card>
           <Faq />
         </div>
-        <section
-          className="contact panel"
+        <Card
+          variant="panel"
+          padding="lg"
+          className="contact"
           id="contact"
           aria-labelledby="contact-title"
         >
@@ -222,7 +237,7 @@ export function HomePage() {
             </a>
             <p>Opens your email app. No obligation.</p>
           </div>
-        </section>
+        </Card>
       </main>
       <footer className="site-footer">
         <span>Forma Studio · Websites for local businesses</span>
