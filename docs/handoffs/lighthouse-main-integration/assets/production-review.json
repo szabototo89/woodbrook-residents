@@ -1,0 +1,28 @@
+[
+  {
+    "width": 1440,
+    "result": "PASS",
+    "checks": [
+      "home HTTP 200",
+      "optimized logo URL and transfer budget",
+      "one shared stylesheet",
+      "two anonymous font preloads",
+      "no overflow",
+      "private account login guard preserved",
+      "no anonymous Firestore requests"
+    ]
+  },
+  {
+    "width": 390,
+    "result": "PASS",
+    "checks": [
+      "home HTTP 200",
+      "optimized logo URL and transfer budget",
+      "one shared stylesheet",
+      "two anonymous font preloads",
+      "no overflow",
+      "private account login guard preserved",
+      "no anonymous Firestore requests"
+    ]
+  }
+]

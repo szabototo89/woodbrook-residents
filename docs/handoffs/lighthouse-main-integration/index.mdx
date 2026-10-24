@@ -1,0 +1,99 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import accountDesktop from './assets/account-desktop.png';
+import accountMobile from './assets/account-mobile.png';
+
+export const metadata = {
+  title: 'Verify the combined website changes',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a15df6-6061-7243-aa70-f2d9e58e7fdb',
+  worktree: '/private/tmp/woodbrook-lighthouse-performance',
+  branch: 'session/lighthouse-performance',
+  commit: '5e5dfc69d35720f83fb51fb559c931a23989be1b',
+  updatedAt: '2026-10-22T13:03:24Z',
+  summary:
+    'Keeps the Lighthouse fixes while integrating the concurrent home-page and account-layout changes.',
+};
+
+## Goal
+
+Keep public pages fast after the concurrent layout changes. Preserve all three completed features and their separate records.
+
+## Technical changes
+
+Baseline: `d97186a`. Merge: `5e5dfc6`, including main `207fe3f`. The merge required no manual code changes.
+
+| Area         | Before                                                    | After                                       | Why                                      | Code                                                                              |
+| ------------ | --------------------------------------------------------- | ------------------------------------------- | ---------------------------------------- | --------------------------------------------------------------------------------- |
+| Integration  | Performance record preceded two concurrent layout updates | Shared history includes all three features  | Preserve each session's work             | `5e5dfc6`                                                                         |
+| Public pages | Optimized images, shared styles and font hints            | Same loading path with updated home content | Verify the final composition             | `apps/web/src/features/home/`                                                     |
+| Account page | Original resident editor layout                           | Updated settings layout and edit feedback   | Preserve the account design work         | `apps/web/src/features/account/`                                                  |
+| Records      | Three separate feature histories                          | Earlier records remain unchanged            | Keep evidence tied to its implementation | `docs/handoffs/lighthouse-performance/`, `docs/handoffs/account-settings-design/` |
+
+## Architecture changes
+
+Woodbrook remains a public information hub. The browser, Cloudflare asset host, Firebase Authentication and private Firestore store keep their existing roles.
+
+| Level | Change                                    | Evidence                                       |
+| ----- | ----------------------------------------- | ---------------------------------------------- |
+| C1    | Unchanged systems and users               | No service or actor added                      |
+| C2    | Unchanged applications and stores         | Existing Cloudflare and Firebase configuration |
+| C3    | Unchanged responsibilities and interfaces | Merge adds no component or contract            |
+
+No new diagram is needed for this history and verification change.
+
+## Verification
+
+| Check                      | Result | Evidence                                                                                                                                                                                                                                                                            |
+| -------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Merged code                | PASS   | `git diff main -- apps/web/src apps/web/scripts apps/web/tests` was empty at main `207fe3f`.                                                                                                                                                                                        |
+| Combined Lighthouse matrix | PASS   | All 14 checks passed. Minimum stays 90; desktop performance is 100. See `assets/lighthouse.json`.                                                                                                                                                                                   |
+| Focused tests              | PASS   | Account/home unit tests: 20 passed. Firebase browser tests: 10 passed, including save, discard, retry, removal and 320px access.                                                                                                                                                    |
+| Repository build           | PASS   | `bun run build` exited 0 after the merge.                                                                                                                                                                                                                                           |
+| Desktop/mobile review      | PASS   | 1440px and 390px at 2× resolution. No overflow. Home uses published content; account screenshots use synthetic data. `assets/browser-review.json`.                                                                                                                                  |
+| Lighthouse CI              | PASS   | [Run 39782544257](https://github.com/szabototo89/woodbrook-residents/actions/runs/39782544257) passed all 14 combinations. Scores are in `assets/ci-lighthouse.json`.                                                                                                               |
+| Private profile rules      | PASS   | [Run 39782544380](https://github.com/szabototo89/woodbrook-residents/actions/runs/39782544380) passed the owner-access and field-validation tests.                                                                                                                                  |
+| Production                 | PASS   | [Build 4f1f10f2](https://dash.cloudflare.com/e314b1fc6ed42c211154ffaae0193554/workers/services/view/woodbrook/production/builds/4f1f10f2-85f6-4f4c-a173-1a70a3fc3581) succeeded. Live pages retained optimized assets and the private login guard. `assets/production-review.json`. |
+| Handoff viewer             | PASS   | Gallery images and navigation passed at 1440px and 390px. `assets/handoff-review.json`.                                                                                                                                                                                             |
+
+## Appearance
+
+Home screenshots show published Sanity content. Account screenshots show sample data from simulated Firebase responses. No resident records were accessed.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop home',
+      alt: 'Combined desktop home page',
+      description:
+        'Check the updated news and project rows with the optimized hero and logo.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile home',
+      alt: 'Combined mobile home page',
+      description:
+        'Check readable controls, stacked content and the existing mobile composition.',
+    },
+    {
+      src: accountDesktop,
+      title: 'Desktop account — sample',
+      alt: 'Desktop account settings with sample location data',
+      description:
+        'Check the compact settings layout, saved location fields and separate removal action.',
+    },
+    {
+      src: accountMobile,
+      title: 'Mobile account — sample',
+      alt: 'Mobile account settings with sample location data',
+      description:
+        'Check the stacked navigation and editable fields. All account values are illustrative.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None.

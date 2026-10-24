@@ -1,0 +1,22 @@
+[
+  {
+    "width": 1440,
+    "result": "PASS",
+    "checks": [
+      "document title",
+      "desktop/mobile gallery images",
+      "next and previous controls",
+      "no overflow"
+    ]
+  },
+  {
+    "width": 390,
+    "result": "PASS",
+    "checks": [
+      "document title",
+      "desktop/mobile gallery images",
+      "next and previous controls",
+      "no overflow"
+    ]
+  }
+]
