@@ -304,7 +304,7 @@ test('homepage gives the editorial pick its own labelled card with one story lin
   const { HomePage } = await import('./HomePage');
   const { container, unmount } = renderUi(<HomePage />);
   const card = container.querySelector(
-    'article[aria-labelledby="home-featured-news-title"]',
+    'article[aria-labelledby="featured-news-title"]',
   )!;
   expect(card).not.toBeNull();
   expect(card.textContent).toContain('Featured news');
@@ -340,7 +340,7 @@ test.each([undefined, 'Sample editorial photo'])(
     expect(container.textContent).not.toContain('More local news');
     expect(
       container
-        .querySelector(`.home-featured-news img[alt="${imageAlt ?? ''}"]`)
+        .querySelector(`.featured-news img[alt="${imageAlt ?? ''}"]`)
         ?.getAttribute('src'),
     ).toBe('/images/woodbrook-station.jpg');
     unmount();

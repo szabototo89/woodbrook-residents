@@ -1059,3 +1059,15 @@ img.coast-note {
     flex-wrap: wrap;
   }
 }
+
+.home-updates > .home-section-heading {
+  flex-wrap: wrap;
+}
+.home-more-news {
+  margin: 24px 0 4px;
+  color: var(--forest);
+  font-size: var(--type-caption);
+  font-weight: var(--weight-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

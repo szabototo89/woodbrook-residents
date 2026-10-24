@@ -1,0 +1,17 @@
+.updates-content > .featured-news {
+  margin-bottom: 32px;
+}
+.updates-content .featured-news-copy {
+  max-width: 920px;
+  padding: clamp(24px, 4vw, 48px);
+}
+.updates-content .featured-news h3 {
+  max-width: 25ch;
+  font-size: clamp(1.85rem, 4vw, 3rem);
+}
+.updates-content .featured-news-summary {
+  max-width: 65ch;
+}
+.updates-latest-title {
+  margin-bottom: 24px;
+}

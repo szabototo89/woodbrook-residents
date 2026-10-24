@@ -148,3 +148,7 @@ export type ContentCollection<T> = {
   availability: ContentAvailability;
   items: T[];
 };
+
+export type UpdatesContent = ContentCollection<Update> & {
+  featuredUpdate?: Update;
+};

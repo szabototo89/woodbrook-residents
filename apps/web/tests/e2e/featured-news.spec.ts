@@ -12,15 +12,15 @@ test('featured news stands out, reflows and opens through one keyboard-accessibl
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
     const card = page.getByRole('article', {
-      name: 'Woodbrook DART station is now open',
+      name: 'LDA Woodbrook homes move through construction',
     });
     await expect(
       card.getByText('Featured news', { exact: true }),
     ).toBeVisible();
     await expect(card.getByRole('link')).toHaveCount(1);
-    await expect(card.locator('time')).toHaveText('10 August 2025');
+    await expect(card.locator('time')).toHaveText('5 September 2026');
     await expect(
-      card.getByText('Iarnród Éireann', { exact: true }),
+      card.getByText('Land Development Agency', { exact: true }),
     ).toBeVisible();
     const styles = await card.evaluate((element) => {
       const style = getComputedStyle(element);
@@ -31,9 +31,8 @@ test('featured news stands out, reflows and opens through one keyboard-accessibl
           getComputedStyle(element.querySelector('h3')!).fontSize,
         ),
         summary: parseFloat(
-          getComputedStyle(
-            element.querySelector('.home-featured-news-summary')!,
-          ).fontSize,
+          getComputedStyle(element.querySelector('.featured-news-summary')!)
+            .fontSize,
         ),
         overflow: document.documentElement.scrollWidth > window.innerWidth,
       };
@@ -49,7 +48,9 @@ test('featured news stands out, reflows and opens through one keyboard-accessibl
       await card.evaluate((element) => getComputedStyle(element).outlineStyle),
     ).toBe('solid');
     await page.keyboard.press('Enter');
-    await expect(page).toHaveURL(/\/updates\/woodbrook-dart-station-now-open$/);
+    await expect(page).toHaveURL(
+      /\/updates\/lda-woodbrook-homes-construction-update$/,
+    );
   }
 });
 

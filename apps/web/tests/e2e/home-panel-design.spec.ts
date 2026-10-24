@@ -288,7 +288,7 @@ test('news and project rows expose dates, categories, full titles and a single g
         ).toBe('none');
         const rowBounds = await row.boundingBox();
         const titleBounds = await title.boundingBox();
-        const copy = row.locator('.home-featured-news-copy');
+        const copy = row.locator('.featured-news-copy');
         const copyPadding = (await copy.count())
           ? await copy.evaluate((element) =>
               parseFloat(getComputedStyle(element).paddingLeft),

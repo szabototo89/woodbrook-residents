@@ -1,19 +1,30 @@
 import { getUpcomingEvents } from '../events/homeEvent';
-import type { ContentSnapshot, HomeContent, SiteSetting } from './contentTypes';
+import type {
+  ContentSnapshot,
+  HomeContent,
+  SiteSetting,
+  Update,
+  UpdatesContent,
+} from './contentTypes';
 
-export function getHomeContentFromSnapshot(
-  snapshot: ContentSnapshot,
-  now: string | Date = new Date(),
-): HomeContent {
-  const updates = getUpdatesFromSnapshot(snapshot);
+function selectFeaturedUpdate(updates: Update[], now: string | Date) {
   const nowTimestamp = new Date(now).getTime();
-  const featuredUpdate = updates.find(
+  // Callers supply publication order so the newest eligible pick wins.
+  return updates.find(
     (update) =>
       update.featured &&
       Date.parse(update.publishedOn) <= nowTimestamp &&
       (!update.featuredUntil ||
         Date.parse(update.featuredUntil) > nowTimestamp),
   );
+}
+
+export function getHomeContentFromSnapshot(
+  snapshot: ContentSnapshot,
+  now: string | Date = new Date(),
+): HomeContent {
+  const updates = getUpdatesFromSnapshot(snapshot);
+  const featuredUpdate = selectFeaturedUpdate(updates, now);
   return {
     availability: 'ready',
     siteSetting: snapshot.siteSetting,
@@ -24,6 +35,21 @@ export function getHomeContentFromSnapshot(
     projects: snapshot.projects.slice(0, 3),
     events: getUpcomingEvents(snapshot.events, now),
     surveys: snapshot.surveys,
+  };
+}
+
+export function getUpdatesContentFromSnapshot(
+  snapshot: ContentSnapshot,
+  now: string | Date = new Date(),
+): UpdatesContent {
+  const updates = getUpdatesFromSnapshot(snapshot);
+  const featuredUpdate = selectFeaturedUpdate(updates, now);
+  return {
+    availability: 'ready',
+    featuredUpdate,
+    items: updates
+      .filter((update) => update.documentId !== featuredUpdate?.documentId)
+      .slice(0, featuredUpdate ? 24 : 25),
   };
 }
 

@@ -43,7 +43,8 @@ export const updates = [
     imageCredit: 'Barrowbob, Wikimedia Commons',
     imageCreditUrl:
       'https://commons.wikimedia.org/wiki/File:Killiney_Hill_-_view_towards_Bray.jpg',
-    featured: false,
+    // Multiple editorial picks test newest-published selection on both pages.
+    featured: true,
   },
   {
     title: 'Shanganagh Castle Estate reaches occupation stage',

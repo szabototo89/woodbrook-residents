@@ -7,7 +7,7 @@ import {
   getCollection,
   getHomeContentFromSnapshot,
   getSiteSettingFromSnapshot,
-  getUpdatesFromSnapshot,
+  getUpdatesContentFromSnapshot,
 } from './contentQueries';
 import { getContentSnapshot } from './contentSnapshot';
 import type {
@@ -19,6 +19,7 @@ import type {
   SiteSetting,
   Survey,
   Update,
+  UpdatesContent,
 } from './contentTypes';
 import { loadContent } from './loadContent';
 import { buildSearchIndex, type SearchResult } from '../search/searchModel';
@@ -80,8 +81,12 @@ function loadCollection<T>(select: () => Promise<T[]>, limit = 25) {
 
 export const getUpdates = createServerFn({ method: 'GET' })
   .middleware(contentMiddleware)
-  .handler((): Promise<ContentCollection<Update>> =>
-    loadCollection(async () => getUpdatesFromSnapshot(await loadSnapshot())),
+  .handler((): Promise<UpdatesContent> =>
+    loadContent<UpdatesContent>(
+      async () => getUpdatesContentFromSnapshot(await loadSnapshot()),
+      { availability: 'unavailable', items: [] },
+      __STATIC_SITE_BUILD__,
+    ),
   );
 
 export const getProjects = createServerFn({ method: 'GET' })

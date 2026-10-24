@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import { formatDate, formatLabel } from '../content/contentFormatting';
 import type { Update } from '../content/contentTypes';
-import { HomeFeaturedNews } from './HomeFeaturedNews';
+import { FeaturedNewsCard } from '../updates/FeaturedNewsCard';
 
 type HomeUpdatesProps = {
   updates: Update[];
@@ -22,7 +22,7 @@ export function HomeUpdates(props: HomeUpdatesProps) {
         </Link>
       </div>
       {props.featuredUpdate ? (
-        <HomeFeaturedNews update={props.featuredUpdate} />
+        <FeaturedNewsCard update={props.featuredUpdate} />
       ) : null}
       {props.featuredUpdate && props.updates.length > 0 ? (
         <p className="home-more-news">More local news</p>

@@ -181,12 +181,12 @@ test('shares heading and body typography with the updates page and prioritises s
     .getByRole('heading', { name: 'News', level: 1 })
     .evaluate(typography);
   const cardHeading = await page
-    .getByRole('article')
+    .locator('.update-card')
     .first()
     .getByRole('heading')
     .evaluate(typography);
   const body = await page
-    .getByRole('article')
+    .locator('.update-card')
     .first()
     .locator('p')
     .evaluate(typography);

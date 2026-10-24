@@ -6,6 +6,7 @@ import {
   getHomeContentFromSnapshot,
   getSiteSettingFromSnapshot,
   getUpdatesFromSnapshot,
+  getUpdatesContentFromSnapshot,
 } from './contentQueries';
 import type { CommunityEvent, ContentSnapshot, Update } from './contentTypes';
 
@@ -145,6 +146,65 @@ test('news ordering compares publication instants across date-time offsets', () 
   expect(
     getUpdatesFromSnapshot({ ...snapshot, updates }).map((item) => item.title),
   ).toEqual(['Update 1', 'Update 0']);
+});
+
+test('both news pages feature the most recently published eligible pick and keep other picks in date order', () => {
+  const content = {
+    ...snapshot,
+    updates: [
+      { ...update(0), featured: true, publishedOn: '2026-09-01' },
+      { ...update(1), featured: true, publishedOn: '2026-09-03' },
+      { ...update(2), featured: true, publishedOn: '2026-09-02' },
+      { ...update(3), publishedOn: '2026-09-05' },
+    ],
+  };
+  const now = '2026-10-01T00:00:00Z';
+  const news = getUpdatesContentFromSnapshot(content, now);
+  expect(news.featuredUpdate?.title).toBe('Update 1');
+  expect(getHomeContentFromSnapshot(content, now).featuredUpdate).toEqual(
+    news.featuredUpdate,
+  );
+  expect(news.items.map((item) => item.title)).toEqual([
+    'Update 3',
+    'Update 2',
+    'Update 0',
+  ]);
+});
+
+test('News selects an older feature before its collection limit and never repeats it in the grid', () => {
+  const featured = { ...update(40), featured: true, publishedOn: '2025-01-01' };
+  const news = getUpdatesContentFromSnapshot(
+    { ...snapshot, updates: [...snapshot.updates, featured] },
+    '2026-10-01T00:00:00Z',
+  );
+  expect(news.featuredUpdate).toEqual(featured);
+  expect(news.items).toHaveLength(24);
+  expect(
+    news.items.some((item) => item.documentId === featured.documentId),
+  ).toBe(false);
+});
+
+test('News falls back to its chronological grid when no feature is eligible, including at expiry', () => {
+  const content = {
+    ...snapshot,
+    updates: [
+      { ...update(0), featured: true, featuredUntil: '2026-10-01T12:00:00Z' },
+    ],
+  };
+  expect(
+    getUpdatesContentFromSnapshot(content, '2026-10-01T11:59:59Z')
+      .featuredUpdate?.title,
+  ).toBe('Update 0');
+  const expired = getUpdatesContentFromSnapshot(
+    content,
+    '2026-10-01T12:00:00Z',
+  );
+  expect(expired.featuredUpdate).toBeUndefined();
+  expect(expired.items).toEqual(content.updates);
+  expect(getUpdatesContentFromSnapshot(snapshot).items).toHaveLength(25);
+  expect(
+    getUpdatesContentFromSnapshot({ ...snapshot, updates: [] }).items,
+  ).toEqual([]);
 });
 
 test('content queries keeps only future events for the homepage', () => {
