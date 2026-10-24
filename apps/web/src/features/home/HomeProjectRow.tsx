@@ -3,7 +3,9 @@ import { ChevronRight } from 'lucide-react';
 import { formatLabel } from '../content/contentFormatting';
 import type { Project } from '../content/contentTypes';
 
-export function HomeProjectRow(props: { project: Project }) {
+type HomeProjectRowProps = { project: Project };
+
+export function HomeProjectRow(props: HomeProjectRowProps) {
   return (
     <article className="home-project-row">
       {props.project.imagePath ? (

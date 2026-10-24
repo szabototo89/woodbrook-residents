@@ -5,10 +5,12 @@ import {
   type CmsGalleryCollection,
 } from './lauraSanity';
 
-export function GalleryCollections(props: {
+type GalleryCollectionsProps = {
   collections: CmsGalleryCollection[];
   eager?: boolean;
-}) {
+};
+
+export function GalleryCollections(props: GalleryCollectionsProps) {
   return (
     <div className="gallery-grid gallery-collections">
       {props.collections.map((collection) => {

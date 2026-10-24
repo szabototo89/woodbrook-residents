@@ -10,10 +10,12 @@ import { StatusBadge } from './StatusBadge';
 import { TTLIndicator } from './TTLIndicator';
 import type { WorkspaceEnvironment } from './environments';
 
-export function EnvironmentsTable(props: {
+type EnvironmentsTableProps = {
   environments: WorkspaceEnvironment[];
   onClearFilters?: () => void;
-}) {
+};
+
+export function EnvironmentsTable(props: EnvironmentsTableProps) {
   return (
     <Table
       data={props.environments}

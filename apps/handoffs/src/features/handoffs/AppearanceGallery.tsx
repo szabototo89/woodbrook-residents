@@ -8,7 +8,9 @@ type AppearanceImage = {
   description: string;
 };
 
-export function AppearanceGallery(props: { images: AppearanceImage[] }) {
+type AppearanceGalleryProps = { images: AppearanceImage[] };
+
+export function AppearanceGallery(props: AppearanceGalleryProps) {
   const [index, setIndex] = useState(0);
   if (props.images.length === 0) return null;
   const current = index % props.images.length;

@@ -4,11 +4,13 @@ import type { useAuthRequest } from './useAuthRequest';
 import { useAuthFeature } from './AuthProvider';
 import { authHref } from './authConfig';
 
-export function AccountPanel(props: {
+type AccountPanelProps = {
   user: AccountUser;
   actions: AuthActions;
   request: ReturnType<typeof useAuthRequest>;
-}) {
+};
+
+export function AccountPanel(props: AccountPanelProps) {
   const { search } = useAuthFeature();
   const { busy, error, message, run } = props.request;
   function save(event: FormEvent<HTMLFormElement>) {

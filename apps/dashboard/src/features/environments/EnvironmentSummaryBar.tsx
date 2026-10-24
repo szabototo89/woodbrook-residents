@@ -4,12 +4,14 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { EnvironmentSummary } from './environments';
 
-export function EnvironmentSummaryBar(props: {
+type EnvironmentSummaryBarProps = {
   summary: EnvironmentSummary;
   onSelectStatus: (
     status: 'running' | 'stopped' | 'failed' | 'expiring',
   ) => void;
-}) {
+};
+
+export function EnvironmentSummaryBar(props: EnvironmentSummaryBarProps) {
   return (
     <HStack gap={2} align="center">
       <Button

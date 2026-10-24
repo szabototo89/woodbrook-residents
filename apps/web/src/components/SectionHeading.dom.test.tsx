@@ -5,11 +5,13 @@ import type { ReactNode } from 'react';
 import { renderUi } from '../test-utils/renderUi';
 import { SectionHeading } from './SectionHeading';
 
-function FakeLink(props: {
+type FakeLinkProps = {
   to: string;
   children?: ReactNode;
   className?: string;
-}) {
+};
+
+function FakeLink(props: FakeLinkProps) {
   return (
     <a href={props.to} className={props.className}>
       {props.children}

@@ -1,6 +1,8 @@
 import { Fragment } from 'react';
 
-export function TitleLines(props: { lines: string[]; lineClassName?: string }) {
+type TitleLinesProps = { lines: string[]; lineClassName?: string };
+
+export function TitleLines(props: TitleLinesProps) {
   return (
     <>
       {props.lines.map((line, index) => (

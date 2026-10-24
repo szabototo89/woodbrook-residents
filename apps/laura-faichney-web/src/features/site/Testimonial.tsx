@@ -1,7 +1,9 @@
 import { Eyebrow } from './Eyebrow';
 import type { HomeData } from './lauraSanity';
 
-export function Testimonial(props: { testimonial: HomeData['testimonial'] }) {
+type TestimonialProps = { testimonial: HomeData['testimonial'] };
+
+export function Testimonial(props: TestimonialProps) {
   const { testimonial } = props;
   return (
     <section className="testimonial" aria-labelledby="testimonial-heading">

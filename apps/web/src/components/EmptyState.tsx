@@ -1,12 +1,14 @@
 import { CalendarClock, type LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
-export function EmptyState(props: {
+type EmptyStateProps = {
   title: string;
   message: string;
   icon?: LucideIcon;
   children?: ReactNode;
-}) {
+};
+
+export function EmptyState(props: EmptyStateProps) {
   const Icon = props.icon ?? CalendarClock;
   return (
     <div className="empty-state">

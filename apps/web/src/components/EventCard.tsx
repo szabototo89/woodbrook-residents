@@ -4,10 +4,12 @@ import { ArrowRight, CalendarDays, MapPin } from 'lucide-react';
 import { formatDateTime } from '../features/content/contentFormatting';
 import type { CommunityEvent } from '../features/content/contentTypes';
 
-export function EventCard(props: {
+type EventCardProps = {
   event: CommunityEvent;
   headingLevel?: 2 | 3;
-}) {
+};
+
+export function EventCard(props: EventCardProps) {
   const headingLevel = props.headingLevel ?? 2;
   const Heading = `h${headingLevel}` as const;
 

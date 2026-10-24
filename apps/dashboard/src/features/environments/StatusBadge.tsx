@@ -4,7 +4,9 @@ import { Text } from '@astryxdesign/core/Text';
 
 import { getStatusMeta, type EnvironmentStatus } from './environments';
 
-export function StatusBadge(props: { status: EnvironmentStatus }) {
+type StatusBadgeProps = { status: EnvironmentStatus };
+
+export function StatusBadge(props: StatusBadgeProps) {
   const meta = getStatusMeta(props.status);
   return (
     <HStack gap={2} align="center">

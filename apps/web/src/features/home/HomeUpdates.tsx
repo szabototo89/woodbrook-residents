@@ -3,7 +3,9 @@ import { ArrowRight, ChevronRight } from 'lucide-react';
 import { formatDate, formatLabel } from '../content/contentFormatting';
 import type { Update } from '../content/contentTypes';
 
-export function HomeUpdates(props: { updates: Update[] }) {
+type HomeUpdatesProps = { updates: Update[] };
+
+export function HomeUpdates(props: HomeUpdatesProps) {
   return (
     <section
       className="home-updates home-panel"

@@ -3,7 +3,9 @@ import { Arrow } from './Arrow';
 import { ContactDetails } from './ContactDetails';
 import type { CmsSettings } from './lauraSanity';
 
-export function ContactSection(props: { settings: CmsSettings }) {
+type ContactSectionProps = { settings: CmsSettings };
+
+export function ContactSection(props: ContactSectionProps) {
   const { settings } = props;
   return (
     <section className="contact-section" id="contact">

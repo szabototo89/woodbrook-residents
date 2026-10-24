@@ -7,7 +7,9 @@ export function isAddressDetail(detail: ResourceDetail) {
   return detail.label.trim().toLocaleLowerCase('en-IE') === 'address';
 }
 
-export function ResourceDetailValue(props: { detail: ResourceDetail }) {
+type ResourceDetailValueProps = { detail: ResourceDetail };
+
+export function ResourceDetailValue(props: ResourceDetailValueProps) {
   if (isAddressDetail(props.detail)) {
     return <GoogleMapsLink location={props.detail.value} />;
   }

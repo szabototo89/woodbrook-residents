@@ -3,7 +3,9 @@ import { ArrowRight, CalendarDays, Clock3, MapPin } from 'lucide-react';
 import type { CommunityEvent } from '../content/contentTypes';
 import { formatDate } from '../content/contentFormatting';
 
-export function HomeEventCard(props: { event: CommunityEvent }) {
+type HomeEventCardProps = { event: CommunityEvent };
+
+export function HomeEventCard(props: HomeEventCardProps) {
   const timeFormat = new Intl.DateTimeFormat('en-IE', {
     hour: 'numeric',
     minute: '2-digit',

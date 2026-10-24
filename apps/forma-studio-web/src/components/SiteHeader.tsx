@@ -9,7 +9,9 @@ const sections = [
   { name: 'Contact', href: '#contact' },
 ];
 
-export function SiteHeader(props: { page?: 'home' | 'blog' }) {
+type SiteHeaderProps = { page?: 'home' | 'blog' };
+
+export function SiteHeader(props: SiteHeaderProps) {
   const homePrefix = props.page === 'blog' ? '/' : '';
   const sectionHref = (href: string) =>
     href.startsWith('#') ? `${homePrefix}${href}` : href;

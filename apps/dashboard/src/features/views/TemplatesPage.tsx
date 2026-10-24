@@ -6,7 +6,9 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { DashboardApp } from '../dashboard/registry';
 
-export function TemplatesPage(props: { apps: DashboardApp[] }) {
+type TemplatesPageProps = { apps: DashboardApp[] };
+
+export function TemplatesPage(props: TemplatesPageProps) {
   return (
     <Stack gap={3}>
       <Heading level={1}>Templates</Heading>

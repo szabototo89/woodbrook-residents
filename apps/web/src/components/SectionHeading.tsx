@@ -1,12 +1,14 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
-export function SectionHeading(props: {
+type SectionHeadingProps = {
   eyebrow: string;
   title: string;
   linkLabel?: string;
   linkTo?: string;
-}) {
+};
+
+export function SectionHeading(props: SectionHeadingProps) {
   return (
     <div className="section-heading">
       <div>

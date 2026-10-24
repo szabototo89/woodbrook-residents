@@ -1,11 +1,13 @@
 import { sanityImageSrcSet } from './galleryImageSources';
 import type { CmsImage } from './lauraSanity';
 
-export function ServiceImage(props: {
+type ServiceImageProps = {
   image: CmsImage;
   eager?: boolean;
   sizes?: string;
-}) {
+};
+
+export function ServiceImage(props: ServiceImageProps) {
   return (
     <img
       src={props.image.url}

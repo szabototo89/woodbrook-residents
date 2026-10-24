@@ -9,11 +9,15 @@ const controls = vi.hoisted(() => ({
   zoomOut: vi.fn(),
   fitToView: vi.fn(),
 }));
+type TransformWrapperProps = {
+  children: (value: typeof controls) => ReactNode;
+};
+
+type TransformComponentProps = { children: ReactNode };
+
 vi.mock('react-zoom-pan-pinch', () => ({
-  TransformWrapper: (props: {
-    children: (value: typeof controls) => ReactNode;
-  }) => props.children(controls),
-  TransformComponent: (props: { children: ReactNode }) => (
+  TransformWrapper: (props: TransformWrapperProps) => props.children(controls),
+  TransformComponent: (props: TransformComponentProps) => (
     <div>{props.children}</div>
   ),
 }));

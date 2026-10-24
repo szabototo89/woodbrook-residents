@@ -3,7 +3,9 @@ import { butterTheme } from '@astryxdesign/theme-butter/built';
 import { HeadContent, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 
-export function RootDocument(props: { children: ReactNode }) {
+type RootDocumentProps = { children: ReactNode };
+
+export function RootDocument(props: RootDocumentProps) {
   return (
     <html lang="en">
       <head>

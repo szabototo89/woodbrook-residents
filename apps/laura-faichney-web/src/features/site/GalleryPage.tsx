@@ -5,7 +5,9 @@ import { heroImageSrcSet } from './heroImageSources';
 import { TitleLines } from './TitleLines';
 import type { GalleryData } from './lauraSanity';
 
-export function GalleryPage(props: { data: GalleryData }) {
+type GalleryPageProps = { data: GalleryData };
+
+export function GalleryPage(props: GalleryPageProps) {
   const { data } = props;
   return (
     <main id="main-content">

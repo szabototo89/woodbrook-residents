@@ -2,7 +2,9 @@ import { useRef, useState } from 'react';
 import { Arrow } from './Arrow';
 import { BrandLogo } from '../../components/BrandLogo';
 
-export function SiteHeader(props: { active: string }) {
+type SiteHeaderProps = { active: string };
+
+export function SiteHeader(props: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   const links = [

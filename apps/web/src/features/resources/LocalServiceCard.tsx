@@ -6,7 +6,9 @@ import type { Resource } from '../content/contentTypes';
 import { ResourceDetailValue } from './ResourceDetailValue';
 import { toTelephoneHref } from './resourceDirectory';
 
-export function LocalServiceCard(props: { resource: Resource }) {
+type LocalServiceCardProps = { resource: Resource };
+
+export function LocalServiceCard(props: LocalServiceCardProps) {
   const cardDetails = props.resource.details.filter(
     (detail) => detail.showOnCard,
   );

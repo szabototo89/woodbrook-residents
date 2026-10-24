@@ -1,7 +1,9 @@
 import { Arrow } from './Arrow';
 import type { CmsAnnouncement } from './lauraSanity';
 
-export function HomeAnnouncement(props: { announcement: CmsAnnouncement }) {
+type HomeAnnouncementProps = { announcement: CmsAnnouncement };
+
+export function HomeAnnouncement(props: HomeAnnouncementProps) {
   const { announcement } = props;
   return (
     <section

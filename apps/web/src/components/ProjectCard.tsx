@@ -4,7 +4,9 @@ import { ArrowRight } from 'lucide-react';
 import { formatDate, formatLabel } from '../features/content/contentFormatting';
 import type { Project } from '../features/content/contentTypes';
 
-export function ProjectCard(props: { project: Project }) {
+type ProjectCardProps = { project: Project };
+
+export function ProjectCard(props: ProjectCardProps) {
   return (
     <article className="content-card project-card">
       {props.project.imagePath ? (

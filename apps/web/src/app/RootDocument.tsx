@@ -9,7 +9,9 @@ import { CookieConsentBanner } from '../components/CookieConsent';
 import { AuthProvider } from '../features/auth/AuthProvider';
 import { SiteStructuredData } from './SiteStructuredData';
 
-export function RootDocument(props: { children: ReactNode }) {
+type RootDocumentProps = { children: ReactNode };
+
+export function RootDocument(props: RootDocumentProps) {
   return (
     <html lang="en-IE">
       <head>

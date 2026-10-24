@@ -6,10 +6,10 @@ import { renderUi } from '../../test-utils/renderUi';
 import type { Update } from '../content/contentTypes';
 import { UpdateDetailPage } from './UpdateDetailPage';
 
+type LinkProps = { to: string; children: ReactNode };
+
 vi.mock('@tanstack/react-router', () => ({
-  Link: (props: { to: string; children: ReactNode }) => (
-    <a href={props.to}>{props.children}</a>
-  ),
+  Link: (props: LinkProps) => <a href={props.to}>{props.children}</a>,
 }));
 
 let update: Update | undefined;

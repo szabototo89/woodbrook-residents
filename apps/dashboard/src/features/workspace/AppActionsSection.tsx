@@ -7,7 +7,9 @@ import type { DashboardApp } from '../dashboard/registry';
 import { actions } from '../dashboard/registry';
 import { getAppActions } from '../dashboard/appFocus';
 
-export function AppActionsSection(props: { app: DashboardApp }) {
+type AppActionsSectionProps = { app: DashboardApp };
+
+export function AppActionsSection(props: AppActionsSectionProps) {
   const { appActions, workspaceActions } = getAppActions(
     props.app.name,
     actions,

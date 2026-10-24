@@ -18,14 +18,16 @@ vi.mock('../../routes/search', () => ({
     useNavigate: () => vi.fn(),
   },
 }));
+type LinkProps = {
+  to: string;
+  params?: { slug: string };
+  children: ReactNode;
+  className?: string;
+};
+
 vi.mock('@tanstack/react-router', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@tanstack/react-router')>()),
-  Link: (props: {
-    to: string;
-    params?: { slug: string };
-    children: ReactNode;
-    className?: string;
-  }) => (
+  Link: (props: LinkProps) => (
     <a
       href={
         props.params ? props.to.replace('$slug', props.params.slug) : props.to

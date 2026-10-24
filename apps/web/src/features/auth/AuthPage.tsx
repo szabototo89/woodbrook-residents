@@ -20,7 +20,9 @@ const copy = {
   },
 };
 
-export function AuthPage(props: { page: AuthPageName }) {
+type AuthPageProps = { page: AuthPageName };
+
+export function AuthPage(props: AuthPageProps) {
   const { enabled, configured, ready, search } = useAuthFeature();
   return (
     <main id="main-content" className="shell auth-page">

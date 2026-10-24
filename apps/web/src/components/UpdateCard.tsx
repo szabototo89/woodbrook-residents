@@ -4,7 +4,9 @@ import { ArrowRight, CalendarDays } from 'lucide-react';
 import { formatDate, formatLabel } from '../features/content/contentFormatting';
 import type { Update } from '../features/content/contentTypes';
 
-export function UpdateCard(props: { update: Update }) {
+type UpdateCardProps = { update: Update };
+
+export function UpdateCard(props: UpdateCardProps) {
   return (
     <article className="content-card update-card">
       {props.update.imagePath ? (

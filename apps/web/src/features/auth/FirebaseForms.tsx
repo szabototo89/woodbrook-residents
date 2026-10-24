@@ -4,7 +4,9 @@ import { AccountPanel } from './AccountPanel';
 import { useAuthSession } from './AuthSession';
 import { useAuthRequest } from './useAuthRequest';
 
-export default function FirebaseForms(props: { page: AuthPageName }) {
+type FirebaseFormsProps = { page: AuthPageName };
+
+export default function FirebaseForms(props: FirebaseFormsProps) {
   const { status, user, actions, providers } = useAuthSession();
   const request = useAuthRequest();
   const { busy, error, message, run, setError } = request;

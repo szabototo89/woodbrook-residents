@@ -5,7 +5,9 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { InfraLink } from '../dashboard/registry';
 
-export function InfrastructurePage(props: { links: InfraLink[] }) {
+type InfrastructurePageProps = { links: InfraLink[] };
+
+export function InfrastructurePage(props: InfrastructurePageProps) {
   return (
     <Stack gap={3}>
       <Heading level={1}>Infrastructure</Heading>

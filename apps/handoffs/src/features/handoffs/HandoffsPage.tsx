@@ -99,7 +99,9 @@ function matchesQuery(handoff: Handoff, query: string) {
     .includes(query);
 }
 
-export function HandoffsPage(props: { documents?: typeof handoffs }) {
+type HandoffsPageProps = { documents?: typeof handoffs };
+
+export function HandoffsPage(props: HandoffsPageProps) {
   const [query, setQuery] = useState('');
   const [range, setRange] = useState<RangeKey>('all');
   const [sort, setSort] = useState<SortKey>('newest');

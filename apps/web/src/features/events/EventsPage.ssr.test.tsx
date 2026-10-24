@@ -36,12 +36,14 @@ vi.mock('../../routes/events/index', () => ({
   },
 }));
 
+type LinkProps = { children?: ReactNode };
+
 vi.mock('@tanstack/react-router', async (importOriginal) => {
   const actual =
     await importOriginal<typeof import('@tanstack/react-router')>();
   return {
     ...actual,
-    Link: (props: { children?: ReactNode }) => <span>{props.children}</span>,
+    Link: (props: LinkProps) => <span>{props.children}</span>,
   };
 });
 

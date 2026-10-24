@@ -1,7 +1,7 @@
 import { Search, X } from 'lucide-react';
 import { useId, type Ref } from 'react';
 
-export function SearchField(props: {
+type SearchFieldProps = {
   label: string;
   placeholder: string;
   value: string;
@@ -9,7 +9,9 @@ export function SearchField(props: {
   inputRef?: Ref<HTMLInputElement>;
   submitButton?: boolean;
   onClear?: () => void;
-}) {
+};
+
+export function SearchField(props: SearchFieldProps) {
   const id = useId();
   return (
     <div className="directory-search">

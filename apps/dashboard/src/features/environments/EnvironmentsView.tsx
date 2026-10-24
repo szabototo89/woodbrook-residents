@@ -12,11 +12,13 @@ import {
   type WorkspaceEnvironment,
 } from './environments';
 
-export function EnvironmentsView(props: {
+type EnvironmentsViewProps = {
   environments: WorkspaceEnvironment[];
   filters: EnvironmentFilters;
   onFiltersChange: (filters: EnvironmentFilters) => void;
-}) {
+};
+
+export function EnvironmentsView(props: EnvironmentsViewProps) {
   const visible = filterEnvironments(props.environments, props.filters);
   const summary = summarizeEnvironments(props.environments);
   const owners = [

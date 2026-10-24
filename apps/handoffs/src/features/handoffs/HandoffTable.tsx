@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 
-export function HandoffTable(props: { children?: ReactNode }) {
+type HandoffTableProps = { children?: ReactNode };
+
+export function HandoffTable(props: HandoffTableProps) {
   return (
     <div
       className="handoff-table"

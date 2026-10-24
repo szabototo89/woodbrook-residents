@@ -32,12 +32,14 @@ function toTab(value: string): EnvironmentTab {
   return found ? found.value : 'overview';
 }
 
-export function EnvironmentDetailPage(props: {
+type EnvironmentDetailPageProps = {
   env: WorkspaceEnvironment;
   app: DashboardApp;
   tab: EnvironmentTab;
   onTabChange: (tab: EnvironmentTab) => void;
-}) {
+};
+
+export function EnvironmentDetailPage(props: EnvironmentDetailPageProps) {
   const devCommand =
     props.app.scripts.dev ?? Object.values(props.app.scripts)[0] ?? '';
   return (

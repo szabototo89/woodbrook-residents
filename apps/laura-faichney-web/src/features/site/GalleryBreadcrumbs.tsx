@@ -1,6 +1,8 @@
 import { ChevronRight } from 'lucide-react';
 
-export function GalleryBreadcrumbs(props: { title: string }) {
+type GalleryBreadcrumbsProps = { title: string };
+
+export function GalleryBreadcrumbs(props: GalleryBreadcrumbsProps) {
   return (
     <nav className="gallery-breadcrumbs container" aria-label="Breadcrumb">
       <ol>

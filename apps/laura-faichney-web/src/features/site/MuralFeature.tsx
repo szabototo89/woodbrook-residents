@@ -3,7 +3,9 @@ import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
 import type { HomeData } from './lauraSanity';
 
-export function MuralFeature(props: { mural: HomeData['mural'] }) {
+type MuralFeatureProps = { mural: HomeData['mural'] };
+
+export function MuralFeature(props: MuralFeatureProps) {
   const { mural } = props;
   return (
     <section className="mural-feature" data-motion="mural">

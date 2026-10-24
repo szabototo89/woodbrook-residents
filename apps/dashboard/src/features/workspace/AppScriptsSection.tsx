@@ -4,7 +4,9 @@ import { Stack } from '@astryxdesign/core/Stack';
 
 import type { DashboardApp } from '../dashboard/registry';
 
-export function AppScriptsSection(props: { app: DashboardApp }) {
+type AppScriptsSectionProps = { app: DashboardApp };
+
+export function AppScriptsSection(props: AppScriptsSectionProps) {
   return (
     <Stack gap={3}>
       <Heading level={1}>Scripts</Heading>

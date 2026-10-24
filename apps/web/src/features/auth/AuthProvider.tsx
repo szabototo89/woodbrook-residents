@@ -21,7 +21,9 @@ const AuthFeatureContext = createContext({
 
 export const useAuthFeature = () => useContext(AuthFeatureContext);
 
-export function AuthProvider(props: { children: ReactNode }) {
+type AuthProviderProps = { children: ReactNode };
+
+export function AuthProvider(props: AuthProviderProps) {
   const search = useRouterState({
     select: (state) => state.location.searchStr,
   });

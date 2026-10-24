@@ -3,11 +3,13 @@ import { Arrow } from './Arrow';
 import { sendGoogleFormEnquiry } from './googleFormSubmission';
 import type { CmsService, CmsSettings } from './lauraSanity';
 
-export function EnquiryForm(props: {
+type EnquiryFormProps = {
   settings: CmsSettings;
   services: CmsService[];
   selectedService?: string;
-}) {
+};
+
+export function EnquiryForm(props: EnquiryFormProps) {
   const initialService =
     props.services.some((service) => service.slug === props.selectedService) ||
     props.selectedService === 'other'

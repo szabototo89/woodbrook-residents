@@ -6,10 +6,12 @@ import {
   type CmsGalleryCollection,
 } from './lauraSanity';
 
-export function GalleryPreview(props: {
+type GalleryPreviewProps = {
   collections: CmsGalleryCollection[];
   heading: string;
-}) {
+};
+
+export function GalleryPreview(props: GalleryPreviewProps) {
   return (
     <section className="section gallery-preview" id="gallery">
       <div className="container">

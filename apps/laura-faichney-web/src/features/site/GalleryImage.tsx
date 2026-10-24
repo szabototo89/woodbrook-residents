@@ -3,13 +3,15 @@ import {
   galleryPhotoSrcSet,
 } from './galleryImageSources';
 
-export function GalleryImage(props: {
+type GalleryImageProps = {
   src: string;
   srcSet?: string;
   alt: string;
   sizes?: string;
   loading?: 'eager' | 'lazy';
-}) {
+};
+
+export function GalleryImage(props: GalleryImageProps) {
   return (
     <img
       src={props.src}

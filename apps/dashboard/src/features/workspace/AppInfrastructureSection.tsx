@@ -7,7 +7,9 @@ import type { DashboardApp } from '../dashboard/registry';
 import { infraLinks } from '../dashboard/registry';
 import { getAppInfraLinks } from '../dashboard/appFocus';
 
-export function AppInfrastructureSection(props: { app: DashboardApp }) {
+type AppInfrastructureSectionProps = { app: DashboardApp };
+
+export function AppInfrastructureSection(props: AppInfrastructureSectionProps) {
   const links = getAppInfraLinks(props.app, infraLinks);
   return (
     <Stack gap={3}>

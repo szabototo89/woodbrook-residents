@@ -1,6 +1,8 @@
 import { Search } from 'lucide-react';
 
-export function SiteSearch(props: { compact?: boolean; query?: string }) {
+type SiteSearchProps = { compact?: boolean; query?: string };
+
+export function SiteSearch(props: SiteSearchProps) {
   return (
     <form
       className={`site-search${props.compact ? ' site-search-compact' : ''}`}

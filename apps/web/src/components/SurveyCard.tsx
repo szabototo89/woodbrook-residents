@@ -4,7 +4,9 @@ import { ArrowRight } from 'lucide-react';
 import { formatDate, formatLabel } from '../features/content/contentFormatting';
 import type { Survey } from '../features/content/contentTypes';
 
-export function SurveyCard(props: { survey: Survey }) {
+type SurveyCardProps = { survey: Survey };
+
+export function SurveyCard(props: SurveyCardProps) {
   return (
     <article className="survey-card">
       <span className={`tag status-${props.survey.stage}`}>

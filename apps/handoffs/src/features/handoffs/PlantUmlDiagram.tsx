@@ -9,11 +9,13 @@ import {
 import { useState } from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
-export function PlantUmlDiagram(props: {
+type PlantUmlDiagramProps = {
   title: string;
   image: string;
   source: string;
-}) {
+};
+
+export function PlantUmlDiagram(props: PlantUmlDiagramProps) {
   const [failedImage, setFailedImage] = useState<string>();
 
   return (

@@ -12,7 +12,9 @@ import { TitleLines } from './TitleLines';
 import type { HomeData } from './lauraSanity';
 import { HomeAnnouncement } from './HomeAnnouncement';
 
-export function HomePage(props: { data: HomeData }) {
+type HomePageProps = { data: HomeData };
+
+export function HomePage(props: HomePageProps) {
   const { data } = props;
   const motionRoot = useEditorialMotion();
   return (

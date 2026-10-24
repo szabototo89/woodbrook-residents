@@ -5,7 +5,9 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { DashboardApp } from '../dashboard/registry';
 
-export function AppOverviewSection(props: { app: DashboardApp }) {
+type AppOverviewSectionProps = { app: DashboardApp };
+
+export function AppOverviewSection(props: AppOverviewSectionProps) {
   const scriptCount = Object.keys(props.app.scripts).length;
   return (
     <Stack gap={3}>

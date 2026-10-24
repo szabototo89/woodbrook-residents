@@ -13,7 +13,9 @@ import {
   type AccountDetailsActions,
 } from './accountDetails';
 
-export function AccountDetailsForm(props: { actions: AccountDetailsActions }) {
+type AccountDetailsFormProps = { actions: AccountDetailsActions };
+
+export function AccountDetailsForm(props: AccountDetailsFormProps) {
   const [details, setDetails] = useState<AccountDetails>(emptyAccountDetails);
   const [baseline, setBaseline] = useState<AccountDetails>(emptyAccountDetails);
   const [invalidEircode, setInvalidEircode] = useState(false);

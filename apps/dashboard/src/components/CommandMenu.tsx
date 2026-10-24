@@ -20,12 +20,14 @@ const PAGES: Array<{ page: string; label: string }> = [
   { page: 'actions', label: 'Go to actions' },
 ];
 
-export function CommandMenu(props: {
+type CommandMenuProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   environments: WorkspaceEnvironment[];
   onNavigate: (href: string) => void;
-}) {
+};
+
+export function CommandMenu(props: CommandMenuProps) {
   const { searchSource, hrefById } = useMemo(() => {
     const items: CommandItem[] = [
       ...props.environments.map((env) => ({

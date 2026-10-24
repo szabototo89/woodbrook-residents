@@ -14,7 +14,9 @@ const valueIcons: Record<string, typeof Palette> = {
   pin: MapPin,
 };
 
-export function AboutPage(props: { data: AboutData }) {
+type AboutPageProps = { data: AboutData };
+
+export function AboutPage(props: AboutPageProps) {
   const { data } = props;
   return (
     <main id="main-content">

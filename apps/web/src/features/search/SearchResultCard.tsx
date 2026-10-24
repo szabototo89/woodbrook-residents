@@ -5,7 +5,9 @@ import { UpdateCard } from '../../components/UpdateCard';
 import { LocalServiceCard } from '../resources/LocalServiceCard';
 import type { SearchResult } from './searchModel';
 
-export function SearchResultCard(props: { result: SearchResult }) {
+type SearchResultCardProps = { result: SearchResult };
+
+export function SearchResultCard(props: SearchResultCardProps) {
   switch (props.result.kind) {
     case 'update':
       return <UpdateCard update={props.result.record} />;

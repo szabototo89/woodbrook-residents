@@ -59,13 +59,15 @@ const LIFECYCLE_OPTIONS = [
   { value: 'inactive-7d', label: 'Inactive over 7 days' },
 ];
 
-export function EnvironmentFilterBar(props: {
+type EnvironmentFilterBarProps = {
   filters: EnvironmentFilters;
   owners: string[];
   templates: string[];
   onChange: (filters: EnvironmentFilters) => void;
   onClear: () => void;
-}) {
+};
+
+export function EnvironmentFilterBar(props: EnvironmentFilterBarProps) {
   return (
     <HStack gap={3} align="end">
       <TextInput

@@ -12,14 +12,16 @@ import { galleryPhotoSrcSet } from './galleryImageSources';
 import type { CmsGalleryItem } from './lauraSanity';
 import type { SwipeDirection } from './useCollectionSwipeNavigation';
 
-export function CollectionPictures(props: {
+type CollectionPicturesProps = {
   images: CmsGalleryItem[];
   initialIndex?: number;
   preserveViewport?: boolean;
   previousPicture?: CmsGalleryItem;
   nextPicture?: CmsGalleryItem;
   onSwipeBoundary?: (direction: SwipeDirection) => void;
-}) {
+};
+
+export function CollectionPictures(props: CollectionPicturesProps) {
   const [selectedIndex, setSelectedIndex] = useState(props.initialIndex ?? 0);
   const selected = props.images[selectedIndex] ?? props.images[0];
   const total = props.images.length;

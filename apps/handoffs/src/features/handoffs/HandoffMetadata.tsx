@@ -9,7 +9,9 @@ import {
 } from 'lucide-react';
 import type { HandoffMetadataValue } from './handoffs';
 
-export function HandoffMetadata(props: { metadata: HandoffMetadataValue }) {
+type HandoffMetadataProps = { metadata: HandoffMetadataValue };
+
+export function HandoffMetadata(props: HandoffMetadataProps) {
   const fields = [
     { label: 'Status', value: props.metadata.status, Icon: CircleDot },
     {

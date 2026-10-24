@@ -6,14 +6,16 @@ import { CollectionPictures } from './CollectionPictures';
 import type { CmsGalleryCollection, CmsGalleryItem } from './lauraSanity';
 import type { SwipeDirection } from './useCollectionSwipeNavigation';
 
-export function GalleryCollectionPage(props: {
+type GalleryCollectionPageProps = {
   collection: CmsGalleryCollection;
   initialIndex?: number;
   preserveViewport?: boolean;
   previousPicture?: CmsGalleryItem;
   nextPicture?: CmsGalleryItem;
   onSwipeBoundary?: (direction: SwipeDirection) => void;
-}) {
+};
+
+export function GalleryCollectionPage(props: GalleryCollectionPageProps) {
   return (
     <main id="main-content" className="collection-detail-page">
       <GalleryBreadcrumbs title={props.collection.title} />

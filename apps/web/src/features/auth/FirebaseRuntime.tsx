@@ -3,10 +3,12 @@ import { readSocialProviders, type FirebaseConfig } from './authConfig';
 import { AuthSessionContext, type AuthSession } from './AuthSession';
 import { createFirebaseClient } from './firebaseClient';
 
-export default function FirebaseRuntime(props: {
+type FirebaseRuntimeProps = {
   config: FirebaseConfig;
   children: ReactNode;
-}) {
+};
+
+export default function FirebaseRuntime(props: FirebaseRuntimeProps) {
   const { apiKey, authDomain, projectId, appId } = props.config;
   const [session, setSession] = useState<AuthSession>({
     status: 'loading',

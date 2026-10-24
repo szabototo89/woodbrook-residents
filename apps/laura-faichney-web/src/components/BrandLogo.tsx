@@ -1,4 +1,6 @@
-export function BrandLogo(props: { footer?: boolean }) {
+type BrandLogoProps = { footer?: boolean };
+
+export function BrandLogo(props: BrandLogoProps) {
   return (
     <a
       className={props.footer ? 'wordmark wordmark-footer' : 'wordmark'}

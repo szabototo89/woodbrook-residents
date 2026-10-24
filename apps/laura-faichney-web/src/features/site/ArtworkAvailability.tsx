@@ -6,9 +6,11 @@ export function artworkAvailabilityLabel(status: CmsGalleryItem['saleStatus']) {
   return undefined;
 }
 
-export function ArtworkAvailability(props: {
+type ArtworkAvailabilityProps = {
   status: CmsGalleryItem['saleStatus'];
-}) {
+};
+
+export function ArtworkAvailability(props: ArtworkAvailabilityProps) {
   const label = artworkAvailabilityLabel(props.status);
   if (!label) return null;
 

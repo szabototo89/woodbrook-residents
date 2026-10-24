@@ -5,7 +5,9 @@ import { Text } from '@astryxdesign/core/Text';
 
 import type { DashboardAction } from '../dashboard/registry';
 
-export function ActionsPage(props: { actions: DashboardAction[] }) {
+type ActionsPageProps = { actions: DashboardAction[] };
+
+export function ActionsPage(props: ActionsPageProps) {
   return (
     <Stack gap={3}>
       <Heading level={1}>Actions</Heading>

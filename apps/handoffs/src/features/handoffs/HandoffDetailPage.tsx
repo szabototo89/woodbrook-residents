@@ -12,9 +12,11 @@ const components = {
   AppearanceGallery,
 };
 
-export function HandoffDetailPage(props: {
+type HandoffDetailPageProps = {
   handoff: (typeof handoffs)[number];
-}) {
+};
+
+export function HandoffDetailPage(props: HandoffDetailPageProps) {
   const Content = props.handoff.Content;
   return (
     <main id="main-content" className="handoff-detail shell">

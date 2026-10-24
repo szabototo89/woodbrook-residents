@@ -9,11 +9,13 @@ import { ServicesProcess } from './ServicesProcess';
 import { MapPin } from 'lucide-react';
 import type { CmsService, CmsSettings } from './lauraSanity';
 
-export function ContactPage(props: {
+type ContactPageProps = {
   settings: CmsSettings;
   services: CmsService[];
   selectedService?: string;
-}) {
+};
+
+export function ContactPage(props: ContactPageProps) {
   const { settings } = props;
   return (
     <main id="main-content" className="contact-reference-page">

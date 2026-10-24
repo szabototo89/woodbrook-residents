@@ -1,7 +1,9 @@
 import { List } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export function HandoffOutline(props: { slug: string }) {
+type HandoffOutlineProps = { slug: string };
+
+export function HandoffOutline(props: HandoffOutlineProps) {
   const [headings, setHeadings] = useState<HTMLHeadingElement[]>([]);
   useEffect(() => {
     setHeadings(

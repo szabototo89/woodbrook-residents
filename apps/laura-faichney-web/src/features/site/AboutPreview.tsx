@@ -3,7 +3,9 @@ import { Eyebrow } from './Eyebrow';
 import { Arrow } from './Arrow';
 import type { HomeData } from './lauraSanity';
 
-export function AboutPreview(props: { about: HomeData['about'] }) {
+type AboutPreviewProps = { about: HomeData['about'] };
+
+export function AboutPreview(props: AboutPreviewProps) {
   const { about } = props;
   return (
     <section className="section about-preview">

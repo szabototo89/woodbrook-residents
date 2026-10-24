@@ -7,7 +7,9 @@ import { ServicesProcess } from './ServicesProcess';
 import { serviceHighlights } from './serviceHighlights';
 import type { ServicesData } from './lauraSanity';
 
-export function ServicesPage(props: { data: ServicesData }) {
+type ServicesPageProps = { data: ServicesData };
+
+export function ServicesPage(props: ServicesPageProps) {
   const { data } = props;
   return (
     <main id="main-content" className="services-page">

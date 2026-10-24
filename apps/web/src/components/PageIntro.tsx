@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react';
 
-export function PageIntro(props: {
+type PageIntroProps = {
   eyebrow: string;
   title: string;
   children: ReactNode;
-}) {
+};
+
+export function PageIntro(props: PageIntroProps) {
   return (
     <section className="page-intro">
       <div className="shell narrow">

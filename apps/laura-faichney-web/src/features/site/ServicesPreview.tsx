@@ -3,10 +3,12 @@ import { Arrow } from './Arrow';
 import { ServiceImage } from './ServiceImage';
 import type { CmsService } from './lauraSanity';
 
-export function ServicesPreview(props: {
+type ServicesPreviewProps = {
   services: CmsService[];
   heading: string;
-}) {
+};
+
+export function ServicesPreview(props: ServicesPreviewProps) {
   return (
     <section className="section services-preview" id="services">
       <div className="container">

@@ -2,7 +2,9 @@ import { Mail, Phone } from 'lucide-react';
 
 import type { CmsSettings } from './lauraSanity';
 
-export function ContactDetails(props: { settings: CmsSettings }) {
+type ContactDetailsProps = { settings: CmsSettings };
+
+export function ContactDetails(props: ContactDetailsProps) {
   return (
     <div className="contact-links">
       <a href={`tel:${props.settings.phone.replace(/[^+\d]/g, '')}`}>

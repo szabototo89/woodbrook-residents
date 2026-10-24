@@ -22,7 +22,9 @@ const groups = [
   },
 ];
 
-export function ContactServices(props: { services: CmsService[] }) {
+type ContactServicesProps = { services: CmsService[] };
+
+export function ContactServices(props: ContactServicesProps) {
   return (
     <section
       className="contact-services"
