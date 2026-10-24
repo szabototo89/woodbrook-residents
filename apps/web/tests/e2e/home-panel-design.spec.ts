@@ -128,7 +128,10 @@ test('latest updates have relaxed row spacing and share heading weight with list
     const updates = page.getByRole('region', {
       name: 'What’s new in Woodbrook',
     });
-    const title = await updates.locator('h3').first().evaluate(typography);
+    const title = await updates
+      .locator('.home-update h3')
+      .first()
+      .evaluate(typography);
     expect(
       parseFloat(title.lineHeight) / parseFloat(title.size),
     ).toBeGreaterThanOrEqual(1.25);
@@ -143,10 +146,16 @@ test('latest updates have relaxed row spacing and share heading weight with list
         .nth(1)
         .evaluate((element) => ({
           top: parseFloat(getComputedStyle(element).paddingTop),
-          bottom: parseFloat(getComputedStyle(element).paddingBottom),
         }));
       expect(spacing.top).toBeGreaterThanOrEqual(20);
-      expect(spacing.bottom).toBeGreaterThanOrEqual(20);
+      expect(
+        await updates
+          .locator('.home-update')
+          .first()
+          .evaluate((element) =>
+            parseFloat(getComputedStyle(element).paddingBottom),
+          ),
+      ).toBeGreaterThanOrEqual(20);
     }
     await page.goto('/projects');
     expect(
@@ -279,7 +288,13 @@ test('news and project rows expose dates, categories, full titles and a single g
         ).toBe('none');
         const rowBounds = await row.boundingBox();
         const titleBounds = await title.boundingBox();
-        expect(titleBounds!.x - rowBounds!.x).toBeLessThan(2);
+        const copy = row.locator('.home-featured-news-copy');
+        const copyPadding = (await copy.count())
+          ? await copy.evaluate((element) =>
+              parseFloat(getComputedStyle(element).paddingLeft),
+            )
+          : 0;
+        expect(titleBounds!.x - rowBounds!.x - copyPadding).toBeLessThan(2);
         expect(rowBounds!.x + rowBounds!.width).toBeLessThanOrEqual(width);
       }
       if (name === 'What’s new in Woodbrook') {

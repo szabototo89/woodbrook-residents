@@ -69,6 +69,9 @@ export const updateSchema = z.object({
     .boolean()
     .default(false)
     .describe('Whether the update is eligible for prominent placement.'),
+  featuredUntil: optionalDateString.describe(
+    'Optional instant when homepage featuring ends; the article stays published.',
+  ),
 });
 
 export const projectSchema = z.object({

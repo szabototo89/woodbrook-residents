@@ -5,10 +5,22 @@ export function getHomeContentFromSnapshot(
   snapshot: ContentSnapshot,
   now: string | Date = new Date(),
 ): HomeContent {
+  const updates = getUpdatesFromSnapshot(snapshot);
+  const nowTimestamp = new Date(now).getTime();
+  const featuredUpdate = updates.find(
+    (update) =>
+      update.featured &&
+      Date.parse(update.publishedOn) <= nowTimestamp &&
+      (!update.featuredUntil ||
+        Date.parse(update.featuredUntil) > nowTimestamp),
+  );
   return {
     availability: 'ready',
     siteSetting: snapshot.siteSetting,
-    updates: getUpdatesFromSnapshot(snapshot).slice(0, 3),
+    featuredUpdate,
+    updates: updates
+      .filter((update) => update.documentId !== featuredUpdate?.documentId)
+      .slice(0, featuredUpdate ? 2 : 3),
     projects: snapshot.projects.slice(0, 3),
     events: getUpcomingEvents(snapshot.events, now),
     surveys: snapshot.surveys,

@@ -289,3 +289,60 @@ test('news and projects without photos prioritise text instead of repeated place
   expect(news.querySelector('.home-update-source')?.textContent).toBe('Source');
   unmount();
 });
+
+test('homepage gives the editorial pick its own labelled card with one story link and full source details', async () => {
+  mockContent = {
+    ...fullContent,
+    featuredUpdate: {
+      ...fullContent.updates[0]!,
+      documentId: 'featured',
+      slug: 'sample-feature',
+      title: 'Sample featured story',
+      featured: true,
+    },
+  };
+  const { HomePage } = await import('./HomePage');
+  const { container, unmount } = renderUi(<HomePage />);
+  const card = container.querySelector(
+    'article[aria-labelledby="home-featured-news-title"]',
+  )!;
+  expect(card).not.toBeNull();
+  expect(card.textContent).toContain('Featured news');
+  expect(card.querySelector('h3')?.textContent).toBe('Sample featured story');
+  expect(card.querySelectorAll('a')).toHaveLength(1);
+  expect(card.querySelector('a')?.getAttribute('href')).toBe(
+    '/updates/sample-feature',
+  );
+  expect(card.querySelector('time')?.getAttribute('datetime')).toBe(
+    '2026-09-10',
+  );
+  expect(card.textContent).toContain('Source');
+  expect(card.querySelector('img')).toBeNull();
+  expect(container.textContent).toContain('More local news');
+  unmount();
+});
+
+test.each([undefined, 'Sample editorial photo'])(
+  'a feature alone preserves its photo with alt %s and is not an empty panel',
+  async (imageAlt) => {
+    mockContent = {
+      ...emptyContent,
+      featuredUpdate: {
+        ...fullContent.updates[0]!,
+        featured: true,
+        imagePath: '/images/woodbrook-station.jpg',
+        imageAlt,
+      },
+    };
+    const { HomePage } = await import('./HomePage');
+    const { container, unmount } = renderUi(<HomePage />);
+    expect(container.textContent).not.toContain('No news published yet');
+    expect(container.textContent).not.toContain('More local news');
+    expect(
+      container
+        .querySelector(`.home-featured-news img[alt="${imageAlt ?? ''}"]`)
+        ?.getAttribute('src'),
+    ).toBe('/images/woodbrook-station.jpg');
+    unmount();
+  },
+);

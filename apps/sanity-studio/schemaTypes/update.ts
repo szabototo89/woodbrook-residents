@@ -32,7 +32,7 @@ export const update = defineType({
     {name: 'content', title: 'Content', options: {collapsible: true, collapsed: false}},
     {name: 'dates', title: 'Dates', options: {collapsible: true, collapsed: false}},
     {name: 'source', title: 'Source and freshness', options: {collapsible: true, collapsed: false}},
-    {name: 'featuring', title: 'Featuring', options: {collapsible: true, collapsed: true}},
+    {name: 'featuring', title: 'Homepage feature', options: {collapsible: true, collapsed: false}},
   ],
   fields: [
     defineField({
@@ -171,12 +171,22 @@ export const update = defineType({
     }),
     defineField({
       name: 'featured',
-      title: 'Featured',
+      title: 'Feature on homepage',
       type: 'boolean',
       fieldset: 'featuring',
       initialValue: false,
       description:
-        'Updates lists show the newest items regardless of this switch. It only affects special picks editors make elsewhere — leave off unless asked.',
+        'Show this story in the standout Featured news card on the homepage. If several stories are selected, the newest published story with an active feature window wins. The News page stays in publication order.',
+    }),
+    defineField({
+      name: 'featuredUntil',
+      title: 'Feature until',
+      type: 'datetime',
+      fieldset: 'featuring',
+      options: {displayTimeZone: 'Europe/Dublin'},
+      description:
+        'Optional end date and time for the homepage feature. Leave blank to keep it eligible until you turn off Feature on homepage. After this time the story remains published as ordinary news. Publish to apply changes.',
+      validation: (rule) => rule.min(rule.valueOfField('publishedOn')),
     }),
   ],
   preview: {
