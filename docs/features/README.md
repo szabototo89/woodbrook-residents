@@ -18,6 +18,7 @@
 - [Developer dashboard](developer-dashboard.md) — Available
 - [One React component per file](react-one-component.md) — Available
 - [Single `props` parameter for React components](react-props-param.md) — Available
+- [Named React component props types](named-react-props-types.md) — Available
 - [Issue reporting](issue-reporting.md) — Removed
 - [Static design proposals](static-design-proposals.md) — Available
 

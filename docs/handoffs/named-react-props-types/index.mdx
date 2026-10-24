@@ -1,0 +1,59 @@
+export const metadata = {
+  title: 'Named React component props types',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a16f56-b697-77d1-81fe-c649f316c85d',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/Enforce-Props-type-on-react-components',
+  branch: 'szabototo89/Enforce-Props-type-on-react-components',
+  commit: '4ca7660dcc39861a556ae11b14aceb451c6a3ae1',
+  updatedAt: '2026-10-24T19:22:09Z',
+  summary:
+    'ESLint rejects inline React props object types and existing declarations now use named types.',
+};
+
+## Goal
+
+Keep React props contracts separate from component implementation. Reject inline object types and preserve existing application behavior.
+
+## Technical changes
+
+Baseline: `1de3c377370185d6a301f266b721740146d9c1d9` before implementation; compared with `4ca7660dcc39861a556ae11b14aceb451c6a3ae1`. The session reuses its existing linked worktree and first incorporates local main.
+
+| Area                  | Before                                      | After                                                                                                          | Why                                      | Code                                                                      |
+| --------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------- |
+| Shared lint rule      | Inline props object types pass.             | The shared plugin enables `woodbrook-props/no-inline-props-type` as an error.                                  | Keep props contracts readable and named. | `eslint.react-props-param.js`: `noInlinePropsType`                        |
+| Detection             | Only destructured parameters are rejected.  | Check component parameters, common React wrappers, and function-component annotations for inline object types. | Cover common function component forms.   | `checkFunction`, `checkType`, `isComponent`                               |
+| Existing declarations | 84 inline contracts appear in 83 TSX files. | Equivalent named aliases replace the inline contracts, including component test doubles.                       | Enable the rule without lint debt.       | `apps/{dashboard,forma-studio-web,handoffs,laura-faichney-web,web}/src`   |
+| Regression coverage   | No inline-props regression exists.          | 33 new cases include real root-config enforcement and allowed named types.                                     | Keep the user's example rejected.        | `scripts/eslint-named-props-rule.test.ts`, `package.json`: `test:scripts` |
+
+No new dependency or runtime contract is added. Detection uses PascalCase names and anonymous default exports. React wrapper names are matched by spelling; aliases and custom wrappers are outside scope. Class components and mapped type syntax are outside scope. No automatic fix is offered because extracting a named declaration requires a scope decision.
+
+## Architecture changes
+
+Woodbrook provides public information and actions for residents. This change affects development checks and type declarations only, so runtime C4 views remain unchanged. Existing diagrams are preserved; no new runtime diagram is needed.
+
+| Level | Change                                                                                                           | Evidence                                                          |
+| ----- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| C1    | Unchanged: residents and external systems keep the same interactions.                                            | No product behavior or external integration changes.              |
+| C2    | Unchanged: applications and stores keep the same boundaries and communication.                                   | No dependency, deployment, or storage changes.                    |
+| C3    | Unchanged: runtime responsibilities and interactions are preserved; only development lint configuration changes. | The 83 migrated files emit identical JavaScript after formatting. |
+
+## Verification
+
+| Check                 | Result  | Evidence                                                                                                                                          |
+| --------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Failing test first    | PASS    | `bun test scripts/eslint-named-props-rule.test.ts`: 33 expected failures before implementation; the root config accepts the forbidden example.    |
+| Focused regression    | PASS    | `bun test scripts/eslint-named-props-rule.test.ts scripts/eslint-props-param-rule.test.ts`: 36 tests pass.                                        |
+| Runtime preservation  | PASS    | One-off TypeScript `transpileModule` comparison with `1de3c37`, normalized with Prettier: all 83 migrated TSX files produce identical JavaScript. |
+| Repository lint       | PASS    | `bun run lint` exits 0, including formatting, ESLint, application typechecks, and script typechecks.                                              |
+| Repository build      | PASS    | `bun run build` exits 0 across all nine build targets.                                                                                            |
+| Commit checks         | PASS    | `bun run precommit` passes through the normal hook, including unit, browser, and end-to-end suites.                                               |
+| End-to-end coverage   | PASS    | `bun run test:e2e`: 265 tests pass; suites report eight skips.                                                                                    |
+| Handoff structure     | PASS    | `bun run --cwd apps/handoffs docs:check` validates this document.                                                                                 |
+| Handoff build         | PASS    | `bun run build:handoffs` exits 0, including MDX compilation and C4 source checks.                                                                 |
+| Desktop/mobile review | NOT RUN | No user interface changes; only lint enforcement and type extraction.                                                                             |
+
+## Next steps
+
+None.
