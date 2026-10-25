@@ -1,0 +1,47 @@
+{
+  "apps": [
+    {
+      "name": "woodbrook",
+      "kind": "worker",
+      "previewMechanism": "none",
+      "sourcePath": "wrangler.jsonc",
+      "note": "The Worker is deployed from main by Workers Builds. Cloudflare exposes no supported API to delete individual Worker versions, and repository workflows create no Worker previews. If the Worker adopts Worker Previews, add a supported deletion mechanism before relying on this policy."
+    },
+    {
+      "name": "forma-studio-web",
+      "kind": "pages",
+      "previewMechanism": "pages-deployments",
+      "sourcePath": "apps/forma-studio-web/wrangler.jsonc"
+    },
+    {
+      "name": "laura-faichney-all-things-art",
+      "kind": "pages",
+      "previewMechanism": "pages-deployments",
+      "sourcePath": "apps/laura-faichney-web/wrangler.jsonc"
+    },
+    {
+      "name": "woodbrook-design-gallery",
+      "kind": "pages",
+      "previewMechanism": "pages-deployments",
+      "sourcePath": "apps/design-proposals"
+    },
+    {
+      "name": "woodbrook-dog-salon-concept",
+      "kind": "pages",
+      "previewMechanism": "pages-deployments",
+      "sourcePath": "apps/design-proposals/projects/the-dog-salon"
+    },
+    {
+      "name": "woodbrook-spotless-concept",
+      "kind": "pages",
+      "previewMechanism": "pages-deployments",
+      "sourcePath": "apps/design-proposals/projects/spotless-dog-grooming"
+    },
+    {
+      "name": "woodbrook-spotless-warm-concept",
+      "kind": "pages",
+      "previewMechanism": "pages-deployments",
+      "sourcePath": "apps/design-proposals/projects/spotless-dog-grooming-warm"
+    }
+  ]
+}
