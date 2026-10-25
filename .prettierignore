@@ -11,6 +11,8 @@ apps/sanity-studio/dist/
 apps/sanity-studio/.sanity/
 apps/laura-studio/dist/
 apps/laura-studio/.sanity/
+apps/forma-studio/dist/
+apps/forma-studio/.sanity/
 # Test and coverage output (generated, gitignored at the root).
 test-results/
 playwright-report/

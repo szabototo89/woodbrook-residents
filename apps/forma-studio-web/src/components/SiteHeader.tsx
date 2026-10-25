@@ -1,17 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 
-const sections = [
-  { name: 'Services', href: '#services' },
-  { name: 'Work', href: '#work' },
-  { name: 'How we work', href: '#about' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '#contact' },
-];
+import { content } from '../features/content/content';
 
 type SiteHeaderProps = { page?: 'home' | 'blog' };
 
 export function SiteHeader(props: SiteHeaderProps) {
+  const settings = content.settings;
   const homePrefix = props.page === 'blog' ? '/' : '';
   const sectionHref = (href: string) =>
     href.startsWith('#') ? `${homePrefix}${href}` : href;
@@ -32,13 +27,13 @@ export function SiteHeader(props: SiteHeaderProps) {
       <a
         className="brand"
         href={props.page === 'blog' ? '/' : '#main-content'}
-        aria-label="Forma Studio home"
+        aria-label={`${settings.brand} home`}
       >
         <img
-          src="/images/forma-studio-logo.webp"
-          width={720}
-          height={113}
-          alt="Forma Studio"
+          src={settings.logo.asset.url}
+          width={settings.logo.asset.width}
+          height={settings.logo.asset.height}
+          alt={settings.logo.alt}
         />
       </a>
       <button
@@ -57,9 +52,9 @@ export function SiteHeader(props: SiteHeaderProps) {
         aria-label="Main navigation"
         className={open ? 'navigation is-open' : 'navigation'}
       >
-        {sections.map((section) => (
+        {settings.navigation.map((section) => (
           <a
-            key={section.href}
+            key={section._key}
             href={sectionHref(section.href)}
             aria-current={
               section.href === '/blog' && props.page === 'blog'
@@ -73,7 +68,7 @@ export function SiteHeader(props: SiteHeaderProps) {
         ))}
       </nav>
       <a className="button header-cta" href={sectionHref('#contact')}>
-        Let’s talk <ArrowRight aria-hidden="true" size={16} />
+        {settings.talkLabel} <ArrowRight aria-hidden="true" size={16} />
       </a>
     </header>
   );

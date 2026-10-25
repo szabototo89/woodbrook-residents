@@ -1,17 +1,16 @@
+import { Fragment } from 'react';
 import { ArrowRight, Check, Leaf } from 'lucide-react';
 import { SiteHeader } from '../../components/SiteHeader';
 import { Card } from '../../components/Card';
 import { Faq } from './Faq';
 import { SelectedWork } from './SelectedWork';
-import {
-  enquiryEmail,
-  enquiryHref,
-  packages,
-  services,
-  steps,
-} from './homeContent';
+import { content, enquiryHref } from '../content/content';
+import { imageUrl } from '../content/image';
+import { serviceIcons } from './serviceIcons';
 
 export function HomePage() {
+  const { home, settings } = content;
+  const { services, packages, steps } = home;
   return (
     <div className="site-shell">
       <a className="skip-link" href="#main-content">
@@ -21,41 +20,44 @@ export function HomePage() {
       <main id="main-content" tabIndex={-1}>
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow">Web design & digital support</p>
+            <p className="eyebrow">{home.hero.eyebrow}</p>
             <h1 id="hero-title">
-              Websites that help
-              <br className="desktop-break" /> local businesses
-              <br className="desktop-break" /> grow.
+              {home.hero.title.map((line, index) => (
+                <Fragment key={line}>
+                  {index > 0 && (
+                    <>
+                      {' '}
+                      <br className="desktop-break" />
+                    </>
+                  )}
+                  {line}
+                </Fragment>
+              ))}
             </h1>
             <div className="handdrawn-line" aria-hidden="true" />
-            <p className="hero-description">
-              Web design, local SEO and simple enquiry tools. Help customers
-              find your business, understand your services and get in touch.
-            </p>
+            <p className="hero-description">{home.hero.description}</p>
             <div className="hero-actions">
               <a className="button" href="#contact">
-                Discuss your project <ArrowRight size={18} aria-hidden="true" />
+                {home.hero.action} <ArrowRight size={18} aria-hidden="true" />
               </a>
               <a className="text-link" href="#work">
-                See Our Work
+                {home.hero.workAction}
               </a>
             </div>
           </div>
           <figure className="hero-visual">
             <img
-              src="/images/laura-website-1200.webp"
-              srcSet="/images/laura-website-640.webp 640w, /images/laura-website-1200.webp 1200w"
+              src={imageUrl(home.hero.image)}
+              srcSet={`${imageUrl(home.hero.image, 640)} 640w, ${imageUrl(home.hero.image, 1200)} 1200w`}
               sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1180px) 50vw, 610px"
-              width={1200}
-              height={800}
+              width={home.hero.image.asset.width}
+              height={home.hero.image.asset.height}
               className="hero-photo"
-              alt="Laptop displaying Laura Faichney’s homepage in a warm, plant-filled café"
+              alt={home.hero.image.alt}
               fetchPriority="high"
             />
-            <p className="hero-note">Websites that work for real businesses.</p>
-            <figcaption>
-              Laura Faichney website · Illustrative café mockup
-            </figcaption>
+            <p className="hero-note">{home.hero.note}</p>
+            <figcaption>{home.hero.caption}</figcaption>
           </figure>
         </section>
         <section
@@ -64,39 +66,38 @@ export function HomePage() {
           aria-labelledby="services-title"
         >
           <div className="section-heading">
-            <h2 id="services-title">Our services</h2>
+            <h2 id="services-title">{home.servicesTitle}</h2>
             <p>
-              All designed for small businesses{' '}
+              {home.servicesDescription}{' '}
               <ArrowRight size={16} aria-hidden="true" />
             </p>
           </div>
           <div className="service-grid">
-            {services.map((service) => (
-              <Card
-                as="article"
-                variant="muted"
-                className="service-card"
-                key={service.title}
-              >
-                <div className="icon-circle">
-                  <service.icon
-                    size={31}
-                    strokeWidth={1.4}
-                    aria-hidden="true"
-                  />
-                </div>
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-                <details className="service-details">
-                  <summary>What’s included</summary>
-                  <ul>
-                    {service.includes.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </details>
-              </Card>
-            ))}
+            {services.map((service) => {
+              const Icon = serviceIcons[service.icon];
+              return (
+                <Card
+                  as="article"
+                  variant="muted"
+                  className="service-card"
+                  key={service._key}
+                >
+                  <div className="icon-circle">
+                    <Icon size={31} strokeWidth={1.4} aria-hidden="true" />
+                  </div>
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  <details className="service-details">
+                    <summary>{home.includesLabel}</summary>
+                    <ul>
+                      {service.includes.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </details>
+                </Card>
+              );
+            })}
           </div>
         </section>
         <SelectedWork />
@@ -108,15 +109,21 @@ export function HomePage() {
           aria-labelledby="packages-title"
         >
           <div className="packages-intro">
-            <p className="eyebrow">Packages</p>
+            <p className="eyebrow">{home.packagesEyebrow}</p>
             <h2 id="packages-title">
-              Choose a package <br />
-              that suits your goals.
+              {home.packagesTitle.map((line, index) => (
+                <Fragment key={line}>
+                  {index > 0 && (
+                    <>
+                      {' '}
+                      <br />
+                    </>
+                  )}
+                  {line}
+                </Fragment>
+              ))}
             </h2>
-            <p>
-              Starting points for your project. Your final quote confirms scope,
-              hosting and any ongoing costs before work begins.
-            </p>
+            <p>{home.packagesDescription}</p>
             <Leaf className="accent-leaf" size={42} aria-hidden="true" />
           </div>
           <div className="package-grid">
@@ -128,10 +135,10 @@ export function HomePage() {
                 className={
                   plan.popular ? 'package-card popular' : 'package-card'
                 }
-                key={plan.title}
+                key={plan._key}
               >
                 {plan.popular && (
-                  <span className="popular-badge">Website + local SEO</span>
+                  <span className="popular-badge">{home.popularLabel}</span>
                 )}
                 <h3>{plan.title}</h3>
                 <p>{plan.description}</p>
@@ -145,9 +152,11 @@ export function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <p className="price">From {plan.price}</p>
+                <p className="price">
+                  {home.pricePrefix} {plan.price}
+                </p>
                 <a className="text-link package-action" href="#contact">
-                  Discuss {plan.title}{' '}
+                  {home.packageAction} {plan.title}{' '}
                   <ArrowRight size={16} aria-hidden="true" />
                 </a>
               </Card>
@@ -161,17 +170,17 @@ export function HomePage() {
         >
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Our process</p>
-              <h2 id="process-title">How it works</h2>
+              <p className="eyebrow">{home.processEyebrow}</p>
+              <h2 id="process-title">{home.processTitle}</h2>
             </div>
             <p>
-              A simple process from start to finish{' '}
+              {home.processDescription}{' '}
               <ArrowRight size={16} aria-hidden="true" />
             </p>
           </div>
           <ol className="process-grid">
             {steps.map((step, index) => (
-              <li key={step.title}>
+              <li key={step._key}>
                 <span className="step-number">{index + 1}</span>
                 <div>
                   <h3>{step.title}</h3>
@@ -188,21 +197,16 @@ export function HomePage() {
             className="project-preparation"
             aria-labelledby="preparation-title"
           >
-            <p className="eyebrow">Let’s make a start</p>
-            <h2 id="preparation-title">
-              What to bring to our first conversation
-            </h2>
-            <p>
-              No finished brief needed. A few details help us understand your
-              project.
-            </p>
+            <p className="eyebrow">{home.preparation.eyebrow}</p>
+            <h2 id="preparation-title">{home.preparation.title}</h2>
+            <p>{home.preparation.description}</p>
             <ul>
-              <li>Your business and the customers you want to reach</li>
-              <li>Your current website, if you have one</li>
-              <li>What you want to improve and your ideal timing</li>
+              {home.preparation.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
             <a className="text-link" href="#contact">
-              Tell us about your project{' '}
+              {home.preparation.action}{' '}
               <ArrowRight size={16} aria-hidden="true" />
             </a>
           </Card>
@@ -219,29 +223,24 @@ export function HomePage() {
             <Leaf size={112} strokeWidth={0.8} />
           </div>
           <div className="contact-copy">
-            <p className="eyebrow">Ready to get started?</p>
-            <h2 id="contact-title">
-              Let’s build a stronger online presence for your business.
-            </h2>
-            <p>
-              Tell us about your business, what you need and your ideal timing.
-              We’ll discuss the scope and next steps with you.
-            </p>
+            <p className="eyebrow">{home.contact.eyebrow}</p>
+            <h2 id="contact-title">{home.contact.title}</h2>
+            <p>{home.contact.description}</p>
           </div>
           <div className="contact-action">
-            <a className="button" href={enquiryHref}>
-              Email us <ArrowRight size={16} aria-hidden="true" />
+            <a className="button" href={enquiryHref()}>
+              {home.contact.action} <ArrowRight size={16} aria-hidden="true" />
             </a>
-            <a className="contact-email text-link" href={enquiryHref}>
-              {enquiryEmail}
+            <a className="contact-email text-link" href={enquiryHref()}>
+              {settings.enquiryEmail}
             </a>
-            <p>Opens your email app. No obligation.</p>
+            <p>{home.contact.note}</p>
           </div>
         </Card>
       </main>
       <footer className="site-footer">
-        <span>Forma Studio · Websites for local businesses</span>
-        <span>Web design · Local SEO · Ongoing support</span>
+        <span>{settings.footer}</span>
+        <span>{settings.footerServices}</span>
       </footer>
     </div>
   );

@@ -1,9 +1,12 @@
+import { Fragment } from 'react';
 import { ArrowLeft, ArrowRight, Leaf } from 'lucide-react';
 import { SiteHeader } from '../../components/SiteHeader';
 import { Card } from '../../components/Card';
-import { guides } from './blogContent';
+import { content } from '../content/content';
 
 export function BlogPage() {
+  const { journal, settings } = content;
+  const { guides } = journal;
   return (
     <div className="site-shell blog-shell">
       <a className="skip-link" href="#main-content">
@@ -17,21 +20,27 @@ export function BlogPage() {
         >
           <a className="back-link text-link" href="/">
             <ArrowLeft size={15} aria-hidden="true" />
-            Back to home
+            {journal.backLabel}
           </a>
-          <p className="eyebrow">The Forma Studio journal</p>
+          <p className="eyebrow">{journal.eyebrow}</p>
           <h1 id="blog-title">
-            Small ideas.
-            <br /> A stronger online presence.
+            {journal.title.map((line, index) => (
+              <Fragment key={line}>
+                {index > 0 && (
+                  <>
+                    {' '}
+                    <br />
+                  </>
+                )}
+                {line}
+              </Fragment>
+            ))}
           </h1>
-          <p>
-            Friendly, practical guides to websites, local search and keeping
-            your business looking its best online.
-          </p>
+          <p>{journal.description}</p>
         </section>
         <section
           className="blog-guides content-inset"
-          aria-label="Business website guides"
+          aria-label={journal.guidesLabel}
         >
           {guides.map((guide, index) => (
             <Card
@@ -41,16 +50,16 @@ export function BlogPage() {
               className={
                 index === 0 ? 'guide-card featured-guide' : 'guide-card'
               }
-              key={guide.id}
+              key={guide._id}
               id={guide.id}
             >
-              {index === 0 ? (
+              {guide.image ? (
                 <img
                   className="guide-image"
-                  src="/images/laura-website-1200.webp"
-                  width={1200}
-                  height={800}
-                  alt="Laura Faichney’s colourful homepage shown on a laptop"
+                  src={guide.image.asset.url}
+                  width={guide.image.asset.width}
+                  height={guide.image.asset.height}
+                  alt={guide.image.alt}
                 />
               ) : (
                 <div className="guide-icon" aria-hidden="true">
@@ -70,9 +79,11 @@ export function BlogPage() {
                       <p key={paragraph}>{paragraph}</p>
                     ))}
                     <p className="guide-source">
-                      Further reading:{' '}
+                      {journal.sourceLabel}{' '}
                       <a href={guide.source.url}>{guide.source.title}</a>
-                      <span>Source checked {guide.source.accessed}.</span>
+                      <span>
+                        {journal.sourceDateLabel} {guide.source.accessed}.
+                      </span>
                     </p>
                   </div>
                 </details>
@@ -87,22 +98,18 @@ export function BlogPage() {
           aria-labelledby="blog-contact-title"
         >
           <div>
-            <p className="eyebrow">A helping hand</p>
-            <h2 id="blog-contact-title">
-              Ready to put your ideas into action?
-            </h2>
-            <p>
-              Let’s talk about what your website could do for your business.
-            </p>
+            <p className="eyebrow">{journal.contact.eyebrow}</p>
+            <h2 id="blog-contact-title">{journal.contact.title}</h2>
+            <p>{journal.contact.description}</p>
           </div>
           <a className="button" href="/#contact">
-            Discuss your project <ArrowRight size={16} aria-hidden="true" />
+            {journal.contact.action} <ArrowRight size={16} aria-hidden="true" />
           </a>
         </Card>
       </main>
       <footer className="site-footer">
-        <span>Forma Studio · Websites for local businesses</span>
-        <a href="/">Back to Forma Studio home</a>
+        <span>{settings.footer}</span>
+        <a href="/">{journal.homeLabel}</a>
       </footer>
     </div>
   );

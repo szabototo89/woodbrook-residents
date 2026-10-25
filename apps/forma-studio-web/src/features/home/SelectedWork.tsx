@@ -1,7 +1,10 @@
 import { ArrowUpRight } from 'lucide-react';
 import { Card } from '../../components/Card';
 
+import { content } from '../content/content';
+
 export function SelectedWork() {
+  const home = content.home;
   return (
     <section
       className="selected-work content-inset"
@@ -10,53 +13,55 @@ export function SelectedWork() {
     >
       <div className="section-heading">
         <div>
-          <p className="eyebrow">Selected work</p>
-          <h2 id="work-title">A website in the wild</h2>
+          <p className="eyebrow">{home.workEyebrow}</p>
+          <h2 id="work-title">{home.workTitle}</h2>
         </div>
-        <p>Explore the experience for yourself</p>
+        <p>{home.workDescription}</p>
       </div>
-      <Card as="article" variant="white" padding="none" className="work-card">
-        <a
-          className="work-preview"
-          href="https://laura-faichney-all-things-art.pages.dev"
-          aria-label="Preview Laura Faichney’s live website"
+      {home.selectedWork.map((work) => (
+        <Card
+          key={work._id}
+          as="article"
+          variant="white"
+          padding="none"
+          className="work-card"
         >
-          <div className="work-preview-bar" aria-hidden="true">
-            <span className="work-window-dots">
-              <span />
-              <span />
-              <span />
-            </span>
-            <span>All Things Art</span>
-            <ArrowUpRight size={15} />
+          <a
+            className="work-preview"
+            href={work.url}
+            aria-label={work.previewLabel}
+          >
+            <div className="work-preview-bar" aria-hidden="true">
+              <span className="work-window-dots">
+                <span />
+                <span />
+                <span />
+              </span>
+              <span>{work.windowTitle}</span>
+              <ArrowUpRight size={15} />
+            </div>
+            <img
+              src={work.image.asset.url}
+              width={work.image.asset.width}
+              height={work.image.asset.height}
+              loading="lazy"
+              alt={work.image.alt}
+            />
+          </a>
+          <div className="work-copy">
+            <div>
+              <p className="eyebrow">{work.eyebrow}</p>
+              <h3>{work.title}</h3>
+            </div>
+            <div className="work-summary">
+              <p>{work.description}</p>
+              <a className="text-link" href={work.url}>
+                {work.action} <ArrowUpRight size={17} aria-hidden="true" />
+              </a>
+            </div>
           </div>
-          <img
-            src="/images/laura-project.jpg"
-            width={1440}
-            height={540}
-            loading="lazy"
-            alt="Laura Faichney’s live website, with its artwork hero and service introduction"
-          />
-        </a>
-        <div className="work-copy">
-          <div>
-            <p className="eyebrow">Artist website</p>
-            <h3>Laura Faichney · All Things Art</h3>
-          </div>
-          <div className="work-summary">
-            <p>
-              An art-filled website with a gallery, clear service details and an
-              easy way to enquire.
-            </p>
-            <a
-              className="text-link"
-              href="https://laura-faichney-all-things-art.pages.dev"
-            >
-              Visit the website <ArrowUpRight size={17} aria-hidden="true" />
-            </a>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      ))}
     </section>
   );
 }

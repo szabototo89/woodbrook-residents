@@ -54,3 +54,9 @@ test('checks and builds Forma before publishing only its static output to the ex
     },
   });
 });
+
+test('published Forma content can trigger an isolated rebuild without triggering Laura', () => {
+  expect(readWorkflow()).toMatchObject({
+    on: { repository_dispatch: { types: ['forma-sanity-update'] } },
+  });
+});

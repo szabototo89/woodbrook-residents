@@ -1,8 +1,16 @@
 import { defineConfig } from 'vitest/config';
 export default defineConfig({
+  resolve: {
+    alias: {
+      'virtual:forma-content': new URL(
+        './tests/fixtureContent.ts',
+        import.meta.url,
+      ).pathname,
+    },
+  },
   test: {
     environment: 'jsdom',
-    include: ['src/**/*.test.{ts,tsx}', 'tests/*.test.ts'],
+    include: ['src/**/*.test.{ts,tsx}', 'tests/*.test.ts', 'scripts/*.test.ts'],
     setupFiles: ['tests/setup.ts'],
     coverage: {
       provider: 'v8',

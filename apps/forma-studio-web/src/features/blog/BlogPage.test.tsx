@@ -10,7 +10,7 @@ test('blog presents useful guides and a menu that returns to homepage sections',
   ).toHaveAttribute('href', '/');
   expect(screen.getByRole('img', { name: 'Forma Studio' })).toHaveAttribute(
     'src',
-    '/images/forma-studio-logo.webp',
+    'https://cdn.sanity.io/images/ms27me7o/production/forma-studio-logo.webp',
   );
   expect(screen.getByText('The Forma Studio journal')).toBeVisible();
   expect(

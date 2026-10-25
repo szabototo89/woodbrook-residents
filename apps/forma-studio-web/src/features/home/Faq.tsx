@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
 import { Card } from '../../components/Card';
-import { faqs } from './homeContent';
+import { content } from '../content/content';
 
 export function Faq() {
+  const { faqs, faqTitle } = content.home;
   const [expanded, setExpanded] = useState<number | null>(null);
   return (
     <Card
@@ -14,10 +15,10 @@ export function Faq() {
       aria-labelledby="faq-title"
     >
       <div className="faq-heading">
-        <h2 id="faq-title">Frequently asked questions</h2>
+        <h2 id="faq-title">{faqTitle}</h2>
       </div>
       {faqs.map((faq, index) => (
-        <div className="faq-item" key={faq.question}>
+        <div className="faq-item" key={faq._key}>
           <h3>
             <button
               id={`faq-question-${index}`}

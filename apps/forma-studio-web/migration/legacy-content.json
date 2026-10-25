@@ -1,0 +1,352 @@
+{
+  "settings": {
+    "_id": "siteSettings",
+    "brand": "Forma Studio",
+    "logo": {
+      "alt": "Forma Studio",
+      "asset": {
+        "_id": "forma-studio-logo.webp",
+        "url": "/images/forma-studio-logo.webp",
+        "width": 720,
+        "height": 113
+      }
+    },
+    "enquiryEmail": "szabototo89@gmail.com",
+    "enquirySubject": "Website project enquiry",
+    "enquiryBody": "Business name: \nCurrent website (if any): \nWhat you need: \nIdeal timing: ",
+    "footer": "Forma Studio · Websites for local businesses",
+    "footerServices": "Web design · Local SEO · Ongoing support",
+    "navigation": [
+      {
+        "_key": "services",
+        "name": "Services",
+        "href": "#services"
+      },
+      {
+        "_key": "work",
+        "name": "Work",
+        "href": "#work"
+      },
+      {
+        "_key": "about",
+        "name": "How we work",
+        "href": "#about"
+      },
+      {
+        "_key": "blog",
+        "name": "Blog",
+        "href": "/blog"
+      },
+      {
+        "_key": "contact",
+        "name": "Contact",
+        "href": "#contact"
+      }
+    ],
+    "talkLabel": "Let’s talk"
+  },
+  "home": {
+    "_id": "homePage",
+    "seo": {
+      "title": "Forma Studio | Digital services for local businesses",
+      "description": "Modern websites, local SEO, booking tools and friendly ongoing support. Simple digital services to help your local business grow.",
+      "socialDescription": "Modern websites and the tools your local business needs to grow."
+    },
+    "hero": {
+      "eyebrow": "Web design & digital support",
+      "title": ["Websites that help", "local businesses", "grow."],
+      "description": "Web design, local SEO and simple enquiry tools. Help customers find your business, understand your services and get in touch.",
+      "action": "Discuss your project",
+      "workAction": "See Our Work",
+      "image": {
+        "alt": "Laptop displaying Laura Faichney’s homepage in a warm, plant-filled café",
+        "asset": {
+          "_id": "laura-website-1200.webp",
+          "url": "/images/laura-website-1200.webp",
+          "width": 1200,
+          "height": 800
+        }
+      },
+      "note": "Websites that work for real businesses.",
+      "caption": "Laura Faichney website · Illustrative café mockup"
+    },
+    "servicesTitle": "Our services",
+    "servicesDescription": "All designed for small businesses",
+    "services": [
+      {
+        "_key": "service-0",
+        "icon": "website",
+        "title": "Website Design",
+        "description": "A clear, mobile-friendly home for your business, with an easy path from browsing to getting in touch.",
+        "includes": [
+          "Responsive page layouts",
+          "Service and contact pages",
+          "A clear enquiry journey"
+        ]
+      },
+      {
+        "_key": "service-1",
+        "icon": "search",
+        "title": "Local SEO",
+        "description": "Help nearby customers understand what you offer and where you work when they search online.",
+        "includes": [
+          "Page titles and descriptions",
+          "Local service and location copy",
+          "Search-friendly page structure"
+        ]
+      },
+      {
+        "_key": "service-2",
+        "icon": "booking",
+        "title": "Booking & Enquiries",
+        "description": "Give visitors a simple way to ask a question or take the next step with your business.",
+        "includes": [
+          "Enquiry forms or booking links",
+          "Clear calls to action",
+          "A mobile-friendly contact journey"
+        ]
+      },
+      {
+        "_key": "service-3",
+        "icon": "content",
+        "title": "Content Updates",
+        "description": "Keep your services, photos and business details current without starting from scratch.",
+        "includes": [
+          "Copy and image changes",
+          "Service and business detail updates",
+          "Help with routine content edits"
+        ]
+      },
+      {
+        "_key": "service-4",
+        "icon": "support",
+        "title": "Ongoing Support",
+        "description": "Get help with your website after launch, with the scope and cost agreed around your needs.",
+        "includes": [
+          "Website troubleshooting",
+          "Advice on improvements",
+          "An agreed support plan"
+        ]
+      }
+    ],
+    "includesLabel": "What’s included",
+    "workEyebrow": "Selected work",
+    "workTitle": "A website in the wild",
+    "workDescription": "Explore the experience for yourself",
+    "selectedWork": [
+      {
+        "_id": "legacy-laura-project",
+        "eyebrow": "Artist website",
+        "title": "Laura Faichney · All Things Art",
+        "previewLabel": "Preview Laura Faichney’s live website",
+        "windowTitle": "All Things Art",
+        "description": "An art-filled website with a gallery, clear service details and an easy way to enquire.",
+        "url": "https://laura-faichney-all-things-art.pages.dev",
+        "action": "Visit the website",
+        "image": {
+          "alt": "Laura Faichney’s live website, with its artwork hero and service introduction",
+          "asset": {
+            "_id": "laura-project.jpg",
+            "url": "/images/laura-project.jpg",
+            "width": 1440,
+            "height": 540
+          }
+        },
+        "source": {
+          "title": "Existing Forma Studio selected work",
+          "url": "https://forma-studio-web.pages.dev",
+          "accessed": "2026-10-25"
+        }
+      }
+    ],
+    "packagesEyebrow": "Packages",
+    "packagesTitle": ["Choose a package", "that suits your goals."],
+    "packagesDescription": "Starting points for your project. Your final quote confirms scope, hosting and any ongoing costs before work begins.",
+    "packages": [
+      {
+        "_key": "package-0",
+        "title": "Essentials",
+        "description": "A great start for new businesses.",
+        "price": "£995",
+        "popular": false,
+        "features": [
+          "Beautiful 3–5 page website",
+          "Mobile-friendly design",
+          "Basic SEO setup"
+        ]
+      },
+      {
+        "_key": "package-1",
+        "title": "Growth",
+        "description": "Everything you need to get found and grow.",
+        "price": "£1,495",
+        "popular": true,
+        "features": [
+          "Larger website (up to 10 pages)",
+          "Local SEO optimisation",
+          "Booking or enquiry system",
+          "Content training & support"
+        ]
+      },
+      {
+        "_key": "package-2",
+        "title": "Complete",
+        "description": "A full solution with ongoing support.",
+        "price": "£1,995",
+        "popular": false,
+        "features": [
+          "Custom website design",
+          "Advanced local SEO",
+          "Booking & enquiry tools",
+          "Ongoing updates and support"
+        ]
+      }
+    ],
+    "popularLabel": "Website + local SEO",
+    "pricePrefix": "From",
+    "packageAction": "Discuss",
+    "processEyebrow": "Our process",
+    "processTitle": "How it works",
+    "processDescription": "A simple process from start to finish",
+    "steps": [
+      {
+        "_key": "step-0",
+        "title": "Plan your website",
+        "description": "Tell us about your business, audience and goals. Together we agree the pages, scope, quote and timeline."
+      },
+      {
+        "_key": "step-1",
+        "title": "Design, build & review",
+        "description": "We shape the design around your content. You review it and share feedback before we prepare it for launch."
+      },
+      {
+        "_key": "step-2",
+        "title": "Launch & hand over",
+        "description": "We check the website on mobile and desktop, publish it and explain how to keep it current. Support is agreed separately."
+      }
+    ],
+    "preparation": {
+      "eyebrow": "Let’s make a start",
+      "title": "What to bring to our first conversation",
+      "description": "No finished brief needed. A few details help us understand your project.",
+      "items": [
+        "Your business and the customers you want to reach",
+        "Your current website, if you have one",
+        "What you want to improve and your ideal timing"
+      ],
+      "action": "Tell us about your project"
+    },
+    "faqTitle": "Frequently asked questions",
+    "faqs": [
+      {
+        "_key": "faq-0",
+        "question": "How long does a website take?",
+        "answer": "Most small websites take around 3–6 weeks once your content is ready. We agree a timeline together before the project begins."
+      },
+      {
+        "_key": "faq-1",
+        "question": "Can you help with my existing website?",
+        "answer": "We can review your current website and talk through improvements to its design, content and how customers find you."
+      },
+      {
+        "_key": "faq-2",
+        "question": "Do you offer ongoing support?",
+        "answer": "Choose the support that suits your business, from occasional content updates to an ongoing plan. We agree the scope and cost with you first."
+      }
+    ],
+    "contact": {
+      "eyebrow": "Ready to get started?",
+      "title": "Let’s build a stronger online presence for your business.",
+      "description": "Tell us about your business, what you need and your ideal timing. We’ll discuss the scope and next steps with you.",
+      "action": "Email us",
+      "note": "Opens your email app. No obligation."
+    }
+  },
+  "journal": {
+    "_id": "journalPage",
+    "seo": {
+      "title": "Forma Studio Journal | Ideas for local businesses",
+      "description": "Practical guides to website design, local search and keeping your business content useful. Read the Forma Studio journal.",
+      "socialDescription": "Practical guides to website design, local search and keeping your business content useful. Read the Forma Studio journal."
+    },
+    "eyebrow": "The Forma Studio journal",
+    "title": ["Small ideas.", "A stronger online presence."],
+    "description": "Friendly, practical guides to websites, local search and keeping your business looking its best online.",
+    "backLabel": "Back to home",
+    "guidesLabel": "Business website guides",
+    "sourceLabel": "Further reading:",
+    "sourceDateLabel": "Source checked",
+    "homeLabel": "Back to Forma Studio home",
+    "contact": {
+      "eyebrow": "A helping hand",
+      "title": "Ready to put your ideas into action?",
+      "description": "Let’s talk about what your website could do for your business.",
+      "action": "Discuss your project"
+    },
+    "guides": [
+      {
+        "_id": "legacy-guide-website-design",
+        "editorialStatus": "needs-review",
+        "id": "website-design",
+        "category": "Website design",
+        "title": "A website that feels like your business",
+        "excerpt": "Clear words, thoughtful design and a simple next step. Start with the essentials that matter to your customers.",
+        "action": "Read guide",
+        "paragraphs": [
+          "Start with the questions your customers bring to your website: what do you offer, who is it for, and how can they get in touch? Give each answer a clear place on the page. A short, descriptive heading is a useful starting point.",
+          "Choose photographs and words that reflect your business. Then try the page on your phone: can you find the service you need and reach the contact details without hunting? Keep the next step easy to see, whether that is an enquiry, a booking or a visit."
+        ],
+        "source": {
+          "title": "Google’s SEO Starter Guide",
+          "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+          "accessed": "2026-10-03"
+        },
+        "image": {
+          "alt": "Laura Faichney’s colourful homepage shown on a laptop",
+          "asset": {
+            "_id": "laura-website-1200.webp",
+            "url": "/images/laura-website-1200.webp",
+            "width": 1200,
+            "height": 800
+          }
+        }
+      },
+      {
+        "_id": "legacy-guide-local-search",
+        "editorialStatus": "needs-review",
+        "id": "local-search",
+        "category": "Search & discovery",
+        "title": "Help local customers find you",
+        "excerpt": "A practical starting point for keeping your business information clear and consistent online.",
+        "action": "Read search guide",
+        "paragraphs": [
+          "Keep the basics accurate: your business name, contact details, opening hours and the services you provide. Check these details on your website and, if your business is eligible, in your Google Business Profile.",
+          "Google explains that local results depend on relevance, distance and prominence. Complete, accurate information helps Google understand your business, but it does not guarantee a particular ranking. Start with useful descriptions and genuine photographs rather than promises of an instant first-place result."
+        ],
+        "source": {
+          "title": "Google’s local ranking guidance",
+          "url": "https://support.google.com/business/answer/7091",
+          "accessed": "2026-10-03"
+        }
+      },
+      {
+        "_id": "legacy-guide-content-care",
+        "editorialStatus": "needs-review",
+        "id": "content-care",
+        "category": "Content & care",
+        "title": "Keep your website feeling fresh",
+        "excerpt": "Small, regular checks can keep the information your customers rely on useful and up to date.",
+        "action": "Read content guide",
+        "paragraphs": [
+          "Make a short list of the pages your customers use most. Review opening hours, services and contact information when something changes. Remove details that are no longer accurate and check that links still lead to the right place.",
+          "Write for the person reading the page. Use clear headings, answer practical questions and add information when it is helpful. Updating the date alone is not a substitute for improving the content: Google’s guidance encourages useful, reliable information created for people."
+        ],
+        "source": {
+          "title": "Google’s people-first content guidance",
+          "url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+          "accessed": "2026-10-03"
+        }
+      }
+    ]
+  }
+}

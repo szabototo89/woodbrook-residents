@@ -120,7 +120,10 @@ test('prospects can inspect real work without fictional social proof', () => {
   const work = screen.getByRole('region', { name: 'A website in the wild' });
   expect(
     within(work).getByRole('img', { name: /Laura Faichney’s live website/i }),
-  ).toHaveAttribute('src', '/images/laura-project.jpg');
+  ).toHaveAttribute(
+    'src',
+    'https://cdn.sanity.io/images/ms27me7o/production/laura-project.jpg',
+  );
   expect(work).toHaveAttribute('id', 'work');
   expect(
     within(work).getByRole('heading', {
@@ -200,7 +203,7 @@ test('homepage uses its logo and a readable text annotation over the hero', () =
   const brand = screen.getByRole('link', { name: 'Forma Studio home' });
   expect(brand.querySelector('img')).toHaveAttribute(
     'src',
-    '/images/forma-studio-logo.webp',
+    'https://cdn.sanity.io/images/ms27me7o/production/forma-studio-logo.webp',
   );
   expect(brand.querySelector('img')).toHaveAttribute('alt', 'Forma Studio');
   expect(
@@ -216,10 +219,13 @@ test('hero showcases Laura Faichney’s homepage with truthful project credit', 
   const hero = screen.getByRole('img', {
     name: /laptop displaying Laura Faichney/i,
   });
-  expect(hero).toHaveAttribute('src', '/images/laura-website-1200.webp');
+  expect(hero).toHaveAttribute(
+    'src',
+    'https://cdn.sanity.io/images/ms27me7o/production/laura-website-1200.webp',
+  );
   expect(hero).toHaveAttribute(
     'srcset',
-    expect.stringContaining('/images/laura-website-640.webp 640w'),
+    expect.stringContaining('w=640&auto=format 640w'),
   );
   expect(
     screen.getByRole('heading', { name: 'Laura Faichney · All Things Art' }),
@@ -275,4 +281,28 @@ test('the project preview itself opens the live website', () => {
       name: /Laura Faichney’s live website/i,
     }),
   ).toBeVisible();
+});
+
+test('published CMS changes supply homepage copy and contact settings without editing UI code', async () => {
+  const { content } = await import('../content/content');
+  const previous = content.home.hero.title;
+  const email = content.settings.enquiryEmail;
+  content.home.hero.title = ['A published CMS heading'];
+  content.settings.enquiryEmail = 'editor@example.com';
+  try {
+    render(<HomePage />);
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'A published CMS heading',
+      }),
+    ).toBeVisible();
+    expect(screen.getByRole('link', { name: /email us/i })).toHaveAttribute(
+      'href',
+      expect.stringContaining('mailto:editor@example.com'),
+    );
+  } finally {
+    content.home.hero.title = previous;
+    content.settings.enquiryEmail = email;
+  }
 });
