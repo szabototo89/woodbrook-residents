@@ -14,11 +14,11 @@
 - At session start, check whether the current checkout is already a linked Git worktree. If so, reuse that worktree and its branch; do not create a new worktree for each agentic session. Otherwise, create a dedicated Git worktree and session branch from `main`. Do not develop directly in the primary checkout.
 - Make all edits, builds, tests, and commits inside that session worktree.
 - During development, create small, self-contained commits. Each commit must represent one coherent change and leave the repository in a usable state.
-- When the requested work is complete and verified, automatically merge the session branch back into local `main`; do not stop after merely committing or handing off the branch.
-- Before merging, confirm that the primary checkout is on `main` and has no unrelated uncommitted changes. Never overwrite, discard, reset, or include user-owned changes.
-- Use a non-interactive merge without rewriting existing history. You are always authorized to resolve merge conflicts autonomously without asking for permission. Preserve the intended behavior of both branches and all user-owned changes, verify the resolved result, and continue the merge.
+- When the requested work is complete and verified, push the session branch and create or update a GitHub pull request targeting `main`. Do not merge the session branch into local or remote `main`, enable auto-merge, or deploy to production as part of handoff. Leave the PR open for review.
+- Every PR must include a working temporary Cloudflare preview URL in its description, alongside a summary of the changes and verification evidence. Deploy the affected app or apps from the PR's latest commit, verify the preview, and refresh the deployment and links after subsequent changes. Do not substitute a production URL or localhost URL for the preview.
+- Never overwrite, discard, reset, or include user-owned changes. Resolve conflicts by bringing `main` into the session branch without rewriting existing history, preserve the intended behavior of both branches, verify the resolved result, and update the PR and preview. Do not merge the session branch back into `main`.
 - Never use `--no-verify` (or any hook-bypass flag) when committing. If hooks fail, fix the cause instead of bypassing them.
-- After a successful merge, remove only a worktree created by the current session with `scripts/worktree-remove.sh <path>` (it closes the linked cmux workspace; raw `git worktree remove` fires no hook) and delete its merged session branch. Preserve a reused worktree and its branch for later sessions.
+- Preserve the session branch, worktree and preview while the PR is open. Once the PR is merged or closed, remove only a worktree created by the current session with `scripts/worktree-remove.sh <path>` (it closes the linked cmux workspace; raw `git worktree remove` fires no hook). Delete a session branch only after it is merged or its removal is explicitly requested. Preserve a reused worktree and its branch for later sessions.
 
 ## GitHub issues
 
@@ -33,6 +33,9 @@
 - Once ready, open the dev site in a new cmux browser tab: `cmux browser open http://localhost:3000`.
 - Name the tab so the worktree and feature are obvious: `cmux rename-tab "<worktree>: <feature>"` (2-5 words, max ~40 characters, plain text, no emoji, no secrets).
 - Keep the dev server running in the background for the session; stop it when the worktree is removed.
+- Before PR handoff, deploy a temporary Cloudflare preview for each affected app using its preview environment or a non-production branch. Keep production domains, routes and deployments unchanged. Verify that the preview loads and smoke-test the changed behavior; record its URL and deployed commit in the PR description and final response.
+- If preview deployment is blocked by missing credentials, configuration or a Cloudflare failure, create or update a draft PR, document the blocker, and report the missing preview explicitly. Do not claim the work is ready for review or complete until a working preview link is included.
+- Temporary previews are subject to the repository's seven-day retention policy. Do not delete a preview merely because a session ends; refresh an expired preview and update the PR link when review resumes. Daily cleanup automation is tracked in [#8](https://github.com/szabototo89/woodbrook-residents/issues/8); this policy does not imply that automation is already implemented.
 
 ## Product behavior
 
