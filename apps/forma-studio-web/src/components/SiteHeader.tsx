@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+
+import { ActionLink } from './ActionLink';
 
 import { content } from '../features/content/content';
 
@@ -67,9 +69,9 @@ export function SiteHeader(props: SiteHeaderProps) {
           </a>
         ))}
       </nav>
-      <a className="button header-cta" href={sectionHref('#contact')}>
-        {settings.talkLabel} <ArrowRight aria-hidden="true" size={16} />
-      </a>
+      <ActionLink className="header-cta" href={sectionHref('#contact')}>
+        {settings.talkLabel}
+      </ActionLink>
     </header>
   );
 }

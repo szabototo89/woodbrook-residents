@@ -18,7 +18,9 @@ bun run --cwd apps/forma-studio-web build
 bun run --cwd apps/forma-studio-web test:lighthouse --skip-build
 ```
 
-Development uses port 3005; production preview uses 4178. Install Playwright Chromium and WebKit with `bun run --cwd apps/forma-studio-web playwright install chromium webkit` if needed. Lighthouse uses installed Chrome, or `CHROME_PATH`.
+Development uses port 3005; production preview uses 4178. Set `FORMA_PLAYWRIGHT_PORT` to run browser checks on an isolated port. Routine content captures go to `test-results`; feature review captures belong to the active handoff.
+
+See [shared UI usage](src/components/README.md) for the pattern inventory, typed props, supported variants and composition examples. Install Playwright Chromium and WebKit with `bun run --cwd apps/forma-studio-web playwright install chromium webkit` if needed. Lighthouse uses installed Chrome, or `CHROME_PATH`.
 
 The production `build` command runs the strict compiler and the complete app lint gate before Vite. It fails on implicit or explicit `any`, unsafe use of API values typed as `any`, nullable access, non-null assertions and definite-assignment assertions. All handwritten TypeScript is covered: application code, tests, scripts and configuration. Root `bun run lint` also runs the app gate, and root tests include the enforcement regressions.
 

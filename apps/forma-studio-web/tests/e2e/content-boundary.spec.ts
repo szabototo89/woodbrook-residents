@@ -45,7 +45,7 @@ test('capture the live Sanity-backed pages at high resolution', async ({
     info.project.name !== 'desktop',
     'One set of high-resolution desktop and phone artifacts.',
   );
-  const output = '../../docs/handoffs/forma-sanity-content/assets';
+  const output = info.outputPath('content-screenshots');
   for (const [name, viewport] of [
     ['desktop', { width: 1440, height: 1000 }],
     ['mobile', { width: 390, height: 844 }],
@@ -55,13 +55,13 @@ test('capture the live Sanity-backed pages at high resolution', async ({
       deviceScaleFactor: 2,
     });
     const page = await context.newPage();
-    await page.goto('http://127.0.0.1:4178/');
+    await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
     await expect(
       page.getByRole('img', { name: /laptop displaying/i }),
     ).toBeVisible();
     await page.screenshot({ path: `${output}/${name}.png`, fullPage: true });
-    await page.goto('http://127.0.0.1:4178/blog');
+    await page.goto('/blog');
     await page.getByText('Read guide', { exact: false }).click();
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({
