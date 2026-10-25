@@ -20,6 +20,12 @@
 - Never use `--no-verify` (or any hook-bypass flag) when committing. If hooks fail, fix the cause instead of bypassing them.
 - After a successful merge, remove only a worktree created by the current session with `scripts/worktree-remove.sh <path>` (it closes the linked cmux workspace; raw `git worktree remove` fires no hook) and delete its merged session branch. Preserve a reused worktree and its branch for later sessions.
 
+## GitHub issues
+
+- When creating or updating a GitHub issue, add the label for the app or project it concerns alongside its issue-type label (for example, `enhancement` or `bug`).
+- Forma Studio issues must include the `forma studio` label. Create the label if it does not exist, and preserve existing relevant labels.
+- When working on an existing GitHub issue, post concise status comments on that issue when work starts, at meaningful progress or blockers, and on completion. State what changed, relevant verification, and any remaining work; do not imply implementation is complete when only planning or issue creation is done.
+
 ## Dev server and preview
 
 - After creating the session worktree, `cd` into it and run `bun install`, then start the dev server in the background with `bun run dev`. Do not block the session waiting for it.
