@@ -4,10 +4,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev --port 3005",
-    "build": "vite build",
+    "build": "bun run typecheck && bun run lint && vite build",
     "build:static": "bun run build",
     "preview": "vite preview --port 4178",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
     "test:unit": "vitest run --coverage",
     "test:e2e": "bun run build && playwright test",
     "test:lighthouse": "bun scripts/lighthouse.ts"

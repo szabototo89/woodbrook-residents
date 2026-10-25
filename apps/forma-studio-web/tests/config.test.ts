@@ -9,10 +9,10 @@ import { evaluateLighthouseScores } from '../../web/scripts/lighthouse-report';
 const read = (file: string) => readFileSync(`${process.cwd()}/${file}`, 'utf8');
 
 test('Cloudflare publishes the client directory with security and asset cache headers', () => {
-  expect(
-    JSON.parse(read('wrangler.jsonc').replace(/,\s*}/g, '}'))
-      .pages_build_output_dir,
-  ).toBe('./dist/client');
+  const config: unknown = JSON.parse(
+    read('wrangler.jsonc').replace(/,\s*}/g, '}'),
+  );
+  expect(config).toMatchObject({ pages_build_output_dir: './dist/client' });
   expect(read('public/_headers')).toContain('X-Content-Type-Options: nosniff');
   expect(read('public/_headers')).toContain(
     'Cache-Control: public, max-age=31536000, immutable',

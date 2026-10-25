@@ -19,26 +19,32 @@ phoneWidths.map((width) => {
     const actionBounds = await actions.boundingBox();
     const primaryBounds = await primary.boundingBox();
     const secondaryBounds = await secondary.boundingBox();
-    expect(primaryBounds!.width).toBeGreaterThanOrEqual(
-      actionBounds!.width - 1,
-    );
-    expect(secondaryBounds!.y).toBeGreaterThanOrEqual(
-      primaryBounds!.y + primaryBounds!.height,
+    if (
+      actionBounds === null ||
+      primaryBounds === null ||
+      secondaryBounds === null
+    )
+      throw new Error('Expected visible hero actions');
+    expect(primaryBounds.width).toBeGreaterThanOrEqual(actionBounds.width - 1);
+    expect(secondaryBounds.y).toBeGreaterThanOrEqual(
+      primaryBounds.y + primaryBounds.height,
     );
     expect(
-      Math.abs(secondaryBounds!.x + secondaryBounds!.width / 2 - width / 2),
+      Math.abs(secondaryBounds.x + secondaryBounds.width / 2 - width / 2),
     ).toBeLessThan(2);
     const card = page
       .getByRole('heading', { name: 'Website Design' })
       .locator('..');
     const titleBounds = await card.getByRole('heading').boundingBox();
     const iconBounds = await card.locator('.icon-circle').boundingBox();
+    if (titleBounds === null || iconBounds === null)
+      throw new Error('Expected visible service title and icon');
     expect(
       Math.abs(
-        titleBounds!.y +
-          titleBounds!.height / 2 -
-          iconBounds!.y -
-          iconBounds!.height / 2,
+        titleBounds.y +
+          titleBounds.height / 2 -
+          iconBounds.y -
+          iconBounds.height / 2,
       ),
     ).toBeLessThan(2);
     await card.locator('summary').click();
@@ -87,7 +93,8 @@ test('mobile navigation stays reachable on a short landscape screen', async ({
   await toggle.click();
   const nav = page.getByRole('navigation', { name: 'Main navigation' });
   const bounds = await nav.boundingBox();
-  expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(320);
+  if (bounds === null) throw new Error('Expected visible landscape navigation');
+  expect(bounds.y + bounds.height).toBeLessThanOrEqual(320);
   const contact = nav.getByRole('link', { name: 'Contact', exact: true });
   await contact.scrollIntoViewIfNeeded();
   await expect(

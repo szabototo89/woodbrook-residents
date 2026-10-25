@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { lighthouseScoresFromReport } from './lighthouseScores';
 
 import {
   LIGHTHOUSE_MIN_SCORES,
@@ -17,7 +18,6 @@ import {
   failedCombinations,
   mergeRetriedResults,
   routeReportFilename,
-  toLighthouseScores,
   type LighthouseFormFactor,
   type LighthouseRunCombination,
   type LighthouseRunResult,
@@ -101,12 +101,8 @@ async function runLighthouseForRoute(
       formFactor,
     }),
   ]);
-  const report = await Bun.file(reportPath).json();
-  const scoreFor = (category: LighthouseCategory): number => {
-    const rawScore = report.categories[category]?.score;
-    return typeof rawScore === 'number' ? Math.round(rawScore * 100) : 0;
-  };
-  return { route, formFactor, scores: toLighthouseScores(scoreFor) };
+  const report: unknown = await Bun.file(reportPath).json();
+  return { route, formFactor, scores: lighthouseScoresFromReport(report) };
 }
 
 function resolveFormFactors(

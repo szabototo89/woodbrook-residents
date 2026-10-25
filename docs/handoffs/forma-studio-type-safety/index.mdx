@@ -1,0 +1,75 @@
+import tddEvidence from './assets/tdd.txt?url';
+import enforcementEvidence from './assets/enforcement.txt?url';
+import unitEvidence from './assets/unit.txt?url';
+import browserEvidence from './assets/playwright.txt?url';
+
+export const metadata = {
+  title: 'Forma Studio strict TypeScript build enforcement',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a172d0-a67d-7aa2-a192-63469f457a89',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/forma-studio-enforce-strict-typescript-and-ban-a',
+  branch: 'szabototo89/forma-studio-enforce-strict-typescript-and-ban-a',
+  commit: '483b78e9176e4df3bc2c2eff294e16d25a0512e3',
+  updatedAt: '2026-10-25T11:44:52Z',
+  summary:
+    'Forma Studio rejects unsafe handwritten TypeScript before bundling and deployment.',
+};
+
+## Goal
+
+Prevent unsafe TypeScript from reaching a Forma Studio production build. Cover application code, tests, scripts and configuration while preserving generated files and website behavior.
+
+## Technical changes
+
+Baseline: `d3f8147295cc9d99e1376ddf678b7a091fe0330e`. Implementation: `483b78e9176e4df3bc2c2eff294e16d25a0512e3`. This completes the local implementation of [issue #6](https://github.com/szabototo89/woodbrook-residents/issues/6).
+
+| Area                        | Before                                                                                   | After                                                                                                               | Why                                                  | Code                                                                                              |
+| --------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Compiler coverage           | Explicit source and configuration patterns could miss future files.                      | All handwritten TypeScript uses strict checks, including null and indexed access checks.                            | Keep new files inside the gate.                      | `apps/forma-studio-web/tsconfig.json`                                                             |
+| Blocking lint               | Recommended rules missed unsafe API flows and assertion-style exclamation marks.         | Type-aware rules reject unsafe `any`, non-null assertions, definite-assignment assertions and suppression bypasses. | Require validation, initialization and guards.       | `eslint.forma-type-safety.js`, `eslint.config.js`                                                 |
+| Build and repository checks | Vite could bundle without typechecking; root lint omitted app scripts and configuration. | Build runs typecheck and complete app lint before Vite; root lint and tests include enforcement.                    | Fail before production output.                       | `apps/forma-studio-web/package.json`, `package.json`                                              |
+| Deployment                  | Workflow omitted app lint and shared ESLint change triggers.                             | Lint and regression checks block deployment; shared enforcement changes trigger the workflow.                       | Apply the same gate in automation.                   | `.github/workflows/deploy-forma-studio.yml`, `scripts/deploy-forma.test.ts`                       |
+| Nullable test values        | Tests asserted that DOM attributes and browser measurements existed.                     | Explicit guards fail with a clear error when required values are absent.                                            | Preserve assertions without bypassing null checks.   | `apps/forma-studio-web/src/features/home/HomePage.test.tsx`, `apps/forma-studio-web/tests/e2e/`   |
+| JSON input                  | Lighthouse and configuration tests accessed unchecked parsed JSON.                       | Input enters as `unknown`; audit score validation rejects malformed categories and maps invalid scores to zero.     | Prevent untrusted values from disabling type checks. | `apps/forma-studio-web/scripts/lighthouseScores.ts`, `apps/forma-studio-web/tests/config.test.ts` |
+| Developer instructions      | Build instructions omitted the app lint gate.                                            | README and capability document list commands, alternatives and exclusions.                                          | Make local checks reproducible.                      | `apps/forma-studio-web/README.md`, `docs/features/forma-studio-type-safety.md`                    |
+
+`unknown` requires validation before using a value. Type-aware lint uses compiler type information to detect unsafe dependency and platform API results. Its scope is Forma Studio only; no dependencies or other applications' type policies change.
+
+Generated `src/routeTree.gen.ts` is excluded from lint and compiler root-file discovery. Normal imports still resolve it; its existing generated directive controls checking. No generated code or generator configuration changes. Dependency declarations and build output remain excluded.
+
+Negative lint examples use standard input. Compiler fixtures use a temporary directory outside the app and extend its strict configuration; only unrelated ambient type packages are omitted. Temporary build probes are removed in `finally` blocks. No failing fixture is committed in production sources.
+
+## Architecture changes
+
+Forma Studio is the public website for a local website-design service. This change affects build and verification tooling. Its runtime systems, applications, stores and website responsibilities remain unchanged, so no runtime C4 diagram needs a new view or annotation.
+
+| Level | Change                                                                                    | Evidence                                                                 |
+| ----- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| C1    | Unchanged: the same visitors and external contact destinations interact with the website. | No product route, content or service integration changes.                |
+| C2    | Unchanged: no running application, data store or communication boundary changes.          | Package scripts and deployment checks change before bundling.            |
+| C3    | Unchanged: website components retain their runtime responsibilities and interactions.     | Guards affect tests; JSON validation serves the offline Lighthouse tool. |
+
+## Verification
+
+| Check                                | Result  | Evidence                                                                                                                                                                |
+| ------------------------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test-first enforcement               | PASS    | Missing lint/build/CI enforcement failed before implementation; <a href={tddEvidence}>TDD record</a> distinguishes fixture setup errors.                                |
+| Enforcement and workflow regressions | PASS    | `bun test scripts/eslint-forma-type-safety.test.ts scripts/deploy-forma.test.ts`: 39 pass; forbidden CLI inputs exit nonzero. <a href={enforcementEvidence}>Output</a>. |
+| Strict app checks                    | PASS    | `bun run --cwd apps/forma-studio-web typecheck` and `lint`: exit 0; effective configuration covers maintained files.                                                    |
+| Focused unit tests                   | PASS    | `bun run --cwd apps/forma-studio-web test:unit`: 38 pass; feature coverage 100%. <a href={unitEvidence}>Output</a>.                                                     |
+| Browser regressions                  | PASS    | `bun run --cwd apps/forma-studio-web playwright test`: 47 pass, 7 desktop skips for phone-only checks. <a href={browserEvidence}>Output</a>.                            |
+| Repository lint                      | PASS    | `bun run lint`: exit 0; formatting, all app typechecks, script types and complete Forma lint pass.                                                                      |
+| Repository build                     | PASS    | `bun run build`: exit 0 across all nine build targets, including the Forma quality gate.                                                                                |
+| Required precommit hooks             | PASS    | Normal implementation commit runs repository lint, unit, browser and end-to-end checks. Commit `483b78e` succeeds with hooks enabled.                                   |
+| Handoff structure                    | PASS    | `bun run --cwd apps/handoffs docs:check`: exit 0.                                                                                                                       |
+| Handoff viewer build                 | PASS    | `bun run --cwd apps/handoffs build`: exit 0; the new MDX and evidence imports compile.                                                                                  |
+| Generated-file exclusion             | PASS    | Regression checks confirm router exclusion; `git diff d3f8147295cc9d99e1376ddf678b7a091fe0330e 483b78e9176e4df3bc2c2eff294e16d25a0512e3 -- '*gen*'` is empty.           |
+| cmux preview tab                     | FAIL    | Local dev server responds on port 3004; cmux denies connections from processes started outside cmux.                                                                    |
+| New appearance captures              | NOT RUN | No new user-visible feature or visual change; existing desktop/mobile browser regressions pass.                                                                         |
+| Remote deployment                    | NOT RUN | Workflow wiring is regression-tested; no remote push or production deployment occurs during this local implementation.                                                  |
+
+## Next steps
+
+None.
