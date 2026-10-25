@@ -71,35 +71,31 @@ const files = [
   'laura-website-1200.webp',
   'laura-project.jpg',
 ];
-const assets = Object.fromEntries(
-  await Promise.all(
-    files.map(async (file) => {
-      const result = assetResponse.parse(
-        await request(
-          `assets/images/${FORMA_DATASET}?filename=${encodeURIComponent(file)}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': file.endsWith('.jpg')
-                ? 'image/jpeg'
-                : 'image/webp',
-            },
-            body: await readFile(
-              new URL(`../public/images/${file}`, import.meta.url),
-            ),
-          },
-        ),
-      );
-      return [
-        file,
+const uploads = await Promise.all(
+  files.map(async (file) => {
+    const result = assetResponse.parse(
+      await request(
+        `assets/images/${FORMA_DATASET}?filename=${encodeURIComponent(file)}`,
         {
-          _id: result.document._id,
-          url: result.document.url,
-          ...result.document.metadata.dimensions,
+          method: 'POST',
+          headers: {
+            'Content-Type': file.endsWith('.jpg') ? 'image/jpeg' : 'image/webp',
+          },
+          body: await readFile(
+            new URL(`../public/images/${file}`, import.meta.url),
+          ),
         },
-      ];
-    }),
-  ),
+      ),
+    );
+    return {
+      filename: file,
+      asset: {
+        _id: result.document._id,
+        url: result.document.url,
+        ...result.document.metadata.dimensions,
+      },
+    };
+  }),
 );
 function resolveAssets(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(resolveAssets);
@@ -125,7 +121,11 @@ function resolveAssets(value: unknown): unknown {
             ),
         })
         .parse(value);
-      return { alt: input.alt, asset: assets[input.asset._id] };
+      return {
+        alt: input.alt,
+        asset: uploads.find((upload) => upload.filename === input.asset._id)
+          ?.asset,
+      };
     }
     return Object.fromEntries(
       Object.entries(value).map(([key, item]) => [key, resolveAssets(item)]),

@@ -15,14 +15,13 @@ test('migration preserves sources and editorial drafts and uses resolved referen
       },
     ],
   });
-  expect(docs.find((doc) => doc._id === 'journalPage')).toMatchObject({
-    guides: expect.arrayContaining([
-      {
-        _type: 'reference',
-        _key: 'new-legacy-guide-website-design',
-        _ref: 'new-legacy-guide-website-design',
-      },
-    ]),
+  const journal = docs.find((doc) => doc._id === 'journalPage');
+  if (!journal || !('guides' in journal))
+    throw new Error('Migration did not create the journal references.');
+  expect(journal.guides).toContainEqual({
+    _type: 'reference',
+    _key: 'new-legacy-guide-website-design',
+    _ref: 'new-legacy-guide-website-design',
   });
   const guides = docs.filter((doc) => doc._type === 'journalGuide');
   expect(guides).toHaveLength(6);

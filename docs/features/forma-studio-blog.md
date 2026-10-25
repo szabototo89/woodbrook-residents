@@ -27,7 +27,7 @@ As a local business owner, read practical guidance about a website, local discov
 
 ## Explicit scope
 
-This extends the original homepage-only request with a single blog index containing expandable guides. Individual article routes, categories, search, pagination, author management, subscriptions, comments and a Sanity project/schema/Studio integration are not implemented. Draft guide data is isolated in `apps/forma-studio-web/src/features/blog/blogContent.ts` for a future build-time CMS snapshot.
+This extends the original homepage-only request with a single blog index containing expandable guides. Individual article routes, categories, search, pagination, author management, subscriptions and comments are not implemented. Content is now edited in the dedicated Forma Sanity project and validated during each build; see [Forma Studio content editing](forma-sanity-content.md).
 
 ## Verification
 

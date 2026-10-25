@@ -28,7 +28,7 @@ As a small business owner, understand Forma Studio's digital services, compare s
 
 ## Explicit scope
 
-`/` and the subsequently requested `/blog` are implemented. Other pages, actual customer outcome claims, a working enquiry backend, and a Sanity project/Studio or integration are outside scope. Data is isolated for later build-time CMS integration. Approve draft pricing, service scope and FAQ commitments before a public launch. Enquiries now use `szabototo89@gmail.com`. The production deployment is the Cloudflare Pages project `forma-studio-web` at https://forma-studio-web-ddv.pages.dev.
+`/` and the subsequently requested `/blog` are implemented. Other pages, actual customer outcome claims and a working enquiry backend are outside scope. Content editing is now provided by the separate [Forma Sanity capability](forma-sanity-content.md). Approve draft pricing, service scope and FAQ commitments before a public launch. Enquiries now use `szabototo89@gmail.com`. The production deployment is the Cloudflare Pages project `forma-studio-web` at https://forma-studio-web-ddv.pages.dev.
 
 ## Verification
 

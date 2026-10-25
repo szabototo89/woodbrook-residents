@@ -18,6 +18,12 @@
       "sourceType": "github",
       "skillPath": "skills/reactlynx-best-practices/SKILL.md",
       "computedHash": "8861f37a35cb4b5bb2fa5f819f82705ed2cd57e0448d5bee7989fe63ba6a8606"
+    },
+    "writing-issues": {
+      "source": "riekelt/technical-writer",
+      "sourceType": "github",
+      "skillPath": "plugins/technical-writer/skills/writing-issues/SKILL.md",
+      "computedHash": "a84665a4858174c6fc4f15068609ed54a49fe6be0b99c151110627ab22fec298"
     }
   }
 }

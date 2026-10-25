@@ -1,0 +1,27 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Forma content backend — C3 — changes from c0e96a4
+
+System_Ext(forma_cms, "Forma Sanity project", "Stores Forma published content, drafts and images")
+Container(forma_web, "Forma public site", "React and prerendered HTML", "Displays the two static pages and opens email enquiries")
+Container_Boundary(forma_builder, "Forma static builder") {
+  Component(forma_query, "[ADDED] Published content reader", "GROQ over HTTPS", "Reads published pages and resolves references\nChange: New published-only read boundary.")
+  Component(forma_validation, "[ADDED] Content validation", "Zod runtime schemas", "Checks required content at runtime\nChange: New mandatory runtime check.")
+  Component(forma_snapshot, "[ADDED] Build snapshot module", "Vite virtual module", "Shares parsed content with both route bundles\nChange: New parsed-content module.")
+  Component(forma_prerender, "[CHANGED] Page prerendering", "TanStack Start", "Renders homepage and journal as static HTML\nChange: CMS snapshot replaces local copy.")
+}
+
+Rel(forma_query, forma_cms, "[ADDED] Queries published content\nChange: New build-time read.", "GROQ / HTTPS")
+Rel(forma_query, forma_validation, "[ADDED] Validates the query result\nChange: New validation call.", "TypeScript function")
+Rel(forma_validation, forma_snapshot, "[ADDED] Supplies parsed content\nChange: Only parsed data passes.", "TypeScript value")
+Rel(forma_snapshot, forma_prerender, "[ADDED] Provides the snapshot\nChange: Same content for both routes.", "ES module")
+Rel(forma_prerender, forma_web, "[CHANGED] Produces both static pages\nChange: CMS content replaces local copy.", "Static files")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

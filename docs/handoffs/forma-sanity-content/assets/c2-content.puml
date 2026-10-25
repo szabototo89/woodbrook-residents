@@ -1,0 +1,34 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Forma content backend — C2 — changes from c0e96a4
+
+Person(forma_customer, "Prospective customer", "Browses services, projects and practical guides")
+Person(forma_editor, "Forma content editor", "Edits and publishes website content")
+Person(forma_maintainer, "Forma maintainer", "Rebuilds and deploys the published website")
+System_Ext(forma_cms, "[ADDED] Forma Sanity project", "Stores Forma published content, drafts and images\nChange: Stores migrated Forma documents and images.")
+System_Ext(forma_ci, "GitHub Actions", "Runs the Forma build and deploy workflow on main")
+System_Ext(forma_pages, "Cloudflare Pages", "Hosts the successfully built static Forma website")
+System_Boundary(forma_system, "Forma Studio website") {
+  Container(forma_web, "[CHANGED] Forma public site", "React and prerendered HTML", "Displays the two static pages and opens email enquiries\nChange: Copy, metadata and image URLs come from the validated snapshot.")
+  Container(forma_studio, "[ADDED] Forma content editor", "Sanity Studio SPA", "Edits and publishes Forma content with field guidance\nChange: New dedicated editor with contextual help on every field.")
+  Container(forma_builder, "[CHANGED] Forma static builder", "Bun, Vite and TanStack Start", "Validates content and builds both public pages\nChange: Requires fresh Sanity content to pass Zod before prerendering.")
+}
+
+Rel(forma_customer, forma_web, "Browses static pages using", "Browser")
+Rel(forma_editor, forma_studio, "[ADDED] Edits content using\nChange: Introduces no-code content editing.", "Browser")
+Rel(forma_studio, forma_cms, "[ADDED] Saves drafts and publishes\nChange: Writes only to the dedicated Forma project.", "Sanity API / HTTPS")
+Rel(forma_builder, forma_cms, "[ADDED] Reads published content\nChange: Published-only reads replace TypeScript content imports.", "GROQ / HTTPS")
+Rel(forma_builder, forma_web, "[CHANGED] Builds the public pages\nChange: Embeds validated CMS content rather than local copy.", "Vite virtual module and HTML")
+Rel(forma_web, forma_cms, "[ADDED] Loads published image assets\nChange: Loads the migrated images from Sanity CDN.", "Sanity CDN / HTTPS")
+Rel(forma_maintainer, forma_ci, "Starts a rebuild after publishing", "workflow_dispatch")
+Rel(forma_ci, forma_builder, "Runs content validation and static build", "Bun CLI")
+Rel(forma_ci, forma_pages, "Uploads successful static output", "Wrangler / HTTPS")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

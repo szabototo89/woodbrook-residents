@@ -1,0 +1,31 @@
+Base: d3f8147295cc9d99e1376ddf678b7a091fe0330e
+
+Before implementation:
+  bun test scripts/eslint-forma-type-safety.test.ts scripts/deploy-forma.test.ts
+  Exit 1. 17 pass, 19 fail.
+  Fifteen failures identify missing lint/build/CI enforcement.
+  Four compiler fixture failures were setup errors (TS2688: ambient types
+  unavailable from the temporary directory), not evidence of compiler policy
+  failure. The isolated fixture configuration now omits unrelated ambient types
+  without weakening strict compiler flags.
+
+The first production app lint with the new policy reports 53 violations:
+unsafe Lighthouse/configuration JSON access and non-null assertions in unit
+and Playwright tests. No generated file requires changes.
+
+Before adding the Lighthouse validation helper:
+  bun run --cwd apps/forma-studio-web vitest run tests/lighthouseScores.test.ts
+  Exit 1: the new helper does not yet exist.
+
+After implementation and fixture corrections:
+  bun test scripts/eslint-forma-type-safety.test.ts scripts/deploy-forma.test.ts
+  Exit 0. 39 pass, 0 fail, 149 assertions.
+  Every forbidden lint case exits 1 with its expected rule ID.
+  Implicit-any/null/indexed-access compiler probes exit 2 with their expected
+  diagnostics. Valid narrowing, validation, initialization and negation exit 0.
+  Production build probes exit 2 (compiler) or 1 (lint), before Vite bundling.
+  Temporary negative sources are removed in finally blocks.
+
+  bun run --cwd apps/forma-studio-web typecheck
+  bun run --cwd apps/forma-studio-web lint
+  Both exit 0.

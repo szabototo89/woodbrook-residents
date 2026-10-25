@@ -14,20 +14,28 @@ function contentFixture() {
   });
   fixture.settings.logo = resolved(fixture.settings.logo);
   fixture.home.hero.image = resolved(fixture.home.hero.image);
-  fixture.home.selectedWork[0]!.image = resolved(
-    fixture.home.selectedWork[0]!.image,
-  );
-  fixture.journal.guides[0]!.image = resolved(
-    fixture.journal.guides[0]!.image!,
-  );
+  const work = fixture.home.selectedWork[0];
+  const guide = fixture.journal.guides[0];
+  if (!work || !guide?.image)
+    throw new Error(
+      'The fixture needs a selected project and an illustrated guide.',
+    );
+  work.image = resolved(work.image);
+  guide.image = resolved(guide.image);
   return fixture;
 }
 function replaceField(payload: object, path: string, value: unknown) {
   const keys = path.split('.');
-  const parent = keys
-    .slice(0, -1)
-    .reduce<object>((current, key) => Reflect.get(current, key), payload);
-  Reflect.set(parent, keys.at(-1)!, value);
+  const parent = keys.slice(0, -1).reduce<unknown>((current, key) => {
+    if (typeof current !== 'object' || current === null)
+      throw new Error(`Fixture path is missing: ${path}`);
+    const child: unknown = Reflect.get(current, key);
+    return child;
+  }, payload);
+  const key = keys.at(-1);
+  if (typeof parent !== 'object' || parent === null || !key)
+    throw new Error(`Fixture path is missing: ${path}`);
+  Reflect.set(parent, key, value);
 }
 
 test('valid published content retains services, references and dated guide sources', () => {
@@ -117,13 +125,15 @@ test('unknown fields never reach the public snapshot', () => {
 
 test('fetches fresh published content and validates the response', async () => {
   const request = vi
-    .fn()
+    .fn<(url: string, init?: RequestInit) => Promise<Response>>()
     .mockResolvedValue(Response.json({ result: contentFixture() }));
   const result = await fetchFormaContent(
     { projectId: 'ms27me7o', dataset: 'production', token: 'test-secret' },
     request,
   );
-  const url = new URL(request.mock.calls[0]![0]);
+  const firstCall = request.mock.calls[0];
+  if (!firstCall) throw new Error('Expected a Sanity query request.');
+  const url = new URL(firstCall[0]);
   expect(url.hostname).toBe('ms27me7o.api.sanity.io');
   expect(url.searchParams.get('perspective')).toBe('published');
   expect(url.searchParams.get('query')).toBe(FORMA_QUERY);

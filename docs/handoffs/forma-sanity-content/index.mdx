@@ -1,0 +1,147 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import journalDesktop from './assets/journal-desktop.png';
+import journalMobile from './assets/journal-mobile.png';
+import contextSource from './assets/c1-content.puml?raw';
+import contextImage from './assets/c1-content.svg';
+import containerSource from './assets/c2-content.puml?raw';
+import containerImage from './assets/c2-content.svg';
+import componentSource from './assets/c3-content.puml?raw';
+import componentImage from './assets/c3-content.svg';
+
+export const metadata = {
+  title: 'Forma Studio: validated Sanity content',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a172ca-9b0b-7e10-b843-aca49215b1b5',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/forma-studio-use-sanity-as-the-content-backend-w',
+  branch: 'szabototo89/forma-studio-use-sanity-as-the-content-backend-w',
+  commit: 'a76e609',
+  updatedAt: '2026-10-25T12:00:06Z',
+  summary:
+    'Forma replaces local copy with published Sanity content, validates every build with Zod, and gives editors contextual help on every field.',
+};
+
+## Goal
+
+Editors manage Forma copy, images and metadata without application edits. The site keeps its existing design, static pages and email enquiry flow.
+
+## Technical changes
+
+Baseline: `c0e96a4221951871b72c27a5cad5e3ecb1167058`; implementation commit `a76e609` is recorded in the header. The final integration also preserves main `107d1b2` and its strict TypeScript gates. Sanity is the content editor and store. Zod checks unknown data at runtime before the application consumes it.
+
+| Area               | Before                                            | After                                                                                 | Why                                                         | Code                                                                                     |
+| ------------------ | ------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Editing            | Local TypeScript and component copy               | Dedicated project `ms27me7o`, dataset `production`, and hosted Studio                 | Keep Forma separate from resident content                   | `apps/forma-studio/sanity.config.ts`                                                     |
+| Editorial guidance | No Forma forms                                    | Plain-language descriptions on every custom field                                     | Explain location, input and publishing to regular editors   | `apps/forma-studio/schemaTypes/editorialHelp.ts`                                         |
+| Runtime contract   | No content validation                             | Contextual Zod descriptions, inferred types and required-content checks               | Reject incomplete, malformed or unpublished payloads        | `apps/forma-studio-web/src/features/content/schema.ts`                                   |
+| Content loading    | Direct local imports                              | Published GROQ query resolves pages, guides, work and assets                          | Preserve missing references so validation catches them      | `apps/forma-studio-web/src/features/content/fetchContent.ts`                             |
+| Build              | Prerenders local copy                             | Fetches and validates before emitting one virtual snapshot                            | Failed content prevents a new deployment; no fallback       | `apps/forma-studio-web/vite.config.ts`                                                   |
+| UI and metadata    | Hardcoded copy and local image URLs               | Shared parsed snapshot supplies both routes, metadata and chrome                      | Keep design and behavior while enabling editing             | `apps/forma-studio-web/src/features/content/content.ts`, `pageHead.ts`, `home/`, `blog/` |
+| Migration          | Existing public copy and editorial draft comments | Creates missing documents, native image assets and guide drafts; retains source dates | Preserve current copy and editor changes on reruns          | `apps/forma-studio-web/scripts/migrateContent.ts`, `migrationDocuments.ts`               |
+| Rebuild            | Push and manual workflow                          | Also accepts isolated `forma-sanity-update` dispatch                                  | Support Forma publishing without selecting Laura's workflow | `.github/workflows/deploy-forma-studio.yml`                                              |
+| Agent guidance     | No content-layer guide                            | Documents ownership, identifiers, data flow and field-change checklist                | Let a new coding agent extend the contract safely           | `apps/forma-studio-web/src/features/content/README.md`                                   |
+
+Services, packages, process steps and FAQs publish with the homepage. Work and guides use independent referenced documents. Existing public guides retain published copies, matching drafts and a `needs-review` marker. This marker does not control publication. Required missing references fail the build; absent optional guide images use the existing icon.
+
+The build token stays outside the module graph. Only parsed content enters the public bundles. No browser content-API calls or enquiry-submission service are added. Images load from Sanity's public image CDN. Migration input is used only by the explicit migration command and offline tests.
+
+## Architecture changes
+
+Forma helps prospective customers understand website services and enquire by email. The new editor and content store introduce a publishing boundary. A fresh, published snapshot must pass validation before static output reaches Cloudflare Pages. Manual rebuilds are supported; automated webhook delivery is operator setup, not an active new interaction.
+
+| Level | Change                                                                                     | Evidence                     |
+| ----- | ------------------------------------------------------------------------------------------ | ---------------------------- |
+| C1    | Changed website content ownership; added isolated Sanity project and editorial interaction | Context view below           |
+| C2    | Added editor and published content reads; changed static builder and public image source   | Container view below         |
+| C3    | Added query, validation and snapshot responsibilities; changed prerender input             | Builder component view below |
+
+<PlantUmlDiagram
+  title="Forma content — system context"
+  source={contextSource}
+  image={contextImage}
+/>
+
+Change: editors now publish through a dedicated project instead of changing application copy. Unmarked elements and relationships remain unchanged context.
+
+<PlantUmlDiagram
+  title="Forma content — containers"
+  source={containerSource}
+  image={containerImage}
+/>
+
+Change: the new Studio writes to Forma's store; the builder validates published reads before generating the existing public pages.
+
+<PlantUmlDiagram
+  title="Forma static builder — components"
+  source={componentSource}
+  image={componentImage}
+/>
+
+Change: unknown query results pass through Zod before the snapshot supplies prerendering and hydration. Drafts, credentials and unknown fields cannot enter the emitted content.
+
+## Verification
+
+| Check                      | Result  | Evidence                                                                                                                                  |
+| -------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD                        | PASS    | Boundary, build, migration, CMS-driven UI, workflow and every-field-help tests failed before their implementation.                        |
+| Forma unit coverage        | PASS    | `bun run --cwd apps/forma-studio-web test:unit`: 66 tests after main integration; coverage exceeds the existing 90% gate.                 |
+| Studio fields              | PASS    | `bun run --cwd apps/forma-studio test:unit`: 5 tests; every custom field has contextual help.                                             |
+| Type checking              | PASS    | Forma web and Studio `typecheck` commands and the merged Forma strict lint gate exit 0.                                                   |
+| Rebuild workflow           | PASS    | `bun test scripts/deploy-forma.test.ts`: 3 tests cover existing deploy behavior and isolated dispatch.                                    |
+| Live migration             | PASS    | Migration rerun creates only missing records; 10 create-if-missing documents; the published snapshot validates.                           |
+| Hosted editor              | PASS    | Studio deployed at `https://forma-studio-content.sanity.studio/`; browser review confirms process-field descriptions and nested help.     |
+| Existing browser behavior  | PASS    | Playwright: 47 passed, 7 desktop-only exclusions; Chrome desktop, Chrome phone and WebKit phone.                                          |
+| Content/browser boundary   | PASS    | Additional Playwright run: 4 passed, 2 duplicate-capture exclusions; no browser Sanity content requests or draft IDs in prerendered HTML. |
+| Desktop/mobile review      | PASS    | Playwright screenshots use 1440×1000 and 390×844 viewports at 2× scale; both routes retain their layout.                                  |
+| Repository build           | PASS    | `bun run build` exits 0 across all buildable applications, including the new Studio and live Forma content.                               |
+| C4 sources and SVGs        | PASS    | Shared registry generates three annotated views; PlantUML renders locally; `c4:check` passes.                                             |
+| Handoff structure          | NOT RUN | `bun run --cwd apps/handoffs docs:check` passes; the independent handoff viewer also builds.                                              |
+| Content failure gate       | PASS    | Missing-dataset production build exits 1 before bundling with a credential-free Sanity diagnostic.                                        |
+| Published Studio documents | PASS    | Seven published documents have no reported Sanity markers; MCP validation cannot run custom rules, covered by local schema tests.         |
+| Bulk Studio CLI            | FAIL    | Read-only `sanity documents validate --yes --format json` exits 1 without JSON; used MCP and local tests instead.                         |
+| Diagram browser controls   | PASS    | All three SVGs load at 1440px and 390px; zoom, fit, source disclosure and full-size links work without page overflow.                     |
+| Automatic webhook delivery | NOT RUN | Dedicated GitHub credential and webhook activation remain operator setup; manual publish-then-rebuild is documented.                      |
+| Preview tab                | NOT RUN | Dev server is running; cmux rejects access from this process, so its browser tab could not be opened.                                     |
+
+## Appearance
+
+These captures use the migrated, published Forma content rather than invented sample claims. Journal captures show the first guide expanded.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Homepage desktop',
+      alt: 'Forma homepage on desktop using published content',
+      description:
+        'Review original hero, image credit, services, packages, project and email contact.',
+    },
+    {
+      src: mobile,
+      title: 'Homepage mobile',
+      alt: 'Forma homepage on a phone using published content',
+      description:
+        'Review stacked content, readable cards and mobile navigation at 390 pixels.',
+    },
+    {
+      src: journalDesktop,
+      title: 'Journal desktop',
+      alt: 'Forma journal with a guide expanded on desktop',
+      description:
+        'Review the expanded guide, preserved source URL and source-check date.',
+    },
+    {
+      src: journalMobile,
+      title: 'Journal mobile',
+      alt: 'Forma journal with a guide expanded on a phone',
+      description:
+        'Review source links, readable paragraphs and the route back to contact.',
+    },
+  ]}
+/>
+
+## Next steps
+
+No implementation work remains. Operators may enable the optional webhook with a dedicated dispatch credential; publishing plus a manual workflow run already supports deployment.

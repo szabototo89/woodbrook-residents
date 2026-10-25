@@ -321,6 +321,90 @@
       "description": "Validates category and date order, then selects matching articles",
       "technology": "TypeScript",
       "parent": "woodbrook_browser"
+    },
+    "forma_system": {
+      "kind": "system",
+      "name": "Forma Studio website",
+      "description": "Explains website services and helps prospective customers enquire by email"
+    },
+    "forma_customer": {
+      "kind": "person",
+      "name": "Prospective customer",
+      "description": "Browses services, projects and practical guides"
+    },
+    "forma_editor": {
+      "kind": "person",
+      "name": "Forma content editor",
+      "description": "Edits and publishes website content"
+    },
+    "forma_maintainer": {
+      "kind": "person",
+      "name": "Forma maintainer",
+      "description": "Rebuilds and deploys the published website"
+    },
+    "forma_cms": {
+      "kind": "system",
+      "name": "Forma Sanity project",
+      "description": "Stores Forma published content, drafts and images"
+    },
+    "forma_pages": {
+      "kind": "system",
+      "name": "Cloudflare Pages",
+      "description": "Hosts the successfully built static Forma website"
+    },
+    "forma_ci": {
+      "kind": "system",
+      "name": "GitHub Actions",
+      "description": "Runs the Forma build and deploy workflow on main"
+    },
+    "forma_web": {
+      "kind": "container",
+      "name": "Forma public site",
+      "description": "Displays the two static pages and opens email enquiries",
+      "technology": "React and prerendered HTML",
+      "parent": "forma_system"
+    },
+    "forma_studio": {
+      "kind": "container",
+      "name": "Forma content editor",
+      "description": "Edits and publishes Forma content with field guidance",
+      "technology": "Sanity Studio SPA",
+      "parent": "forma_system"
+    },
+    "forma_builder": {
+      "kind": "container",
+      "name": "Forma static builder",
+      "description": "Validates content and builds both public pages",
+      "technology": "Bun, Vite and TanStack Start",
+      "parent": "forma_system"
+    },
+    "forma_query": {
+      "kind": "component",
+      "name": "Published content reader",
+      "description": "Reads published pages and resolves references",
+      "technology": "GROQ over HTTPS",
+      "parent": "forma_builder"
+    },
+    "forma_validation": {
+      "kind": "component",
+      "name": "Content validation",
+      "description": "Checks required content at runtime",
+      "technology": "Zod runtime schemas",
+      "parent": "forma_builder"
+    },
+    "forma_snapshot": {
+      "kind": "component",
+      "name": "Build snapshot module",
+      "description": "Shares parsed content with both route bundles",
+      "technology": "Vite virtual module",
+      "parent": "forma_builder"
+    },
+    "forma_prerender": {
+      "kind": "component",
+      "name": "Page prerendering",
+      "description": "Renders homepage and journal as static HTML",
+      "technology": "TanStack Start",
+      "parent": "forma_builder"
     }
   },
   "relationships": {
@@ -619,6 +703,108 @@
       "to": "shared_featured_news_card",
       "label": "Displays the feature in the default view",
       "technology": "React props"
+    },
+    "forma_customer_system": {
+      "from": "forma_customer",
+      "to": "forma_system",
+      "label": "Browses services and sends email enquiries using",
+      "technology": "Browser"
+    },
+    "forma_editor_system": {
+      "from": "forma_editor",
+      "to": "forma_system",
+      "label": "Edits and publishes content using",
+      "technology": "Browser"
+    },
+    "forma_system_cms": {
+      "from": "forma_system",
+      "to": "forma_cms",
+      "label": "Reads published content and writes editorial changes",
+      "technology": "HTTPS"
+    },
+    "forma_customer_web": {
+      "from": "forma_customer",
+      "to": "forma_web",
+      "label": "Browses static pages using",
+      "technology": "Browser"
+    },
+    "forma_editor_studio": {
+      "from": "forma_editor",
+      "to": "forma_studio",
+      "label": "Edits content using",
+      "technology": "Browser"
+    },
+    "forma_studio_cms": {
+      "from": "forma_studio",
+      "to": "forma_cms",
+      "label": "Saves drafts and publishes",
+      "technology": "Sanity API / HTTPS"
+    },
+    "forma_builder_cms": {
+      "from": "forma_builder",
+      "to": "forma_cms",
+      "label": "Reads published content",
+      "technology": "GROQ / HTTPS"
+    },
+    "forma_builder_web": {
+      "from": "forma_builder",
+      "to": "forma_web",
+      "label": "Builds the public pages",
+      "technology": "Vite virtual module and HTML"
+    },
+    "forma_web_assets": {
+      "from": "forma_web",
+      "to": "forma_cms",
+      "label": "Loads published image assets",
+      "technology": "Sanity CDN / HTTPS"
+    },
+    "forma_maintainer_ci": {
+      "from": "forma_maintainer",
+      "to": "forma_ci",
+      "label": "Starts a rebuild after publishing",
+      "technology": "workflow_dispatch"
+    },
+    "forma_ci_builder": {
+      "from": "forma_ci",
+      "to": "forma_builder",
+      "label": "Runs content validation and static build",
+      "technology": "Bun CLI"
+    },
+    "forma_ci_pages": {
+      "from": "forma_ci",
+      "to": "forma_pages",
+      "label": "Uploads successful static output",
+      "technology": "Wrangler / HTTPS"
+    },
+    "forma_query_cms": {
+      "from": "forma_query",
+      "to": "forma_cms",
+      "label": "Queries published content",
+      "technology": "GROQ / HTTPS"
+    },
+    "forma_query_validation": {
+      "from": "forma_query",
+      "to": "forma_validation",
+      "label": "Validates the query result",
+      "technology": "TypeScript function"
+    },
+    "forma_validation_snapshot": {
+      "from": "forma_validation",
+      "to": "forma_snapshot",
+      "label": "Supplies parsed content",
+      "technology": "TypeScript value"
+    },
+    "forma_snapshot_prerender": {
+      "from": "forma_snapshot",
+      "to": "forma_prerender",
+      "label": "Provides the snapshot",
+      "technology": "ES module"
+    },
+    "forma_prerender_web": {
+      "from": "forma_prerender",
+      "to": "forma_web",
+      "label": "Produces both static pages",
+      "technology": "Static files"
     }
   },
   "diagrams": {
@@ -1158,6 +1344,181 @@
           "filtered_news_feature_card": {
             "status": "changed",
             "description": "The feature is now prominent only with All categories and Newest first."
+          }
+        }
+      }
+    },
+    "forma_content_context": {
+      "level": "C1",
+      "scope": "forma_system",
+      "title": "Forma content backend — C1 — changes from c0e96a4",
+      "handoff": "forma-sanity-content",
+      "source": "docs/handoffs/forma-sanity-content/assets/c1-content.puml",
+      "elements": [
+        "forma_customer",
+        "forma_editor",
+        "forma_system",
+        "forma_cms"
+      ],
+      "relationships": [
+        "forma_customer_system",
+        "forma_editor_system",
+        "forma_system_cms"
+      ],
+      "changes": {
+        "elements": {
+          "forma_system": {
+            "status": "changed",
+            "description": "Previously shipped local copy; now uses validated published content."
+          },
+          "forma_cms": {
+            "status": "added",
+            "description": "New isolated Forma project; no resident content."
+          }
+        },
+        "relationships": {
+          "forma_editor_system": {
+            "status": "added",
+            "description": "Editors now change copy without application edits."
+          },
+          "forma_system_cms": {
+            "status": "added",
+            "description": "Published reads and editorial writes replace local content."
+          }
+        }
+      }
+    },
+    "forma_content_containers": {
+      "level": "C2",
+      "scope": "forma_system",
+      "title": "Forma content backend — C2 — changes from c0e96a4",
+      "handoff": "forma-sanity-content",
+      "source": "docs/handoffs/forma-sanity-content/assets/c2-content.puml",
+      "elements": [
+        "forma_customer",
+        "forma_editor",
+        "forma_maintainer",
+        "forma_web",
+        "forma_studio",
+        "forma_builder",
+        "forma_cms",
+        "forma_ci",
+        "forma_pages"
+      ],
+      "relationships": [
+        "forma_customer_web",
+        "forma_editor_studio",
+        "forma_studio_cms",
+        "forma_builder_cms",
+        "forma_builder_web",
+        "forma_web_assets",
+        "forma_maintainer_ci",
+        "forma_ci_builder",
+        "forma_ci_pages"
+      ],
+      "changes": {
+        "elements": {
+          "forma_studio": {
+            "status": "added",
+            "description": "New dedicated editor with contextual help on every field."
+          },
+          "forma_builder": {
+            "status": "changed",
+            "description": "Requires fresh Sanity content to pass Zod before prerendering."
+          },
+          "forma_web": {
+            "status": "changed",
+            "description": "Copy, metadata and image URLs come from the validated snapshot."
+          },
+          "forma_cms": {
+            "status": "added",
+            "description": "Stores migrated Forma documents and images."
+          }
+        },
+        "relationships": {
+          "forma_editor_studio": {
+            "status": "added",
+            "description": "Introduces no-code content editing."
+          },
+          "forma_studio_cms": {
+            "status": "added",
+            "description": "Writes only to the dedicated Forma project."
+          },
+          "forma_builder_cms": {
+            "status": "added",
+            "description": "Published-only reads replace TypeScript content imports."
+          },
+          "forma_builder_web": {
+            "status": "changed",
+            "description": "Embeds validated CMS content rather than local copy."
+          },
+          "forma_web_assets": {
+            "status": "added",
+            "description": "Loads the migrated images from Sanity CDN."
+          }
+        }
+      }
+    },
+    "forma_content_components": {
+      "level": "C3",
+      "scope": "forma_builder",
+      "title": "Forma content backend — C3 — changes from c0e96a4",
+      "handoff": "forma-sanity-content",
+      "source": "docs/handoffs/forma-sanity-content/assets/c3-content.puml",
+      "elements": [
+        "forma_query",
+        "forma_validation",
+        "forma_snapshot",
+        "forma_prerender",
+        "forma_cms",
+        "forma_web"
+      ],
+      "relationships": [
+        "forma_query_cms",
+        "forma_query_validation",
+        "forma_validation_snapshot",
+        "forma_snapshot_prerender",
+        "forma_prerender_web"
+      ],
+      "changes": {
+        "elements": {
+          "forma_query": {
+            "status": "added",
+            "description": "New published-only read boundary."
+          },
+          "forma_validation": {
+            "status": "added",
+            "description": "New mandatory runtime check."
+          },
+          "forma_snapshot": {
+            "status": "added",
+            "description": "New parsed-content module."
+          },
+          "forma_prerender": {
+            "status": "changed",
+            "description": "CMS snapshot replaces local copy."
+          }
+        },
+        "relationships": {
+          "forma_query_cms": {
+            "status": "added",
+            "description": "New build-time read."
+          },
+          "forma_query_validation": {
+            "status": "added",
+            "description": "New validation call."
+          },
+          "forma_validation_snapshot": {
+            "status": "added",
+            "description": "Only parsed data passes."
+          },
+          "forma_snapshot_prerender": {
+            "status": "added",
+            "description": "Same content for both routes."
+          },
+          "forma_prerender_web": {
+            "status": "changed",
+            "description": "CMS content replaces local copy."
           }
         }
       }

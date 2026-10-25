@@ -131,10 +131,12 @@ test('branding fits and the hero note is readable against a solid background', a
   const noteBounds = await note.boundingBox();
   expect(heroBounds).not.toBeNull();
   expect(noteBounds).not.toBeNull();
-  expect(noteBounds!.width).toBeLessThan(heroBounds!.width * 0.6);
-  expect(noteBounds!.height).toBeLessThan(heroBounds!.height * 0.7);
-  expect(noteBounds!.x + noteBounds!.width).toBeLessThanOrEqual(
-    heroBounds!.x + heroBounds!.width,
+  if (heroBounds === null || noteBounds === null)
+    throw new Error('Expected visible hero and note');
+  expect(noteBounds.width).toBeLessThan(heroBounds.width * 0.6);
+  expect(noteBounds.height).toBeLessThan(heroBounds.height * 0.7);
+  expect(noteBounds.x + noteBounds.width).toBeLessThanOrEqual(
+    heroBounds.x + heroBounds.width,
   );
   const noteStyle = await note.evaluate((element) => ({
     background: getComputedStyle(element).backgroundColor,
@@ -144,7 +146,7 @@ test('branding fits and the hero note is readable against a solid background', a
   expect(noteStyle.background).toBe('rgb(250, 248, 241)');
   expect(noteStyle.color).toBe('rgb(29, 64, 45)');
   expect(noteStyle.fontSize).toBeGreaterThanOrEqual(14);
-  expect(noteBounds!.y).toBeGreaterThanOrEqual(heroBounds!.y);
+  expect(noteBounds.y).toBeGreaterThanOrEqual(heroBounds.y);
 });
 
 test('blog route is prerendered and the menu navigates between the home and guides', async ({
@@ -204,10 +206,12 @@ test('navigation controls stay in the header at a 320px phone width', async ({
   const toggle = await page
     .getByRole('button', { name: 'Open navigation' })
     .boundingBox();
-  expect(toggle!.y + toggle!.height).toBeLessThanOrEqual(
-    header!.y + header!.height,
+  if (header === null || toggle === null)
+    throw new Error('Expected visible header and navigation control');
+  expect(toggle.y + toggle.height).toBeLessThanOrEqual(
+    header.y + header.height,
   );
-  expect(toggle!.x + toggle!.width).toBeLessThanOrEqual(320);
+  expect(toggle.x + toggle.width).toBeLessThanOrEqual(320);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
@@ -231,9 +235,11 @@ test('blog category labels have accessible text contrast', async ({ page }) => {
   const ratios = await page
     .locator('article .eyebrow')
     .evaluateAll((labels) => {
-      const luminance = (color: string) =>
-        color
-          .match(/\d+/g)!
+      const luminance = (color: string) => {
+        const channels = color.match(/\d+/g);
+        if (channels === null)
+          throw new Error(`Expected numeric color channels: ${color}`);
+        return channels
           .slice(0, 3)
           .map((channel) => Number(channel) / 255)
           .map((channel) =>
@@ -246,11 +252,13 @@ test('blog category labels have accessible text contrast', async ({ page }) => {
               sum + channel * ([0.2126, 0.7152, 0.0722][index] ?? 0),
             0,
           );
+      };
       return labels.map((label) => {
+        const article = label.closest('article');
+        if (article === null)
+          throw new Error('Expected a journal article around each category');
         const foreground = luminance(getComputedStyle(label).color);
-        const background = luminance(
-          getComputedStyle(label.closest('article')!).backgroundColor,
-        );
+        const background = luminance(getComputedStyle(article).backgroundColor);
         return (
           (Math.max(foreground, background) + 0.05) /
           (Math.min(foreground, background) + 0.05)
@@ -310,8 +318,9 @@ test('content and controls remain readable at tablet and small phone widths', as
   const toggle = await page
     .getByRole('button', { name: 'Open navigation' })
     .boundingBox();
-  expect(toggle!.height).toBeGreaterThanOrEqual(44);
-  expect(toggle!.width).toBeGreaterThanOrEqual(44);
+  if (toggle === null) throw new Error('Expected a visible navigation control');
+  expect(toggle.height).toBeGreaterThanOrEqual(44);
+  expect(toggle.width).toBeGreaterThanOrEqual(44);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
@@ -335,9 +344,11 @@ test('the project preview fills the card above a compact summary', async ({
       name: 'Laura Faichney · All Things Art',
     })
     .boundingBox();
-  expect(image!.width).toBeGreaterThanOrEqual(card!.width - 2);
-  expect(image!.height / image!.width).toBeCloseTo(540 / 1440, 2);
-  expect(image!.y + image!.height).toBeLessThanOrEqual(title!.y);
+  if (card === null || image === null || title === null)
+    throw new Error('Expected visible project card, preview and title');
+  expect(image.width).toBeGreaterThanOrEqual(card.width - 2);
+  expect(image.height / image.width).toBeCloseTo(540 / 1440, 2);
+  expect(image.y + image.height).toBeLessThanOrEqual(title.y);
   const link = work.getByRole('link', {
     name: 'Preview Laura Faichney’s live website',
   });
@@ -360,14 +371,16 @@ test('the hero note stays compact and its text fits on the smallest phones', asy
       .getByRole('img', { name: /laptop displaying Laura Faichney/i })
       .boundingBox();
     const bounds = await note.boundingBox();
-    expect(bounds!.height).toBeLessThanOrEqual(photo!.height * 0.4);
+    if (bounds === null || photo === null)
+      throw new Error('Expected visible hero note and photo');
+    expect(bounds.height).toBeLessThanOrEqual(photo.height * 0.4);
     const text = await note.evaluate((element) => {
       const range = document.createRange();
       range.selectNodeContents(element);
       const bounds = range.getBoundingClientRect();
       return { left: bounds.left, right: bounds.right };
     });
-    expect(text.left).toBeGreaterThanOrEqual(bounds!.x);
-    expect(text.right).toBeLessThanOrEqual(bounds!.x + bounds!.width);
+    expect(text.left).toBeGreaterThanOrEqual(bounds.x);
+    expect(text.right).toBeLessThanOrEqual(bounds.x + bounds.width);
   }
 });

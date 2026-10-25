@@ -1,0 +1,21 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Context>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Forma content backend — C1 — changes from c0e96a4
+
+Person(forma_customer, "Prospective customer", "Browses services, projects and practical guides")
+Person(forma_editor, "Forma content editor", "Edits and publishes website content")
+System(forma_system, "[CHANGED] Forma Studio website", "Explains website services and helps prospective customers enquire by email\nChange: Previously shipped local copy; now uses validated published content.")
+System_Ext(forma_cms, "[ADDED] Forma Sanity project", "Stores Forma published content, drafts and images\nChange: New isolated Forma project; no resident content.")
+
+Rel(forma_customer, forma_system, "Browses services and sends email enquiries using", "Browser")
+Rel(forma_editor, forma_system, "[ADDED] Edits and publishes content using\nChange: Editors now change copy without application edits.", "Browser")
+Rel(forma_system, forma_cms, "[ADDED] Reads published content and writes editorial changes\nChange: Published reads and editorial writes replace local content.", "HTTPS")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

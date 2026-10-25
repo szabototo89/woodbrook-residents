@@ -30,3 +30,5 @@
 - [Forma Studio customer journey](forma-studio-customer-journey.md) — Available
 
 - [Forma Studio mobile design](forma-studio-mobile-design.md) — Available
+
+- [Forma Studio content editing](forma-sanity-content.md) — Available
