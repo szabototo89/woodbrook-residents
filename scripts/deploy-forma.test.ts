@@ -19,6 +19,9 @@ test('deploys Forma changes and shared dependency updates from main, with manual
           'apps/forma-studio-web/**',
           'package.json',
           'bun.lock',
+          'eslint*.js',
+          'scripts/app.ts',
+          'scripts/eslint-forma-type-safety.test.ts',
           '.github/workflows/deploy-forma-studio.yml',
         ]),
       },
@@ -39,6 +42,8 @@ test('checks and builds Forma before publishing only its static output to the ex
           { uses: 'oven-sh/setup-bun@v2', with: { 'bun-version': '1.4.0' } },
           { run: 'bun install --frozen-lockfile' },
           { run: 'bun run --cwd apps/forma-studio-web typecheck' },
+          { run: 'bun run --cwd apps/forma-studio-web lint' },
+          { run: 'bun test scripts/eslint-forma-type-safety.test.ts' },
           { run: 'bun run --cwd apps/forma-studio-web test:unit' },
           { run: 'bun run --cwd apps/forma-studio-web build' },
           {

@@ -43,7 +43,8 @@ test('homepage links lead to in-page sections and contact has a useful next step
     const link = within(nav).getByRole('link', { name });
     const href = link.getAttribute('href');
     expect(href).toMatch(/^#/);
-    expect(document.querySelector(href!)).toBeInTheDocument();
+    if (href === null) throw new Error(`Missing destination for ${name}`);
+    expect(document.querySelector(href)).toBeInTheDocument();
   });
   screen
     .getAllByRole('link', { name: /discuss your project/i })
@@ -55,9 +56,11 @@ test('homepage links lead to in-page sections and contact has a useful next step
   expect(
     screen.getAllByText('What’s included', { selector: 'summary' }),
   ).toHaveLength(5);
-  const enquiry = new URL(
-    screen.getByRole('link', { name: /email us/i }).getAttribute('href')!,
-  );
+  const enquiryHref = screen
+    .getByRole('link', { name: /email us/i })
+    .getAttribute('href');
+  if (enquiryHref === null) throw new Error('Missing enquiry destination');
+  const enquiry = new URL(enquiryHref);
   expect(enquiry.protocol).toBe('mailto:');
   expect(enquiry.pathname).toBe('szabototo89@gmail.com');
   expect(enquiry.searchParams.get('subject')).toBe('Website project enquiry');
@@ -150,7 +153,8 @@ test('service details explain deliverables and packages have a next step', async
   render(<HomePage />);
   const card = screen
     .getByRole('heading', { name: 'Local SEO' })
-    .closest('article')!;
+    .closest('article');
+  if (card === null) throw new Error('Missing Local SEO service card');
   const details = within(card).getByText('What’s included', {
     selector: 'summary',
   });
@@ -184,7 +188,9 @@ test('collapsed FAQs retain a valid controlled panel and answers stay hidden', a
   const first = screen.getByRole('button', {
     name: 'How long does a website take?',
   });
-  const panel = document.getElementById(first.getAttribute('aria-controls')!);
+  const panelId = first.getAttribute('aria-controls');
+  if (panelId === null) throw new Error('FAQ control has no panel ID');
+  const panel = document.getElementById(panelId);
   expect(panel).toBeInTheDocument();
   expect(panel).not.toBeVisible();
   await user.click(first);
