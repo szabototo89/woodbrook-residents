@@ -1,0 +1,49 @@
+bun test v1.4.0 (1381054db)
+
+scripts/deploy-forma.test.ts:
+(pass) deploys Forma changes and shared dependency updates from main, with manual reruns [0.44ms]
+(pass) checks and builds Forma before publishing only its static output to the existing project [0.07ms]
+
+scripts/eslint-forma-type-safety.test.ts:
+(pass) Forma lint exits nonzero for explicit any [1957.82ms]
+(pass) Forma lint exits nonzero for as any [1090.97ms]
+(pass) Forma lint exits nonzero for any array [1088.29ms]
+(pass) Forma lint exits nonzero for generic any [1159.39ms]
+(pass) Forma lint exits nonzero for unsafe assignment [1176.17ms]
+(pass) Forma lint exits nonzero for unsafe argument [1234.96ms]
+(pass) Forma lint exits nonzero for unsafe return [1209.42ms]
+(pass) Forma lint exits nonzero for unsafe call [1305.73ms]
+(pass) Forma lint exits nonzero for unsafe member [1655.85ms]
+(pass) Forma lint exits nonzero for postfix assertion [5450.18ms]
+(pass) Forma lint exits nonzero for optional-chain assertion [2782.44ms]
+(pass) Forma lint exits nonzero for property assignment assertion [2584.21ms]
+(pass) Forma lint exits nonzero for variable assignment assertion [2888.35ms]
+(pass) Forma lint exits nonzero for compiler suppression [2410.39ms]
+(pass) Forma lint exits nonzero for file suppression [2366.34ms]
+(pass) Forma lint exits nonzero for expected-error bypass [1854.28ms]
+(pass) Forma lint exits nonzero for type assertion bypass [1701.76ms]
+(pass) Forma lint cannot be disabled with an inline suppression [1787.87ms]
+(pass) Forma lint accepts validation, guards and logical negation in src/router.tsx [4074.84ms]
+(pass) Forma lint accepts validation, guards and logical negation in src/features/home/HomePage.test.tsx [3165.47ms]
+(pass) Forma lint accepts validation, guards and logical negation in tests/config.test.ts [4620.58ms]
+(pass) Forma lint accepts validation, guards and logical negation in tests/e2e/home.spec.ts [4834.09ms]
+(pass) Forma lint accepts validation, guards and logical negation in scripts/lighthouse-config.ts [3091.65ms]
+(pass) Forma lint accepts validation, guards and logical negation in vite.config.ts [2622.72ms]
+(pass) Forma lint accepts validation, guards and logical negation in vitest.config.ts [2942.51ms]
+(pass) Forma lint accepts validation, guards and logical negation in playwright.config.ts [3342.95ms]
+(pass) Forma compiler exits nonzero for implicit any [315.43ms]
+(pass) Forma compiler exits nonzero for nullable access [276.23ms]
+(pass) Forma compiler exits nonzero for unchecked index [272.63ms]
+(pass) Forma compiler accepts the same validated and narrowed values [281.15ms]
+(pass) effective strict compiler options cover every maintained TypeScript file [17.85ms]
+(pass) generated routes are ignored while the handwritten router remains linted [2021.98ms]
+(pass) Forma-only type-aware rules do not change another app policy [704.83ms]
+(pass) Forma builds run both quality checks before Vite [0.16ms]
+(pass) repository lint includes the complete Forma lint gate [0.09ms]
+(pass) Forma production build stops before Vite for implicit any [2323.49ms]
+(pass) Forma production build stops before Vite for unsafe API flow [4327.43ms]
+
+ 39 pass
+ 0 fail
+ 149 expect() calls
+Ran 39 tests across 2 files. [75.04s]

@@ -1,0 +1,99 @@
+[WebServer] $ vite preview --port 4178 --host "127.0.0.1"
+[WebServer] (node:4490) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 54 tests using 6 workers
+
+(node:4504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4503) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4505) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4502) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [desktop] › tests/e2e/home.spec.ts:110:1 › branding fits and the hero note is readable against a solid background (527ms)
+  ✓   5 [desktop] › tests/e2e/home.spec.ts:90:1 › keyboard users can skip navigation and operate FAQs (539ms)
+  ✓   3 [desktop] › tests/e2e/home.spec.ts:200:1 › navigation controls stay in the header at a 320px phone width (609ms)
+  ✓   7 [desktop] › tests/e2e/home.spec.ts:233:1 › blog category labels have accessible text contrast (191ms)
+  ✓   4 [desktop] › tests/e2e/home.spec.ts:57:1 › homepage stays within viewport and navigation works on narrow screens (760ms)
+  ✓   9 [desktop] › tests/e2e/home.spec.ts:291:1 › content and controls remain readable at tablet and small phone widths (185ms)
+  ✓   1 [desktop] › tests/e2e/home.spec.ts:152:1 › blog route is prerendered and the menu navigates between the home and guides (853ms)
+  -  12 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 320px
+  -  13 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 360px
+  -  14 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 375px
+  ✓  11 [desktop] › tests/e2e/home.spec.ts:363:1 › the hero note stays compact and its text fits on the smallest phones (256ms)
+  ✓  10 [desktop] › tests/e2e/home.spec.ts:331:1 › the project preview fills the card above a compact summary (299ms)
+  -  15 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 390px
+  -  16 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 430px
+  -  17 [desktop] › tests/e2e/mobile-design.spec.ts:82:1 › mobile navigation stays reachable on a short landscape screen
+  -  18 [desktop] › tests/e2e/mobile-design.spec.ts:112:1 › journal guides remain readable and contact stays reachable on a small phone
+  ✓   8 [desktop] › tests/e2e/home.spec.ts:272:1 › work navigation reveals a project and service details are usable (916ms)
+(node:4634) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4635) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4637) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [desktop] › tests/e2e/home.spec.ts:4:1 › home page serves complete prerendered content and working section links (3.1s)
+(node:4638) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  21 [mobile] › tests/e2e/home.spec.ts:90:1 › keyboard users can skip navigation and operate FAQs (1.9s)
+  ✓  22 [mobile] › tests/e2e/home.spec.ts:110:1 › branding fits and the hero note is readable against a solid background (1.9s)
+(node:4724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  24 [mobile] › tests/e2e/home.spec.ts:233:1 › blog category labels have accessible text contrast (622ms)
+  ✓  26 [mobile] › tests/e2e/home.spec.ts:291:1 › content and controls remain readable at tablet and small phone widths (536ms)
+  ✓  20 [mobile] › tests/e2e/home.spec.ts:57:1 › homepage stays within viewport and navigation works on narrow screens (3.1s)
+  ✓  25 [mobile] › tests/e2e/home.spec.ts:272:1 › work navigation reveals a project and service details are usable (1.4s)
+  ✓  27 [mobile] › tests/e2e/home.spec.ts:200:1 › navigation controls stay in the header at a 320px phone width (825ms)
+  ✓  28 [mobile] › tests/e2e/home.spec.ts:331:1 › the project preview fills the card above a compact summary (657ms)
+  ✓  23 [mobile] › tests/e2e/home.spec.ts:152:1 › blog route is prerendered and the menu navigates between the home and guides (1.6s)
+  ✓  19 [mobile] › tests/e2e/home.spec.ts:4:1 › home page serves complete prerendered content and working section links (4.0s)
+  ✓  29 [mobile] › tests/e2e/home.spec.ts:363:1 › the hero note stays compact and its text fits on the smallest phones (887ms)
+  ✓  35 [mobile] › tests/e2e/mobile-design.spec.ts:82:1 › mobile navigation stays reachable on a short landscape screen (684ms)
+  ✓  30 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 320px (1.5s)
+  ✓  36 [mobile] › tests/e2e/mobile-design.spec.ts:112:1 › journal guides remain readable and contact stays reachable on a small phone (500ms)
+  ✓  31 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 360px (1.6s)
+(node:4873) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  32 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 375px (1.6s)
+  ✓  33 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 390px (1.6s)
+  ✓  34 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 430px (1.6s)
+(node:4874) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4875) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4894) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4895) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  39 [mobile-safari] › tests/e2e/home.spec.ts:90:1 › keyboard users can skip navigation and operate FAQs (2.2s)
+  ✓  37 [mobile-safari] › tests/e2e/home.spec.ts:4:1 › home page serves complete prerendered content and working section links (3.1s)
+  ✓  40 [mobile-safari] › tests/e2e/home.spec.ts:110:1 › branding fits and the hero note is readable against a solid background (2.5s)
+  ✓  38 [mobile-safari] › tests/e2e/home.spec.ts:57:1 › homepage stays within viewport and navigation works on narrow screens (3.1s)
+  ✓  43 [mobile-safari] › tests/e2e/home.spec.ts:233:1 › blog category labels have accessible text contrast (1.3s)
+  ✓  42 [mobile-safari] › tests/e2e/home.spec.ts:200:1 › navigation controls stay in the header at a 320px phone width (3.4s)
+  ✓  44 [mobile-safari] › tests/e2e/home.spec.ts:272:1 › work navigation reveals a project and service details are usable (1.6s)
+  ✓  45 [mobile-safari] › tests/e2e/home.spec.ts:291:1 › content and controls remain readable at tablet and small phone widths (1.5s)
+  ✓  41 [mobile-safari] › tests/e2e/home.spec.ts:152:1 › blog route is prerendered and the menu navigates between the home and guides (4.1s)
+  ✓  46 [mobile-safari] › tests/e2e/home.spec.ts:331:1 › the project preview fills the card above a compact summary (1.6s)
+  ✓  47 [mobile-safari] › tests/e2e/home.spec.ts:363:1 › the hero note stays compact and its text fits on the smallest phones (2.1s)
+  ✓  48 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 320px (2.5s)
+  ✓  49 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 360px (2.5s)
+  ✓  51 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 390px (2.4s)
+  ✓  52 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 430px (2.4s)
+  ✓  50 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 375px (2.6s)
+  ✓  53 [mobile-safari] › tests/e2e/mobile-design.spec.ts:82:1 › mobile navigation stays reachable on a short landscape screen (1.9s)
+  ✓  54 [mobile-safari] › tests/e2e/mobile-design.spec.ts:112:1 › journal guides remain readable and contact stays reachable on a small phone (1.2s)
+
+  7 skipped
+  47 passed (17.4s)
