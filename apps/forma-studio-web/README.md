@@ -24,6 +24,12 @@ Matches `apps/laura-faichney-web`: React 19, TanStack Start/Router, TypeScript, 
 
 Cloudflare build command from the monorepo root: `bun run --cwd apps/forma-studio-web build`. The site is deployed to the Cloudflare Pages project `forma-studio-web` at https://forma-studio-web-ddv.pages.dev.
 
+## Automatic deployment
+
+[Deploy Forma Studio](https://github.com/szabototo89/woodbrook-residents/actions/workflows/deploy-forma-studio.yml) publishes production from `main` when this app, the workflow, `package.json` or `bun.lock` changes. Use **Run workflow** on `main` for a manual rebuild. Other branches cannot deploy production through this workflow.
+
+The job installs the frozen Bun lockfile, checks types, runs the unit coverage gate, builds the static pages, and uploads only `dist/client` to the existing `forma-studio-web` Pages project. Concurrent production runs queue. GitHub repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` supply credentials; no credentials belong in the site output. The token needs Cloudflare Pages edit access for the target account. A failed check prevents publication.
+
 ## Content and future Sanity
 
 `src/features/home/homeContent.ts` holds reference services, pricing, process and FAQ copy independently of presentation; `src/features/blog/blogContent.ts` holds the draft blog guides and their source URLs/access dates. A future Sanity integration can replace this with a validated build-time snapshot, following Laura's approach, without exposing tokens or introducing browser API requests. No Sanity project, schema, credentials, Studio, live data or webhook integration is configured in the current scope.

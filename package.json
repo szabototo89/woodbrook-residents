@@ -41,7 +41,7 @@
     "worktree:clean-old": "bun scripts/list-old-worktrees.ts --clean",
     "worktree:clean-stale": "bun scripts/list-old-worktrees.ts --clean --stale-only",
     "preinstall": "bun scripts/list-old-worktrees.ts --days 7 || true",
-    "test:scripts": "bun test scripts/deploy.test.ts scripts/app.test.ts scripts/list-old-worktrees.test.ts scripts/eslint-laura-offline-tests.test.ts scripts/eslint-named-props-rule.test.ts",
+    "test:scripts": "bun test scripts/deploy-forma.test.ts scripts/deploy.test.ts scripts/app.test.ts scripts/list-old-worktrees.test.ts scripts/eslint-laura-offline-tests.test.ts scripts/eslint-named-props-rule.test.ts",
     "test": "bun run test:scripts && bun run test:unit && bun run test:browser && bun run test:e2e",
     "test:install-browser": "bun run --cwd apps/web playwright install chromium webkit",
     "test:unit": "bun scripts/app.ts test:unit",
