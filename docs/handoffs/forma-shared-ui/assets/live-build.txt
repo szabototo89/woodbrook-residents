@@ -1,0 +1,58 @@
+$ bun run typecheck && bun run lint && vite build
+$ tsc --noEmit
+$ eslint . --max-warnings 0
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+  - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+  - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+  - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+  - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+  - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+  - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.3.0 building client environment for production...
+transforming...
+✓ 2168 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2   36.93 kB
+dist/client/assets/styles-BCAapZJp.css                        15.99 kB │ gzip:   3.98 kB
+dist/client/assets/blog-CwB38DiH.js                            2.13 kB │ gzip:   0.79 kB
+dist/client/assets/Card-BWnfAx3Z.js                            7.24 kB │ gzip:   3.05 kB
+dist/client/assets/routes-DdvvV7N1.js                          9.69 kB │ gzip:   2.78 kB
+dist/client/assets/index-CGW5Guu8.js                         450.15 kB │ gzip: 141.86 kB
+
+✓ built in 204ms
+vite v8.3.0 building ssr environment for production...
+transforming...
+✓ 133 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/assets/start-BlGGRRqW.js                         0.21 kB │ gzip:  0.17 kB
+dist/server/assets/empty-plugin-adapters-bn1byaau.js         0.28 kB │ gzip:  0.18 kB
+dist/server/assets/_tanstack-start-manifest_v-Mo_5A4fv.js    0.96 kB │ gzip:  0.40 kB
+dist/server/assets/blog-CCLsjdlb.js                          3.89 kB │ gzip:  1.13 kB
+dist/server/assets/Card-CgHm5tfc.js                          5.78 kB │ gzip:  1.78 kB
+dist/server/assets/routes-CUjbTf1b.js                       13.24 kB │ gzip:  2.93 kB
+dist/server/assets/router-DSP7-2GH.js                       31.97 kB │ gzip:  9.94 kB
+dist/server/server.js                                      247.27 kB │ gzip: 57.66 kB
+
+✓ built in 51ms
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+  - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+  - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+[prerender] Prerendering pages...
+[prerender] Concurrency: 12
+[prerender] Crawling: /
+[prerender] Crawling: /blog
+[prerender] Prerendered 2 pages:
+[prerender] - /
+[prerender] - /blog

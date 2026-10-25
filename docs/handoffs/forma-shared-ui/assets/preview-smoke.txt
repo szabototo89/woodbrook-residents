@@ -1,0 +1,5 @@
+Cloudflare source preview: https://ae652f59.forma-studio-web-ddv.pages.dev
+Alias: https://forma-shared-ui.forma-studio-web-ddv.pages.dev
+Source commit: 880739718df9a4209cb1673f544fffd87bf56337
+1440px: both routes HTTP 200; skip focus, navigation, enquiry link, keyboard disclosures, FAQ, approved footer and overflow checks pass; no browser errors or Sanity API calls
+390px: both routes HTTP 200; skip focus, navigation, enquiry link, keyboard disclosures, FAQ, approved footer and overflow checks pass; no browser errors or Sanity API calls

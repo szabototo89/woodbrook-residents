@@ -405,6 +405,41 @@
       "description": "Renders homepage and journal as static HTML",
       "technology": "TanStack Start",
       "parent": "forma_builder"
+    },
+    "forma_ui_pages": {
+      "kind": "component",
+      "name": "Home and journal features",
+      "description": "Compose service and guide content using shared UI contracts",
+      "technology": "React and CSS",
+      "parent": "forma_web"
+    },
+    "forma_ui_chrome": {
+      "kind": "component",
+      "name": "Shared page chrome",
+      "description": "Owns SiteLayout, SiteFooter and the existing SiteHeader",
+      "technology": "React and CSS",
+      "parent": "forma_web"
+    },
+    "forma_ui_patterns": {
+      "kind": "component",
+      "name": "Shared presentation patterns",
+      "description": "Owns ActionLink, SectionHeading, IconBadge and native Disclosure",
+      "technology": "React and CSS",
+      "parent": "forma_web"
+    },
+    "forma_ui_cards": {
+      "kind": "component",
+      "name": "Shared card surfaces",
+      "description": "Owns the existing Card variants, padding and popular ring",
+      "technology": "React and CSS",
+      "parent": "forma_web"
+    },
+    "forma_ui_faq": {
+      "kind": "component",
+      "name": "Home FAQ accordion",
+      "description": "Keeps one answer open using labelled buttons and regions",
+      "technology": "React and CSS",
+      "parent": "forma_web"
     }
   },
   "relationships": {
@@ -805,6 +840,30 @@
       "to": "forma_web",
       "label": "Produces both static pages",
       "technology": "Static files"
+    },
+    "forma_ui_pages_chrome": {
+      "from": "forma_ui_pages",
+      "to": "forma_ui_chrome",
+      "label": "Supplies the page variant and body",
+      "technology": "React props"
+    },
+    "forma_ui_pages_patterns": {
+      "from": "forma_ui_pages",
+      "to": "forma_ui_patterns",
+      "label": "Supplies labels, destinations, icons and disclosure content",
+      "technology": "React props"
+    },
+    "forma_ui_pages_cards": {
+      "from": "forma_ui_pages",
+      "to": "forma_ui_cards",
+      "label": "Selects existing card variants and padding",
+      "technology": "React props"
+    },
+    "forma_ui_pages_faq": {
+      "from": "forma_ui_pages",
+      "to": "forma_ui_faq",
+      "label": "Displays the feature-specific exclusive accordion",
+      "technology": "React props"
     }
   },
   "diagrams": {
@@ -1623,6 +1682,52 @@
           "forma_prerender": {
             "status": "changed",
             "description": "Previously emitted the footer statement in both pages; now emits only approved footer copy."
+          }
+        }
+      }
+    },
+    "forma_shared_ui_components": {
+      "level": "C3",
+      "scope": "forma_web",
+      "title": "Forma public site components — changes from c31cd3e",
+      "handoff": "forma-shared-ui",
+      "source": "docs/handoffs/forma-shared-ui/assets/c3-ui.puml",
+      "elements": [
+        "forma_ui_pages",
+        "forma_ui_chrome",
+        "forma_ui_patterns",
+        "forma_ui_cards",
+        "forma_ui_faq"
+      ],
+      "relationships": [
+        "forma_ui_pages_chrome",
+        "forma_ui_pages_patterns",
+        "forma_ui_pages_cards",
+        "forma_ui_pages_faq"
+      ],
+      "changes": {
+        "elements": {
+          "forma_ui_pages": {
+            "status": "changed",
+            "description": "Repeated page markup now composes shared typed UI contracts."
+          },
+          "forma_ui_chrome": {
+            "status": "changed",
+            "description": "Shared layout and footer replace duplicate chrome; SiteHeader retains menu ownership."
+          },
+          "forma_ui_patterns": {
+            "status": "added",
+            "description": "Extracts repeated arrow links, section titles, icon discs and native disclosures."
+          }
+        },
+        "relationships": {
+          "forma_ui_pages_chrome": {
+            "status": "changed",
+            "description": "Pages now pass their body and page variant through SiteLayout."
+          },
+          "forma_ui_pages_patterns": {
+            "status": "added",
+            "description": "Pages supply content through typed props instead of copying presentation markup."
           }
         }
       }

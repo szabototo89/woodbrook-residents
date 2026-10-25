@@ -1,0 +1,13 @@
+Baseline: c31cd3e, the merged #4 approved-copy screenshots.
+Published content, no sample wrapper. Playwright Chromium at deviceScaleFactor 2.
+Fonts and images awaited before capture. Compared RGB pixels using Pillow ImageChops.difference.
+
+Page     Viewport     Image pixels   Differing pixels
+Home     1440 x 1000  2880 x 7456    0
+Home      390 x 844    780 x 11880   0
+Journal  1440 x 1000  2880 x 2912    0
+Journal   390 x 844    780 x 4152    0
+
+Baseline assets: docs/handoffs/forma-studio-approved-copy/assets/{desktop,mobile,journal-desktop,journal-mobile}.png.
+All difference bounding boxes are None.
+Keyboard/open-state checks are in playwright.txt.

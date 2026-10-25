@@ -31,4 +31,6 @@
 
 - [Forma Studio mobile design](forma-studio-mobile-design.md) — Available
 
+- [Forma Studio shared UI](forma-shared-ui.md) — Available
+
 - [Forma Studio content editing](forma-sanity-content.md) — Available

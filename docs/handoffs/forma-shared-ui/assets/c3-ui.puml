@@ -1,0 +1,25 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Forma public site components — changes from c31cd3e
+
+Container_Boundary(forma_web, "Forma public site") {
+  Component(forma_ui_pages, "[CHANGED] Home and journal features", "React and CSS", "Compose service and guide content using shared UI contracts\nChange: Repeated page markup now composes shared typed UI contracts.")
+  Component(forma_ui_chrome, "[CHANGED] Shared page chrome", "React and CSS", "Owns SiteLayout, SiteFooter and the existing SiteHeader\nChange: Shared layout and footer replace duplicate chrome; SiteHeader retains menu ownership.")
+  Component(forma_ui_patterns, "[ADDED] Shared presentation patterns", "React and CSS", "Owns ActionLink, SectionHeading, IconBadge and native Disclosure\nChange: Extracts repeated arrow links, section titles, icon discs and native disclosures.")
+  Component(forma_ui_cards, "Shared card surfaces", "React and CSS", "Owns the existing Card variants, padding and popular ring")
+  Component(forma_ui_faq, "Home FAQ accordion", "React and CSS", "Keeps one answer open using labelled buttons and regions")
+}
+
+Rel(forma_ui_pages, forma_ui_chrome, "[CHANGED] Supplies the page variant and body\nChange: Pages now pass their body and page variant through SiteLayout.", "React props")
+Rel(forma_ui_pages, forma_ui_patterns, "[ADDED] Supplies labels, destinations, icons and disclosure content\nChange: Pages supply content through typed props instead of copying presentation markup.", "React props")
+Rel(forma_ui_pages, forma_ui_cards, "Selects existing card variants and padding", "React props")
+Rel(forma_ui_pages, forma_ui_faq, "Displays the feature-specific exclusive accordion", "React props")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

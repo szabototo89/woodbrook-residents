@@ -1,0 +1,95 @@
+[WebServer] $ vite preview --port 4178 --host "127.0.0.1" --port "4188"
+[WebServer] (node:98283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+[WebServer]   - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+[WebServer]   - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+Running 69 tests using 2 workers
+
+(node:98374) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98373) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/e2e/content-boundary.spec.ts:4:1 › public routes use prerendered content without browser Sanity requests or draft data (332ms)
+  ✓   3 [desktop] › tests/e2e/home.spec.ts:4:1 › home page serves complete prerendered content and working section links (246ms)
+  ✓   4 [desktop] › tests/e2e/home.spec.ts:57:1 › homepage stays within viewport and navigation works on narrow screens (349ms)
+  ✓   5 [desktop] › tests/e2e/home.spec.ts:90:1 › keyboard users can skip navigation and operate FAQs (194ms)
+  ✓   6 [desktop] › tests/e2e/home.spec.ts:110:1 › branding fits and the hero note is readable against a solid background (170ms)
+  ✓   7 [desktop] › tests/e2e/home.spec.ts:152:1 › blog route is prerendered and the menu navigates between the home and guides (357ms)
+  ✓   8 [desktop] › tests/e2e/home.spec.ts:200:1 › navigation controls stay in the header at a 320px phone width (205ms)
+  ✓   2 [desktop] › tests/e2e/content-boundary.spec.ts:41:1 › capture the live Sanity-backed pages at high resolution (1.9s)
+  ✓   9 [desktop] › tests/e2e/home.spec.ts:233:1 › blog category labels have accessible text contrast (166ms)
+  ✓  11 [desktop] › tests/e2e/home.spec.ts:291:1 › content and controls remain readable at tablet and small phone widths (159ms)
+  ✓  12 [desktop] › tests/e2e/home.spec.ts:331:1 › the project preview fills the card above a compact summary (191ms)
+  ✓  13 [desktop] › tests/e2e/home.spec.ts:363:1 › the hero note stays compact and its text fits on the smallest phones (174ms)
+  -  14 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 320px
+  -  15 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 360px
+  -  16 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 375px
+  ✓  10 [desktop] › tests/e2e/home.spec.ts:272:1 › work navigation reveals a project and service details are usable (864ms)
+  -  17 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 390px
+  -  18 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 430px
+  -  19 [desktop] › tests/e2e/mobile-design.spec.ts:82:1 › mobile navigation stays reachable on a short landscape screen
+  -  20 [desktop] › tests/e2e/mobile-design.spec.ts:112:1 › journal guides remain readable and contact stays reachable on a small phone
+  ✓  21 [desktop] › tests/e2e/shared-ui.spec.ts:27:1 › both pages retain shared landmarks, focus, heading hierarchy and equivalent action styling (245ms)
+  ✓  22 [desktop] › tests/e2e/shared-ui.spec.ts:66:1 › service and journal disclosures keep keyboard behavior while FAQs stay exclusive (2.2s)
+(node:98763) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  24 [mobile] › tests/e2e/content-boundary.spec.ts:4:1 › public routes use prerendered content without browser Sanity requests or draft data (327ms)
+  -  25 [mobile] › tests/e2e/content-boundary.spec.ts:41:1 › capture the live Sanity-backed pages at high resolution
+  ✓  23 [desktop] › tests/e2e/shared-ui.spec.ts:109:1 › capture shared UI on desktop and mobile (3.2s)
+(node:98876) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  27 [mobile] › tests/e2e/home.spec.ts:57:1 › homepage stays within viewport and navigation works on narrow screens (708ms)
+  ✓  28 [mobile] › tests/e2e/home.spec.ts:90:1 › keyboard users can skip navigation and operate FAQs (252ms)
+  ✓  29 [mobile] › tests/e2e/home.spec.ts:110:1 › branding fits and the hero note is readable against a solid background (253ms)
+  ✓  30 [mobile] › tests/e2e/home.spec.ts:152:1 › blog route is prerendered and the menu navigates between the home and guides (622ms)
+  ✓  31 [mobile] › tests/e2e/home.spec.ts:200:1 › navigation controls stay in the header at a 320px phone width (313ms)
+  ✓  26 [mobile] › tests/e2e/home.spec.ts:4:1 › home page serves complete prerendered content and working section links (3.1s)
+  ✓  32 [mobile] › tests/e2e/home.spec.ts:233:1 › blog category labels have accessible text contrast (248ms)
+  ✓  34 [mobile] › tests/e2e/home.spec.ts:291:1 › content and controls remain readable at tablet and small phone widths (227ms)
+  ✓  35 [mobile] › tests/e2e/home.spec.ts:331:1 › the project preview fills the card above a compact summary (242ms)
+  ✓  36 [mobile] › tests/e2e/home.spec.ts:363:1 › the hero note stays compact and its text fits on the smallest phones (294ms)
+  ✓  37 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 320px (1.1s)
+  ✓  38 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 360px (1.2s)
+  ✓  39 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 375px (1.1s)
+  ✓  33 [mobile] › tests/e2e/home.spec.ts:272:1 › work navigation reveals a project and service details are usable (4.5s)
+  ✓  40 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 390px (1.1s)
+  ✓  41 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 430px (1.1s)
+  ✓  43 [mobile] › tests/e2e/mobile-design.spec.ts:112:1 › journal guides remain readable and contact stays reachable on a small phone (304ms)
+  ✓  42 [mobile] › tests/e2e/mobile-design.spec.ts:82:1 › mobile navigation stays reachable on a short landscape screen (339ms)
+  ✓  44 [mobile] › tests/e2e/shared-ui.spec.ts:27:1 › both pages retain shared landmarks, focus, heading hierarchy and equivalent action styling (337ms)
+  -  46 [mobile] › tests/e2e/shared-ui.spec.ts:109:1 › capture shared UI on desktop and mobile
+(node:99377) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  47 [mobile-safari] › tests/e2e/content-boundary.spec.ts:4:1 › public routes use prerendered content without browser Sanity requests or draft data (578ms)
+  -  48 [mobile-safari] › tests/e2e/content-boundary.spec.ts:41:1 › capture the live Sanity-backed pages at high resolution
+  ✓  49 [mobile-safari] › tests/e2e/home.spec.ts:4:1 › home page serves complete prerendered content and working section links (1.5s)
+  ✓  45 [mobile] › tests/e2e/shared-ui.spec.ts:66:1 › service and journal disclosures keep keyboard behavior while FAQs stay exclusive (2.8s)
+(node:99563) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  50 [mobile-safari] › tests/e2e/home.spec.ts:57:1 › homepage stays within viewport and navigation works on narrow screens (568ms)
+  ✓  51 [mobile-safari] › tests/e2e/home.spec.ts:90:1 › keyboard users can skip navigation and operate FAQs (389ms)
+  ✓  52 [mobile-safari] › tests/e2e/home.spec.ts:110:1 › branding fits and the hero note is readable against a solid background (438ms)
+  ✓  53 [mobile-safari] › tests/e2e/home.spec.ts:152:1 › blog route is prerendered and the menu navigates between the home and guides (636ms)
+  ✓  54 [mobile-safari] › tests/e2e/home.spec.ts:200:1 › navigation controls stay in the header at a 320px phone width (398ms)
+  ✓  55 [mobile-safari] › tests/e2e/home.spec.ts:233:1 › blog category labels have accessible text contrast (270ms)
+  ✓  57 [mobile-safari] › tests/e2e/home.spec.ts:291:1 › content and controls remain readable at tablet and small phone widths (303ms)
+  ✓  56 [mobile-safari] › tests/e2e/home.spec.ts:272:1 › work navigation reveals a project and service details are usable (798ms)
+  ✓  58 [mobile-safari] › tests/e2e/home.spec.ts:331:1 › the project preview fills the card above a compact summary (329ms)
+  ✓  59 [mobile-safari] › tests/e2e/home.spec.ts:363:1 › the hero note stays compact and its text fits on the smallest phones (392ms)
+  ✓  60 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 320px (582ms)
+  ✓  61 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 360px (589ms)
+  ✓  62 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 375px (587ms)
+  ✓  63 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 390px (572ms)
+  ✓  64 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 430px (575ms)
+  ✓  65 [mobile-safari] › tests/e2e/mobile-design.spec.ts:82:1 › mobile navigation stays reachable on a short landscape screen (447ms)
+  ✓  66 [mobile-safari] › tests/e2e/mobile-design.spec.ts:112:1 › journal guides remain readable and contact stays reachable on a small phone (388ms)
+  ✓  67 [mobile-safari] › tests/e2e/shared-ui.spec.ts:27:1 › both pages retain shared landmarks, focus, heading hierarchy and equivalent action styling (406ms)
+  -  69 [mobile-safari] › tests/e2e/shared-ui.spec.ts:109:1 › capture shared UI on desktop and mobile
+  ✓  68 [mobile-safari] › tests/e2e/shared-ui.spec.ts:66:1 › service and journal disclosures keep keyboard behavior while FAQs stay exclusive (1.3s)
+
+  11 skipped
+  58 passed (24.6s)

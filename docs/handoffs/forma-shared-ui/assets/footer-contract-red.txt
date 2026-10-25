@@ -1,0 +1,2 @@
+$ tsc --noEmit
+src/components/SiteFooter.tsx(10,31): error TS2339: Property 'footer' does not exist on type '{ _id: "siteSettings"; brand: string; logo: { alt: string; asset: { _id: string; url: string; width: number; height: number; }; }; enquiryEmail: string; enquirySubject: string; enquiryBody: string; footerServices: string; talkLabel: string; navigation: { ...; }[]; }'.

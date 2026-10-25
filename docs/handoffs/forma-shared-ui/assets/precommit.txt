@@ -1,0 +1,74 @@
+Command: git commit -m "refactor(forma): share repeated presentation components"
+Result: exit 0; normal precommit hook enabled, no bypass.
+Source commit: 880739718df9a4209cb1673f544fffd87bf56337
+Hook runs repository lint and repository test (script, unit, browser, and E2E suites).
+
+Available projects for "typecheck" (9): dashboard, forma-studio, forma-studio-web, handoffs, laura-faichney-web, laura-studio, mobile, sanity-studio, web
+▶ dashboard: typecheck
+▶ forma-studio: typecheck
+▶ forma-studio-web: typecheck
+▶ handoffs: typecheck
+▶ laura-faichney-web: typecheck
+▶ laura-studio: typecheck
+▶ mobile: typecheck
+▶ sanity-studio: typecheck
+▶ web: typecheck
+Available projects for "test:unit" (9): dashboard, forma-studio, forma-studio-web, handoffs, laura-faichney-web, laura-studio, mobile, sanity-studio, web
+▶ dashboard: test:unit
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+▶ forma-studio: test:unit
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+▶ forma-studio-web: test:unit
+ Test Files  9 passed (9)
+      Tests  78 passed (78)
+▶ handoffs: test:unit
+ Test Files  10 passed (10)
+      Tests  73 passed (73)
+▶ laura-faichney-web: test:unit
+ Test Files  16 passed (16)
+      Tests  101 passed (101)
+▶ laura-studio: test:unit
+ Test Files  4 passed (4)
+      Tests  20 passed (20)
+▶ mobile: test:unit
+ Test Files  14 passed (14)
+      Tests  53 passed (53)
+▶ sanity-studio: test:unit
+ Test Files  12 passed (12)
+      Tests  53 passed (53)
+▶ web: test:unit
+ Test Files  63 passed (63)
+      Tests  381 passed (381)
+ Test Files  2 passed (2)
+      Tests  2 passed (2)
+Available projects for "test:browser" (3): dashboard, sanity-studio, web
+▶ dashboard: test:browser
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+▶ sanity-studio: test:browser
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+▶ web: test:browser
+ Test Files  3 passed (3)
+      Tests  9 passed (9)
+Available projects for "test:e2e" (7): dashboard, forma-studio-web, handoffs, laura-faichney-web, mobile, sanity-studio, web
+▶ dashboard: test:e2e
+  8 passed (3.3s)
+▶ forma-studio-web: test:e2e
+  11 skipped
+  58 passed (25.8s)
+▶ handoffs: test:e2e
+  7 passed (5.2s)
+▶ laura-faichney-web: test:e2e
+  127 passed (24.1s)
+▶ mobile: test:e2e
+  10 passed (3.7s)
+▶ sanity-studio: test:e2e
+  3 passed (1.9s)
+▶ web: test:e2e
+  3 skipped
+  54 passed (18.8s)
+  14 passed (28.2s)
+[szabototo89/forma-studio-standardise-repeated-ui-with-shared 8807397] refactor(forma): share repeated presentation components

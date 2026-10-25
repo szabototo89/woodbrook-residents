@@ -1,0 +1,68 @@
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/forma-studio-standardise-repeated-ui-with-shared/apps/forma-studio-web
+
+ ❯ tests/config.test.ts (8 tests | 2 failed) 359ms
+   × browser checks select an isolated server port: undefined 356ms
+   × browser checks select an isolated server port: 4288 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/config.test.ts > browser checks select an isolated server port: undefined
+AssertionError: expected { testDir: './tests/e2e', …(5), …(1) } to match object { workers: 2, …(2) }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -5,7 +5,6 @@
+    "webServer": {
+      "command": "bun run preview -- --host 127.0.0.1 --port 4178",
+      "reuseExistingServer": false,
+      "url": "http://127.0.0.1:4178",
+    },
+-   "workers": 2,
+  }
+
+ ❯ tests/config.test.ts:56:22
+     54|       const { default: config } = await import('../playwright.config');
+     55|       const expectedPort = port ?? '4178';
+     56|       expect(config).toMatchObject({
+       |                      ^
+     57|         workers: 2,
+     58|         use: { baseURL: `http://127.0.0.1:${expectedPort}` },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/config.test.ts > browser checks select an isolated server port: 4288
+AssertionError: expected { testDir: './tests/e2e', …(5), …(1) } to match object { workers: 2, …(2) }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -5,7 +5,6 @@
+    "webServer": {
+      "command": "bun run preview -- --host 127.0.0.1 --port 4288",
+      "reuseExistingServer": false,
+      "url": "http://127.0.0.1:4288",
+    },
+-   "workers": 2,
+  }
+
+ ❯ tests/config.test.ts:56:22
+     54|       const { default: config } = await import('../playwright.config');
+     55|       const expectedPort = port ?? '4178';
+     56|       expect(config).toMatchObject({
+       |                      ^
+     57|         workers: 2,
+     58|         use: { baseURL: `http://127.0.0.1:${expectedPort}` },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 passed (8)
+   Start at  19:05:09
+   Duration  817ms (transform 20ms, setup 97ms, import 16ms, tests 359ms, environment 272ms)
+
+error: "vitest" exited with code 1
