@@ -214,7 +214,6 @@ export const siteSettings = defineType({
     }),
     requiredText('enquirySubject'),
     requiredText('enquiryBody'),
-    requiredText('footer'),
     requiredText('footerServices'),
     defineField({
       name: 'navigation',

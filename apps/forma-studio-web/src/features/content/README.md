@@ -19,7 +19,7 @@ The dedicated project is `ms27me7o`, dataset `production`. It contains no Woodbr
 
 | Document type  | Identity and ownership                                    | Public use                                                            |
 | -------------- | --------------------------------------------------------- | --------------------------------------------------------------------- |
-| `siteSettings` | One document with ID `siteSettings`                       | Header, navigation, logo, footer and mailto settings                  |
+| `siteSettings` | One document with ID `siteSettings`                       | Header, navigation, logo, footer service summary and mailto settings  |
 | `homePage`     | One document with ID `homePage`                           | Hero, services, packages, process, preparation, FAQs, contact and SEO |
 | `journalPage`  | One document with ID `journalPage`                        | Journal introduction, ordered guide references, contact and SEO       |
 | `selectedWork` | Independently published project; referenced by homepage   | Screenshot, project summary and live-site link                        |

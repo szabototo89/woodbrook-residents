@@ -13,6 +13,7 @@ As a Forma editor, update website copy and images in a dedicated content editor,
 - Homepage services, packages, process steps and FAQs publish together. Work and guides publish independently and appear in their page's chosen order.
 - Images include descriptions for screen readers. Guide sources retain their URLs and the dates they were checked.
 - Publishing plus a successful rebuild updates `/` and `/blog`, including metadata, navigation and email enquiry links, while preserving the existing design and interactions.
+- Site settings no longer offer a footer statement. The Studio shows only the footer service summary, so a removed statement cannot be reintroduced through the editor.
 - A bad field or missing published reference stops the build with a useful field path. The previous deployment stays online.
 
 ## Acceptance criteria

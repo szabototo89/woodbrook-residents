@@ -5,7 +5,7 @@ import { Card } from '../../components/Card';
 import { content } from '../content/content';
 
 export function BlogPage() {
-  const { journal, settings } = content;
+  const { journal } = content;
   const { guides } = journal;
   return (
     <div className="site-shell blog-shell">
@@ -108,7 +108,6 @@ export function BlogPage() {
         </Card>
       </main>
       <footer className="site-footer">
-        <span>{settings.footer}</span>
         <a href="/">{journal.homeLabel}</a>
       </footer>
     </div>

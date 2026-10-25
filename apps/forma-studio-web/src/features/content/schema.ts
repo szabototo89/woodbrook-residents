@@ -238,7 +238,6 @@ export const settingsSchema = z.object({
   enquiryBody: text.describe(
     'Plain-text project prompts prefilled in the visitor’s email app; line breaks are preserved.',
   ),
-  footer: text.describe('Shared footer statement shown on both public pages.'),
   footerServices: text.describe(
     'Short service summary shown on the homepage footer.',
   ),

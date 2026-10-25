@@ -1522,6 +1522,110 @@
           }
         }
       }
+    },
+    "forma_copy_context": {
+      "level": "C1",
+      "scope": "forma_system",
+      "title": "Forma approved copy — C1 — changes from a86762b",
+      "handoff": "forma-studio-approved-copy",
+      "source": "docs/handoffs/forma-studio-approved-copy/assets/c1-copy.puml",
+      "elements": [
+        "forma_customer",
+        "forma_editor",
+        "forma_system",
+        "forma_cms"
+      ],
+      "relationships": [
+        "forma_customer_system",
+        "forma_editor_system",
+        "forma_system_cms"
+      ],
+      "changes": {
+        "elements": {
+          "forma_system": {
+            "status": "changed",
+            "description": "Previously showed the footer statement on both pages; now shows only approved copy."
+          },
+          "forma_cms": {
+            "status": "changed",
+            "description": "Previously stored the footer statement in site settings; now stores approved text only."
+          }
+        }
+      }
+    },
+    "forma_copy_containers": {
+      "level": "C2",
+      "scope": "forma_system",
+      "title": "Forma approved copy — C2 — changes from a86762b",
+      "handoff": "forma-studio-approved-copy",
+      "source": "docs/handoffs/forma-studio-approved-copy/assets/c2-copy.puml",
+      "elements": [
+        "forma_customer",
+        "forma_editor",
+        "forma_web",
+        "forma_studio",
+        "forma_builder",
+        "forma_cms"
+      ],
+      "relationships": [
+        "forma_customer_web",
+        "forma_editor_studio",
+        "forma_studio_cms",
+        "forma_builder_cms",
+        "forma_builder_web"
+      ],
+      "changes": {
+        "elements": {
+          "forma_web": {
+            "status": "changed",
+            "description": "Previously rendered a brand descriptor in both footers; now renders the service summary and home link only."
+          },
+          "forma_studio": {
+            "status": "changed",
+            "description": "Previously offered a Footer field in Site settings; now offers no footer statement field."
+          },
+          "forma_builder": {
+            "status": "changed",
+            "description": "The content contract no longer requires a footer statement before building."
+          },
+          "forma_cms": {
+            "status": "changed",
+            "description": "Published site settings no longer store the removed footer statement."
+          }
+        }
+      }
+    },
+    "forma_copy_components": {
+      "level": "C3",
+      "scope": "forma_builder",
+      "title": "Forma static builder — C3 — changes from a86762b",
+      "handoff": "forma-studio-approved-copy",
+      "source": "docs/handoffs/forma-studio-approved-copy/assets/c3-copy.puml",
+      "elements": [
+        "forma_query",
+        "forma_validation",
+        "forma_snapshot",
+        "forma_prerender",
+        "forma_web"
+      ],
+      "relationships": [
+        "forma_query_validation",
+        "forma_validation_snapshot",
+        "forma_snapshot_prerender",
+        "forma_prerender_web"
+      ],
+      "changes": {
+        "elements": {
+          "forma_validation": {
+            "status": "changed",
+            "description": "Previously required a footer statement in site settings; now omits the field and drops stored values."
+          },
+          "forma_prerender": {
+            "status": "changed",
+            "description": "Previously emitted the footer statement in both pages; now emits only approved footer copy."
+          }
+        }
+      }
     }
   }
 }

@@ -120,7 +120,14 @@ test.each([
 test('unknown fields never reach the public snapshot', () => {
   const payload = contentFixture();
   Reflect.set(payload.settings, 'internalSecret', 'private');
-  expect(JSON.stringify(parseFormaContent(payload))).not.toContain('private');
+  Reflect.set(
+    payload.settings,
+    'footer',
+    'Forma Studio · Websites for local businesses',
+  );
+  const snapshot = JSON.stringify(parseFormaContent(payload));
+  expect(snapshot).not.toContain('private');
+  expect(snapshot).not.toContain('Websites for local businesses');
 });
 
 test('fetches fresh published content and validates the response', async () => {

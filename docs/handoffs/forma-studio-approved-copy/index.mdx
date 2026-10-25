@@ -1,0 +1,153 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import journalDesktop from './assets/journal-desktop.png';
+import journalMobile from './assets/journal-mobile.png';
+import footerDesktop from './assets/footer-desktop.png';
+import footerMobile from './assets/footer-mobile.png';
+import contextSource from './assets/c1-copy.puml?raw';
+import contextImage from './assets/c1-copy.svg';
+import containerSource from './assets/c2-copy.puml?raw';
+import containerImage from './assets/c2-copy.svg';
+import componentSource from './assets/c3-copy.puml?raw';
+import componentImage from './assets/c3-copy.svg';
+
+export const metadata = {
+  title: 'Forma Studio: approved website copy',
+  status: 'ready for review',
+  agent: 'opencode',
+  session: 'ses_e8bb3e858ffeFjMgQWMQzuwDDo',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/forma-studio-remove-preview-notices-and-unapprov',
+  branch: 'szabototo89/forma-studio-remove-preview-notices-and-unapprov',
+  commit: '7bc2d75',
+  updatedAt: '2026-10-25T18:48:31Z',
+  summary:
+    'Both Forma footers drop the removed preview statement, the stored copy is unset and a recorded copy review covers the two pages.',
+};
+
+## Goal
+
+A prospective customer reads only approved copy on `/` and `/blog`. This handoff removes the footer statement "Forma Studio · Websites for local businesses", records the copy review for both pages, and keeps navigation and email actions unchanged.
+
+## Technical changes
+
+Baseline: `a86762b`. The footer statement was stored in the published Sanity document `siteSettings` and required by the web contract, so removal spans the Studio schema, the runtime contract, the seed, both renderers and the stored document.
+
+| Area                | Before                                   | After                                                              | Why                                                           | Code                                                                  |
+| ------------------- | ---------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Content contract    | `settings.footer` was required text      | The field is absent; a stored value is dropped by the contract     | Rendering must not depend on copy the studio no longer offers | `apps/forma-studio-web/src/features/content/schema.ts`                |
+| Homepage footer     | Brand descriptor and service summary     | Service summary only                                               | Remove the reported line and keep the approved services copy  | `apps/forma-studio-web/src/features/home/HomePage.tsx`                |
+| Journal footer      | Brand descriptor and link home           | Link home only                                                     | Remove the reported line without losing the route back        | `apps/forma-studio-web/src/features/blog/BlogPage.tsx`                |
+| Studio editor       | Site settings offered a Footer field     | Site settings offers no footer statement                           | Editors cannot reintroduce the removed copy                   | `apps/forma-studio/schemaTypes/index.ts`, `editorialHelp.ts`          |
+| Published content   | `siteSettings.footer` held the statement | The published document no longer stores it                         | The content store matches the approved contract               | Sanity project `ms27me7o`, dataset `production`                       |
+| Migration seed      | Seed JSON carried the statement          | Seed JSON carries no footer statement                              | A rerun cannot restore removed copy                           | `apps/forma-studio-web/migration/legacy-content.json`                 |
+| Regression coverage | Tests asserted the statement was visible | Tests assert both reported lines are absent and actions still work | Keep the removal from regressing                              | `HomePage.test.tsx`, `BlogPage.test.tsx`, `formaContent.test.ts`, e2e |
+
+The second reported line, "Design preview · Contact address to be confirmed", does not exist in this application. Git history places it in the retired `apps/locale-web` footer (`858c374`), and neither the built HTML nor the production pages contain it. The review records it as not reproducible instead of inventing a replacement.
+
+## Architecture changes
+
+Forma Studio shows approved business copy to prospects, reads it from its own Sanity project at build time, and publishes static pages through Cloudflare Pages. The change removes one copy field from that boundary. No new element or interaction appears; the page, the editor, the contract and the stored settings lose the same statement.
+
+| Level | Change                                                                                                | Evidence                     |
+| ----- | ----------------------------------------------------------------------------------------------------- | ---------------------------- |
+| C1    | Changed the Forma website's visible copy and the stored site settings; people and connections persist | Context view below           |
+| C2    | Changed the public site, editor, builder contract and content store; the email flow is untouched      | Container view below         |
+| C3    | Changed validation and prerendering inside the static builder; querying and snapshot sharing persist  | Builder component view below |
+
+<PlantUmlDiagram
+  title="Forma approved copy — system context"
+  source={contextSource}
+  image={contextImage}
+/>
+
+Change: the website and its content store now carry approved copy only. The customer, editor and their connections are unchanged context.
+
+<PlantUmlDiagram
+  title="Forma approved copy — containers"
+  source={containerSource}
+  image={containerImage}
+/>
+
+Change: the public site, Studio, builder contract and Sanity store each drop the footer statement. Cloudflare Pages and the email client are unchanged.
+
+<PlantUmlDiagram
+  title="Forma static builder — components"
+  source={componentSource}
+  image={componentImage}
+/>
+
+Change: validation no longer requires the field and prerendering no longer emits it. The published reader and snapshot module keep their responsibilities.
+
+## Verification
+
+| Check                 | Result | Evidence                                                                                                                                    |
+| --------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD                   | PASS   | Footer assertions in three web tests and the Studio schema test failed before implementation; all pass afterwards.                          |
+| Forma unit tests      | PASS   | `bun run --cwd apps/forma-studio-web test:unit`: 67 tests; 98.33% statements, 98.71% branches, 97.5% functions, 98.24% lines.               |
+| Studio schema tests   | PASS   | `bun run --cwd apps/forma-studio test:unit`: 6 tests, including the site settings field list without a footer statement.                    |
+| Types and lint        | PASS   | Forma web and Studio `typecheck` plus Forma web `lint --max-warnings 0` exit 0.                                                             |
+| Browser tests         | PASS   | `bunx playwright test --grep-invert "capture the live Sanity-backed pages"`: 50 passed, 7 skipped on Chrome desktop and phone WebKit.       |
+| Prerendered HTML      | PASS   | `dist/client/index.html` and `dist/client/blog/index.html` contain neither reported line; footers show the summary and home link.           |
+| Production comparison | PASS   | `https://forma-studio-web-ddv.pages.dev/` and `/blog` showed the footer statement before the change; the deployment time is recorded.       |
+| Copy review           | PASS   | Ten review rows cover both pages, navigation, footers and metadata in `docs/features/forma-studio-approved-copy.md`.                        |
+| Second reported line  | PASS   | Not reproducible: absent from source, built HTML and production; last recorded in the retired `apps/locale-web` footer at `858c374`.        |
+| Store update          | PASS   | Sanity query of `siteSettings` returns no `footer` value; `footerServices` is retained.                                                     |
+| Repository build      | PASS   | `bun run build` exits 0 for every buildable application, including the handoff build and its `docs:check` gate.                             |
+| Preview deployment    | PASS   | `https://szabototo89-forma-studio-rem.forma-studio-web-ddv.pages.dev` serves commit `7bc2d75`; both routes return 200 with the new footers. |
+| Preview smoke test    | PASS   | Chrome desktop and phone WebKit: menu to `/blog`, Services back to `/#services`, Discuss Growth to `#contact`, mailto intact, no errors.    |
+| Handoff structure     | PASS   | `bun run --cwd apps/handoffs docs:check` validates 15 handoffs; `c4:check` confirms the three new sources match the model.                  |
+| Desktop/mobile review | PASS   | Playwright captures at 1440×1000 and 390×844, 2× scale, of both pages and both footers; layout and links were inspected.                    |
+
+## Appearance
+
+Captures use the real published content. The footer close-ups show the result of the removal; the full pages confirm that content, navigation and the contact panel are unchanged.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Homepage desktop',
+      alt: 'Forma homepage at 1440 pixels with a service-summary footer',
+      description:
+        'Check the footer shows the service summary only, and that navigation and the contact panel keep their labels.',
+    },
+    {
+      src: mobile,
+      title: 'Homepage mobile',
+      alt: 'Forma homepage on a 390 pixel phone with a service-summary footer',
+      description:
+        'Check the stacked layout, mobile menu control and the footer at phone width.',
+    },
+    {
+      src: journalDesktop,
+      title: 'Journal desktop',
+      alt: 'Forma journal at 1440 pixels with a footer link back home',
+      description:
+        'Check the journal footer keeps the link home and the three guides keep their sources.',
+    },
+    {
+      src: journalMobile,
+      title: 'Journal mobile',
+      alt: 'Forma journal on a 390 pixel phone with a footer link back home',
+      description:
+        'Check guide cards, the source links and the footer at phone width.',
+    },
+    {
+      src: footerDesktop,
+      title: 'Homepage footer close-up',
+      alt: 'Homepage footer containing only the service summary',
+      description: 'Check that no brand descriptor or preview notice remains.',
+    },
+    {
+      src: footerMobile,
+      title: 'Phone footer close-up',
+      alt: 'Phone-width homepage footer containing only the service summary',
+      description: 'Check the footer text fits without clipping or overflow.',
+    },
+  ]}
+/>
+
+## Next steps
+
+Review the open pull request at https://github.com/szabototo89/woodbrook-residents/pulls and its Cloudflare preview `https://szabototo89-forma-studio-rem.forma-studio-web-ddv.pages.dev`. Business approval of prices, service scope and FAQ commitments remains a content-owner action; this handoff does not change that copy.
