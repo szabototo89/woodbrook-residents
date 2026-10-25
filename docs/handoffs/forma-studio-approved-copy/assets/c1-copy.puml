@@ -1,0 +1,21 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Context>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Forma approved copy — C1 — changes from a86762b
+
+Person(forma_customer, "Prospective customer", "Browses services, projects and practical guides")
+Person(forma_editor, "Forma content editor", "Edits and publishes website content")
+System(forma_system, "[CHANGED] Forma Studio website", "Explains website services and helps prospective customers enquire by email\nChange: Previously showed the footer statement on both pages; now shows only approved copy.")
+System_Ext(forma_cms, "[CHANGED] Forma Sanity project", "Stores Forma published content, drafts and images\nChange: Previously stored the footer statement in site settings; now stores approved text only.")
+
+Rel(forma_customer, forma_system, "Browses services and sends email enquiries using", "Browser")
+Rel(forma_editor, forma_system, "Edits and publishes content using", "Browser")
+Rel(forma_system, forma_cms, "Reads published content and writes editorial changes", "HTTPS")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

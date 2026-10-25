@@ -31,6 +31,10 @@ test('public routes use prerendered content without browser Sanity requests or d
     const html = readFileSync(path, 'utf8');
     expect(html).not.toContain('drafts.');
     expect(html).not.toContain('FORMA_SANITY_READ_TOKEN');
+    expect(html).not.toContain('Forma Studio · Websites for local businesses');
+    expect(html).not.toContain(
+      'Design preview · Contact address to be confirmed',
+    );
   });
 });
 

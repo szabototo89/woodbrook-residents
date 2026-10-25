@@ -213,11 +213,24 @@ test('homepage uses its logo and a readable text annotation over the hero', () =
   );
   expect(brand.querySelector('img')).toHaveAttribute('alt', 'Forma Studio');
   expect(
-    screen.getByText('Forma Studio · Websites for local businesses'),
-  ).toBeVisible();
-  expect(
     screen.getByText('Websites that work for real businesses.'),
   ).toBeVisible();
+});
+
+test('the footer keeps approved service copy without preview notices', () => {
+  render(<HomePage />);
+  const footer = screen.getByRole('contentinfo');
+  expect(
+    within(footer).getByText('Web design · Local SEO · Ongoing support'),
+  ).toBeVisible();
+  [
+    'Forma Studio · Websites for local businesses',
+    'Design preview · Contact address to be confirmed',
+  ].map((copy) => expect(footer).not.toHaveTextContent(copy));
+  expect(screen.getByRole('link', { name: /email us/i })).toHaveAttribute(
+    'href',
+    expect.stringContaining('mailto:szabototo89@gmail.com'),
+  );
 });
 
 test('hero showcases Laura Faichney’s homepage with truthful project credit', () => {

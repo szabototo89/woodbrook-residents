@@ -14,7 +14,7 @@ As a local business owner, read practical guidance about a website, local discov
 - Draft articles include source links and access dates; no invented authors, publication dates, readership figures or customer results are presented.
 - A contact call to action returns to the homepage contact panel.
 
-- The header presents the generated Forma Studio logo with a matching favicon; page titles, journal, footer and illustrative copy use the same brand. The longer wordmark remains readable with usable navigation on narrow phones.
+- The header presents the generated Forma Studio logo with a matching favicon; page titles and journal copy use the same brand. The longer wordmark remains readable with usable navigation on narrow phones. The journal footer keeps only the link back to the homepage.
 
 ## Acceptance criteria
 

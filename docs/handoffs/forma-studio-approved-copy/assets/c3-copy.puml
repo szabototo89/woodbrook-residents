@@ -1,0 +1,25 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Forma static builder — C3 — changes from a86762b
+
+Container(forma_web, "Forma public site", "React and prerendered HTML", "Displays the two static pages and opens email enquiries")
+Container_Boundary(forma_builder, "Forma static builder") {
+  Component(forma_query, "Published content reader", "GROQ over HTTPS", "Reads published pages and resolves references")
+  Component(forma_validation, "[CHANGED] Content validation", "Zod runtime schemas", "Checks required content at runtime\nChange: Previously required a footer statement in site settings; now omits the field and drops stored values.")
+  Component(forma_snapshot, "Build snapshot module", "Vite virtual module", "Shares parsed content with both route bundles")
+  Component(forma_prerender, "[CHANGED] Page prerendering", "TanStack Start", "Renders homepage and journal as static HTML\nChange: Previously emitted the footer statement in both pages; now emits only approved footer copy.")
+}
+
+Rel(forma_query, forma_validation, "Validates the query result", "TypeScript function")
+Rel(forma_validation, forma_snapshot, "Supplies parsed content", "TypeScript value")
+Rel(forma_snapshot, forma_prerender, "Provides the snapshot", "ES module")
+Rel(forma_prerender, forma_web, "Produces both static pages", "Static files")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

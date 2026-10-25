@@ -259,10 +259,6 @@ export const editorialHelp: Record<
       description:
         'Starting questions filled in for the visitor’s email. Put each prompt on a separate line.',
     },
-    footer: {
-      title: 'Footer',
-      description: 'Shared footer statement shown on both public pages.',
-    },
     footerServices: {
       title: 'Footer services',
       description: 'Short service summary shown on the homepage footer.',

@@ -239,7 +239,6 @@ export function HomePage() {
         </Card>
       </main>
       <footer className="site-footer">
-        <span>{settings.footer}</span>
         <span>{settings.footerServices}</span>
       </footer>
     </div>

@@ -94,3 +94,16 @@ test('an absent optional journal image is valid but an incomplete supplied image
     }),
   ).toBe(true);
 });
+
+test('site settings no longer offer the removed footer statement', () => {
+  expect(type('siteSettings')?.fields.map((field) => field.name)).toEqual([
+    'brand',
+    'logo',
+    'enquiryEmail',
+    'enquirySubject',
+    'enquiryBody',
+    'footerServices',
+    'navigation',
+    'talkLabel',
+  ]);
+});

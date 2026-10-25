@@ -14,8 +14,11 @@ test('blog presents useful guides and a menu that returns to homepage sections',
   );
   expect(screen.getByText('The Forma Studio journal')).toBeVisible();
   expect(
-    screen.getByText('Forma Studio · Websites for local businesses'),
-  ).toBeVisible();
+    screen.queryByText('Forma Studio · Websites for local businesses'),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByText('Design preview · Contact address to be confirmed'),
+  ).not.toBeInTheDocument();
   expect(
     screen.getByRole('heading', {
       level: 1,
@@ -48,6 +51,11 @@ test('blog presents useful guides and a menu that returns to homepage sections',
     'href',
     '/',
   );
+  expect(
+    within(screen.getByRole('contentinfo')).getByRole('link', {
+      name: 'Back to Forma Studio home',
+    }),
+  ).toHaveAttribute('href', '/');
 });
 
 test('blog guides expand and collapse in place', async () => {

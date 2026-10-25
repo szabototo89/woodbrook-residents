@@ -1,0 +1,27 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Forma approved copy — C2 — changes from a86762b
+
+Person(forma_customer, "Prospective customer", "Browses services, projects and practical guides")
+Person(forma_editor, "Forma content editor", "Edits and publishes website content")
+System_Ext(forma_cms, "[CHANGED] Forma Sanity project", "Stores Forma published content, drafts and images\nChange: Published site settings no longer store the removed footer statement.")
+System_Boundary(forma_system, "Forma Studio website") {
+  Container(forma_web, "[CHANGED] Forma public site", "React and prerendered HTML", "Displays the two static pages and opens email enquiries\nChange: Previously rendered a brand descriptor in both footers; now renders the service summary and home link only.")
+  Container(forma_studio, "[CHANGED] Forma content editor", "Sanity Studio SPA", "Edits and publishes Forma content with field guidance\nChange: Previously offered a Footer field in Site settings; now offers no footer statement field.")
+  Container(forma_builder, "[CHANGED] Forma static builder", "Bun, Vite and TanStack Start", "Validates content and builds both public pages\nChange: The content contract no longer requires a footer statement before building.")
+}
+
+Rel(forma_customer, forma_web, "Browses static pages using", "Browser")
+Rel(forma_editor, forma_studio, "Edits content using", "Browser")
+Rel(forma_studio, forma_cms, "Saves drafts and publishes", "Sanity API / HTTPS")
+Rel(forma_builder, forma_cms, "Reads published content", "GROQ / HTTPS")
+Rel(forma_builder, forma_web, "Builds the public pages", "Vite virtual module and HTML")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml
