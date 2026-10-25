@@ -13,14 +13,14 @@ import componentImage from './assets/c3-copy.svg';
 
 export const metadata = {
   title: 'Forma Studio: approved website copy',
-  status: 'in progress',
+  status: 'ready for review',
   agent: 'opencode',
   session: 'ses_e8bb3e858ffeFjMgQWMQzuwDDo',
   worktree:
     '/Users/tszabo/orca/workspaces/woodbrook/forma-studio-remove-preview-notices-and-unapprov',
   branch: 'szabototo89/forma-studio-remove-preview-notices-and-unapprov',
-  commit: 'a86762b',
-  updatedAt: '2026-10-25T18:40:00Z',
+  commit: '7bc2d75',
+  updatedAt: '2026-10-25T18:48:31Z',
   summary:
     'Both Forma footers drop the removed preview statement, the stored copy is unset and a recorded copy review covers the two pages.',
 };
@@ -81,22 +81,23 @@ Change: validation no longer requires the field and prerendering no longer emits
 
 ## Verification
 
-| Check                 | Result  | Evidence                                                                                                                              |
-| --------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| TDD                   | PASS    | Footer assertions in three web tests and the Studio schema test failed before implementation; all pass afterwards.                    |
-| Forma unit tests      | PASS    | `bun run --cwd apps/forma-studio-web test:unit`: 67 tests; 98.33% statements, 98.71% branches, 97.5% functions, 98.24% lines.         |
-| Studio schema tests   | PASS    | `bun run --cwd apps/forma-studio test:unit`: 6 tests, including the site settings field list without a footer statement.              |
-| Types and lint        | PASS    | Forma web and Studio `typecheck` plus Forma web `lint --max-warnings 0` exit 0.                                                       |
-| Browser tests         | PASS    | `bunx playwright test --grep-invert "capture the live Sanity-backed pages"`: 50 passed, 7 skipped on Chrome desktop and phone WebKit. |
-| Prerendered HTML      | PASS    | `dist/client/index.html` and `dist/client/blog/index.html` contain neither reported line; footers show the summary and home link.     |
-| Production comparison | PASS    | `https://forma-studio-web-ddv.pages.dev/` and `/blog` showed the footer statement before the change; the deployment time is recorded. |
-| Copy review           | PASS    | Ten review rows cover both pages, navigation, footers and metadata in `docs/features/forma-studio-approved-copy.md`.                  |
-| Second reported line  | PASS    | Not reproducible: absent from source, built HTML and production; last recorded in the retired `apps/locale-web` footer at `858c374`.  |
-| Store update          | PASS    | Sanity query of `siteSettings` returns no `footer` value; `footerServices` is retained.                                               |
-| Repository build      | NOT RUN | `bun run build` runs after the handoff file exists; the earlier attempt stopped at `docs:check` for this missing file.                |
-| Preview deployment    | NOT RUN | Cloudflare Pages preview deploy and its URL are recorded after the first commit.                                                      |
-| Handoff structure     | NOT RUN | `bun run --cwd apps/handoffs docs:check` runs after this document is written.                                                         |
-| Desktop/mobile review | PASS    | Playwright captures at 1440×1000 and 390×844, 2× scale, of both pages and both footers; layout and links were inspected.              |
+| Check                 | Result | Evidence                                                                                                                                    |
+| --------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD                   | PASS   | Footer assertions in three web tests and the Studio schema test failed before implementation; all pass afterwards.                          |
+| Forma unit tests      | PASS   | `bun run --cwd apps/forma-studio-web test:unit`: 67 tests; 98.33% statements, 98.71% branches, 97.5% functions, 98.24% lines.               |
+| Studio schema tests   | PASS   | `bun run --cwd apps/forma-studio test:unit`: 6 tests, including the site settings field list without a footer statement.                    |
+| Types and lint        | PASS   | Forma web and Studio `typecheck` plus Forma web `lint --max-warnings 0` exit 0.                                                             |
+| Browser tests         | PASS   | `bunx playwright test --grep-invert "capture the live Sanity-backed pages"`: 50 passed, 7 skipped on Chrome desktop and phone WebKit.       |
+| Prerendered HTML      | PASS   | `dist/client/index.html` and `dist/client/blog/index.html` contain neither reported line; footers show the summary and home link.           |
+| Production comparison | PASS   | `https://forma-studio-web-ddv.pages.dev/` and `/blog` showed the footer statement before the change; the deployment time is recorded.       |
+| Copy review           | PASS   | Ten review rows cover both pages, navigation, footers and metadata in `docs/features/forma-studio-approved-copy.md`.                        |
+| Second reported line  | PASS   | Not reproducible: absent from source, built HTML and production; last recorded in the retired `apps/locale-web` footer at `858c374`.        |
+| Store update          | PASS   | Sanity query of `siteSettings` returns no `footer` value; `footerServices` is retained.                                                     |
+| Repository build      | PASS   | `bun run build` exits 0 for every buildable application, including the handoff build and its `docs:check` gate.                             |
+| Preview deployment    | PASS   | `https://szabototo89-forma-studio-rem.forma-studio-web-ddv.pages.dev` serves commit `7bc2d75`; both routes return 200 with the new footers. |
+| Preview smoke test    | PASS   | Chrome desktop and phone WebKit: menu to `/blog`, Services back to `/#services`, Discuss Growth to `#contact`, mailto intact, no errors.    |
+| Handoff structure     | PASS   | `bun run --cwd apps/handoffs docs:check` validates 15 handoffs; `c4:check` confirms the three new sources match the model.                  |
+| Desktop/mobile review | PASS   | Playwright captures at 1440×1000 and 390×844, 2× scale, of both pages and both footers; layout and links were inspected.                    |
 
 ## Appearance
 
@@ -149,4 +150,4 @@ Captures use the real published content. The footer close-ups show the result of
 
 ## Next steps
 
-Review the open pull request and its Cloudflare preview. Business approval of prices, service scope and FAQ commitments remains a content-owner action; this handoff does not change that copy.
+Review the open pull request at https://github.com/szabototo89/woodbrook-residents/pulls and its Cloudflare preview `https://szabototo89-forma-studio-rem.forma-studio-web-ddv.pages.dev`. Business approval of prices, service scope and FAQ commitments remains a content-owner action; this handoff does not change that copy.
