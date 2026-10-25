@@ -1,0 +1,87 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+
+export const metadata = {
+  title: 'Forma Studio Cloudflare deployment actions',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a172b4-9f56-7c70-abaf-57e136faa9ef',
+  worktree: '/Users/tszabo/orca/workspaces/woodbrook/forma-studio-deployment',
+  branch: 'szabototo89/forma-studio-deployment',
+  commit: 'be4fc6880f2be8b20cba2a7f7f89fc86fce48526',
+  updatedAt: '2026-10-25T11:05:27Z',
+  summary:
+    'GitHub Actions tests and publishes Forma Studio changes to its existing Cloudflare Pages project.',
+};
+
+## Goal
+
+Publish Forma Studio changes through GitHub Actions. Reuse the existing Cloudflare site and deployment secrets, then verify a real production run.
+
+## Technical changes
+
+Baseline: `1bf7f3d` before implementation; compared with implementation commit `be4fc6880f2be8b20cba2a7f7f89fc86fce48526`. The session reuses its existing linked worktree and branch.
+
+| Area                | Before                                    | After                                                                     | Why                                           | Code                                           |
+| ------------------- | ----------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------- | ---------------------------------------------- |
+| Production trigger  | Forma has no deployment workflow.         | Main pushes and manual runs publish Forma changes.                        | Keep production updated from GitHub.          | `.github/workflows/deploy-forma-studio.yml`    |
+| Release checks      | Deployment requires a manual local build. | Frozen install, type checks, unit coverage and build precede publication. | Prevent failed builds from publishing.        | Workflow `deploy.steps`                        |
+| Deployment boundary | An existing Pages project hosts the site. | Upload only `dist/client` to that same project with its commit hash.      | Preserve the public URL and static hosting.   | Workflow `Deploy to Cloudflare Pages`          |
+| Production guard    | No Forma deployment queue exists.         | Main-only runs queue with read-only repository permissions.               | Avoid overlapping production uploads.         | Workflow `if`, `concurrency`, `permissions`    |
+| Regression checks   | No Forma workflow contract test exists.   | Two configuration tests run with repository script tests.                 | Preserve release triggers and check ordering. | `scripts/deploy-forma.test.ts`, `package.json` |
+| Maintainer guidance | README describes manual builds.           | README explains automatic releases, manual reruns and required secrets.   | Make deployment repeatable.                   | `apps/forma-studio-web/README.md`              |
+
+The Pages project `forma-studio-web` already serves `https://forma-studio-web-ddv.pages.dev`. No new project, domain, dependency or credential is created. Existing GitHub secrets supply Cloudflare Pages access. No application code or content changes.
+
+## Architecture changes
+
+Forma Studio is a static business website with home and journal pages. This change adds a deployment workflow, which runs checks and uploads static files; runtime architecture stays unchanged. No runtime C4 diagram or shared model change is needed.
+
+| Level | Change                                                                     | Evidence                                                      |
+| ----- | -------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| C1    | Unchanged: visitors use the same public website and external links.        | No visitor interaction or system boundary changes.            |
+| C2    | Unchanged: the same static application runs on the existing Pages project. | `apps/forma-studio-web/wrangler.jsonc` and project inventory. |
+| C3    | Unchanged: home, journal and shared chrome responsibilities remain intact. | Only CI configuration, tests and documentation change.        |
+
+## Verification
+
+| Check                 | Result  | Evidence                                                                                                                                                    |
+| --------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Failing test first    | PASS    | `bun test scripts/deploy-forma.test.ts`: two failures before the workflow existed.                                                                          |
+| Workflow regression   | PASS    | The same command passes both tests after implementation; standalone script typecheck and ESLint also pass.                                                  |
+| Forma types and units | PASS    | App typecheck exits 0; 24 unit tests pass with 100% measured coverage.                                                                                      |
+| Forma browser checks  | PASS    | App `test:e2e`: 47 pass; seven desktop skips cover phone-only cases.                                                                                        |
+| Repository build      | PASS    | `bun run build` exits 0 across all build targets.                                                                                                           |
+| Commit hook           | PASS    | Normal `git commit` runs repository formatting, ESLint, typechecks, unit, browser and end-to-end checks successfully.                                       |
+| GitHub deployment     | PASS    | [Run 40187230507](https://github.com/szabototo89/woodbrook-residents/actions/runs/40187230507) succeeds; `assets/github-run.json` records commit `be4fc68`. |
+| Cloudflare production | PASS    | Wrangler lists production deployment `689bad9c-d275-402d-a4fa-daed77683d43` on `main`, source `be4fc68`.                                                    |
+| Desktop/mobile review | PASS    | Live Playwright: home/blog HTTP 200, no browser errors or overflow; 1440×1000 at 2× and 390×844 at 3×.                                                      |
+| Review evidence       | PASS    | `assets/production-review.json`, `assets/desktop.png`, `assets/mobile.png`; existing illustrative café mockup remains labeled.                              |
+| Handoff structure     | PASS    | `bun run --cwd apps/handoffs docs:check` validates this handoff.                                                                                            |
+| Handoff build         | PASS    | `bun run --cwd apps/handoffs build` exits 0, including C4 source and MDX checks.                                                                            |
+| cmux preview          | NOT RUN | `cmux browser open` is denied because this process was not started inside cmux; live Playwright review succeeds.                                            |
+
+## Appearance
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Live production desktop',
+      alt: 'Forma Studio production home page on desktop',
+      description:
+        'Check the deployed navigation, hero and service cards. The café image is an existing illustrative mockup.',
+    },
+    {
+      src: mobile,
+      title: 'Live production mobile',
+      alt: 'Forma Studio production home page on a phone',
+      description:
+        'Check the deployed phone layout, contact action and contained hero image. Existing commercial copy remains draft.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None.

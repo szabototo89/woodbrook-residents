@@ -1,0 +1,38 @@
+{
+  "url": "https://forma-studio-web-ddv.pages.dev",
+  "reviewedAt": "2026-10-25T11:04:32.605Z",
+  "results": [
+    {
+      "viewport": {
+        "name": "desktop",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "deviceScaleFactor": 2
+      },
+      "homeStatus": 200,
+      "blogStatus": 200,
+      "blogHeading": "Small ideas.\nA stronger online presence.",
+      "horizontalOverflow": false,
+      "browserErrors": []
+    },
+    {
+      "viewport": {
+        "name": "mobile",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "deviceScaleFactor": 3,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "homeStatus": 200,
+      "blogStatus": 200,
+      "blogHeading": "Small ideas.\nA stronger online presence.",
+      "horizontalOverflow": false,
+      "browserErrors": []
+    }
+  ]
+}
