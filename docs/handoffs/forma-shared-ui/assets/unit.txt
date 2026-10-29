@@ -1,27 +1,27 @@
 $ vitest run --coverage
 
- RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/forma-studio-standardise-repeated-ui-with-shared/apps/forma-studio-web
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/forma-studio-web
       Coverage enabled with v8
 
 
  Test Files  9 passed (9)
       Tests  78 passed (78)
-   Start at  19:05:31
-   Duration  2.81s (transform 534ms, setup 1.15s, import 1.14s, tests 3.01s, environment 3.34s)
+   Start at  11:48:46
+   Duration  2.72s (transform 556ms, setup 1.32s, import 1.06s, tests 2.89s, environment 3.51s)
 
  % Coverage report from v8
 -------------------|---------|----------|---------|---------|-------------------
-File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
 -------------------|---------|----------|---------|---------|-------------------
-All files          |   98.47 |    99.08 |   97.82 |    98.4 |
- features/content  |   96.82 |    96.29 |    92.3 |   96.66 |
-  fetchContent.ts  |   95.23 |    94.73 |     100 |      95 | 26
-  pageHead.ts      |       0 |      100 |       0 |       0 | 3
+All files          |   98.54 |    99.07 |   97.82 |   98.47 |                   
+ features/content  |   96.82 |    96.29 |    92.3 |   96.66 |                   
+  fetchContent.ts  |   95.23 |    94.73 |     100 |      95 | 26                
+  pageHead.ts      |       0 |      100 |       0 |       0 | 3                 
 -------------------|---------|----------|---------|---------|-------------------
 
 =============================== Coverage summary ===============================
-Statements   : 98.47% ( 129/131 )
-Branches     : 99.08% ( 108/109 )
+Statements   : 98.54% ( 135/137 )
+Branches     : 99.07% ( 107/108 )
 Functions    : 97.82% ( 45/46 )
-Lines        : 98.4% ( 123/125 )
+Lines        : 98.47% ( 129/131 )
 ================================================================================

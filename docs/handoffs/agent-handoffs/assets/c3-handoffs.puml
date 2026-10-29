@@ -9,11 +9,11 @@ skinparam ranksep 45
 title Handoff browser reader — C3 components
 
 Container_Boundary(handoff_browser, "Handoff browser reader") {
-  Component(handoff_navigation, "Document navigation", "React hash navigation", "Opens a feature handoff from its browser URL")
+  Component(handoff_navigation, "HandoffViewer", "React hash navigation", "Opens a feature handoff from its browser URL")
   Component(handoff_catalog, "Document catalog", "Vite module discovery", "Finds the repository handoffs available to the reader")
-  Component(handoff_reader, "Document reader", "React and MDX", "Displays the handoff, recorded Git context and section links")
-  Component(handoff_diagrams, "Architecture diagram viewer", "React, SVG and react-zoom-pan-pinch", "Fits diagrams into a frame and provides zoom, pan and source inspection")
-  Component(handoff_gallery, "Screenshot gallery", "React", "Shows interface screenshots and explains what to review")
+  Component(handoff_reader, "HandoffDetailPage, HandoffMetadata, HandoffOutline", "React and MDX", "Displays the handoff, recorded Git context and section links")
+  Component(handoff_diagrams, "PlantUmlDiagram", "React, SVG and react-zoom-pan-pinch", "Fits diagrams into a frame and provides zoom, pan and source inspection")
+  Component(handoff_gallery, "AppearanceGallery", "React", "Shows interface screenshots and explains what to review")
 }
 
 Rel(handoff_navigation, handoff_catalog, "Finds a document in")

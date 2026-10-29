@@ -18,13 +18,13 @@ import timeoutEvidence from './assets/webkit-rerun.txt?url';
 export const metadata = {
   title: 'Forma Studio shared UI patterns',
   status: 'ready for review',
-  agent: 'codex',
-  session: '01a1744c-80d9-73c0-a3a1-9acac19d8bf6',
+  agent: 'opencode',
+  session: 'ses_e789423f9ffeleO76blMEVHR4m',
   worktree:
-    '/Users/tszabo/orca/workspaces/woodbrook/forma-studio-standardise-repeated-ui-with-shared',
-  branch: 'szabototo89/forma-studio-standardise-repeated-ui-with-shared',
-  commit: '880739718df9a4209cb1673f544fffd87bf56337',
-  updatedAt: '2026-10-25T20:22:49Z',
+    '/Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2',
+  branch: 'szabototo89/forma-studio-standardise-repeated-ui-with-shared-2',
+  commit: 'c4f0382aa8853b69b5a2ef2f689412f1515f4de5',
+  updatedAt: '2026-10-29T11:49:42Z',
   summary:
     'Repeated Forma Studio presentation now uses typed shared components while preserving the existing page design.',
 };
@@ -35,19 +35,21 @@ Complete [issue #5](https://github.com/szabototo89/woodbrook-residents/issues/5)
 
 ## Technical changes
 
-Baseline: `c31cd3e3146955c50c1d7a7fc9448b270e7584c1`, including merged PR #10. Implementation: `880739718df9a4209cb1673f544fffd87bf56337`.
+Baseline: `c31cd3e3146955c50c1d7a7fc9448b270e7584c1`, including merged PR #10. Implementation: `c4f0382aa8853b69b5a2ef2f689412f1515f4de5`.
 
-| Area           | Before                                                   | After                                                                    | Why                                                                   | Code                                                                    |
-| -------------- | -------------------------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Page chrome    | Both pages copy skip link, main and footer markup.       | SiteLayout composes the existing header and new SiteFooter.              | Update shared chrome once.                                            | `apps/forma-studio-web/src/components/SiteLayout.tsx`, `SiteFooter.tsx` |
-| Arrow actions  | Consumers repeat anchors and decorative arrows.          | ActionLink owns button/text styles, arrow direction and size.            | Keep native links and accessible names consistent.                    | `apps/forma-studio-web/src/components/ActionLink.tsx`                   |
-| Section titles | Services, process and work copy the same heading layout. | SectionHeading owns h2 grouping and optional eyebrow/arrow.              | Retain heading hierarchy with explicit differences.                   | `apps/forma-studio-web/src/components/SectionHeading.tsx`               |
-| Icon discs     | Services and guides repeat circular icon markup and CSS. | IconBadge selects service/guide treatments.                              | Share the responsibility while retaining colours, strokes and gaps.   | `apps/forma-studio-web/src/components/IconBadge.tsx`, `src/styles.css`  |
-| Disclosures    | Services and guides copy native details markup.          | Disclosure owns native details/summary with two variants.                | Share keyboard semantics; keep lists and prose in feature slots.      | `apps/forma-studio-web/src/components/Disclosure.tsx`                   |
-| Card styling   | Feature classes repeat Card surfaces and padding.        | Card owns equivalent surfaces, borders, padding and the popular ring.    | Remove superseded styling; record existing journal tablet exceptions. | `apps/forma-studio-web/src/styles.css`, `HomePage.tsx`                  |
-| Usage contract | No complete repeated-pattern inventory exists.           | Component guide records consumers, typed props, examples and exceptions. | Make future changes local and reviewable.                             | `apps/forma-studio-web/src/components/README.md`                        |
-
-| Browser verification | Fixed ports and historical capture paths could conflict with another session or rewrite old evidence. | Tests accept `FORMA_PLAYWRIGHT_PORT`, use two workers and store routine captures under test output. | Keep verification isolated and preserve historical handoffs. | `apps/forma-studio-web/playwright.config.ts`, `tests/config.test.ts`, `tests/e2e/content-boundary.spec.ts` |
+| Area           | Before                                                   | After                                                                                   | Why                                                                   | Code                                                                     |
+| -------------- | -------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Page chrome    | Both pages copy skip link, main and footer markup.       | SiteLayout composes the existing header and new SiteFooter.                             | Update shared chrome once.                                            | `apps/forma-studio-web/src/components/SiteLayout.tsx`, `SiteFooter.tsx`  |
+| Arrow actions  | Consumers repeat anchors and decorative arrows.          | ActionLink owns button/text styles, arrow direction and size.                           | Keep native links and accessible names consistent.                    | `apps/forma-studio-web/src/components/ActionLink.tsx`                    |
+| Section titles | Services, process and work copy the same heading layout. | SectionHeading owns h2 grouping and optional eyebrow/arrow.                             | Retain heading hierarchy with explicit differences.                   | `apps/forma-studio-web/src/components/SectionHeading.tsx`                |
+| Icon discs     | Services and guides repeat circular icon markup and CSS. | IconBadge selects service/guide treatments.                                             | Share the responsibility while retaining colours, strokes and gaps.   | `apps/forma-studio-web/src/components/IconBadge.tsx`, `src/styles.css`   |
+| Disclosures    | Services and guides copy native details markup.          | Disclosure owns native details/summary with two variants.                               | Share keyboard semantics; keep lists and prose in feature slots.      | `apps/forma-studio-web/src/components/Disclosure.tsx`                    |
+| Card styling   | Feature classes repeat Card surfaces and padding.        | Card owns equivalent surfaces, borders, padding and the popular ring.                   | Remove superseded styling; record existing journal tablet exceptions. | `apps/forma-studio-web/src/styles.css`, `HomePage.tsx`                   |
+| Usage contract | No complete repeated-pattern inventory exists.           | Component guide records consumers, typed props, examples and exceptions.                | Make future changes local and reviewable.                             | `apps/forma-studio-web/src/components/README.md`                         |
+| Review: reads  | ActionLink destructured props with inline defaults.      | ActionLink reads `props.*` with named defaults and an explicit contract.                | Distinguish prop reads from derived local values.                     | `apps/forma-studio-web/src/components/ActionLink.tsx`                    |
+| Review: tests  | Both capture tests repeat viewport and page tuples.      | Tests import shared capture targets from one module.                                    | Keep screenshot targets consistent across specs.                      | `apps/forma-studio-web/tests/e2e/captureTargets.ts`, `shared-ui.spec.ts` |
+| Review: naming | C4 component elements carry free-text names.             | Component elements carry the React component names they own.                            | Locate the owning code from a diagram label.                          | `docs/architecture/c4-model.json`, `apps/handoffs/README.md`             |
+| Review: ports  | Fixed ports and historical capture paths could conflict. | Tests accept `FORMA_PLAYWRIGHT_PORT`, use two workers and keep captures in test output. | Keep verification isolated and preserve historical handoffs.          | `apps/forma-studio-web/playwright.config.ts`, `tests/config.test.ts`     |
 
 `Card` and `SiteHeader` retain their existing responsibilities. The home FAQ remains feature-owned because it uses exclusive button-controlled answer regions. Plain email, source and navigation links retain their own markup. CMS schemas, routes and dependencies do not change. The shared footer preserves merged #4: home shows the service line; journal shows the home link. It never reads the removed field. No sample content wrapper remains.
 
@@ -69,23 +71,25 @@ Forma Studio explains website services and lets prospective customers enquire by
 
 Change: page features now compose shared chrome and typed presentation patterns instead of copying their markup; unmarked components retain their responsibilities.
 
+Component labels now name the React components each element owns, so the diagram matches the code. The naming applies to every React-backed component in the model; eight C4 sources and their SVGs were regenerated for it.
+
 ## Verification
 
-| Check                       | Result | Evidence                                                                                                                                                                     |
-| --------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Test-first contracts        | PASS   | Nine behavior tests fail before extraction; port/worker contracts fail before configuration. <a href={red}>Initial red output</a>; assets/port-red.txt and worker-red.txt.   |
-| Unit coverage               | PASS   | `bun run --cwd apps/forma-studio-web test:unit`: 78 pass; statements 98.47%, branches 99.08%, functions 97.82%, lines 98.4%. <a href={unit}>Output</a>.                      |
-| Types and lint              | PASS   | App production build runs `typecheck` and `lint`; both exit 0.                                                                                                               |
-| Visual parity               | PASS   | Both live-content pages at 1440×1000 and 390×844, 2× resolution: zero differing pixels against merged #4. <a href={comparison}>Comparison</a>.                               |
-| Browser regressions         | PASS   | Full run: 58 pass, 11 skips. Two later WebKit timeouts pass on focused rerun. <a href={browserEvidence}>Full</a>, <a href={timeoutEvidence}>rerun</a>.                       |
-| Published-content app build | PASS   | `bun run --cwd apps/forma-studio-web build`: exit 0; both pages prerender. <a href={liveBuild}>Output</a>.                                                                   |
-| Repository build            | PASS   | `bun run build`: exit 0 across all build targets. <a href={repositoryBuild}>Output</a>.                                                                                      |
-| Footer dependency           | PASS   | Initial missing-field failure resolves by incorporating merged #10, preserving its approved content contract. <a href={resolution}>Resolution</a>.                           |
-| C4 generation               | PASS   | `c4:generate`, `c4:check` and local PlantUML rendering succeed; model and generated sources agree.                                                                           |
-| Handoff checks              | PASS   | `docs:check`, 73 handoff unit tests and viewer build exit 0; desktop/mobile fit, zoom, source and full-size link pass.                                                       |
-| cmux dev tab                | FAIL   | cmux denies processes started outside cmux. Live Forma dev responds on port 3016; web dev remains on 3004.                                                                   |
-| Normal commit hooks         | PASS   | Source commit `8807397` runs all repository lint, unit, browser and E2E checks successfully. <a href={precommit}>Output</a>.                                                 |
-| Cloudflare source preview   | PASS   | [Preview](https://ae652f59.forma-studio-web-ddv.pages.dev), source commit `8807397`: both routes and desktop/mobile smoke checks pass. <a href={previewEvidence}>Output</a>. |
+| Check                       | Result | Evidence                                                                                                                                                                                 |
+| --------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test-first contracts        | PASS   | Nine behavior tests fail before extraction; port/worker contracts fail before configuration. <a href={red}>Initial red output</a>; assets/port-red.txt and worker-red.txt.               |
+| Unit coverage               | PASS   | `bun run --cwd apps/forma-studio-web test:unit`: 78 pass; statements 98.54%, branches 99.07%, functions 97.82%, lines 98.47%. <a href={unit}>Output</a>.                                 |
+| Types and lint              | PASS   | App build runs `typecheck` and `lint` with exit 0; repository `precommit` lint and typecheck also exit 0.                                                                                |
+| Visual parity               | PASS   | Recaptured pages at 1440×1000 and 390×844, 2× resolution: zero differing pixels and unchanged PNG files against merged #4. <a href={comparison}>Comparison</a>.                          |
+| Browser regressions         | PASS   | Full run on isolated port 4316: 58 pass, 11 expected skips; desktop, mobile Chromium and mobile WebKit. <a href={browserEvidence}>Full</a>, <a href={timeoutEvidence}>earlier rerun</a>. |
+| Published-content app build | PASS   | `bun run --cwd apps/forma-studio-web build`: exit 0; both pages prerender. <a href={liveBuild}>Output</a>.                                                                               |
+| Repository build            | PASS   | `bun run build`: exit 0 across all build targets. <a href={repositoryBuild}>Output</a>.                                                                                                  |
+| Footer dependency           | PASS   | Initial missing-field failure resolves by incorporating merged #10, preserving its approved content contract. <a href={resolution}>Resolution</a>.                                       |
+| C4 generation               | PASS   | `c4:generate`, `c4:check` and PlantUML 1.2026.9 rendering succeed; eight React-named sources and SVGs regenerated.                                                                       |
+| Handoff checks              | PASS   | `docs:check`, handoff unit tests and viewer build exit 0; desktop/mobile fit, zoom, source and full-size link pass.                                                                      |
+| cmux dev tab                | FAIL   | cmux denies processes started outside cmux. Live Forma dev responds on port 3016; web dev remains on 3004.                                                                               |
+| Normal commit hooks         | PASS   | Source commit `c4f0382` runs all repository lint, unit, browser and E2E checks successfully. <a href={precommit}>Output</a>.                                                             |
+| Cloudflare source preview   | PASS   | [Preview](https://156b8595.forma-studio-web-ddv.pages.dev), source commit `c4f0382`: both routes and desktop/mobile smoke checks pass. <a href={previewEvidence}>Output</a>.             |
 
 ## Appearance
 

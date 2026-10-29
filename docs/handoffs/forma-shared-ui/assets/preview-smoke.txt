@@ -1,5 +1,6 @@
-Cloudflare source preview: https://ae652f59.forma-studio-web-ddv.pages.dev
-Alias: https://forma-shared-ui.forma-studio-web-ddv.pages.dev
-Source commit: 880739718df9a4209cb1673f544fffd87bf56337
-1440px: both routes HTTP 200; skip focus, navigation, enquiry link, keyboard disclosures, FAQ, approved footer and overflow checks pass; no browser errors or Sanity API calls
-390px: both routes HTTP 200; skip focus, navigation, enquiry link, keyboard disclosures, FAQ, approved footer and overflow checks pass; no browser errors or Sanity API calls
+Cloudflare source preview: https://156b8595.forma-studio-web-ddv.pages.dev
+Alias: https://szabototo89-forma-studio-sta.forma-studio-web-ddv.pages.dev
+Source commit: c4f0382aa8853b69b5a2ef2f689412f1515f4de5
+1440px: both routes HTTP 200; header action keeps button/header-cta classes and one arrow icon; skip link takes first focus; no horizontal overflow or page errors
+390px: both routes HTTP 200 with the same checks passing at the phone viewport
+Journal: the back action renders its arrow before the label

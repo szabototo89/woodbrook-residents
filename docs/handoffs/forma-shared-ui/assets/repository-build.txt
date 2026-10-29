@@ -38,7 +38,7 @@ dist/client/assets/registry-DAgUXY-I.js                      87.52 kB │ gzip: 
 dist/client/assets/Link-BnggOIRQ.js                         134.05 kB │ gzip:  34.42 kB
 dist/client/assets/index-C6F3IaHo.js                        384.78 kB │ gzip: 120.57 kB
 
-✓ built in 411ms
+✓ built in 334ms
 vite v8.3.0 building ssr environment for production...
 transforming...
 ✓ 165 modules transformed.
@@ -54,22 +54,22 @@ dist/server/assets/TTLIndicator-CzTqs85x.js                   1.23 kB │ gzip: 
 dist/server/assets/_shell.templates.index-NSGWhPxa.js         1.41 kB │ gzip:  0.61 kB
 dist/server/assets/_shell.overview.index-jbXOSOQc.js          1.53 kB │ gzip:  0.63 kB
 dist/server/assets/environments-ZAViB9T9.js                   4.10 kB │ gzip:  1.28 kB
-dist/server/assets/_tanstack-start-manifest_v-YpMQrt1g.js     4.24 kB │ gzip:  0.94 kB
+dist/server/assets/_tanstack-start-manifest_v-DkHpoC2z.js     4.26 kB │ gzip:  0.94 kB
 dist/server/assets/_shell-Cjv8R98B.js                         5.03 kB │ gzip:  1.75 kB
 dist/server/assets/_shell.environments._envId-BQ3mSUQN.js     8.11 kB │ gzip:  2.05 kB
 dist/server/assets/_shell.environments.index-CHPg5VNY.js      9.70 kB │ gzip:  2.50 kB
 dist/server/assets/router-DFun6Bf8.js                        13.39 kB │ gzip:  3.63 kB
 dist/server/server.js                                       237.73 kB │ gzip: 55.12 kB
 
-✓ built in 132ms
+✓ built in 151ms
 ▶ design-proposal: build
 $ bun -e "import { existsSync } from 'node:fs'; for (const file of ['index.html', 'styles.css', 'script.js']) if (!existsSync(file)) throw new Error('Missing ' + file)"
 ▶ forma-studio: build
 $ sanity build
 - Clean output folder
-✔ Clean output folder (19ms)
+[32m✔[39m Clean output folder (11ms)
 - Build Sanity Studio
-✔ Build Sanity Studio (914ms)
+[32m✔[39m Build Sanity Studio (802ms)
 ▶ forma-studio-web: build
 $ bun run typecheck && bun run lint && vite build
 $ tsc --noEmit
@@ -96,12 +96,12 @@ rendering chunks...
 computing gzip size...
 dist/client/assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2   36.93 kB
 dist/client/assets/styles-BCAapZJp.css                        15.99 kB │ gzip:   3.98 kB
-dist/client/assets/blog-CwB38DiH.js                            2.13 kB │ gzip:   0.79 kB
-dist/client/assets/Card-BWnfAx3Z.js                            7.24 kB │ gzip:   3.05 kB
-dist/client/assets/routes-DdvvV7N1.js                          9.69 kB │ gzip:   2.78 kB
-dist/client/assets/index-CGW5Guu8.js                         450.15 kB │ gzip: 141.86 kB
+dist/client/assets/blog-C_viBM_f.js                            2.13 kB │ gzip:   0.79 kB
+dist/client/assets/Card-D_iPn0OY.js                            7.22 kB │ gzip:   3.07 kB
+dist/client/assets/routes-rE5dlmGF.js                          9.69 kB │ gzip:   2.78 kB
+dist/client/assets/index-D_mR92a-.js                         450.15 kB │ gzip: 141.86 kB
 
-✓ built in 223ms
+✓ built in 194ms
 vite v8.3.0 building ssr environment for production...
 transforming...
 ✓ 133 modules transformed.
@@ -109,14 +109,14 @@ rendering chunks...
 computing gzip size...
 dist/server/assets/start-BlGGRRqW.js                         0.21 kB │ gzip:  0.17 kB
 dist/server/assets/empty-plugin-adapters-bn1byaau.js         0.28 kB │ gzip:  0.18 kB
-dist/server/assets/_tanstack-start-manifest_v-Mo_5A4fv.js    0.96 kB │ gzip:  0.40 kB
-dist/server/assets/blog-CCLsjdlb.js                          3.89 kB │ gzip:  1.13 kB
-dist/server/assets/Card-CgHm5tfc.js                          5.78 kB │ gzip:  1.78 kB
-dist/server/assets/routes-CUjbTf1b.js                       13.24 kB │ gzip:  2.93 kB
-dist/server/assets/router-DSP7-2GH.js                       31.97 kB │ gzip:  9.94 kB
+dist/server/assets/_tanstack-start-manifest_v-GQPqEsOc.js    0.96 kB │ gzip:  0.40 kB
+dist/server/assets/blog-BXV2e4VA.js                          3.89 kB │ gzip:  1.13 kB
+dist/server/assets/Card-B7Fu_bTX.js                          5.86 kB │ gzip:  1.82 kB
+dist/server/assets/routes-BlhT0AAA.js                       13.24 kB │ gzip:  2.94 kB
+dist/server/assets/router-DTBEEsGL.js                       31.97 kB │ gzip:  9.94 kB
 dist/server/server.js                                      247.27 kB │ gzip: 57.66 kB
 
-✓ built in 53ms
+✓ built in 47ms
 (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
   - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
   - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
@@ -137,41 +137,42 @@ $ bun scripts/generate-c4.ts --check
 C4 model and generated sources agree.
 vite v8.3.0 building client environment for production...
 transforming...
-✓ 2092 modules transformed.
+✓ 2094 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/index.html                                       0.44 kB │ gzip:   0.28 kB
-dist/assets/sample-build-Dp6qyFZV.txt                 4.16 kB │ gzip:   0.98 kB
-dist/assets/repository-build-DHYVpOWG.txt             7.92 kB │ gzip:   2.48 kB
+dist/index.html                                       0.44 kB │ gzip:   0.27 kB
+dist/assets/live-build-DbFYL61l.txt                   4.16 kB │ gzip:   0.97 kB
+dist/assets/webkit-rerun-Cmvmkr1E.txt                 5.49 kB │ gzip:   1.43 kB
 dist/assets/footer-mobile-HOswksKX.png                9.13 kB
 dist/assets/playwright-q6bZ3xFT.txt                  10.38 kB │ gzip:   1.37 kB
-dist/assets/playwright-C7B110I9.txt                  10.84 kB │ gzip:   1.88 kB
 dist/assets/footer-desktop-xMivt4B9.png              11.07 kB
+dist/assets/playwright-D2KvPHX9.txt                  11.23 kB │ gzip:   1.94 kB
 dist/assets/c1-handoffs-B-pfUDb9.svg                 12.35 kB │ gzip:   4.47 kB
 dist/assets/c1-changes-CATM5JWE.svg                  12.58 kB │ gzip:   4.59 kB
-dist/assets/c3-handoffs-6HaJAbyS.svg                 18.26 kB │ gzip:   3.48 kB
+dist/assets/c3-handoffs-hyQcS6-3.svg                 17.66 kB │ gzip:   3.46 kB
 dist/assets/c1-context-CkioTBDo.svg                  18.30 kB │ gzip:   5.10 kB
 dist/assets/c1-context-B2-l99Iw.svg                  18.72 kB │ gzip:   5.16 kB
 dist/assets/c2-changes-D3uXKg-u.svg                  18.83 kB │ gzip:   3.73 kB
+dist/assets/c3-components-D5Osk3d_.svg               19.34 kB │ gzip:   3.61 kB
 dist/assets/c2-handoffs-DwBObWqi.svg                 19.86 kB │ gzip:   5.69 kB
 dist/assets/c2-containers-yAasigYx.svg               19.99 kB │ gzip:   5.76 kB
-dist/assets/c3-components-Bpz9mnTC.svg               20.07 kB │ gzip:   3.66 kB
 dist/assets/c1-context-BtMMYg22.svg                  20.55 kB │ gzip:   5.89 kB
 dist/assets/c1-copy-BbkJl_Mw.svg                     23.44 kB │ gzip:   5.91 kB
 dist/assets/c2-containers-CSTcHNvD.svg               23.72 kB │ gzip:   6.41 kB
 dist/assets/c3-copy-rMr26lMb.svg                     23.89 kB │ gzip:   4.41 kB
 dist/assets/c1-content-DsXEqu5M.svg                  25.24 kB │ gzip:   6.13 kB
+dist/assets/c3-components-BntmDUip.svg               26.62 kB │ gzip:   4.84 kB
 dist/assets/c3-changes-DhP6u_nR.svg                  27.02 kB │ gzip:   5.02 kB
-dist/assets/c3-components-nEaXo-0V.svg               27.06 kB │ gzip:   4.83 kB
 dist/assets/c2-containers-XF-OKGEf.svg               28.26 kB │ gzip:   7.20 kB
-dist/assets/c3-components-BW2woyCz.svg               29.89 kB │ gzip:   5.10 kB
+dist/assets/c3-components-N1whVW15.svg               29.51 kB │ gzip:   5.07 kB
 dist/assets/c3-content-g4VefdIR.svg                  30.66 kB │ gzip:   5.33 kB
-dist/assets/c3-ui-BDDHkIKC.svg                       31.03 kB │ gzip:   5.41 kB
-dist/assets/c3-components-B_kaESPw.svg               32.74 kB │ gzip:   5.62 kB
-dist/assets/c3-components-3ikQfh2S.svg               32.95 kB │ gzip:   5.66 kB
+dist/assets/c3-ui-DjS015SN.svg                       31.51 kB │ gzip:   5.54 kB
+dist/assets/c3-components-COpCaDSR.svg               31.79 kB │ gzip:   5.52 kB
+dist/assets/c3-components-C5pkAV8L.svg               31.98 kB │ gzip:   5.59 kB
 dist/assets/c2-containers-dRFaRPgV.svg               34.10 kB │ gzip:   7.60 kB
+dist/assets/c3-components-CjFnHBei.svg               36.31 kB │ gzip:   6.06 kB
 dist/assets/c2-copy-CyBibhKX.svg                     36.75 kB │ gzip:   7.98 kB
-dist/assets/c3-components-DyDhSnWC.svg               37.55 kB │ gzip:   6.16 kB
+dist/assets/repository-build-DMEn0NVl.txt            39.19 kB │ gzip:   8.77 kB
 dist/assets/c2-content-BWXiDFzQ.svg                  54.73 kB │ gzip:  10.43 kB
 dist/assets/metadata-390-Cdk5MVBv.png                56.55 kB
 dist/assets/architecture-390-DU6_f_Fz.png            82.68 kB
@@ -214,12 +215,10 @@ dist/assets/news-desktop-rsK2w9Xs.png               644.70 kB
 dist/assets/mobile-8yKvh7pj.png                     650.49 kB
 dist/assets/desktop-BmXjYMQe.png                    679.90 kB
 dist/assets/journal-mobile-XpcNv_fm.png             749.91 kB
-dist/assets/journal-mobile-CvgLWnsG.png             757.63 kB
 dist/assets/journal-mobile-DxHRQl2_.png             879.17 kB
 dist/assets/mobile-DBbd1dzE.png                   1,030.93 kB
 dist/assets/home-mobile-D_gmlPE9.png              1,232.92 kB
 dist/assets/journal-desktop-CZDMbPPE.png          1,256.31 kB
-dist/assets/journal-desktop-BnXOuj87.png          1,262.10 kB
 dist/assets/desktop-CieokJ3V.png                  1,592.41 kB
 dist/assets/journal-desktop-D-2HfFrr.png          1,594.56 kB
 dist/assets/mobile-aEjo3Y2j.png                   1,604.72 kB
@@ -230,9 +229,9 @@ dist/assets/desktop-C6xevnB_.png                  3,945.59 kB
 dist/assets/desktop-DFV5HK8e.png                  3,949.69 kB
 dist/assets/desktop-CPiuHQJl.png                  3,955.67 kB
 dist/assets/index-BMxMEkrQ.css                       14.91 kB │ gzip:   3.49 kB
-dist/assets/index-Cn2ZF6Ub.js                       616.66 kB │ gzip: 166.87 kB
+dist/assets/index-DuWkTpqF.js                       615.76 kB │ gzip: 166.83 kB
 
-[plugin builtin:vite-reporter]
+[plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
@@ -252,8 +251,8 @@ Captured published Laura content with four Sanity queries.
   - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSanitySource.ts:18:8). Add the file extension
   - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraImageAssets.ts:2:31). Add the file extension
   - import "../src/features/site/heroImageSources" without a file extension (scripts/lauraImageAssets.ts:3:33). Add the file extension
-  - import "./galleryImageSources" without a file extension (src/features/site/heroImageSources.ts:1:50). Add the file extension
   - import "../../app/siteMetadata" without a file extension (src/features/site/lauraSanity.ts:1:32). Add the file extension
+  - import "./galleryImageSources" without a file extension (src/features/site/heroImageSources.ts:1:50). Add the file extension
 Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
 (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
   - import "./scripts/inline-styles" without a file extension (vite.config.ts:4:30). Add the file extension
@@ -274,9 +273,9 @@ Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
   - import "./lauraSanitySource" without a file extension (scripts/lauraSnapshot.ts:3:59). Add the file extension
   - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSnapshot.ts:9:8). Add the file extension
   - import "./lauraImageAssets" without a file extension (scripts/lauraSnapshot.ts:10:55). Add the file extension
-  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSanitySource.ts:18:8). Add the file extension
   - import "./lauraSnapshot" without a file extension (scripts/lauraImageAssets.ts:1:36). Add the file extension
   - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraImageAssets.ts:2:31). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSanitySource.ts:18:8). Add the file extension
   - import "../src/features/site/heroImageSources" without a file extension (scripts/lauraImageAssets.ts:3:33). Add the file extension
   - import "./galleryImageSources" without a file extension (src/features/site/heroImageSources.ts:1:50). Add the file extension
   - import "../../app/siteMetadata" without a file extension (src/features/site/lauraSanity.ts:1:32). Add the file extension
@@ -302,7 +301,7 @@ dist/client/assets/preload-helper-D4O_789K.js                            29.62 k
 dist/client/assets/SitePages-D9cTB4tl.js                                 30.56 kB │ gzip:   8.93 kB
 dist/client/assets/index-DW_UtPjv.js                                    324.23 kB │ gzip: 103.40 kB
 
-✓ built in 1.03s
+✓ built in 353ms
 vite v8.3.0 building ssr environment for production...
 transforming...
 ✓ 180 modules transformed.
@@ -316,7 +315,7 @@ dist/server/assets/gallery-r8me9yyx.js                       0.37 kB │ gzip:  
 dist/server/assets/services-BNZuBlQf.js                      0.37 kB │ gzip:  0.25 kB
 dist/server/assets/contact-BZ18729T.js                       0.47 kB │ gzip:  0.29 kB
 dist/server/assets/gallery_._collectionSlug-bewBakB0.js      0.89 kB │ gzip:  0.42 kB
-dist/server/assets/_tanstack-start-manifest_v-uS27r7y_.js    2.34 kB │ gzip:  0.62 kB
+dist/server/assets/_tanstack-start-manifest_v-B2TdivUo.js    2.35 kB │ gzip:  0.62 kB
 dist/server/assets/GalleryImage-CAtIDp7v.js                  2.48 kB │ gzip:  1.01 kB
 dist/server/assets/lauraSanity-TuwiHYye.js                   3.00 kB │ gzip:  1.16 kB
 dist/server/assets/gallery_._collectionSlug-CqNSB0_a.js     13.19 kB │ gzip:  3.65 kB
@@ -325,20 +324,20 @@ dist/server/assets/SitePages-DyrXqaaq.js                    41.31 kB │ gzip:  
 dist/server/assets/router-Clt6xJ_j.js                       65.51 kB │ gzip: 14.60 kB
 dist/server/server.js                                      239.51 kB │ gzip: 55.50 kB
 
-✓ built in 316ms
+✓ built in 97ms
 ▶ laura-studio: build
 $ sanity build
-ℹ Building with auto-updates enabled
- ›   Warning: The following local package versions are different from the
+[34mℹ[39m Building with auto-updates enabled
+ ›   Warning: The following local package versions are different from the 
  ›   versions currently served at runtime.
- ›   When using auto updates, we recommend that you test locally with the same
- ›   versions before deploying.
+ ›   When using auto updates, we recommend that you test locally with the same 
+ ›   versions before deploying. 
  ›
- ›    - sanity (local version: 6.16.0, runtime version: 6.20.0)
+ ›    - sanity (local version: 6.16.0, runtime version: 6.21.0)
 - Clean output folder
-✔ Clean output folder (7ms)
+[32m✔[39m Clean output folder (4ms)
 - Build Sanity Studio
-✔ Build Sanity Studio (577ms)
+[32m✔[39m Build Sanity Studio (267ms)
 ▶ mobile: build
 $ bun run build:all
 $ bun run build:ios && bun run build:web
@@ -347,15 +346,15 @@ $ rspeedy build --environment lynx
 
 info    Type checker is enabled.
 info    build started...
-warn    Build warnings:
+warn    Build warnings: 
 ⚠ Unsupported property "outline-offset" was removed during template encode.
 
 ⚠ Unsupported property "text-transform" was removed during template encode.
 
-ready   built in 1.81s
+ready   built in 1.38s
 
-File (lynx)                                                       Size
-dist/ios/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg   98.7 kB
+File (lynx)                                                       Size       
+dist/ios/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg   98.7 kB 
 dist/ios/woodbrook.lynx.bundle                                    189.9 kB
 
                                                          Total:   288.7 kB   288.7 kB
@@ -366,10 +365,10 @@ $ rspeedy build --environment web
 
 info    Type checker is enabled.
 info    build started...
-ready   built in 1.31s
+ready   built in 1.26s
 
-File (web)                                                             Size
-dist/web-lynx/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg   98.7 kB
+File (web)                                                             Size       
+dist/web-lynx/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg   98.7 kB 
 dist/web-lynx/woodbrook.web.bundle                                     217.2 kB
 
                                                               Total:   315.9 kB   315.9 kB
@@ -379,12 +378,12 @@ Rsbuild v2.2.4
 
 info    Type checker is enabled.
 info    build started...
-ready   built in 1.30s
+ready   built in 1.27s
 
-File (web)                                                               Size        Gzip
+File (web)                                                               Size        Gzip   
 dist/web/index.html                                                      0.69 kB     0.37 kB
 dist/web/static/css/index.0032b0563d.css                                 2.8 kB      0.71 kB
-dist/web/static/js/index.e62a47beb5.js                                   4.9 kB      2.4 kB
+dist/web/static/js/index.b29b375243.js                                   4.9 kB      2.4 kB
 dist/web/static/js/async/web-core-template-loader-thread.37700fc7a7.js   15.9 kB     6.0 kB
 dist/web/static/js/async/web-core-worker-chunk.58373ac4d1.js             16.3 kB     6.3 kB
 dist/web/static/js/168.fa4292abfe.js                                     20.5 kB     5.5 kB
@@ -392,13 +391,13 @@ dist/web/static/js/180.b4e57da5a1.js                                     20.8 kB
 dist/web/static/js/async/legacy-wasm-js.b3648f078c.js                    23.9 kB     5.7 kB
 dist/web/static/js/async/lynx-core-chunk.ec855fdbbb.js                   48.4 kB     13.3 kB
 dist/web/static/js/async/web-core-main-chunk.59adfb7db4.js               89.5 kB     22.2 kB
-dist/web/lynx/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg     98.7 kB
-dist/web/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg          98.7 kB
+dist/web/lynx/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg     98.7 kB  
+dist/web/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg          98.7 kB  
 dist/web/static/js/async/xmarkdown-deps.9f74f64dbe.js                    124.9 kB    49.6 kB
 dist/web/static/js/async/web-elements.b84c558341.js                      150.9 kB    35.5 kB
 dist/web/static/wasm/77fb77f77f.module.wasm                              168.6 kB    56.3 kB
 dist/web/static/wasm/72aaf7d0aa.module.wasm                              184.4 kB    75.6 kB
-dist/web/lynx/woodbrook.web.bundle                                       217.2 kB
+dist/web/lynx/woodbrook.web.bundle                                       217.2 kB 
 dist/web/static/js/async/web-core-markup-encoder.e0ee9c0629.js           227.1 kB    64.9 kB
 dist/web/static/wasm/4c402c7981.module.wasm                              228.3 kB    83.4 kB
 
@@ -406,18 +405,18 @@ dist/web/static/wasm/4c402c7981.module.wasm                              228.3 k
 
 ▶ sanity-studio: build
 $ sanity build
-ℹ Building with auto-updates enabled
- ›   Warning: The following local package versions are different from the
+[34mℹ[39m Building with auto-updates enabled
+ ›   Warning: The following local package versions are different from the 
  ›   versions currently served at runtime.
- ›   When using auto updates, we recommend that you test locally with the same
- ›   versions before deploying.
+ ›   When using auto updates, we recommend that you test locally with the same 
+ ›   versions before deploying. 
  ›
- ›    - sanity (local version: 6.16.0, runtime version: 6.20.0)
- ›    - @sanity/vision (local version: 6.16.0, runtime version: 6.20.0)
+ ›    - sanity (local version: 6.16.0, runtime version: 6.21.0)
+ ›    - @sanity/vision (local version: 6.16.0, runtime version: 6.21.0)
 - Clean output folder
-✔ Clean output folder (1ms)
+[32m✔[39m Clean output folder (4ms)
 - Build Sanity Studio
-✔ Build Sanity Studio (306ms)
+[32m✔[39m Build Sanity Studio (268ms)
 ▶ web: build
 $ vite build
 vite v8.3.0 building client environment for production...
@@ -487,7 +486,7 @@ dist/client/assets/_slug-CweOfhyD.js                                 119.24 kB �
 dist/client/assets/module-DuLhru1W.js                                260.04 kB │ gzip: 77.83 kB
 dist/client/assets/index-B8yp67J2.js                                 314.23 kB │ gzip: 99.59 kB
 
-✓ built in 309ms
+✓ built in 321ms
 vite v8.3.0 building ssr environment for production...
 transforming...
 ✓ 258 modules transformed.
@@ -529,7 +528,7 @@ dist/server/assets/updates-CTE7XBkU.js                       4.76 kB │ gzip:  
 dist/server/assets/events-1vABNDra.js                        4.92 kB │ gzip:  1.76 kB
 dist/server/assets/search-BHX6RDVc.js                        5.66 kB │ gzip:  1.90 kB
 dist/server/assets/seoStructuredData-EqXL7IOG.js             6.68 kB │ gzip:  1.61 kB
-dist/server/assets/_tanstack-start-manifest_v-BmNPEQyu.js    7.44 kB │ gzip:  1.33 kB
+dist/server/assets/_tanstack-start-manifest_v-DI0-gD_S.js    7.48 kB │ gzip:  1.34 kB
 dist/server/assets/contentApi-MSwMgN_v.js                    7.66 kB │ gzip:  2.71 kB
 dist/server/assets/FirebaseForms-AEcGwyCt.js                 8.53 kB │ gzip:  2.43 kB
 dist/server/assets/_slug-RvNaN_eD.js                         8.76 kB │ gzip:  2.73 kB
@@ -542,4 +541,4 @@ dist/server/assets/router-C95YwiL4.js                       42.00 kB │ gzip:  
 dist/server/assets/searchModel-B_biEbnr.js                  46.97 kB │ gzip: 10.78 kB
 dist/server/server.js                                      247.90 kB │ gzip: 58.23 kB
 
-✓ built in 176ms
+✓ built in 170ms
