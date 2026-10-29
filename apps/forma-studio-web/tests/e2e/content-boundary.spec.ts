@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
+import { captureViewports } from './captureTargets';
+
 test('public routes use prerendered content without browser Sanity requests or draft data', async ({
   page,
 }) => {
@@ -46,10 +48,7 @@ test('capture the live Sanity-backed pages at high resolution', async ({
     'One set of high-resolution desktop and phone artifacts.',
   );
   const output = info.outputPath('content-screenshots');
-  for (const [name, viewport] of [
-    ['desktop', { width: 1440, height: 1000 }],
-    ['mobile', { width: 390, height: 844 }],
-  ] as const) {
+  for (const [name, viewport] of captureViewports) {
     const context = await browser.newContext({
       viewport,
       deviceScaleFactor: 2,

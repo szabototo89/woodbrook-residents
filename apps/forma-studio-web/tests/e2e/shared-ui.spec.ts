@@ -1,21 +1,25 @@
 import { test, expect } from '@playwright/test';
 
-const sharedStyle = (element: HTMLElement) => {
+import { captureViewports, sharedUiPages } from './captureTargets';
+
+const styleProperties = [
+  'fontFamily',
+  'fontSize',
+  'fontWeight',
+  'lineHeight',
+  'padding',
+  'gap',
+  'border',
+  'borderRadius',
+  'backgroundColor',
+  'color',
+  'alignItems',
+] as const;
+
+const sharedStyle = (element: HTMLElement, properties: readonly string[]) => {
   const style = getComputedStyle(element);
   return Object.fromEntries(
-    [
-      'fontFamily',
-      'fontSize',
-      'fontWeight',
-      'lineHeight',
-      'padding',
-      'gap',
-      'border',
-      'borderRadius',
-      'backgroundColor',
-      'color',
-      'alignItems',
-    ].map((property) => [
+    properties.map((property) => [
       property,
       style.getPropertyValue(
         property.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`),
@@ -41,7 +45,7 @@ test('both pages retain shared landmarks, focus, heading hierarchy and equivalen
     const action = page
       .getByRole('banner')
       .getByRole('link', { name: 'Let’s talk' });
-    styles.push(await action.evaluate(sharedStyle));
+    styles.push(await action.evaluate(sharedStyle, styleProperties));
     await action.focus();
     await expect(action).toBeFocused();
     expect(
@@ -112,19 +116,13 @@ test('capture shared UI on desktop and mobile', async ({ browser }, info) => {
     'One high-resolution artifact set.',
   );
   const output = '../../docs/handoffs/forma-shared-ui/assets';
-  for (const [name, viewport] of [
-    ['desktop', { width: 1440, height: 1000 }],
-    ['mobile', { width: 390, height: 844 }],
-  ] as const) {
+  for (const [name, viewport] of captureViewports) {
     const context = await browser.newContext({
       viewport,
       deviceScaleFactor: 2,
     });
     const page = await context.newPage();
-    for (const [slug, path] of [
-      ['home', '/'],
-      ['journal', '/blog'],
-    ] as const) {
+    for (const [slug, path] of sharedUiPages) {
       await page.goto(path);
       await page.evaluate(() => document.fonts.ready);
       await page
