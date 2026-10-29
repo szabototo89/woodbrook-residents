@@ -1,0 +1,94 @@
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/mobile-api-use-sanity-as-the-default-runtime-con/apps/mobile
+
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+ ❯ src/__tests__/nativeDateFormatting.test.ts (17 tests | 17 failed) 5ms
+   × formats 2026-01-02T03:04:00 without requiring the native Intl API 2ms
+   × formats 2026-02-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-03-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-04-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-05-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-06-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-07-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-08-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-09-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-10-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-11-02T03:04:00 without requiring the native Intl API 0ms
+   × formats 2026-12-02T03:04:00 without requiring the native Intl API 0ms
+   × preserves readable dates and 24-hour local times for 2026-09-12T00:05:00 0ms
+   × preserves readable dates and 24-hour local times for 2026-10-01T18:00:00 0ms
+   × preserves readable dates and 24-hour local times for 2028-02-29T23:59:00 0ms
+   × rejects invalid dates instead of displaying broken copy 1ms
+   × rejects invalid dates instead of displaying broken copy 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 17 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-01-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-02-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-03-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-04-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-05-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-06-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-07-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-08-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-09-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-10-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-11-02T03:04:00 without requiring the native Intl API
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > formats 2026-12-02T03:04:00 without requiring the native Intl API
+TypeError: Cannot read properties of undefined (reading 'DateTimeFormat')
+ ❯ readableDate src/features/content/contentModels.ts:82:12
+     80|
+     81| const readableDate = (value: string) =>
+     82|   new Intl.DateTimeFormat('en-IE', { dateStyle: 'medium' }).format(
+       |            ^
+     83|     new Date(value),
+     84|   );
+ ❯ src/__tests__/nativeDateFormatting.test.ts:22:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/17]⎯
+
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > preserves readable dates and 24-hour local times for 2026-09-12T00:05:00
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > preserves readable dates and 24-hour local times for 2026-10-01T18:00:00
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > preserves readable dates and 24-hour local times for 2028-02-29T23:59:00
+TypeError: Cannot read properties of undefined (reading 'DateTimeFormat')
+ ❯ readableDateTime src/features/content/contentModels.ts:89:12
+     87|
+     88| const readableDateTime = (value: string) =>
+     89|   new Intl.DateTimeFormat('en-IE', {
+       |            ^
+     90|     dateStyle: 'medium',
+     91|     timeStyle: 'short',
+ ❯ src/__tests__/nativeDateFormatting.test.ts:30:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/17]⎯
+
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > rejects invalid dates instead of displaying broken copy
+ FAIL  src/__tests__/nativeDateFormatting.test.ts > rejects invalid dates instead of displaying broken copy
+AssertionError: expected error to be instance of RangeError
+
+- Expected:
+[Function RangeError]
+
++ Received:
+TypeError {
+  "message": "Cannot read properties of undefined (reading 'DateTimeFormat')",
+}
+
+ ❯ src/__tests__/nativeDateFormatting.test.ts:34:38
+     32|
+     33| test.each([readableDate, readableDateTime])('rejects invalid dates ins…
+     34|   expect(() => format('not-a-date')).toThrow(RangeError);
+       |                                      ^
+     35| });
+     36|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/17]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  17 failed (17)
+   Start at  12:49:03
+   Duration  840ms (transform 393ms, setup 337ms, import 9ms, tests 5ms, environment 401ms)
+
+error: "vitest" exited with code 1

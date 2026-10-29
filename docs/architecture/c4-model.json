@@ -473,6 +473,20 @@
       "description": "Retired spreadsheet reader",
       "technology": "TypeScript",
       "parent": "woodbrook_host"
+    },
+    "native_resident_screens": {
+      "kind": "component",
+      "name": "Resident screens",
+      "description": "Display public records and date labels",
+      "technology": "ReactLynx",
+      "parent": "mobile_public_app"
+    },
+    "native_date_formatting": {
+      "kind": "component",
+      "name": "Mobile date formatting",
+      "description": "Formats English dates and local 24-hour times",
+      "technology": "TypeScript Date methods",
+      "parent": "mobile_public_app"
     }
   },
   "relationships": {
@@ -939,6 +953,12 @@
       "label": "Previously constructed directly",
       "technology": "In-process call",
       "from": "mobile_content_endpoint"
+    },
+    "native_screens_dates": {
+      "from": "native_resident_screens",
+      "to": "native_date_formatting",
+      "label": "Requests visible date labels",
+      "technology": "In-process calls"
     }
   },
   "diagrams": {
@@ -1918,6 +1938,29 @@
           "legacy_endpoint_sheets": {
             "status": "removed",
             "description": "Direct Sheets path removed."
+          }
+        }
+      }
+    },
+    "native_date_components": {
+      "level": "C3",
+      "scope": "mobile_public_app",
+      "title": "Native date formatting \u2014 C3 \u2014 changes from 4d9f5d7",
+      "handoff": "mobile-native-date-formatting",
+      "source": "docs/handoffs/mobile-native-date-formatting/assets/c3-dates.puml",
+      "elements": ["native_resident_screens", "native_date_formatting"],
+      "relationships": ["native_screens_dates"],
+      "changes": {
+        "elements": {
+          "native_date_formatting": {
+            "status": "changed",
+            "description": "Date methods replace unavailable Intl."
+          }
+        },
+        "relationships": {
+          "native_screens_dates": {
+            "status": "changed",
+            "description": "Previously threw on iOS; now returns labels."
           }
         }
       }
