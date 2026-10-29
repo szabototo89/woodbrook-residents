@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { test, expect } from 'vitest';
+import { test, expect, vi } from 'vitest';
 import {
   LIGHTHOUSE_MIN_SCORES,
   LIGHTHOUSE_ROUTES,
@@ -42,5 +42,29 @@ test.each(['performance', 'accessibility', 'best-practices', 'seo'])(
     const evaluation = evaluateLighthouseScores(scores, LIGHTHOUSE_MIN_SCORES);
     expect(evaluation.passed).toBe(false);
     expect(evaluation.failures).toEqual([expect.stringContaining(category)]);
+  },
+);
+
+test.each([undefined, '4288'])(
+  'browser checks select an isolated server port: %s',
+  async (port) => {
+    vi.stubEnv('FORMA_PLAYWRIGHT_PORT', port);
+    vi.resetModules();
+    try {
+      const { default: config } = await import('../playwright.config');
+      const expectedPort = port ?? '4178';
+      expect(config).toMatchObject({
+        workers: 2,
+        use: { baseURL: `http://127.0.0.1:${expectedPort}` },
+        webServer: {
+          url: `http://127.0.0.1:${expectedPort}`,
+          command: `bun run preview -- --host 127.0.0.1 --port ${expectedPort}`,
+          reuseExistingServer: false,
+        },
+      });
+    } finally {
+      vi.unstubAllEnvs();
+      vi.resetModules();
+    }
   },
 );

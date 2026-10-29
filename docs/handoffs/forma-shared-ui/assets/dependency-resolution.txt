@@ -1,0 +1,8 @@
+Initial normal build and commit checks rejected missing published settings.footer.
+User chose to wait for issue #4.
+PR #10 merged into main at c31cd3e3146955c50c1d7a7fc9448b270e7584c1 on 2026-10-25.
+Session branch fast-forwarded to that commit; the stashed refactor was reapplied.
+Overlapping page and C4 edits were reconciled without rewriting history.
+The merged schema rejects the old SiteFooter field read at compile time.
+The shared footer now uses only footerServices (home) or journal.homeLabel (journal).
+Final builds and screenshots use real published content, without the temporary sample wrapper.

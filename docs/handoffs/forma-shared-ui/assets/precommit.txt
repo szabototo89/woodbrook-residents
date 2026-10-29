@@ -1,0 +1,1269 @@
+$ bun run lint && bun run test
+$ bun run format:check && eslint "apps/*/src/**" "apps/*/tests/**" "apps/sanity-studio/schemaTypes/**" "apps/sanity-studio/components/**" "apps/sanity-studio/*.ts" "apps/laura-studio/schemaTypes/**" "apps/laura-studio/*.ts" scripts && bun run typecheck && bun run --cwd apps/forma-studio-web lint
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+$ bun scripts/app.ts typecheck && bun run typecheck:scripts
+Available projects for "typecheck" (9): dashboard, forma-studio, forma-studio-web, handoffs, laura-faichney-web, laura-studio, mobile, sanity-studio, web
+▶ dashboard: typecheck
+$ tsc --noEmit
+▶ forma-studio: typecheck
+$ tsc --noEmit
+▶ forma-studio-web: typecheck
+$ tsc --noEmit
+▶ handoffs: typecheck
+$ bun run docs:check && tsc --noEmit
+$ bun scripts/check-handoffs.ts
+Validated 16 change-focused handoffs; 6 historical records preserved.
+▶ laura-faichney-web: typecheck
+$ tsc --noEmit
+▶ laura-studio: typecheck
+$ tsc --noEmit
+▶ mobile: typecheck
+$ tsc --build --pretty false && tsc --noEmit --pretty false --project tsconfig.browser.json
+▶ sanity-studio: typecheck
+$ tsc --noEmit
+▶ web: typecheck
+$ tsc --noEmit
+$ tsc --noEmit --module esnext --moduleResolution bundler --target es2022 --strict --noImplicitAny --noImplicitOverride --noImplicitReturns --noUncheckedIndexedAccess --skipLibCheck --types bun scripts/app.ts scripts/app.test.ts scripts/list-old-worktrees.ts scripts/list-old-worktrees.test.ts
+$ eslint . --max-warnings 0
+$ bun run test:scripts && bun run test:unit && bun run test:browser && bun run test:e2e
+$ bun test scripts/deploy-forma.test.ts scripts/deploy.test.ts scripts/app.test.ts scripts/list-old-worktrees.test.ts scripts/eslint-laura-offline-tests.test.ts scripts/eslint-named-props-rule.test.ts scripts/eslint-forma-type-safety.test.ts
+bun test v1.4.0 (1381054db)
+
+ 112 pass
+ 0 fail
+ 318 expect() calls
+Ran 112 tests across 7 files. [46.11s]
+$ bun scripts/app.ts test:unit
+Available projects for "test:unit" (9): dashboard, forma-studio, forma-studio-web, handoffs, laura-faichney-web, laura-studio, mobile, sanity-studio, web
+▶ dashboard: test:unit
+$ vitest run --coverage src --exclude 'src/**/*.browser.test.tsx'
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/dashboard
+      Coverage enabled with v8
+
+
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+   Start at  11:50:42
+   Duration  173ms (transform 98ms, setup 0ms, import 206ms, tests 9ms, environment 0ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   98.48 |    98.14 |     100 |     100 |                   
+ environments      |   97.87 |       98 |     100 |     100 |                   
+  environments.ts  |   97.87 |       98 |     100 |     100 | 127               
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 98.48% ( 65/66 )
+Branches     : 98.14% ( 53/54 )
+Functions    : 100% ( 25/25 )
+Lines        : 100% ( 58/58 )
+================================================================================
+▶ forma-studio: test:unit
+$ vitest run
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/forma-studio
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  11:50:42
+   Duration  1.14s (transform 26ms, setup 0ms, import 1.07s, tests 4ms, environment 0ms)
+
+▶ forma-studio-web: test:unit
+$ vitest run --coverage
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/forma-studio-web
+      Coverage enabled with v8
+
+
+ Test Files  9 passed (9)
+      Tests  78 passed (78)
+   Start at  11:50:43
+   Duration  2.73s (transform 464ms, setup 1.35s, import 1.12s, tests 2.87s, environment 3.61s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   98.54 |    99.07 |   97.82 |   98.47 |                   
+ features/content  |   96.82 |    96.29 |    92.3 |   96.66 |                   
+  fetchContent.ts  |   95.23 |    94.73 |     100 |      95 | 26                
+  pageHead.ts      |       0 |      100 |       0 |       0 | 3                 
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 98.54% ( 135/137 )
+Branches     : 99.07% ( 107/108 )
+Functions    : 97.82% ( 45/46 )
+Lines        : 98.47% ( 129/131 )
+================================================================================
+▶ handoffs: test:unit
+$ vitest run --coverage
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/handoffs
+      Coverage enabled with v8
+
+
+ Test Files  10 passed (10)
+      Tests  73 passed (73)
+   Start at  11:50:46
+   Duration  1.01s (transform 1.57s, setup 0ms, import 2.83s, tests 554ms, environment 956ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   99.63 |    98.01 |   98.98 |    99.6 |                   
+ ...ffStructure.ts |   98.59 |    91.83 |      96 |   98.46 | 111               
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 99.63% ( 273/274 )
+Branches     : 98.01% ( 198/202 )
+Functions    : 98.98% ( 98/99 )
+Lines        : 99.6% ( 250/251 )
+================================================================================
+▶ laura-faichney-web: test:unit
+$ vitest run && bun test scripts/*.test.ts
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/inline-styles" without a file extension (vite.config.ts:4:30). Add the file extension
+  - import "./scripts/lauraSnapshot" without a file extension (vite.config.ts:5:35). Add the file extension
+  - import "./lauraSanitySource" without a file extension (scripts/lauraSnapshot.ts:3:59). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSnapshot.ts:9:8). Add the file extension
+  - import "./lauraImageAssets" without a file extension (scripts/lauraSnapshot.ts:10:55). Add the file extension
+  - import "./lauraSnapshot" without a file extension (scripts/lauraImageAssets.ts:1:36). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSanitySource.ts:18:8). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraImageAssets.ts:2:31). Add the file extension
+  - import "../src/features/site/heroImageSources" without a file extension (scripts/lauraImageAssets.ts:3:33). Add the file extension
+  - import "./galleryImageSources" without a file extension (src/features/site/heroImageSources.ts:1:50). Add the file extension
+  - import "../../app/siteMetadata" without a file extension (src/features/site/lauraSanity.ts:1:32). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/laura-faichney-web
+
+
+ Test Files  16 passed (16)
+      Tests  101 passed (101)
+   Start at  11:50:48
+   Duration  706ms (transform 807ms, setup 0ms, import 2.26s, tests 847ms, environment 1ms)
+
+bun test v1.4.0 (1381054db)
+
+ 32 pass
+ 0 fail
+ 56 expect() calls
+Ran 32 tests across 7 files. [146.00ms]
+▶ laura-studio: test:unit
+$ vitest run --coverage
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/laura-studio
+      Coverage enabled with v8
+
+
+ Test Files  4 passed (4)
+      Tests  20 passed (20)
+   Start at  11:50:49
+   Duration  1.21s (transform 109ms, setup 0ms, import 3.71s, tests 11ms, environment 0ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 100% ( 94/94 )
+Branches     : 100% ( 29/29 )
+Functions    : 100% ( 69/69 )
+Lines        : 100% ( 91/91 )
+================================================================================
+▶ mobile: test:unit
+$ vitest run --coverage
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/mobile
+      Coverage enabled with v8
+
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+
+ Test Files  14 passed (14)
+      Tests  53 passed (53)
+   Start at  11:50:50
+   Duration  1.89s (transform 7.31s, setup 5.08s, import 4.25s, tests 526ms, environment 7.68s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   96.66 |    90.06 |   90.98 |   97.53 |                   
+ src               |   96.42 |    76.47 |     100 |     100 |                   
+  App.tsx          |   96.42 |    76.47 |     100 |     100 | 59,71,97-113      
+ src/components    |   98.41 |    93.18 |    90.9 |   98.24 |                   
+  AppHeader.tsx    |   94.73 |      100 |   66.66 |   94.73 | 33                
+  ExternalLink.tsx |     100 |       75 |     100 |     100 | 18-19,21          
+ ...atures/content |   95.26 |    91.88 |   89.55 |   96.39 |                   
+  CardFeed.tsx     |   94.73 |    86.84 |     100 |    97.8 | 20,30             
+  ...ionScreen.tsx |      80 |    76.66 |      50 |      80 | 28,50,67,78-87    
+  DetailScreen.tsx |     100 |    95.65 |     100 |     100 | 60,139            
+  ...nfoScreen.tsx |   95.74 |      100 |   77.77 |   95.55 | 68,82             
+  contentModels.ts |   97.77 |    98.38 |   95.23 |   97.22 | 119               
+  externalUrl.ts   |   96.55 |    84.61 |     100 |     100 | 7-9,36            
+ src/features/help |     100 |       50 |     100 |     100 |                   
+  ...elpScreen.tsx |     100 |       50 |     100 |     100 | 13-33             
+ src/features/home |   97.61 |    91.66 |   83.33 |   97.56 |                   
+  HomeScreen.tsx   |   97.52 |    91.66 |   78.57 |   97.47 | 181,199,263       
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 96.66% ( 638/660 )
+Branches     : 90.06% ( 299/332 )
+Functions    : 90.98% ( 111/122 )
+Lines        : 97.53% ( 594/609 )
+================================================================================
+▶ sanity-studio: test:unit
+$ vitest run --coverage
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/sanity-studio
+      Coverage enabled with v8
+
+
+ Test Files  12 passed (12)
+      Tests  53 passed (53)
+   Start at  11:50:52
+   Duration  1.78s (transform 480ms, setup 0ms, import 14.56s, tests 57ms, environment 1ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   99.36 |    98.48 |     100 |     100 |                   
+ ...dio/components |     100 |    98.21 |     100 |     100 |                   
+  ...ardEditor.tsx |     100 |    98.21 |     100 |     100 | 103               
+ ...io/schemaTypes |   99.17 |    98.68 |     100 |     100 |                   
+  survey.ts        |   94.44 |    92.85 |     100 |     100 | 6                 
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 99.36% ( 156/157 )
+Branches     : 98.48% ( 130/132 )
+Functions    : 100% ( 89/89 )
+Lines        : 100% ( 147/147 )
+================================================================================
+▶ web: test:unit
+$ vitest run --coverage src --exclude 'src/**/*.browser.test.tsx' --exclude 'src/**/*.static.test.tsx' && vitest run --mode static src/features/search/SearchPage.static.test.tsx src/features/updates/UpdatesPage.static.test.tsx
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/web
+      Coverage enabled with v8
+
+
+ Test Files  63 passed (63)
+      Tests  381 passed (381)
+   Start at  11:50:55
+   Duration  2.03s (transform 3.49s, setup 0ms, import 6.22s, tests 2.55s, environment 4.67s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   98.94 |    95.84 |   99.78 |   99.06 |                   
+ app               |   98.36 |    94.02 |     100 |   98.36 |                   
+  seoFiles.ts      |     100 |    93.75 |     100 |     100 | 88-106            
+  ...cturedData.ts |   98.46 |       95 |     100 |   98.46 | 35                
+  siteMetadata.ts  |   95.45 |    92.85 |     100 |   95.45 | 22,56             
+ components        |   95.76 |    97.53 |     100 |   95.72 |                   
+  ...Analytics.tsx |   94.11 |    94.44 |     100 |   94.11 | 36,50             
+  ...ieConsent.tsx |   94.44 |    95.65 |     100 |   94.33 | 67,81,96          
+ features/account  |   99.11 |    95.74 |     100 |     100 |                   
+  ...tailsForm.tsx |   98.71 |    93.54 |     100 |     100 | 50,73-85,106      
+ features/auth     |   99.42 |    96.47 |     100 |     100 |                   
+  AccountPanel.tsx |     100 |    92.85 |     100 |     100 | 19                
+  AuthPage.tsx     |     100 |    91.66 |     100 |     100 | 32                
+  ...baseForms.tsx |   96.96 |    94.64 |     100 |     100 | 29,35,46          
+ features/content  |   99.35 |    94.46 |   99.31 |   99.33 |                   
+  contentSource.ts |     100 |    91.66 |     100 |     100 | 76                
+  ...etsParsing.ts |   98.26 |    94.07 |   98.27 |   98.26 | 91,108,332        
+  ...tentSource.ts |     100 |    90.36 |     100 |     100 | ...38-240,257-259 
+ ...ures/resources |   98.98 |    97.46 |     100 |   98.95 |                   
+  ...ighlights.tsx |     100 |       90 |     100 |     100 | 38                
+  ...InfoSearch.ts |   94.11 |    92.85 |     100 |   93.75 | 24                
+ features/search   |     100 |    95.12 |     100 |     100 |                   
+  SearchPage.tsx   |     100 |    92.85 |     100 |     100 | 25                
+ features/updates  |     100 |    96.61 |     100 |     100 |                   
+  UpdatesPage.tsx  |     100 |     93.1 |     100 |     100 | 19                
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 98.94% ( 1319/1333 )
+Branches     : 95.84% ( 968/1010 )
+Functions    : 99.78% ( 467/468 )
+Lines        : 99.06% ( 1270/1282 )
+================================================================================
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/web
+
+
+ Test Files  2 passed (2)
+      Tests  2 passed (2)
+   Start at  11:50:57
+   Duration  378ms (transform 136ms, setup 0ms, import 112ms, tests 292ms, environment 221ms)
+
+$ bun scripts/app.ts test:browser
+Available projects for "test:browser" (3): dashboard, sanity-studio, web
+▶ dashboard: test:browser
+$ vitest run --config vitest.browser.config.ts
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/dashboard
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  11:50:58
+   Duration  1.01s (transform 0ms, setup 0ms, import 287ms, tests 79ms, environment 0ms)
+
+▶ sanity-studio: test:browser
+$ vitest run --config vitest.browser.config.ts
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/sanity-studio
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  11:50:59
+   Duration  560ms (transform 0ms, setup 0ms, import 75ms, tests 10ms, environment 0ms)
+
+▶ web: test:browser
+$ vitest run --config vitest.browser.config.ts
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/web
+
+
+ Test Files  3 passed (3)
+      Tests  9 passed (9)
+   Start at  11:51:00
+   Duration  931ms (transform 0ms, setup 0ms, import 362ms, tests 250ms, environment 0ms)
+
+$ bun scripts/app.ts test:e2e
+Available projects for "test:e2e" (7): dashboard, forma-studio-web, handoffs, laura-faichney-web, mobile, sanity-studio, web
+▶ dashboard: test:e2e
+$ bun run build && playwright test
+$ vite build
+vite v8.3.0 building client environment for production...
+transforming...
+✓ 4374 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/assets/styles-CJyAUSAW.css                      190.47 kB │ gzip:  32.52 kB
+dist/client/assets/not-found-i5RsCZif.js                      0.11 kB │ gzip:   0.11 kB
+dist/client/assets/MenuBottomSheet-SsPxJ9i4.js                0.48 kB │ gzip:   0.30 kB
+dist/client/assets/_shell.infrastructure.index-BlfLAOGH.js    0.62 kB │ gzip:   0.39 kB
+dist/client/assets/_shell.actions.index-CqhwvsLl.js           0.68 kB │ gzip:   0.40 kB
+dist/client/assets/_shell.activity.index-BX6wEBf9.js          0.68 kB │ gzip:   0.41 kB
+dist/client/assets/useDevWarning-CnBRSpKr.js                  0.71 kB │ gzip:   0.43 kB
+dist/client/assets/_shell.projects.index-C0t7x3vA.js          0.71 kB │ gzip:   0.44 kB
+dist/client/assets/_shell.overview.index-Dxcr-xRl.js          0.81 kB │ gzip:   0.46 kB
+dist/client/assets/_shell.templates.index-DzycCnt_.js         0.85 kB │ gzip:   0.48 kB
+dist/client/assets/Stack-BYP9f-dA.js                          1.15 kB │ gzip:   0.64 kB
+dist/client/assets/useScrollLock-vzGjaxUW.js                  1.32 kB │ gzip:   0.62 kB
+dist/client/assets/Kbd-DbIn3ggu.js                            1.61 kB │ gzip:   0.98 kB
+dist/client/assets/environments-acuK33ar.js                   2.47 kB │ gzip:   0.95 kB
+dist/client/assets/TTLIndicator-C37qx4lY.js                   3.30 kB │ gzip:   1.52 kB
+dist/client/assets/useNavigate-Dxh8D5Sl.js                    6.01 kB │ gzip:   2.62 kB
+dist/client/assets/ListItem-SJIbcdbk.js                       9.56 kB │ gzip:   3.62 kB
+dist/client/assets/lazyRouteComponent-DuLNSGLT.js             9.69 kB │ gzip:   4.08 kB
+dist/client/assets/themeProps-DFoo3zTT.js                    10.98 kB │ gzip:   4.33 kB
+dist/client/assets/useAnnounce-gPBbgZl0.js                   13.58 kB │ gzip:   6.00 kB
+dist/client/assets/Tooltip-M4jlMwRn.js                       17.72 kB │ gzip:   6.40 kB
+dist/client/assets/hooks-BGH54zjj.js                         21.49 kB │ gzip:   6.30 kB
+dist/client/assets/Heading-BLB2LDYW.js                       25.87 kB │ gzip:   7.15 kB
+dist/client/assets/BottomSheet-BeYPZCSV.js                   30.35 kB │ gzip:  10.04 kB
+dist/client/assets/_shell.environments._envId-Dzdq3nyP.js    40.18 kB │ gzip:  13.40 kB
+dist/client/assets/_shell.environments.index-Dnn9XFj4.js     77.74 kB │ gzip:  25.27 kB
+dist/client/assets/_shell-B7r50oUj.js                        79.23 kB │ gzip:  24.02 kB
+dist/client/assets/registry-DAgUXY-I.js                      87.52 kB │ gzip:  25.29 kB
+dist/client/assets/Link-BnggOIRQ.js                         134.05 kB │ gzip:  34.42 kB
+dist/client/assets/index-C6F3IaHo.js                        384.78 kB │ gzip: 120.57 kB
+
+✓ built in 347ms
+vite v8.3.0 building ssr environment for production...
+transforming...
+✓ 165 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/assets/start-B9fHn6HE.js                          0.21 kB │ gzip:  0.17 kB
+dist/server/assets/empty-plugin-adapters-CRmm9IFd.js          0.28 kB │ gzip:  0.18 kB
+dist/server/assets/_shell.infrastructure.index-B-e4BtcT.js    1.19 kB │ gzip:  0.53 kB
+dist/server/assets/_shell.projects.index-COPJSWun.js          1.21 kB │ gzip:  0.58 kB
+dist/server/assets/_shell.actions.index-D-TmqXgG.js           1.22 kB │ gzip:  0.54 kB
+dist/server/assets/_shell.activity.index-0K8uqjn5.js          1.23 kB │ gzip:  0.55 kB
+dist/server/assets/TTLIndicator-CzTqs85x.js                   1.23 kB │ gzip:  0.49 kB
+dist/server/assets/_shell.templates.index-NSGWhPxa.js         1.41 kB │ gzip:  0.61 kB
+dist/server/assets/_shell.overview.index-jbXOSOQc.js          1.53 kB │ gzip:  0.63 kB
+dist/server/assets/environments-ZAViB9T9.js                   4.10 kB │ gzip:  1.28 kB
+dist/server/assets/_tanstack-start-manifest_v-DkHpoC2z.js     4.26 kB │ gzip:  0.94 kB
+dist/server/assets/_shell-Cjv8R98B.js                         5.03 kB │ gzip:  1.75 kB
+dist/server/assets/_shell.environments._envId-BQ3mSUQN.js     8.11 kB │ gzip:  2.05 kB
+dist/server/assets/_shell.environments.index-CHPg5VNY.js      9.70 kB │ gzip:  2.50 kB
+dist/server/assets/router-DFun6Bf8.js                        13.39 kB │ gzip:  3.63 kB
+dist/server/server.js                                       237.73 kB │ gzip: 55.12 kB
+
+✓ built in 165ms
+[WebServer] $ vite preview --port 4174 --host "127.0.0.1" --port "4174"
+
+Running 8 tests using 6 workers
+
+  ✓  3 [desktop-chromium] › tests/e2e/dashboard.spec.ts:3:1 › environments inventory is the operational home page (368ms)
+  ✓  1 [desktop-chromium] › tests/e2e/dashboard.spec.ts:48:1 › legacy app URLs redirect to environment detail (398ms)
+  ✓  5 [desktop-chromium] › tests/e2e/dashboard.spec.ts:59:1 › sidebar navigates the operational sections (460ms)
+  ✓  4 [desktop-chromium] › tests/e2e/dashboard.spec.ts:15:1 › environment search persists in the URL and clears cleanly (491ms)
+  ✓  2 [desktop-chromium] › tests/e2e/dashboard.spec.ts:70:1 › command palette opens with the keyboard shortcut (503ms)
+  ✓  6 [desktop-chromium] › tests/e2e/dashboard.spec.ts:31:1 › environment detail tabs are deep-linkable with working history (555ms)
+  ✓  7 [desktop-chromium] › tests/e2e/dashboard.spec.ts:88:1 › dashboard skip link receives keyboard focus (221ms)
+  ✓  8 [mobile-chromium] › tests/e2e/layout.mobile.spec.ts:3:1 › dashboard mobile has no horizontal overflow (210ms)
+
+  8 passed (2.2s)
+▶ forma-studio-web: test:e2e
+$ bun run build && playwright test
+$ bun run typecheck && bun run lint && vite build
+$ tsc --noEmit
+$ eslint . --max-warnings 0
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+  - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+  - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+  - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+  - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+  - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+  - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.3.0 building client environment for production...
+transforming...
+✓ 2168 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2   36.93 kB
+dist/client/assets/styles-BCAapZJp.css                        15.99 kB │ gzip:   3.98 kB
+dist/client/assets/blog-C_viBM_f.js                            2.13 kB │ gzip:   0.79 kB
+dist/client/assets/Card-D_iPn0OY.js                            7.22 kB │ gzip:   3.07 kB
+dist/client/assets/routes-rE5dlmGF.js                          9.69 kB │ gzip:   2.78 kB
+dist/client/assets/index-D_mR92a-.js                         450.15 kB │ gzip: 141.86 kB
+
+✓ built in 220ms
+vite v8.3.0 building ssr environment for production...
+transforming...
+✓ 133 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/assets/start-BlGGRRqW.js                         0.21 kB │ gzip:  0.17 kB
+dist/server/assets/empty-plugin-adapters-bn1byaau.js         0.28 kB │ gzip:  0.18 kB
+dist/server/assets/_tanstack-start-manifest_v-GQPqEsOc.js    0.96 kB │ gzip:  0.40 kB
+dist/server/assets/blog-BXV2e4VA.js                          3.89 kB │ gzip:  1.13 kB
+dist/server/assets/Card-B7Fu_bTX.js                          5.86 kB │ gzip:  1.82 kB
+dist/server/assets/routes-BlhT0AAA.js                       13.24 kB │ gzip:  2.94 kB
+dist/server/assets/router-DTBEEsGL.js                       31.97 kB │ gzip:  9.94 kB
+dist/server/server.js                                      247.27 kB │ gzip: 57.66 kB
+
+✓ built in 51ms
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+  - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+  - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+[prerender] Prerendering pages...
+[prerender] Concurrency: 12
+[prerender] Crawling: /
+[prerender] Crawling: /blog
+[prerender] Prerendered 2 pages:
+[prerender] - /
+[prerender] - /blog
+[WebServer] $ vite preview --port 4178 --host "127.0.0.1" --port "4178"
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+[WebServer]   - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+[WebServer]   - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+Running 69 tests using 2 workers
+
+  ✓   2 [desktop] › tests/e2e/content-boundary.spec.ts:6:1 › public routes use prerendered content without browser Sanity requests or draft data (467ms)
+  ✓   3 [desktop] › tests/e2e/home.spec.ts:4:1 › home page serves complete prerendered content and working section links (431ms)
+  ✓   4 [desktop] › tests/e2e/home.spec.ts:57:1 › homepage stays within viewport and navigation works on narrow screens (353ms)
+  ✓   5 [desktop] › tests/e2e/home.spec.ts:90:1 › keyboard users can skip navigation and operate FAQs (197ms)
+  ✓   6 [desktop] › tests/e2e/home.spec.ts:110:1 › branding fits and the hero note is readable against a solid background (276ms)
+  ✓   1 [desktop] › tests/e2e/content-boundary.spec.ts:43:1 › capture the live Sanity-backed pages at high resolution (2.0s)
+  ✓   7 [desktop] › tests/e2e/home.spec.ts:152:1 › blog route is prerendered and the menu navigates between the home and guides (412ms)
+  ✓   9 [desktop] › tests/e2e/home.spec.ts:233:1 › blog category labels have accessible text contrast (218ms)
+  ✓   8 [desktop] › tests/e2e/home.spec.ts:200:1 › navigation controls stay in the header at a 320px phone width (381ms)
+  ✓  11 [desktop] › tests/e2e/home.spec.ts:291:1 › content and controls remain readable at tablet and small phone widths (135ms)
+  ✓  12 [desktop] › tests/e2e/home.spec.ts:331:1 › the project preview fills the card above a compact summary (349ms)
+  ✓  10 [desktop] › tests/e2e/home.spec.ts:272:1 › work navigation reveals a project and service details are usable (845ms)
+  ✓  13 [desktop] › tests/e2e/home.spec.ts:363:1 › the hero note stays compact and its text fits on the smallest phones (357ms)
+  -  14 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 320px
+  -  15 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 360px
+  -  16 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 375px
+  -  17 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 390px
+  -  18 [desktop] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 430px
+  -  19 [desktop] › tests/e2e/mobile-design.spec.ts:82:1 › mobile navigation stays reachable on a short landscape screen
+  -  20 [desktop] › tests/e2e/mobile-design.spec.ts:112:1 › journal guides remain readable and contact stays reachable on a small phone
+  ✓  21 [desktop] › tests/e2e/shared-ui.spec.ts:31:1 › both pages retain shared landmarks, focus, heading hierarchy and equivalent action styling (420ms)
+  ✓  22 [desktop] › tests/e2e/shared-ui.spec.ts:70:1 › service and journal disclosures keep keyboard behavior while FAQs stay exclusive (2.3s)
+  ✓  24 [mobile] › tests/e2e/content-boundary.spec.ts:6:1 › public routes use prerendered content without browser Sanity requests or draft data (315ms)
+  -  25 [mobile] › tests/e2e/content-boundary.spec.ts:43:1 › capture the live Sanity-backed pages at high resolution
+  ✓  26 [mobile] › tests/e2e/home.spec.ts:4:1 › home page serves complete prerendered content and working section links (576ms)
+  ✓  23 [desktop] › tests/e2e/shared-ui.spec.ts:113:1 › capture shared UI on desktop and mobile (3.6s)
+  ✓  28 [mobile] › tests/e2e/home.spec.ts:90:1 › keyboard users can skip navigation and operate FAQs (279ms)
+  ✓  27 [mobile] › tests/e2e/home.spec.ts:57:1 › homepage stays within viewport and navigation works on narrow screens (1.0s)
+  ✓  29 [mobile] › tests/e2e/home.spec.ts:110:1 › branding fits and the hero note is readable against a solid background (1.4s)
+  ✓  31 [mobile] › tests/e2e/home.spec.ts:200:1 › navigation controls stay in the header at a 320px phone width (295ms)
+  ✓  30 [mobile] › tests/e2e/home.spec.ts:152:1 › blog route is prerendered and the menu navigates between the home and guides (1.7s)
+  ✓  32 [mobile] › tests/e2e/home.spec.ts:233:1 › blog category labels have accessible text contrast (255ms)
+  ✓  34 [mobile] › tests/e2e/home.spec.ts:291:1 › content and controls remain readable at tablet and small phone widths (214ms)
+  ✓  35 [mobile] › tests/e2e/home.spec.ts:331:1 › the project preview fills the card above a compact summary (238ms)
+  ✓  36 [mobile] › tests/e2e/home.spec.ts:363:1 › the hero note stays compact and its text fits on the smallest phones (381ms)
+  ✓  37 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 320px (1.1s)
+  ✓  38 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 360px (1.1s)
+  ✓  33 [mobile] › tests/e2e/home.spec.ts:272:1 › work navigation reveals a project and service details are usable (4.5s)
+  ✓  39 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 375px (1.3s)
+  ✓  40 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 390px (1.4s)
+  ✓  41 [mobile] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 430px (1.5s)
+  ✓  42 [mobile] › tests/e2e/mobile-design.spec.ts:82:1 › mobile navigation stays reachable on a short landscape screen (489ms)
+  ✓  43 [mobile] › tests/e2e/mobile-design.spec.ts:112:1 › journal guides remain readable and contact stays reachable on a small phone (285ms)
+  ✓  44 [mobile] › tests/e2e/shared-ui.spec.ts:31:1 › both pages retain shared landmarks, focus, heading hierarchy and equivalent action styling (320ms)
+  -  46 [mobile] › tests/e2e/shared-ui.spec.ts:113:1 › capture shared UI on desktop and mobile
+  ✓  47 [mobile-safari] › tests/e2e/content-boundary.spec.ts:6:1 › public routes use prerendered content without browser Sanity requests or draft data (668ms)
+  -  48 [mobile-safari] › tests/e2e/content-boundary.spec.ts:43:1 › capture the live Sanity-backed pages at high resolution
+  ✓  49 [mobile-safari] › tests/e2e/home.spec.ts:4:1 › home page serves complete prerendered content and working section links (1.5s)
+  ✓  45 [mobile] › tests/e2e/shared-ui.spec.ts:70:1 › service and journal disclosures keep keyboard behavior while FAQs stay exclusive (2.8s)
+  ✓  50 [mobile-safari] › tests/e2e/home.spec.ts:57:1 › homepage stays within viewport and navigation works on narrow screens (737ms)
+  ✓  51 [mobile-safari] › tests/e2e/home.spec.ts:90:1 › keyboard users can skip navigation and operate FAQs (548ms)
+  ✓  52 [mobile-safari] › tests/e2e/home.spec.ts:110:1 › branding fits and the hero note is readable against a solid background (329ms)
+  ✓  54 [mobile-safari] › tests/e2e/home.spec.ts:200:1 › navigation controls stay in the header at a 320px phone width (410ms)
+  ✓  53 [mobile-safari] › tests/e2e/home.spec.ts:152:1 › blog route is prerendered and the menu navigates between the home and guides (839ms)
+  ✓  55 [mobile-safari] › tests/e2e/home.spec.ts:233:1 › blog category labels have accessible text contrast (269ms)
+  ✓  57 [mobile-safari] › tests/e2e/home.spec.ts:291:1 › content and controls remain readable at tablet and small phone widths (307ms)
+  ✓  58 [mobile-safari] › tests/e2e/home.spec.ts:331:1 › the project preview fills the card above a compact summary (309ms)
+  ✓  56 [mobile-safari] › tests/e2e/home.spec.ts:272:1 › work navigation reveals a project and service details are usable (845ms)
+  ✓  59 [mobile-safari] › tests/e2e/home.spec.ts:363:1 › the hero note stays compact and its text fits on the smallest phones (395ms)
+  ✓  60 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 320px (592ms)
+  ✓  61 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 360px (594ms)
+  ✓  63 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 390px (659ms)
+  ✓  62 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 375px (852ms)
+  ✓  65 [mobile-safari] › tests/e2e/mobile-design.spec.ts:82:1 › mobile navigation stays reachable on a short landscape screen (469ms)
+  ✓  64 [mobile-safari] › tests/e2e/mobile-design.spec.ts:6:3 › mobile actions and service cards have a clear layout at 430px (576ms)
+  ✓  66 [mobile-safari] › tests/e2e/mobile-design.spec.ts:112:1 › journal guides remain readable and contact stays reachable on a small phone (737ms)
+  ✓  67 [mobile-safari] › tests/e2e/shared-ui.spec.ts:31:1 › both pages retain shared landmarks, focus, heading hierarchy and equivalent action styling (661ms)
+  -  69 [mobile-safari] › tests/e2e/shared-ui.spec.ts:113:1 › capture shared UI on desktop and mobile
+  ✓  68 [mobile-safari] › tests/e2e/shared-ui.spec.ts:70:1 › service and journal disclosures keep keyboard behavior while FAQs stay exclusive (1.8s)
+
+  11 skipped
+  58 passed (27.5s)
+▶ handoffs: test:e2e
+$ bun run build && playwright test
+$ bun run docs:check && bun run c4:check && tsc --noEmit && vite build
+$ bun scripts/check-handoffs.ts
+Validated 16 change-focused handoffs; 6 historical records preserved.
+$ bun scripts/generate-c4.ts --check
+C4 model and generated sources agree.
+vite v8.3.0 building client environment for production...
+transforming...
+✓ 2094 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                       0.44 kB │ gzip:   0.28 kB
+dist/assets/live-build-D5j4rAAv.txt                   4.16 kB │ gzip:   0.97 kB
+dist/assets/webkit-rerun-Cmvmkr1E.txt                 5.49 kB │ gzip:   1.43 kB
+dist/assets/footer-mobile-HOswksKX.png                9.13 kB
+dist/assets/playwright-0drTlfDk.txt                  10.06 kB │ gzip:   1.80 kB
+dist/assets/playwright-q6bZ3xFT.txt                  10.38 kB │ gzip:   1.37 kB
+dist/assets/footer-desktop-xMivt4B9.png              11.07 kB
+dist/assets/c1-handoffs-B-pfUDb9.svg                 12.35 kB │ gzip:   4.47 kB
+dist/assets/c1-changes-CATM5JWE.svg                  12.58 kB │ gzip:   4.59 kB
+dist/assets/c3-handoffs-hyQcS6-3.svg                 17.66 kB │ gzip:   3.46 kB
+dist/assets/c1-context-CkioTBDo.svg                  18.30 kB │ gzip:   5.10 kB
+dist/assets/c1-context-B2-l99Iw.svg                  18.72 kB │ gzip:   5.16 kB
+dist/assets/c2-changes-D3uXKg-u.svg                  18.83 kB │ gzip:   3.73 kB
+dist/assets/c3-components-D5Osk3d_.svg               19.34 kB │ gzip:   3.61 kB
+dist/assets/c2-handoffs-DwBObWqi.svg                 19.86 kB │ gzip:   5.69 kB
+dist/assets/c2-containers-yAasigYx.svg               19.99 kB │ gzip:   5.76 kB
+dist/assets/c1-context-BtMMYg22.svg                  20.55 kB │ gzip:   5.89 kB
+dist/assets/c1-copy-BbkJl_Mw.svg                     23.44 kB │ gzip:   5.91 kB
+dist/assets/c2-containers-CSTcHNvD.svg               23.72 kB │ gzip:   6.41 kB
+dist/assets/c3-copy-rMr26lMb.svg                     23.89 kB │ gzip:   4.41 kB
+dist/assets/c1-content-DsXEqu5M.svg                  25.24 kB │ gzip:   6.13 kB
+dist/assets/c3-components-BntmDUip.svg               26.62 kB │ gzip:   4.84 kB
+dist/assets/c3-changes-DhP6u_nR.svg                  27.02 kB │ gzip:   5.02 kB
+dist/assets/c2-containers-XF-OKGEf.svg               28.26 kB │ gzip:   7.20 kB
+dist/assets/c3-components-N1whVW15.svg               29.51 kB │ gzip:   5.07 kB
+dist/assets/c3-content-g4VefdIR.svg                  30.66 kB │ gzip:   5.33 kB
+dist/assets/c3-ui-DjS015SN.svg                       31.51 kB │ gzip:   5.54 kB
+dist/assets/c3-components-COpCaDSR.svg               31.79 kB │ gzip:   5.52 kB
+dist/assets/c3-components-C5pkAV8L.svg               31.98 kB │ gzip:   5.59 kB
+dist/assets/c2-containers-dRFaRPgV.svg               34.10 kB │ gzip:   7.60 kB
+dist/assets/c3-components-CjFnHBei.svg               36.31 kB │ gzip:   6.06 kB
+dist/assets/c2-copy-CyBibhKX.svg                     36.75 kB │ gzip:   7.98 kB
+dist/assets/repository-build-3lvtM803.txt            39.25 kB │ gzip:   8.78 kB
+dist/assets/precommit-DANh0ue2.txt                   42.60 kB │ gzip:   7.60 kB
+dist/assets/c2-content-BWXiDFzQ.svg                  54.73 kB │ gzip:  10.43 kB
+dist/assets/metadata-390-Cdk5MVBv.png                56.55 kB
+dist/assets/architecture-390-DU6_f_Fz.png            82.68 kB
+dist/assets/architecture-390-Ca9wQCT7.png           109.65 kB
+dist/assets/cloudflare-source-LEe2IJwa.jpg          116.92 kB
+dist/assets/architecture-1440-HNtJiORK.png          119.51 kB
+dist/assets/diagram-navigation-CMPhb2Q_.webm        157.41 kB
+dist/assets/handoffs-390-D21iilL_.png               172.65 kB
+dist/assets/technical-390-DXZrUdJY.png              175.09 kB
+dist/assets/metadata-1440-CAflRiG0.png              179.51 kB
+dist/assets/architecture-1440-_3uzeSRK.png          206.41 kB
+dist/assets/mobile-mIcdy6nG.png                     208.51 kB
+dist/assets/desktop-41GLxdvF.png                    216.89 kB
+dist/assets/login-mobile-CGFdCoj2.png               225.16 kB
+dist/assets/forgot-password-mobile-BASHrtar.png     227.17 kB
+dist/assets/account-mobile-Cm1-C-j6.png             228.33 kB
+dist/assets/handoffs-1440-3VucTK7a.png              237.90 kB
+dist/assets/register-mobile-UR8X9fb7.png            246.65 kB
+dist/assets/register-mobile-B_0prMh8.png            262.66 kB
+dist/assets/login-mobile-D8Y2sfAr.png               274.10 kB
+dist/assets/account-mobile-ja482Moj.png             277.60 kB
+dist/assets/account-desktop-DLdWA8DL.png            281.30 kB
+dist/assets/account-mobile-CdRG8Bav.png             282.18 kB
+dist/assets/login-desktop-DHm7RLXB.png              297.73 kB
+dist/assets/forgot-password-desktop-BmhA62Fx.png    301.83 kB
+dist/assets/register-desktop-qgDZduwQ.png           325.13 kB
+dist/assets/mobile-i8MN16Zr.png                     328.35 kB
+dist/assets/account-desktop-DPgiDpzx.png            336.97 kB
+dist/assets/login-desktop-CF-kUHni.png              340.72 kB
+dist/assets/register-desktop-Bxy4pFnY.png           344.51 kB
+dist/assets/account-desktop-F3ZIKorb.png            364.55 kB
+dist/assets/technical-1440-CceJkbCY.png             411.45 kB
+dist/assets/mobile-7Cu-MUSD.png                     421.75 kB
+dist/assets/news-mobile-C-M035gw.png                448.75 kB
+dist/assets/mobile-BQ90SDHj.png                     474.11 kB
+dist/assets/desktop-xPAZT_J2.png                    498.27 kB
+dist/assets/desktop-Bgdf2H-D.png                    569.73 kB
+dist/assets/mobile-CY6DVNTB.png                     640.76 kB
+dist/assets/news-desktop-rsK2w9Xs.png               644.70 kB
+dist/assets/mobile-8yKvh7pj.png                     650.49 kB
+dist/assets/desktop-BmXjYMQe.png                    679.90 kB
+dist/assets/journal-mobile-XpcNv_fm.png             749.91 kB
+dist/assets/journal-mobile-DxHRQl2_.png             879.17 kB
+dist/assets/mobile-DBbd1dzE.png                   1,030.93 kB
+dist/assets/home-mobile-D_gmlPE9.png              1,232.92 kB
+dist/assets/journal-desktop-CZDMbPPE.png          1,256.31 kB
+dist/assets/desktop-CieokJ3V.png                  1,592.41 kB
+dist/assets/journal-desktop-D-2HfFrr.png          1,594.56 kB
+dist/assets/mobile-aEjo3Y2j.png                   1,604.72 kB
+dist/assets/mobile-DBTAMP4q.png                   1,612.42 kB
+dist/assets/home-desktop-B_enEsHd.png             3,759.00 kB
+dist/assets/desktop-DZYJBaum.png                  3,933.18 kB
+dist/assets/desktop-C6xevnB_.png                  3,945.59 kB
+dist/assets/desktop-DFV5HK8e.png                  3,949.69 kB
+dist/assets/desktop-CPiuHQJl.png                  3,955.67 kB
+dist/assets/index-BMxMEkrQ.css                       14.91 kB │ gzip:   3.49 kB
+dist/assets/index-ZWPY6gKx.js                       612.58 kB │ gzip: 165.97 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 277ms
+[WebServer] $ vite preview --host 127.0.0.1 --port 4182 --strictPort
+
+Running 7 tests using 1 worker
+
+  ✓  1 tests/e2e/handoffs.spec.ts:5:1 › repository MDX handoffs open with tables, checklists and rendered C4 diagrams (925ms)
+  ✓  2 tests/e2e/handoffs.spec.ts:153:1 › unknown handoffs show a recovery link (227ms)
+  ✓  3 tests/e2e/handoffs.spec.ts:164:1 › the index searches, filters by update time and sorts (291ms)
+  ✓  4 tests/e2e/handoffs.spec.ts:213:1 › PlantUML diagrams fit the viewer and support zoom, pan and reset at desktop and phone widths (548ms)
+  ✓  5 tests/e2e/handoffs.spec.ts:279:1 › all migrated C4 diagrams load locally and fit inside their viewer (919ms)
+  ✓  6 tests/e2e/handoffs.spec.ts:311:1 › phone gestures pinch to zoom and drag to navigate the diagram (983ms)
+  ✓  7 tests/e2e/handoffs.spec.ts:398:1 › change-focused handoffs show before/after details, tabular verification and annotated architecture (555ms)
+
+  7 passed (5.2s)
+▶ laura-faichney-web: test:e2e
+$ bun run build:e2e && playwright test
+$ bun --preload ./tests/fixtures/gallery-fetch.mjs scripts/generate-content.ts test && vite build
+Captured local Laura fixtures without live Sanity requests.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/inline-styles" without a file extension (vite.config.ts:4:30). Add the file extension
+  - import "./scripts/lauraSnapshot" without a file extension (vite.config.ts:5:35). Add the file extension
+  - import "./lauraSanitySource" without a file extension (scripts/lauraSnapshot.ts:3:59). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSnapshot.ts:9:8). Add the file extension
+  - import "./lauraImageAssets" without a file extension (scripts/lauraSnapshot.ts:10:55). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSanitySource.ts:18:8). Add the file extension
+  - import "./lauraSnapshot" without a file extension (scripts/lauraImageAssets.ts:1:36). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraImageAssets.ts:2:31). Add the file extension
+  - import "../src/features/site/heroImageSources" without a file extension (scripts/lauraImageAssets.ts:3:33). Add the file extension
+  - import "./galleryImageSources" without a file extension (src/features/site/heroImageSources.ts:1:50). Add the file extension
+  - import "../../app/siteMetadata" without a file extension (src/features/site/lauraSanity.ts:1:32). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/inline-styles" without a file extension (vite.config.ts:4:30). Add the file extension
+  - import "./scripts/lauraSnapshot" without a file extension (vite.config.ts:5:35). Add the file extension
+  - import "./lauraSanitySource" without a file extension (scripts/lauraSnapshot.ts:3:59). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSnapshot.ts:9:8). Add the file extension
+  - import "./lauraImageAssets" without a file extension (scripts/lauraSnapshot.ts:10:55). Add the file extension
+  - import "./lauraSnapshot" without a file extension (scripts/lauraImageAssets.ts:1:36). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSanitySource.ts:18:8). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraImageAssets.ts:2:31). Add the file extension
+  - import "../src/features/site/heroImageSources" without a file extension (scripts/lauraImageAssets.ts:3:33). Add the file extension
+  - import "./galleryImageSources" without a file extension (src/features/site/heroImageSources.ts:1:50). Add the file extension
+  - import "../../app/siteMetadata" without a file extension (src/features/site/lauraSanity.ts:1:32). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/inline-styles" without a file extension (vite.config.ts:4:30). Add the file extension
+  - import "./scripts/lauraSnapshot" without a file extension (vite.config.ts:5:35). Add the file extension
+  - import "./lauraSanitySource" without a file extension (scripts/lauraSnapshot.ts:3:59). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSnapshot.ts:9:8). Add the file extension
+  - import "./lauraImageAssets" without a file extension (scripts/lauraSnapshot.ts:10:55). Add the file extension
+  - import "./lauraSnapshot" without a file extension (scripts/lauraImageAssets.ts:1:36). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSanitySource.ts:18:8). Add the file extension
+  - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraImageAssets.ts:2:31). Add the file extension
+  - import "../src/features/site/heroImageSources" without a file extension (scripts/lauraImageAssets.ts:3:33). Add the file extension
+  - import "./galleryImageSources" without a file extension (src/features/site/heroImageSources.ts:1:50). Add the file extension
+  - import "../../app/siteMetadata" without a file extension (src/features/site/lauraSanity.ts:1:32). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.3.0 building client environment for production...
+transforming...
+✓ 2113 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/assets/dm-sans-latin-400-700-rPtHtqvl.woff2                  23.20 kB
+dist/client/assets/cormorant-garamond-latin-wght-normal-CUoBjw-S.woff2   37.64 kB
+dist/client/assets/services-Cn49qZXL.js                                   0.21 kB │ gzip:   0.18 kB
+dist/client/assets/about-Cdx-x46L.js                                      0.22 kB │ gzip:   0.18 kB
+dist/client/assets/gallery-C0yjeihU.js                                    0.22 kB │ gzip:   0.18 kB
+dist/client/assets/routes-fdSsPvBL.js                                     0.22 kB │ gzip:   0.18 kB
+dist/client/assets/contact-CAjOBO-g.js                                    0.30 kB │ gzip:   0.22 kB
+dist/client/assets/gallery_._collectionSlug-BGI1iA7a.js                   0.50 kB │ gzip:   0.31 kB
+dist/client/assets/jsx-runtime-BkSabwWG.js                                0.96 kB │ gzip:   0.55 kB
+dist/client/assets/GalleryImage-C_j6FqP7.js                               1.44 kB │ gzip:   0.77 kB
+dist/client/assets/_virtual_laura-content-BCjQKt4Y.js                    25.11 kB │ gzip:   5.10 kB
+dist/client/assets/gallery_._collectionSlug-D0dIJ_nj.js                  26.82 kB │ gzip:  10.31 kB
+dist/client/assets/preload-helper-D4O_789K.js                            29.62 kB │ gzip:  11.57 kB
+dist/client/assets/SitePages-SVlO2ryZ.js                                 30.56 kB │ gzip:   8.94 kB
+dist/client/assets/index-BaEVGVOp.js                                    324.23 kB │ gzip: 103.39 kB
+
+✓ built in 353ms
+vite v8.3.0 building ssr environment for production...
+transforming...
+✓ 180 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/assets/start-OFr5rOIP.js                         0.21 kB │ gzip:  0.17 kB
+dist/server/assets/empty-plugin-adapters-5A0tqjBE.js         0.28 kB │ gzip:  0.18 kB
+dist/server/assets/routes-BYkqxz07.js                        0.35 kB │ gzip:  0.25 kB
+dist/server/assets/about-BW7kn_Jm.js                         0.36 kB │ gzip:  0.25 kB
+dist/server/assets/gallery-Bye-8PzX.js                       0.37 kB │ gzip:  0.25 kB
+dist/server/assets/services-CHA7C40X.js                      0.37 kB │ gzip:  0.25 kB
+dist/server/assets/contact-c9imZ63-.js                       0.47 kB │ gzip:  0.29 kB
+dist/server/assets/gallery_._collectionSlug-bewBakB0.js      0.89 kB │ gzip:  0.42 kB
+dist/server/assets/_tanstack-start-manifest_v-B6sUXtam.js    2.35 kB │ gzip:  0.62 kB
+dist/server/assets/GalleryImage-CAtIDp7v.js                  2.48 kB │ gzip:  1.01 kB
+dist/server/assets/lauraSanity-TuwiHYye.js                   3.00 kB │ gzip:  1.16 kB
+dist/server/assets/gallery_._collectionSlug-DaiNxPQ7.js     13.19 kB │ gzip:  3.65 kB
+dist/server/assets/_virtual_laura-content-ghpTCVgZ.js       29.87 kB │ gzip:  5.39 kB
+dist/server/assets/SitePages-CkIhwXjR.js                    41.31 kB │ gzip:  9.25 kB
+dist/server/assets/router-BfJPbpxJ.js                       65.51 kB │ gzip: 14.60 kB
+dist/server/server.js                                      239.51 kB │ gzip: 55.50 kB
+
+✓ built in 96ms
+[WebServer] $ vite preview --host "127.0.0.1" --port "4176"
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/inline-styles" without a file extension (vite.config.ts:4:30). Add the file extension
+[WebServer]   - import "./scripts/lauraSnapshot" without a file extension (vite.config.ts:5:35). Add the file extension
+[WebServer]   - import "./lauraSanitySource" without a file extension (scripts/lauraSnapshot.ts:3:59). Add the file extension
+[WebServer]   - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSnapshot.ts:9:8). Add the file extension
+[WebServer]   - import "./lauraImageAssets" without a file extension (scripts/lauraSnapshot.ts:10:55). Add the file extension
+[WebServer]   - import "./lauraSnapshot" without a file extension (scripts/lauraImageAssets.ts:1:36). Add the file extension
+[WebServer]   - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraSanitySource.ts:18:8). Add the file extension
+[WebServer]   - import "../src/features/site/lauraSanity" without a file extension (scripts/lauraImageAssets.ts:2:31). Add the file extension
+[WebServer]   - import "../src/features/site/heroImageSources" without a file extension (scripts/lauraImageAssets.ts:3:33). Add the file extension
+[WebServer]   - import "../../app/siteMetadata" without a file extension (src/features/site/lauraSanity.ts:1:32). Add the file extension
+[WebServer]   - import "./galleryImageSources" without a file extension (src/features/site/heroImageSources.ts:1:50). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+Running 127 tests using 6 workers
+
+  ✓    4 tests/e2e/contact-design.spec.ts:32:1 › required fields and email validation prevent incomplete enquiries (449ms)
+  ✓    3 tests/e2e/contact-design.spec.ts:3:1 › contact page follows the reference journey and exposes working contact links (473ms)
+  ✓    2 tests/e2e/bandwidth.spec.ts:30:1 › distant carousel pictures download when selected while neighbours remain ready (486ms)
+  ✓    7 tests/e2e/contact-design.spec.ts:143:1 › unknown service links leave the visitor free to choose (207ms)
+  ✓    5 tests/e2e/contact-design.spec.ts:110:1 › network failures preserve the enquiry and allow a retry on the same page (865ms)
+  ✓    9 tests/e2e/contact-design.spec.ts:180:3 › contact content fits and controls remain usable at 320px (685ms)
+  ✓    8 tests/e2e/contact-design.spec.ts:152:1 › whitespace cannot submit an enquiry and the visitor can correct it (719ms)
+  ✓   10 tests/e2e/contact-design.spec.ts:180:3 › contact content fits and controls remain usable at 390px (658ms)
+  ✓    1 tests/e2e/bandwidth.spec.ts:3:1 › non-gallery artwork uses local responsive images on phones (1.5s)
+  ✓   11 tests/e2e/contact-design.spec.ts:180:3 › contact content fits and controls remain usable at 640px (779ms)
+  ✓    6 tests/e2e/contact-design.spec.ts:47:1 › submits the enquiry inline without provider copy, navigation or new tabs (1.7s)
+  ✓   15 tests/e2e/gallery-availability.spec.ts:4:3 › picture availability follows thumbnail and keyboard selection at 320px (345ms)
+  ✓   16 tests/e2e/gallery-availability.spec.ts:4:3 › picture availability follows thumbnail and keyboard selection at 390px (334ms)
+  ✓   13 tests/e2e/contact-design.spec.ts:180:3 › contact content fits and controls remain usable at 935px (836ms)
+  ✓   17 tests/e2e/gallery-availability.spec.ts:4:3 › picture availability follows thumbnail and keyboard selection at 1440px (461ms)
+  ✓   12 tests/e2e/contact-design.spec.ts:180:3 › contact content fits and controls remain usable at 768px (983ms)
+  ✓   14 tests/e2e/contact-design.spec.ts:180:3 › contact content fits and controls remain usable at 1440px (878ms)
+  ✓   20 tests/e2e/gallery-collections.spec.ts:110:1 › unknown collections and retired picture URLs show a helpful not-found page (348ms)
+  ✓   24 tests/e2e/gallery-layout.spec.ts:79:1 › mobile artwork position does not depend on collection description length (177ms)
+  ✓   25 tests/e2e/gallery-layout.spec.ts:102:1 › a single-picture collection shows its picture without a duplicate chooser (172ms)
+  ✓   19 tests/e2e/gallery-collections.spec.ts:69:1 › home previews and direct links open collections with their own description (774ms)
+  ✓   26 tests/e2e/gallery-mobile.spec.ts:4:1 › the mobile picture viewer stays stable when browsing portrait and landscape uploads (374ms)
+  ✓   28 tests/e2e/gallery-mobile.spec.ts:77:1 › phones download smaller transparent hero assets and appropriately sized thumbnails (749ms)
+  ✓   18 tests/e2e/gallery-collections.spec.ts:8:1 › visitors open a collection and browse pictures without leaving its page (2.5s)
+  ✓   27 tests/e2e/gallery-mobile.spec.ts:44:1 › gallery pictures stay prominent on phones and collection covers fill tablet rows (2.4s)
+  ✓   29 tests/e2e/gallery-mobile.spec.ts:134:1 › mobile visitors can navigate, select pictures and use the keyboard without layout jumps (1.3s)
+  ✓   21 tests/e2e/gallery-grid.spec.ts:3:1 › collection cards adapt to the available width on the home page and gallery (3.2s)
+  ✓   30 tests/e2e/gallery-motion.spec.ts:15:1 › a live reduced-motion change stops shared-image travel immediately (868ms)
+  ✓   22 tests/e2e/gallery-collections.spec.ts:125:1 › collection cards and picture controls remain readable and uncropped at phone and desktop widths (3.4s)
+  ✓   35 tests/e2e/gallery-motion.spec.ts:252:1 › without JavaScript, services, artwork and collection links remain readable (173ms)
+  ✓   36 tests/e2e/gallery-swipe.spec.ts:12:3 › the picture follows an angled finger drag before release at 320px (488ms)
+  ✓   33 tests/e2e/gallery-motion.spec.ts:212:1 › touch selects collections and pictures while the mobile nav indicator stays still (1.3s)
+  ✓   32 tests/e2e/gallery-motion.spec.ts:160:3 › collection links and picture selection work with unsupported transitions (1.4s)
+  ✓   34 tests/e2e/gallery-motion.spec.ts:160:3 › collection links and picture selection work with reduced transitions (1.3s)
+  ✓   37 tests/e2e/gallery-swipe.spec.ts:12:3 › the picture follows an angled finger drag before release at 390px (481ms)
+  ✓   38 tests/e2e/gallery-swipe.spec.ts:12:3 › the picture follows an angled finger drag before release at 430px (497ms)
+  ✓   31 tests/e2e/gallery-motion.spec.ts:59:1 › collection and picture selections carry exactly one image into its larger view (1.9s)
+  ✓   23 tests/e2e/gallery-layout.spec.ts:4:1 › collection introduction sits beside the picture on wide screens and below it on narrower screens (5.2s)
+  ✓   39 tests/e2e/gallery-swipe.spec.ts:136:3 › phone swipes browse pictures and cross collection boundaries with reduce motion (2.1s)
+  ✓   43 tests/e2e/gallery-swipe.spec.ts:274:1 › single-picture collections swipe to adjacent collections and the gallery wraps at both ends (2.1s)
+  ✓   44 tests/e2e/gallery-swipe.spec.ts:313:3 › mobile WebKit synthetic touch events drag pictures and enter adjacent collections with reduce motion (1.7s)
+  ✓   42 tests/e2e/gallery-swipe.spec.ts:225:1 › taps, short drags, vertical scrolling and two-finger gestures keep the selected picture (2.3s)
+  ✓   41 tests/e2e/gallery-swipe.spec.ts:136:3 › phone swipes browse pictures and cross collection boundaries with unsupported motion (3.8s)
+  ✓   46 tests/e2e/gallery-swipe.spec.ts:397:1 › adjacent collections update within 400ms of release without waiting for a slow CMS request (2.2s)
+  ✓   48 tests/e2e/gallery-swipe.spec.ts:461:3 › swiping pictures and adjacent collections preserves the text, scroll and focus with reduce motion (2.2s)
+  ✓   50 tests/e2e/gallery-swipe.spec.ts:530:1 › the focused detail picture has no focus border while navigation controls keep theirs (162ms)
+  ✓   51 tests/e2e/home-announcement.spec.ts:4:3 › homepage announcement fits the artwork-led layout at 320px (238ms)
+  ✓   52 tests/e2e/home-announcement.spec.ts:4:3 › homepage announcement fits the artwork-led layout at 390px (246ms)
+  ✓   40 tests/e2e/gallery-swipe.spec.ts:136:3 › phone swipes browse pictures and cross collection boundaries with no-preference motion (5.2s)
+  ✓   45 tests/e2e/gallery-swipe.spec.ts:313:3 › mobile WebKit synthetic touch events drag pictures and enter adjacent collections with no-preference motion (3.3s)
+  ✓   54 tests/e2e/home-announcement.spec.ts:4:3 › homepage announcement fits the artwork-led layout at 700px (305ms)
+  ✓   53 tests/e2e/home-announcement.spec.ts:4:3 › homepage announcement fits the artwork-led layout at 640px (335ms)
+  ✓   55 tests/e2e/home-announcement.spec.ts:4:3 › homepage announcement fits the artwork-led layout at 900px (342ms)
+  ✓   56 tests/e2e/home-announcement.spec.ts:4:3 › homepage announcement fits the artwork-led layout at 1440px (351ms)
+  ✓   58 tests/e2e/home-announcement.spec.ts:102:1 › announcement eyebrow has readable contrast against the cream band (224ms)
+  ✓   59 tests/e2e/home-announcement.spec.ts:132:1 › announcement uses the homepage cream section style without an accent border (198ms)
+  ✓   57 tests/e2e/home-announcement.spec.ts:79:1 › announcement copy and action are available without JavaScript (306ms)
+  ✓   61 tests/e2e/lighthouse-regressions.spec.ts:5:3 › /about loads its hero and favicon without browser errors (192ms)
+  ✓   60 tests/e2e/lighthouse-regressions.spec.ts:5:3 › / loads its hero and favicon without browser errors (212ms)
+  ✓   62 tests/e2e/lighthouse-regressions.spec.ts:5:3 › /services loads its hero and favicon without browser errors (179ms)
+  ✓   63 tests/e2e/lighthouse-regressions.spec.ts:5:3 › /gallery loads its hero and favicon without browser errors (205ms)
+  ✓   65 tests/e2e/lighthouse-regressions.spec.ts:29:3 › / keeps hero artwork visible from its first animation frame (161ms)
+  ✓   64 tests/e2e/lighthouse-regressions.spec.ts:5:3 › /contact loads its hero and favicon without browser errors (173ms)
+  ✓   66 tests/e2e/lighthouse-regressions.spec.ts:29:3 › /about keeps hero artwork visible from its first animation frame (147ms)
+  ✓   67 tests/e2e/lighthouse-regressions.spec.ts:29:3 › /services keeps hero artwork visible from its first animation frame (148ms)
+  ✓   69 tests/e2e/lighthouse-regressions.spec.ts:29:3 › /contact keeps hero artwork visible from its first animation frame (158ms)
+  ✓   68 tests/e2e/lighthouse-regressions.spec.ts:29:3 › /gallery keeps hero artwork visible from its first animation frame (178ms)
+  ✓   71 tests/e2e/lighthouse-regressions.spec.ts:84:1 › initial page styling is available without a separate stylesheet request (114ms)
+  ✓   70 tests/e2e/lighthouse-regressions.spec.ts:50:1 › testimonial small text meets AA contrast (223ms)
+  ✓   72 tests/e2e/lighthouse-regressions.spec.ts:105:1 › inline stylesheet is not downloaded again inside client JavaScript (369ms)
+  ✓   75 tests/e2e/motion.spec.ts:60:1 › desktop nav draws an underline without moving the label (547ms)
+  ✓   73 tests/e2e/lighthouse-regressions.spec.ts:125:1 › initial navigation reuses rendered content and loads other page data on demand (842ms)
+  ✓   47 tests/e2e/gallery-swipe.spec.ts:461:3 › swiping pictures and adjacent collections preserves the text, scroll and focus with no-preference motion (5.1s)
+  ✓   74 tests/e2e/motion.spec.ts:22:1 › service and CTA feedback moves only images and directional arrows (1.6s)
+  ✓   78 tests/e2e/motion.spec.ts:160:1 › reduced motion removes travel and reveals all content, including after a live change (785ms)
+  ✓   49 tests/e2e/gallery-swipe.spec.ts:461:3 › swiping pictures and adjacent collections preserves the text, scroll and focus with unsupported motion (4.2s)
+  ✓   79 tests/e2e/motion.spec.ts:200:1 › without IntersectionObserver, the page never hides content (660ms)
+  ✓   76 tests/e2e/motion.spec.ts:82:1 › gallery controls give feedback in their navigation direction (1.8s)
+  ✓   80 tests/e2e/motion.spec.ts:216:1 › keyboard focus exposes a pending service immediately (613ms)
+  ✓   77 tests/e2e/motion.spec.ts:132:1 › editorial reveals play once and the mural stays uncovered on return (1.6s)
+  ✓   82 tests/e2e/motion.spec.ts:284:1 › home observes three compositions and reveals the service group together (707ms)
+  ✓   87 tests/e2e/motion.spec.ts:459:1 › about copy and story stay static while its hero artwork enters as one composition (155ms)
+  ✓   84 tests/e2e/motion.spec.ts:337:1 › services page links have subtle image and arrow feedback without moving the card (542ms)
+  ✓   81 tests/e2e/motion.spec.ts:237:1 › hero has one brisk headline entrance and a signature brush draw, then stays still (1.1s)
+  ✓   85 tests/e2e/motion.spec.ts:367:1 › gallery covers zoom gently and their caption arrows respond to keyboard focus (576ms)
+  ✓   88 tests/e2e/page-motion.spec.ts:4:3 › primary navigation remains ordinary with unsupported motion (253ms)
+  ✓   89 tests/e2e/page-motion.spec.ts:4:3 › primary navigation remains ordinary with reduced motion (238ms)
+  ✓   86 tests/e2e/motion.spec.ts:408:1 › mobile uses shorter composition motion and a simple mural fade without sticky hover (733ms)
+  ✓   94 tests/e2e/responsive.spec.ts:51:1 › right contact brush retains every painted edge without a mask (127ms)
+  ✓   93 tests/e2e/responsive.spec.ts:27:1 › services show the full published descriptions at phone sizes (307ms)
+  ✓   95 tests/e2e/responsive.spec.ts:88:1 › mobile services leave room around artwork and between offerings (337ms)
+  ✓   90 tests/e2e/page-motion.spec.ts:32:1 › primary navigation crossfades page content and gives keyboard focus to the destination (781ms)
+  ✓   96 tests/e2e/responsive.spec.ts:118:1 › mobile right contact brush flows below the action into the footer (228ms)
+  ✓   83 tests/e2e/motion.spec.ts:308:1 › mural paint mask has an irregular SVG edge and copy remains immediately readable (1.7s)
+  ✓   92 tests/e2e/page-motion.spec.ts:102:1 › skip links and modified clicks keep their native behavior (777ms)
+  ✓   97 tests/e2e/responsive.spec.ts:145:1 › client quote reads as a separate section from the biography (214ms)
+  ✓   99 tests/e2e/responsive.spec.ts:168:1 › contact brush is vivid and stays below the contact details on phones (427ms)
+  ✓   91 tests/e2e/page-motion.spec.ts:82:1 › page transitions retain service enquiry parameters and close the phone menu (1.2s)
+  ✓  101 tests/e2e/responsive.spec.ts:261:1 › decorative brush strokes read clearly across the home page (399ms)
+  ✓   98 tests/e2e/responsive.spec.ts:196:1 › contact brush continues into the footer at every layout width (602ms)
+  ✓  100 tests/e2e/responsive.spec.ts:228:1 › footer paints over page-bottom overscroll so no pale strip shows (479ms)
+  ✓  102 tests/e2e/responsive.spec.ts:288:1 › phone mural artwork follows the copy without clipping or a ghost duplicate (541ms)
+  ✓  103 tests/e2e/responsive.spec.ts:335:1 › hero underline covers Brighter at rest at desktop and phone sizes (482ms)
+  ✓  105 tests/e2e/responsive.spec.ts:385:1 › visible phone links and buttons have 44px tap areas (424ms)
+  ✓  108 tests/e2e/responsive.spec.ts:492:1 › header branding and hero copy share the same left alignment (489ms)
+  ✓  104 tests/e2e/responsive.spec.ts:363:1 › phone body copy remains at least 16px (821ms)
+  ✓  109 tests/e2e/responsive.spec.ts:510:3 › pages remain readable and within the viewport at 320px (588ms)
+  ✓  110 tests/e2e/responsive.spec.ts:510:3 › pages remain readable and within the viewport at 390px (675ms)
+  ✓  111 tests/e2e/responsive.spec.ts:510:3 › pages remain readable and within the viewport at 640px (641ms)
+  ✓  112 tests/e2e/responsive.spec.ts:510:3 › pages remain readable and within the viewport at 700px (634ms)
+  ✓  106 tests/e2e/responsive.spec.ts:406:1 › phone subpage artwork introduces the copy and contact action (1.3s)
+  ✓  107 tests/e2e/responsive.spec.ts:443:1 › every subpage hero uses its own cutout without viewport overflow (1.3s)
+  ✓  113 tests/e2e/responsive.spec.ts:510:3 › pages remain readable and within the viewport at 900px (629ms)
+  ✓  116 tests/e2e/responsive.spec.ts:562:1 › phone service thumbnails and titles share a row and gallery cards stack (240ms)
+  ✓  117 tests/e2e/services-design.spec.ts:4:3 › services follow the reference hierarchy and alternate artwork at 935px (269ms)
+  ✓  114 tests/e2e/responsive.spec.ts:510:3 › pages remain readable and within the viewport at 1440px (565ms)
+  ✓  118 tests/e2e/services-design.spec.ts:4:3 › services follow the reference hierarchy and alternate artwork at 1440px (303ms)
+  ✓  119 tests/e2e/services-design.spec.ts:40:1 › services retain the compact proportions of the supplied reference (217ms)
+  ✓  120 tests/e2e/services-design.spec.ts:69:3 › process steps align below the heading at 700px (253ms)
+  ✓  121 tests/e2e/services-design.spec.ts:69:3 › process steps align below the heading at 935px (242ms)
+  ✓  122 tests/e2e/services-design.spec.ts:69:3 › process steps align below the heading at 1440px (272ms)
+  ✓  115 tests/e2e/responsive.spec.ts:540:1 › phone navigation opens and closes from the keyboard (680ms)
+  ✓  125 tests/e2e/services-design.spec.ts:175:1 › the handwritten motto is a loaded transparent image on desktop and phones (463ms)
+  ✓  123 tests/e2e/services-design.spec.ts:114:1 › phone service details use separate rows without dangling separators (763ms)
+  ✓  124 tests/e2e/services-design.spec.ts:146:1 › service options wrap and enquiry links remain keyboard accessible on phones (680ms)
+  ✓  127 tests/e2e/contact-mobile.spec.ts:11:1 › touch navigation, service selection and enquiry submission work on mobile Safari (642ms)
+  ✓  126 tests/e2e/static-content.spec.ts:4:1 › direct visits and client navigation use built content without Sanity API requests (3.6s)
+
+  127 passed (23.8s)
+▶ mobile: test:e2e
+$ bun run test:web
+$ WOODBROOK_API_URL=http://127.0.0.1:4317 bun run build:all && playwright test --config playwright.web.config.ts
+$ bun run build:ios && bun run build:web
+$ rspeedy build --environment lynx
+  Rspeedy v0.17.2 (Rsbuild v2.2.4, Rspack v2.2.6)
+
+info    Type checker is enabled.
+info    build started...
+warn    Build warnings: 
+⚠ Unsupported property "outline-offset" was removed during template encode.
+
+⚠ Unsupported property "text-transform" was removed during template encode.
+
+ready   built in 1.43s
+
+File (lynx)                                                       Size       
+dist/ios/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg   98.7 kB 
+dist/ios/woodbrook.lynx.bundle                                    189.9 kB
+
+                                                         Total:   288.7 kB   288.7 kB
+
+$ bun run build:web:bundle && bun run build:web:host
+$ rspeedy build --environment web
+  Rspeedy v0.17.2 (Rsbuild v2.2.4, Rspack v2.2.6)
+
+info    Type checker is enabled.
+info    build started...
+ready   built in 1.27s
+
+File (web)                                                             Size       
+dist/web-lynx/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg   98.7 kB 
+dist/web-lynx/woodbrook.web.bundle                                     217.2 kB
+
+                                                              Total:   315.9 kB   315.9 kB
+
+$ MOBILE_WEB_COPY_BUNDLE=true rsbuild build --config rsbuild.web.config.ts
+Rsbuild v2.2.4
+
+info    Type checker is enabled.
+info    build started...
+ready   built in 1.21s
+
+File (web)                                                               Size        Gzip   
+dist/web/index.html                                                      0.69 kB     0.37 kB
+dist/web/static/css/index.0032b0563d.css                                 2.8 kB      0.71 kB
+dist/web/static/js/index.b29b375243.js                                   4.9 kB      2.4 kB
+dist/web/static/js/async/web-core-template-loader-thread.37700fc7a7.js   15.9 kB     6.0 kB
+dist/web/static/js/async/web-core-worker-chunk.58373ac4d1.js             16.3 kB     6.3 kB
+dist/web/static/js/168.fa4292abfe.js                                     20.5 kB     5.5 kB
+dist/web/static/js/180.b4e57da5a1.js                                     20.8 kB     7.3 kB
+dist/web/static/js/async/legacy-wasm-js.b3648f078c.js                    23.9 kB     5.7 kB
+dist/web/static/js/async/lynx-core-chunk.ec855fdbbb.js                   48.4 kB     13.3 kB
+dist/web/static/js/async/web-core-main-chunk.59adfb7db4.js               89.5 kB     22.2 kB
+dist/web/lynx/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg     98.7 kB  
+dist/web/static/image/woodbrook-coast-aerial-768.e79cb98697.jpg          98.7 kB  
+dist/web/static/js/async/xmarkdown-deps.9f74f64dbe.js                    124.9 kB    49.6 kB
+dist/web/static/js/async/web-elements.b84c558341.js                      150.9 kB    35.5 kB
+dist/web/static/wasm/77fb77f77f.module.wasm                              168.6 kB    56.3 kB
+dist/web/static/wasm/72aaf7d0aa.module.wasm                              184.4 kB    75.6 kB
+dist/web/lynx/woodbrook.web.bundle                                       217.2 kB 
+dist/web/static/js/async/web-core-markup-encoder.e0ee9c0629.js           227.1 kB    64.9 kB
+dist/web/static/wasm/4c402c7981.module.wasm                              228.3 kB    83.4 kB
+
+                                                                Total:   1742.3 kB   849.8 kB
+
+
+Running 10 tests using 6 workers
+
+  ✓   6 [chrome] › tests/browser/mobile-web.spec.ts:27:1 › production host serves the Lynx bundle from the same origin (15ms)
+  ✓   5 [chrome] › tests/browser/mobile-web.spec.ts:59:1 › filter chips share a compact uniform height (279ms)
+  ✓   2 [chrome] › tests/browser/mobile-web.spec.ts:3:1 › browser renderer loads shared runtime content and navigates (339ms)
+  ✓   3 [chrome] › tests/browser/detail-scroll.spec.ts:3:1 › long local information detail can be scrolled to the source note (351ms)
+  ✓   8 [safari] › tests/browser/mobile-web.spec.ts:27:1 › production host serves the Lynx bundle from the same origin (22ms)
+  ✓   4 [safari] › tests/browser/detail-scroll.spec.ts:3:1 › long local information detail can be scrolled to the source note (571ms)
+  ✓   7 [safari] › tests/browser/mobile-web.spec.ts:3:1 › browser renderer loads shared runtime content and navigates (551ms)
+  ✓   9 [safari] › tests/browser/mobile-web.spec.ts:59:1 › filter chips share a compact uniform height (407ms)
+  ✓   1 [chrome] › tests/browser/mobile-web.spec.ts:37:1 › home screen image assets load without failed requests (2.2s)
+  ✓  10 [safari] › tests/browser/mobile-web.spec.ts:37:1 › home screen image assets load without failed requests (2.4s)
+
+  10 passed (3.7s)
+▶ sanity-studio: test:e2e
+$ bun run build && playwright test
+$ sanity build
+[34mℹ[39m Building with auto-updates enabled
+ ›   Warning: The following local package versions are different from the 
+ ›   versions currently served at runtime.
+ ›   When using auto updates, we recommend that you test locally with the same 
+ ›   versions before deploying. 
+ ›
+ ›    - sanity (local version: 6.16.0, runtime version: 6.21.0)
+ ›    - @sanity/vision (local version: 6.16.0, runtime version: 6.21.0)
+- Clean output folder
+[32m✔[39m Clean output folder (4ms)
+- Build Sanity Studio
+[32m✔[39m Build Sanity Studio (282ms)
+
+Running 3 tests using 3 workers
+
+  ✓  2 [desktop-chromium] › tests/e2e/studio.spec.ts:14:1 › studio static assets are served with the build (89ms)
+  ✓  1 [mobile-chromium] › tests/e2e/studio.mobile.spec.ts:3:1 › studio shell loads on a mobile viewport (632ms)
+  ✓  3 [desktop-chromium] › tests/e2e/studio.spec.ts:3:1 › studio shell serves the production build (640ms)
+
+  3 passed (1.9s)
+▶ web: test:e2e
+$ VITE_FIREBASE_API_KEY= VITE_FIREBASE_AUTH_ENABLED=false VITE_PUBLIC_SITE_URL=https://woodbrook.shankill.workers.dev bun run build && playwright test && bun run test:auth
+$ vite build
+vite v8.3.0 building client environment for production...
+transforming...
+✓ 2097 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2        10.25 kB
+dist/client/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2         11.23 kB
+dist/client/assets/newsreader-vietnamese-wght-normal-Czsa-EzN.woff2   11.93 kB
+dist/client/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2          18.74 kB
+dist/client/assets/inter-greek-wght-normal-CkhJZR-_.woff2             18.99 kB
+dist/client/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2      25.96 kB
+dist/client/assets/newsreader-latin-ext-wght-normal-C-3rgBeH.woff2    36.24 kB
+dist/client/assets/inter-latin-wght-normal-Dx4kXJAl.woff2             48.25 kB
+dist/client/assets/newsreader-latin-wght-normal-CCVVNp6i.woff2        58.08 kB
+dist/client/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2         85.06 kB
+dist/client/assets/_slug-DG5X3Z-s.css                                  0.93 kB │ gzip:  0.43 kB
+dist/client/assets/updates-r4qTMmoV.css                                1.01 kB │ gzip:  0.45 kB
+dist/client/assets/FeaturedNewsCard-BtTWOeKf.css                       1.83 kB │ gzip:  0.69 kB
+dist/client/assets/site-C81wbjpc.css                                  76.87 kB │ gzip: 15.45 kB
+dist/client/assets/chevron-right-CW9j3dnt.js                           0.13 kB │ gzip:  0.14 kB
+dist/client/assets/login-m7fKlegg.js                                   0.15 kB │ gzip:  0.15 kB
+dist/client/assets/register-DNJbjfXF.js                                0.15 kB │ gzip:  0.15 kB
+dist/client/assets/forgot-password-B-Wa6Kp6.js                         0.16 kB │ gzip:  0.15 kB
+dist/client/assets/arrow-left-DhQ7PR9x.js                              0.16 kB │ gzip:  0.16 kB
+dist/client/assets/clock-3-Bf9KRS7s.js                                 0.16 kB │ gzip:  0.16 kB
+dist/client/assets/mail-DdV4MKXh.js                                    0.21 kB │ gzip:  0.20 kB
+dist/client/assets/AuthSession-Dp6ItKSx.js                             0.21 kB │ gzip:  0.18 kB
+dist/client/assets/phone-BtFJq6bN.js                                   0.32 kB │ gzip:  0.23 kB
+dist/client/assets/accountDetails-eliIoL_M.js                          0.38 kB │ gzip:  0.28 kB
+dist/client/assets/contentFormatting-BZ5gs6Tx.js                       0.39 kB │ gzip:  0.23 kB
+dist/client/assets/FirebaseAccount-Bu60eUUD.js                         0.41 kB │ gzip:  0.30 kB
+dist/client/assets/GoogleMapsLink-BnzeGpfi.js                          0.46 kB │ gzip:  0.33 kB
+dist/client/assets/calendar-days-DhcTUuZ3.js                           0.49 kB │ gzip:  0.26 kB
+dist/client/assets/EmptyState-ZlaZ9zct.js                              0.65 kB │ gzip:  0.40 kB
+dist/client/assets/CmsUnavailable-rdDzKpLX.js                          0.77 kB │ gzip:  0.47 kB
+dist/client/assets/resourceDirectory-B52Ei7Z5.js                       0.90 kB │ gzip:  0.52 kB
+dist/client/assets/SurveyCard-HOd4_pWR.js                              0.93 kB │ gzip:  0.46 kB
+dist/client/assets/projects-3aI6wwmH.js                                0.97 kB │ gzip:  0.57 kB
+dist/client/assets/surveys-CLvgelMU.js                                 0.97 kB │ gzip:  0.55 kB
+dist/client/assets/UpdateCard-B_2ImkBs.js                              1.13 kB │ gzip:  0.52 kB
+dist/client/assets/createLucideIcon-DKlHpHa5.js                        1.18 kB │ gzip:  0.69 kB
+dist/client/assets/FeaturedNewsCard-DRiY6LlC.js                        1.27 kB │ gzip:  0.55 kB
+dist/client/assets/ProjectCard-BGY-AkTY.js                             1.29 kB │ gzip:  0.55 kB
+dist/client/assets/EventCard-DyfVPWMq.js                               1.40 kB │ gzip:  0.57 kB
+dist/client/assets/_slug-BES2tC1F.js                                   2.54 kB │ gzip:  0.96 kB
+dist/client/assets/_slug-CCz7xqBS.js                                   2.61 kB │ gzip:  0.97 kB
+dist/client/assets/events-BHTNvh4_.js                                  2.65 kB │ gzip:  1.23 kB
+dist/client/assets/LocalServiceCard-DfhCadcm.js                        2.66 kB │ gzip:  1.02 kB
+dist/client/assets/updates-BO_61c6m.js                                 2.67 kB │ gzip:  1.14 kB
+dist/client/assets/get-involved-CTSMRzlL.js                            2.95 kB │ gzip:  1.26 kB
+dist/client/assets/search-C070TTVl.js                                  3.29 kB │ gzip:  1.45 kB
+dist/client/assets/AuthPage-lk7h1fwa.js                                3.62 kB │ gzip:  1.53 kB
+dist/client/assets/useMatch-BUPEJu4N.js                                5.66 kB │ gzip:  2.47 kB
+dist/client/assets/FirebaseForms-CGyA_En0.js                           5.82 kB │ gzip:  2.03 kB
+dist/client/assets/_slug-830S1JIx.js                                   5.89 kB │ gzip:  2.03 kB
+dist/client/assets/local-info-BrWg1zfn.js                              6.05 kB │ gzip:  2.33 kB
+dist/client/assets/_slug-BjsLYZWR.js                                   6.07 kB │ gzip:  2.42 kB
+dist/client/assets/account-Dw6Cuh1p.js                                 6.76 kB │ gzip:  2.44 kB
+dist/client/assets/preload-helper-DYwKYl5_.js                         10.11 kB │ gzip:  3.92 kB
+dist/client/assets/routes-D_GlZ402.js                                 13.92 kB │ gzip:  4.28 kB
+dist/client/assets/contentApi-C9aH-cUK.js                             50.63 kB │ gzip: 17.66 kB
+dist/client/assets/accountDetailsStore-OPNNe_uH.js                    88.69 kB │ gzip: 29.01 kB
+dist/client/assets/FirebaseRuntime-5-ZuXDH2.js                       110.05 kB │ gzip: 33.40 kB
+dist/client/assets/_slug-Cub9QBGh.js                                 119.24 kB │ gzip: 36.19 kB
+dist/client/assets/module-DuLhru1W.js                                260.04 kB │ gzip: 77.83 kB
+dist/client/assets/index-D2umshh0.js                                 315.45 kB │ gzip: 99.66 kB
+
+✓ built in 321ms
+vite v8.3.0 building ssr environment for production...
+transforming...
+✓ 258 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/assets/start-DLaC4AL1.js                         0.21 kB │ gzip:  0.17 kB
+dist/server/assets/login-D5eYh5SS.js                         0.27 kB │ gzip:  0.20 kB
+dist/server/assets/register-Bq9JFEO5.js                      0.28 kB │ gzip:  0.20 kB
+dist/server/assets/empty-plugin-adapters-CRmm9IFd.js         0.28 kB │ gzip:  0.18 kB
+dist/server/assets/forgot-password-CraiVEPp.js               0.29 kB │ gzip:  0.21 kB
+dist/server/assets/AuthSession-DI9QhVSV.js                   0.36 kB │ gzip:  0.23 kB
+dist/server/assets/EmptyState-B_0AcSq8.js                    0.54 kB │ gzip:  0.32 kB
+dist/server/assets/PageIntro-CqmCQ4hP.js                     0.58 kB │ gzip:  0.29 kB
+dist/server/assets/contentFormatting-ByNqxSbr.js             0.62 kB │ gzip:  0.31 kB
+dist/server/assets/accountDetails-9-XuT323.js                0.64 kB │ gzip:  0.38 kB
+dist/server/assets/homeEvent-5ecmolRp.js                     0.65 kB │ gzip:  0.32 kB
+dist/server/assets/CmsUnavailable-CyyD8FY6.js                0.69 kB │ gzip:  0.39 kB
+dist/server/assets/GoogleMapsLink-i-401vJj.js                0.70 kB │ gzip:  0.42 kB
+dist/server/assets/FirebaseAccount-CyJZRSfA.js               0.71 kB │ gzip:  0.40 kB
+dist/server/assets/collectionScheduleUtils-D5x_TFk1.js       1.07 kB │ gzip:  0.54 kB
+dist/server/assets/accountDetailsStore-DSSdo55u.js           1.14 kB │ gzip:  0.51 kB
+dist/server/assets/SurveyCard-D6WOtgO_.js                    1.40 kB │ gzip:  0.59 kB
+dist/server/assets/surveys-BDSjcCcp.js                       1.57 kB │ gzip:  0.73 kB
+dist/server/assets/projects-DYGSaxtn.js                      1.58 kB │ gzip:  0.75 kB
+dist/server/assets/UpdateCard-BmYF5ipk.js                    1.67 kB │ gzip:  0.63 kB
+dist/server/assets/authConfig-Dwu_OX1-.js                    1.81 kB │ gzip:  0.87 kB
+dist/server/assets/resourceDirectory-CTS3n6oz.js             1.86 kB │ gzip:  0.78 kB
+dist/server/assets/FeaturedNewsCard-B_LxU9CN.js              1.94 kB │ gzip:  0.71 kB
+dist/server/assets/ProjectCard-CeEgip-S.js                   1.95 kB │ gzip:  0.71 kB
+dist/server/assets/EventCard-FvZG1gfI.js                     1.98 kB │ gzip:  0.71 kB
+dist/server/assets/get-involved-9fE0Se17.js                  3.62 kB │ gzip:  1.24 kB
+dist/server/assets/LocalServiceCard-Owr38PCG.js              3.88 kB │ gzip:  1.18 kB
+dist/server/assets/_slug-4z0CdNsL.js                         3.90 kB │ gzip:  1.20 kB
+dist/server/assets/AuthPage-C_8zs_ew.js                      4.02 kB │ gzip:  1.31 kB
+dist/server/assets/FirebaseRuntime-BsHuJ-10.js               4.14 kB │ gzip:  1.52 kB
+dist/server/assets/_slug-ConJTUGj.js                         4.24 kB │ gzip:  1.27 kB
+dist/server/assets/_slug-CTl6yxSz.js                         4.36 kB │ gzip:  1.30 kB
+dist/server/assets/updates-CROWXMNG.js                       4.76 kB │ gzip:  1.53 kB
+dist/server/assets/events-DFHZWssD.js                        4.92 kB │ gzip:  1.76 kB
+dist/server/assets/search-CbBbKhNO.js                        5.66 kB │ gzip:  1.89 kB
+dist/server/assets/seoStructuredData-DMaEKzJE.js             6.68 kB │ gzip:  1.62 kB
+dist/server/assets/_tanstack-start-manifest_v-B9adb97e.js    7.48 kB │ gzip:  1.34 kB
+dist/server/assets/contentApi-6RCzB28z.js                    7.80 kB │ gzip:  2.74 kB
+dist/server/assets/FirebaseForms-CFf7zzGZ.js                 8.53 kB │ gzip:  2.43 kB
+dist/server/assets/_slug-DRyC4nei.js                         8.90 kB │ gzip:  2.79 kB
+dist/server/assets/_slug-DM9lpDlp.js                         9.15 kB │ gzip:  2.39 kB
+dist/server/assets/contentApi-BKO-QEiB.js                   10.13 kB │ gzip:  2.43 kB
+dist/server/assets/account-DjE5KMJc.js                      10.83 kB │ gzip:  2.92 kB
+dist/server/assets/local-info-9-1t1bvS.js                   11.05 kB │ gzip:  3.18 kB
+dist/server/assets/routes-C_yL6aKZ.js                       17.64 kB │ gzip:  3.95 kB
+dist/server/assets/router-CCtVp4KR.js                       43.42 kB │ gzip:  9.56 kB
+dist/server/assets/searchModel-B_biEbnr.js                  46.97 kB │ gzip: 10.78 kB
+dist/server/server.js                                      247.90 kB │ gzip: 58.23 kB
+
+✓ built in 177ms
+[WebServer] $ vite preview --host "127.0.0.1" --port "4173" --strictPort
+
+Running 57 tests using 6 workers
+
+  ✓   6 [desktop-chromium] › tests/e2e/auth.spec.ts:60:1 › unconfigured Firebase offers an honest setup state without collecting credentials (293ms)
+  ✓   1 [desktop-chromium] › tests/e2e/auth.spec.ts:3:1 › account pages and navigation stay disabled without a feature flag (311ms)
+  ✓   5 [desktop-chromium] › tests/e2e/auth.spec.ts:76:1 › account navigation stays reachable at a 320px phone width (385ms)
+  ✓   3 [desktop-chromium] › tests/e2e/auth.spec.ts:95:1 › repeated feature flags stay enabled through router navigation (490ms)
+  ✓   4 [desktop-chromium] › tests/e2e/community-hub.spec.ts:3:1 › shows researched community content and supports primary navigation (573ms)
+  ✓   2 [desktop-chromium] › tests/e2e/auth.spec.ts:25:1 › query flag enables linked account pages and survives public navigation (710ms)
+  ✓  10 [desktop-chromium] › tests/e2e/community-hub.spec.ts:285:1 › uses consistent resident labels and honest contribution paths (345ms)
+  ✓   7 [desktop-chromium] › tests/e2e/community-hub.spec.ts:99:1 › opens event and survey detail pages from their listings (537ms)
+  ✓  11 [desktop-chromium] › tests/e2e/community-hub.spec.ts:310:1 › provides page-specific titles and canonical URLs (410ms)
+  ✓  13 [desktop-chromium] › tests/e2e/community-hub.spec.ts:381:1 › unknown routes have a useful recovery path (187ms)
+  ✓  12 [desktop-chromium] › tests/e2e/community-hub.spec.ts:343:1 › detail pages offer a way back when content is unavailable (331ms)
+  -  17 [desktop-chromium] › tests/e2e/featured-news-listing.spec.ts:60:1 › capture featured News on desktop and mobile
+  ✓  15 [desktop-chromium] › tests/e2e/contact-cards.spec.ts:60:1 › each contact card supports whole-card navigation and a visible keyboard focus (1.0s)
+  -  19 [desktop-chromium] › tests/e2e/featured-news.spec.ts:57:1 › capture featured news on desktop and mobile
+  ✓   9 [desktop-chromium] › tests/e2e/community-hub.spec.ts:222:1 › shows the qualified Thorntons bin schedule and PDF actions (1.9s)
+  ✓  14 [desktop-chromium] › tests/e2e/contact-cards.spec.ts:5:1 › contact cards align the icon with the title and give the description its own readable row (1.4s)
+  ✓  18 [desktop-chromium] › tests/e2e/featured-news.spec.ts:7:1 › featured news stands out, reflows and opens through one keyboard-accessible story link (1.1s)
+  ✓  16 [desktop-chromium] › tests/e2e/featured-news-listing.spec.ts:9:1 › News and homepage agree on the newest feature when multiple stories are selected (1.3s)
+  ✓  21 [desktop-chromium] › tests/e2e/home-panel-design.spec.ts:66:1 › everyday service tiles have one icon and a lighter label without redundant arrows (569ms)
+  ✓  22 [desktop-chromium] › tests/e2e/home-panel-design.spec.ts:83:1 › featured event action rests at the foot of its card with space below the description (802ms)
+  ✓  24 [desktop-chromium] › tests/e2e/home-panel-design.spec.ts:167:1 › news without photography gives the media space back to headlines (748ms)
+  ✓  23 [desktop-chromium] › tests/e2e/home-panel-design.spec.ts:122:1 › latest updates have relaxed row spacing and share heading weight with listing cards (917ms)
+  ✓   8 [desktop-chromium] › tests/e2e/community-hub.spec.ts:146:1 › finds local services by need and category (2.9s)
+  -  28 [desktop-chromium] › tests/e2e/home-panel-design.spec.ts:333:1 › capture the news and project redesign on desktop and mobile
+  ✓  20 [desktop-chromium] › tests/e2e/home-panel-design.spec.ts:15:1 › contact guidance uses shared typography with comfortable space for each destination (1.1s)
+  ✓  25 [desktop-chromium] › tests/e2e/home-panel-design.spec.ts:186:1 › card badges share casing, spacing and typography across home and listing pages (516ms)
+  ✓  29 [desktop-chromium] › tests/e2e/image-loading.spec.ts:4:3 › public images fit a small transfer budget at 1440px (341ms)
+  ✓  30 [desktop-chromium] › tests/e2e/image-loading.spec.ts:4:3 › public images fit a small transfer budget at 390px (277ms)
+  ✓  31 [desktop-chromium] › tests/e2e/layout.desktop.spec.ts:7:1 › the homepage follows the desktop reference with aligned highlights and quick services (622ms)
+  ✓  32 [desktop-chromium] › tests/e2e/layout.desktop.spec.ts:62:1 › homepage search finds public updates, projects, events, consultations and services (644ms)
+  ✓  34 [desktop-chromium] › tests/e2e/layout.desktop.spec.ts:130:1 › home and inner pages share the typography scale (537ms)
+  ✓  26 [desktop-chromium] › tests/e2e/home-panel-design.spec.ts:220:1 › consultation badges and the details action remain fully exposed inside the homepage panel (1.2s)
+  ✓  33 [desktop-chromium] › tests/e2e/layout.desktop.spec.ts:108:1 › responsive homepage avoids overflow at phone, tablet and desktop widths (986ms)
+  ✓  36 [desktop-chromium] › tests/e2e/layout.desktop.spec.ts:237:1 › project summaries retain readable text width when imagery is absent (640ms)
+  ✓  38 [desktop-chromium] › tests/e2e/layout.desktop.spec.ts:285:1 › trades shortcut opens the directory with the correct filter (437ms)
+  ✓  35 [desktop-chromium] › tests/e2e/layout.desktop.spec.ts:159:1 › header uses readable live lettering with a smaller muted subtitle (895ms)
+  ✓  37 [desktop-chromium] › tests/e2e/layout.desktop.spec.ts:258:1 › image credit stays clear of shortcuts when the hero navigation wraps (737ms)
+  ✓  43 [desktop-chromium] › tests/e2e/news-order.spec.ts:23:1 › news page features the newest editorial pick above the chronological grid (192ms)
+  ✓  42 [desktop-chromium] › tests/e2e/news-order.spec.ts:9:1 › landing page separates the editorial feature from recent news (222ms)
+  ✓  41 [desktop-chromium] › tests/e2e/news-filters.spec.ts:79:1 › news controls work at narrow widths and capture desktop and mobile review (583ms)
+  ✓  45 [desktop-chromium] › tests/e2e/news-wording.spec.ts:45:1 › News stays accessible in mobile navigation (457ms)
+  ✓  47 [desktop-chromium] › tests/e2e/search.spec.ts:113:1 › desktop header offers one search control and submits its query (250ms)
+  ✓  40 [desktop-chromium] › tests/e2e/news-filters.spec.ts:61:1 › invalid filters fall back safely and empty categories offer recovery (1.2s)
+  ✓  44 [desktop-chromium] › tests/e2e/news-wording.spec.ts:5:1 › residents browse News through navigation, search and article pages (925ms)
+  ✓  48 [desktop-chromium] › tests/e2e/search.spec.ts:136:1 › reuses the site header branding and footer (249ms)
+  ✓  49 [desktop-chromium] › tests/e2e/search.spec.ts:169:1 › shares heading and body typography with the updates page and prioritises services (259ms)
+  ✓  51 [desktop-chromium] › tests/e2e/site-head.spec.ts:3:1 › exposes site icons that load successfully (235ms)
+  ✓  39 [desktop-chromium] › tests/e2e/news-filters.spec.ts:10:1 › residents filter and sort News with shareable URLs and browser history (1.8s)
+  ✓  52 [desktop-chromium] › tests/e2e/site-head.spec.ts:20:1 › names the header brand link from its visible text (227ms)
+  ✓  50 [desktop-chromium] › tests/e2e/search.spec.ts:224:3 › desktop design review › uses shared page and card layouts with loaded thumbnails (1.0s)
+  ✓  55 [mobile-chromium] › tests/e2e/layout.mobile.spec.ts:99:1 › the local highlight uses the full card width without overlapping facts (331ms)
+  ✓  53 [mobile-chromium] › tests/e2e/layout.mobile.spec.ts:5:1 › the homepage follows the mobile reference using the header navigation (475ms)
+  ✓  54 [mobile-chromium] › tests/e2e/layout.mobile.spec.ts:58:1 › the mobile navigation can be dismissed accessibly (609ms)
+  ✓  57 [mobile-chromium] › tests/e2e/search.mobile.spec.ts:4:1 › phone search keeps cards and filters usable without horizontal overflow (338ms)
+  ✓  56 [mobile-chromium] › tests/e2e/search.mobile.spec.ts:35:1 › captures the phone design with loaded thumbnails (749ms)
+  ✓  46 [desktop-chromium] › tests/e2e/search.spec.ts:4:1 › search submits, filters with accurate counts, restores URL state, clears and opens results (5.6s)
+  ✓  27 [desktop-chromium] › tests/e2e/home-panel-design.spec.ts:263:1 › news and project rows expose dates, categories, full titles and a single generous link (14.2s)
+
+  3 skipped
+  54 passed (18.5s)
+$ playwright test --config playwright.firebase.config.ts
+[WebServer] $ vite build
+[WebServer] $ vite preview --host "127.0.0.1" --port "4287" --strictPort
+
+Running 14 tests using 2 workers
+
+  ✓   1 [desktop] › tests/firebase/account-details.spec.ts:214:1 › direct URLs stay private and the form fits a 320px phone (2.9s)
+  ✓   3 [desktop] › tests/firebase/account-details.spec.ts:245:1 › the phone form presents its fields and save action without a long preamble (2.0s)
+  ✓   2 [desktop] › tests/firebase/account-details.spec.ts:96:1 › private location details can be saved, reloaded, edited, retried and removed (5.8s)
+  ✓   4 [desktop] › tests/firebase/account-details.spec.ts:264:1 › the desktop account form keeps a readable line length (1.9s)
+  ✓   6 [desktop] › tests/firebase/auth.spec.ts:39:1 › registration sends verification and reset requests use Firebase email actions (2.0s)
+  ✓   7 [desktop] › tests/firebase/auth.spec.ts:76:1 › configured social buttons and small viewports stay usable (898ms)
+  ✓   5 [desktop] › tests/firebase/auth.spec.ts:4:1 › resident login persists across reload and supports profile updates and sign-out (4.0s)
+  ✓   9 [mobile] › tests/firebase/account-details.spec.ts:214:1 › direct URLs stay private and the form fits a 320px phone (2.9s)
+  ✓  10 [mobile] › tests/firebase/account-details.spec.ts:245:1 › the phone form presents its fields and save action without a long preamble (2.0s)
+  ✓   8 [mobile] › tests/firebase/account-details.spec.ts:96:1 › private location details can be saved, reloaded, edited, retried and removed (5.9s)
+  ✓  11 [mobile] › tests/firebase/account-details.spec.ts:264:1 › the desktop account form keeps a readable line length (2.0s)
+  ✓  13 [mobile] › tests/firebase/auth.spec.ts:39:1 › registration sends verification and reset requests use Firebase email actions (2.8s)
+  ✓  14 [mobile] › tests/firebase/auth.spec.ts:76:1 › configured social buttons and small viewports stay usable (979ms)
+  ✓  12 [mobile] › tests/firebase/auth.spec.ts:4:1 › resident login persists across reload and supports profile updates and sign-out (5.0s)
+
+  14 passed (23.4s)

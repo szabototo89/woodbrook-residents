@@ -12,7 +12,7 @@ System_Ext(sanity_content_lake, "Sanity Content Lake", "Stores published communi
 Container_Boundary(woodbrook_browser, "Public website application") {
   Component(news_content_adapter, "[CHANGED] News content adapter", "Sanity client and Zod", "Loads and validates source-linked articles into the shared content snapshot\nChange: Adds optional expiry to the existing query and validated article contract.")
   Component(homepage_news_selection, "[CHANGED] Homepage news selection", "TypeScript content queries", "Selects one eligible feature and recent news from published articles\nChange: Selects a feature before limiting news and excludes it from recent stories.")
-  Component(homepage_news_presentation, "[CHANGED] Homepage news presentation", "React and CSS", "Shows a labelled feature and recent headlines with article navigation\nChange: Adds one prominent accessible feature card with an optional photo.")
+  Component(homepage_news_presentation, "[CHANGED] HomeUpdates", "React and CSS", "Shows a labelled feature and recent headlines with article navigation\nChange: Adds one prominent accessible feature card with an optional photo.")
 }
 
 Rel(news_content_adapter, sanity_content_lake, "[CHANGED] Queries published articles including feature expiry from\nChange: Reads featuredUntil with existing article fields.", "GROQ over HTTPS")

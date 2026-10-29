@@ -1,5 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { Card } from '../../components/Card';
+import { ActionLink } from '../../components/ActionLink';
+import { SectionHeading } from '../../components/SectionHeading';
 
 import { content } from '../content/content';
 
@@ -11,13 +13,12 @@ export function SelectedWork() {
       id="work"
       aria-labelledby="work-title"
     >
-      <div className="section-heading">
-        <div>
-          <p className="eyebrow">{home.workEyebrow}</p>
-          <h2 id="work-title">{home.workTitle}</h2>
-        </div>
-        <p>{home.workDescription}</p>
-      </div>
+      <SectionHeading
+        id="work-title"
+        title={home.workTitle}
+        eyebrow={home.workEyebrow}
+        description={home.workDescription}
+      />
       {home.selectedWork.map((work) => (
         <Card
           key={work._id}
@@ -55,9 +56,14 @@ export function SelectedWork() {
             </div>
             <div className="work-summary">
               <p>{work.description}</p>
-              <a className="text-link" href={work.url}>
-                {work.action} <ArrowUpRight size={17} aria-hidden="true" />
-              </a>
+              <ActionLink
+                variant="text"
+                arrow="up-right"
+                iconSize={17}
+                href={work.url}
+              >
+                {work.action}
+              </ActionLink>
             </div>
           </div>
         </Card>

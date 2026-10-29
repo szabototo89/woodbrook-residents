@@ -39,7 +39,7 @@
     },
     "handoff_navigation": {
       "kind": "component",
-      "name": "Document navigation",
+      "name": "HandoffViewer",
       "description": "Opens a feature handoff from its browser URL",
       "technology": "React hash navigation",
       "parent": "handoff_browser"
@@ -53,21 +53,21 @@
     },
     "handoff_reader": {
       "kind": "component",
-      "name": "Document reader",
+      "name": "HandoffDetailPage, HandoffMetadata, HandoffOutline",
       "description": "Displays the handoff, recorded Git context and section links",
       "technology": "React and MDX",
       "parent": "handoff_browser"
     },
     "handoff_diagrams": {
       "kind": "component",
-      "name": "Architecture diagram viewer",
+      "name": "PlantUmlDiagram",
       "description": "Fits diagrams into a frame and provides zoom, pan and source inspection",
       "technology": "React, SVG and react-zoom-pan-pinch",
       "parent": "handoff_browser"
     },
     "handoff_gallery": {
       "kind": "component",
-      "name": "Screenshot gallery",
+      "name": "AppearanceGallery",
       "description": "Shows interface screenshots and explains what to review",
       "technology": "React",
       "parent": "handoff_browser"
@@ -122,28 +122,28 @@
     },
     "auth_runtime": {
       "kind": "component",
-      "name": "Account session integration",
+      "name": "AuthProvider, ClerkRuntime",
       "description": "Loads Clerk and supplies account session context when enabled",
       "technology": "Lazy ClerkProvider",
       "parent": "woodbrook_browser"
     },
     "auth_pages": {
       "kind": "component",
-      "name": "Sign-in and registration pages",
+      "name": "AuthPage, ClerkForms",
       "description": "Displays account forms, setup messages and account links",
       "technology": "React and Clerk forms",
       "parent": "woodbrook_browser"
     },
     "auth_navigation": {
       "kind": "component",
-      "name": "Account navigation",
+      "name": "AccountLinks, ClerkAccount",
       "description": "Shows sign-in links, account profile access and sign out",
       "technology": "React and Clerk UserButton",
       "parent": "woodbrook_browser"
     },
     "auth_recovery": {
       "kind": "component",
-      "name": "Password recovery",
+      "name": "ForgotPasswordForm",
       "description": "Handles email reset codes, password confirmation and session completion",
       "technology": "React and Clerk useSignIn",
       "parent": "woodbrook_browser"
@@ -162,28 +162,28 @@
     },
     "firebase_auth_runtime": {
       "kind": "component",
-      "name": "Account session context",
+      "name": "AuthProvider, FirebaseRuntime",
       "description": "Loads the authentication client and observes the current account",
       "technology": "React context and lazy Firebase runtime",
       "parent": "woodbrook_browser"
     },
     "firebase_auth_client": {
       "kind": "component",
-      "name": "Firebase account adapter",
+      "name": "FirebaseAccount",
       "description": "Submits account operations and exposes only account display data",
       "technology": "Firebase JavaScript SDK",
       "parent": "woodbrook_browser"
     },
     "firebase_auth_forms": {
       "kind": "component",
-      "name": "Resident account forms",
+      "name": "AuthPage, FirebaseForms, AccountPanel",
       "description": "Handles login, registration, email recovery and account controls",
       "technology": "React forms and AccountPanel",
       "parent": "woodbrook_browser"
     },
     "firebase_auth_navigation": {
       "kind": "component",
-      "name": "Account navigation",
+      "name": "AccountLinks",
       "description": "Opens login or signed-in account controls while retaining feature flags",
       "technology": "React header links",
       "parent": "woodbrook_browser"
@@ -230,7 +230,7 @@
     },
     "account_details_editor": {
       "kind": "component",
-      "name": "Private location editor",
+      "name": "AccountDetailsPage, AccountDetailsForm",
       "description": "Loads optional Eircode and address fields, validates edits and shows save or retry outcomes",
       "technology": "React account-details page and form",
       "parent": "woodbrook_browser"
@@ -275,7 +275,7 @@
     },
     "homepage_news_presentation": {
       "kind": "component",
-      "name": "Homepage news presentation",
+      "name": "HomeUpdates",
       "description": "Shows a labelled feature and recent headlines with article navigation",
       "technology": "React and CSS",
       "parent": "woodbrook_browser"
@@ -289,21 +289,21 @@
     },
     "shared_featured_news_card": {
       "kind": "component",
-      "name": "Shared featured news card",
+      "name": "FeaturedNewsCard",
       "description": "Displays the featured article with its date, source and one detail link on both news pages",
       "technology": "React and CSS",
       "parent": "woodbrook_browser"
     },
     "news_listing_presentation": {
       "kind": "component",
-      "name": "News page presentation",
+      "name": "UpdatesPage",
       "description": "Displays the featured story before a chronological grid of other articles",
       "technology": "TanStack Start route loader and React",
       "parent": "woodbrook_browser"
     },
     "filterable_news_presentation": {
       "kind": "component",
-      "name": "News page presentation with filters",
+      "name": "UpdatesPage",
       "description": "Displays category and date controls, result counts and matching articles",
       "technology": "TanStack Start route and React",
       "parent": "woodbrook_browser"
@@ -405,6 +405,41 @@
       "description": "Renders homepage and journal as static HTML",
       "technology": "TanStack Start",
       "parent": "forma_builder"
+    },
+    "forma_ui_pages": {
+      "kind": "component",
+      "name": "HomePage, BlogPage",
+      "description": "Compose service and guide content using shared UI contracts",
+      "technology": "React and CSS",
+      "parent": "forma_web"
+    },
+    "forma_ui_chrome": {
+      "kind": "component",
+      "name": "SiteLayout, SiteHeader, SiteFooter",
+      "description": "Provides the shared page shell, header and footer",
+      "technology": "React and CSS",
+      "parent": "forma_web"
+    },
+    "forma_ui_patterns": {
+      "kind": "component",
+      "name": "ActionLink, SectionHeading, IconBadge, Disclosure",
+      "description": "Provides typed arrow links, section headings, icon discs and native disclosures",
+      "technology": "React and CSS",
+      "parent": "forma_web"
+    },
+    "forma_ui_cards": {
+      "kind": "component",
+      "name": "Card",
+      "description": "Provides card surfaces with panel, white and muted variants, padding and the popular ring",
+      "technology": "React and CSS",
+      "parent": "forma_web"
+    },
+    "forma_ui_faq": {
+      "kind": "component",
+      "name": "Faq",
+      "description": "Keeps one answer open using labelled buttons and regions",
+      "technology": "React and CSS",
+      "parent": "forma_web"
     }
   },
   "relationships": {
@@ -805,6 +840,30 @@
       "to": "forma_web",
       "label": "Produces both static pages",
       "technology": "Static files"
+    },
+    "forma_ui_pages_chrome": {
+      "from": "forma_ui_pages",
+      "to": "forma_ui_chrome",
+      "label": "Supplies the page variant and body",
+      "technology": "React props"
+    },
+    "forma_ui_pages_patterns": {
+      "from": "forma_ui_pages",
+      "to": "forma_ui_patterns",
+      "label": "Supplies labels, destinations, icons and disclosure content",
+      "technology": "React props"
+    },
+    "forma_ui_pages_cards": {
+      "from": "forma_ui_pages",
+      "to": "forma_ui_cards",
+      "label": "Selects existing card variants and padding",
+      "technology": "React props"
+    },
+    "forma_ui_pages_faq": {
+      "from": "forma_ui_pages",
+      "to": "forma_ui_faq",
+      "label": "Displays the feature-specific exclusive accordion",
+      "technology": "React props"
     }
   },
   "diagrams": {
@@ -1623,6 +1682,52 @@
           "forma_prerender": {
             "status": "changed",
             "description": "Previously emitted the footer statement in both pages; now emits only approved footer copy."
+          }
+        }
+      }
+    },
+    "forma_shared_ui_components": {
+      "level": "C3",
+      "scope": "forma_web",
+      "title": "Forma public site components — changes from c31cd3e",
+      "handoff": "forma-shared-ui",
+      "source": "docs/handoffs/forma-shared-ui/assets/c3-ui.puml",
+      "elements": [
+        "forma_ui_pages",
+        "forma_ui_chrome",
+        "forma_ui_patterns",
+        "forma_ui_cards",
+        "forma_ui_faq"
+      ],
+      "relationships": [
+        "forma_ui_pages_chrome",
+        "forma_ui_pages_patterns",
+        "forma_ui_pages_cards",
+        "forma_ui_pages_faq"
+      ],
+      "changes": {
+        "elements": {
+          "forma_ui_pages": {
+            "status": "changed",
+            "description": "Repeated page markup now composes shared typed UI contracts."
+          },
+          "forma_ui_chrome": {
+            "status": "changed",
+            "description": "Shared layout and footer replace duplicate chrome; SiteHeader retains menu ownership."
+          },
+          "forma_ui_patterns": {
+            "status": "added",
+            "description": "Extracts repeated arrow links, section titles, icon discs and native disclosures."
+          }
+        },
+        "relationships": {
+          "forma_ui_pages_chrome": {
+            "status": "changed",
+            "description": "Pages now pass their body and page variant through SiteLayout."
+          },
+          "forma_ui_pages_patterns": {
+            "status": "added",
+            "description": "Pages supply content through typed props instead of copying presentation markup."
           }
         }
       }

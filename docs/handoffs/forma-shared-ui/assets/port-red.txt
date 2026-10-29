@@ -1,0 +1,76 @@
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/forma-studio-standardise-repeated-ui-with-shared/apps/forma-studio-web
+
+ ❯ tests/config.test.ts (8 tests | 2 failed) 419ms
+   × browser checks select an isolated server port: undefined 413ms
+   × browser checks select an isolated server port: 4288 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/config.test.ts > browser checks select an isolated server port: undefined
+AssertionError: expected { testDir: './tests/e2e', …(5), …(1) } to match object { …(2) }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "use": {
+      "baseURL": "http://127.0.0.1:4178",
+    },
+    "webServer": {
+-     "command": "bun run preview -- --host 127.0.0.1 --port 4178",
++     "command": "bun run preview -- --host 127.0.0.1",
+      "reuseExistingServer": false,
+      "url": "http://127.0.0.1:4178",
+    },
+  }
+
+ ❯ tests/config.test.ts:55:20
+     53|     const { default: config } = await import('../playwright.config');
+     54|     const expectedPort = port ?? '4178';
+     55|     expect(config).toMatchObject({
+       |                    ^
+     56|       use: { baseURL: `http://127.0.0.1:${expectedPort}` },
+     57|       webServer: {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/config.test.ts > browser checks select an isolated server port: 4288
+AssertionError: expected { testDir: './tests/e2e', …(5), …(1) } to match object { …(2) }
+(6 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "use": {
+-     "baseURL": "http://127.0.0.1:4288",
++     "baseURL": "http://127.0.0.1:4178",
+    },
+    "webServer": {
+-     "command": "bun run preview -- --host 127.0.0.1 --port 4288",
++     "command": "bun run preview -- --host 127.0.0.1",
+      "reuseExistingServer": false,
+-     "url": "http://127.0.0.1:4288",
++     "url": "http://127.0.0.1:4178",
+    },
+  }
+
+ ❯ tests/config.test.ts:55:20
+     53|     const { default: config } = await import('../playwright.config');
+     54|     const expectedPort = port ?? '4178';
+     55|     expect(config).toMatchObject({
+       |                    ^
+     56|       use: { baseURL: `http://127.0.0.1:${expectedPort}` },
+     57|       webServer: {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 passed (8)
+   Start at  19:02:48
+   Duration  1.04s (transform 42ms, setup 119ms, import 38ms, tests 419ms, environment 382ms)
+
+error: "vitest" exited with code 1

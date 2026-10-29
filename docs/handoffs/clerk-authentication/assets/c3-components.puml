@@ -10,10 +10,10 @@ title Public website application — C3 account components
 
 Container_Boundary(woodbrook_browser, "Public website application") {
   Component(auth_config, "Account opt-in configuration", "React and TypeScript", "Checks whether account UI is enabled and the public Clerk key is valid")
-  Component(auth_runtime, "Account session integration", "Lazy ClerkProvider", "Loads Clerk and supplies account session context when enabled")
-  Component(auth_pages, "Sign-in and registration pages", "React and Clerk forms", "Displays account forms, setup messages and account links")
-  Component(auth_navigation, "Account navigation", "React and Clerk UserButton", "Shows sign-in links, account profile access and sign out")
-  Component(auth_recovery, "Password recovery", "React and Clerk useSignIn", "Handles email reset codes, password confirmation and session completion")
+  Component(auth_runtime, "AuthProvider, ClerkRuntime", "Lazy ClerkProvider", "Loads Clerk and supplies account session context when enabled")
+  Component(auth_pages, "AuthPage, ClerkForms", "React and Clerk forms", "Displays account forms, setup messages and account links")
+  Component(auth_navigation, "AccountLinks, ClerkAccount", "React and Clerk UserButton", "Shows sign-in links, account profile access and sign out")
+  Component(auth_recovery, "ForgotPasswordForm", "React and Clerk useSignIn", "Handles email reset codes, password confirmation and session completion")
 }
 
 Rel(auth_config, auth_runtime, "Loads conditionally")

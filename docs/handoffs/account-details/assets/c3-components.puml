@@ -10,8 +10,8 @@ title Private account details — C3 browser components — changes from c41728e
 
 System_Ext(account_details_firestore, "[ADDED] Cloud Firestore private profiles", "Stores optional resident locations and enforces per-account access using Firebase sign-in\nChange: New private profile store; identities remain in Firebase Authentication.")
 Container_Boundary(woodbrook_browser, "Public website application") {
-  Component(firebase_auth_runtime, "Account session context", "React context and lazy Firebase runtime", "Loads the authentication client and observes the current account")
-  Component(account_details_editor, "[ADDED] Private location editor", "React account-details page and form", "Loads optional Eircode and address fields, validates edits and shows save or retry outcomes\nChange: New optional location editor with load, save, retry and removal states.")
+  Component(firebase_auth_runtime, "AuthProvider, FirebaseRuntime", "React context and lazy Firebase runtime", "Loads the authentication client and observes the current account")
+  Component(account_details_editor, "[ADDED] AccountDetailsPage, AccountDetailsForm", "React account-details page and form", "Loads optional Eircode and address fields, validates edits and shows save or retry outcomes\nChange: New optional location editor with load, save, retry and removal states.")
   Component(account_details_store, "[ADDED] Private profile persistence", "UID-bound AuthActions and Firestore Lite SDK", "Scopes location operations to the current account and reads, saves or removes its private profile\nChange: New current-UID guard and lazy single-document persistence; no offline cache.")
 }
 

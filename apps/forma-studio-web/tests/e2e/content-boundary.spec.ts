@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
+import { captureViewports } from './captureTargets';
+
 test('public routes use prerendered content without browser Sanity requests or draft data', async ({
   page,
 }) => {
@@ -45,23 +47,20 @@ test('capture the live Sanity-backed pages at high resolution', async ({
     info.project.name !== 'desktop',
     'One set of high-resolution desktop and phone artifacts.',
   );
-  const output = '../../docs/handoffs/forma-sanity-content/assets';
-  for (const [name, viewport] of [
-    ['desktop', { width: 1440, height: 1000 }],
-    ['mobile', { width: 390, height: 844 }],
-  ] as const) {
+  const output = info.outputPath('content-screenshots');
+  for (const [name, viewport] of captureViewports) {
     const context = await browser.newContext({
       viewport,
       deviceScaleFactor: 2,
     });
     const page = await context.newPage();
-    await page.goto('http://127.0.0.1:4178/');
+    await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
     await expect(
       page.getByRole('img', { name: /laptop displaying/i }),
     ).toBeVisible();
     await page.screenshot({ path: `${output}/${name}.png`, fullPage: true });
-    await page.goto('http://127.0.0.1:4178/blog');
+    await page.goto('/blog');
     await page.getByText('Read guide', { exact: false }).click();
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({

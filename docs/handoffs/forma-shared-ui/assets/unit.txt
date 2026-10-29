@@ -1,0 +1,27 @@
+$ vitest run --coverage
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/refactor-forma-standardise-repeated-ui-with-shar-2/apps/forma-studio-web
+      Coverage enabled with v8
+
+
+ Test Files  9 passed (9)
+      Tests  78 passed (78)
+   Start at  11:48:46
+   Duration  2.72s (transform 556ms, setup 1.32s, import 1.06s, tests 2.89s, environment 3.51s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   98.54 |    99.07 |   97.82 |   98.47 |                   
+ features/content  |   96.82 |    96.29 |    92.3 |   96.66 |                   
+  fetchContent.ts  |   95.23 |    94.73 |     100 |      95 | 26                
+  pageHead.ts      |       0 |      100 |       0 |       0 | 3                 
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 98.54% ( 135/137 )
+Branches     : 99.07% ( 107/108 )
+Functions    : 97.82% ( 45/46 )
+Lines        : 98.47% ( 129/131 )
+================================================================================

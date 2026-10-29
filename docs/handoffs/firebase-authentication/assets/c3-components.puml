@@ -11,10 +11,10 @@ title Public website application — C3 Firebase components — current
 System_Ext(firebase_service, "Firebase Authentication", "Manages resident identities, email verification, password resets and sessions")
 Container_Boundary(woodbrook_browser, "Public website application") {
   Component(firebase_auth_config, "Account opt-in and project configuration", "React and TypeScript", "Checks the feature flag and public Firebase project settings")
-  Component(firebase_auth_runtime, "Account session context", "React context and lazy Firebase runtime", "Loads the authentication client and observes the current account")
-  Component(firebase_auth_client, "Firebase account adapter", "Firebase JavaScript SDK", "Submits account operations and exposes only account display data")
-  Component(firebase_auth_forms, "Resident account forms", "React forms and AccountPanel", "Handles login, registration, email recovery and account controls")
-  Component(firebase_auth_navigation, "Account navigation", "React header links", "Opens login or signed-in account controls while retaining feature flags")
+  Component(firebase_auth_runtime, "AuthProvider, FirebaseRuntime", "React context and lazy Firebase runtime", "Loads the authentication client and observes the current account")
+  Component(firebase_auth_client, "FirebaseAccount", "Firebase JavaScript SDK", "Submits account operations and exposes only account display data")
+  Component(firebase_auth_forms, "AuthPage, FirebaseForms, AccountPanel", "React forms and AccountPanel", "Handles login, registration, email recovery and account controls")
+  Component(firebase_auth_navigation, "AccountLinks", "React header links", "Opens login or signed-in account controls while retaining feature flags")
   Component(firebase_auth_requests, "Account request state", "React state and request guard", "Prevents duplicate requests and displays safe status and error messages")
 }
 
