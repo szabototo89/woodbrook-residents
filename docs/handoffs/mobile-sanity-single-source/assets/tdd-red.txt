@@ -1,0 +1,200 @@
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/mobile-api-use-sanity-as-the-default-runtime-con/apps/web
+
+ ❯ src/features/content/contentEnvironmentScripts.test.ts (7 tests | 2 failed) 5ms
+   × web development has no Sheets command 2ms
+   × root development has no Sheets command 0ms
+ ❯ src/worker.test.ts (22 tests | 8 failed) 12ms
+   × Worker serves a meaningful canonical Sanity snapshot for source undefined 5ms
+   × Worker serves a meaningful canonical Sanity snapshot for source "" 0ms
+   × Worker serves a meaningful canonical Sanity snapshot for source "   " 0ms
+   × Worker serves a meaningful canonical Sanity snapshot for source "sanity" 0ms
+   × Worker uses server configuration and published-only queries even with a token 0ms
+   × Worker honors public project aliases and a server-only local Sanity host 0ms
+   × Worker rejects unsupported source google-sheets without upstream access 2ms
+   × Worker rejects unsupported source filesystem without upstream access 0ms
+ ❯ src/features/content/contentSourceFactory.test.ts (5 tests | 1 failed) 7ms
+   × createContentSource rejects unsupported source selection 2ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/worker.test.ts > Worker serves a meaningful canonical Sanity snapshot for source undefined
+ FAIL  src/worker.test.ts > Worker serves a meaningful canonical Sanity snapshot for source ""
+ FAIL  src/worker.test.ts > Worker serves a meaningful canonical Sanity snapshot for source "   "
+ FAIL  src/worker.test.ts > Worker serves a meaningful canonical Sanity snapshot for source "sanity"
+AssertionError: expected 503 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 503
+
+ ❯ src/worker.test.ts:46:27
+     44|   const upstream = stubSanity();
+     45|   const response = await worker.fetch(new Request(endpoint), { ...envi…
+     46|   expect(response.status).toBe(200);
+       |                           ^
+     47|   expect(response.headers.get('cache-control')).toBe('public, max-age=…
+     48|   expect(response.headers.get('access-control-allow-origin')).toBe('*'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  src/worker.test.ts > Worker uses server configuration and published-only queries even with a token
+AssertionError: expected 503 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 503
+
+ ❯ src/worker.test.ts:72:27
+     70|     SANITY_API_VERSION: ' 2026-01-01 ', SANITY_API_TOKEN: ' server-sec…
+     71|   });
+     72|   expect(response.status).toBe(200);
+       |                           ^
+     73|   for (const [input, init] of upstream.mock.calls) {
+     74|     const url = new URL(String(input));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  src/worker.test.ts > Worker honors public project aliases and a server-only local Sanity host
+AssertionError: expected 503 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 503
+
+ ❯ src/worker.test.ts:90:15
+     88|     ...environment, VITE_SANITY_PROJECT_ID: 'alias123', VITE_SANITY_DA…
+     89|     VITE_SANITY_API_VERSION: '2026-02-01', SANITY_API_HOST: 'http://12…
+     90|   })).status).toBe(200);
+       |               ^
+     91|   for (const [input] of upstream.mock.calls) {
+     92|     expect(String(input)).toContain('http://127.0.0.1:1380/v2026-02-01…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  src/worker.test.ts > Worker rejects unsupported source google-sheets without upstream access
+AssertionError: expected "error" to be called with arguments: [ ObjectContaining{…} ]
+
+Received:
+
+  1st error call:
+
+  [
+-   ObjectContaining {
+-     "message": "Unsupported CONTENT_SOURCE \"google-sheets\".",
++   Error {
++     "message": "GOOGLE_SERVICE_ACCOUNT_EMAIL is required.",
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/worker.test.ts:102:25
+    100|   expect(await response.json()).toEqual({ error: 'Content is temporari…
+    101|   expect(upstream).not.toHaveBeenCalled();
+    102|   expect(console.error).toHaveBeenCalledWith(expect.objectContaining({…
+       |                         ^
+    103| });
+    104|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  src/worker.test.ts > Worker rejects unsupported source filesystem without upstream access
+AssertionError: expected "error" to be called with arguments: [ ObjectContaining{…} ]
+
+Received:
+
+  1st error call:
+
+  [
+-   ObjectContaining {
+-     "message": "Unsupported CONTENT_SOURCE \"filesystem\".",
++   Error {
++     "message": "GOOGLE_SERVICE_ACCOUNT_EMAIL is required.",
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/worker.test.ts:102:25
+    100|   expect(await response.json()).toEqual({ error: 'Content is temporari…
+    101|   expect(upstream).not.toHaveBeenCalled();
+    102|   expect(console.error).toHaveBeenCalledWith(expect.objectContaining({…
+       |                         ^
+    103| });
+    104|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  src/features/content/contentEnvironmentScripts.test.ts > web development has no Sheets command
+AssertionError: expected 'CONTENT_SOURCE=google-sheets vite dev…' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"CONTENT_SOURCE=google-sheets vite dev --port 3000"
+
+ ❯ src/features/content/contentEnvironmentScripts.test.ts:38:44
+     36|
+     37|   expect(webPackage.scripts['dev']).toBe('vite dev --port 3000');
+     38|   expect(webPackage.scripts['dev:sheets']).toBeUndefined();
+       |                                            ^
+     39| });
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  src/features/content/contentEnvironmentScripts.test.ts > root development has no Sheets command
+AssertionError: expected 'CONTENT_SOURCE=google-sheets bun scri…' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"CONTENT_SOURCE=google-sheets bun scripts/app.ts dev:sheets web --env-file=../../.env"
+
+ ❯ src/features/content/contentEnvironmentScripts.test.ts:49:49
+     47|   );
+     48|
+     49|   expect(rootPackage.scripts['dev:web:sheets']).toBeUndefined();
+       |                                                 ^
+     50| });
+     51| test('content development uses Sanity and mobile loads the repository …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  src/features/content/contentSourceFactory.test.ts > createContentSource rejects unsupported source selection
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/features/content/contentSourceFactory.test.ts:17:74
+     15|
+     16| test('createContentSource rejects unsupported source selection', () =>…
+     17|   expect(() => createContentSource({ CONTENT_SOURCE: 'google-sheets' }…
+       |                                                                          ^
+     18|     'Unsupported CONTENT_SOURCE \"google-sheets\".',
+     19|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  11 failed | 23 passed (34)
+   Start at  12:13:47
+   Duration  312ms (transform 143ms, setup 0ms, import 449ms, tests 23ms, environment 0ms)
+
+error: "vitest" exited with code 1

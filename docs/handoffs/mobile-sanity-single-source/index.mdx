@@ -1,0 +1,130 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import nativeLimitation from './assets/native-limitation.png';
+import context from './assets/c1-context.puml?raw';
+import contextImage from './assets/c1-context.svg';
+import containers from './assets/c2-containers.puml?raw';
+import containersImage from './assets/c2-containers.svg';
+import components from './assets/c3-components.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+
+export const metadata = {
+  title: 'Sanity as the single mobile and website content source',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a18791-5cf3-7f22-bc06-541a37893766',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/mobile-api-use-sanity-as-the-default-runtime-con',
+  branch: 'szabototo89/mobile-api-use-sanity-as-the-default-runtime-con',
+  commit: '6af6d2d1defe47ff60fa39e7afff94cb0bb13d6b',
+  updatedAt: '2026-10-29T12:34:17Z',
+  summary:
+    'The mobile Worker and website now read published Sanity content through one factory, and Google Sheets support is removed.',
+};
+
+## Goal
+
+Residents receive published content from one editorial source on mobile and the website. [Issue #14](https://github.com/szabototo89/woodbrook-residents/issues/14) records the owner's Sanity-only scope update. Website pages still reflect their latest static build; mobile loads content at runtime.
+
+## Technical changes
+
+Baseline: `956a81e`. Implementation: `6af6d2d1defe47ff60fa39e7afff94cb0bb13d6b`. This handoff is a separate documentation change on the same branch.
+
+| Area               | Before                                           | After                                                           | Why                                        | Code                                                         |
+| ------------------ | ------------------------------------------------ | --------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------ |
+| Mobile backend     | Worker constructs the Sheets adapter             | Worker passes runtime bindings to the shared factory            | Share website configuration and validation | `apps/web/src/worker.ts`, `contentSnapshot.ts`               |
+| Source selection   | Sanity default with optional Sheets              | Sanity only; unsupported values fail                            | One editorial source                       | `contentSourceFactory.ts`, `scripts/deploy.ts`               |
+| Published reads    | Queries rely on API defaults                     | Published perspective plus draft/release ID filters             | Protect token-authenticated public reads   | `sanityContentSource.ts`, `sanityQueries.ts`                 |
+| Legacy integration | Sheets adapter, parser, credentials, commands    | Removed; unrelated Google dependencies remain                   | Remove unused content infrastructure       | `apps/web/package.json`, root `package.json`, `.env.example` |
+| Regression checks  | Worker helper tests bypass real source selection | Actual Worker tests exercise Sanity transport and validation    | Catch deployed/development divergence      | `apps/web/src/worker.test.ts`                                |
+| Setup              | Mobile README describes a Sheets backend         | Sanity defaults, server token and local/device paths documented | Keep secrets on backend                    | `apps/mobile/README.md`, `apps/web/README.md`                |
+
+No CMS schema, dataset, mobile screen, production configuration, or content migration changes. GET cache headers, CORS, preflight, write rejection and asset serving retain their existing behavior. The public response includes settings when a published settings document exists; the real dataset currently has none.
+
+Server configuration is documented in `apps/web/README.md`. Published-perspective semantics follow the [Sanity Query API](https://www.sanity.io/docs/http-reference/query) (accessed 29 October 2026).
+
+## Architecture changes
+
+Woodbrook provides community information for residents. Sanity Content Lake stores published records and private editorial work. The existing Website asset host serves static pages and a read-only mobile API; both mobile renderers continue to fetch that API.
+
+| Level | Change                                                                                       | Evidence                               |
+| ----- | -------------------------------------------------------------------------------------------- | -------------------------------------- |
+| C1    | Changed source responsibility; removed Sheets interaction; existing people and Sanity remain | Context diagram                        |
+| C2    | Changed host read path to Sanity; mobile application and static serving remain unchanged     | Container diagram and `wrangler.jsonc` |
+| C3    | Added Worker-to-factory call; removed Sheets adapter; changed published query constraints    | Component diagram and Worker tests     |
+
+<PlantUmlDiagram
+  title="C1: One editorial source"
+  source={context}
+  image={contextImage}
+/>
+
+Change: the existing hub now uses Sanity exclusively; the removed spreadsheet relationship shows the retired source.
+
+<PlantUmlDiagram
+  title="C2: Mobile runtime reads"
+  source={containers}
+  image={containersImage}
+/>
+
+Change: the Website asset host reads published mobile content from Sanity; mobile still uses the same HTTP endpoint.
+
+<PlantUmlDiagram
+  title="C3: Worker source construction"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: source construction moves to the existing factory, with explicit publication constraints; the direct Sheets adapter is removed.
+
+## Verification
+
+| Check                | Result | Evidence                                                                                                                                                                     |
+| -------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD baseline         | PASS   | 11 Vitest regressions plus 1 deploy regression failed before implementation; `assets/tdd-red.txt`, `assets/deploy-red.txt`                                                   |
+| Focused tests        | PASS   | 49 Vitest and 4 deploy checks passed after implementation                                                                                                                    |
+| Web unit suite       | PASS   | 355 unit and 2 static tests passed; coverage exceeds 90% per-file thresholds                                                                                                 |
+| Repository build     | PASS   | `bun run build` exited 0; `assets/build.txt`                                                                                                                                 |
+| Static content build | PASS   | Published Sanity build verifies 86 HTML files, 74 data files and internal links; `assets/static-build.txt`                                                                   |
+| Full quality gate    | PASS   | `bun run precommit` exited 0; lint/types/unit/browser/E2E passed; 14 skipped cases; `assets/quality-gate.txt`                                                                |
+| Initial commit hook  | FAIL   | Editing the in-progress handoff introduced prose below Verification; the documentation gate rejected it. Fixed before retry.                                                 |
+| Temporary preview    | PASS   | https://woodbrook-mobile-sanity-14.shankill.workers.dev; working preview verified; final deployment commit is recorded in the PR                                             |
+| Desktop/phone        | PASS   | Playwright: 1440 × 1000 and 390 × 844, 2× resolution; API 200 and current Sanity article visible                                                                             |
+| Native API transport | PASS   | Orca-attached iOS 26.3.1 / Lynx SDK 1.4.0: API 200 and matching collection counts; `assets/native-api.txt`                                                                   |
+| Native screen        | FAIL   | Existing `apps/mobile/src/features/content/contentModels.ts:82` requires missing `Intl`; loading screen remains; `assets/native-console.txt`, `assets/native-limitation.png` |
+| Mobile build/privacy | PASS   | Both bundles build; 22 files exclude server credential sentinels and direct Sanity hosts; `assets/mobile-bundle-privacy.txt`                                                 |
+| Handoff contract     | PASS   | `bun run --cwd apps/handoffs docs:check` validates 17 current and 6 historical records; desktop/phone viewer checks pass                                                     |
+
+## Appearance
+
+The unchanged mobile browser UI uses real published Sanity content from the temporary backend preview. Screenshots review content loading rather than a new layout.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop mobile renderer',
+      alt: 'Browser renderer with published Sanity content',
+      description:
+        '1440 × 1000 at 2× resolution. Confirm real content loads through the temporary Worker API.',
+    },
+    {
+      src: mobile,
+      title: 'Phone browser renderer',
+      alt: 'Phone renderer with published Sanity content',
+      description:
+        '390 × 844 at 2× resolution. Confirm the same runtime content appears in the existing phone layout.',
+    },
+    {
+      src: nativeLimitation,
+      title: 'Native host limitation',
+      alt: 'Native loading screen after an Intl date-formatting error',
+      description:
+        'Orca iPhone simulator. The API returns content, but the existing date formatter fails in this host. This is not a successful screen-rendering check.',
+    },
+  ]}
+/>
+
+## Next steps
+
+Review the PR and temporary previews. Preserve the reused worktree and previews while review is open. Native `Intl` compatibility in the existing date formatter needs a separate mobile follow-up; it is outside this backend change.
