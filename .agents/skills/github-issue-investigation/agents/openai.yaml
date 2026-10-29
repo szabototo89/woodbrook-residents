@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Issue Investigation"
+  short_description: "Clarify issues with screenshots and throwaway prototypes"
+  default_prompt: "Use $github-issue-investigation to explore this issue and post screenshots and findings without implementing the feature."
