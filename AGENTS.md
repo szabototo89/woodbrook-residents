@@ -35,7 +35,7 @@
 - Keep the dev server running in the background for the session; stop it when the worktree is removed.
 - Before PR handoff, deploy a temporary Cloudflare preview for each affected app using its preview environment or a non-production branch. Keep production domains, routes and deployments unchanged. Verify that the preview loads and smoke-test the changed behavior; record its URL and deployed commit in the PR description and final response.
 - If preview deployment is blocked by missing credentials, configuration or a Cloudflare failure, create or update a draft PR, document the blocker, and report the missing preview explicitly. Do not claim the work is ready for review or complete until a working preview link is included.
-- Temporary previews are subject to the repository's seven-day retention policy. Do not delete a preview merely because a session ends; refresh an expired preview and update the PR link when review resumes. Daily cleanup automation is tracked in [#8](https://github.com/szabototo89/woodbrook-residents/issues/8); this policy does not imply that automation is already implemented.
+- Temporary previews are subject to the repository's seven-day retention policy. Do not delete a preview merely because a session ends; refresh an expired preview and update the PR link when review resumes. Daily cleanup runs from `.github/workflows/cleanup-cloudflare-previews.yml`; see `docs/operations/cloudflare-preview-retention.md`. Cleanup deletes preview deployments strictly older than seven days even when their pull request remains open.
 
 ## Product behavior
 
