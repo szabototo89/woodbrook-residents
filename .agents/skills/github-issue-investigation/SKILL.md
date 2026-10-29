@@ -1,16 +1,26 @@
 ---
 name: github-issue-investigation
-description: Investigate or refine this repository's GitHub issues with screenshots, small disposable prototypes, and evidence posted to the issue. Use when visual or behavioral exploration would clarify a proposal, bug, acceptance criteria, or implementation choice; exploration does not authorize feature implementation.
+description: Use before creating, refining, or investigating this repository's GitHub issues about UI, design alignment, layout, responsiveness, or interactive behavior, including issue-only requests. Capture and post relevant screenshots or recordings, or record a concrete capture/reproduction blocker. Explore uncertain proposals with optional uncommitted prototypes; do not implement the feature without authorization.
 ---
 
 # GitHub issue investigation
 
-Use visual evidence and small experiments to understand what an issue proposes before treating it as an implementation specification. Screenshots and prototypes are optional tools: use them when they answer a concrete question, not as a checklist for every issue.
+For visual or interactive issues, collect relevant visual evidence before finalizing the ticket. A request to "just create an issue" limits product implementation; it is not a reason to omit inspection or relevant captures. Code references support the evidence but do not replace available visual inspection.
+
+## Evidence before issue completion
+
+- **Design or visual alignment:** capture the current application and reference at matching viewports and comparable content states. Post the paired screenshots and describe the visible differences.
+- **Layout or responsiveness:** capture the affected screen at the relevant sizes or orientations. Include enough surrounding UI to show clipping, overflow, navigation, and available space.
+- **Interaction, motion, or rotation:** attempt the reported flow in the relevant runtime. Use a short recording when still images cannot explain it. A browser resize is not proof of native-device rotation; label the host, device/simulator, and behavior actually exercised.
+- Check available running apps, previews, browser capture tools, or native sessions before declaring evidence unavailable. If the needed runtime or device cannot be accessed, file the truthful user report and record the concrete limitation. Capture a useful accessible comparison without presenting it as the missing native reproduction.
+- Before completing issue work, the issue must contain accessible visual evidence and findings, or a specific explanation of what was attempted and why capture or upload was unavailable. Put this explanation on the issue and in the user-facing summary. Merely adding "take screenshots" to future acceptance criteria does not satisfy this checkpoint.
+
+Do not force screenshots onto nonvisual work such as a backend-only or CI task. Disposable prototypes remain optional: use one when it resolves a specific uncertainty, not for every issue.
 
 ## Choose useful evidence
 
 - Read the issue, its discussion, and the relevant implementation first. Identify what remains uncertain and what observation would resolve it.
-- Capture the existing interface when layout, navigation, responsiveness, or interaction matters. Use the relevant browser, native app, or terminal capture tools. Desktop and phone views help when the question concerns responsive behavior; include a short recording when still images cannot explain an interaction.
+- Use the relevant browser, native app, or terminal capture tools. Desktop and phone views help when the question concerns responsive behavior.
 - Build the smallest runnable prototype when a proposed flow, layout, terminal interface, or technical behavior needs exploration. Compare alternatives only when that comparison helps decide the issue's scope.
 - Clearly distinguish the existing implementation, a proposed design, and synthetic sample content. Record the branch/commit, viewport or host, relevant configuration, and steps needed to understand the observation. Do not invent local facts or imply a prototype proves native or production behavior that was not exercised.
 
@@ -42,4 +52,4 @@ Exclude credentials, private resident records, and unrelated private content fro
 
 ## Finish
 
-Summarize the issue link, the question answered, the evidence posted, and any remaining uncertainty. Keep exploration distinct from shipped behavior. Check that no prototype files have been staged or included in a commit.
+Summarize the issue link, the question answered, the evidence posted or concrete blocker, and any remaining uncertainty. Do not mark a visual investigation complete with code references alone when capture is available. Keep exploration distinct from shipped behavior. Check that no prototype files have been staged or included in a commit.

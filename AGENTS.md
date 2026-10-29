@@ -1,5 +1,11 @@
 # Woodbrook repository guidance
 
+## Before creating or refining GitHub issues
+
+- Use the [writing-issues skill](.agents/skills/writing-issues/SKILL.md) for issue work. For UI, design, layout, responsiveness or interaction issues, also load [github-issue-investigation](.agents/skills/github-issue-investigation/SKILL.md) before finalizing the ticket, even when the request is only to create an issue.
+- Capture and post relevant screenshots or recordings; for design alignment, compare the application and reference at matching viewports. If capture or reproduction is blocked, check available tools/runtimes and state the concrete limitation on the issue and in the final response. Deferring screenshots to future acceptance criteria is not a substitute for current evidence.
+- Disposable prototypes remain optional, uncommitted and exempt from feature delivery checks. Investigation does not authorize product implementation; the normal workflow still applies to product changes.
+
 ## Architecture
 
 - `apps/web` is the TanStack Start public website.
@@ -22,7 +28,6 @@
 
 ## GitHub issues
 
-- Use [the GitHub issue investigation skill](.agents/skills/github-issue-investigation/SKILL.md) when screenshots or a small experiment would clarify an issue. Post the findings and accessible captures on the issue. Disposable prototypes stay uncommitted in isolated scratch space and are exempt from the feature testing, build, documentation and PR workflow; product implementation still follows the normal rules.
 - When creating or updating a GitHub issue, add the label for the app or project it concerns alongside its issue-type label (for example, `enhancement` or `bug`).
 - Forma Studio issues must include the `forma studio` label. Create the label if it does not exist, and preserve existing relevant labels.
 - When working on an existing GitHub issue, post concise status comments on that issue when work starts, at meaningful progress or blockers, and on completion. State what changed, relevant verification, and any remaining work; do not imply implementation is complete when only planning or issue creation is done.
