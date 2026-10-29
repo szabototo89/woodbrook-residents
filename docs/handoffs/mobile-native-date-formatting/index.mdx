@@ -1,0 +1,121 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import nativeHome from './assets/native-home.jpeg';
+import nativeArticle from './assets/native-article.jpeg';
+import nativeEvent from './assets/native-event.jpeg';
+import components from './assets/c3-dates.puml?raw';
+import componentsImage from './assets/c3-dates.svg';
+
+export const metadata = {
+  title: 'Native date labels without Intl',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a18791-5cf3-7f22-bc06-541a37893766',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/mobile-api-use-sanity-as-the-default-runtime-con',
+  branch: 'szabototo89/mobile-api-use-sanity-as-the-default-runtime-con',
+  commit: '4586d2eecf37c79d2801890fe01ebacd02ab6e3b',
+  updatedAt: '2026-10-29T13:05:42Z',
+  summary:
+    'Mobile date labels use standard Date methods so Sanity content renders in iOS Lynx hosts without Intl.',
+};
+
+## Goal
+
+Fix the native simulator blocker found while verifying [issue #14](https://github.com/szabototo89/woodbrook-residents/issues/14). The owner explicitly expanded the scope to fix it. This record follows the separate [Sanity backend handoff](/#/mobile-sanity-single-source), whose original native failure remains historical evidence.
+
+## Technical changes
+
+Baseline: `4d9f5d7`. Implementation: `4586d2e`. This handoff is a separate documentation change on the same branch.
+
+| Area             | Before                                          | After                                                 | Why                             | Code                                                     |
+| ---------------- | ----------------------------------------------- | ----------------------------------------------------- | ------------------------------- | -------------------------------------------------------- |
+| Date labels      | `Intl.DateTimeFormat` throws in native Lynx     | Standard `Date` methods build English labels          | Support hosts without `Intl`    | `apps/mobile/src/features/content/contentModels.ts`      |
+| Event times      | Home and event rendering stop on missing `Intl` | Date plus zero-padded local 24-hour time              | Render the existing event views | `readableDateTime`, `HomeScreen`, `getDetailModel`       |
+| Invalid values   | Intl throws for invalid dates                   | Explicit `RangeError` remains                         | Avoid broken date copy          | `parseDate`                                              |
+| Regression tests | Browser-like test host supplies Intl            | Tests remove Intl and cover visible date/time strings | Reproduce the native runtime    | `apps/mobile/src/__tests__/nativeDateFormatting.test.ts` |
+
+Date parsing and device-local time zone semantics are preserved. No dependency, screen layout, content-selection rule, CMS field, or backend contract changes. Main was merged without rewriting history; its preview cleanup remains intact, with the temporary Worker limitation recorded in its operations guide and inventory note.
+
+## Architecture changes
+
+The Mobile app displays public resident content fetched from the Website asset host. Existing screens request date labels from the shared formatting responsibility. The fix changes that responsibility's runtime dependency while keeping its interface.
+
+| Level | Change                                                           | Evidence                                             |
+| ----- | ---------------------------------------------------------------- | ---------------------------------------------------- |
+| C1    | Unchanged: residents and editorial systems retain the same roles | Existing Sanity backend context view                 |
+| C2    | Unchanged: iOS, browser and backend execution boundaries remain  | Existing Mobile app and Website asset host           |
+| C3    | Changed: shared date formatting works without global Intl        | Annotated component view and native regression tests |
+
+<PlantUmlDiagram
+  title="C3: Native date labels"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: the existing formatting responsibility returns labels in the native host instead of throwing when Intl is absent. Unmarked screens remain unchanged context.
+
+## Verification
+
+| Check                  | Result | Evidence                                                                                                                                |
+| ---------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| TDD baseline           | PASS   | 17 tests fail with missing Intl before implementation; `assets/tdd-red.txt`                                                             |
+| Mobile unit suite      | PASS   | 70 tests across 15 files; all coverage gates pass; `assets/mobile-unit.txt`                                                             |
+| Types/lint             | PASS   | Mobile typecheck and focused ESLint exit 0                                                                                              |
+| Native runtime         | PASS   | iOS 26.3.1 / Lynx Explorer SDK 1.4.0 still reports `Intl: undefined`; `assets/native-runtime.txt`                                       |
+| Native screens         | PASS   | Orca taps open home, article, event list and event detail with real Sanity content; snapshots and JPEGs in `assets/`                    |
+| Native error log       | PASS   | No errors after home/article/event navigation; `assets/native-smoke.txt`, `assets/native-errors.txt`                                    |
+| Browser screenshots    | PASS   | Playwright at 1440 × 1000 and 390 × 844, 2× resolution; current Sanity article visible after API 200                                    |
+| Partial-suite coverage | FAIL   | Focused run passes 27 tests but fails whole-app coverage; full suite passes; `assets/focused-partial-coverage.txt`                      |
+| Initial build          | FAIL   | Build reached handoffs before this new record existed; final build runs after creating it                                               |
+| Repository build       | PASS   | `bun run build` exited 0; `assets/build.txt`                                                                                            |
+| Commit quality gate    | PASS   | Native implementation commit runs the complete normal hook successfully; `assets/quality-gate.txt`                                      |
+| Preview refresh        | PASS   | Mobile browser and handoff previews load; API protocol smoke passes; `assets/preview-smoke.txt`; final deployment commit recorded in PR |
+
+## Appearance
+
+These captures show real published Sanity content. The native host still lacks some emoji glyphs; font support is outside this date-formatting fix.
+
+<AppearanceGallery
+  images={[
+    {
+      src: nativeHome,
+      title: 'Native home',
+      alt: 'Native home with real Sanity article and event time',
+      description:
+        'Orca iPhone simulator. Confirm the loading state is replaced by the published article and readable event date.',
+    },
+    {
+      src: nativeArticle,
+      title: 'Native article',
+      alt: 'Native article with publication and review dates',
+      description:
+        'The article opens from Home and displays 18 Sept 2026 in its date labels.',
+    },
+    {
+      src: nativeEvent,
+      title: 'Native event detail',
+      alt: 'Native event detail with start time',
+      description:
+        'An event opens from the native listing and shows 12 Sept 2026, 18:00.',
+    },
+    {
+      src: desktop,
+      title: 'Desktop browser',
+      alt: 'Browser renderer with published Sanity content',
+      description:
+        '1440 × 1000 at 2× resolution. The existing home still loads the preview API.',
+    },
+    {
+      src: mobile,
+      title: 'Phone browser',
+      alt: 'Phone browser with published Sanity content',
+      description:
+        '390 × 844 at 2× resolution. Date labels retain their existing readable format.',
+    },
+  ]}
+/>
+
+## Next steps
+
+Review the PR and temporary previews. The native Intl blocker is resolved; other mobile parity work remains outside this fix.

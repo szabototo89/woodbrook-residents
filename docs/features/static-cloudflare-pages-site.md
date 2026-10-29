@@ -4,7 +4,7 @@ Status: Available
 
 ## Job to be done
 
-When the public website is deployed, I want every published page to be generated from the selected content source during the build, so residents can browse the complete hub on Cloudflare Pages without a runtime backend.
+When the public website is deployed, I want every published page to be generated from Sanity during the build, so residents can browse the complete hub on Cloudflare Pages without a runtime backend.
 
 ## User-visible behavior
 
@@ -20,7 +20,7 @@ When the public website is deployed, I want every published page to be generated
 - Given the selected source cannot be reached or returns content that fails validation, when the static build runs, then it exits unsuccessfully instead of publishing unavailable or empty content.
 - Given the contents of `apps/web/dist/client` are deployed, when a resident browses or navigates between generated pages, then no runtime application server connection is required.
 - Given the public artifact is inspected, then it contains no issue-report page or runtime write endpoint; the attached read-only mobile content endpoint does not participate in website rendering.
-- Given `CONTENT_SOURCE=google-sheets` and read-only credentials are configured, when `bun run deploy` runs, then it builds from the configured spreadsheet.
+- Given `CONTENT_SOURCE=google-sheets`, when deployment begins, then it rejects the retired source.
 - Given the production Worker is connected to the GitHub repository and its deploy hook is configured, when the daily schedule runs, then Cloudflare rebuilds the latest `main` commit with a fresh Sanity snapshot.
 - Given `CONTENT_SOURCE` is absent or blank, when deployment begins, then it builds from Sanity using the Woodbrook project defaults.
 - Given `CONTENT_SOURCE` is invalid, when deployment begins, then it stops with a configuration error before building or publishing.
@@ -29,7 +29,7 @@ When the public website is deployed, I want every published page to be generated
 
 ### Included
 
-- Build-time Google Sheets or Sanity reads, static prerendering, linked dynamic-route discovery, immutable client-navigation data, and output verification.
+- Build-time Sanity reads, static prerendering, linked dynamic-route discovery, immutable client-navigation data, and output verification.
 - Cloudflare Pages build settings, Wrangler deployment to Workers Static Assets, and Sanity-triggered rebuild guidance.
 
 ### Not included

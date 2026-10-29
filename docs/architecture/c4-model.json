@@ -440,6 +440,53 @@
       "description": "Keeps one answer open using labelled buttons and regions",
       "technology": "React and CSS",
       "parent": "forma_web"
+    },
+    "legacy_sheets_content": {
+      "kind": "system",
+      "name": "Google Sheets",
+      "description": "Retired content source"
+    },
+    "mobile_public_app": {
+      "kind": "container",
+      "name": "Mobile app",
+      "description": "Displays public content on iOS and web",
+      "technology": "ReactLynx",
+      "parent": "woodbrook_system"
+    },
+    "mobile_content_endpoint": {
+      "kind": "component",
+      "name": "Mobile API",
+      "description": "Handles reads and static assets",
+      "technology": "TypeScript Worker",
+      "parent": "woodbrook_host"
+    },
+    "mobile_sanity_factory": {
+      "kind": "component",
+      "name": "Content source factory",
+      "description": "Selects Sanity server configuration",
+      "technology": "TypeScript",
+      "parent": "woodbrook_host"
+    },
+    "legacy_sheets_adapter": {
+      "kind": "component",
+      "name": "Sheets adapter",
+      "description": "Retired spreadsheet reader",
+      "technology": "TypeScript",
+      "parent": "woodbrook_host"
+    },
+    "native_resident_screens": {
+      "kind": "component",
+      "name": "Resident screens",
+      "description": "Display public records and date labels",
+      "technology": "ReactLynx",
+      "parent": "mobile_public_app"
+    },
+    "native_date_formatting": {
+      "kind": "component",
+      "name": "Mobile date formatting",
+      "description": "Formats English dates and local 24-hour times",
+      "technology": "TypeScript Date methods",
+      "parent": "mobile_public_app"
     }
   },
   "relationships": {
@@ -864,6 +911,54 @@
       "to": "forma_ui_faq",
       "label": "Displays the feature-specific exclusive accordion",
       "technology": "React props"
+    },
+    "single_source_system_sanity": {
+      "to": "sanity_content_lake",
+      "label": "Reads published content",
+      "technology": "HTTPS/GROQ",
+      "from": "woodbrook_system"
+    },
+    "single_source_system_sheets": {
+      "to": "legacy_sheets_content",
+      "label": "Previously read content",
+      "technology": "HTTPS",
+      "from": "woodbrook_system"
+    },
+    "mobile_app_host": {
+      "to": "woodbrook_host",
+      "label": "Fetches public content",
+      "technology": "HTTPS/JSON",
+      "from": "mobile_public_app"
+    },
+    "single_source_host_sanity": {
+      "to": "sanity_content_lake",
+      "label": "Reads published content",
+      "technology": "HTTPS/GROQ",
+      "from": "woodbrook_host"
+    },
+    "single_source_host_sheets": {
+      "to": "legacy_sheets_content",
+      "label": "Previously read content",
+      "technology": "HTTPS",
+      "from": "woodbrook_host"
+    },
+    "mobile_endpoint_factory": {
+      "to": "mobile_sanity_factory",
+      "label": "Uses source configuration",
+      "technology": "In-process call",
+      "from": "mobile_content_endpoint"
+    },
+    "legacy_endpoint_sheets": {
+      "to": "legacy_sheets_adapter",
+      "label": "Previously constructed directly",
+      "technology": "In-process call",
+      "from": "mobile_content_endpoint"
+    },
+    "native_screens_dates": {
+      "from": "native_resident_screens",
+      "to": "native_date_formatting",
+      "label": "Requests visible date labels",
+      "technology": "In-process calls"
     }
   },
   "diagrams": {
@@ -1728,6 +1823,144 @@
           "forma_ui_pages_patterns": {
             "status": "added",
             "description": "Pages supply content through typed props instead of copying presentation markup."
+          }
+        }
+      }
+    },
+    "mobile_sanity_c1_context": {
+      "level": "C1",
+      "scope": "woodbrook_system",
+      "title": "Mobile content \u2014 C1 \u2014 changes from 956a81e",
+      "handoff": "mobile-sanity-single-source",
+      "source": "docs/handoffs/mobile-sanity-single-source/assets/c1-context.puml",
+      "elements": [
+        "resident",
+        "woodbrook_system",
+        "sanity_content_lake",
+        "legacy_sheets_content"
+      ],
+      "relationships": [
+        "resident_website",
+        "single_source_system_sanity",
+        "single_source_system_sheets"
+      ],
+      "changes": {
+        "elements": {
+          "woodbrook_system": {
+            "status": "changed",
+            "description": "Sanity becomes the sole source."
+          },
+          "legacy_sheets_content": {
+            "status": "removed",
+            "description": "Retired from this application."
+          }
+        },
+        "relationships": {
+          "single_source_system_sanity": {
+            "status": "changed",
+            "description": "Mobile now uses Sanity too."
+          },
+          "single_source_system_sheets": {
+            "status": "removed",
+            "description": "Sheets reads removed."
+          }
+        }
+      }
+    },
+    "mobile_sanity_c2_containers": {
+      "level": "C2",
+      "scope": "woodbrook_system",
+      "title": "Mobile content \u2014 C2 \u2014 changes from 956a81e",
+      "handoff": "mobile-sanity-single-source",
+      "source": "docs/handoffs/mobile-sanity-single-source/assets/c2-containers.puml",
+      "elements": [
+        "mobile_public_app",
+        "woodbrook_host",
+        "sanity_content_lake",
+        "legacy_sheets_content"
+      ],
+      "relationships": [
+        "mobile_app_host",
+        "single_source_host_sanity",
+        "single_source_host_sheets"
+      ],
+      "changes": {
+        "elements": {
+          "woodbrook_host": {
+            "status": "changed",
+            "description": "Uses shared Sanity configuration."
+          }
+        },
+        "relationships": {
+          "single_source_host_sanity": {
+            "status": "added",
+            "description": "Replaces Sheets; excludes drafts and release versions."
+          },
+          "single_source_host_sheets": {
+            "status": "removed",
+            "description": "Sheets reads removed."
+          }
+        }
+      }
+    },
+    "mobile_sanity_c3_components": {
+      "level": "C3",
+      "scope": "woodbrook_host",
+      "title": "Mobile content \u2014 C3 \u2014 changes from 956a81e",
+      "handoff": "mobile-sanity-single-source",
+      "source": "docs/handoffs/mobile-sanity-single-source/assets/c3-components.puml",
+      "elements": [
+        "mobile_content_endpoint",
+        "mobile_sanity_factory",
+        "legacy_sheets_adapter"
+      ],
+      "relationships": ["mobile_endpoint_factory", "legacy_endpoint_sheets"],
+      "changes": {
+        "elements": {
+          "mobile_content_endpoint": {
+            "status": "changed",
+            "description": "Reuses the shared factory."
+          },
+          "mobile_sanity_factory": {
+            "status": "changed",
+            "description": "Rejects the former Sheets option."
+          },
+          "legacy_sheets_adapter": {
+            "status": "removed",
+            "description": "Adapter and parser removed."
+          }
+        },
+        "relationships": {
+          "mobile_endpoint_factory": {
+            "status": "added",
+            "description": "Replaces direct adapter construction."
+          },
+          "legacy_endpoint_sheets": {
+            "status": "removed",
+            "description": "Direct Sheets path removed."
+          }
+        }
+      }
+    },
+    "native_date_components": {
+      "level": "C3",
+      "scope": "mobile_public_app",
+      "title": "Native date formatting \u2014 C3 \u2014 changes from 4d9f5d7",
+      "handoff": "mobile-native-date-formatting",
+      "source": "docs/handoffs/mobile-native-date-formatting/assets/c3-dates.puml",
+      "elements": ["native_resident_screens", "native_date_formatting"],
+      "relationships": ["native_screens_dates"],
+      "changes": {
+        "elements": {
+          "native_date_formatting": {
+            "status": "changed",
+            "description": "Date methods replace unavailable Intl."
+          }
+        },
+        "relationships": {
+          "native_screens_dates": {
+            "status": "changed",
+            "description": "Previously threw on iOS; now returns labels."
           }
         }
       }

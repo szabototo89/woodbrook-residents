@@ -13,7 +13,6 @@
     "precommit": "bun run lint && bun run test",
     "dev": "CONTENT_SOURCE=sanity bun scripts/app.ts dev web --env-file=../../.env",
     "dev:web": "CONTENT_SOURCE=sanity bun scripts/app.ts dev web --env-file=../../.env",
-    "dev:web:sheets": "CONTENT_SOURCE=google-sheets bun scripts/app.ts dev:sheets web --env-file=../../.env",
     "dev:web:sanity": "CONTENT_SOURCE=sanity bun scripts/app.ts dev web --env-file=../../.env",
     "dev:web:content": "CONTENT_SOURCE=sanity bun scripts/app.ts dev web --env-file=../../.env",
     "dev:dashboard": "bun scripts/app.ts dev dashboard",
@@ -57,9 +56,6 @@
     "dev:handoffs": "bun scripts/app.ts dev handoffs",
     "build:handoffs": "bun scripts/app.ts build handoffs",
     "test:firestore": "firebase emulators:exec --only firestore --project demo-woodbrook-profiles \"bun test apps/web/tests/firestore/firestore.rules.test.ts\""
-  },
-  "dependencies": {
-    "google-auth-library": "^11.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

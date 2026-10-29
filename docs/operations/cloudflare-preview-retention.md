@@ -51,6 +51,17 @@ deletion mechanism and tests before relying on this policy. Until then, the
 Worker is an explicit, recorded gap rather than a silent claim of complete
 enforcement.
 
+### Temporary standalone Worker review sites
+
+Issue #14 uses three temporary Worker scripts for its backend, mobile browser,
+and handoff review: `woodbrook-mobile-sanity-14`, `woodbrook-mobile-ui-14`, and
+`woodbrook-mobile-handoff-14`. They are previews of the existing apps, not
+production targets. Created on 29 October 2026, they reach seven days on
+5 November 2026. The Pages-only cleanup does not delete these Worker scripts.
+The implementer must refresh their review links or manually remove the
+isolated temporary scripts after the retention window. This is a recorded
+Worker cleanup gap; no automated enforcement is claimed.
+
 ### Pages protections
 
 Cloudflare Pages protects aliases and the latest deployment of a branch. The

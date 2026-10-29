@@ -1,0 +1,48 @@
+[12:24:16.564Z] [info/background] [rspeedy-dev-server] Server started: Hot Module Replacement enabled, Live Reloading enabled, Progress disabled, Overlay disabled.
+[12:24:16.571Z] [log/background] [HMR] Waiting for update signal from WDS...
+[12:24:16.573Z] [log/background] [PREACT DEVTOOLS] Devtools initialized successfully
+[12:24:16.576Z] [info/main-thread] SetSourceMapRelease.message:debugmetadata:27e70075e627fe5d597cf64bd1d1055197349cce
+[12:24:16.576Z] [info/main-thread] SetSourceMapRelease.stack:    at <anonymous> (file:///main-thread.js:1:18)
+    at <eval> (file:///main-thread.js:2213:86)
+
+[12:24:16.576Z] [info/main-thread] SetSourceMapRelease.message:debugmetadata:27e70075e627fe5d597cf64bd1d1055197349cce
+[12:24:16.576Z] [info/main-thread] SetSourceMapRelease.stack:    at <eval> (file://main-thread.js:1:1)
+
+[12:24:16.958Z] [error/background] The following error occurred in the JSRuntime:
+    at file://shared/lynx_core.js:0:54606
+    at file://shared/lynx_core.js:0:96115
+    at file://shared/lynx_core.js:0:96381
+    at file://shared/lynx_core.js:0:101289
+    at file://shared/lynx_core.js:0:44252
+[12:24:16.958Z] [error/background] unhandled rejection: Intl is not defined
+    at readableDate (file://view2/.lynx/main/background.js:4291:33)
+    at HomeScreen (file://view2/.lynx/main/background.js:3835:102)
+    at doRender (file://view2/.lynx/main/background.js:7046:44)
+    at diff (file://view2/.lynx/main/background.js:6717:60)
+    at diffChildren (file://view2/.lynx/main/background.js:6296:107)
+    at diffElementNodes (file://view2/.lynx/main/background.js:6982:215)
+    at diff (file://view2/.lynx/main/background.js:6805:186)
+    at diffChildren (file://view2/.lynx/main/background.js:6296:107)
+    at diff (file://view2/.lynx/main/background.js:6753:135)
+    at renderComponent (file://view2/.lynx/main/background.js:6168:105)
+    at process (file://view2/.lynx/main/background.js:6242:60)
+    at <anonymous> (file://view2/.lynx/main/background.js:11685:22)
+    at Xy (file://shared/lynx_core.js:1:39567)
+    at <anonymous> (file://shared/lynx_core.js:1:40833)
+
+    at file://shared/lynx_core.js:0:54699
+    at file://shared/lynx_core.js:0:96115
+    at file://shared/lynx_core.js:0:96381
+    at file://shared/lynx_core.js:0:101289
+    at file://shared/lynx_core.js:0:44252
+[12:26:42.176Z] [error/background] [webpack-dev-server] <Object (objectId:console:9:0:1)>
+    at file://view2/.lynx/main/background.js:20720:56
+    at file://view2/.lynx/main/background.js:22477:63
+    at file://view2/.lynx/main/background.js:21522:43
+    at file://view2/.lynx/main/background.js:21663:7
+    at file://shared/lynx_core.js:0:59090
+    at file://shared/lynx_core.js:0:59092
+    at file://shared/lynx_core.js:0:100633
+[12:26:42.176Z] [info/background] [rspeedy-dev-server] Disconnected!
+[12:26:42.176Z] [info/background] [rspeedy-dev-server] Trying to reconnect...
+[12:27:19.925Z] [log/background] NATIVE_API_VERIFIED {"status":200,"updates":5,"projects":5,"events":23,"surveys":1,"resources":32}

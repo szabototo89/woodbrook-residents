@@ -1,0 +1,317 @@
+$ bun scripts/app.ts build:static web --env-file=../../.env
+$ bun scripts/build-static.ts
+Checking build-time content...
+Build-time content is valid.
+vite v8.3.0 building client environment for static...
+transforming...
+✓ 2097 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2        10.25 kB
+dist/client/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2         11.23 kB
+dist/client/assets/newsreader-vietnamese-wght-normal-Czsa-EzN.woff2   11.93 kB
+dist/client/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2          18.74 kB
+dist/client/assets/inter-greek-wght-normal-CkhJZR-_.woff2             18.99 kB
+dist/client/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2      25.96 kB
+dist/client/assets/newsreader-latin-ext-wght-normal-C-3rgBeH.woff2    36.24 kB
+dist/client/assets/inter-latin-wght-normal-Dx4kXJAl.woff2             48.25 kB
+dist/client/assets/newsreader-latin-wght-normal-CCVVNp6i.woff2        58.08 kB
+dist/client/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2         85.06 kB
+dist/client/assets/_slug-DG5X3Z-s.css                                  0.93 kB │ gzip:  0.43 kB
+dist/client/assets/updates-r4qTMmoV.css                                1.01 kB │ gzip:  0.45 kB
+dist/client/assets/FeaturedNewsCard-BtTWOeKf.css                       1.83 kB │ gzip:  0.69 kB
+dist/client/assets/site-C81wbjpc.css                                  76.87 kB │ gzip: 15.45 kB
+dist/client/assets/chevron-right-CW9j3dnt.js                           0.13 kB │ gzip:  0.14 kB
+dist/client/assets/login-Tf8XrnI0.js                                   0.15 kB │ gzip:  0.15 kB
+dist/client/assets/register-BvZMTjBP.js                                0.15 kB │ gzip:  0.15 kB
+dist/client/assets/forgot-password-BQ15Rl7T.js                         0.16 kB │ gzip:  0.15 kB
+dist/client/assets/arrow-left-DhQ7PR9x.js                              0.16 kB │ gzip:  0.16 kB
+dist/client/assets/clock-3-Bf9KRS7s.js                                 0.16 kB │ gzip:  0.16 kB
+dist/client/assets/mail-DdV4MKXh.js                                    0.21 kB │ gzip:  0.20 kB
+dist/client/assets/AuthSession-Dp6ItKSx.js                             0.21 kB │ gzip:  0.18 kB
+dist/client/assets/phone-BtFJq6bN.js                                   0.32 kB │ gzip:  0.23 kB
+dist/client/assets/accountDetails-eliIoL_M.js                          0.38 kB │ gzip:  0.28 kB
+dist/client/assets/contentFormatting-BZ5gs6Tx.js                       0.39 kB │ gzip:  0.23 kB
+dist/client/assets/FirebaseAccount-DikqgNt_.js                         0.41 kB │ gzip:  0.30 kB
+dist/client/assets/GoogleMapsLink-CbmbsJ8g.js                          0.46 kB │ gzip:  0.33 kB
+dist/client/assets/calendar-days-DhcTUuZ3.js                           0.49 kB │ gzip:  0.26 kB
+dist/client/assets/EmptyState-ZlaZ9zct.js                              0.65 kB │ gzip:  0.40 kB
+dist/client/assets/CmsUnavailable-rdDzKpLX.js                          0.77 kB │ gzip:  0.47 kB
+dist/client/assets/resourceDirectory-AKYhyqyB.js                       0.90 kB │ gzip:  0.53 kB
+dist/client/assets/SurveyCard-kT6FpQ06.js                              0.93 kB │ gzip:  0.46 kB
+dist/client/assets/projects-84lLOKL5.js                                0.97 kB │ gzip:  0.57 kB
+dist/client/assets/surveys-DWuWHMId.js                                 0.97 kB │ gzip:  0.55 kB
+dist/client/assets/UpdateCard-DVg3t4Rj.js                              1.13 kB │ gzip:  0.52 kB
+dist/client/assets/createLucideIcon-DKlHpHa5.js                        1.18 kB │ gzip:  0.69 kB
+dist/client/assets/FeaturedNewsCard-QwhZ1sUX.js                        1.27 kB │ gzip:  0.55 kB
+dist/client/assets/ProjectCard-Dp72IlXf.js                             1.29 kB │ gzip:  0.56 kB
+dist/client/assets/EventCard-BdcJcIx3.js                               1.40 kB │ gzip:  0.58 kB
+dist/client/assets/_slug-uPL6H22H.js                                   2.54 kB │ gzip:  0.96 kB
+dist/client/assets/_slug-C8IYXf8j.js                                   2.61 kB │ gzip:  0.97 kB
+dist/client/assets/events-Cji8vC0A.js                                  2.65 kB │ gzip:  1.23 kB
+dist/client/assets/LocalServiceCard-DtVtu4GP.js                        2.66 kB │ gzip:  1.02 kB
+dist/client/assets/updates-BrEPrSEV.js                                 2.67 kB │ gzip:  1.15 kB
+dist/client/assets/get-involved-CuDRjuKL.js                            2.95 kB │ gzip:  1.26 kB
+dist/client/assets/search-hVcKySBB.js                                  3.29 kB │ gzip:  1.46 kB
+dist/client/assets/AuthPage-CIBafHGC.js                                3.62 kB │ gzip:  1.53 kB
+dist/client/assets/useMatch-BUPEJu4N.js                                5.66 kB │ gzip:  2.47 kB
+dist/client/assets/FirebaseForms-tNPqLr1u.js                           5.82 kB │ gzip:  2.03 kB
+dist/client/assets/_slug-Cex9_R3b.js                                   5.89 kB │ gzip:  2.03 kB
+dist/client/assets/_slug-DAxXxL6D.js                                   6.02 kB │ gzip:  2.41 kB
+dist/client/assets/local-info-CoM5DVan.js                              6.05 kB │ gzip:  2.33 kB
+dist/client/assets/account-83RnIp3A.js                                 6.76 kB │ gzip:  2.44 kB
+dist/client/assets/preload-helper-DYwKYl5_.js                         10.11 kB │ gzip:  3.92 kB
+dist/client/assets/routes-amrdUDk2.js                                 13.92 kB │ gzip:  4.28 kB
+dist/client/assets/contentApi-DY27P_kh.js                             52.62 kB │ gzip: 18.29 kB
+dist/client/assets/accountDetailsStore-MhgbWflk.js                    88.69 kB │ gzip: 29.01 kB
+dist/client/assets/FirebaseRuntime-DRtRLFZ5.js                       110.00 kB │ gzip: 33.39 kB
+dist/client/assets/_slug-Ck9DVeOw.js                                 119.24 kB │ gzip: 36.19 kB
+dist/client/assets/module-DuLhru1W.js                                260.04 kB │ gzip: 77.83 kB
+dist/client/assets/index-CEipymGj.js                                 314.98 kB │ gzip: 99.66 kB
+
+✓ built in 398ms
+vite v8.3.0 building ssr environment for static...
+transforming...
+✓ 256 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/assets/start-DLaC4AL1.js                         0.21 kB │ gzip:  0.17 kB
+dist/server/assets/login-SdYpypjx.js                         0.27 kB │ gzip:  0.20 kB
+dist/server/assets/register-B-QPvWAh.js                      0.28 kB │ gzip:  0.21 kB
+dist/server/assets/empty-plugin-adapters-CRmm9IFd.js         0.28 kB │ gzip:  0.18 kB
+dist/server/assets/forgot-password-BLBUNv-O.js               0.29 kB │ gzip:  0.21 kB
+dist/server/assets/AuthSession-DI9QhVSV.js                   0.36 kB │ gzip:  0.23 kB
+dist/server/assets/EmptyState-B_0AcSq8.js                    0.54 kB │ gzip:  0.32 kB
+dist/server/assets/PageIntro-CqmCQ4hP.js                     0.58 kB │ gzip:  0.29 kB
+dist/server/assets/contentFormatting-ByNqxSbr.js             0.62 kB │ gzip:  0.31 kB
+dist/server/assets/accountDetails-9-XuT323.js                0.64 kB │ gzip:  0.38 kB
+dist/server/assets/homeEvent-5ecmolRp.js                     0.65 kB │ gzip:  0.32 kB
+dist/server/assets/CmsUnavailable-CyyD8FY6.js                0.69 kB │ gzip:  0.39 kB
+dist/server/assets/GoogleMapsLink-i-401vJj.js                0.70 kB │ gzip:  0.42 kB
+dist/server/assets/FirebaseAccount-DZxpQkrD.js               0.71 kB │ gzip:  0.40 kB
+dist/server/assets/collectionScheduleUtils-D5x_TFk1.js       1.07 kB │ gzip:  0.54 kB
+dist/server/assets/accountDetailsStore-DSSdo55u.js           1.14 kB │ gzip:  0.51 kB
+dist/server/assets/SurveyCard-D6WOtgO_.js                    1.40 kB │ gzip:  0.59 kB
+dist/server/assets/surveys-4abgGmDu.js                       1.57 kB │ gzip:  0.73 kB
+dist/server/assets/projects-BK9Gqb66.js                      1.58 kB │ gzip:  0.75 kB
+dist/server/assets/UpdateCard-BmYF5ipk.js                    1.67 kB │ gzip:  0.63 kB
+dist/server/assets/authConfig-Dwu_OX1-.js                    1.81 kB │ gzip:  0.87 kB
+dist/server/assets/resourceDirectory-CTS3n6oz.js             1.86 kB │ gzip:  0.78 kB
+dist/server/assets/FeaturedNewsCard-B_LxU9CN.js              1.94 kB │ gzip:  0.71 kB
+dist/server/assets/ProjectCard-CeEgip-S.js                   1.95 kB │ gzip:  0.71 kB
+dist/server/assets/EventCard-FvZG1gfI.js                     1.98 kB │ gzip:  0.71 kB
+dist/server/assets/get-involved-CWVU4R_c.js                  3.62 kB │ gzip:  1.24 kB
+dist/server/assets/LocalServiceCard-Owr38PCG.js              3.88 kB │ gzip:  1.18 kB
+dist/server/assets/_slug-lr2DkEO5.js                         3.90 kB │ gzip:  1.20 kB
+dist/server/assets/AuthPage-DdpMKoo1.js                      4.02 kB │ gzip:  1.31 kB
+dist/server/assets/FirebaseRuntime-DZ_XIPZ-.js               4.08 kB │ gzip:  1.50 kB
+dist/server/assets/_slug-DiWLuIPZ.js                         4.24 kB │ gzip:  1.27 kB
+dist/server/assets/_slug-DwR8M7aS.js                         4.36 kB │ gzip:  1.29 kB
+dist/server/assets/updates-CxvHbYy5.js                       4.78 kB │ gzip:  1.54 kB
+dist/server/assets/events--DNzz_e4.js                        4.92 kB │ gzip:  1.76 kB
+dist/server/assets/search-CFbWo68V.js                        5.69 kB │ gzip:  1.90 kB
+dist/server/assets/seoStructuredData-BIqHrUtB.js             6.68 kB │ gzip:  1.61 kB
+dist/server/assets/_tanstack-start-manifest_v-Dtzy5Kok.js    7.44 kB │ gzip:  1.33 kB
+dist/server/assets/contentApi-BBoPIL9W.js                    7.84 kB │ gzip:  2.77 kB
+dist/server/assets/FirebaseForms-Au9FvAE7.js                 8.53 kB │ gzip:  2.42 kB
+dist/server/assets/_slug-KxUgdLFK.js                         8.84 kB │ gzip:  2.77 kB
+dist/server/assets/_slug-VC2Xgb_Q.js                         9.15 kB │ gzip:  2.39 kB
+dist/server/assets/contentApi-C-r7d93a.js                   10.18 kB │ gzip:  2.46 kB
+dist/server/assets/account-CZk9SAUV.js                      10.83 kB │ gzip:  2.91 kB
+dist/server/assets/local-info-fMEzY004.js                   11.05 kB │ gzip:  3.18 kB
+dist/server/assets/routes-CWHEqRaR.js                       17.64 kB │ gzip:  3.95 kB
+dist/server/assets/searchModel-CZqRlqH7.js                  35.84 kB │ gzip:  8.41 kB
+dist/server/assets/router-DWiPOea9.js                       42.82 kB │ gzip:  9.55 kB
+dist/server/server.js                                      248.67 kB │ gzip: 58.37 kB
+
+✓ built in 195ms
+[prerender] Prerendering pages...
+[prerender] Concurrency: 12
+[prerender] Crawling: /
+[prerender] Crawling: /account
+[prerender] Crawling: /forgot-password
+[prerender] Crawling: /get-involved
+[prerender] Crawling: /login
+[prerender] Crawling: /register
+[prerender] Crawling: /search
+[prerender] Crawling: /events/
+[prerender] Crawling: /local-info/
+[prerender] Crawling: /projects/
+[prerender] Crawling: /surveys/
+[prerender] Crawling: /updates/
+[prerender] Crawling: /updates
+[prerender] Crawling: /events
+[prerender] Crawling: /projects
+[prerender] Crawling: /surveys
+[prerender] Crawling: /local-info
+[prerender] Crawling: /updates/castlethorn-aramark-resident-meeting-update-september-2026
+[prerender] Crawling: /updates/woodbrook-dart-development-october-2026
+[prerender] Crawling: /updates/lda-woodbrook-homes-construction-update
+[prerender] Crawling: /updates/shanganagh-castle-estate-occupation
+[prerender] Crawling: /updates/woodbrook-dart-station-now-open
+[prerender] Crawling: /local-info/thorntons-bin-collection-schedule-2026
+[prerender] Crawling: /local-info/shankill-family-practice
+[prerender] Crawling: /local-info/st-annes-national-school-shankill
+[prerender] Crawling: /local-info/scoil-mhuire-shankill
+[prerender] Crawling: /local-info/rathmichael-national-school
+[prerender] Crawling: /local-info/shankill-library
+[prerender] Crawling: /local-info/woodbrook-college
+[prerender] Crawling: /local-info/wheelie-bin-clean-wicklow
+[prerender] Crawling: /local-info/rathmichael-motors
+[prerender] Crawling: /local-info/all-motors-shankill
+[prerender] Crawling: /local-info/shankill-primary-care-centre
+[prerender] Crawling: /local-info/plumbers-dublin-shankill
+[prerender] Crawling: /local-info/shankill-doctor
+[prerender] Crawling: /local-info/dublin-electrical-services
+[prerender] Crawling: /local-info/shankill-pharmacy
+[prerender] Crawling: /local-info/conway-locksmiths
+[prerender] Crawling: /local-info/mccabes-pharmacy-shankill
+[prerender] Crawling: /local-info/laya-health-wellbeing-clinic-cherrywood
+[prerender] Crawling: /local-info/drain-fix-services
+[prerender] Crawling: /local-info/woodbrook-dart-station
+[prerender] Crawling: /local-info/the-window-cleaning-company
+[prerender] Crawling: /local-info/halligan-ventilation-services
+[prerender] Crawling: /local-info/shankill-gaa
+[prerender] Crawling: /local-info/laura-faichney-all-things-art
+[prerender] Crawling: /local-info/shankill-fc
+[prerender] Crawling: /local-info/shanganagh-park
+[prerender] Crawling: /local-info/shankill-tennis-club
+[prerender] Crawling: /local-info/shanganagh-recycling-centre
+[prerender] Crawling: /local-info/shankill-garda-station
+[prerender] Crawling: /local-info/shankill-post-office
+[prerender] Crawling: /local-info/shankill-dental-clinic
+[prerender] Crawling: /local-info/shankill-village-dental
+[prerender] Crawling: /get-involved#corrections
+[prerender] Crawling: /projects/woodbrook-dart-station
+[prerender] Crawling: /projects/woodbrook-housing-delivery
+[prerender] Crawling: /projects/woodbrook-solar-panel-group-initiative-2026
+[prerender] Crawling: /projects/bray-city-centre-core-bus-corridor
+[prerender] Crawling: /projects/shanganagh-park-improvements
+[prerender] Crawling: /local-info?category=trades
+[prerender] Crawling: /events/woodbrook-halloween-party-2026
+[prerender] Crawling: /local-info?q=bin+collection
+[prerender] Crawling: /local-info?category=education
+[prerender] Crawling: /local-info?category=health
+[prerender] Crawling: /local-info?category=transport
+[prerender] Crawling: /local-info?category=waste
+[prerender] Crawling: /surveys/woodbrook-dart-gateway-consultation-2026
+[prerender] Crawling: /local-info?category=council
+[prerender] Crawling: /events/woodbrook-residents-association-agm-2026
+[prerender] Crawling: /events/cuala-v-lucan-sarsfields-2026-09-12
+[prerender] Crawling: /events/dip-for-jigsaw-bray-2026-09-13
+[prerender] Crawling: /events/junior-blind-vi-tennis-2026-09-13
+[prerender] Crawling: /events/woodbrook-shanganagh-shankill-walk-2026-09-16
+[prerender] Crawling: /events/dlr-inclusive-cycling-1630-2026-09-18
+[prerender] Crawling: /events/culture-night-wicklow-2026-09-18
+[prerender] Crawling: /events/junior-blind-vi-tennis-2026-09-20
+[prerender] Crawling: /events/ecotrail-wicklow-2026-09-26
+[prerender] Crawling: /events/bray-vintage-car-club-vintage-weekend-2026
+[prerender] Crawling: /events/junior-blind-vi-tennis-2026-09-27
+[prerender] Crawling: /events/shankill-u8-v-st-finians-newcastle-2026-09-27
+[prerender] Crawling: /events/shankill-u15-v-round-towers-2026-09-27
+[prerender] Crawling: /events/shankill-u14-v-st-finians-swords-2026-09-27
+[prerender] Crawling: /events/the-letter-screening-climate-conversation-bray-2026-10-01
+[prerender] Crawling: /events/junior-blind-vi-tennis-2026-10-04
+[prerender] Crawling: /events/how-to-catch-a-star-mermaid-bray-2026-10-10
+[prerender] Crawling: /events/junior-blind-vi-tennis-2026-10-11
+[prerender] Crawling: /events/shankill-tree-trail-walk-cyanotype-workshop-2026-10-14
+[prerender] Crawling: /events/dlr-household-hazardous-waste-day-2026
+[prerender] Crawling: /events/junior-blind-vi-tennis-2026-10-18
+[prerender] Crawling: /events/junior-blind-vi-tennis-2026-10-25
+[prerender] Prerendered 91 pages:
+[prerender] - /forgot-password
+[prerender] - /login
+[prerender] - /register
+[prerender] - /account
+[prerender] - /updates
+[prerender] - /local-info/
+[prerender] - /search
+[prerender] - /get-involved
+[prerender] - /projects/
+[prerender] - /
+[prerender] - /surveys/
+[prerender] - /events/
+[prerender] - /events
+[prerender] - /updates/
+[prerender] - /projects
+[prerender] - /surveys
+[prerender] - /local-info/thorntons-bin-collection-schedule-2026
+[prerender] - /updates/woodbrook-dart-station-now-open
+[prerender] - /local-info/shankill-family-practice
+[prerender] - /local-info/st-annes-national-school-shankill
+[prerender] - /local-info
+[prerender] - /local-info/scoil-mhuire-shankill
+[prerender] - /updates/castlethorn-aramark-resident-meeting-update-september-2026
+[prerender] - /local-info/shankill-library
+[prerender] - /updates/woodbrook-dart-development-october-2026
+[prerender] - /updates/lda-woodbrook-homes-construction-update
+[prerender] - /updates/shanganagh-castle-estate-occupation
+[prerender] - /local-info/rathmichael-national-school
+[prerender] - /local-info/rathmichael-motors
+[prerender] - /local-info/woodbrook-college
+[prerender] - /local-info/shankill-primary-care-centre
+[prerender] - /local-info/wheelie-bin-clean-wicklow
+[prerender] - /local-info/plumbers-dublin-shankill
+[prerender] - /local-info/all-motors-shankill
+[prerender] - /local-info/shankill-doctor
+[prerender] - /local-info/dublin-electrical-services
+[prerender] - /local-info/shankill-pharmacy
+[prerender] - /local-info/conway-locksmiths
+[prerender] - /local-info/mccabes-pharmacy-shankill
+[prerender] - /local-info/laya-health-wellbeing-clinic-cherrywood
+[prerender] - /local-info/drain-fix-services
+[prerender] - /local-info/woodbrook-dart-station
+[prerender] - /local-info/the-window-cleaning-company
+[prerender] - /local-info/shankill-gaa
+[prerender] - /local-info/shankill-fc
+[prerender] - /local-info/halligan-ventilation-services
+[prerender] - /local-info/laura-faichney-all-things-art
+[prerender] - /local-info/shanganagh-park
+[prerender] - /local-info/shankill-tennis-club
+[prerender] - /local-info/shankill-garda-station
+[prerender] - /local-info/shanganagh-recycling-centre
+[prerender] - /local-info/shankill-post-office
+[prerender] - /get-involved#corrections
+[prerender] - /local-info/shankill-village-dental
+[prerender] - /projects/woodbrook-dart-station
+[prerender] - /projects/woodbrook-solar-panel-group-initiative-2026
+[prerender] - /local-info/shankill-dental-clinic
+[prerender] - /projects/woodbrook-housing-delivery
+[prerender] - /local-info?category=trades
+[prerender] - /projects/bray-city-centre-core-bus-corridor
+[prerender] - /projects/shanganagh-park-improvements
+[prerender] - /local-info?q=bin+collection
+[prerender] - /events/woodbrook-halloween-party-2026
+[prerender] - /local-info?category=education
+[prerender] - /local-info?category=health
+[prerender] - /local-info?category=transport
+[prerender] - /local-info?category=waste
+[prerender] - /local-info?category=council
+[prerender] - /events/woodbrook-residents-association-agm-2026
+[prerender] - /surveys/woodbrook-dart-gateway-consultation-2026
+[prerender] - /events/dip-for-jigsaw-bray-2026-09-13
+[prerender] - /events/cuala-v-lucan-sarsfields-2026-09-12
+[prerender] - /events/junior-blind-vi-tennis-2026-09-13
+[prerender] - /events/woodbrook-shanganagh-shankill-walk-2026-09-16
+[prerender] - /events/dlr-inclusive-cycling-1630-2026-09-18
+[prerender] - /events/culture-night-wicklow-2026-09-18
+[prerender] - /events/junior-blind-vi-tennis-2026-09-20
+[prerender] - /events/ecotrail-wicklow-2026-09-26
+[prerender] - /events/bray-vintage-car-club-vintage-weekend-2026
+[prerender] - /events/junior-blind-vi-tennis-2026-09-27
+[prerender] - /events/shankill-u14-v-st-finians-swords-2026-09-27
+[prerender] - /events/shankill-u8-v-st-finians-newcastle-2026-09-27
+[prerender] - /events/shankill-u15-v-round-towers-2026-09-27
+[prerender] - /events/the-letter-screening-climate-conversation-bray-2026-10-01
+[prerender] - /events/how-to-catch-a-star-mermaid-bray-2026-10-10
+[prerender] - /events/junior-blind-vi-tennis-2026-10-04
+[prerender] - /events/junior-blind-vi-tennis-2026-10-11
+[prerender] - /events/shankill-tree-trail-walk-cyanotype-workshop-2026-10-14
+[prerender] - /events/junior-blind-vi-tennis-2026-10-18
+[prerender] - /events/dlr-household-hazardous-waste-day-2026
+[prerender] - /events/junior-blind-vi-tennis-2026-10-25
+Generating SEO files for https://woodbrook-mobile-sanity-14.shankill.workers.dev...
+Wrote sitemap.xml with 74 URLs and robots.txt with sitemap https://woodbrook-mobile-sanity-14.shankill.workers.dev/sitemap.xml.
+Wrote 23 event calendar files to /ics.
+$ bun scripts/verify-static-build.ts
+Verified 86 HTML files, 74 static CMS data files, and every generated internal link.

@@ -1,0 +1,11 @@
+PASS updates 5
+PASS projects 5
+PASS events 23
+PASS surveys 1
+PASS resources 32
+PASS OPTIONS 204
+PASS POST 405
+PASS PUT 405
+PASS PATCH 405
+PASS DELETE 405
+PASS static homepage, GET CORS/cache, canonical validation and private-field checks

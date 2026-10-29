@@ -27,7 +27,7 @@ web Lynx bundles on port 3202, and the browser host runs at
 renderer continues to use the native bundle URL printed by Rspeedy.
 
 By default, the app loads content at runtime from the public Woodbrook Worker.
-To use the repository's local Google Sheets-backed API, run these commands in
+To use the repository's local Sanity-backed API, run these commands in
 separate terminals:
 
 ```sh
@@ -35,10 +35,24 @@ bun run dev:web:content
 WOODBROOK_API_URL=http://localhost:3000 bun run dev:mobile
 ```
 
-Google service-account credentials stay in the web server or Cloudflare Worker
-and are never embedded in either mobile bundle. Configure `CONTENT_SOURCE` and
-the existing Google variables in the repository `.env` file for the local
-content process. Start Lynx Explorer in the iOS Simulator, then paste the native
+Sanity is the single content source. The local command uses the same published-only
+snapshot as the deployed Worker: site settings, updates, projects, events,
+consultations, and resources. In the repository `.env`, set `SANITY_PROJECT_ID`
+(default `ca34quae`), `SANITY_DATASET` (default `production`), and
+`SANITY_API_VERSION` (default `2025-09-01`). Public datasets need no token.
+For private datasets, set `SANITY_API_TOKEN` only on the backend. Never prefix a
+token with `VITE_` or put it in a mobile build environment. No Sanity SDK or
+credential is needed in either renderer. `CONTENT_SOURCE` may be unset or
+`sanity`; the former Sheets source is no longer supported.
+
+The backend port may change when 3000 is occupied; use the ready server's
+origin in `WOODBROOK_API_URL`. An iOS Simulator can use the Mac's localhost;
+a physical device needs a reachable HTTPS backend such as the temporary
+Cloudflare preview. Native-host execution still requires Lynx Explorer and
+its supported networking setup. `SANITY_API_HOST` is a server-only override
+for a local test stub, not a mobile configuration value.
+
+Start Lynx Explorer in the iOS Simulator, then paste the native
 bundle URL printed by Rspeedy into Explorer. The QR-code configuration adds
 fullscreen mode automatically.
 
@@ -63,6 +77,13 @@ WOODBROOK_API_URL=https://woodbrook.shankill.workers.dev bun run build:mobile
 When the content API cannot be reached, the app stays usable: navigation, empty
 sections, and a "Try again" notice remain available, and retrying requests a new
 runtime snapshot.
+
+## Native date labels
+
+The shared date formatters use standard `Date` methods. They do not require the
+browser `Intl` API, which is absent in some Lynx Explorer hosts. Dates use English
+month abbreviations; event times use the device's local time zone and 24-hour
+hours/minutes in both renderers.
 
 ## Quality checks
 

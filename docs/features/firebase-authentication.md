@@ -24,7 +24,7 @@ One existing Clerk account was detected by a count-only check. The user explicit
 
 ## Setup or project override
 
-1. Create or select a Firebase project on the free Spark plan and register a web application. Keep the existing Google Sheets content project separate.
+1. Create or select a Firebase project on the free Spark plan and register a web application. Keep the Sanity content project separate.
 2. In Authentication, enable Email/Password (not email-link-only sign-in). Set the required password minimum to eight characters and enable email enumeration protection.
 3. In Authentication settings, add `woodbrook.shankill.workers.dev` and `localhost` as authorized domains. Keep the project's default `PROJECT_ID.firebaseapp.com` domain for authentication helpers and email action pages.
 4. To override the bundled project, copy its public web configuration into the worktree's ignored `apps/web/.env.local`, or into the Cloudflare build environment:

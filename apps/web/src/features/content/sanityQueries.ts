@@ -1,4 +1,8 @@
-export const siteSettingQuery = `*[_type == "siteSetting"][0]{
+// Public reads must exclude unpublished documents even with a server token.
+const publishedOnly =
+  '!(_id in path("drafts.**")) && !(_id in path("versions.**"))';
+
+export const siteSettingQuery = `*[_type == "siteSetting" && ${publishedOnly}][0]{
   name,
   location,
   tagline,
@@ -6,7 +10,7 @@ export const siteSettingQuery = `*[_type == "siteSetting"][0]{
   contactEmail
 }`;
 
-export const updatesQuery = `*[_type == "update"] | order(publishedOn desc) {
+export const updatesQuery = `*[_type == "update" && ${publishedOnly}] | order(publishedOn desc) {
   _id,
   title,
   slug,
@@ -22,7 +26,7 @@ export const updatesQuery = `*[_type == "update"] | order(publishedOn desc) {
   featuredUntil
 }`;
 
-export const projectsQuery = `*[_type == "project"] | order(featured desc, updatedOn desc) {
+export const projectsQuery = `*[_type == "project" && ${publishedOnly}] | order(featured desc, updatedOn desc) {
   _id,
   title,
   slug,
@@ -39,7 +43,7 @@ export const projectsQuery = `*[_type == "project"] | order(featured desc, updat
   featured
 }`;
 
-export const eventsQuery = `*[_type == "event"] | order(startsAt asc) {
+export const eventsQuery = `*[_type == "event" && ${publishedOnly}] | order(startsAt asc) {
   _id,
   title,
   slug,
@@ -53,7 +57,7 @@ export const eventsQuery = `*[_type == "event"] | order(startsAt asc) {
   featured
 }`;
 
-export const surveysQuery = `*[_type == "survey"] | order(stage asc, closesOn desc) {
+export const surveysQuery = `*[_type == "survey" && ${publishedOnly}] | order(stage asc, closesOn desc) {
   _id,
   title,
   slug,
@@ -68,7 +72,7 @@ export const surveysQuery = `*[_type == "survey"] | order(stage asc, closesOn de
   relatedProject
 }`;
 
-export const resourcesQuery = `*[_type == "resource"] | order(displayOrder asc, title asc) {
+export const resourcesQuery = `*[_type == "resource" && ${publishedOnly}] | order(displayOrder asc, title asc) {
   _id,
   title,
   slug,
