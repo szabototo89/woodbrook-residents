@@ -78,6 +78,13 @@ When the content API cannot be reached, the app stays usable: navigation, empty
 sections, and a "Try again" notice remain available, and retrying requests a new
 runtime snapshot.
 
+## Native date labels
+
+The shared date formatters use standard `Date` methods. They do not require the
+browser `Intl` API, which is absent in some Lynx Explorer hosts. Dates use English
+month abbreviations; event times use the device's local time zone and 24-hour
+hours/minutes in both renderers.
+
 ## Quality checks
 
 ```sh
