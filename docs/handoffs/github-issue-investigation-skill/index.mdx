@@ -1,0 +1,56 @@
+export const metadata = {
+  title: 'GitHub issue investigation skill',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a18767-4383-7641-9e71-89565a6fa713',
+  worktree:
+    '/Users/tszabo/Development/woodbrook/.tmp/github-issue-investigation-skill',
+  branch: 'chore/github-issue-investigation-skill',
+  commit: '956a81e3056ab4ca6e15d394f3099a89d8122107',
+  updatedAt: '2026-10-29T12:34:35Z',
+  summary:
+    'A project skill turns screenshots and disposable prototypes into evidence on GitHub issues.',
+};
+
+## Goal
+
+Let agents explore an issue before implementing it. Keep disposable experiments lightweight and put their useful findings where the issue's readers can see them.
+
+## Technical changes
+
+Baseline: `956a81e3056ab4ca6e15d394f3099a89d8122107`. This change adds instructions and discovery metadata; application code and dependencies are unchanged.
+
+| Area               | Before                                                      | After                                                                                        | Why                                                 | Code                                                 |
+| ------------------ | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------- |
+| Project skill      | No workflow for visual issue investigation                  | Screenshots and experiments answer a stated question                                         | Clarify proposed behavior before implementation     | `.agents/skills/github-issue-investigation/SKILL.md` |
+| Prototype workflow | General quality rules had no explicit exploratory exception | Disposable scratch artifacts skip feature delivery checks and stay uncommitted               | Apply the owner's requested exception narrowly      | `AGENTS.md`, skill's Disposable prototype exception  |
+| Issue evidence     | No guidance for publishing experimental evidence            | Comments distinguish observations, proposals and limitations; captures need accessible links | Make evidence useful to another reader              | Skill's Put the evidence on the issue                |
+| Discovery          | No skill entry                                              | Project guidance and UI metadata expose the workflow                                         | Support automatic selection and explicit invocation | `AGENTS.md`, skill's `agents/openai.yaml`            |
+
+## Architecture changes
+
+Woodbrook remains the same resident information hub. This change guides engineering work; it adds no runtime system, application, data store, or communication path, so no C4 diagram changes are needed.
+
+| Level | Change                                                                    | Evidence                                               |
+| ----- | ------------------------------------------------------------------------- | ------------------------------------------------------ |
+| C1    | Unchanged: resident, editor and external-system boundaries are unaffected | Only guidance, skill metadata and documentation change |
+| C2    | Unchanged: no application, host or data store is added or reconfigured    | No application or deployment configuration changes     |
+| C3    | Unchanged: no running component responsibility or interface changes       | Skill instructions describe an engineering workflow    |
+
+## Verification
+
+| Check                   | Result  | Evidence                                                                                                                                                                            |
+| ----------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Skill structure         | PASS    | `quick_validate.py` with isolated PyYAML reports Skill is valid                                                                                                                     |
+| Behavioral review       | PASS    | Manual review covers screenshot-only, prototype, unavailable-upload and implementation-request scenarios; no live issue mutation or prototype execution                             |
+| Handoff contract        | PASS    | `bun run --cwd apps/handoffs docs:check` validates 17 change-focused handoffs and preserves six historical records                                                                  |
+| Repository build        | PASS    | `bun run build` exited 0 across the repository                                                                                                                                      |
+| Repository checks       | PASS    | `bun run precommit` exited 0: lint, typechecks, unit, browser and end-to-end tests; seven existing cases skipped                                                                    |
+| Initial commit hook     | FAIL    | Default test port 4178 was occupied by another session; retry uses supported isolated-port overrides                                                                                |
+| Application screenshots | NOT RUN | No resident-facing UI changed; no unrelated issue was mutated to demonstrate the skill                                                                                              |
+| Documentation preview   | PASS    | [Temporary preview](https://woodbrook-issue-skill-preview.shankill.workers.dev/#/github-issue-investigation-skill) loads in desktop Chromium and phone WebKit without page overflow |
+| Dev browser tab         | FAIL    | Server is ready on port 3001; cmux rejects connections from this process. Playwright verified the documentation preview                                                             |
+
+## Next steps
+
+Review the skill and its documentation through the PR. Future issue investigations can invoke `$github-issue-investigation`; no issue implementation or evidence upload was performed as part of creating this skill. The recorded HEAD is the comparison baseline before this instruction-only commit; the PR records the deployed commit.

@@ -1,5 +1,11 @@
 # Woodbrook repository guidance
 
+## Before creating or refining GitHub issues
+
+- Use the [writing-issues skill](.agents/skills/writing-issues/SKILL.md) for issue work. For UI, design, layout, responsiveness or interaction issues, also load [github-issue-investigation](.agents/skills/github-issue-investigation/SKILL.md) before finalizing the ticket, even when the request is only to create an issue.
+- Capture and post relevant screenshots or recordings; for design alignment, compare the application and reference at matching viewports. If capture or reproduction is blocked, check available tools/runtimes and state the concrete limitation on the issue and in the final response. Deferring screenshots to future acceptance criteria is not a substitute for current evidence.
+- Disposable prototypes remain optional, uncommitted and exempt from feature delivery checks. Investigation does not authorize product implementation; the normal workflow still applies to product changes.
+
 ## Architecture
 
 - `apps/web` is the TanStack Start public website.
