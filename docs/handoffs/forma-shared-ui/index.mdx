@@ -87,7 +87,7 @@ Component labels now name the React components each element owns, so the diagram
 | Footer dependency           | PASS   | Initial missing-field failure resolves by incorporating merged #10, preserving its approved content contract. <a href={resolution}>Resolution</a>.                                       |
 | C4 generation               | PASS   | `c4:generate`, `c4:check` and PlantUML 1.2026.9 rendering succeed; eight React-named sources and SVGs regenerated.                                                                       |
 | Handoff checks              | PASS   | `docs:check`, handoff unit tests and viewer build exit 0; desktop/mobile fit, zoom, source and full-size link pass.                                                                      |
-| cmux dev tab                | FAIL   | cmux denies processes started outside cmux. Live Forma dev responds on port 3016; web dev remains on 3004.                                                                               |
+| cmux dev tab                | FAIL   | cmux denies processes started outside cmux. This session's Forma dev server responds on port 3006; port 3005 is held by an older session.                                                |
 | Normal commit hooks         | PASS   | Source commit `c4f0382` runs all repository lint, unit, browser and E2E checks successfully. <a href={precommit}>Output</a>.                                                             |
 | Cloudflare source preview   | PASS   | [Preview](https://156b8595.forma-studio-web-ddv.pages.dev), source commit `c4f0382`: both routes and desktop/mobile smoke checks pass. <a href={previewEvidence}>Output</a>.             |
 
