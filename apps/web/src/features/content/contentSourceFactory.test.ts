@@ -1,7 +1,6 @@
 import { expect, test } from 'vitest';
 
 import { createContentSource } from './contentSourceFactory';
-import { GoogleSheetsContentSource } from './googleSheetsContentSource';
 import { SanityContentSource } from './sanityContentSource';
 
 test('createContentSource defaults to Sanity when no source is configured', () => {
@@ -14,32 +13,15 @@ test('createContentSource defaults to Sanity when no source is configured', () =
   );
 });
 
-test('createContentSource selects the configured Google spreadsheet', () => {
-  expect(
-    createContentSource({
-      CONTENT_SOURCE: 'google-sheets',
-      GOOGLE_SHEETS_SPREADSHEET_ID: 'sheet-id',
-      GOOGLE_SERVICE_ACCOUNT_EMAIL: 'reader@example.test',
-      GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: 'line-1\\nline-2',
-    }),
-  ).toBeInstanceOf(GoogleSheetsContentSource);
-});
-
 test('createContentSource rejects unsupported source selection', () => {
+  expect(() =>
+    createContentSource({ CONTENT_SOURCE: 'google-sheets' }),
+  ).toThrow('Unsupported CONTENT_SOURCE "google-sheets".');
   expect(() => createContentSource({ CONTENT_SOURCE: 'filesystem' })).toThrow(
     'Unsupported CONTENT_SOURCE "filesystem".',
   );
   expect(() => createContentSource({ CONTENT_SOURCE: 'strapi' })).toThrow(
     'Unsupported CONTENT_SOURCE "strapi".',
-  );
-});
-
-test('createContentSource falls back to built-in Google defaults for optional values', async () => {
-  const source = createContentSource({ CONTENT_SOURCE: 'google-sheets' });
-
-  expect(source).toBeInstanceOf(GoogleSheetsContentSource);
-  await expect(source.loadSnapshot()).rejects.toThrow(
-    'GOOGLE_SERVICE_ACCOUNT_EMAIL is required.',
   );
 });
 

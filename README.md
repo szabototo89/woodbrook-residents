@@ -1,6 +1,6 @@
 # Woodbrook Residents
 
-A resident information and action hub for Woodbrook, Shankill. The public site is built with TanStack Start and can capture published Sanity or Google Sheets content as a fully static Cloudflare deployment.
+A resident information and action hub for Woodbrook, Shankill. The public site is built with TanStack Start and can capture published Sanity content as a fully static Cloudflare deployment.
 
 ## Prerequisites
 
@@ -17,12 +17,6 @@ bun run dev
 
 - Website: `http://localhost:3000` (Sanity content source by default)
 - Sanity Studio: `bun run dev:sanity-studio` (`http://localhost:3333`)
-
-To use Google Sheets locally with service-account credentials, run:
-
-```bash
-bun run dev:web:sheets
-```
 
 To review the separate static website concepts gallery, run:
 
@@ -55,7 +49,7 @@ Configure Cloudflare Pages from the repository root with:
 - Build output directory: `apps/web/dist/client`
 - Build environment variables: `CONTENT_SOURCE`, `VITE_PUBLIC_SITE_URL`, and `BUN_VERSION=1.4.0`
 
-For Google Sheets builds, share the private workbook with a Google service account as a viewer, then set `GOOGLE_SHEETS_SPREADSHEET_ID`, `GOOGLE_SERVICE_ACCOUNT_EMAIL`, and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`. For Sanity builds, set `SANITY_PROJECT_ID` (defaults to `ca34quae`), `SANITY_DATASET` (defaults to `production`), `SANITY_API_VERSION` (defaults to `2025-09-01`), and optionally `SANITY_API_TOKEN`.
+Set `SANITY_PROJECT_ID` (defaults to `ca34quae`), `SANITY_DATASET` (defaults to `production`), `SANITY_API_VERSION` (defaults to `2025-09-01`), and optionally the server-only `SANITY_API_TOKEN`. Sanity is the single content source; `google-sheets` is no longer supported.
 
 The public website remains fully static and never contacts a content API at runtime. The Wrangler deployment also attaches a read-only Worker endpoint used only by the mobile app; it does not change browser page delivery. See Cloudflare's [build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/) documentation for where to enter these values.
 
@@ -75,10 +69,10 @@ bun run deploy
 ```
 
 `bun run deploy` first builds and verifies the static site with its production
-public URL, then Wrangler uploads `apps/web/dist/client` with the mobile content Worker. It defaults to `CONTENT_SOURCE=sanity`; set `CONTENT_SOURCE=google-sheets` to opt into the spreadsheet instead. An explicit source selection in an existing `.env` or build environment overrides the fallback.
+public URL, then Wrangler uploads `apps/web/dist/client` with the mobile content Worker. It uses Sanity exclusively. Missing or blank `CONTENT_SOURCE` defaults to `sanity`; other source values fail before building.
 
 For CI, provide `CLOUDFLARE_API_TOKEN` and
-`CLOUDFLARE_ACCOUNT_ID` instead of using interactive login. Configure `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` as Worker secrets for mobile runtime reads. The
+`CLOUDFLARE_ACCOUNT_ID` instead of using interactive login. Configure Sanity runtime variables and, for private datasets, the `SANITY_API_TOKEN` Worker secret for mobile reads. See [backend setup](apps/web/README.md). The
 Cloudflare account must already use `shankill` as its `workers.dev` subdomain
 for the configured Worker name to resolve to the expected URL.
 

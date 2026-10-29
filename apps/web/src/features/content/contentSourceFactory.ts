@@ -1,15 +1,29 @@
 import type { ContentSource } from './contentSource';
-import { GoogleSheetsContentSource } from './googleSheetsContentSource';
 import { SanityContentSource } from './sanityContentSource';
 
-const defaultSpreadsheetId = '1X9N_0s7ZN7W6IC43nVegtottBdMbfz-rRKvClccPqgo';
 const defaultSanityProjectId = 'ca34quae';
 const defaultSanityDataset = 'production';
 const defaultSanityApiVersion = '2025-09-01';
 
-type ContentEnvironment = Partial<Record<string, string | undefined>>;
+export type ContentEnvironmentKey =
+  | 'CONTENT_SOURCE'
+  | 'SANITY_PROJECT_ID'
+  | 'VITE_SANITY_PROJECT_ID'
+  | 'SANITY_DATASET'
+  | 'VITE_SANITY_DATASET'
+  | 'SANITY_API_VERSION'
+  | 'VITE_SANITY_API_VERSION'
+  | 'SANITY_API_TOKEN'
+  | 'SANITY_API_HOST';
 
-function readEnv(environment: ContentEnvironment, ...names: string[]): string {
+type ContentEnvironment =
+  | Partial<Record<ContentEnvironmentKey, string>>
+  | Partial<Record<string, string | undefined>>;
+
+function readEnv(
+  environment: ContentEnvironment,
+  ...names: ContentEnvironmentKey[]
+): string {
   const found = names
     .map((name) => environment[name]?.trim())
     .find((value) => value);
@@ -21,19 +35,6 @@ export function createContentSource(
 ): ContentSource {
   const configuredSource = environment.CONTENT_SOURCE?.trim() || 'sanity';
 
-  if (configuredSource === 'google-sheets') {
-    return new GoogleSheetsContentSource({
-      spreadsheetId:
-        environment.GOOGLE_SHEETS_SPREADSHEET_ID?.trim() ||
-        defaultSpreadsheetId,
-      serviceAccountEmail:
-        environment.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim() || '',
-      serviceAccountPrivateKey:
-        environment.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, '\n') ||
-        '',
-    });
-  }
-
   if (configuredSource === 'sanity') {
     const projectId =
       readEnv(environment, 'SANITY_PROJECT_ID', 'VITE_SANITY_PROJECT_ID') ||
@@ -44,9 +45,7 @@ export function createContentSource(
     const apiVersion =
       readEnv(environment, 'SANITY_API_VERSION', 'VITE_SANITY_API_VERSION') ||
       defaultSanityApiVersion;
-    const token =
-      readEnv(environment, 'SANITY_API_TOKEN', 'VITE_SANITY_API_TOKEN') ||
-      undefined;
+    const token = readEnv(environment, 'SANITY_API_TOKEN') || undefined;
     const apiHost = readEnv(environment, 'SANITY_API_HOST') || undefined;
 
     return new SanityContentSource({

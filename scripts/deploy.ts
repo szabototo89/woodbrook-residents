@@ -34,9 +34,9 @@ export function buildDeployEnvironment(
   environment: Record<string, string | undefined>,
 ) {
   const contentSource = environment.CONTENT_SOURCE?.trim() || 'sanity';
-  if (contentSource !== 'sanity' && contentSource !== 'google-sheets') {
+  if (contentSource !== 'sanity') {
     throw new Error(
-      'CONTENT_SOURCE must be set to "google-sheets" or "sanity" before deploying.',
+      'CONTENT_SOURCE must be "sanity" or unset before deploying.',
     );
   }
 

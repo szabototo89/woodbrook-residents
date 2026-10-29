@@ -30,7 +30,7 @@ When I visit Woodbrook, I want to see the editor's selected local story immediat
 
 Included: the existing Sanity Update publishing lifecycle, optional featuredUntil datetime, public validation and mapping, homepage selection and presentation, tests, research and screenshot evidence.
 
-Excluded: changing live editorial data, redesigning article detail pages, multiple featured slots, carousels, a new scheduler, and deployment. The Google Sheets adapter retains its existing featured switch; the new expiry control belongs to Sanity.
+Excluded: changing live editorial data, redesigning article detail pages, multiple featured slots, carousels, a new scheduler, and deployment. Feature selection and expiry use published Sanity records.
 
 ## Publishing and compatibility
 

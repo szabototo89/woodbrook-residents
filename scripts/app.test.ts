@@ -44,7 +44,7 @@ test('parses task plus app plus passthrough args', () => {
 
 test('parses --if-present and --env-file flags', () => {
   const parsed = parseAppArgs([
-    'dev:sheets',
+    'dev',
     'web',
     '--env-file=../../.env',
     '--if-present',
@@ -52,7 +52,7 @@ test('parses --if-present and --env-file flags', () => {
     '3000',
   ]);
 
-  expect(parsed.task).toBe('dev:sheets');
+  expect(parsed.task).toBe('dev');
   expect(parsed.app).toBe('web');
   expect(parsed.envFile).toBe('../../.env');
   expect(parsed.ifPresent).toBe(true);
@@ -72,15 +72,13 @@ test('builds inner bun command with env-file in the right position', () => {
     'apps/web',
     'dev',
   ]);
-  expect(
-    buildAppCommand(repoRoot, 'web', 'dev:sheets', [], '../../.env'),
-  ).toEqual([
+  expect(buildAppCommand(repoRoot, 'web', 'dev', [], '../../.env')).toEqual([
     'bun',
     'run',
     '--cwd',
     'apps/web',
     '--env-file=../../.env',
-    'dev:sheets',
+    'dev',
   ]);
 });
 
