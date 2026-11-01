@@ -66,7 +66,7 @@ test('app renders the Woodbrook home screen', async () => {
   );
 
   expect(await screen.findByText('Browse all sections')).toBeInTheDocument();
-  expect(screen.getByText('Community hub · Shankill')).toBeInTheDocument();
+  expect(screen.getByText('Community Hub')).toBeInTheDocument();
 });
 
 test('home screen preserves Woodbrook identity and purpose', async () => {
@@ -74,7 +74,7 @@ test('home screen preserves Woodbrook identity and purpose', async () => {
 
   expect(await screen.findByText('Woodbrook Residents')).toBeInTheDocument();
   expect(
-    screen.getByText('Local information and ways to take part.'),
+    screen.getByText('Find what’s happening in Woodbrook, fast.'),
   ).toBeInTheDocument();
 });
 

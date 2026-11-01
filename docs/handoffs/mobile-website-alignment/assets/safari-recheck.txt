@@ -1,0 +1,25 @@
+
+Running 8 tests using 6 workers
+
+(node:16859) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16863) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16861) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16864) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16862) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [safari] › tests/browser/mobile-web.spec.ts:27:1 › production host serves the Lynx bundle from the same origin (23ms)
+  ✓  4 [safari] › tests/browser/mobile-web.spec.ts:59:1 › filter chips share a compact uniform height (1.5s)
+  ✓  3 [safari] › tests/browser/detail-scroll.spec.ts:3:1 › long local information detail can be scrolled to the source note (1.6s)
+  ✓  2 [safari] › tests/browser/mobile-web.spec.ts:3:1 › browser renderer loads shared runtime content and navigates (1.7s)
+  ✓  7 [safari] › tests/browser/website-presentation.spec.ts:4:3 › website presentation remains readable at 390px (1.8s)
+  ✓  5 [safari] › tests/browser/website-presentation.spec.ts:4:3 › website presentation remains readable at 320px (1.8s)
+  ✓  8 [safari] › tests/browser/website-presentation.spec.ts:4:3 › website presentation remains readable at 1440px (512ms)
+  ✓  6 [safari] › tests/browser/mobile-web.spec.ts:37:1 › home screen image assets load without failed requests (3.4s)
+
+  8 passed (4.2s)

@@ -116,7 +116,7 @@ test('app loads runtime content and navigates through every resident section', a
   const { container } = render(<App loadContent={loadContent} />);
 
   expect(
-    await screen.findByText('Local information and ways to take part.'),
+    await screen.findByText('Find what’s happening in Woodbrook, fast.'),
   ).toBeInTheDocument();
   expect(loadContent).toHaveBeenCalledOnce();
 
@@ -193,7 +193,7 @@ test('app loads runtime content and navigates through every resident section', a
 
   fireEvent.tap(screen.getByText('Woodbrook Residents'));
   expect(
-    await screen.findByText('Local information and ways to take part.'),
+    await screen.findByText('Find what’s happening in Woodbrook, fast.'),
   ).toBeInTheDocument();
 });
 
@@ -202,7 +202,7 @@ test('collection and detail screens explain empty or missing content', async () 
   const { container } = render(
     <App loadContent={() => Promise.resolve(empty)} />,
   );
-  await screen.findByText('Local information and ways to take part.');
+  await screen.findByText('Find what’s happening in Woodbrook, fast.');
   fireEvent.tap(container.querySelector('[accessibility-label="Updates"]')!);
   expect(
     await screen.findByText('No updates are available right now.'),
@@ -217,7 +217,7 @@ test('app stays usable with empty sections when loading fails, then recovers on 
   const { container } = render(<App loadContent={loadContent} />);
 
   expect(
-    await screen.findByText('Local information and ways to take part.'),
+    await screen.findByText('Find what’s happening in Woodbrook, fast.'),
   ).toBeInTheDocument();
   expect(
     screen.getByText('Content is temporarily unavailable.'),

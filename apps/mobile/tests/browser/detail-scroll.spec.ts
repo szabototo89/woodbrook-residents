@@ -5,7 +5,7 @@ test('long local information detail can be scrolled to the source note', async (
 }) => {
   await page.goto('/');
   await expect(
-    page.getByText('Local information and ways to take part.'),
+    page.getByText('Find what’s happening in Woodbrook, fast.'),
   ).toBeVisible();
 
   await page.getByText('Local information', { exact: true }).first().click();

@@ -1,0 +1,16 @@
+[WebServer] $ vite preview --port 4178 --host "127.0.0.1" --port "44178"
+[WebServer] (node:56017) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/buildContent" without a file extension (vite.config.ts:4:34). Add the file extension
+[WebServer]   - import "../src/features/content/fetchContent" without a file extension (scripts/buildContent.ts:1:35). Add the file extension
+[WebServer]   - import "./schema" without a file extension (src/features/content/fetchContent.ts:2:35). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+Running 1 test using 1 worker
+
+(node:56092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/e2e/shared-ui.spec.ts:113:1 › capture shared UI on desktop and mobile (3.7s)
+
+  1 passed (5.0s)

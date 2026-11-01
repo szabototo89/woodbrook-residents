@@ -1,0 +1,8 @@
+PASS Chromium 320px: published content, visible header, news/events/directory/detail/More/help, no page errors.
+PASS Chromium 390px: published content, visible header, news/events/directory/detail/More/help, no page errors.
+PASS Chromium 1440px: published content, visible header, news/events/directory/detail/More/help, no page errors.
+PASS WebKit 390px: published content, visible header, news/events/directory/detail/More/help, no page errors.
+https://woodbrook-mobile-design-28.shankill.workers.dev
+PASS Handoff 1440px: document, appearance assets, no page errors/failed responses or page overflow.
+PASS Handoff 390px: document, appearance assets, no page errors/failed responses or page overflow.
+https://woodbrook-mobile-design-handoff-28.shankill.workers.dev/#/mobile-website-alignment

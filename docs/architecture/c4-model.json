@@ -487,6 +487,13 @@
       "description": "Formats English dates and local 24-hour times",
       "technology": "TypeScript Date methods",
       "parent": "mobile_public_app"
+    },
+    "mobile_presentation": {
+      "kind": "component",
+      "name": "Shared mobile presentation",
+      "description": "Applies website identity, typography and native header insets",
+      "technology": "ReactLynx, CSS and bundled line artwork",
+      "parent": "mobile_public_app"
     }
   },
   "relationships": {
@@ -959,6 +966,12 @@
       "to": "native_date_formatting",
       "label": "Requests visible date labels",
       "technology": "In-process calls"
+    },
+    "native_screens_presentation": {
+      "from": "native_resident_screens",
+      "to": "mobile_presentation",
+      "label": "Uses shared identity and screen treatment",
+      "technology": "Component composition and styles"
     }
   },
   "diagrams": {
@@ -1961,6 +1974,33 @@
           "native_screens_dates": {
             "status": "changed",
             "description": "Previously threw on iOS; now returns labels."
+          }
+        }
+      }
+    },
+    "mobile_website_alignment_components": {
+      "level": "C3",
+      "scope": "mobile_public_app",
+      "title": "Mobile website alignment — C3 — changes from d06366c",
+      "handoff": "mobile-website-alignment",
+      "source": "docs/handoffs/mobile-website-alignment/assets/c3-presentation.puml",
+      "elements": ["native_resident_screens", "mobile_presentation"],
+      "relationships": ["native_screens_presentation"],
+      "changes": {
+        "elements": {
+          "native_resident_screens": {
+            "status": "changed",
+            "description": "Website hierarchy replaces separate mobile styling."
+          },
+          "mobile_presentation": {
+            "status": "changed",
+            "description": "Website identity and host safe-area metric replace prior treatment."
+          }
+        },
+        "relationships": {
+          "native_screens_presentation": {
+            "status": "changed",
+            "description": "Both renderers use the revised shared treatment."
           }
         }
       }

@@ -1,0 +1,19 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Mobile website alignment — C3 — changes from d06366c
+
+Container_Boundary(mobile_public_app, "Mobile app") {
+  Component(native_resident_screens, "[CHANGED] Resident screens", "ReactLynx", "Display public records and date labels\nChange: Website hierarchy replaces separate mobile styling.")
+  Component(mobile_presentation, "[CHANGED] Shared mobile presentation", "ReactLynx, CSS and bundled line artwork", "Applies website identity, typography and native header insets\nChange: Website identity and host safe-area metric replace prior treatment.")
+}
+
+Rel(native_resident_screens, mobile_presentation, "[CHANGED] Uses shared identity and screen treatment\nChange: Both renderers use the revised shared treatment.", "Component composition and styles")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

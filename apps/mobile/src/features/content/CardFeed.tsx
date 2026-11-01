@@ -1,4 +1,4 @@
-import woodbrookImage from '../../../../web/public/images/woodbrook-coast-aerial-768.jpg';
+import { LineIcon, type IconName } from '../../components/LineIcon.js';
 
 import type { CardModel } from './contentModels.js';
 
@@ -20,20 +20,22 @@ function eventDateBadge(meta: string): { day: string; month: string } {
   return { day: '•', month: 'DATE' };
 }
 
-function serviceIconFor(title: string, meta: string): string {
+function serviceIconFor(title: string, meta: string): IconName {
   const haystack = `${title} ${meta}`.toLowerCase();
-  if (haystack.includes('health') || haystack.includes('gp')) return '♡';
-  if (haystack.includes('council') || haystack.includes('bin')) return '🏛';
-  if (haystack.includes('transport') || haystack.includes('bus')) return '🚌';
-  if (haystack.includes('park') || haystack.includes('green')) return '🍃';
+  if (haystack.includes('health') || haystack.includes('gp')) return 'health';
+  if (haystack.includes('council') || haystack.includes('bin'))
+    return 'council';
+  if (haystack.includes('transport') || haystack.includes('bus'))
+    return 'transport';
+  if (haystack.includes('park') || haystack.includes('green')) return 'parks';
   if (haystack.includes('community') || haystack.includes('support'))
-    return '👥';
-  return '📍';
+    return 'community';
+  return 'pin';
 }
 
 /**
- * Reference-aligned feed: thumbnail rows for updates, image cards with date
- * badges for events, icon rows for services, divider rows as fallback.
+ * Website-style text-led records, event dates and service line icons.
+ * Editorial imagery remains absent until it is supplied by the content model.
  */
 export function CardFeed(props: Props) {
   const variant = props.variant ?? 'default';
@@ -57,12 +59,6 @@ export function CardFeed(props: Props) {
             accessibility-label={`${card.title}. ${card.meta}`}
             bindtap={() => props.onSelect(card.slug)}
           >
-            <image
-              className="thumb"
-              src={woodbrookImage}
-              mode="aspectFill"
-              accessibility-element={false}
-            />
             <view className="thumb-copy">
               <text className="card-meta card-meta-uppercase">{card.meta}</text>
               <text className="thumb-title">{card.title}</text>
@@ -91,23 +87,15 @@ export function CardFeed(props: Props) {
               accessibility-label={`${card.title}. ${card.summary}`}
               bindtap={() => props.onSelect(card.slug)}
             >
-              <view className="event-image-wrap">
-                <image
-                  className="event-image"
-                  src={woodbrookImage}
-                  mode="aspectFill"
-                  accessibility-element={false}
-                />
-                <view className="date-badge">
-                  <text className="date-day">{badge.day}</text>
-                  <text className="date-month">{badge.month}</text>
-                </view>
+              <view className="date-badge">
+                <text className="date-day">{badge.day}</text>
+                <text className="date-month">{badge.month}</text>
               </view>
               <view className="event-body">
                 <view className="event-copy">
                   <text className="event-title">{card.title}</text>
                   <text className="event-summary">{card.summary}</text>
-                  <text className="event-meta">🕒 {card.meta}</text>
+                  <text className="event-meta">{card.meta}</text>
                 </view>
                 <view className="chevron-circle">
                   <text className="chevron-text">›</text>
@@ -133,9 +121,7 @@ export function CardFeed(props: Props) {
             bindtap={() => props.onSelect(card.slug)}
           >
             <view className="service-icon">
-              <text className="service-icon-text">
-                {serviceIconFor(card.title, card.meta)}
-              </text>
+              <LineIcon name={serviceIconFor(card.title, card.meta)} />
             </view>
             <view className="service-copy">
               <text className="service-title">{card.title}</text>

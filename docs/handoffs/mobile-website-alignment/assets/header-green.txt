@@ -1,0 +1,11 @@
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/apps/mobile
+
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  13:29:19
+   Duration  1.05s (transform 565ms, setup 317ms, import 285ms, tests 60ms, environment 322ms)
+

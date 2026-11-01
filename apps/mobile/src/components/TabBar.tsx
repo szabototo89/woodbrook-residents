@@ -1,3 +1,4 @@
+import { LineIcon, type IconName } from './LineIcon.js';
 import type { Route } from '../features/content/contentModels.js';
 
 export type TabKey = 'home' | 'updates' | 'events' | 'local' | 'more';
@@ -14,29 +15,29 @@ export function topTabFor(route: Route): TabKey {
   return 'more';
 }
 
-type Tab = { key: TabKey; label: string; icon: string; target: Route };
+type Tab = { key: TabKey; label: string; icon: IconName; target: Route };
 
 const tabs: readonly Tab[] = [
-  { key: 'home', label: 'Home', icon: '⌂', target: { name: 'home' } },
+  { key: 'home', label: 'Home', icon: 'home', target: { name: 'home' } },
   {
     key: 'updates',
     label: 'Updates',
-    icon: '◉',
+    icon: 'news',
     target: { name: 'collection', collection: 'updates' },
   },
   {
     key: 'events',
     label: 'Events',
-    icon: '◫',
+    icon: 'calendar',
     target: { name: 'collection', collection: 'events' },
   },
   {
     key: 'local',
     label: 'Local',
-    icon: '⌖',
+    icon: 'pin',
     target: { name: 'collection', collection: 'resources' },
   },
-  { key: 'more', label: 'More', icon: '•••', target: { name: 'more' } },
+  { key: 'more', label: 'More', icon: 'more', target: { name: 'more' } },
 ];
 
 type Props = {
@@ -63,9 +64,7 @@ export function TabBar(props: Props) {
             bindtap={() => props.navigateTab(tab.target)}
           >
             <view className={`tab-pill ${selected ? 'tab-pill-active' : ''}`}>
-              <text className={`tab-icon ${selected ? 'tab-icon-active' : ''}`}>
-                {tab.icon}
-              </text>
+              <LineIcon name={tab.icon} />
             </view>
             <text className={`tab-label ${selected ? 'tab-label-active' : ''}`}>
               {tab.label}

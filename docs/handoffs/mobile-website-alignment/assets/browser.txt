@@ -1,0 +1,122 @@
+$ WOODBROOK_API_URL=http://127.0.0.1:4317 bun run build:all && playwright test --config playwright.web.config.ts
+$ bun run build:ios && bun run build:web
+$ rspeedy build --environment lynx
+  Rspeedy v0.17.2 (Rsbuild v2.2.4, Rspack v2.2.6)
+
+info    Type checker is enabled.
+info    build started...
+ready   built in 1.43s
+
+File (lynx)                                                              Size       
+dist/ios/static/image/health.dba81dfb59.png                              2.2 kB  
+dist/ios/static/image/info.623c335d3a.png                                2.3 kB  
+dist/ios/static/image/clock.06ef700153.png                               2.4 kB  
+dist/ios/static/image/pin.ae0ca7b6ac.png                                 2.6 kB  
+dist/ios/static/image/woodbrook-logo-128.f2d1e83350.webp                 10.2 kB 
+dist/ios/static/image/woodbrook-coast-aerial-light-768.ba951d473f.webp   70.9 kB 
+dist/ios/woodbrook.lynx.bundle                                           221.9 kB
+
+                                                                Total:   312.6 kB   312.6 kB
+
+$ bun run build:web:bundle && bun run build:web:host
+$ rspeedy build --environment web
+  Rspeedy v0.17.2 (Rsbuild v2.2.4, Rspack v2.2.6)
+
+info    Type checker is enabled.
+info    build started...
+ready   built in 1.30s
+
+File (web)                                                                    Size       
+dist/web-lynx/static/image/health.dba81dfb59.png                              2.2 kB  
+dist/web-lynx/static/image/info.623c335d3a.png                                2.3 kB  
+dist/web-lynx/static/image/clock.06ef700153.png                               2.4 kB  
+dist/web-lynx/static/image/pin.ae0ca7b6ac.png                                 2.6 kB  
+dist/web-lynx/static/image/woodbrook-logo-128.f2d1e83350.webp                 10.2 kB 
+dist/web-lynx/static/image/woodbrook-coast-aerial-light-768.ba951d473f.webp   70.9 kB 
+dist/web-lynx/woodbrook.web.bundle                                            242.0 kB
+
+                                                                     Total:   332.7 kB   332.7 kB
+
+$ MOBILE_WEB_COPY_BUNDLE=true rsbuild build --config rsbuild.web.config.ts
+Rsbuild v2.2.4
+
+info    Type checker is enabled.
+info    build started...
+ready   built in 1.33s
+
+File (web)                                                                    Size        Gzip   
+dist/web/index.html                                                           0.69 kB     0.37 kB
+dist/web/lynx/static/image/health.dba81dfb59.png                              2.2 kB   
+dist/web/static/image/health.dba81dfb59.png                                   2.2 kB   
+dist/web/lynx/static/image/info.623c335d3a.png                                2.3 kB   
+dist/web/static/image/info.623c335d3a.png                                     2.3 kB   
+dist/web/lynx/static/image/clock.06ef700153.png                               2.4 kB   
+dist/web/static/image/clock.06ef700153.png                                    2.4 kB   
+dist/web/lynx/static/image/pin.ae0ca7b6ac.png                                 2.6 kB   
+dist/web/static/image/pin.ae0ca7b6ac.png                                      2.6 kB   
+dist/web/static/css/index.0032b0563d.css                                      2.8 kB      0.71 kB
+dist/web/static/js/index.e62a47beb5.js                                        4.9 kB      2.4 kB
+dist/web/lynx/static/image/woodbrook-logo-128.f2d1e83350.webp                 10.2 kB  
+dist/web/static/image/woodbrook-logo-128.f2d1e83350.webp                      10.2 kB  
+dist/web/static/js/async/web-core-template-loader-thread.37700fc7a7.js        15.9 kB     6.0 kB
+dist/web/static/js/async/web-core-worker-chunk.58373ac4d1.js                  16.3 kB     6.3 kB
+dist/web/static/js/168.fa4292abfe.js                                          20.5 kB     5.5 kB
+dist/web/static/js/180.b4e57da5a1.js                                          20.8 kB     7.3 kB
+dist/web/static/js/async/legacy-wasm-js.b3648f078c.js                         23.9 kB     5.7 kB
+dist/web/static/js/async/lynx-core-chunk.ec855fdbbb.js                        48.4 kB     13.3 kB
+dist/web/lynx/static/image/woodbrook-coast-aerial-light-768.ba951d473f.webp   70.9 kB  
+dist/web/static/image/woodbrook-coast-aerial-light-768.ba951d473f.webp        70.9 kB  
+dist/web/static/js/async/web-core-main-chunk.59adfb7db4.js                    89.5 kB     22.2 kB
+dist/web/static/js/async/xmarkdown-deps.9f74f64dbe.js                         124.9 kB    49.6 kB
+dist/web/static/js/async/web-elements.b84c558341.js                           150.9 kB    35.5 kB
+dist/web/static/wasm/77fb77f77f.module.wasm                                   168.6 kB    56.3 kB
+dist/web/static/wasm/72aaf7d0aa.module.wasm                                   184.4 kB    75.6 kB
+dist/web/static/js/async/web-core-markup-encoder.e0ee9c0629.js                227.1 kB    64.9 kB
+dist/web/static/wasm/4c402c7981.module.wasm                                   228.3 kB    83.4 kB
+dist/web/lynx/woodbrook.web.bundle                                            242.0 kB 
+
+                                                                     Total:   1751.1 kB   858.5 kB
+
+
+Running 16 tests using 6 workers
+
+(node:79499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79500) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79495) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [chrome] › tests/browser/mobile-web.spec.ts:27:1 › production host serves the Lynx bundle from the same origin (18ms)
+  ✓   3 [chrome] › tests/browser/mobile-web.spec.ts:59:1 › filter chips share a compact uniform height (366ms)
+  ✓   4 [chrome] › tests/browser/detail-scroll.spec.ts:3:1 › long local information detail can be scrolled to the source note (437ms)
+  ✓   5 [chrome] › tests/browser/mobile-web.spec.ts:3:1 › browser renderer loads shared runtime content and navigates (453ms)
+  ✓   2 [chrome] › tests/browser/website-presentation.spec.ts:4:3 › website presentation remains readable at 320px (515ms)
+  ✓   7 [chrome] › tests/browser/website-presentation.spec.ts:4:3 › website presentation remains readable at 390px (580ms)
+(node:79579) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79578) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [chrome] › tests/browser/website-presentation.spec.ts:4:3 › website presentation remains readable at 1440px (367ms)
+(node:79591) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [safari] › tests/browser/mobile-web.spec.ts:27:1 › production host serves the Lynx bundle from the same origin (14ms)
+(node:79603) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [safari] › tests/browser/detail-scroll.spec.ts:3:1 › long local information detail can be scrolled to the source note (716ms)
+  ✓  10 [safari] › tests/browser/mobile-web.spec.ts:3:1 › browser renderer loads shared runtime content and navigates (759ms)
+  ✓  12 [safari] › tests/browser/website-presentation.spec.ts:4:3 › website presentation remains readable at 320px (875ms)
+  ✓  14 [safari] › tests/browser/mobile-web.spec.ts:59:1 › filter chips share a compact uniform height (555ms)
+  ✓  15 [safari] › tests/browser/website-presentation.spec.ts:4:3 › website presentation remains readable at 390px (516ms)
+  ✓  16 [safari] › tests/browser/website-presentation.spec.ts:4:3 › website presentation remains readable at 1440px (510ms)
+  ✓   1 [chrome] › tests/browser/mobile-web.spec.ts:37:1 › home screen image assets load without failed requests (2.3s)
+  ✓  13 [safari] › tests/browser/mobile-web.spec.ts:37:1 › home screen image assets load without failed requests (2.6s)
+
+  16 passed (4.2s)
