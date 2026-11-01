@@ -12,7 +12,7 @@ test('browser renderer loads shared runtime content and navigates', async ({
     'Woodbrook Residents mobile application',
   );
   await expect(
-    page.getByText('Local information and ways to take part.'),
+    page.getByText('Find what’s happening in Woodbrook, fast.'),
   ).toBeVisible();
 
   await page.getByText('More', { exact: true }).first().click();
@@ -49,7 +49,7 @@ test('home screen image assets load without failed requests', async ({
 
   await page.goto('/');
   await expect(
-    page.getByText('Local information and ways to take part.'),
+    page.getByText('Find what’s happening in Woodbrook, fast.'),
   ).toBeVisible();
   await page.waitForTimeout(2_000);
 
@@ -59,7 +59,7 @@ test('home screen image assets load without failed requests', async ({
 test('filter chips share a compact uniform height', async ({ page }) => {
   await page.goto('/');
   await expect(
-    page.getByText('Local information and ways to take part.'),
+    page.getByText('Find what’s happening in Woodbrook, fast.'),
   ).toBeVisible();
   await page.getByText('Local information', { exact: true }).first().click();
   await expect(page.getByText('1 contact')).toBeVisible();

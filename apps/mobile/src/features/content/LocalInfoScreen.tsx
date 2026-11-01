@@ -1,3 +1,4 @@
+import { LineIcon } from '../../components/LineIcon.js';
 import {
   filterResources,
   getCollectionModel,
@@ -58,7 +59,7 @@ export function LocalInfoScreen(props: Props) {
       ) : (
         <view className="directory-tools-mobile">
           <view className="search-wrap">
-            <text className="search-icon">🔍</text>
+            <LineIcon name="search" />
             <input
               className="search-field"
               placeholder="Try plumber, GP, pharmacy…"

@@ -1,4 +1,4 @@
-import woodbrookImage from '../../../../web/public/images/woodbrook-coast-aerial-768.jpg';
+import { LineIcon, type IconName } from '../../components/LineIcon.js';
 
 import { ExternalLink } from '../../components/ExternalLink.js';
 import type { CollectionKey, DetailModel, Route } from './contentModels.js';
@@ -15,13 +15,15 @@ function mapsUrl(query: string): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
-function factIconFor(label: string): string {
+function factIconFor(label: string): IconName {
   const normalized = label.toLowerCase();
-  if (normalized.includes('open') || normalized.includes('close')) return '📅';
+  if (normalized.includes('open') || normalized.includes('close'))
+    return 'calendar';
   if (normalized.includes('location') || normalized.includes('address'))
-    return '📍';
-  if (normalized.includes('start') || normalized.includes('end')) return '🕒';
-  return 'ℹ️';
+    return 'pin';
+  if (normalized.includes('start') || normalized.includes('end'))
+    return 'clock';
+  return 'info';
 }
 
 export function DetailScreen(props: Props) {
@@ -54,8 +56,6 @@ export function DetailScreen(props: Props) {
       ? props.model.facts.find((fact) => fact.label === 'Location')
       : undefined;
   const hasActions = hasContact || addressFact || eventLocationFact;
-  const showHero =
-    props.collection === 'surveys' || props.collection === 'events';
   const statusPill =
     props.model.eyebrow.split('·')[0]?.trim() ?? props.model.eyebrow;
   return (
@@ -77,21 +77,11 @@ export function DetailScreen(props: Props) {
         <text className="page-title">{props.model.title}</text>
         <text className="page-copy">{props.model.summary}</text>
       </view>
-      {showHero ? (
-        <view className="detail-hero-wrap">
-          <image
-            className="detail-hero"
-            src={woodbrookImage}
-            mode="aspectFill"
-            accessibility-element={false}
-          />
-        </view>
-      ) : null}
       <view className="detail-body">
         {props.model.facts.map((fact) => (
           <view className="fact-row" key={`${fact.label}-${fact.value}`}>
             <view className="fact-icon">
-              <text className="fact-icon-text">{factIconFor(fact.label)}</text>
+              <LineIcon name={factIconFor(fact.label)} />
             </view>
             <view className="fact-copy">
               <text className="fact-label">{fact.label}</text>

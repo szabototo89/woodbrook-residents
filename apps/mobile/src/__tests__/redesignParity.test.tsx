@@ -76,20 +76,15 @@ const baseContent: ContentSnapshot = {
   ],
 };
 
-test('home matches reference alignment: hero card, upcoming card, quick grid', async () => {
+test('home keeps introduction, news, event and quick destinations', async () => {
   const { container } = render(
     <HomeScreen content={baseContent} navigate={() => undefined} />,
   );
 
   expect(await screen.findByText('Bus route update')).toBeInTheDocument();
-  // Hero carousel card with pill + pager dots, single shared gutter.
-  expect(container.querySelector('.hero-card')).toBeInTheDocument();
-  expect(container.querySelector('.hero-pill')).toBeInTheDocument();
+  expect(screen.getByText('What’s new in Woodbrook')).toBeInTheDocument();
   expect(screen.getByText('Latest update')).toBeInTheDocument();
-  expect(container.querySelector('.hero-dots')).toBeInTheDocument();
-  expect(container.querySelectorAll('.hero-dot').length).toBeGreaterThanOrEqual(
-    3,
-  );
+  expect(container.querySelector('.hero-dots')).not.toBeInTheDocument();
 
   // Upcoming event section header alignment.
   expect(screen.getByText('Upcoming event')).toBeInTheDocument();
@@ -106,7 +101,7 @@ test('home matches reference alignment: hero card, upcoming card, quick grid', a
   expect(screen.getByText('More')).toBeInTheDocument();
 });
 
-test('updates collection matches reference: chips + thumbnail rows', async () => {
+test('news collection uses filters and text-led rows without unrelated photos', async () => {
   const { container } = render(
     <CollectionScreen
       collection="updates"
@@ -131,7 +126,7 @@ test('updates collection matches reference: chips + thumbnail rows', async () =>
   expect(await screen.findByText('Updates')).toBeInTheDocument();
   expect(container.querySelector('.filter-row')).toBeInTheDocument();
   expect(container.querySelector('.thumb-row')).toBeInTheDocument();
-  expect(container.querySelector('.thumb')).toBeInTheDocument();
+  expect(container.querySelector('.thumb')).not.toBeInTheDocument();
   expect(container.querySelector('.chevron-circle')).toBeInTheDocument();
 });
 
