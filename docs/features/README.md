@@ -17,6 +17,7 @@
 - [Build-time content sources](build-time-content-sources.md) — Available
 - [Sanity Studio content](sanity-studio-content.md) — Available
 - [Developer dashboard](developer-dashboard.md) — Available
+- [All-project development launcher](all-project-dev-launcher.md) — Available
 - [One React component per file](react-one-component.md) — Available
 - [Single `props` parameter for React components](react-props-param.md) — Available
 - [Named React component props types](named-react-props-types.md) — Available

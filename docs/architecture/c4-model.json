@@ -440,6 +440,63 @@
       "description": "Keeps one answer open using labelled buttons and regions",
       "technology": "React and CSS",
       "parent": "forma_web"
+    },
+    "local_dev_system": {
+      "kind": "system",
+      "name": "Local development environment",
+      "description": "Starts, watches and stops browser projects on an engineer workstation"
+    },
+    "local_project_servers": {
+      "kind": "system",
+      "name": "Browser project servers",
+      "description": "Serve the Woodbrook websites, Sanity Studios and static design sites on localhost"
+    },
+    "dev_launcher": {
+      "kind": "container",
+      "name": "Development launcher",
+      "description": "Runs every browser project together and exposes their lifecycle and logs",
+      "technology": "Bun CLI, React and OpenTUI",
+      "parent": "local_dev_system"
+    },
+    "dev_cli": {
+      "kind": "component",
+      "name": "CLI and runners",
+      "description": "Parses options, chooses interactive or streamed output and forwards termination signals",
+      "technology": "TypeScript",
+      "parent": "dev_launcher"
+    },
+    "dev_inventory": {
+      "kind": "component",
+      "name": "Project inventory",
+      "description": "Declares each project directory, command, environment, ports, URL and readiness checks",
+      "technology": "TypeScript data",
+      "parent": "dev_launcher"
+    },
+    "dev_lifecycle": {
+      "kind": "component",
+      "name": "Process lifecycle manager",
+      "description": "Starts owned process groups, probes readiness, stops process trees and keeps bounded logs",
+      "technology": "Bun process API and HTTP/TCP probes",
+      "parent": "dev_launcher"
+    },
+    "dev_ui": {
+      "kind": "component",
+      "name": "Interactive project list",
+      "description": "Shows selection, lifecycle state, actual URLs and logs and handles control keys",
+      "technology": "React and OpenTUI",
+      "parent": "dev_launcher"
+    },
+    "dev_output": {
+      "kind": "component",
+      "name": "Streamed output runner",
+      "description": "Writes prefixed lifecycle and log lines and returns a defined exit status",
+      "technology": "TypeScript",
+      "parent": "dev_launcher"
+    },
+    "dev_engineer": {
+      "kind": "person",
+      "name": "Engineer",
+      "description": "Starts, inspects and stops local browser projects"
     }
   },
   "relationships": {
@@ -864,13 +921,94 @@
       "to": "forma_ui_faq",
       "label": "Displays the feature-specific exclusive accordion",
       "technology": "React props"
+    },
+    "dev_engineer_runs_launcher": {
+      "from": "dev_engineer",
+      "to": "local_dev_system",
+      "label": "Runs browser projects using"
+    },
+    "dev_launcher_reads_repository": {
+      "from": "dev_launcher",
+      "to": "git_repository",
+      "label": "Reads project commands and configuration from",
+      "technology": "Filesystem"
+    },
+    "dev_launcher_starts_servers": {
+      "from": "dev_launcher",
+      "to": "local_project_servers",
+      "label": "Starts, probes and stops",
+      "technology": "Child processes and HTTP/TCP"
+    },
+    "dev_engineer_opens_servers": {
+      "from": "dev_engineer",
+      "to": "local_project_servers",
+      "label": "Opens project URLs in a browser",
+      "technology": "HTTP"
+    },
+    "dev_cli_loads_inventory": {
+      "from": "dev_cli",
+      "to": "dev_inventory",
+      "label": "Loads project definitions from"
+    },
+    "dev_cli_creates_lifecycle": {
+      "from": "dev_cli",
+      "to": "dev_lifecycle",
+      "label": "Creates and disposes"
+    },
+    "dev_cli_starts_ui": {
+      "from": "dev_cli",
+      "to": "dev_ui",
+      "label": "Opens when stdout is an interactive terminal"
+    },
+    "dev_cli_starts_output": {
+      "from": "dev_cli",
+      "to": "dev_output",
+      "label": "Uses for redirected output or --no-interactive"
+    },
+    "dev_ui_controls_lifecycle": {
+      "from": "dev_ui",
+      "to": "dev_lifecycle",
+      "label": "Starts, stops, restarts and observes"
+    },
+    "dev_output_observes_lifecycle": {
+      "from": "dev_output",
+      "to": "dev_lifecycle",
+      "label": "Streams state and logs from"
+    },
+    "dev_lifecycle_reads_inventory": {
+      "from": "dev_lifecycle",
+      "to": "dev_inventory",
+      "label": "Reads commands, ports and readiness checks from"
+    },
+    "dev_lifecycle_starts_servers": {
+      "from": "dev_lifecycle",
+      "to": "local_project_servers",
+      "label": "Spawns, terminates and probes",
+      "technology": "Detached process groups and HTTP/TCP"
+    },
+    "dev_system_reads_repository": {
+      "from": "local_dev_system",
+      "to": "git_repository",
+      "label": "Reads project commands and configuration from",
+      "technology": "Filesystem"
+    },
+    "dev_system_starts_servers": {
+      "from": "local_dev_system",
+      "to": "local_project_servers",
+      "label": "Starts, probes and stops",
+      "technology": "Child processes and HTTP/TCP"
+    },
+    "dev_engineer_runs_dev_launcher": {
+      "from": "dev_engineer",
+      "to": "dev_launcher",
+      "label": "Runs browser projects using"
     }
   },
   "diagrams": {
     "handoffs_context": {
       "level": "C1",
       "scope": "handoff_system",
-      "title": "Engineering handoffs — C1 system context",
+      "title": "Engineering handoffs \u2014 C1 system context",
       "handoff": "agent-handoffs",
       "source": "docs/handoffs/agent-handoffs/assets/c1-handoffs.puml",
       "elements": ["handoff_engineer", "handoff_system", "git_repository"],
@@ -879,7 +1017,7 @@
     "handoffs_containers": {
       "level": "C2",
       "scope": "handoff_system",
-      "title": "Engineering handoffs — C2 containers",
+      "title": "Engineering handoffs \u2014 C2 containers",
       "handoff": "agent-handoffs",
       "source": "docs/handoffs/agent-handoffs/assets/c2-handoffs.puml",
       "elements": [
@@ -893,7 +1031,7 @@
     "handoffs_components": {
       "level": "C3",
       "scope": "handoff_browser",
-      "title": "Handoff browser reader — C3 components",
+      "title": "Handoff browser reader \u2014 C3 components",
       "handoff": "agent-handoffs",
       "source": "docs/handoffs/agent-handoffs/assets/c3-handoffs.puml",
       "elements": [
@@ -913,7 +1051,7 @@
     "clerk_context": {
       "level": "C1",
       "scope": "woodbrook_system",
-      "title": "Woodbrook accounts — C1 system context",
+      "title": "Woodbrook accounts \u2014 C1 system context",
       "handoff": "clerk-authentication",
       "source": "docs/handoffs/clerk-authentication/assets/c1-context.puml",
       "elements": [
@@ -931,7 +1069,7 @@
     "clerk_containers": {
       "level": "C2",
       "scope": "woodbrook_system",
-      "title": "Woodbrook accounts — C2 containers",
+      "title": "Woodbrook accounts \u2014 C2 containers",
       "handoff": "clerk-authentication",
       "source": "docs/handoffs/clerk-authentication/assets/c2-containers.puml",
       "elements": [
@@ -951,7 +1089,7 @@
     "clerk_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "Public website application — C3 account components",
+      "title": "Public website application \u2014 C3 account components",
       "handoff": "clerk-authentication",
       "source": "docs/handoffs/clerk-authentication/assets/c3-components.puml",
       "elements": [
@@ -971,7 +1109,7 @@
     "firebase_context": {
       "level": "C1",
       "scope": "woodbrook_system",
-      "title": "Woodbrook Firebase accounts — C1 system context — current",
+      "title": "Woodbrook Firebase accounts \u2014 C1 system context \u2014 current",
       "handoff": "firebase-authentication",
       "source": "docs/handoffs/firebase-authentication/assets/c1-context.puml",
       "elements": [
@@ -989,7 +1127,7 @@
     "firebase_containers": {
       "level": "C2",
       "scope": "woodbrook_system",
-      "title": "Woodbrook Firebase accounts — C2 containers — current",
+      "title": "Woodbrook Firebase accounts \u2014 C2 containers \u2014 current",
       "handoff": "firebase-authentication",
       "source": "docs/handoffs/firebase-authentication/assets/c2-containers.puml",
       "elements": [
@@ -1007,7 +1145,7 @@
     "firebase_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "Public website application — C3 Firebase components — current",
+      "title": "Public website application \u2014 C3 Firebase components \u2014 current",
       "handoff": "firebase-authentication",
       "source": "docs/handoffs/firebase-authentication/assets/c3-components.puml",
       "elements": [
@@ -1032,7 +1170,7 @@
     "handoff_changes_context": {
       "level": "C1",
       "scope": "handoff_system",
-      "title": "Handoff authoring — C1 — changes from c41728e",
+      "title": "Handoff authoring \u2014 C1 \u2014 changes from c41728e",
       "handoff": "handoff-change-structure",
       "source": "docs/handoffs/handoff-change-structure/assets/c1-changes.puml",
       "elements": ["handoff_engineer", "handoff_system", "git_repository"],
@@ -1042,7 +1180,7 @@
     "handoff_changes_containers": {
       "level": "C2",
       "scope": "handoff_system",
-      "title": "Handoff authoring — C2 — changes from c41728e",
+      "title": "Handoff authoring \u2014 C2 \u2014 changes from c41728e",
       "handoff": "handoff-change-structure",
       "source": "docs/handoffs/handoff-change-structure/assets/c2-changes.puml",
       "elements": ["handoff_build", "handoff_documents", "handoff_server"],
@@ -1065,7 +1203,7 @@
     "handoff_changes_components": {
       "level": "C3",
       "scope": "handoff_build",
-      "title": "Handoff authoring — C3 — changes from c41728e",
+      "title": "Handoff authoring \u2014 C3 \u2014 changes from c41728e",
       "handoff": "handoff-change-structure",
       "source": "docs/handoffs/handoff-change-structure/assets/c3-changes.puml",
       "elements": [
@@ -1105,7 +1243,7 @@
     "account_details_context": {
       "level": "C1",
       "scope": "woodbrook_system",
-      "title": "Private account details — C1 system context — changes from c41728e",
+      "title": "Private account details \u2014 C1 system context \u2014 changes from c41728e",
       "handoff": "account-details",
       "source": "docs/handoffs/account-details/assets/c1-context.puml",
       "elements": [
@@ -1137,7 +1275,7 @@
     "account_details_containers": {
       "level": "C2",
       "scope": "woodbrook_system",
-      "title": "Private account details — C2 containers — changes from c41728e",
+      "title": "Private account details \u2014 C2 containers \u2014 changes from c41728e",
       "handoff": "account-details",
       "source": "docs/handoffs/account-details/assets/c2-containers.puml",
       "elements": [
@@ -1171,7 +1309,7 @@
     "account_details_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "Private account details — C3 browser components — changes from c41728e",
+      "title": "Private account details \u2014 C3 browser components \u2014 changes from c41728e",
       "handoff": "account-details",
       "source": "docs/handoffs/account-details/assets/c3-components.puml",
       "elements": [
@@ -1219,7 +1357,7 @@
     "featured_news_containers": {
       "level": "C2",
       "scope": "woodbrook_system",
-      "title": "Homepage featured news — C2 containers — changes from 0adcbc9",
+      "title": "Homepage featured news \u2014 C2 containers \u2014 changes from 0adcbc9",
       "handoff": "featured-homepage-news",
       "source": "docs/handoffs/featured-homepage-news/assets/c2-containers.puml",
       "elements": [
@@ -1261,7 +1399,7 @@
     "featured_news_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "Homepage featured news — C3 website components — changes from 0adcbc9",
+      "title": "Homepage featured news \u2014 C3 website components \u2014 changes from 0adcbc9",
       "handoff": "featured-homepage-news",
       "source": "docs/handoffs/featured-homepage-news/assets/c3-components.puml",
       "elements": [
@@ -1309,7 +1447,7 @@
     "featured_news_listing_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "Featured News page — C3 website components — changes from 9a6306f",
+      "title": "Featured News page \u2014 C3 website components \u2014 changes from 9a6306f",
       "handoff": "featured-news-listing",
       "source": "docs/handoffs/featured-news-listing/assets/c3-components.puml",
       "elements": [
@@ -1362,7 +1500,7 @@
     "news_filtering_components": {
       "level": "C3",
       "scope": "woodbrook_browser",
-      "title": "News filtering — C3 website components — changes from 9f48f79",
+      "title": "News filtering \u2014 C3 website components \u2014 changes from 9f48f79",
       "handoff": "news-filtering-sorting",
       "source": "docs/handoffs/news-filtering-sorting/assets/c3-components.puml",
       "elements": [
@@ -1410,7 +1548,7 @@
     "forma_content_context": {
       "level": "C1",
       "scope": "forma_system",
-      "title": "Forma content backend — C1 — changes from c0e96a4",
+      "title": "Forma content backend \u2014 C1 \u2014 changes from c0e96a4",
       "handoff": "forma-sanity-content",
       "source": "docs/handoffs/forma-sanity-content/assets/c1-content.puml",
       "elements": [
@@ -1450,7 +1588,7 @@
     "forma_content_containers": {
       "level": "C2",
       "scope": "forma_system",
-      "title": "Forma content backend — C2 — changes from c0e96a4",
+      "title": "Forma content backend \u2014 C2 \u2014 changes from c0e96a4",
       "handoff": "forma-sanity-content",
       "source": "docs/handoffs/forma-sanity-content/assets/c2-content.puml",
       "elements": [
@@ -1521,7 +1659,7 @@
     "forma_content_components": {
       "level": "C3",
       "scope": "forma_builder",
-      "title": "Forma content backend — C3 — changes from c0e96a4",
+      "title": "Forma content backend \u2014 C3 \u2014 changes from c0e96a4",
       "handoff": "forma-sanity-content",
       "source": "docs/handoffs/forma-sanity-content/assets/c3-content.puml",
       "elements": [
@@ -1585,7 +1723,7 @@
     "forma_copy_context": {
       "level": "C1",
       "scope": "forma_system",
-      "title": "Forma approved copy — C1 — changes from a86762b",
+      "title": "Forma approved copy \u2014 C1 \u2014 changes from a86762b",
       "handoff": "forma-studio-approved-copy",
       "source": "docs/handoffs/forma-studio-approved-copy/assets/c1-copy.puml",
       "elements": [
@@ -1615,7 +1753,7 @@
     "forma_copy_containers": {
       "level": "C2",
       "scope": "forma_system",
-      "title": "Forma approved copy — C2 — changes from a86762b",
+      "title": "Forma approved copy \u2014 C2 \u2014 changes from a86762b",
       "handoff": "forma-studio-approved-copy",
       "source": "docs/handoffs/forma-studio-approved-copy/assets/c2-copy.puml",
       "elements": [
@@ -1657,7 +1795,7 @@
     "forma_copy_components": {
       "level": "C3",
       "scope": "forma_builder",
-      "title": "Forma static builder — C3 — changes from a86762b",
+      "title": "Forma static builder \u2014 C3 \u2014 changes from a86762b",
       "handoff": "forma-studio-approved-copy",
       "source": "docs/handoffs/forma-studio-approved-copy/assets/c3-copy.puml",
       "elements": [
@@ -1689,7 +1827,7 @@
     "forma_shared_ui_components": {
       "level": "C3",
       "scope": "forma_web",
-      "title": "Forma public site components — changes from c31cd3e",
+      "title": "Forma public site components \u2014 changes from c31cd3e",
       "handoff": "forma-shared-ui",
       "source": "docs/handoffs/forma-shared-ui/assets/c3-ui.puml",
       "elements": [
@@ -1728,6 +1866,199 @@
           "forma_ui_pages_patterns": {
             "status": "added",
             "description": "Pages supply content through typed props instead of copying presentation markup."
+          }
+        }
+      }
+    },
+    "dev_launcher_context": {
+      "level": "C1",
+      "scope": "local_dev_system",
+      "title": "Local development launcher \u2014 C1 context",
+      "handoff": "all-project-dev-launcher",
+      "source": "docs/handoffs/all-project-dev-launcher/assets/c1-context.puml",
+      "elements": [
+        "dev_engineer",
+        "local_dev_system",
+        "local_project_servers",
+        "git_repository"
+      ],
+      "relationships": [
+        "dev_engineer_runs_launcher",
+        "dev_system_reads_repository",
+        "dev_system_starts_servers",
+        "dev_engineer_opens_servers"
+      ],
+      "changes": {
+        "elements": {
+          "local_dev_system": {
+            "status": "added",
+            "description": "Previously each project was started by a separate command; now one local system starts every browser project."
+          },
+          "local_project_servers": {
+            "status": "added",
+            "description": "The launcher treats the existing project dev servers as one group it owns and supervises."
+          }
+        },
+        "relationships": {
+          "dev_engineer_runs_launcher": {
+            "status": "added",
+            "description": "An engineer now starts all projects together instead of one command per project."
+          },
+          "dev_system_reads_repository": {
+            "status": "added",
+            "description": "The new local system reads the committed inventory before spawning anything."
+          },
+          "dev_system_starts_servers": {
+            "status": "added",
+            "description": "The new local system gains start, probe and stop responsibility for its child servers."
+          },
+          "dev_engineer_opens_servers": {
+            "status": "added",
+            "description": "The engineer opens the announced localhost URL after the launcher reports readiness."
+          }
+        }
+      }
+    },
+    "dev_launcher_containers": {
+      "level": "C2",
+      "scope": "local_dev_system",
+      "title": "Local development launcher \u2014 C2 containers",
+      "handoff": "all-project-dev-launcher",
+      "source": "docs/handoffs/all-project-dev-launcher/assets/c2-containers.puml",
+      "elements": [
+        "dev_engineer",
+        "dev_launcher",
+        "local_project_servers",
+        "git_repository"
+      ],
+      "relationships": [
+        "dev_engineer_runs_dev_launcher",
+        "dev_launcher_reads_repository",
+        "dev_launcher_starts_servers",
+        "dev_engineer_opens_servers"
+      ],
+      "changes": {
+        "elements": {
+          "local_dev_system": {
+            "status": "added",
+            "description": "A new boundary groups the launcher and the project servers it owns."
+          },
+          "dev_launcher": {
+            "status": "added",
+            "description": "New Bun application that renders the OpenTUI list and owns all child process groups."
+          },
+          "local_project_servers": {
+            "status": "added",
+            "description": "Existing project dev servers are now represented as one supervised group."
+          }
+        },
+        "relationships": {
+          "dev_engineer_runs_dev_launcher": {
+            "status": "added",
+            "description": "The engineer now enters through one launcher instead of eleven separate commands."
+          },
+          "dev_launcher_reads_repository": {
+            "status": "added",
+            "description": "The launcher reads commands and port assignments from the repository at startup."
+          },
+          "dev_launcher_starts_servers": {
+            "status": "added",
+            "description": "The launcher starts detached groups, checks readiness and stops only processes it created."
+          },
+          "dev_engineer_opens_servers": {
+            "status": "added",
+            "description": "The engineer opens the announced URL after each readiness check succeeds."
+          }
+        }
+      }
+    },
+    "dev_launcher_components": {
+      "level": "C3",
+      "scope": "dev_launcher",
+      "title": "Development launcher \u2014 C3 components",
+      "handoff": "all-project-dev-launcher",
+      "source": "docs/handoffs/all-project-dev-launcher/assets/c3-components.puml",
+      "elements": [
+        "dev_cli",
+        "dev_inventory",
+        "dev_lifecycle",
+        "dev_ui",
+        "dev_output",
+        "local_project_servers"
+      ],
+      "relationships": [
+        "dev_cli_loads_inventory",
+        "dev_cli_creates_lifecycle",
+        "dev_cli_starts_ui",
+        "dev_cli_starts_output",
+        "dev_ui_controls_lifecycle",
+        "dev_output_observes_lifecycle",
+        "dev_lifecycle_reads_inventory",
+        "dev_lifecycle_starts_servers"
+      ],
+      "changes": {
+        "elements": {
+          "dev_launcher": {
+            "status": "added",
+            "description": "New launcher container built from the components in this view."
+          },
+          "dev_cli": {
+            "status": "added",
+            "description": "New entry point selects a mode, wires the manager and forwards SIGINT/SIGTERM."
+          },
+          "dev_inventory": {
+            "status": "added",
+            "description": "New declarative inventory replaces ad hoc per-project startup knowledge."
+          },
+          "dev_lifecycle": {
+            "status": "added",
+            "description": "New manager owns concurrency, readiness, duplicate prevention, logs and cleanup."
+          },
+          "dev_ui": {
+            "status": "added",
+            "description": "New OpenTUI React screen exposes selection and start/stop/restart without leaving the terminal."
+          },
+          "dev_output": {
+            "status": "added",
+            "description": "New streamed runner keeps noninteractive output usable in redirected terminals and CI."
+          },
+          "local_project_servers": {
+            "status": "added",
+            "description": "The existing servers become children supervised by the lifecycle manager."
+          }
+        },
+        "relationships": {
+          "dev_cli_loads_inventory": {
+            "status": "added",
+            "description": "The entry point loads the fixed project list before creating the manager."
+          },
+          "dev_cli_creates_lifecycle": {
+            "status": "added",
+            "description": "The entry point creates one manager and disposes it on every exit path."
+          },
+          "dev_cli_starts_ui": {
+            "status": "added",
+            "description": "Interactive terminals open the OpenTUI project list automatically or with --interactive."
+          },
+          "dev_cli_starts_output": {
+            "status": "added",
+            "description": "Redirected or CI output streams prefixed lines, or uses --no-interactive explicitly."
+          },
+          "dev_ui_controls_lifecycle": {
+            "status": "added",
+            "description": "Keyboard controls call manager methods; the UI never spawns processes itself."
+          },
+          "dev_output_observes_lifecycle": {
+            "status": "added",
+            "description": "The streamed runner subscribes to state and log changes and sets the exit result."
+          },
+          "dev_lifecycle_reads_inventory": {
+            "status": "added",
+            "description": "Concurrency, ports and readiness checks come from the inventory entries."
+          },
+          "dev_lifecycle_starts_servers": {
+            "status": "added",
+            "description": "The manager alone spawns and stops the project process groups it records."
           }
         }
       }

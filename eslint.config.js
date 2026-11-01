@@ -87,7 +87,7 @@ export default tseslint.config(
       'apps/dashboard/tests/**/*.{ts,tsx}',
       'apps/sanity-studio/tests/**/*.{ts,tsx}',
       'apps/mobile/src/__tests__/**/*.{ts,tsx}',
-      'scripts/**/*.test.ts',
+      'scripts/**/*.test.{ts,tsx}',
     ],
     rules: {
       'no-restricted-syntax': [
