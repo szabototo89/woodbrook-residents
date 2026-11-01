@@ -1,0 +1,9 @@
+The other Woodbrook worktree owns ports 4178, 1487 and 4287 (confirmed with Orca ports).
+This session leaves it running and uses existing supported test port overrides:
+FORMA_PLAYWRIGHT_PORT=44178
+LAURA_PLAYWRIGHT_PORT=44176
+E2E_SANITY_STUB_PORT=44380
+E2E_WEB_PORT=44173
+FIREBASE_E2E_STUB_PORT=44487
+FIREBASE_E2E_WEB_PORT=44287
+All normal commit hooks remain enabled.

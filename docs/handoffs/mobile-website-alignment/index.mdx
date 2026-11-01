@@ -1,0 +1,132 @@
+import mobileNews from './assets/mobile-news.png';
+import mobileEvents from './assets/mobile-events.png';
+import mobileLocal from './assets/mobile-local.png';
+import mobileDetail from './assets/mobile-detail.png';
+import mobileMore from './assets/mobile-more.png';
+import mobileHelp from './assets/mobile-help.png';
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import nativeHome from './assets/native-home.png';
+import nativeMore from './assets/native-more.png';
+import components from './assets/c3-presentation.puml?raw';
+import componentsImage from './assets/c3-presentation.svg';
+
+export const metadata = {
+  title: 'Mobile presentation aligned with the public website',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a187ce-6bff-70e2-bbc2-b6adb2db3f66',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub',
+  branch: 'szabototo89/mobile-align-the-application-design-with-the-pub',
+  commit: '31bcb99812819ef4a81e10ad63882498dcc1e76e',
+  updatedAt: '2026-11-01T20:52:31Z',
+  summary:
+    'Both mobile renderers now use the website identity, and native headers clear the status bar and Dynamic Island.',
+};
+
+## Goal
+
+Align existing mobile screens with the public website reference at `d06366c`. Include the owner-requested native header fix and preserve existing browsing, filters, source notes and official actions.
+
+## Technical changes
+
+Baseline: `d06366c15c339bf35199723cbaff02e1212a75e6`; implementation commit `31bcb99812819ef4a81e10ad63882498dcc1e76e`.
+
+| Area          | Before                                              | After                                                                | Why                                             | Code                                                                     |
+| ------------- | --------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------ |
+| Identity      | Circular initial and emoji controls                 | Website logo and bundled Lucide line artwork                         | Consistent identity without missing glyphs      | `apps/mobile/src/components/AppHeader.tsx`, `LineIcon.tsx`, `TabBar.tsx` |
+| Home          | Generic copy, stock-photo news and inert pager dots | Website coastal introduction, shortcuts and source-linked news panel | Match the website hierarchy                     | `apps/mobile/src/features/home/HomeScreen.tsx`                           |
+| Records       | Unrelated coastal images on every news/event record | Text-led rows, date badges and service icons                         | Avoid implying a generic photo depicts a record | `CardFeed.tsx`, `DetailScreen.tsx`                                       |
+| Shared theme  | Duplicate compact overrides and heavy sans headings | Paper/forest palette, serif headings, consistent gutters and panels  | Match website visual treatment                  | `apps/mobile/src/styles.css`                                             |
+| Native header | CSS environment inset resolves to zero              | Host `safeAreaTop` adds measured padding above header content        | Clear system status area                        | `AppHeader.tsx`, `host-props.d.ts`, `nativeHeaderInset.test.tsx`         |
+
+The body uses the host system sans-serif. Georgia is the native equivalent of the website's Newsreader font. PNG line artwork avoids native SVG decoder and emoji-font differences. The default reactive global-props mode updates the inset when the host publishes new metrics. Content models, API contracts, history, selection and orientation code do not change. Editorial image support remains with issue #19. The title-case Health quick filter still fails to match lowercase published categories; All restores records.
+
+## Architecture changes
+
+Woodbrook provides public information and ways for residents to take part. The existing Mobile app still reads the same public API. The existing shared mobile presentation now applies the website visual treatment and native header inset inside that app.
+
+| Level | Change                                                              | Evidence                                                         |
+| ----- | ------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| C1    | Unchanged: same residents, community system and official sources    | `docs/architecture/c4-model.json`; no system interactions change |
+| C2    | Unchanged: same mobile renderers, API host and Sanity content store | Existing mobile API and build configuration                      |
+| C3    | Changed shared presentation, screen composition and header inset    | Annotated component view below                                   |
+
+<PlantUmlDiagram
+  title="C3: Mobile presentation changes"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: resident screens compose the shared website identity and measured native header spacing. No system or container boundary moves.
+
+## Verification
+
+| Check                   | Result | Evidence                                                                                                                                                                                                                                          |
+| ----------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Presentation TDD        | PASS   | Eight presentation/header regressions fail against baseline d06366c; all pass on implementation; `assets/tdd-red.txt`                                                                                                                             |
+| Native header TDD       | PASS   | Three standard/compact/zero-inset regressions fail before implementation, then pass; `assets/header-red.txt`, `assets/header-green.txt`                                                                                                           |
+| Mobile unit suite       | PASS   | 79 tests; coverage exceeds 90% for statements, branches, functions and lines; `assets/mobile-unit.txt`                                                                                                                                            |
+| Browser regression      | PASS   | 16 Chromium/WebKit checks cover 320px, 390px, desktop and long-detail scrolling; `assets/browser.txt`                                                                                                                                             |
+| Native iOS review       | PASS   | Orca taps cover news filters, article/back, events, service/back, More and help; `assets/native-review.txt`                                                                                                                                       |
+| Native header           | PASS   | iOS 26.3.1 host supplies 61px; controls begin below status area; `assets/native-home.png`, `assets/native-more.png`                                                                                                                               |
+| Repository build        | PASS   | `bun run build` exits 0; `assets/build.txt`                                                                                                                                                                                                       |
+| Commit quality gate     | PASS   | Normal hook passes lint, types and repository tests; `assets/quality-gate.txt`                                                                                                                                                                    |
+| Temporary previews      | PASS   | [Mobile preview](https://woodbrook-mobile-design-28.shankill.workers.dev) and [handoff preview](https://woodbrook-mobile-design-handoff-28.shankill.workers.dev/#/mobile-website-alignment) verified; final deployed commit is recorded in the PR |
+| Baseline evidence       | PASS   | Paired existing screens and reference captured at 320px/390px/desktop; local `.tmp/issue-28/baseline-review.html`                                                                                                                                 |
+| Baseline publication    | FAIL   | Orca requires sign-in; owner explicitly chose to keep the comparison local; issue records this limitation                                                                                                                                         |
+| Interrupted hook run    | FAIL   | Mac sleep interrupted two Safari checks; unchanged Safari rerun passes all eight; `assets/quality-sleep-failure.txt`, `assets/safari-recheck.txt`                                                                                                 |
+| Native production build | PASS   | Orca More/Home taps, measured header clearance and empty error log; `assets/native-production.txt`                                                                                                                                                |
+| Official-page fallback  | PASS   | Orca source tap opens embedded page and Back returns; `assets/native-official-review.txt`                                                                                                                                                         |
+| Dev browser             | PASS   | Orca reference tab opens; cmux has no live socket on this host                                                                                                                                                                                    |
+| Concurrent test port    | FAIL   | Another worktree owns Forma/auth ports; supported overrides isolate verification; `assets/forma-isolated-recheck.txt`, `assets/verification-ports.txt`                                                                                            |
+
+## Appearance
+
+These implemented screens use real published Sanity content. Browser captures are 2× resolution. Native system captures include the status bar and Dynamic Island.
+
+<AppearanceGallery
+  images={[
+
+    {
+      src: desktop,
+      title: 'Desktop mobile renderer',
+      alt: 'Mobile application at desktop width',
+      description:
+        '1440 × 1000: inspect the shared hierarchy, colour and fixed navigation.',
+    },
+    {
+      src: mobile,
+      title: 'Phone browser renderer',
+      alt: 'Mobile home at 390px',
+      description:
+        '390 × 844: compare coastal introduction, serif headings and touch shortcuts with the website reference.',
+    },
+    {
+      src: nativeHome,
+      title: 'Native iOS home',
+      alt: 'Native home below the Dynamic Island',
+      description:
+        'Orca simulator: the brand and news action clear the status area; line artwork renders without missing glyphs.',
+    },
+    {
+      src: nativeMore,
+      title: 'Native iOS More',
+      alt: 'Native More screen with corrected header',
+      description:
+        'Inspect the same header inset on an existing screen and its routes to projects, consultations and help.',
+    },
+    { src: mobileNews, title: 'News', alt: 'Source-linked mobile news', description: '390px: text-led records without unrelated stock photographs.' },
+    { src: mobileEvents, title: 'Events', alt: 'Mobile event cards', description: '390px: date badges, readable event titles and selected status treatment.' },
+    { src: mobileLocal, title: 'Local information', alt: 'Mobile directory filters and service rows', description: '390px: line artwork, search field and horizontal category controls.' },
+    { src: mobileDetail, title: 'Long detail', alt: 'Mobile service detail', description: '390px: serif title, factual rows, contact actions and source notes remain scrollable.' },
+    { src: mobileMore, title: 'More', alt: 'Mobile More destinations', description: '390px: existing projects, consultations and help destinations use the same presentation.' },
+    { src: mobileHelp, title: 'Ways to help', alt: 'Mobile ways to help', description: '390px: existing contribution guidance and actions use shared panels and typography.' },
+
+]}
+/>
+
+## Next steps
+
+Review the open PR and temporary previews. Keep the comparison local as requested. Existing category casing and event selection remain outside this presentation issue. Refresh temporary previews after seven days if review continues.

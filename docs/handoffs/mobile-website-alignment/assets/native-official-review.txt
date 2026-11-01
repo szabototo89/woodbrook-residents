@@ -1,0 +1,4 @@
+PASS Orca swipe reveals the source name and checked date.
+PASS Orca source tap opens the in-app official-page fallback.
+PASS embedded official page appears below the full link; its previous fixed-height style is restored.
+PASS Back returns to the article; Home remains available.

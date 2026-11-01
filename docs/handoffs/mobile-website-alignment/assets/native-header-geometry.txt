@@ -1,0 +1,4 @@
+PASS header brand begins below Dynamic Island.
+Brand normalized top: 0.0904
+Island normalized bottom: 0.059399999999999994
+Native host top inset: 61 logical pixels.

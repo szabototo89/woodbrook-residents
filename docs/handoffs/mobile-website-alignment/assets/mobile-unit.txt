@@ -1,0 +1,96 @@
+$ vitest run --coverage
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/apps/mobile
+      Coverage enabled with v8
+
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Failed to parse file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/apps/mobile/src/host-props.d.ts. Excluding it from coverage.
+ Error [RolldownError]: Parse failed with 1 error:
+Expected a semicolon or an implicit semicolon after a statement, but found none
+1: import '@lynx-js/types';
+2: 
+3: declare module '@lynx-js/types' {
+          ^
+4:   interface GlobalProps {
+5:     /** Top safe-area inset in logical pixels, supplied by the native host. */
+    at error (file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/node_modules/.bun/rolldown@1.2.9/node_modules/rolldown/dist/shared/logs-DmYCAKcW.mjs:159:24)
+    at normalizeParseError (file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/node_modules/.bun/rolldown@1.2.9/node_modules/rolldown/dist/parse-ast-index.mjs:25:9)
+    at wrap (file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/node_modules/.bun/rolldown@1.2.9/node_modules/rolldown/dist/parse-ast-index.mjs:5:39)
+    at parseAstAsync (file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/node_modules/.bun/rolldown@1.2.9/node_modules/rolldown/dist/parse-ast-index.mjs:54:9)
+    at V8CoverageProvider.remapCoverage (file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/node_modules/.bun/@vitest+coverage-v8@4.1.11+c1f49537d90218f6/node_modules/@vitest/coverage-v8/dist/provider.js:133:10)
+    at file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/node_modules/.bun/@vitest+coverage-v8@4.1.11+c1f49537d90218f6/node_modules/@vitest/coverage-v8/dist/provider.js:119:23
+    at async Promise.all (index 0)
+    at V8CoverageProvider.getCoverageMapForUncoveredFiles (file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/node_modules/.bun/@vitest+coverage-v8@4.1.11+c1f49537d90218f6/node_modules/@vitest/coverage-v8/dist/provider.js:109:4)
+    at V8CoverageProvider.generateCoverage (file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/node_modules/.bun/@vitest+coverage-v8@4.1.11+c1f49537d90218f6/node_modules/@vitest/coverage-v8/dist/provider.js:56:29)
+    at file:///Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/node_modules/.bun/vitest@4.1.11+de8c1234ef608881/node_modules/vitest/dist/chunks/cli-api.CnMVyzaz.js:13671:23 {
+  code: 'PARSE_ERROR',
+  id: undefined,
+  pos: 33
+}
+
+ Test Files  17 passed (17)
+      Tests  79 passed (79)
+   Start at  16:33:26
+   Duration  2.82s (transform 8.37s, setup 5.45s, import 5.85s, tests 818ms, environment 12.65s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   96.78 |    90.39 |   91.26 |   97.35 |                   
+ src               |   96.42 |    76.47 |     100 |     100 |                   
+  App.tsx          |   96.42 |    76.47 |     100 |     100 | 59,71,97-113      
+ src/components    |     100 |    93.61 |     100 |     100 |                   
+  ExternalLink.tsx |     100 |       75 |     100 |     100 | 18-19,21          
+ ...atures/content |   95.45 |    92.24 |   89.85 |      96 |                   
+  CardFeed.tsx     |    95.4 |    89.47 |     100 |   96.47 | 27,29,32          
+  ...ionScreen.tsx |      80 |    76.66 |      50 |      80 | 28,50,67,78-87    
+  DetailScreen.tsx |     100 |    95.23 |     100 |     100 | 60,129            
+  ...nfoScreen.tsx |   95.65 |      100 |   77.77 |   95.45 | 69,83             
+  contentModels.ts |   98.07 |    98.43 |   95.65 |   97.61 | 140               
+  externalUrl.ts   |   96.55 |    84.61 |     100 |     100 | 7-9,36            
+ src/features/help |     100 |       50 |     100 |     100 |                   
+  ...elpScreen.tsx |     100 |       50 |     100 |     100 | 13-33             
+ src/features/home |   96.66 |    91.66 |   78.94 |   96.58 |                   
+  HomeScreen.tsx   |   96.52 |    91.66 |   73.33 |   96.46 | 97,141,196,257    
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 96.78% ( 632/653 )
+Branches     : 90.39% ( 301/333 )
+Functions    : 91.26% ( 115/126 )
+Lines        : 97.35% ( 589/605 )
+================================================================================

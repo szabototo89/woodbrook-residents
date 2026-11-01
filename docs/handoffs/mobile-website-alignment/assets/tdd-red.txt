@@ -1,0 +1,892 @@
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/.tmp/issue-28/red-baseline/apps/mobile
+
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+ ❯ src/__tests__/nativeHeaderInset.test.tsx (3 tests | 3 failed) 62ms
+   × native home header clears the host status bar 55ms
+   × native detail header clears the host status bar 3ms
+   × a host with zero inset does not add a second status-bar allowance 3ms
+ ❯ src/__tests__/websitePresentation.test.tsx (6 tests | 5 failed) 1072ms
+   × the home introduction leads into shortcuts then source-linked news 1046ms
+   × the shared brand uses the website symbol and home destination 9ms
+   × records without editorial imagery do not borrow the coastal hero photo 5ms
+   × a detail without editorial imagery leads directly to facts and sources 5ms
+   × news entry points keep their existing collection destination 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/nativeHeaderInset.test.tsx > native home header clears the host status bar
+ FAIL  src/__tests__/nativeHeaderInset.test.tsx > native detail header clears the host status bar
+Error: expect(element).toHaveStyle()
+
+- Expected
+
+- paddingTop: 61px;
+ ❯ src/__tests__/nativeHeaderInset.test.tsx:17:54
+     15|         <AppHeader navigate={vi.fn()} compact={compact} />,
+     16|       );
+     17|       expect(container.querySelector('.app-header')).toHaveStyle({
+       |                                                      ^
+     18|         paddingTop: '61px',
+     19|       });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/__tests__/nativeHeaderInset.test.tsx > a host with zero inset does not add a second status-bar allowance
+Error: expect(element).toHaveStyle()
+
+- Expected
+
+- paddingTop: 0px;
+ ❯ src/__tests__/nativeHeaderInset.test.tsx:32:52
+     30|   try {
+     31|     const { container } = render(<AppHeader navigate={vi.fn()} />);
+     32|     expect(container.querySelector('.app-header')).toHaveStyle({
+       |                                                    ^
+     33|       paddingTop: '0px',
+     34|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/__tests__/websitePresentation.test.tsx > the home introduction leads into shortcuts then source-linked news
+TestingLibraryElementError: Unable to find an element with the text: Find what’s happening in Woodbrook, fast.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<page>[39m
+    [36m<scroll-view[39m
+      [33mclass[39m=[32m"screen"[39m
+      [33mscroll-orientation[39m=[32m"vertical"[39m
+    [36m>[39m
+      [36m<view[39m
+        [33mclass[39m=[32m"hero"[39m
+      [36m>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"hero-title"[39m
+        [36m>[39m
+          [0mLocal information and ways to take part.[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"hero-lede"[39m
+        [36m>[39m
+          [0mKeep up with local changes, find practical information, and take part in community life.[0m
+        [36m</text>[39m
+      [36m</view>[39m
+      [36m<wrapper>[39m
+        [36m<view[39m
+          [33mclass[39m=[32m"hero-wrap"[39m
+        [36m>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Latest update. Sample news"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"hero-card"[39m
+          [36m>[39m
+            [36m<image[39m
+              [33maccessibility-element[39m=[32m"true"[39m
+              [33maccessibility-label[39m=[32m"Aerial view across Woodbrook toward the coast, Bray and the Wicklow Mountains"[39m
+              [33mclass[39m=[32m"hero-card-image"[39m
+              [33mmode[39m=[32m"aspectFill"[39m
+              [33msrc[39m=[32m"/@fs/Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/.tmp/issue-28/red-baseline/apps/web/public/images/woodbrook-coast-aerial-768.jpg"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-card-overlay"[39m
+            [36m>[39m
+              [36m<view[39m
+                [33mclass[39m=[32m"hero-pill"[39m
+              [36m>[39m
+                [36m<text[39m
+                  [33mclass[39m=[32m"hero-pill-text"[39m
+                [36m>[39m
+                  [0mLatest update[0m
+                [36m</text>[39m
+              [36m</view>[39m
+              [36m<view[39m
+                [33mclass[39m=[32m"hero-card-bottom"[39m
+              [36m>[39m
+                [36m<view[39m
+                  [33mclass[39m=[32m"hero-card-copy"[39m
+                [36m>[39m
+                  [36m<text[39m
+                    [33mclass[39m=[32m"hero-card-title"[39m
+                  [36m>[39m
+                    [0mSample news[0m
+                  [36m</text>[39m
+                  [36m<text[39m
+                    [33mclass[39m=[32m"hero-card-subtitle"[39m
+                  [36m>[39m
+                    [0mSample summary.[0m
+                  [36m</text>[39m
+                [36m</view>[39m
+                [36m<view[39m
+                  [33mclass[39m=[32m"hero-go"[39m
+                [36m>[39m
+                  [36m<text[39m
+                    [33mclass[39m=[32m"hero-go-arrow"[39m
+                  [36m>[39m
+                    [0m›[0m
+                  [36m</text>[39m
+                [36m</view>[39m
+              [36m</view>[39m
+            [36m</view>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33mclass[39m=[32m"hero-dots"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot hero-dot-active"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot"[39m
+            [36m/>[39m
+          [36m</view>[39m
+          [36m<text[39m
+            [33mclass[39m=[32m"image-credit"[39m
+          [36m>[39m
+            [0mWoodbrook and the Shankill coastline[0m
+          [36m</text>[39m
+        [36m</view>[39m
+      [36m</wrapper>[39m
+      [36m<view>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"section-title quick-title"[39m
+        [36m>[39m
+          [0mQuick access[0m
+        [36m</text>[39m
+        [36m<view[39m
+          [33mclass[39m=[32m"quick-grid"[39m
+        [36m>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Updates. Source-linked local changes"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"quick-item"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"quick-icon"[39m
+            [36m>[39m
+              [36m<text[39m
+                [33mclass[39m=[32m"quick-icon-text"[39m
+              [36m>[39m
+                [0m📰[0m
+              [36m</text>[39m
+            [36m</view>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"quick-label"[39m
+            [36m>[39m
+              [0mUpdates[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Events. Confirmed local dates"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"quick-item"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"quick-icon"[39m
+            [36m>[39m
+              [36m<text[39m
+                [33mclass[39m=[32m"quick-icon-text"[39m
+              [36m>[39m
+                [0m📅[0m
+              [36m</text>[39m
+            [36m</view>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"quick-label"[39m
+            [36m>[39m
+              [0mEvents[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Local. Nearby services and contacts"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"quick-item"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"quick-icon"[39m
+            [36m>[39m
+              [36m<text[39m
+                [33mclass[39m=[32m"quick-icon-text"[39m
+              [36m>[39m
+                [0m📍[0m
+              [36m</text>[39m
+            [36m</view>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"quick-label"[39m
+            [36m>[39m
+              [0mLocal[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"More. Projects, consultations and help"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"quick-item"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"quick-icon"[39m
+            [36m>[39m
+              [36m<text[39m
+                [33mclass[39m=[32m"quick-icon-text"[39m
+              [36m>[39m
+                [0m•••[0m
+              [36m</text>[39m
+            [36m</view>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"quick-label"[39m
+            [36m>[39m
+              [0mMore[0m
+            [36m</text>[39m
+          [36m</view>[39m
+        [36m</view>[39m
+      [36m</view>[39m
+      [36m<view>[39m
+        [36m<view[39m
+          [33maccessibility-element[39m=[32m"true"[39m
+          [33maccessibility-label[39m=[32m"Nearby essentials. Find GPs, schools, pharmacies, and transport."[39m
+          [33maccessibility-trait[39m=[32m"button"[39m
+          [33mclass[39m=[32m"home-section"[39m
+        [36m>[39m
+          [36m<view[39m
+            [33mclass[39m=[32m"home-section-copy"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"eyebrow"[39m
+            [36m>[39m
+              [0mNearby[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"home-item-title"[39m
+            [36m>[39m
+              [0mFind nearby essentials[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"card-meta"[39m
+            [36m>[39m
+              [0mGPs, schools, pharmacies, and transport[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<text[39m
+            [33mclass[39m=[32m"home-chevron"[39m
+          [36m>[39m
+            [0m›[0m
+          [36m</text>[39m
+        [36m</view>[39m
+      [36m</view>[39m
+      [36m<wrapper />[39m
+      [36m<view[39m
+        [33mclass[39m=[32m"home-browse"[39m
+      [36m>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"section-title"[39m
+        [36m>[39m
+          [0mBrowse all sections[0m
+        [36m</text>[39m
+        [36m<wrapper>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Updates. Source-linked local changes and next steps."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mUpdates[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Projects. What is proposed, active, completed, or monitored."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mProjects[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Events. Confirmed local dates and ways to take part."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mEvents[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Consultations. Open chances to respond, plus closed records."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mConsultations[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Local information. Nearby services, contacts, and everyday essentials."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mLocal information[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+        [36m</wrapper>[39m
+      [36m</view>[39m
+      [36m<view[39m
+        [33maccessibility-element[39m=[32m"true"[39m
+        [33maccessibility-label[39m=[32m"Ways to help. Help keep local information useful."[39m
+        [33maccessibility-trait[39m=[32m"button"[39m
+        [33mclass[39m=[32m"contribution"[39m
+      [36m>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"eyebrow eyebrow-light"[39m
+        [36m>[39m
+          [0mWays to help[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"contribution-title"[39m
+        [36m>[39m
+          [0mHelp keep local information useful.[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"contribution-copy"[39m
+        [36m>[39m
+          [0mSee what residents can do now, what is still being set up, and where to find official help.[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"contribution-action"[39m
+        [36m>[39m
+          [0mSee ways to help →[0m
+        [36m</text>[39m
+      [36m</view>[39m
+      [36m<view[39m
+        [33mclass[39m=[32m"footer"[39m
+      [36m>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"footer-title"[39m
+        [36m>[39m
+          [0mWoodbrook Residents[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"footer-copy"[39m
+        [36m>[39m
+          [0mLocal information and practical ways to take part in Woodbrook and nearby Shankill.[0m
+        [36m</text>[39m
+      [36m</view>[39m
+    [36m</scroll-view>[39m
+  [36m</page>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<page>[39m
+    [36m<scroll-view[39m
+      [33mclass[39m=[32m"screen"[39m
+      [33mscroll-orientation[39m=[32m"vertical"[39m
+    [36m>[39m
+      [36m<view[39m
+        [33mclass[39m=[32m"hero"[39m
+      [36m>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"hero-title"[39m
+        [36m>[39m
+          [0mLocal information and ways to take part.[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"hero-lede"[39m
+        [36m>[39m
+          [0mKeep up with local changes, find practical information, and take part in community life.[0m
+        [36m</text>[39m
+      [36m</view>[39m
+      [36m<wrapper>[39m
+        [36m<view[39m
+          [33mclass[39m=[32m"hero-wrap"[39m
+        [36m>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Latest update. Sample news"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"hero-card"[39m
+          [36m>[39m
+            [36m<image[39m
+              [33maccessibility-element[39m=[32m"true"[39m
+              [33maccessibility-label[39m=[32m"Aerial view across Woodbrook toward the coast, Bray and the Wicklow Mountains"[39m
+              [33mclass[39m=[32m"hero-card-image"[39m
+              [33mmode[39m=[32m"aspectFill"[39m
+              [33msrc[39m=[32m"/@fs/Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/.tmp/issue-28/red-baseline/apps/web/public/images/woodbrook-coast-aerial-768.jpg"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-card-overlay"[39m
+            [36m>[39m
+              [36m<view[39m
+                [33mclass[39m=[32m"hero-pill"[39m
+              [36m>[39m
+                [36m<text[39m
+                  [33mclass[39m=[32m"hero-pill-text"[39m
+                [36m>[39m
+                  [0mLatest update[0m
+                [36m</text>[39m
+              [36m</view>[39m
+              [36m<view[39m
+                [33mclass[39m=[32m"hero-card-bottom"[39m
+              [36m>[39m
+                [36m<view[39m
+                  [33mclass[39m=[32m"hero-card-copy"[39m
+                [36m>[39m
+                  [36m<text[39m
+                    [33mclass[39m=[32m"hero-card-title"[39m
+                  [36m>[39m
+                    [0mSample news[0m
+                  [36m</text>[39m
+                  [36m<text[39m
+                    [33mclass[39m=[32m"hero-card-subtitle"[39m
+                  [36m>[39m
+                    [0mSample summary.[0m
+                  [36m</text>[39m
+                [36m</view>[39m
+                [36m<view[39m
+                  [33mclass[39m=[32m"hero-go"[39m
+                [36m>[39m
+                  [36m<text[39m
+                    [33mclass[39m=[32m"hero-go-arrow"[39m
+                  [36m>[39m
+                    [0m›[0m
+                  [36m</text>[39m
+                [36m</view>[39m
+              [36m</view>[39m
+            [36m</view>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33mclass[39m=[32m"hero-dots"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot hero-dot-active"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot"[39m
+            [36m/>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"hero-dot"[39m
+            [36m/>[39m
+          [36m</view>[39m
+          [36m<text[39m
+            [33mclass[39m=[32m"image-credit"[39m
+          [36m>[39m
+            [0mWoodbrook and the Shankill coastline[0m
+          [36m</text>[39m
+        [36m</view>[39m
+      [36m</wrapper>[39m
+      [36m<view>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"section-title quick-title"[39m
+        [36m>[39m
+          [0mQuick access[0m
+        [36m</text>[39m
+        [36m<view[39m
+          [33mclass[39m=[32m"quick-grid"[39m
+        [36m>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Updates. Source-linked local changes"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"quick-item"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"quick-icon"[39m
+            [36m>[39m
+              [36m<text[39m
+                [33mclass[39m=[32m"quick-icon-text"[39m
+              [36m>[39m
+                [0m📰[0m
+              [36m</text>[39m
+            [36m</view>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"quick-label"[39m
+            [36m>[39m
+              [0mUpdates[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Events. Confirmed local dates"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"quick-item"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"quick-icon"[39m
+            [36m>[39m
+              [36m<text[39m
+                [33mclass[39m=[32m"quick-icon-text"[39m
+              [36m>[39m
+                [0m📅[0m
+              [36m</text>[39m
+            [36m</view>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"quick-label"[39m
+            [36m>[39m
+              [0mEvents[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Local. Nearby services and contacts"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"quick-item"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"quick-icon"[39m
+            [36m>[39m
+              [36m<text[39m
+                [33mclass[39m=[32m"quick-icon-text"[39m
+              [36m>[39m
+                [0m📍[0m
+              [36m</text>[39m
+            [36m</view>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"quick-label"[39m
+            [36m>[39m
+              [0mLocal[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"More. Projects, consultations and help"[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"quick-item"[39m
+          [36m>[39m
+            [36m<view[39m
+              [33mclass[39m=[32m"quick-icon"[39m
+            [36m>[39m
+              [36m<text[39m
+                [33mclass[39m=[32m"quick-icon-text"[39m
+              [36m>[39m
+                [0m•••[0m
+              [36m</text>[39m
+            [36m</view>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"quick-label"[39m
+            [36m>[39m
+              [0mMore[0m
+            [36m</text>[39m
+          [36m</view>[39m
+        [36m</view>[39m
+      [36m</view>[39m
+      [36m<view>[39m
+        [36m<view[39m
+          [33maccessibility-element[39m=[32m"true"[39m
+          [33maccessibility-label[39m=[32m"Nearby essentials. Find GPs, schools, pharmacies, and transport."[39m
+          [33maccessibility-trait[39m=[32m"button"[39m
+          [33mclass[39m=[32m"home-section"[39m
+        [36m>[39m
+          [36m<view[39m
+            [33mclass[39m=[32m"home-section-copy"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"eyebrow"[39m
+            [36m>[39m
+              [0mNearby[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"home-item-title"[39m
+            [36m>[39m
+              [0mFind nearby essentials[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"card-meta"[39m
+            [36m>[39m
+              [0mGPs, schools, pharmacies, and transport[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<text[39m
+            [33mclass[39m=[32m"home-chevron"[39m
+          [36m>[39m
+            [0m›[0m
+          [36m</text>[39m
+        [36m</view>[39m
+      [36m</view>[39m
+      [36m<wrapper />[39m
+      [36m<view[39m
+        [33mclass[39m=[32m"home-browse"[39m
+      [36m>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"section-title"[39m
+        [36m>[39m
+          [0mBrowse all sections[0m
+        [36m</text>[39m
+        [36m<wrapper>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Updates. Source-linked local changes and next steps."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mUpdates[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Projects. What is proposed, active, completed, or monitored."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mProjects[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Events. Confirmed local dates and ways to take part."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mEvents[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Consultations. Open chances to respond, plus closed records."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mConsultations[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+          [36m<view[39m
+            [33maccessibility-element[39m=[32m"true"[39m
+            [33maccessibility-label[39m=[32m"Local information. Nearby services, contacts, and everyday essentials."[39m
+            [33maccessibility-trait[39m=[32m"button"[39m
+            [33mclass[39m=[32m"browse-row"[39m
+          [36m>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-title"[39m
+            [36m>[39m
+              [0mLocal information[0m
+            [36m</text>[39m
+            [36m<text[39m
+              [33mclass[39m=[32m"browse-arrow"[39m
+            [36m>[39m
+              [0m→[0m
+            [36m</text>[39m
+          [36m</view>[39m
+        [36m</wrapper>[39m
+      [36m</view>[39m
+      [36m<view[39m
+        [33maccessibility-element[39m=[32m"true"[39m
+        [33maccessibility-label[39m=[32m"Ways to help. Help keep local information useful."[39m
+        [33maccessibility-trait[39m=[32m"button"[39m
+        [33mclass[39m=[32m"contribution"[39m
+      [36m>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"eyebrow eyebrow-light"[39m
+        [36m>[39m
+          [0mWays to help[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"contribution-title"[39m
+        [36m>[39m
+          [0mHelp keep local information useful.[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"contribution-copy"[39m
+        [36m>[39m
+          [0mSee what residents can do now, what is still being set up, and where to find official help.[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"contribution-action"[39m
+        [36m>[39m
+          [0mSee ways to help →[0m
+        [36m</text>[39m
+      [36m</view>[39m
+      [36m<view[39m
+        [33mclass[39m=[32m"footer"[39m
+      [36m>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"footer-title"[39m
+        [36m>[39m
+          [0mWoodbrook Residents[0m
+        [36m</text>[39m
+        [36m<text[39m
+          [33mclass[39m=[32m"footer-copy"[39m
+        [36m>[39m
+          [0mLocal information and practical ways to take part in Woodbrook and nearby Shankill.[0m
+        [36m</text>[39m
+      [36m</view>[39m
+    [36m</scroll-view>[39m
+  [36m</page>[39m
+[36m</body>[39m
+ ❯ waitForWrapper ../../../../../node_modules/.bun/@lynx-js+react@0.126.1+ea3ea9863409f0d0/node_modules/@lynx-js/react/testing-library/dist/pure.js:12962:29
+    12960| }
+    12961| function waitForWrapper(callback, options) {
+    12962|     const stackTraceError = new Error('STACK_TRACE_MESSAGE');
+       |                             ^
+    12963|     return getConfig().asyncWrapper(()=>waitFor(callback, {
+    12964|             stackTraceError,
+ ❯ ../../../../../node_modules/.bun/@lynx-js+react@0.126.1+ea3ea9863409f0d0/node_modules/@lynx-js/react/testing-library/dist/pure.js:13012:56
+ ❯ src/__tests__/websitePresentation.test.tsx:42:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/__tests__/websitePresentation.test.tsx > the shared brand uses the website symbol and home destination
+Error: expect(received).toBeInTheDocument()
+
+received value must be an HTMLElement or an SVGElement.
+Received has type:  Null
+Received has value: null
+ ❯ src/__tests__/websitePresentation.test.tsx:61:55
+     59|   const navigate = vi.fn();
+     60|   const { container } = render(<AppHeader navigate={navigate} />);
+     61|   expect(container.querySelector('image.brand-mark')).toBeInTheDocumen…
+       |                                                       ^
+     62|   expect(screen.queryByText('W')).not.toBeInTheDocument();
+     63|   expect(await screen.findByText('Community Hub')).toBeInTheDocument();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  src/__tests__/websitePresentation.test.tsx > records without editorial imagery do not borrow the coastal hero photo
+Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <image
+  accessibility-element="false"
+  class="event-image"
+  mode="aspectFill"
+  src="/@fs/Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/.tmp/issue-28/red-baseline/apps/web/public/images/woodbrook-coast-aerial-768.jpg"
+/> instead
+ ❯ src/__tests__/websitePresentation.test.tsx:90:55
+     88|   );
+     89|   expect(await screen.findByText('Sample event')).toBeInTheDocument();
+     90|   expect(container.querySelector('.event-image')).not.toBeInTheDocumen…
+       |                                                       ^
+     91| });
+     92|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  src/__tests__/websitePresentation.test.tsx > a detail without editorial imagery leads directly to facts and sources
+Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <image
+  accessibility-element="false"
+  class="detail-hero"
+  mode="aspectFill"
+  src="/@fs/Users/tszabo/orca/workspaces/woodbrook/mobile-align-the-application-design-with-the-pub/.tmp/issue-28/red-baseline/apps/web/public/images/woodbrook-coast-aerial-768.jpg"
+/> instead
+ ❯ src/__tests__/websitePresentation.test.tsx:112:55
+    110|   );
+    111|   expect(await screen.findByText('Sample detail.')).toBeInTheDocument(…
+    112|   expect(container.querySelector('.detail-hero')).not.toBeInTheDocumen…
+       |                                                       ^
+    113|   expect(screen.getByText('Official source')).toBeInTheDocument();
+    114| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  src/__tests__/websitePresentation.test.tsx > news entry points keep their existing collection destination
+TypeError: Cannot use 'in' operator to search for 'refAttr' in null
+ ❯ getElement ../../../../../node_modules/.bun/@lynx-js+react@0.126.1+ea3ea9863409f0d0/node_modules/@lynx-js/react/testing-library/dist/pure.js:14286:9
+    14284|         return 0 === type ? document.querySelector(identifier) : __Get…
+    14285|     }
+    14286|     if ('refAttr' in elemOrNodesRef) return document.querySelector(`[r…
+       |         ^
+    14287|     if (elemOrNodesRef?.constructor?.name === 'HTMLUnknownElement') re…
+    14288|     throw new Error('Invalid element, got: ' + elemOrNodesRef.construc…
+ ❯ fire_event_fireEvent.<computed> [as tap] ../../../../../node_modules/.bun/@lynx-js+react@0.126.1+ea3ea9863409f0d0/node_modules/@lynx-js/react/testing-library/dist/pure.js:14426:22
+ ❯ src/__tests__/websitePresentation.test.tsx:119:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  8 failed | 1 passed (9)
+   Start at  16:34:02
+   Duration  2.35s (transform 1.30s, setup 747ms, import 641ms, tests 1.13s, environment 947ms)
+
+error: "vitest" exited with code 1
