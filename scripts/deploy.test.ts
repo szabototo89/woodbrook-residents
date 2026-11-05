@@ -11,22 +11,19 @@ test('deploy defaults to Sanity with the production public URL', () => {
   }
 });
 
-test('deploy preserves an explicit content source and its credentials', () => {
+test('deploy preserves explicit Sanity configuration', () => {
   expect(
     buildDeployEnvironment({
-      CONTENT_SOURCE: ' google-sheets ',
-      GOOGLE_SERVICE_ACCOUNT_EMAIL: 'reader@example.test',
-    }),
-  ).toMatchObject({
-    CONTENT_SOURCE: 'google-sheets',
-    GOOGLE_SERVICE_ACCOUNT_EMAIL: 'reader@example.test',
-  });
-  expect(
-    buildDeployEnvironment({
-      CONTENT_SOURCE: 'sanity',
+      CONTENT_SOURCE: ' sanity ',
       SANITY_DATASET: 'preview',
-    }).SANITY_DATASET,
-  ).toBe('preview');
+    }),
+  ).toMatchObject({ CONTENT_SOURCE: 'sanity', SANITY_DATASET: 'preview' });
+});
+
+test('deploy rejects the retired Sheets source', () => {
+  expect(() =>
+    buildDeployEnvironment({ CONTENT_SOURCE: 'google-sheets' }),
+  ).toThrow('CONTENT_SOURCE must be');
 });
 
 test('deploy rejects an unsupported source before building or publishing', () => {

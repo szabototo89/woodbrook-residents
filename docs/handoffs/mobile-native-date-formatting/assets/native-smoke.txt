@@ -1,0 +1,13 @@
+Native smoke verification: Orca-attached iPhone simulator, iOS 26.3.1, Lynx Explorer SDK 1.4.0.
+Bundle: http://127.0.0.1:3202/woodbrook.lynx.bundle?fullscreen=true&review=native-date-fix
+Backend: https://woodbrook-mobile-sanity-14.shankill.workers.dev/api/mobile-content
+
+PASS native runtime still reports Intl undefined and fetch function.
+PASS home displays published WRA article and 12 Sept 2026, 18:00 event time.
+PASS Orca tap opens article with publication and review date 18 Sept 2026.
+PASS Orca bottom-tab navigation opens event listing with readable dates and times.
+PASS Orca tap opens event detail with Starts 12 Sept 2026, 18:00.
+PASS get-console --client localhost:8901 --session 2 --level error returns no error-level messages after navigation.
+PASS simulator is left on the working Home screen.
+
+Evidence: native-runtime.txt, native-home.txt, native-article.txt, native-events.txt, native-event.txt and matching JPEG captures.

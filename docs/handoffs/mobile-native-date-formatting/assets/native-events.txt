@@ -1,0 +1,340 @@
+@e1 [view] @(197,426)
+├─ @e2 [view] @(197,23)
+│  └─ @e3 [view] @(197,18)
+│     ├─ @e4 [view] @(173,18)
+│     │  ├─ @e5 [view] @(34,18)
+│     │  │  └─ @e6 [text] "W" @(35,19)
+│     │  └─ @e7 [view] @(150,18)
+│     │     ├─ @e8 [text] "Woodbrook Residents" @(150,11)
+│     │     └─ @e9 [text] "Community hub · Shankill" @(150,30)
+│     └─ @e10 [view] @(359,18)
+│        └─ @e11 [text] "🔔" @(359,18)
+├─ @e12 [scroll-view] @(197,418) {scrollable}
+│  ├─ @e13 [view] @(197,124)
+│  │  ├─ @e14 [text] "Events" @(197,91)
+│  │  └─ @e15 [text] "Confirmed local dates from organisers and public bodies. Always check the linked" @(197,149)
+│  ├─ @e16 [view] @(197,218)
+│  │  ├─ @e17 [text] "Upcoming" @(109,218)
+│  │  └─ @e18 [text] "Past" @(285,218)
+│  ├─ @e19 [view] @(197,521)
+│  │  ├─ @e20 [view] @(197,412)
+│  │  │  ├─ @e21 [view] @(197,321)
+│  │  │  │  ├─ @e22 [image] @(197,325)
+│  │  │  │  └─ @e23 [view] @(336,295)
+│  │  │  │     ├─ @e24 [text] "12" @(336,288)
+│  │  │  │     └─ @e25 [text] "SEP" @(336,306)
+│  │  │  └─ @e26 [view] @(197,478)
+│  │  │     ├─ @e27 [view] @(175,478)
+│  │  │     │  ├─ @e28 [text] "Cuala vs Lucan Sarsfields — PTSB Premier Intermediate Hurling Championship" @(175,433)
+│  │  │     │  ├─ @e29 [text] "Cuala host Lucan Sarsfields in the PTSB Premier Intermediate Hurling Championshi" @(175,493)
+│  │  │     │  └─ @e30 [text] "🕒 12 Sept 2026, 18:00 · Shanganagh Park" @(175,540)
+│  │  │     └─ @e31 [view] @(346,478)
+│  │  │        └─ @e32 [text] "›" @(346,478)
+│  │  ├─ @e33 [view] @(197,686)
+│  │  │  ├─ @e34 [view] @(197,649)
+│  │  │  │  ├─ @e35 [image] @(197,653)
+│  │  │  │  └─ @e36 [view] @(336,623)
+│  │  │  │     ├─ @e37 [text] "13" @(336,616)
+│  │  │  │     └─ @e38 [text] "SEP" @(336,634)
+│  │  │  └─ @e39 [view] @(197,758)
+│  │  │     ├─ @e40 [view] @(175,758)
+│  │  │     │  ├─ @e41 [text] "Dip for Jigsaw 2026" @(175,739)
+│  │  │     │  ├─ @e42 [text] "Community sea swim on Bray Seafront supporting youth mental health. Open to all " @(175,771)
+│  │  │     │  └─ @e43 [text] "🕒 13 Sept 2026, 09:00 · Bray Seafront — opposite Catalyst Coffee" @(175,824) {offscreen}
+│  │  │     └─ @e44 [view] @(346,778)
+│  │  │        └─ @e45 [text] "›" @(346,781)
+│  │  ├─ @e46 [view] @(197,1004) {offscreen}
+│  │  │  ├─ @e47 [view] @(197,934) {offscreen}
+│  │  │  │  ├─ @e48 [image] @(197,938) {offscreen}
+│  │  │  │  └─ @e49 [view] @(336,908) {offscreen}
+│  │  │  │     ├─ @e50 [text] "13" @(336,901) {offscreen}
+│  │  │  │     └─ @e51 [text] "SEP" @(336,918) {offscreen}
+│  │  │  └─ @e52 [view] @(197,1069) {offscreen}
+│  │  │     ├─ @e53 [view] @(175,1069) {offscreen}
+│  │  │     │  ├─ @e54 [text] "Junior Blind/VI Tennis" @(175,1024) {offscreen}
+│  │  │     │  ├─ @e55 [text] "Free professional tennis coaching for juniors aged 5–16 at Shankill Tennis Club," @(175,1062) {offscreen}
+│  │  │     │  └─ @e56 [text] "🕒 13 Sept 2026, 10:00 · Shankill Tennis Club" @(175,1109) {offscreen}
+│  │  │     └─ @e57 [view] @(346,1069) {offscreen}
+│  │  │        └─ @e58 [text] "›" @(346,1069) {offscreen}
+│  │  ├─ @e59 [view] @(197,1306) {offscreen}
+│  │  │  ├─ @e60 [view] @(197,1218) {offscreen}
+│  │  │  │  ├─ @e61 [image] @(197,1222) {offscreen}
+│  │  │  │  └─ @e62 [view] @(336,1192) {offscreen}
+│  │  │  │     ├─ @e63 [text] "16" @(337,1185) {offscreen}
+│  │  │  │     └─ @e64 [text] "SEP" @(336,1203) {offscreen}
+│  │  │  └─ @e65 [view] @(197,1372) {offscreen}
+│  │  │     ├─ @e66 [view] @(175,1372) {offscreen}
+│  │  │     │  ├─ @e67 [text] "Woodbrook → Shanganagh Park → Shankill walk" @(175,1319) {offscreen}
+│  │  │     │  ├─ @e68 [text] "Local social walk starting at Woodbrook DART Station, continuing through Shangan" @(175,1375) {offscreen}
+│  │  │     │  └─ @e69 [text] "🕒 16 Sept 2026, 10:15 · Woodbrook DART Station" @(175,1431) {offscreen}
+│  │  │     └─ @e70 [view] @(346,1372) {offscreen}
+│  │  │        └─ @e71 [text] "›" @(346,1372) {offscreen}
+│  │  ├─ @e72 [view] @(197,1628) {offscreen}
+│  │  │  ├─ @e73 [view] @(197,1540) {offscreen}
+│  │  │  │  ├─ @e74 [image] @(197,1544) {offscreen}
+│  │  │  │  └─ @e75 [view] @(336,1514) {offscreen}
+│  │  │  │     ├─ @e76 [text] "18" @(337,1507) {offscreen}
+│  │  │  │     └─ @e77 [text] "SEP" @(336,1525) {offscreen}
+│  │  │  └─ @e78 [view] @(197,1694) {offscreen}
+│  │  │     ├─ @e79 [view] @(175,1694) {offscreen}
+│  │  │     │  ├─ @e80 [text] "DLR Sports Partnership Inclusive Cycling — 4:30pm" @(175,1641) {offscreen}
+│  │  │     │  ├─ @e81 [text] "Inclusive cycling programme for children with a disability aged 6–16. The calend" @(175,1697) {offscreen}
+│  │  │     │  └─ @e82 [text] "🕒 18 Sept 2026, 16:30 · Cherrywood Educate Together" @(175,1752) {offscreen}
+│  │  │     └─ @e83 [view] @(346,1693) {offscreen}
+│  │  │        └─ @e84 [text] "›" @(346,1694) {offscreen}
+│  │  ├─ @e85 [view] @(197,1942) {offscreen}
+│  │  │  ├─ @e86 [view] @(197,1862) {offscreen}
+│  │  │  │  ├─ @e87 [image] @(197,1866) {offscreen}
+│  │  │  │  └─ @e88 [view] @(336,1836) {offscreen}
+│  │  │  │     ├─ @e89 [text] "18" @(337,1829) {offscreen}
+│  │  │  │     └─ @e90 [text] "SEP" @(336,1846) {offscreen}
+│  │  │  └─ @e91 [view] @(197,2008) {offscreen}
+│  │  │     ├─ @e92 [view] @(175,2008) {offscreen}
+│  │  │     │  ├─ @e93 [text] "Culture Night 2026 — Bray & County Wicklow" @(175,1963) {offscreen}
+│  │  │     │  ├─ @e94 [text] "More than 50 free arts, culture, performance and workshop events across County W" @(175,2012) {offscreen}
+│  │  │     │  └─ @e95 [text] "🕒 18 Sept 2026, 18:00 · Various locations across County Wicklow" @(175,2058) {offscreen}
+│  │  │     └─ @e96 [view] @(346,2007) {offscreen}
+│  │  │        └─ @e97 [text] "›" @(346,2007) {offscreen}
+│  │  ├─ @e98 [view] @(197,2238) {offscreen}
+│  │  │  ├─ @e99 [view] @(197,2168) {offscreen}
+│  │  │  │  ├─ @e100 [image] @(197,2172) {offscreen}
+│  │  │  │  └─ @e101 [view] @(336,2142) {offscreen}
+│  │  │  │     ├─ @e102 [text] "20" @(337,2135) {offscreen}
+│  │  │  │     └─ @e103 [text] "SEP" @(336,2152) {offscreen}
+│  │  │  └─ @e104 [view] @(197,2303) {offscreen}
+│  │  │     ├─ @e105 [view] @(175,2303) {offscreen}
+│  │  │     │  ├─ @e106 [text] "Junior Blind/VI Tennis" @(175,2258) {offscreen}
+│  │  │     │  ├─ @e107 [text] "Free professional tennis coaching for juniors aged 5–16 at Shankill Tennis Club," @(175,2296) {offscreen}
+│  │  │     │  └─ @e108 [text] "🕒 20 Sept 2026, 10:00 · Shankill Tennis Club" @(175,2343) {offscreen}
+│  │  │     └─ @e109 [view] @(346,2303) {offscreen}
+│  │  │        └─ @e110 [text] "›" @(346,2303) {offscreen}
+│  │  ├─ @e111 [view] @(197,2514) {offscreen}
+│  │  │  ├─ @e112 [view] @(197,2452) {offscreen}
+│  │  │  │  ├─ @e113 [image] @(197,2456) {offscreen}
+│  │  │  │  └─ @e114 [view] @(336,2426) {offscreen}
+│  │  │  │     ├─ @e115 [text] "26" @(337,2419) {offscreen}
+│  │  │  │     └─ @e116 [text] "SEP" @(336,2437) {offscreen}
+│  │  │  └─ @e117 [view] @(197,2579) {offscreen}
+│  │  │     ├─ @e118 [view] @(175,2579) {offscreen}
+│  │  │     │  ├─ @e119 [text] "EcoTrail Wicklow 2026" @(175,2542) {offscreen}
+│  │  │     │  ├─ @e120 [text] "Trail-running event starting on Bray Seafront with 10 km, 19 km, 30 km, 46 km an" @(175,2581) {offscreen}
+│  │  │     │  └─ @e121 [text] "🕒 26 Sept 2026, 06:00 · Bray Seafront" @(175,2620) {offscreen}
+│  │  │     └─ @e122 [view] @(346,2579) {offscreen}
+│  │  │        └─ @e123 [text] "›" @(346,2580) {offscreen}
+│  │  ├─ @e124 [view] @(197,2801) {offscreen}
+│  │  │  ├─ @e125 [view] @(197,2721) {offscreen}
+│  │  │  │  ├─ @e126 [image] @(197,2725) {offscreen}
+│  │  │  │  └─ @e127 [view] @(336,2695) {offscreen}
+│  │  │  │     ├─ @e128 [text] "26" @(337,2688) {offscreen}
+│  │  │  │     └─ @e129 [text] "SEP" @(336,2706) {offscreen}
+│  │  │  └─ @e130 [view] @(197,2867) {offscreen}
+│  │  │     ├─ @e131 [view] @(175,2867) {offscreen}
+│  │  │     │  ├─ @e132 [text] "Bray Vintage Car Club - Vintage Weekend" @(175,2822) {offscreen}
+│  │  │     │  ├─ @e133 [text] "Two-day vintage motoring weekend in Bray, with a scenic car run on Saturday and " @(175,2871) {offscreen}
+│  │  │     │  └─ @e134 [text] "🕒 26 Sept 2026, 12:00 · Bray Seafront / Seafront Bandstand" @(175,2918) {offscreen}
+│  │  │     └─ @e135 [view] @(346,2867) {offscreen}
+│  │  │        └─ @e136 [text] "›" @(346,2867) {offscreen}
+│  │  ├─ @e137 [view] @(197,3097) {offscreen}
+│  │  │  ├─ @e138 [view] @(197,3027) {offscreen}
+│  │  │  │  ├─ @e139 [image] @(197,3031) {offscreen}
+│  │  │  │  └─ @e140 [view] @(336,3001) {offscreen}
+│  │  │  │     ├─ @e141 [text] "27" @(336,2994) {offscreen}
+│  │  │  │     └─ @e142 [text] "SEP" @(336,3012) {offscreen}
+│  │  │  └─ @e143 [view] @(197,3162) {offscreen}
+│  │  │     ├─ @e144 [view] @(175,3162) {offscreen}
+│  │  │     │  ├─ @e145 [text] "Junior Blind/VI Tennis" @(175,3117) {offscreen}
+│  │  │     │  ├─ @e146 [text] "Free professional tennis coaching for juniors aged 5–16 at Shankill Tennis Club," @(175,3156) {offscreen}
+│  │  │     │  └─ @e147 [text] "🕒 27 Sept 2026, 10:00 · Shankill Tennis Club" @(175,3203) {offscreen}
+│  │  │     └─ @e148 [view] @(346,3162) {offscreen}
+│  │  │        └─ @e149 [text] "›" @(346,3162) {offscreen}
+│  │  ├─ @e150 [view] @(197,3385) {offscreen}
+│  │  │  ├─ @e151 [view] @(197,3312) {offscreen}
+│  │  │  │  ├─ @e152 [image] @(197,3316) {offscreen}
+│  │  │  │  └─ @e153 [view] @(336,3286) {offscreen}
+│  │  │  │     ├─ @e154 [text] "27" @(336,3279) {offscreen}
+│  │  │  │     └─ @e155 [text] "SEP" @(336,3297) {offscreen}
+│  │  │  └─ @e156 [view] @(197,3450) {offscreen}
+│  │  │     ├─ @e157 [view] @(175,3450) {offscreen}
+│  │  │     │  ├─ @e158 [text] "Shankill vs St Finians Newcastle — Under 8" @(175,3413) {offscreen}
+│  │  │     │  ├─ @e159 [text] "Local Shankill GAA Under 8 home fixture at Shanganagh Cliffs." @(175,3454) {offscreen}
+│  │  │     │  └─ @e160 [text] "🕒 27 Sept 2026, 10:00 · Shanganagh Cliffs" @(175,3493) {offscreen}
+│  │  │     └─ @e161 [view] @(346,3450) {offscreen}
+│  │  │        └─ @e162 [text] "›" @(346,3450) {offscreen}
+│  │  ├─ @e163 [view] @(197,3683) {offscreen}
+│  │  │  ├─ @e164 [view] @(197,3603) {offscreen}
+│  │  │  │  ├─ @e165 [image] @(197,3607) {offscreen}
+│  │  │  │  └─ @e166 [view] @(336,3577) {offscreen}
+│  │  │  │     ├─ @e167 [text] "27" @(336,3570) {offscreen}
+│  │  │  │     └─ @e168 [text] "SEP" @(336,3587) {offscreen}
+│  │  │  └─ @e169 [view] @(197,3749) {offscreen}
+│  │  │     ├─ @e170 [view] @(175,3749) {offscreen}
+│  │  │     │  ├─ @e171 [text] "Shankill vs Round Towers — U15 Football League Div. 4" @(175,3704) {offscreen}
+│  │  │     │  ├─ @e172 [text] "Shankill host Round Towers (C) A in the U15 Football League Division 4 at Shanga" @(175,3753) {offscreen}
+│  │  │     │  └─ @e173 [text] "🕒 27 Sept 2026, 11:30 · Shanganagh Cliffs" @(175,3799) {offscreen}
+│  │  │     └─ @e174 [view] @(346,3748) {offscreen}
+│  │  │        └─ @e175 [text] "›" @(346,3748) {offscreen}
+│  │  ├─ @e176 [view] @(197,3989) {offscreen}
+│  │  │  ├─ @e177 [view] @(197,3909) {offscreen}
+│  │  │  │  ├─ @e178 [image] @(197,3913) {offscreen}
+│  │  │  │  └─ @e179 [view] @(336,3883) {offscreen}
+│  │  │  │     ├─ @e180 [text] "27" @(336,3876) {offscreen}
+│  │  │  │     └─ @e181 [text] "SEP" @(336,3893) {offscreen}
+│  │  │  └─ @e182 [view] @(197,4055) {offscreen}
+│  │  │     ├─ @e183 [view] @(175,4055) {offscreen}
+│  │  │     │  ├─ @e184 [text] "Shankill vs St Finians Swords — LGFA U14 Championship" @(175,4010) {offscreen}
+│  │  │     │  ├─ @e185 [text] "Shankill host St Finians Swords in the LGFA Under 14 Championship Division 4 Gro" @(175,4059) {offscreen}
+│  │  │     │  └─ @e186 [text] "🕒 27 Sept 2026, 13:00 · Shanganagh Cliffs" @(175,4105) {offscreen}
+│  │  │     └─ @e187 [view] @(346,4054) {offscreen}
+│  │  │        └─ @e188 [text] "›" @(346,4054) {offscreen}
+│  │  ├─ @e189 [view] @(197,4303) {offscreen}
+│  │  │  ├─ @e190 [view] @(197,4215) {offscreen}
+│  │  │  │  ├─ @e191 [image] @(197,4219) {offscreen}
+│  │  │  │  └─ @e192 [view] @(336,4189) {offscreen}
+│  │  │  │     ├─ @e193 [text] "1" @(337,4182) {offscreen}
+│  │  │  │     └─ @e194 [text] "OCT" @(336,4199) {offscreen}
+│  │  │  └─ @e195 [view] @(197,4369) {offscreen}
+│  │  │     ├─ @e196 [view] @(175,4369) {offscreen}
+│  │  │     │  ├─ @e197 [text] "The Letter: Screening & Climate Conversation" @(175,4316) {offscreen}
+│  │  │     │  ├─ @e198 [text] "Film screening and local conversation on earth care, biodiversity and community " @(175,4372) {offscreen}
+│  │  │     │  └─ @e199 [text] "🕒 1 Oct 2026, 20:00 · Mermaid Arts Centre" @(175,4427) {offscreen}
+│  │  │     └─ @e200 [view] @(346,4368) {offscreen}
+│  │  │        └─ @e201 [text] "›" @(346,4368) {offscreen}
+│  │  ├─ @e202 [view] @(197,4606) {offscreen}
+│  │  │  ├─ @e203 [view] @(197,4536) {offscreen}
+│  │  │  │  ├─ @e204 [image] @(197,4540) {offscreen}
+│  │  │  │  └─ @e205 [view] @(336,4510) {offscreen}
+│  │  │  │     ├─ @e206 [text] "4" @(336,4503) {offscreen}
+│  │  │  │     └─ @e207 [text] "OCT" @(336,4521) {offscreen}
+│  │  │  └─ @e208 [view] @(197,4671) {offscreen}
+│  │  │     ├─ @e209 [view] @(175,4671) {offscreen}
+│  │  │     │  ├─ @e210 [text] "Junior Blind/VI Tennis" @(175,4626) {offscreen}
+│  │  │     │  ├─ @e211 [text] "Free professional tennis coaching for juniors aged 5–16 at Shankill Tennis Club," @(175,4665) {offscreen}
+│  │  │     │  └─ @e212 [text] "🕒 4 Oct 2026, 10:00 · Shankill Tennis Club" @(175,4712) {offscreen}
+│  │  │     └─ @e213 [view] @(346,4671) {offscreen}
+│  │  │        └─ @e214 [text] "›" @(346,4671) {offscreen}
+│  │  ├─ @e215 [view] @(197,4898) {offscreen}
+│  │  │  ├─ @e216 [view] @(197,4821) {offscreen}
+│  │  │  │  ├─ @e217 [image] @(197,4825) {offscreen}
+│  │  │  │  └─ @e218 [view] @(336,4795) {offscreen}
+│  │  │  │     ├─ @e219 [text] "10" @(337,4788) {offscreen}
+│  │  │  │     └─ @e220 [text] "OCT" @(336,4806) {offscreen}
+│  │  │  └─ @e221 [view] @(197,4964) {offscreen}
+│  │  │     ├─ @e222 [view] @(175,4964) {offscreen}
+│  │  │     │  ├─ @e223 [text] "How to Catch a Star" @(175,4911) {offscreen}
+│  │  │     │  ├─ @e224 [text] "Branar’s non-verbal family show based on Oliver Jeffers’ book, with performances" @(175,4957) {offscreen}
+│  │  │     │  └─ @e225 [text] "🕒 10 Oct 2026, 12:00 · Mermaid Arts Centre" @(175,5012) {offscreen}
+│  │  │     └─ @e226 [view] @(346,4964) {offscreen}
+│  │  │        └─ @e227 [text] "›" @(346,4964) {offscreen}
+│  │  ├─ @e228 [view] @(197,5191) {offscreen}
+│  │  │  ├─ @e229 [view] @(197,5121) {offscreen}
+│  │  │  │  ├─ @e230 [image] @(197,5125) {offscreen}
+│  │  │  │  └─ @e231 [view] @(336,5095) {offscreen}
+│  │  │  │     ├─ @e232 [text] "11" @(336,5088) {offscreen}
+│  │  │  │     └─ @e233 [text] "OCT" @(336,5106) {offscreen}
+│  │  │  └─ @e234 [view] @(197,5256) {offscreen}
+│  │  │     ├─ @e235 [view] @(175,5256) {offscreen}
+│  │  │     │  ├─ @e236 [text] "Junior Blind/VI Tennis" @(175,5211) {offscreen}
+│  │  │     │  ├─ @e237 [text] "Free professional tennis coaching for juniors aged 5–16 at Shankill Tennis Club," @(175,5250) {offscreen}
+│  │  │     │  └─ @e238 [text] "🕒 11 Oct 2026, 10:00 · Shankill Tennis Club" @(175,5297) {offscreen}
+│  │  │     └─ @e239 [view] @(346,5256) {offscreen}
+│  │  │        └─ @e240 [text] "›" @(346,5256) {offscreen}
+│  │  ├─ @e241 [view] @(197,5497) {offscreen}
+│  │  │  ├─ @e242 [view] @(197,5406) {offscreen}
+│  │  │  │  ├─ @e243 [image] @(197,5410) {offscreen}
+│  │  │  │  └─ @e244 [view] @(336,5380) {offscreen}
+│  │  │  │     ├─ @e245 [text] "14" @(337,5373) {offscreen}
+│  │  │  │     └─ @e246 [text] "OCT" @(336,5391) {offscreen}
+│  │  │  └─ @e247 [view] @(197,5563) {offscreen}
+│  │  │     ├─ @e248 [view] @(175,5563) {offscreen}
+│  │  │     │  ├─ @e249 [text] "Discover the Magic of Trees: Shankill Tree Trail walk & cyanotype workshop" @(175,5518) {offscreen}
+│  │  │     │  ├─ @e250 [text] "Free guided walk along the Shankill Tree Trail followed by a cyanotype print wor" @(175,5578) {offscreen}
+│  │  │     │  └─ @e251 [text] "🕒 14 Oct 2026, 10:30 · Shankill DART Station Car Park" @(175,5624) {offscreen}
+│  │  │     └─ @e252 [view] @(346,5562) {offscreen}
+│  │  │        └─ @e253 [text] "›" @(346,5563) {offscreen}
+│  │  ├─ @e254 [view] @(197,5822) {offscreen}
+│  │  │  ├─ @e255 [view] @(197,5734) {offscreen}
+│  │  │  │  ├─ @e256 [image] @(197,5738) {offscreen}
+│  │  │  │  └─ @e257 [view] @(336,5708) {offscreen}
+│  │  │  │     ├─ @e258 [text] "17" @(336,5701) {offscreen}
+│  │  │  │     └─ @e259 [text] "OCT" @(336,5718) {offscreen}
+│  │  │  └─ @e260 [view] @(197,5888) {offscreen}
+│  │  │     ├─ @e261 [view] @(175,5888) {offscreen}
+│  │  │     │  ├─ @e262 [text] "DLR household hazardous waste collection day" @(175,5835) {offscreen}
+│  │  │     │  ├─ @e263 [text] "MyWaste lists a Dún Laoghaire–Rathdown collection day for household hazardous wa" @(175,5891) {offscreen}
+│  │  │     │  └─ @e264 [text] "🕒 17 Oct 2026, 09:00 · Dún Laoghaire–Rathdown — venue to be confirmed" @(175,5946) {offscreen}
+│  │  │     └─ @e265 [view] @(346,5887) {offscreen}
+│  │  │        └─ @e266 [text] "›" @(346,5887) {offscreen}
+│  │  ├─ @e267 [view] @(197,6125) {offscreen}
+│  │  │  ├─ @e268 [view] @(197,6055) {offscreen}
+│  │  │  │  ├─ @e269 [image] @(197,6059) {offscreen}
+│  │  │  │  └─ @e270 [view] @(336,6029) {offscreen}
+│  │  │  │     ├─ @e271 [text] "18" @(337,6022) {offscreen}
+│  │  │  │     └─ @e272 [text] "OCT" @(336,6040) {offscreen}
+│  │  │  └─ @e273 [view] @(197,6190) {offscreen}
+│  │  │     ├─ @e274 [view] @(175,6190) {offscreen}
+│  │  │     │  ├─ @e275 [text] "Junior Blind/VI Tennis" @(175,6145) {offscreen}
+│  │  │     │  ├─ @e276 [text] "Free professional tennis coaching for juniors aged 5–16 at Shankill Tennis Club," @(175,6184) {offscreen}
+│  │  │     │  └─ @e277 [text] "🕒 18 Oct 2026, 10:00 · Shankill Tennis Club" @(175,6231) {offscreen}
+│  │  │     └─ @e278 [view] @(346,6190) {offscreen}
+│  │  │        └─ @e279 [text] "›" @(346,6190) {offscreen}
+│  │  ├─ @e280 [view] @(197,6410) {offscreen}
+│  │  │  ├─ @e281 [view] @(197,6340) {offscreen}
+│  │  │  │  ├─ @e282 [image] @(197,6344) {offscreen}
+│  │  │  │  └─ @e283 [view] @(336,6314) {offscreen}
+│  │  │  │     ├─ @e284 [text] "25" @(337,6307) {offscreen}
+│  │  │  │     └─ @e285 [text] "OCT" @(336,6325) {offscreen}
+│  │  │  └─ @e286 [view] @(197,6475) {offscreen}
+│  │  │     ├─ @e287 [view] @(175,6475) {offscreen}
+│  │  │     │  ├─ @e288 [text] "Junior Blind/VI Tennis" @(175,6430) {offscreen}
+│  │  │     │  ├─ @e289 [text] "Free professional tennis coaching for juniors aged 5–16 at Shankill Tennis Club," @(175,6469) {offscreen}
+│  │  │     │  └─ @e290 [text] "🕒 25 Oct 2026, 10:00 · Shankill Tennis Club" @(175,6515) {offscreen}
+│  │  │     └─ @e291 [view] @(346,6475) {offscreen}
+│  │  │        └─ @e292 [text] "›" @(346,6475) {offscreen}
+│  │  ├─ @e293 [view] @(197,6695) {offscreen}
+│  │  │  ├─ @e294 [view] @(197,6625) {offscreen}
+│  │  │  │  ├─ @e295 [image] @(197,6629) {offscreen}
+│  │  │  │  └─ @e296 [view] @(336,6599) {offscreen}
+│  │  │  │     ├─ @e297 [text] "31" @(336,6592) {offscreen}
+│  │  │  │     └─ @e298 [text] "OCT" @(336,6609) {offscreen}
+│  │  │  └─ @e299 [view] @(197,6760) {offscreen}
+│  │  │     ├─ @e300 [view] @(175,6760) {offscreen}
+│  │  │     │  ├─ @e301 [text] "Woodbrook Halloween Party" @(175,6715) {offscreen}
+│  │  │     │  ├─ @e302 [text] "WRA is organising a community Halloween Party on Saturday, 31 October, with chil" @(175,6760) {offscreen}
+│  │  │     │  └─ @e303 [text] "🕒 31 Oct 2026, 00:00 · Woodbrook" @(175,6808) {offscreen}
+│  │  │     └─ @e304 [view] @(346,6759) {offscreen}
+│  │  │        └─ @e305 [text] "›" @(346,6760) {offscreen}
+│  │  └─ @e306 [view] @(197,6981) {offscreen}
+│  │     ├─ @e307 [view] @(197,6909) {offscreen}
+│  │     │  ├─ @e308 [image] @(197,6913) {offscreen}
+│  │     │  └─ @e309 [view] @(336,6883) {offscreen}
+│  │     │     ├─ @e310 [text] "11" @(336,6876) {offscreen}
+│  │     │     └─ @e311 [text] "NOV" @(337,6894) {offscreen}
+│  │     └─ @e312 [view] @(197,7047) {offscreen}
+│  │        ├─ @e313 [view] @(175,7047) {offscreen}
+│  │        │  ├─ @e314 [text] "Woodbrook Residents Association AGM 2026" @(175,7010) {offscreen}
+│  │        │  ├─ @e315 [text] "The Woodbrook Residents Association AGM will take place on Wednesday, 11 Novembe" @(175,7059) {offscreen}
+│  │        │  └─ @e316 [text] "🕒 11 Nov 2026, 19:00 · Crinken Centre" @(175,7098) {offscreen}
+│  │        └─ @e317 [view] @(346,7047) {offscreen}
+│  │           └─ @e318 [text] "›" @(346,7047) {offscreen}
+│  └─ @e319 [view] @(197,7203) {offscreen}
+└─ @e320 [view] @(197,821)
+   ├─ @e321 [view] @(40,822)
+   │  ├─ @e322 [view] @(39,814)
+   │  │  └─ @e323 [text] "⌂" @(39,814)
+   │  └─ @e324 [text] "Home" @(40,837)
+   ├─ @e325 [view] @(119,822)
+   │  ├─ @e326 [view] @(118,814)
+   │  │  └─ @e327 [text] "◉" @(118,814)
+   │  └─ @e328 [text] "Updates" @(118,837)
+   ├─ @e329 [view] @(196,822)
+   │  ├─ @e330 [view] @(197,814)
+   │  │  └─ @e331 [text] "◫" @(197,814)
+   │  └─ @e332 [text] "Events" @(197,837)
+   ├─ @e333 [view] @(276,822)
+   │  ├─ @e334 [view] @(275,814)
+   │  │  └─ @e335 [text] "⌖" @(275,814)
+   │  └─ @e336 [text] "Local" @(275,837)
+   └─ @e337 [view] @(354,822)
+      ├─ @e338 [view] @(354,814)
+      │  └─ @e339 [text] "•••" @(354,814)
+      └─ @e340 [text] "More" @(354,837)

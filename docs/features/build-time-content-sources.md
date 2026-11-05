@@ -1,41 +1,31 @@
-# Build-time content sources
+# Published Sanity content
 
 Status: Available
 
 ## Job to be done
 
-When maintaining the public website, I want to choose the Woodbrook Google spreadsheet or Sanity Studio as its content source, so the site can remain inexpensive and fully static now without preventing a future CMS deployment.
+When maintaining Woodbrook content, I want to publish once in Sanity so the
+website build and mobile API use the same validated content model.
 
-## User-visible behavior
+## Visible behavior
 
-- Sanity supplies published content by default; Google Sheets remains an explicit opt-in.
-- Residents see the same pages and content model regardless of which source supplied the build.
-- Only rows explicitly marked for publishing in Google Sheets appear on the public site.
-- Published content changes become visible after the next successful static build and deployment.
-- Invalid content stops the build instead of publishing a partial or misleading site.
-- Invalid content is reported before prerendering with the source validation message, including the affected spreadsheet tab, row, and field when available.
-- The deployed browser site never contacts Google Sheets or a runtime application backend. Mobile runtime loading is specified separately.
+- Sanity is the single source. Sheets configuration is rejected.
+- Website pages reflect the latest successful static build; mobile loads at runtime.
+- Only published documents appear, even when a backend read token is configured.
+- Invalid content fails the build or produces the public API's unavailable response.
 
 ## Acceptance criteria
 
-- Given `CONTENT_SOURCE` is missing, empty, or whitespace, when content is loaded, then it selects Sanity with the Woodbrook project defaults.
-- Given `CONTENT_SOURCE=sanity`, when the site loads content, then it runs GROQ queries against the configured Sanity project (`ca34quae`) and dataset (`production`) into one validated snapshot. See [Sanity Studio content](sanity-studio-content.md).
-- Given `CONTENT_SOURCE=google-sheets`, when the static build runs with read-only service-account credentials, then it reads the configured spreadsheet tabs in one batch and maps published rows into the canonical content model.
-- Given a Google Sheets row has `publish != TRUE`, when content is loaded, then the row is ignored and its private `admin_notes` value is never included in the snapshot.
-- Given a published row has an invalid required field, taxonomy value, date, URL, or relation, when content is loaded, then the error identifies the tab, row, and field and the static build fails.
-- Given build-time content is invalid, when the static build runs, then it reports the actionable source error before starting Vite prerendering.
-- Given published records contain duplicate stable IDs or route slugs, when the snapshot is validated, then the build fails.
-- Given the prerenderer requests content for multiple routes, when one static build is running, then the validated snapshot is loaded only once.
-- Given the built client artifact is inspected, then it contains no service-account credentials; credentials remain only in build infrastructure and the server-side mobile Worker.
+- Missing, blank, or `sanity` source settings use the shared Sanity defaults.
+- `google-sheets` and unsupported sources fail with a configuration error.
+- All five collections and site settings use the same validation and normalization.
+- Duplicate IDs, slugs, invalid fields, and broken project relations fail validation.
+- Drafts and release versions are excluded from every query.
+- Static builds cache one snapshot; runtime requests load fresh snapshots.
+- Credentials remain in backend/build infrastructure and never enter public assets.
 
 ## Scope
 
-### Included
-
-- Read-only Google Sheets and Sanity adapters, source selection, normalization, validation, build-time caching, service-account/API-token configuration, tests, and deployment guidance.
-- Structured local-information collection schedules and supporting document
-  links stored in the Google spreadsheet.
-
-### Not included
-
-- Editing the spreadsheet, synchronizing one source into the other, browser runtime content reads, media mirroring, issue-report writes, or a public CMS API. Mobile runtime reads are covered by the iOS mobile navigation capability.
+Included: read-only Sanity adapter, configuration, validation, caching, static
+build and mobile API. Excluded: Sheets support, content migration, draft preview,
+CMS schema changes, public issue-report reads, and mobile screen changes.

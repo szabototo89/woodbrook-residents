@@ -1,0 +1,30 @@
+bun test v1.4.0 (1381054db)
+
+scripts/deploy.test.ts:
+(pass) deploy defaults to Sanity with the production public URL [0.07ms]
+(pass) deploy preserves explicit Sanity configuration [0.02ms]
+14 | test('deploy preserves explicit Sanity configuration', () => {
+15 |   expect(buildDeployEnvironment({ CONTENT_SOURCE: ' sanity ', SANITY_DATASET: 'preview' })).toMatchObject({ CONTENT_SOURCE: 'sanity', SANITY_DATASET: 'preview' });
+16 | });
+17 | 
+18 | test('deploy rejects the retired Sheets source', () => {
+19 |   expect(() => buildDeployEnvironment({ CONTENT_SOURCE: 'google-sheets' })).toThrow('CONTENT_SOURCE must be');
+                                                                                 ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "CONTENT_SOURCE must be"
+
+Received function did not throw
+Received value: {
+  CONTENT_SOURCE: "google-sheets",
+  VITE_PUBLIC_SITE_URL: "https://woodbrook.shankill.workers.dev",
+}
+
+      at <anonymous> (/Users/tszabo/orca/workspaces/woodbrook/mobile-api-use-sanity-as-the-default-runtime-con/scripts/deploy.test.ts:19:77)
+(fail) deploy rejects the retired Sheets source [0.29ms]
+(pass) deploy rejects an unsupported source before building or publishing [0.02ms]
+
+ 3 pass
+ 1 fail
+ 6 expect() calls
+Ran 4 tests across 1 file. [10.00ms]

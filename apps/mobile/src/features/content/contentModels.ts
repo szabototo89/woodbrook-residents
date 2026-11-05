@@ -78,20 +78,41 @@ const collectionCopy: Record<CollectionKey, Omit<CollectionModel, 'cards'>> = {
   },
 };
 
-const readableDate = (value: string) =>
-  new Intl.DateTimeFormat('en-IE', { dateStyle: 'medium' }).format(
-    new Date(value),
-  );
+const shortMonthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sept',
+  'Oct',
+  'Nov',
+  'Dec',
+];
 
-export { readableDate };
+function parseDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) throw new RangeError('Invalid time value');
+  return date;
+}
 
-const readableDateTime = (value: string) =>
-  new Intl.DateTimeFormat('en-IE', {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  }).format(new Date(value));
+function formatDate(date: Date) {
+  return `${date.getDate()} ${shortMonthNames[date.getMonth()]} ${date.getFullYear()}`;
+}
 
-export { readableDateTime };
+export function readableDate(value: string) {
+  return formatDate(parseDate(value));
+}
+
+export function readableDateTime(value: string) {
+  const date = parseDate(value);
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${formatDate(date)}, ${hours}:${minutes}`;
+}
 
 export function getResourceCategories(resources: Resource[]) {
   return [...new Set(resources.map((resource) => resource.category))].sort();

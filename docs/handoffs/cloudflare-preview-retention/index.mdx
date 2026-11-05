@@ -1,0 +1,70 @@
+export const metadata = {
+  title: 'Cloudflare preview retention',
+  status: 'ready for review',
+  agent: 'opencode',
+  session: 'ses_e8bb3aa1fffevCoV5eFkw178Ze',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/infrastructure-clean-up-cloudflare-previews-olde',
+  branch: 'szabototo89/infrastructure-clean-up-cloudflare-previews-olde',
+  commit: 'c3a306f',
+  updatedAt: '2026-10-25T19:09:00Z',
+  summary:
+    'Deletes Cloudflare preview deployments older than seven days from a daily GitHub Actions job, with a tested inventory, audit summary and recorded limits.',
+};
+
+## Goal
+
+Temporary Cloudflare previews currently stay published until someone removes them by hand. This change adds a daily job that deletes repository-owned Pages preview deployments older than seven days, never touches production, and reports what it scanned, deleted, retained, skipped or failed. The Worker preview gap and the manual dispatch path are documented rather than hidden.
+
+## Technical changes
+
+Baseline: `c31cd3e` on `main` after the Forma approved-copy fix merged as #10. This handoff compares the session commits with that base; the implementation commit precedes this document.
+
+| Area               | Before                                                                  | After                                                                                                                                                 | Why                                                                         | Code                                                                                           |
+| ------------------ | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Schedule           | No automatic preview deletion; previews persisted until manual removal. | Daily run at 02:17 UTC, plus manual dispatch with a `dry_run` input.                                                                                  | Enforce retention without relying on memory.                                | `.github/workflows/cleanup-cloudflare-previews.yml`                                            |
+| Eligibility        | No retention rule existed.                                              | One cutoff per run; delete only `environment: preview` with `created_on` strictly before `runStartedAt - 7 days`. Production is always retained.      | Keep exactly seven days and avoid ambiguity at the boundary.                | `scripts/cloudflare-preview-cleanup.ts` (`cutoffFromRunStart`, `classifyDeployment`)           |
+| Deletion           | No cleanup call existed.                                                | Pages deployments use `DELETE .../deployments/{id}?force=true`; newer deployments are never deleted.                                                  | Resolve alias and latest-branch protection through the supported API.       | `scripts/cloudflare-preview-cleanup.ts` (`deleteCandidate`)                                    |
+| Inventory          | App names were discoverable only by reading deploy workflows.           | `scripts/cloudflare-preview-inventory.json` lists seven apps with kind, mechanism and source path.                                                    | Never enumerate or delete account-wide or unrelated resources.              | `scripts/cloudflare-preview-inventory.json`                                                    |
+| Inventory guard    | A new app could be added without cleanup coverage.                      | A test compares the inventory with deploy workflow project names and the Worker name.                                                                 | Fail the test suite when a deployed app is unregistered.                    | `scripts/cloudflare-preview-cleanup.test.ts`                                                   |
+| API failures       | No defined retry or error behavior.                                     | Three attempts with exponential backoff and `Retry-After`; 401/403 fatal; 404 delete is an idempotent skip; protected 400/409/423 is a recorded skip. | Bound runtime and make repeat runs safe.                                    | `scripts/cloudflare-preview-cleanup.ts` (`CloudflareApi`, `retryDelayMs`)                      |
+| Audit              | No run record existed.                                                  | Markdown summary goes to stdout and `GITHUB_STEP_SUMMARY` with cutoff and per-app counts, identifiers and reasons.                                    | Let a reviewer reconstruct every decision from the run.                     | `scripts/cloudflare-preview-cleanup.ts` (`renderSummary`)                                      |
+| Worker gap         | The lack of Worker previews was undocumented.                           | The Worker is registered with mechanism `none`; every summary states the limitation.                                                                  | Cloudflare exposes no supported API to delete an individual Worker version. | `scripts/cloudflare-preview-inventory.json`, `docs/operations/cloudflare-preview-retention.md` |
+| Operations         | No retention, secret or recovery guidance existed.                      | Added retention policy, inventory registration, secrets, commands, recovery and refresh steps.                                                        | Make the page sufficient for an operator without reading the code.          | `docs/operations/cloudflare-preview-retention.md`, `AGENTS.md`                                 |
+| Repository scripts | The new script was outside test and typecheck commands.                 | Added it to `test:scripts` and `typecheck:scripts`.                                                                                                   | Keep it covered by normal repository checks.                                | `package.json`                                                                                 |
+
+The script validates the inventory, accepts `--config`, `--dry-run` and `--now` for local checks, and paginates Pages deployments at 25 per request. The real API rejected larger page sizes with HTTP 400, so 25 is the tested value. A repeated run selects no candidates because deleted deployments disappear from the listing and a 404 delete is treated as a skip. Credentials are read from environment variables and never written to logs or the summary.
+
+## Architecture changes
+
+Woodbrook is a public information and action hub for Shankill residents. The cleanup job is repository operations automation, not a resident-facing capability: it runs in GitHub Actions, calls the Cloudflare API and changes no application, data store or runtime component. Here C1 is the product's system context, C2 is its containers and C3 is a component view inside one container.
+
+| Level | Change                                                                                                                                                     | Evidence                                                                                                                   |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| C1    | Unchanged: no new resident, operator or product system enters the product context; cleanup is CI tooling outside the modeled runtime boundary.             | Changes are limited to `scripts/`, `.github/workflows/`, `docs/`, `package.json` and `AGENTS.md`; no runtime code changed. |
+| C2    | Unchanged: no application or data store is added or changed; the website, Sanity Studio, Worker and Cloudflare Pages projects keep their responsibilities. | `docs/architecture/c4-model.json` is unchanged; the job acts on existing preview deployments.                              |
+| C3    | Unchanged: no component responsibility inside a product container changes; the script is a standalone operations entry point.                              | `scripts/cloudflare-preview-cleanup.ts` is outside `apps/*/src`; product builds and tests are untouched.                   |
+
+## Verification
+
+| Check                       | Result  | Evidence                                                                                                                                                                                                        |
+| --------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Focused cleanup tests       | PASS    | `bun test scripts/cloudflare-preview-cleanup.test.ts`: 22 pass, 0 fail, 81 assertions; cutoff boundary, pagination, retries, dry run, inventory coverage and workflow inputs covered.                           |
+| Repository script tests     | PASS    | `bun run test:scripts`: 134 pass, 0 fail across 8 files.                                                                                                                                                        |
+| Typecheck                   | PASS    | `bun run typecheck:scripts` exited 0.                                                                                                                                                                           |
+| Lint and formatting         | PASS    | ESLint on both new script files exited 0; Prettier check passed for every changed file.                                                                                                                         |
+| Handoff documentation check | PASS    | `bun run --cwd apps/handoffs docs:check` validates this document; see the final session response for the exact output.                                                                                          |
+| Repository build            | PASS    | `bun run build` exited 0 for every application after #10 merged the Forma approved-copy fix.                                                                                                                    |
+| Real API dry run            | PASS    | 120 deployments scanned across six Pages projects, including an 82-deployment project; two previews found, zero candidates because neither was older than the cutoff. Evidence: `assets/dry-run-real-time.txt`. |
+| Controlled-clock dry run    | PASS    | With `--now 2026-11-01T18:35:10Z`, only preview `856a4813` was selected; no DELETE was sent. Evidence: `assets/dry-run-controlled-clock.txt`.                                                                   |
+| Real disposable deletion    | PASS    | The live run deleted `856a4813`; its URL returned 404, newer preview `2c56c316` returned 200 and production returned 200. Evidence: `assets/live-controlled-clock.txt`, `assets/post-deletion-checks.txt`.      |
+| Repeat run                  | PASS    | Rerunning with the same cutoff selected zero candidates and exited 0. Evidence: `assets/repeat-controlled-clock.txt`.                                                                                           |
+| Second disposable deletion  | PASS    | A separately created preview `2c56c316` was deleted by a later controlled-clock run. Evidence: `assets/live-delete-second-disposable.txt`.                                                                      |
+| Final real-time live run    | PASS    | After cleanup, a real-time live run scanned 118 deployments, found zero previews and exited 0. Evidence: `assets/live-real-time-final.txt`.                                                                     |
+| Scheduled workflow dispatch | NOT RUN | The workflow is new on this branch and scheduled or manual dispatch uses the default branch; local real-API runs provide the behavioral evidence until merge.                                                   |
+| Worker preview cleanup      | NOT RUN | Cloudflare has no supported API to delete an individual Worker version; the inventory records mechanism `none` and the summary reports the gap on every run.                                                    |
+| Full precommit suite        | PASS    | `bun run precommit` exited 0, including formatting, ESLint, all app typechecks, `docs:check`, 134 script tests, and the unit, browser and end-to-end suites.                                                    |
+
+## Next steps
+
+Merge the pull request so the scheduled workflow exists on the default branch, then run **Actions → Clean up Cloudflare previews** once with `dry_run` enabled and review its summary. Provision `CLOUDFLARE_PREVIEW_CLEANUP_API_TOKEN` with Pages Read and Pages Write when ready; otherwise the existing `CLOUDFLARE_API_TOKEN` fallback is used. The Worker preview gap stays open until Cloudflare provides a supported deletion API. No other implementation work remains; the Forma approved-copy fix (#10) is already on `main`.

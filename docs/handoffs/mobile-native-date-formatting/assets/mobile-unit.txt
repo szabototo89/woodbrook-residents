@@ -1,0 +1,70 @@
+$ vitest run --coverage
+
+ RUN  v4.1.11 /Users/tszabo/orca/workspaces/woodbrook/mobile-api-use-sanity-as-the-default-runtime-con/apps/mobile
+      Coverage enabled with v8
+
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+Importing from "vitest/environments" is deprecated since Vitest 4.1. Please use "vitest/runtime" instead.
+The Vitest environment lynxTestingEnv defines the "transformMode". This options was deprecated in Vitest 4 and will be removed in the next major version. Please, use "viteEnvironment" instead.
+
+ Test Files  15 passed (15)
+      Tests  70 passed (70)
+   Start at  12:49:37
+   Duration  2.23s (transform 7.14s, setup 5.18s, import 4.15s, tests 481ms, environment 9.09s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |    96.7 |    90.11 |   91.12 |   97.56 |
+ src               |   96.42 |    76.47 |     100 |     100 |
+  App.tsx          |   96.42 |    76.47 |     100 |     100 | 59,71,97-113
+ src/components    |   98.41 |    93.18 |    90.9 |   98.24 |
+  AppHeader.tsx    |   94.73 |      100 |   66.66 |   94.73 | 33
+  ExternalLink.tsx |     100 |       75 |     100 |     100 | 18-19,21
+ ...atures/content |   95.36 |    91.94 |   89.85 |   96.46 |
+  CardFeed.tsx     |   94.73 |    86.84 |     100 |    97.8 | 20,30
+  ...ionScreen.tsx |      80 |    76.66 |      50 |      80 | 28,50,67,78-87
+  DetailScreen.tsx |     100 |    95.65 |     100 |     100 | 60,139
+  ...nfoScreen.tsx |   95.74 |      100 |   77.77 |   95.55 | 68,82
+  contentModels.ts |   98.07 |    98.43 |   95.65 |   97.61 | 140
+  externalUrl.ts   |   96.55 |    84.61 |     100 |     100 | 7-9,36
+ src/features/help |     100 |       50 |     100 |     100 |
+  ...elpScreen.tsx |     100 |       50 |     100 |     100 | 13-33
+ src/features/home |   97.61 |    91.66 |   83.33 |   97.56 |
+  HomeScreen.tsx   |   97.52 |    91.66 |   78.57 |   97.47 | 181,199,263
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 96.7% ( 645/667 )
+Branches     : 90.11% ( 301/334 )
+Functions    : 91.12% ( 113/124 )
+Lines        : 97.56% ( 600/615 )
+================================================================================

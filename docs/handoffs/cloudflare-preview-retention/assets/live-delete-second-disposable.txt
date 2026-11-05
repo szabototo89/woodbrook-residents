@@ -1,0 +1,38 @@
+$ bun scripts/cloudflare-preview-cleanup.ts --now 2026-11-02T18:35:20Z
+## Cloudflare preview cleanup
+
+**Result:** PASSED
+
+| Limit | Value |
+| --- | --- |
+| Run started (UTC) | 2026-11-02T18:35:20.000Z |
+| Cutoff (UTC) | 2026-10-26T18:35:20.000Z |
+| Retention | 7 days |
+| Mode | Live cleanup |
+
+Deployments are eligible only when Cloudflare reports `environment: preview` and `created_on` strictly earlier than the cutoff. Production deployments are always retained.
+
+| App | Kind | Mechanism | Scanned | Previews | Candidates | Deleted | Retained | Skipped | Failed |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| woodbrook | worker | none | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| forma-studio-web | pages | pages-deployments | 4 | 0 | 0 | 0 | 4 | 0 | 0 |
+| laura-faichney-all-things-art | pages | pages-deployments | 82 | 0 | 0 | 0 | 82 | 0 | 0 |
+| woodbrook-design-gallery | pages | pages-deployments | 9 | 1 | 1 | 1 | 8 | 0 | 0 |
+| woodbrook-dog-salon-concept | pages | pages-deployments | 8 | 0 | 0 | 0 | 8 | 0 | 0 |
+| woodbrook-spotless-concept | pages | pages-deployments | 8 | 0 | 0 | 0 | 8 | 0 | 0 |
+| woodbrook-spotless-warm-concept | pages | pages-deployments | 8 | 0 | 0 | 0 | 8 | 0 | 0 |
+
+### Unsupported or unresolved preview mechanisms
+
+| App | Mechanism | Limitation |
+| --- | --- | --- |
+| woodbrook | none | The Worker is deployed from main by Workers Builds. Cloudflare exposes no supported API to delete individual Worker versions, and repository workflows create no Worker previews. If the Worker adopts Worker Previews, add a supported deletion mechanism before relying on this policy. |
+
+### Decisions requiring review
+
+| App | Deployment | Created (UTC) | Branch | Outcome | Reason |
+| --- | --- | --- | --- | --- | --- |
+| woodbrook-design-gallery | 2c56c316-956b-4a92-bb21-933bff1bab50 | 2026-10-25T18:35:20.250734Z | cleanup-verification-b | deleted | preview-older-than-retention |
+
+warning: woodbrook: The Worker is deployed from main by Workers Builds. Cloudflare exposes no supported API to delete individual Worker versions, and repository workflows create no Worker previews. If the Worker adopts Worker Previews, add a supported deletion mechanism before relying on this policy.
+exit=0

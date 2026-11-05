@@ -1,0 +1,55 @@
+export const metadata = {
+  title: 'Visual evidence before issue completion',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a18767-4383-7641-9e71-89565a6fa713',
+  worktree:
+    '/Users/tszabo/Development/woodbrook/.tmp/github-issue-investigation-skill',
+  branch: 'chore/github-issue-investigation-skill',
+  commit: '1aa1dad81d45da7046b2cbc479e7f726b7cbed18',
+  updatedAt: '2026-10-29T13:01:58Z',
+  summary:
+    'UI issue work now starts with visual evidence or a concrete capture blocker, including issue-only requests.',
+};
+
+## Goal
+
+Prevent issue filing from skipping useful screenshots merely because implementation was not requested. Make the investigation skill visible through project guidance and the existing issue-writing workflow.
+
+## Technical changes
+
+Baseline: `1aa1dad81d45da7046b2cbc479e7f726b7cbed18`. The original skill handoff remains unchanged; this record covers the later correction after visual issues were filed using code references alone.
+
+| Area             | Before                                                      | After                                                                                  | Why                                                        | Code                                                  |
+| ---------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------- |
+| Discovery        | Investigation was conditional and listed below Git workflow | Top-level issue guidance and writing skill route visual work to investigation          | Prevent issue-only requests from bypassing evidence        | `AGENTS.md`, `.agents/skills/writing-issues/SKILL.md` |
+| Evidence default | Screenshots and prototypes were both optional               | Visual issues need captures or a concrete blocker; prototypes remain optional          | Distinguish useful evidence from optional experiments      | `.agents/skills/github-issue-investigation/SKILL.md`  |
+| Comparison       | Capture advice did not specify paired references            | Design alignment compares application and reference at matching viewports              | Support a reproducible visual assessment                   | Skill's Evidence before issue completion              |
+| Reproduction     | Native limitations could remain unexamined                  | Check available tools, identify the exercised runtime and report missing native access | Avoid presenting browser resizing as native rotation proof | Skill's Evidence before issue completion              |
+| Completion       | Future screenshot criteria could replace current evidence   | Issue and final summary record evidence or the concrete blocker                        | Make missing evidence explicit before handoff              | Skill's Finish, `agents/openai.yaml`                  |
+
+## Architecture changes
+
+This is an engineering instruction change. It adds no runtime application, data flow, dependency or product interface, so no C4 diagram needs a changed annotation.
+
+| Level | Change                                                              | Evidence                                                           |
+| ----- | ------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| C1    | Unchanged: product actors and external systems are unaffected       | Only project instructions, skill metadata and documentation change |
+| C2    | Unchanged: no app, host or data store is added or reconfigured      | Existing documentation preview host is reused                      |
+| C3    | Unchanged: no running component responsibility or interface changes | No application code changes                                        |
+
+## Verification
+
+| Check                  | Result  | Evidence                                                                                                                                                                                                             |
+| ---------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Skill structure        | PASS    | `quick_validate.py` reports both investigation and writing skills valid                                                                                                                                              |
+| Manual scenario review | PASS    | Issue-only design needs paired captures; inaccessible native rotation needs a checked blocker; nonvisual CI needs no screenshots                                                                                     |
+| Prototype boundary     | PASS    | Uncommitted scratch prototypes remain optional and exempt from feature delivery checks; product implementation still needs authorization                                                                             |
+| Handoff contract       | PASS    | `bun run --cwd apps/handoffs docs:check` validates 18 change-focused handoffs; six historical records preserved                                                                                                      |
+| Repository build       | PASS    | `bun run build` exited 0 across all repository applications                                                                                                                                                          |
+| Native reproduction    | NOT RUN | This task changes the skill; it does not investigate or alter issues 27 and 28                                                                                                                                       |
+| Documentation preview  | PASS    | [Preview](https://woodbrook-issue-skill-preview.shankill.workers.dev/#/github-issue-evidence-defaults) loads in desktop Chromium and mobile WebKit without page overflow; final deployed commit is recorded in PR 26 |
+
+## Next steps
+
+Review the correction in PR 26. The skill becomes part of the default project checkout when that PR is merged; it is currently available on the PR branch. The recorded HEAD is the comparison baseline; the PR records the deployed commit.

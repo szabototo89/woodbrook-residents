@@ -1,0 +1,19 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Native date formatting — C3 — changes from 4d9f5d7
+
+Container_Boundary(mobile_public_app, "Mobile app") {
+  Component(native_resident_screens, "Resident screens", "ReactLynx", "Display public records and date labels")
+  Component(native_date_formatting, "[CHANGED] Mobile date formatting", "TypeScript Date methods", "Formats English dates and local 24-hour times\nChange: Date methods replace unavailable Intl.")
+}
+
+Rel(native_resident_screens, native_date_formatting, "[CHANGED] Requests visible date labels\nChange: Previously threw on iOS; now returns labels.", "In-process calls")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

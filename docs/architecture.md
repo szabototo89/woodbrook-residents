@@ -16,17 +16,17 @@ The setup borrows the parts of `/Users/tszabo/Development/anki-app` that make ch
 ```text
 Cloudflare Pages build
   -> TanStack Start prerenderer
-       -> configured ContentSource
-            -> Google Sheets API (read-only) or Sanity GROQ API (read-only)
+       -> Sanity ContentSource
+            -> Sanity GROQ API (published-only)
             -> published content snapshot
                  -> static HTML and JSON in apps/web/dist/client
 
 Resident browser
   -> Cloudflare Pages static assets
 
-Resident iOS app
+Resident iOS or mobile web app
   -> Cloudflare Worker GET /api/mobile-content
-       -> Google Sheets API (read-only)
+       -> Sanity GROQ API (published-only)
        -> validated public content snapshot
 
 Editor
@@ -34,15 +34,15 @@ Editor
        -> Sanity Content Lake (Draft & Publish)
 ```
 
-The deployed browser application reads pre-rendered HTML and immutable JSON assets. The iOS app is the sole runtime content consumer: it calls a narrow read-only Worker endpoint, which retrieves the Google Sheet with server-side credentials. No issue-report submission path exists.
+The deployed browser application reads pre-rendered HTML and immutable JSON assets. Both mobile renderers call a narrow read-only Worker endpoint, which retrieves published Sanity content with an optional server-side read token. No issue-report submission path exists.
 
 ## Content and failure behavior
 
-- `CONTENT_SOURCE` explicitly selects `google-sheets` or `sanity` (default `google-sheets` when unset).
-- All three adapters normalize their input into one domain-level content snapshot before routes or UI see it.
-- Google Sheets reads the Updates, Events, Projects, Consultations, and Local_Info tabs in one authenticated, read-only batch request. Sanity runs GROQ queries for siteSetting, update, project, event, survey, and resource documents and maps slugs, image URLs, and project references into the same snapshot.
+- `CONTENT_SOURCE` accepts only `sanity` (also the default when missing or blank).
+- The Sanity adapter normalizes input into one domain-level content snapshot before routes or UI see it.
+- Sanity queries siteSetting, update, project, event, survey, and resource documents; slugs, images, and project references become canonical public fields.
 - The static build caches one validated snapshot. Dynamic development reloads the selected source so content changes do not require restarting the server.
-- Google Sheets rows are public only when `publish` is `TRUE`; `admin_notes` is never mapped into either the static site or mobile response.
+- Every query uses the published perspective and excludes draft and release-version paths, including token-authenticated reads.
 - Seed content contains current, source-linked Woodbrook and Shankill information researched in September 2026.
 - Dynamic development and server builds show a clear service state if the selected source is unavailable.
 - Static builds fail if selected-source content cannot be fetched, normalized, or validated, preserving the previous successful deployment instead of producing an empty site.
@@ -50,4 +50,4 @@ The deployed browser application reads pre-rendered HTML and immutable JSON asse
 
 ## Deployment
 
-The Cloudflare Worker deploys `apps/web/dist/client` as static assets and runs first only for `/api/*`. Configure the Google service-account values as Worker secrets for the web mobile-content endpoint. `VITE_PUBLIC_SITE_URL` supplies browser metadata. Both mobile renderers fetch the validated public snapshot from the Worker's `/api/mobile-content` endpoint at runtime, so Google credentials never enter a mobile bundle. See [Static Cloudflare Pages deployment](features/static-cloudflare-pages-site.md) and [iOS mobile navigation and live content](features/ios-mobile-navigation.md).
+The Cloudflare Worker deploys `apps/web/dist/client` as static assets and runs first only for `/api/*`. Configure Sanity runtime variables and optional `SANITY_API_TOKEN` as a Worker secret for the mobile-content endpoint. `VITE_PUBLIC_SITE_URL` supplies browser metadata. Both mobile renderers fetch the validated public snapshot from the Worker's `/api/mobile-content` endpoint at runtime, so Sanity credentials never enter a mobile bundle. See [Static Cloudflare Pages deployment](features/static-cloudflare-pages-site.md) and [iOS mobile navigation and live content](features/ios-mobile-navigation.md).

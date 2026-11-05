@@ -1,0 +1,21 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Context>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Mobile content — C1 — changes from 956a81e
+
+Person(resident, "Resident", "Reads community information and may opt into an account")
+System(woodbrook_system, "[CHANGED] Woodbrook community website", "Public information and community action hub for residents\nChange: Sanity becomes the sole source.")
+System_Ext(sanity_content_lake, "Sanity Content Lake", "Stores published community content and editor drafts")
+System_Ext(legacy_sheets_content, "[REMOVED] Google Sheets", "Retired content source\nChange: Retired from this application.")
+
+Rel(resident, woodbrook_system, "Reads community information and opens account pages using")
+Rel(woodbrook_system, sanity_content_lake, "[CHANGED] Reads published content\nChange: Mobile now uses Sanity too.", "HTTPS/GROQ")
+Rel(woodbrook_system, legacy_sheets_content, "[REMOVED] Previously read content\nChange: Sheets reads removed.", "HTTPS")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

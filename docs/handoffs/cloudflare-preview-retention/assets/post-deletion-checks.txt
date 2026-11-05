@@ -1,0 +1,6 @@
+After deleting 856a4813 (preview A):
+preview A URL status: 404
+preview B URL status: 200
+production alias status: 200
+current production deployment: d549fa5c-0cb9-4cac-991a-cfe9a8489b69 created 2026-10-12T16:13:00.296624Z
+remaining preview deployments: 2c56c316-956b-4a92-bb21-933bff1bab50

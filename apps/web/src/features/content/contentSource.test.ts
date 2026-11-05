@@ -30,7 +30,7 @@ test('validateContentSnapshot rejects duplicate stable IDs with the collection n
   expect(() =>
     validateContentSnapshot(
       { ...emptySnapshot, projects: [project, { ...project }] },
-      'google-sheets',
+      'sanity',
     ),
   ).toThrow('Projects contains duplicate record ID "project-1".');
 });
@@ -57,7 +57,7 @@ test('validateContentSnapshot rejects duplicate slugs with the collection name',
         ...emptySnapshot,
         projects: [project, { ...project, documentId: 'project-2' }],
       },
-      'google-sheets',
+      'sanity',
     ),
   ).toThrow('Projects contains duplicate slug "shared-slug".');
 });
@@ -96,7 +96,7 @@ test('validateContentSnapshot accepts a consultation relation to a published pro
         },
       ],
     },
-    'google-sheets',
+    'sanity',
   );
 
   expect(snapshot.surveys).toHaveLength(1);
@@ -121,7 +121,7 @@ test('validateContentSnapshot rejects a consultation relation to an unpublished 
           },
         ],
       },
-      'google-sheets',
+      'sanity',
     ),
   ).toThrow(
     'Consultation "consultation-1" refers to missing project "missing-project".',

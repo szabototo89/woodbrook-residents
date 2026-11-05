@@ -446,12 +446,12 @@ export class SanityContentSource implements ContentSource {
     const customHost = this.config.apiHost?.trim().replace(/\/$/, '');
     if (customHost) {
       const base = `${customHost}/v${this.config.apiVersion}/data/query/${this.config.dataset}`;
-      return `${base}?query=${encodeURIComponent(groq)}`;
+      return `${base}?query=${encodeURIComponent(groq)}&perspective=published`;
     }
     const host =
       this.config.useCdn === true ? 'apicdn.sanity.io' : 'api.sanity.io';
     const base = `https://${this.config.projectId}.${host}/v${this.config.apiVersion}/data/query/${this.config.dataset}`;
-    return `${base}?query=${encodeURIComponent(groq)}`;
+    return `${base}?query=${encodeURIComponent(groq)}&perspective=published`;
   }
 
   private async query(label: string, groq: string): Promise<unknown> {

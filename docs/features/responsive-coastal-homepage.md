@@ -36,13 +36,12 @@ can stay informed and decide where to go next.
   consultation panels alongside contact guidance.
 - A generated coastal annotation, header wordmark and standalone neighbourhood
   logo are image assets. Seasonal event artwork is illustrative. Documentary photography retains its source credit.
-- Content comes from the existing Google Sheets workbook through the existing
-  read-only adapter. Only rows marked for publication appear; unpublished notes
-  and service-account credentials remain private.
+- Content comes from published Sanity documents through the read-only adapter.
+  Drafts, release versions, and backend credentials remain private.
 - Search finds titles and summaries across published updates, projects, events,
   consultations and services, and links to their canonical detail pages.
 - Empty collections and source outages have clear visible states. Past events
-  do not appear as upcoming. Spreadsheet all-day dates do not display an
+  do not appear as upcoming. All-day dates do not display an
   invented midnight time. No fictitious councillors or reference events are
   seeded.
 
@@ -67,14 +66,14 @@ can stay informed and decide where to go next.
    has one focus target and supports whole-card clicks and Enter activation.
 7. The generated assets load at desktop and mobile sizes; the brand's home link
    has the accessible name Woodbrook Residents.
-8. A Google Sheets static build validates the published content and generated
+8. A Sanity static build validates the published content and generated
    internal links; unit/browser/E2E checks and `bun run build` pass.
 9. High-resolution Playwright screenshots of both viewports are reviewed and
-   delivered using published spreadsheet content.
+   delivered using published Sanity content.
 
 ## Scope
 
 Homepage composition, shared navigation and typography, generated branding
 assets, public search, responsive checks and documentation. Existing routes,
-content adapters and detail actions remain supported. No workbook edits,
+content adapters and detail actions remain supported. No content edits,
 councillor content model, issue-submission access, social features or deployment.

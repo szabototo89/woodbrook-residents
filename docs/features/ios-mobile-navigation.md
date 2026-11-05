@@ -28,7 +28,7 @@ When I use Woodbrook Residents on an iPhone, I want to browse the same current r
 ## Acceptance criteria
 
 - Given the mobile app launches with network access, when its first screen loads, then it requests the configured Woodbrook origin's `GET /api/mobile-content` endpoint instead of using a bundled content snapshot.
-- Given the endpoint receives a GET request, when Google Sheets is available, then it reads and validates the current published snapshot server-side without exposing service-account credentials.
+- Given the endpoint receives a GET request, when Sanity is available, then it reads and validates the current published snapshot server-side without exposing backend credentials.
 - Given a resident selects any current collection and then a record, when navigation completes, then the matching list and detail content are visible with its official source and review date.
 - Given a resident opens a record and then goes back, when the previous screen renders, then the resident returns to the visited list with its state preserved.
 - Given local information is loaded, when search, category, or out-of-hours filters are applied and a contact is opened and then closed, then the visible contacts and count still match the applied filters.
@@ -42,7 +42,7 @@ When I use Woodbrook Residents on an iPhone, I want to browse the same current r
 
 ### Included
 
-- Runtime Google Sheets-backed content through a public read-only web/Worker endpoint.
+- Runtime published Sanity content through a public read-only web/Worker endpoint.
 - Native in-app home, collection, detail, local directory, and ways-to-help screens.
 - The existing Updates, Projects, Events, Consultations, and Local information records and fields.
 - Loading, offline-notice with retry, empty, no-match, and missing-detail handling.
@@ -50,5 +50,5 @@ When I use Woodbrook Residents on an iPhone, I want to browse the same current r
 ### Not included
 
 - Accounts, issue reporting, comments, forums, chat, private messaging, marketplace listings, social feeds, or public content submission.
-- Editing Google Sheets from the mobile app.
+- Editing Sanity from the mobile app.
 - Android packaging or a standalone production iOS host application.

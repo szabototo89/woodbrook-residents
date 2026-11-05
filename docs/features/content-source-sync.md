@@ -9,7 +9,7 @@ When maintaining Woodbrook content, I want one canonical editing source so that 
 ## Visible behavior
 
 - The Strapi-to-Sheets sync script (`scripts/sync-content.ts`) has been removed with the Strapi CMS.
-- Content is edited in Sanity Studio or the private Google spreadsheet; no automated sync runs between them.
+- Content is edited in Sanity Studio as the single source of truth; no synchronization service runs.
 - `bun run sync:content` no longer exists.
 
 ## Acceptance criteria
@@ -20,4 +20,4 @@ When maintaining Woodbrook content, I want one canonical editing source so that 
 ## Scope
 
 - Removal of Strapi 5 REST sync, `STRAPI_URL`, `STRAPI_API_TOKEN`, `CONTENT_SYNC_DIRECTION`, and `CONTENT_SYNC_CONFLICT` configuration.
-- No replacement sync; Sanity and Sheets remain independent sources selected via `CONTENT_SOURCE`.
+- No replacement sync; Sanity is the sole supported content source.

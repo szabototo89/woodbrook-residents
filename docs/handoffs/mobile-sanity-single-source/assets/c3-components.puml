@@ -1,0 +1,21 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Mobile content — C3 — changes from 956a81e
+
+Container_Boundary(woodbrook_host, "Website asset host") {
+  Component(mobile_content_endpoint, "[CHANGED] Mobile API", "TypeScript Worker", "Handles reads and static assets\nChange: Reuses the shared factory.")
+  Component(mobile_sanity_factory, "[CHANGED] Content source factory", "TypeScript", "Selects Sanity server configuration\nChange: Rejects the former Sheets option.")
+  Component(legacy_sheets_adapter, "[REMOVED] Sheets adapter", "TypeScript", "Retired spreadsheet reader\nChange: Adapter and parser removed.")
+}
+
+Rel(mobile_content_endpoint, mobile_sanity_factory, "[ADDED] Uses source configuration\nChange: Replaces direct adapter construction.", "In-process call")
+Rel(mobile_content_endpoint, legacy_sheets_adapter, "[REMOVED] Previously constructed directly\nChange: Direct Sheets path removed.", "In-process call")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

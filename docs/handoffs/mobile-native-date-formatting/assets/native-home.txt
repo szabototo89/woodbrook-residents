@@ -1,0 +1,128 @@
+@e1 [view] @(197,426)
+├─ @e2 [view] @(197,23)
+│  └─ @e3 [view] @(197,18)
+│     ├─ @e4 [view] @(173,18)
+│     │  ├─ @e5 [view] @(34,18)
+│     │  │  └─ @e6 [text] "W" @(35,19)
+│     │  └─ @e7 [view] @(150,18)
+│     │     ├─ @e8 [text] "Woodbrook Residents" @(150,11)
+│     │     └─ @e9 [text] "Community hub · Shankill" @(150,30)
+│     └─ @e10 [view] @(359,18)
+│        └─ @e11 [text] "🔔" @(359,18)
+├─ @e12 [scroll-view] @(197,418) {scrollable}
+│  ├─ @e13 [view] @(197,112)
+│  │  ├─ @e14 [text] "Local information and ways to take part." @(197,85)
+│  │  └─ @e15 [text] "Keep up with local changes, find practical information, and take part in communi" @(197,130)
+│  ├─ @e16 [view] @(197,331)
+│  │  ├─ @e17 [view] @(197,313)
+│  │  │  ├─ @e18 [image] @(197,264)
+│  │  │  └─ @e19 [view] @(197,361)
+│  │  │     ├─ @e20 [view] @(84,292)
+│  │  │     │  └─ @e21 [text] "Latest update" @(84,292)
+│  │  │     └─ @e22 [view] @(197,378)
+│  │  │        ├─ @e23 [view] @(171,378)
+│  │  │        │  ├─ @e24 [text] "WRA awaiting Castlethorn and Aramark resident meeting" @(171,351)
+│  │  │        │  └─ @e25 [text] "The WRA says no date has yet been confirmed for a requested resident meeting wit" @(171,416)
+│  │  │        └─ @e26 [view] @(343,378)
+│  │  │           └─ @e27 [text] "›" @(343,378)
+│  │  ├─ @e28 [view] @(197,468) {hidden}
+│  │  │  ├─ @e29 [view] @(173,468)
+│  │  │  ├─ @e30 [view] @(191,468)
+│  │  │  ├─ @e31 [view] @(203,468)
+│  │  │  ├─ @e32 [view] @(215,468)
+│  │  │  └─ @e33 [view] @(227,468)
+│  │  └─ @e34 [text] "Woodbrook and the Shankill coastline" @(197,485)
+│  ├─ @e35 [view] @(197,610)
+│  │  ├─ @e36 [view] @(197,525)
+│  │  │  ├─ @e37 [text] "Upcoming event" @(79,525)
+│  │  │  └─ @e38 [text] "See all →" @(348,525)
+│  │  ├─ @e39 [view] @(197,607)
+│  │  │  ├─ @e40 [view] @(53,607)
+│  │  │  │  └─ @e41 [text] "📅" @(53,607)
+│  │  │  ├─ @e42 [view] @(203,607)
+│  │  │  │  ├─ @e43 [text] "12 Sept 2026, 18:00" @(203,567)
+│  │  │  │  ├─ @e44 [text] "Cuala vs Lucan Sarsfields — PTSB Premier Intermediate Hurling Championship" @(203,606)
+│  │  │  │  └─ @e45 [text] "📍 Shanganagh Park" @(203,646)
+│  │  │  └─ @e46 [view] @(346,607)
+│  │  │     └─ @e47 [text] "›" @(346,607)
+│  │  └─ @e48 [text] "View all events →" @(197,692)
+│  ├─ @e49 [view] @(197,755)
+│  │  ├─ @e50 [text] "Quick access" @(197,750)
+│  │  └─ @e51 [view] @(197,779) {hidden}
+│  │     ├─ @e52 [view] @(58,787)
+│  │     │  ├─ @e53 [view] @(58,787)
+│  │     │  │  └─ @e54 [text] "📰" @(58,807) {offscreen}
+│  │     │  └─ @e55 [text] "Updates" @(59,842) {offscreen}
+│  │     ├─ @e56 [view] @(150,787)
+│  │     │  ├─ @e57 [view] @(150,787)
+│  │     │  │  └─ @e58 [text] "📅" @(150,807) {offscreen}
+│  │     │  └─ @e59 [text] "Events" @(151,842) {offscreen}
+│  │     ├─ @e60 [view] @(243,787)
+│  │     │  ├─ @e61 [view] @(243,787)
+│  │     │  │  └─ @e62 [text] "📍" @(243,807) {offscreen}
+│  │     │  └─ @e63 [text] "Local" @(242,842) {offscreen}
+│  │     └─ @e64 [view] @(335,787)
+│  │        ├─ @e65 [view] @(335,787)
+│  │        │  └─ @e66 [text] "•••" @(335,807) {offscreen}
+│  │        └─ @e67 [text] "More" @(335,842) {offscreen}
+│  ├─ @e68 [view] @(197,935) {offscreen}
+│  │  └─ @e69 [view] @(197,931) {offscreen}
+│  │     ├─ @e70 [view] @(186,931) {offscreen}
+│  │     │  ├─ @e71 [text] "Nearby" @(186,902) {offscreen}
+│  │     │  ├─ @e72 [text] "Find nearby essentials" @(186,931) {offscreen}
+│  │     │  └─ @e73 [text] "GPs, schools, pharmacies, and transport" @(186,960) {offscreen}
+│  │     └─ @e74 [text] "›" @(348,931) {offscreen}
+│  ├─ @e75 [view] @(197,1106) {offscreen}
+│  │  ├─ @e76 [view] @(197,1079) {offscreen}
+│  │  │  ├─ @e77 [view] @(186,1079) {offscreen}
+│  │  │  │  ├─ @e78 [text] "Have your say" @(186,1021) {offscreen}
+│  │  │  │  ├─ @e79 [text] "Woodbrook DART Gateway consultation archive" @(186,1078) {offscreen}
+│  │  │  │  └─ @e80 [text] "Closes 7 Aug 2026" @(186,1136) {offscreen}
+│  │  │  └─ @e81 [text] "›" @(348,1079) {offscreen}
+│  │  └─ @e82 [text] "View all consultations →" @(197,1188) {offscreen}
+│  ├─ @e83 [view] @(197,1380) {offscreen}
+│  │  ├─ @e84 [text] "Browse all sections" @(197,1247) {offscreen}
+│  │  ├─ @e85 [view] @(197,1293) {offscreen}
+│  │  │  ├─ @e86 [text] "Updates" @(58,1292) {offscreen}
+│  │  │  └─ @e87 [text] "→" @(361,1292) {offscreen}
+│  │  ├─ @e88 [view] @(197,1345) {offscreen}
+│  │  │  ├─ @e89 [text] "Projects" @(57,1344) {offscreen}
+│  │  │  └─ @e90 [text] "→" @(361,1344) {offscreen}
+│  │  ├─ @e91 [view] @(197,1397) {offscreen}
+│  │  │  ├─ @e92 [text] "Events" @(51,1396) {offscreen}
+│  │  │  └─ @e93 [text] "→" @(361,1396) {offscreen}
+│  │  ├─ @e94 [view] @(197,1449) {offscreen}
+│  │  │  ├─ @e95 [text] "Consultations" @(79,1448) {offscreen}
+│  │  │  └─ @e96 [text] "→" @(361,1448) {offscreen}
+│  │  └─ @e97 [view] @(197,1501) {offscreen}
+│  │     ├─ @e98 [text] "Local information" @(93,1500) {offscreen}
+│  │     └─ @e99 [text] "→" @(361,1500) {offscreen}
+│  ├─ @e100 [view] @(197,1717) {offscreen}
+│  │  ├─ @e101 [text] "Ways to help" @(197,1619) {offscreen}
+│  │  ├─ @e102 [text] "Help keep local information useful." @(197,1667) {offscreen}
+│  │  ├─ @e103 [text] "See what residents can do now, what is still being set up, and where to find off" @(197,1748) {offscreen}
+│  │  └─ @e104 [text] "See ways to help →" @(197,1814) {offscreen}
+│  └─ @e105 [view] @(197,1946) {offscreen}
+│     ├─ @e106 [text] "Woodbrook Residents" @(197,1907) {offscreen}
+│     └─ @e107 [text] "Local information and practical ways to take part in Woodbrook and nearby Shanki" @(197,1951) {offscreen}
+└─ @e108 [view] @(197,821)
+   ├─ @e109 [view] @(40,822)
+   │  ├─ @e110 [view] @(39,814)
+   │  │  └─ @e111 [text] "⌂" @(39,814)
+   │  └─ @e112 [text] "Home" @(40,837)
+   ├─ @e113 [view] @(119,822)
+   │  ├─ @e114 [view] @(118,814)
+   │  │  └─ @e115 [text] "◉" @(118,814)
+   │  └─ @e116 [text] "Updates" @(118,837)
+   ├─ @e117 [view] @(196,822)
+   │  ├─ @e118 [view] @(197,814)
+   │  │  └─ @e119 [text] "◫" @(197,814)
+   │  └─ @e120 [text] "Events" @(197,837)
+   ├─ @e121 [view] @(276,822)
+   │  ├─ @e122 [view] @(275,814)
+   │  │  └─ @e123 [text] "⌖" @(275,814)
+   │  └─ @e124 [text] "Local" @(275,837)
+   └─ @e125 [view] @(354,822)
+      ├─ @e126 [view] @(354,814)
+      │  └─ @e127 [text] "•••" @(354,814)
+      └─ @e128 [text] "More" @(354,837)

@@ -1,0 +1,6 @@
+interface:
+  display_name: "GitHub Issue Investigation"
+  short_description: "Capture UI evidence before filing GitHub issues"
+  default_prompt: "Use $github-issue-investigation to capture and post relevant visual evidence before finalizing this issue, or record the concrete blocker, without implementing the feature."
+policy:
+  allow_implicit_invocation: true

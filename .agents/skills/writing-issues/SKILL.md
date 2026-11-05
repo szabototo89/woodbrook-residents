@@ -5,6 +5,10 @@ description: Use when writing or refining tracker items - epics, stories, tasks,
 
 # Writing issues
 
+## Visual evidence before filing
+
+For UI, design alignment, layout, responsiveness or interaction issues, first use the project [github-issue-investigation skill](../github-issue-investigation/SKILL.md). This applies even to "just create the issue" requests. Capture and post relevant visual evidence before finalizing the ticket, or record the concrete capture/reproduction blocker after checking available tools and runtimes. Code references and future screenshot acceptance criteria do not replace current visual evidence. Keep implementation outside an issue-only request; disposable prototypes remain optional and uncommitted. Nonvisual issues do not require screenshots.
+
 **REQUIRED BACKGROUND:** the `technical-writing` skill (hard rules, truth rules, style).
 
 ## Overview
