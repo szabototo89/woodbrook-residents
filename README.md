@@ -18,6 +18,70 @@ bun run dev
 - Website: `http://localhost:3000` (Sanity content source by default)
 - Sanity Studio: `bun run dev:sanity-studio` (`http://localhost:3333`)
 
+### Start every browser project
+
+```bash
+bun run dev:all
+```
+
+`dev:all` starts all browser-based projects at the same time and keeps them under
+one process manager. It does not replace `dev` or the individual
+`dev:<project>` commands.
+
+The interactive project list opens when stdout is a terminal. Otherwise, or
+with `--no-interactive`, the command streams prefixed lifecycle and log lines
+until Ctrl+C.
+
+| Option             | Behavior                                                   |
+| ------------------ | ---------------------------------------------------------- |
+| _(none)_           | Open the interactive list on a TTY; stream logs otherwise. |
+| `--interactive`    | Force the interactive list.                                |
+| `--no-interactive` | Stream prefixed output; no terminal UI.                    |
+| `-h`, `--help`     | Print the options and the project/port inventory.          |
+
+`bun run dev:all:no-interactive` is the same as `bun run dev:all --no-interactive`.
+
+In the interactive list, use Up/Down or `j`/`k` to select a project, `s` or
+Enter to start it, `x` to stop it, `r` to restart it, and `q` or Ctrl+C to quit.
+Starting an already running project does nothing. A failed project stays in the
+list with its error, and you can restart it after fixing the cause.
+
+The launcher marks a project ready only after its HTTP or TCP readiness check
+passes. It shows the announced URL, including a URL announced by the child
+process. It checks owned ports before starting and marks a project failed if a
+port is already occupied; it never stops the process that owns the port.
+
+Logs are kept in memory, bounded to the last 300 lines per project, and shown
+for the selected project. They are not written to disk.
+
+On quit, Ctrl+C, SIGTERM, or an error, the launcher stops every process group it
+created. It sends SIGTERM, waits up to five seconds, then sends SIGKILL. It never
+signals a process it did not start. In noninteractive mode, Ctrl+C exits 0; the
+command exits 1 when every project fails.
+
+| Project                 | URL                     | Readiness            |
+| ----------------------- | ----------------------- | -------------------- |
+| Woodbrook web           | `http://localhost:3000` | HTTP 3000            |
+| Resident dashboard      | `http://localhost:3001` | HTTP 3001            |
+| Handoffs                | `http://localhost:3002` | HTTP 3002            |
+| Laura Faichney web      | `http://localhost:3003` | HTTP 3003            |
+| Design proposal         | `http://localhost:3004` | HTTP 3004            |
+| Forma Studio web        | `http://localhost:3005` | HTTP 3005            |
+| Design proposals        | `http://localhost:3006` | HTTP 3006            |
+| Mobile web              | `http://localhost:3203` | TCP 3202 + HTTP 3203 |
+| Woodbrook Sanity Studio | `http://localhost:3333` | HTTP 3333            |
+| Laura Faichney Studio   | `http://localhost:3334` | HTTP 3334            |
+| Forma Studio            | `http://localhost:3335` | HTTP 3335            |
+
+The web and mobile projects read the repository `.env` when it exists. Copy
+`.env.example` to `.env` first. `bun install` installs the `serve` binary used by
+the two static design sites.
+
+To add a project, append one entry to `DEV_PROJECTS` in
+`scripts/dev/projects.ts` with a unique port, its own working directory, command,
+URL and readiness check. The launcher derives the list, port checks, readiness
+and logs from that entry.
+
 To review the separate static website concepts gallery, run:
 
 ```bash

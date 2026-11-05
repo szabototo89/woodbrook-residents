@@ -1,0 +1,24 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Local development launcher — C2 containers
+
+Person(dev_engineer, "Engineer", "Starts, inspects and stops local browser projects")
+System_Ext(local_project_servers, "[ADDED] Browser project servers", "Serve the Woodbrook websites, Sanity Studios and static design sites on localhost\nChange: Existing project dev servers are now represented as one supervised group.")
+System_Ext(git_repository, "Git repository", "Versions the engineering documents and their assets")
+System_Boundary(local_dev_system, "[ADDED] Local development environment\nChange: A new boundary groups the launcher and the project servers it owns.") {
+  Container(dev_launcher, "[ADDED] Development launcher", "Bun CLI, React and OpenTUI", "Runs every browser project together and exposes their lifecycle and logs\nChange: New Bun application that renders the OpenTUI list and owns all child process groups.")
+}
+
+Rel(dev_engineer, dev_launcher, "[ADDED] Runs browser projects using\nChange: The engineer now enters through one launcher instead of eleven separate commands.")
+Rel(dev_launcher, git_repository, "[ADDED] Reads project commands and configuration from\nChange: The launcher reads commands and port assignments from the repository at startup.", "Filesystem")
+Rel(dev_launcher, local_project_servers, "[ADDED] Starts, probes and stops\nChange: The launcher starts detached groups, checks readiness and stops only processes it created.", "Child processes and HTTP/TCP")
+Rel(dev_engineer, local_project_servers, "[ADDED] Opens project URLs in a browser\nChange: The engineer opens the announced URL after each readiness check succeeds.", "HTTP")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

@@ -2,7 +2,7 @@
   "name": "@woodbrook/design-proposals",
   "private": true,
   "scripts": {
-    "dev": "bunx serve .",
+    "dev": "serve . --listen 3006",
     "format": "bunx prettier --write .",
     "format:check": "bunx prettier --check ."
   }

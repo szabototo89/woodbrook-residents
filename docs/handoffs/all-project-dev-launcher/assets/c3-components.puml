@@ -1,0 +1,30 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Development launcher — C3 components
+
+System_Ext(local_project_servers, "[ADDED] Browser project servers", "Serve the Woodbrook websites, Sanity Studios and static design sites on localhost\nChange: The existing servers become children supervised by the lifecycle manager.")
+Container_Boundary(dev_launcher, "[ADDED] Development launcher\nChange: New launcher container built from the components in this view.") {
+  Component(dev_cli, "[ADDED] CLI and runners", "TypeScript", "Parses options, chooses interactive or streamed output and forwards termination signals\nChange: New entry point selects a mode, wires the manager and forwards SIGINT/SIGTERM.")
+  Component(dev_inventory, "[ADDED] Project inventory", "TypeScript data", "Declares each project directory, command, environment, ports, URL and readiness checks\nChange: New declarative inventory replaces ad hoc per-project startup knowledge.")
+  Component(dev_lifecycle, "[ADDED] Process lifecycle manager", "Bun process API and HTTP/TCP probes", "Starts owned process groups, probes readiness, stops process trees and keeps bounded logs\nChange: New manager owns concurrency, readiness, duplicate prevention, logs and cleanup.")
+  Component(dev_ui, "[ADDED] Interactive project list", "React and OpenTUI", "Shows selection, lifecycle state, actual URLs and logs and handles control keys\nChange: New OpenTUI React screen exposes selection and start/stop/restart without leaving the terminal.")
+  Component(dev_output, "[ADDED] Streamed output runner", "TypeScript", "Writes prefixed lifecycle and log lines and returns a defined exit status\nChange: New streamed runner keeps noninteractive output usable in redirected terminals and CI.")
+}
+
+Rel(dev_cli, dev_inventory, "[ADDED] Loads project definitions from\nChange: The entry point loads the fixed project list before creating the manager.")
+Rel(dev_cli, dev_lifecycle, "[ADDED] Creates and disposes\nChange: The entry point creates one manager and disposes it on every exit path.")
+Rel(dev_cli, dev_ui, "[ADDED] Opens when stdout is an interactive terminal\nChange: Interactive terminals open the OpenTUI project list automatically or with --interactive.")
+Rel(dev_cli, dev_output, "[ADDED] Uses for redirected output or --no-interactive\nChange: Redirected or CI output streams prefixed lines, or uses --no-interactive explicitly.")
+Rel(dev_ui, dev_lifecycle, "[ADDED] Starts, stops, restarts and observes\nChange: Keyboard controls call manager methods; the UI never spawns processes itself.")
+Rel(dev_output, dev_lifecycle, "[ADDED] Streams state and logs from\nChange: The streamed runner subscribes to state and log changes and sets the exit result.")
+Rel(dev_lifecycle, dev_inventory, "[ADDED] Reads commands, ports and readiness checks from\nChange: Concurrency, ports and readiness checks come from the inventory entries.")
+Rel(dev_lifecycle, local_project_servers, "[ADDED] Spawns, terminates and probes\nChange: The manager alone spawns and stops the project process groups it records.", "Detached process groups and HTTP/TCP")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

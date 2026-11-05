@@ -1,0 +1,112 @@
+import contextImage from './assets/c1-context.svg';
+import contextSource from './assets/c1-context.puml?raw';
+import containersImage from './assets/c2-containers.svg';
+import containersSource from './assets/c2-containers.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+import componentsSource from './assets/c3-components.puml?raw';
+
+export const metadata = {
+  title: 'Start every browser project from one terminal',
+  status: 'ready for review',
+  agent: 'opencode',
+  session: 'ses_e7862250fffe6xey5kqW2xkPj0',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/infrastructure-start-all-websites-with-an-intera',
+  branch: 'szabototo89/infrastructure-start-all-websites-with-an-intera',
+  commit: '72b7b75',
+  updatedAt: '2026-11-01T20:40:23Z',
+  summary:
+    'Adds one command that starts every browser project together and manages their processes, readiness, logs and cleanup from an OpenTUI React terminal list.',
+};
+
+## Goal
+
+Start every browser-based Woodbrook project with `bun run dev:all`, see which
+projects are ready, and stop or restart one project without leaving the terminal
+or disturbing the others. The launcher owns only the processes it starts.
+
+## Technical changes
+
+Baseline: `956a81e`. Implementation: `72b7b75`. Existing `dev` and `dev:<project>` commands remain available.
+
+| Area                | Before                                                                     | After                                                                                                                                                         | Why                                                                                       | Code                                                                                                              |
+| ------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Root command        | No command started the browser projects together                           | `dev:all` runs the launcher; `dev:all:no-interactive` streams output; flags override TTY detection                                                            | Give one predictable entry point while keeping redirected output usable                   | `package.json`, `scripts/dev/index.tsx`, `scripts/dev/cli.ts`                                                     |
+| Project inventory   | Each project was known only by its separate script                         | Eleven declarative entries define cwd, command, environment, all owned ports, URL and readiness checks                                                        | Keep startup knowledge in one place and prevent two projects sharing a port               | `scripts/dev/projects.ts`, `scripts/dev/projects.test.ts`                                                         |
+| Process lifecycle   | No owner for concurrency, readiness, duplicates or child cleanup           | Detached process groups; port preflight; concurrent starts; HTTP/TCP readiness; SIGTERM then SIGKILL; announced-URL detection; duplicate-start prevention     | Let one failing or slow server coexist with healthy ones without killing unrelated owners | `scripts/dev/process-manager.ts`, `scripts/dev/process-manager.test.ts`                                           |
+| Terminal interface  | No shared terminal view                                                    | OpenTUI React list shows project, state, URL, ports and error; selected-project log panel; keyboard start/stop/restart; alternate-screen cleanup              | Inspect and control every project without losing the shell                                | `scripts/dev/ui/*`, `scripts/dev/mount.tsx`, `scripts/dev/interactive.ts`                                         |
+| Noninteractive mode | No defined behavior for redirected output                                  | Prefixed lifecycle/stdout/stderr lines; waits while any project runs; Ctrl+C exits 0; all-failed exits 1                                                      | Keep CI and redirected terminals useful without a TUI                                     | `scripts/dev/noninteractive.ts`, `scripts/dev/noninteractive.test.ts`                                             |
+| Static design sites | `bunx serve` selected its own port and could install on demand             | Root `serve@14.2.6` dependency; `design-proposal` listens on 3004 and `design-proposals` on 3006                                                              | Make ports explicit and avoid implicit installs during startup                            | `apps/design-proposal/package.json`, `apps/design-proposals/package.json`, `bun.lock`                             |
+| Sanity Studios      | Studios used default or implicit ports                                     | Woodbrook Studio listens on 3333 and Laura Studio on 3334                                                                                                     | Keep every owned port distinct across the inventory                                       | `apps/sanity-studio/package.json`, `apps/laura-studio/package.json`                                               |
+| Tests and docs      | No lifecycle or interaction coverage for a launcher; no user documentation | Fixture processes cover concurrency, readiness, duplicates, cleanup, occupied ports, failures and crashes; UI tests cover selection, controls, state and logs | Prove ownership and terminal behavior before handing off                                  | `scripts/dev/**/*.test.ts(x)`, `scripts/dev/fixtures/*`, `README.md`, `docs/features/all-project-dev-launcher.md` |
+
+The mobile entry starts `bun run dev`, which runs its bundle server on 3202 and
+its browser host on 3203. Readiness needs both. The web and mobile commands keep
+the existing `--env-file=../../.env` behavior. Logs are an in-memory ring of 300
+lines per project. The launcher never adopts, probes as ownership, or stops a
+process it did not spawn.
+
+## Architecture changes
+
+Woodbrook is a public resident information hub. This change adds a local
+development environment beside the deployed system: an engineer runs one
+launcher, the launcher reads a committed project inventory, and it starts project
+servers in owned process groups. The deployed website, content sources and
+resident-facing boundaries do not change.
+
+| Level | Change                                                                                                                                       | Evidence                                                                         |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| C1    | Added a local development system and represented existing project servers as one supervised group; the deployed product surface is unchanged | Context view; `scripts/dev/projects.ts`                                          |
+| C2    | Added the Bun/OpenTUI launcher container; it reads the repository and owns project server child processes                                    | Container view; `scripts/dev/index.tsx`, `scripts/dev/process-manager.ts`        |
+| C3    | Added inventory, lifecycle, interactive, streamed-output and CLI responsibilities; the UI controls the manager but never spawns processes    | Component view; `scripts/dev/ui/DevManagerApp.tsx`, `scripts/dev/interactive.ts` |
+
+Change: compared with `956a81e`, an engineer gains one local entry point instead
+of eleven separate commands. Unmarked elements and relationships are unchanged
+context.
+
+<PlantUmlDiagram
+  image={contextImage}
+  source={contextSource}
+  title="Local development launcher — C1 context"
+/>
+
+Change: the local system is new, while the Woodbrook website, content services
+and resident experience remain outside this change.
+
+<PlantUmlDiagram
+  image={containersImage}
+  source={containersSource}
+  title="Local development launcher — C2 containers"
+/>
+
+Change: the launcher is a new Bun application. The existing project servers
+become its supervised children; no project server is modified to depend on it.
+
+<PlantUmlDiagram
+  image={componentsImage}
+  source={componentsSource}
+  title="Development launcher — C3 components"
+/>
+
+Change: the lifecycle manager is the only component that spawns, probes and
+stops processes. The CLI chooses a mode and disposes the manager on every exit
+path; the UI and streamed runner only observe and request actions.
+
+## Verification
+
+| Check                    | Result  | Evidence                                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Focused lifecycle tests  | PASS    | `bun test scripts/dev`: 26 tests across 6 files. Lifecycle fixtures cover concurrency, readiness, stop/start, duplicate prevention, child trees, IPv4 and IPv6 occupied ports, IPv6-only readiness, failures and unexpected exits.                                                                                                                              |
+| Interaction tests        | PASS    | `scripts/dev/ui/DevManagerApp.test.tsx` passes: initial state, URL, error and log rendering, selection, start/stop/restart, resize and quit callback.                                                                                                                                                                                                           |
+| Full script suite        | PASS    | `bun run test:scripts`: 136 tests across 13 files, including the new launcher tests and the existing deploy and app tests.                                                                                                                                                                                                                                      |
+| TypeScript and ESLint    | PASS    | `bun run typecheck:scripts` and `bunx eslint scripts` exited 0.                                                                                                                                                                                                                                                                                                 |
+| Repository formatting    | PASS    | `bun run format:check` passed after formatting the new files and C4 model.                                                                                                                                                                                                                                                                                      |
+| Repository build         | PASS    | `bun run build` exited 0 after the final code change.                                                                                                                                                                                                                                                                                                           |
+| Real-terminal smoke run  | PASS    | tmux at 150 × 45: the inventory started; 6 projects became ready and 5 failed preflight because unrelated checkouts already owned ports 3000, 3001, 3003, 3005 and 3006. Handoffs on 3002 returned 200, stopped (connection refused), restarted and returned 200 while 3004 and 3333–3335 stayed reachable. `q` left 3002, 3004, 3202, 3203 and 3333–3335 free. |
+| Smoke limitations        | PASS    | No repository `.env` was present and no native simulators were started; mobile listened on IPv6 `[::1]:3203` and was reachable through `localhost`. Existing unrelated servers were never signalled.                                                                                                                                                            |
+| Handoff structure and C4 | PASS    | `docs:check` validated 17 change-focused handoffs and preserved 6 historical records; `c4:check` reported that the model and generated sources agree.                                                                                                                                                                                                           |
+| Desktop/mobile review    | NOT RUN | The feature is terminal-only and has no browser viewport to review; the smoke run captured the terminal state instead.                                                                                                                                                                                                                                          |
+
+## Next steps
+
+Review and merge the open pull request. No product follow-up is required.
