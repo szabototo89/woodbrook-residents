@@ -5,14 +5,14 @@ import mobile from './assets/mobile.png';
 
 export const metadata = {
   title: 'Laura SEO audit and Search Console',
-  status: 'ready for review',
+  status: 'complete',
   agent: 'codex',
   session: '01a1b7d6-e3ba-73d1-b2f7-904de6f6e461',
   worktree:
     '/Users/tszabo/orca/workspaces/woodbrook/Setup-Google-search-for-Laura-s-page',
   branch: 'szabototo89/Setup-Google-search-for-Laura-s-page',
-  commit: 'f3fa02d1d0b4e2a25147f24e74c25f2f952cc012',
-  updatedAt: '2026-11-07T21:31:00Z',
+  commit: 'bc4de01f884a88863cdb6dff5068412e077e69d1',
+  updatedAt: '2026-11-07T21:45:35Z',
   summary:
     'Corrects Laura’s preferred search domain and establishes verified Google search reporting with a measured improvement plan.',
 };
@@ -23,7 +23,7 @@ Make Google identify Laura’s custom domain correctly and let the maintainer me
 
 ## Technical changes
 
-Baseline: `023a171ed765421ffb1512d66e83717aafaa80a5`. Implementation: `47da521`; integrated HEAD: `f3fa02d`. The table describes the SEO delta; merging `origin/main` preserves its separate desktop margin changes. Production retains the old build until review and deployment.
+Baseline: `023a171ed765421ffb1512d66e83717aafaa80a5`. Implementation: `47da521`; integrated HEAD: `bc4de01`. The table describes the SEO delta; merging `origin/main` preserves its separate desktop margin and shared-header changes. The approved direct push to remote main and production deployment complete at `bc4de01`. No PR is created.
 
 | Area            | Before                                                             | After                                                                                | Why                                                              | Code                                                                                               |
 | --------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
@@ -32,7 +32,7 @@ Baseline: `023a171ed765421ffb1512d66e83717aafaa80a5`. Implementation: `47da521`;
 | Monitoring      | No verified custom-domain property exists in the selected account. | Google confirms DNS ownership of `sc-domain:allthingsart.ie`.                        | Establish search and indexing reports without visitor scripts.   | Cloudflare TXT record; Google Search Console                                                       |
 | Measurement     | No recorded production audit or target.                            | Ten-page crawl, mobile Lighthouse baseline and prioritised 28-day plan are recorded. | Separate technical eligibility from actual indexing and traffic. | `docs/operations/laura-seo-plan.md`; local assets                                                  |
 
-No packages, CMS documents, access grants or production deployments change. Search Console uses the maintainer’s existing signed-in account. Its reports initially process data; homepage inspection reports “URL is unknown to Google”. Sitemap submission awaits the corrected production build because the existing sitemap lists another host.
+No packages, CMS documents or additional user permissions change. Search Console uses the maintainer’s existing signed-in account. Its reports initially process data; homepage inspection reports “URL is unknown to Google”. The user’s initial sitemap submission exposed 10 wrong-domain entries. The corrected build is now live; the user sets the sitemap again, and URL Inspection shows “Discovered - currently not indexed” with the custom-domain sitemap as the discovery source.
 
 ## Architecture changes
 
@@ -54,23 +54,26 @@ Change: the maintainer can now review the verified domain in Search Console. Unm
 
 ## Verification
 
-| Check                        | Result  | Evidence                                                                                                                                                      |
-| ---------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Test-first regression        | PASS    | Before implementation, five deployment tests and two metadata tests fail against the custom-domain expectation.                                               |
-| Laura unit tests             | PASS    | `bun run --cwd apps/laura-faichney-web test:unit`: 101 Vitest tests and 32 Bun tests.                                                                         |
-| Deployment tests             | PASS    | `bun test scripts/deploy-laura.test.ts`: 11 pass after the correction.                                                                                        |
-| Repository build             | PASS    | `bun run build` exits 0 across all applications; final log `/private/tmp/laura-seo-repo-build-final.log`.                                                     |
-| Static build                 | PASS    | `VITE_PUBLIC_SITE_URL=https://allthingsart.ie bun run --cwd apps/laura-faichney-web build:static`: 10 HTML files and internal links verified.                 |
-| Production audit             | PASS    | `assets/production-audit.json`: 10 HTTP 200 pages; all currently use hosting-domain canonicals; missing URL incorrectly returns homepage HTTP 200.            |
-| Mobile laboratory audit      | PASS    | `assets/lighthouse-summary.json`: SEO 100, performance 94, LCP 3.1s; one simulated mobile homepage run, not field data.                                       |
-| Search Console ownership     | PASS    | Google displays “Ownership verified” using Domain name provider for `allthingsart.ie`; overview and URL Inspection open successfully.                         |
-| Google indexing baseline     | FAIL    | URL Inspection reports homepage unknown to Google, not indexed, no crawl and no referring sitemap.                                                            |
-| Sitemap submission           | NOT RUN | Live sitemap still lists `pages.dev`; submit only after corrected production canonicals and sitemap agree.                                                    |
-| Browser output and captures  | PASS    | Playwright verifies all 10 canonicals; screenshots capture published content at 1440×1000 (2×) and 390×844 (3×). See local assets.                            |
-| Temporary Cloudflare preview | PASS    | [Temporary preview](https://seo-search-console.laura-faichney-all-things-art.pages.dev): all 10 routes, sitemap and robots pass; `assets/preview-check.json`. |
-| Handoff validation           | PASS    | `bun run --cwd apps/handoffs docs:check`: 24 handoffs validate; six historical exemptions remain unchanged.                                                   |
-| Commit hook                  | PASS    | Normal repository precommit checks pass without bypasses; `assets/commit-checks.txt` records suite summaries for `47da521`.                                   |
-| Dev browser                  | FAIL    | Dev servers start on 3008/3009 because 3000–3007 are occupied; cmux denies access from processes started outside cmux.                                        |
+| Check                             | Result | Evidence                                                                                                                                                                                       |
+| --------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test-first regression             | PASS   | Before implementation, five deployment tests and two metadata tests fail against the custom-domain expectation.                                                                                |
+| Laura unit tests                  | PASS   | `bun run --cwd apps/laura-faichney-web test:unit`: 101 Vitest tests and 32 Bun tests.                                                                                                          |
+| Deployment tests                  | PASS   | `bun test scripts/deploy-laura.test.ts`: 11 pass after the correction.                                                                                                                         |
+| Repository build                  | PASS   | `bun run build` exits 0 across all applications; final log `/private/tmp/laura-seo-repo-build-final.log`.                                                                                      |
+| Static build                      | PASS   | `VITE_PUBLIC_SITE_URL=https://allthingsart.ie bun run --cwd apps/laura-faichney-web build:static`: 10 HTML files and internal links verified.                                                  |
+| Production audit                  | PASS   | `assets/production-audit.json`: 10 HTTP 200 pages; all initially used hosting-domain canonicals; missing URL incorrectly returns homepage HTTP 200.                                            |
+| Mobile laboratory audit           | PASS   | `assets/lighthouse-summary.json`: SEO 100, performance 94, LCP 3.1s; one simulated mobile homepage run, not field data.                                                                        |
+| Search Console ownership          | PASS   | Google displays “Ownership verified” using Domain name provider for `allthingsart.ie`; overview and URL Inspection open successfully.                                                          |
+| Google indexing baseline          | FAIL   | URL Inspection reports homepage unknown to Google, not indexed, no crawl and no referring sitemap.                                                                                             |
+| Sitemap submission                | FAIL   | User submission is readable but has 10 “URL not allowed” errors; all entries still reference `pages.dev`.                                                                                      |
+| Browser output and captures       | PASS   | Playwright verifies all 10 canonicals; screenshots capture published content at 1440×1000 (2×) and 390×844 (3×). See local assets.                                                             |
+| Temporary Cloudflare preview      | PASS   | [Temporary preview](https://seo-search-console.laura-faichney-all-things-art.pages.dev): all 10 routes, sitemap and robots pass; `assets/preview-check.json`.                                  |
+| Handoff validation                | PASS   | `bun run --cwd apps/handoffs docs:check`: 25 handoffs validate; six historical exemptions remain unchanged.                                                                                    |
+| Commit hook                       | PASS   | Normal repository precommit checks pass without bypasses; `assets/commit-checks.txt` records suite summaries for `47da521`.                                                                    |
+| Dev browser                       | FAIL   | Dev servers start on 3008/3009 because 3000–3007 are occupied; cmux denies access from processes started outside cmux.                                                                         |
+| Direct main push                  | PASS   | Explicit exception approval resolves two automatic-review rejections; non-force push `84c49ed..bc4de01` succeeds. No PR is created.                                                            |
+| Production deployment             | PASS   | [GitHub deployment](https://github.com/szabototo89/woodbrook-residents/actions/runs/42416973726) succeeds at `bc4de01`; `assets/production-verification.json` verifies all 10 live canonicals. |
+| Google discovery after correction | PASS   | Homepage now shows “Discovered - currently not indexed” and identifies the custom-domain sitemap. Google still controls crawl and indexing timing.                                             |
 
 ## Appearance
 
@@ -95,6 +98,6 @@ Change: the maintainer can now review the verified domain in Search Console. Unm
 
 ## Next steps
 
-After review and the normal production deployment, validate the custom-domain sitemap, submit it and inspect representative URLs. Follow the separate audit plan for redirects, genuine missing-page responses, service content and the 28-day comparison; these remain planned work.
+Request homepage indexing once, then review Pages and Performance after Google processes the site. Follow the 28-day improvement plan for indexing, non-brand impressions, redirects, genuine missing-page responses and service content. These follow-ups are targets, not completed outcomes.
 
-The PR records the final deployed commit. Refresh its preview after the seven-day retention window if review resumes later.
+The user explicitly approves direct updates to main without a PR for this task. The implementation and production deployment are `bc4de01`; the preview at the same commit remains available for seven days.

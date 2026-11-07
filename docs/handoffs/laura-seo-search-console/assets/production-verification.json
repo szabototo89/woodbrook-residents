@@ -1,0 +1,68 @@
+{
+  "previewUrl": "https://allthingsart.ie",
+  "commit": "bc4de01f884a88863cdb6dff5068412e077e69d1",
+  "checkedAt": "2026-11-07T21:42:38.796Z",
+  "robotsTxt": "User-agent: *\nAllow: /\nSitemap: https://allthingsart.ie/sitemap.xml\n",
+  "pages": [
+    {
+      "path": "/",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/",
+      "xRobotsTag": null
+    },
+    {
+      "path": "/services",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/services",
+      "xRobotsTag": null
+    },
+    {
+      "path": "/gallery",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery",
+      "xRobotsTag": null
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/about",
+      "xRobotsTag": null
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/contact",
+      "xRobotsTag": null
+    },
+    {
+      "path": "/gallery/hummingbird",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/hummingbird",
+      "xRobotsTag": null
+    },
+    {
+      "path": "/gallery/mad-cow",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/mad-cow",
+      "xRobotsTag": null
+    },
+    {
+      "path": "/gallery/coco-after-dark",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/coco-after-dark",
+      "xRobotsTag": null
+    },
+    {
+      "path": "/gallery/wild-at-heart",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/wild-at-heart",
+      "xRobotsTag": null
+    },
+    {
+      "path": "/gallery/angus-has-notions",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/angus-has-notions",
+      "xRobotsTag": null
+    }
+  ]
+}

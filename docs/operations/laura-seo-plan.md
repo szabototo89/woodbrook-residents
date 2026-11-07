@@ -4,15 +4,15 @@ Audited 7 November 2026. Production: <https://allthingsart.ie/>. Repository base
 
 ## Findings
 
-| Priority | Finding                                                             | Evidence and action                                                                                                                                                   |
-| -------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P0       | All 10 custom-domain pages declare the hosting domain as canonical. | Sitemap and robots also reference `pages.dev`. The PR changes metadata defaults, deployment defaults and CI to `https://allthingsart.ie`. Await merge and deployment. |
-| P1       | Unknown URLs return the homepage with HTTP 200.                     | `/seo-audit-nonexistent-20261107` returns homepage content. Add a real static 404 page and check HTTP 404 on Cloudflare.                                              |
-| P1       | Three HTTPS hosts serve the same site.                              | Apex, `www` and `pages.dev` return HTTP 200. Plan permanent, path-preserving redirects to the apex after checking Pages custom-domain routing.                        |
-| P1       | Service discovery relies on one general services page.              | Services title is generic; copy covers five different services. Plan focused pages only where Laura can supply substantial original detail and examples.              |
-| P2       | Location specificity is limited to Ireland.                         | Confirm actual location and service area with Laura before changing local search copy or creating a Business Profile. Do not invent a town or address.                |
-| P2       | No JSON-LD or social preview image was found on the 10 pages.       | Consider accurate Person/WebSite and breadcrumb data; use an approved image with alt text for social sharing. Neither guarantees rankings.                            |
-| P2       | Mobile homepage laboratory LCP is 3.1 seconds.                      | Lighthouse performance 94, SEO 100, FCP 1.0 seconds, CLS 0 and blocking time 0. Optimise the hero only after confirming repeatable results.                           |
+| Priority | Finding                                                             | Evidence and action                                                                                                                                                                               |
+| -------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P0       | All 10 custom-domain pages declare the hosting domain as canonical. | Sitemap and robots also reference `pages.dev`. The tested branch changes metadata defaults, deployment defaults and CI to `https://allthingsart.ie`. Production deployment `bc4de01` is verified. |
+| P1       | Unknown URLs return the homepage with HTTP 200.                     | `/seo-audit-nonexistent-20261107` returns homepage content. Add a real static 404 page and check HTTP 404 on Cloudflare.                                                                          |
+| P1       | Three HTTPS hosts serve the same site.                              | Apex, `www` and `pages.dev` return HTTP 200. Plan permanent, path-preserving redirects to the apex after checking Pages custom-domain routing.                                                    |
+| P1       | Service discovery relies on one general services page.              | Services title is generic; copy covers five different services. Plan focused pages only where Laura can supply substantial original detail and examples.                                          |
+| P2       | Location specificity is limited to Ireland.                         | Confirm actual location and service area with Laura before changing local search copy or creating a Business Profile. Do not invent a town or address.                                            |
+| P2       | No JSON-LD or social preview image was found on the 10 pages.       | Consider accurate Person/WebSite and breadcrumb data; use an approved image with alt text for social sharing. Neither guarantees rankings.                                                        |
+| P2       | Mobile homepage laboratory LCP is 3.1 seconds.                      | Lighthouse performance 94, SEO 100, FCP 1.0 seconds, CLS 0 and blocking time 0. Optimise the hero only after confirming repeatable results.                                                       |
 
 Existing strengths: all 10 sitemap pages return HTTP 200 after route redirects, each has a distinct title and description, one H1, crawlable server-rendered content, internal navigation and image alt attributes. HTTPS works and robots allows crawling. Lighthouse SEO 100 checks basic eligibility; it does not establish ranking quality or validate the intended canonical host. The LCP result is one simulated mobile laboratory run, not Google's field Core Web Vitals assessment.
 
@@ -35,7 +35,11 @@ Google initially reports that performance and indexing data are processing. That
 
 The initial homepage URL Inspection reports “URL is unknown to Google”, no last crawl, no referring sitemap and no selected canonical. This confirms that the homepage is not currently indexed; it does not establish the status of every other URL.
 
-Sitemap submission is pending because the live `https://allthingsart.ie/sitemap.xml` still contains the hosting domain's URLs. After the PR is merged and the normal deployment finishes:
+The user submitted `https://allthingsart.ie/sitemap.xml` during this session. Its initial “Couldn’t fetch” status changed to “Sitemap can be read, but has errors”: Google discovered 10 pages and rejected all 10 hosting-domain URLs as “URL not allowed”. Public HTTP checks return valid XML with HTTP 200 for normal, Googlebot and Google-InspectionTool user agents; these checks do not prove access from Google’s own infrastructure.
+
+The user explicitly approves an exception to the earlier PR-only rule. The history-preserving main push succeeds, and [deployment `bc4de01`](https://github.com/szabototo89/woodbrook-residents/actions/runs/42416973726) succeeds. All 10 live canonicals, sitemap entries and robots sitemap reference now use the custom domain. The user confirms the corrected sitemap is set; URL Inspection lists it as the homepage discovery source and reports “Discovered - currently not indexed”.
+
+Operational procedure for future updates:
 
 1. Fetch the production homepage, services, a collection, robots and sitemap. Confirm custom-domain canonical and sitemap URLs.
 2. Open **Indexing → Sitemaps**, submit `https://allthingsart.ie/sitemap.xml`, and record its processing status and discovered count.

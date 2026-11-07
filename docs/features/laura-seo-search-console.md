@@ -1,6 +1,6 @@
 # Laura search visibility
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
@@ -10,7 +10,7 @@ When someone searches for Laura or her creative services, I want Google to ident
 
 Page canonical links, Open Graph URLs, the sitemap and robots sitemap reference use `https://allthingsart.ie` by default. Explicit preview origins remain supported. The verified Search Console domain property covers every protocol and subdomain; it reports clicks, impressions, queries, pages and indexing without a visitor tracking script.
 
-The repository correction is verified in a temporary preview and awaits merge and production deployment. Search Console ownership was verified on 7 November 2026. Its initial reports are processing. The production sitemap still lists the hosting domain, so submission must wait for the corrected production build.
+The correction is deployed to production from `bc4de01` on 7 November 2026. All 10 live canonical URLs and sitemap entries use the custom domain. Search Console ownership is verified; after the user sets the corrected sitemap, Google identifies it as the homepage discovery source. The homepage is discovered but not yet indexed; search reports initially process data. No PR is created, as explicitly requested.
 
 ## Acceptance criteria
 
