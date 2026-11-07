@@ -4,7 +4,7 @@ import { expect, test } from 'vitest';
 import { GalleryCollectionPage } from './GalleryCollectionPage';
 import { GalleryPage } from './GalleryPage';
 import { GalleryPreview } from './GalleryPreview';
-import { SiteHeader } from './SiteHeader';
+import { SiteHeader } from '../../components/SiteHeader';
 import {
   galleryCollectionPath,
   getGalleryCollection,
