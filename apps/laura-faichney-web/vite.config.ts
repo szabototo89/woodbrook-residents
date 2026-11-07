@@ -12,7 +12,12 @@ export default defineConfig(async ({ mode, command }) => {
 
   const styles = inlineStyles(
     await Promise.all(
-      ['services-design.css', 'contact-design.css', 'styles.css'].map((file) =>
+      [
+        'services-design.css',
+        'contact-design.css',
+        'styles.css',
+        'components/SiteHeader.css',
+      ].map((file) =>
         readFile(new URL(`./src/${file}`, import.meta.url), 'utf8'),
       ),
     ),
@@ -37,7 +42,8 @@ export default defineConfig(async ({ mode, command }) => {
             return `import services from '/src/services-design.css?raw';
               import contact from '/src/contact-design.css?raw';
               import base from '/src/styles.css?raw';
-              export default [services, contact, base.replace(/^@import .+;$/gm, '')].join('\\n');`;
+              import header from '/src/components/SiteHeader.css?raw';
+              export default [services, contact, base.replace(/^@import .+;$/gm, ''), header].join('\\n');`;
           }
           // Hydration reuses the CSS already delivered in the document.
           return this.environment.config.consumer === 'server'

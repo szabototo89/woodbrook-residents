@@ -9,7 +9,7 @@ import cormorantUrl from '@fontsource-variable/cormorant-garamond/files/cormoran
 import dmSansUrl from '../assets/fonts/dm-sans-latin-400-700.woff2?url';
 import styles from 'virtual:laura-styles';
 import { SiteFooter } from '../features/site/SiteFooter';
-import { SiteHeader } from '../features/site/SiteHeader';
+import { SiteHeader } from '../components/SiteHeader';
 import { useGalleryTransitions } from '../features/site/useGalleryTransitions';
 import { usePageTransitions } from '../features/site/usePageTransitions';
 

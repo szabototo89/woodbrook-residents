@@ -235,7 +235,6 @@ body:has(.services-page) .site-footer {
 }
 @media (min-width: 641px) and (max-width: 900px) {
   .services-page .container,
-  .site-header:has(a[href='/services'][aria-current='page']) .container,
   body:has(.services-page) .site-footer .container {
     width: calc(100% - 64px);
   }
@@ -251,7 +250,6 @@ body:has(.services-page) .site-footer {
 }
 @media (max-width: 640px) {
   .services-page .container,
-  .site-header:has(a[href='/services'][aria-current='page']) .container,
   body:has(.services-page) .site-footer .container {
     width: calc(100% - 40px);
   }
@@ -383,21 +381,6 @@ body:has(.services-page) .site-footer {
   }
   .process-steps h3 {
     font-size: clamp(1.25rem, 1.9vw, 1.85rem);
-  }
-  .site-header:has(a[href='/services'][aria-current='page']) {
-    height: clamp(64px, 6.8vw, 88px);
-  }
-  .site-header:has(a[href='/services'][aria-current='page']) .wordmark {
-    width: clamp(155px, 17vw, 230px);
-  }
-  .site-header:has(a[href='/services'][aria-current='page']) .header-inner {
-    gap: 20px;
-  }
-  .site-header:has(a[href='/services'][aria-current='page']) .navigation {
-    gap: clamp(16px, 2.7vw, 32px);
-  }
-  .site-header:has(a[href='/services'][aria-current='page']) .header-cta {
-    margin-left: 10px;
   }
   .services-page .contact-links {
     gap: 0;

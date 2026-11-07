@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
-import { Arrow } from './Arrow';
-import { BrandLogo } from '../../components/BrandLogo';
+import { ArrowRight } from 'lucide-react';
+import { BrandLogo } from './BrandLogo';
 
 type SiteHeaderProps = { active: string };
 
@@ -62,7 +62,8 @@ export function SiteHeader(props: SiteHeaderProps) {
           ))}
         </nav>
         <a className="button button-primary header-cta" href="/contact">
-          Get in Touch <Arrow />
+          Get in Touch{' '}
+          <ArrowRight size={18} strokeWidth={2} aria-hidden="true" />
         </a>
       </div>
     </header>

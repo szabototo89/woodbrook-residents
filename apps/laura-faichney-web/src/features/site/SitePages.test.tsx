@@ -1,3 +1,4 @@
+import { SiteHeader } from '../../components/SiteHeader';
 import { artworkUrl } from '../../../scripts/lauraSanitySource';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, test } from 'vitest';
@@ -8,7 +9,6 @@ import {
   GalleryPage,
   HomePage,
   ServicesPage,
-  SiteHeader,
   SiteFooter,
 } from './SitePages';
 import {

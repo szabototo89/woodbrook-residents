@@ -1,0 +1,33 @@
+Implementation: 45fd653c35f79ca05b7c86f1ba60c84c4aea2ed3
+Preview: https://7a3bec80.laura-faichney-all-things-art.pages.dev
+390 about {"x":20,"y":4,"width":180,"height":60}
+390 home {"x":20,"y":4,"width":180,"height":60}
+390 services {"x":20,"y":4,"width":180,"height":60}
+390 gallery {"x":20,"y":4,"width":180,"height":60}
+390 contact {"x":20,"y":4,"width":180,"height":60}
+641 about {"x":24,"y":11.328125,"width":175,"height":58.328125}
+641 home {"x":24,"y":11.328125,"width":175,"height":58.328125}
+641 services {"x":24,"y":11.328125,"width":175,"height":58.328125}
+641 gallery {"x":24,"y":11.328125,"width":175,"height":58.328125}
+641 contact {"x":24,"y":11.328125,"width":175,"height":58.328125}
+768 about {"x":24,"y":11.328125,"width":175,"height":58.328125}
+768 home {"x":24,"y":11.328125,"width":175,"height":58.328125}
+768 services {"x":24,"y":11.328125,"width":175,"height":58.328125}
+768 gallery {"x":24,"y":11.328125,"width":175,"height":58.328125}
+768 contact {"x":24,"y":11.328125,"width":175,"height":58.328125}
+1024 about {"x":24,"y":3.828125,"width":220,"height":73.328125}
+1024 home {"x":24,"y":3.828125,"width":220,"height":73.328125}
+1024 services {"x":24,"y":3.828125,"width":220,"height":73.328125}
+1024 gallery {"x":24,"y":3.828125,"width":220,"height":73.328125}
+1024 contact {"x":24,"y":3.828125,"width":220,"height":73.328125}
+1440 about {"x":80,"y":3.828125,"width":220,"height":73.328125}
+1440 home {"x":80,"y":3.828125,"width":220,"height":73.328125}
+1440 services {"x":80,"y":3.828125,"width":220,"height":73.328125}
+1440 gallery {"x":80,"y":3.828125,"width":220,"height":73.328125}
+1440 contact {"x":80,"y":3.828125,"width":220,"height":73.328125}
+2048 about {"x":384,"y":3.828125,"width":220,"height":73.328125}
+2048 home {"x":384,"y":3.828125,"width":220,"height":73.328125}
+2048 services {"x":384,"y":3.828125,"width":220,"height":73.328125}
+2048 gallery {"x":384,"y":3.828125,"width":220,"height":73.328125}
+2048 contact {"x":384,"y":3.828125,"width":220,"height":73.328125}
+PASS: identical preview headers across all pages, no overflow, accessible mobile navigation

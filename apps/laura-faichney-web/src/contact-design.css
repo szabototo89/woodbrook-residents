@@ -4,8 +4,7 @@
   body:has(.contact-reference-page) .site-footer .container {
     width: min(90%, 1200px);
   }
-  .contact-reference-page .contact-hero .container,
-  .site-header:has(a[href='/contact'][aria-current='page']) .container {
+  .contact-reference-page .contact-hero .container {
     width: min(86%, 1160px);
   }
 }
@@ -357,15 +356,6 @@
   scroll-margin-top: 100px;
 }
 @media (min-width: 641px) {
-  .site-header:has(a[href='/contact'][aria-current='page']) {
-    height: clamp(72px, 7.5vw, 88px);
-  }
-  .site-header:has(a[href='/contact'][aria-current='page']) .wordmark {
-    width: clamp(160px, 18vw, 230px);
-  }
-  .site-header:has(a[href='/contact'][aria-current='page']) .navigation {
-    gap: clamp(18px, 2.7vw, 32px);
-  }
   body:has(.contact-reference-page) .site-footer {
     padding-block: 20px;
   }
@@ -385,16 +375,6 @@
   }
 }
 @media (min-width: 641px) and (max-width: 900px) {
-  .site-header:has(a[href='/contact'][aria-current='page']) .header-inner {
-    gap: 16px;
-  }
-  .site-header:has(a[href='/contact'][aria-current='page']) .navigation {
-    gap: 12px;
-  }
-  .site-header:has(a[href='/contact'][aria-current='page']) .header-cta {
-    margin-left: 0;
-    padding-inline: 16px;
-  }
   .contact-reference-page .contact-inner {
     grid-template-columns: 1fr 1fr;
     gap: 12px 24px;
@@ -446,7 +426,6 @@
 @media (max-width: 640px) {
   .contact-reference-page .container,
   .contact-reference-page .contact-hero .container,
-  .site-header:has(a[href='/contact'][aria-current='page']) .container,
   body:has(.contact-reference-page) .site-footer .container {
     width: calc(100% - 40px);
   }
