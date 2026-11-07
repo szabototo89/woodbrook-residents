@@ -1,0 +1,4 @@
+about { x: 0, y: 0, width: 1440, height: 82 } { x: 80, y: 3.828125, width: 220, height: 73.328125 }
+services { x: 0, y: 0, width: 1440, height: 82 } { x: 80, y: 3.828125, width: 220, height: 73.328125 }
+contact { x: 0, y: 0, width: 1440, height: 82 } { x: 80, y: 3.828125, width: 220, height: 73.328125 }
+PASS: matching desktop headers and mobile menu navigation

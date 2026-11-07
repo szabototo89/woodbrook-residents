@@ -1,0 +1,104 @@
+import aboutDesktop from './assets/about-desktop.webp';
+import servicesDesktop from './assets/services-desktop.webp';
+import contactDesktop from './assets/contact-desktop.webp';
+import mobileMenu from './assets/mobile-menu.webp';
+import contactMobile from './assets/contact-mobile.webp';
+
+export const metadata = {
+  title: 'Unify Laura’s shared header',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a1b7d0-c257-7ba1-bb96-83450a7e548c',
+  worktree: '/Users/tszabo/orca/workspaces/woodbrook/laura-s-page',
+  branch: 'szabototo89/laura-s-page',
+  commit: '45fd653c35f79ca05b7c86f1ba60c84c4aea2ed3',
+  updatedAt: '2026-11-07T21:28:52Z',
+  summary:
+    'All pages now share one header component and stylesheet so logo size and menu placement stay consistent.',
+};
+
+## Goal
+
+Keep the same logo size and menu geometry when visitors change pages. Preserve active links and the accessible phone menu.
+
+## Technical changes
+
+Baseline: `7006686127bdaebafde3320471fb5546ea0e3d3f`. The implementation commit is recorded above.
+
+| Area             | Before                                                                     | After                                                                                | Why                                                 | Code                                                                             |
+| ---------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Shared component | Header already serves every page from the site feature directory           | Shared header lives under components and remains in the root layout                  | Keep application chrome separate from page features | `apps/laura-faichney-web/src/components/SiteHeader.tsx`, `src/routes/__root.tsx` |
+| Header styles    | Base, responsive and motion rules are scattered through global CSS         | One adjacent stylesheet owns header rules                                            | Keep menu styling in one place                      | `src/components/SiteHeader.css`, `src/styles.css`                                |
+| Page overrides   | Services and Contact change logo width, header height, margins and spacing | Page styles no longer override the header                                            | Match About across pages                            | `src/services-design.css`, `src/contact-design.css`                              |
+| Narrow tablets   | The full menu extends past its container at 641px                          | Shared gaps and button padding keep it inside the container                          | Prevent overflow above the phone breakpoint         | `SiteHeader.css`                                                                 |
+| Style delivery   | The inline stylesheet bundles three source files                           | It also bundles shared header CSS in development and production                      | Preserve styled server HTML and hydration           | `apps/laura-faichney-web/vite.config.ts`                                         |
+| Regression       | No cross-page header geometry check                                        | Nine viewport checks compare all five pages; phone test covers Escape and navigation | Prevent page-specific header drift                  | `tests/e2e/shared-header.spec.ts`                                                |
+
+## Architecture changes
+
+Laura’s website presents the artist’s work and project enquiries. The root layout already renders one header for every route. This change relocates that component and consolidates its styles; component responsibilities and interactions remain the same.
+
+| Level | Change                                                                                     | Evidence                                               |
+| ----- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| C1    | Unchanged: the same visitors and external services use the website                         | Presentation-only change                               |
+| C2    | Unchanged: the website, content store and enquiry provider remain the same                 | Same application and external dependencies             |
+| C3    | Unchanged: the root layout still owns one shared header with logo, menu and contact action | Component relocation and stylesheet consolidation only |
+
+## Verification
+
+| Check                    | Result | Evidence                                                                                                                                                                                                     |
+| ------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Failing regression first | PASS   | Header checks failed at 641, 768, 900, 1024, 1440 and 2048px before consolidation.                                                                                                                           |
+| Focused browsers         | PASS   | Focused Playwright: 23 passed. Full Laura browser suite: 140 passed; repository pre-commit lint, typecheck and tests passed.                                                                                 |
+| Laura unit tests         | PASS   | 101 Vitest tests and 32 Bun script tests passed.                                                                                                                                                             |
+| Repository build         | PASS   | `bun run build` exited 0.                                                                                                                                                                                    |
+| Desktop/mobile review    | PASS   | Playwright captures at 1440×1000 and 390×844, 2× resolution. All desktop headers show a 220px logo within an 82px header.                                                                                    |
+| Header interaction       | PASS   | Phone menu opens, Escape restores button focus, selecting Contact closes the menu and opens the page.                                                                                                        |
+| Handoff validation       | PASS   | `bun run --cwd apps/handoffs docs:check` and `bun run build:handoffs` passed.                                                                                                                                |
+| Temporary preview        | PASS   | [Preview](https://laura-shared-header.laura-faichney-all-things-art.pages.dev): all five pages match at six viewport widths; menu interaction and overflow checks passed. `assets/preview-verification.txt`. |
+
+## Appearance
+
+Desktop screenshots isolate the same header at matching viewports. Phone screenshots show the open menu and the destination page. Images preserve 2× resolution and show existing published page content.
+
+<AppearanceGallery
+  images={[
+    {
+      src: aboutDesktop,
+      title: 'About desktop',
+      alt: 'About shared header',
+      description: 'The reference header has a 220px logo and an 82px height.',
+    },
+    {
+      src: servicesDesktop,
+      title: 'Services desktop',
+      alt: 'Services matching shared header',
+      description:
+        'Compare logo size, menu alignment and contact-button position with About.',
+    },
+    {
+      src: contactDesktop,
+      title: 'Contact desktop',
+      alt: 'Contact matching shared header',
+      description:
+        'The logo and menu now use the same geometry as About and Services.',
+    },
+    {
+      src: mobileMenu,
+      title: 'Phone menu',
+      alt: 'Shared phone menu expanded on Services',
+      description: 'Check the reachable links and active Services underline.',
+    },
+    {
+      src: contactMobile,
+      title: 'Phone destination',
+      alt: 'Contact after selecting the phone menu link',
+      description:
+        'The menu closes after navigation and keeps the same phone header.',
+    },
+  ]}
+/>
+
+## Next steps
+
+No further implementation work. The user requested a direct merge and remote push to main without a pull request. The temporary preview expires after seven days.
