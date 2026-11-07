@@ -9,9 +9,7 @@ import {
 
 test('site metadata uses Laura production defaults', () => {
   expect(SITE_NAME).toBe('Laura Faichney All Things Art');
-  expect(PRODUCTION_SITE_URL).toBe(
-    'https://laura-faichney-all-things-art.pages.dev',
-  );
+  expect(PRODUCTION_SITE_URL).toBe('https://allthingsart.ie');
   expect(resolveSiteUrl({})).toBe(PRODUCTION_SITE_URL);
   expect(resolveSiteUrl({ VITE_PUBLIC_SITE_URL: '  ' })).toBe(
     PRODUCTION_SITE_URL,
@@ -39,7 +37,7 @@ test('site metadata builds a canonical homepage without inventing a social image
     expect(head.links).toEqual([
       {
         rel: 'canonical',
-        href: 'https://laura-faichney-all-things-art.pages.dev/',
+        href: 'https://allthingsart.ie/',
       },
     ]);
     expect(head.meta).toContainEqual({

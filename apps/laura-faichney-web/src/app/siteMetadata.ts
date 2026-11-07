@@ -1,5 +1,4 @@
-export const PRODUCTION_SITE_URL =
-  'https://laura-faichney-all-things-art.pages.dev';
+export const PRODUCTION_SITE_URL = 'https://allthingsart.ie';
 export const SITE_NAME = 'Laura Faichney All Things Art';
 
 export function resolveSiteUrl(env: Record<string, unknown>): string {
