@@ -1,11 +1,13 @@
 /* Contact reference: a welcoming studio, clear enquiry and painted paper. */
-.contact-reference-page .container,
-body:has(.contact-reference-page) .site-footer .container {
-  width: min(90%, 1200px);
-}
-.contact-reference-page .contact-hero .container,
-.site-header:has(a[href='/contact'][aria-current='page']) .container {
-  width: min(86%, 1160px);
+@media (max-width: 900px) {
+  .contact-reference-page .container,
+  body:has(.contact-reference-page) .site-footer .container {
+    width: min(90%, 1200px);
+  }
+  .contact-reference-page .contact-hero .container,
+  .site-header:has(a[href='/contact'][aria-current='page']) .container {
+    width: min(86%, 1160px);
+  }
 }
 .contact-reference-page .contact-hero,
 .contact-reference-page .page-hero-inner {
@@ -512,5 +514,11 @@ body:has(.contact-reference-page) .site-footer .container {
   }
   .contact-reference-page .contact-inner {
     gap: 20px;
+  }
+}
+
+@media (min-width: 901px) {
+  .contact-reference-page .page-hero-art {
+    right: calc((min(100vw - 48px, 1280px) - 100vw) / 2);
   }
 }

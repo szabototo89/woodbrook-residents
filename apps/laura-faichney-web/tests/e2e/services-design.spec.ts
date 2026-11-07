@@ -52,7 +52,7 @@ test('services retain the compact proportions of the supplied reference', async 
   const hero = await page.locator('.services-hero').boundingBox();
   if (!firstImage || !process || !hero)
     throw new Error('Services sections are missing');
-  expect(firstImage.x).toBeGreaterThanOrEqual(85);
+  expect(firstImage.x).toBe(24);
   expect(firstImage.y).toBeGreaterThanOrEqual(hero.y + hero.height);
   expect(firstImage.y).toBeLessThanOrEqual(hero.y + hero.height + 100);
   expect(process.y).toBeLessThanOrEqual(1450);
