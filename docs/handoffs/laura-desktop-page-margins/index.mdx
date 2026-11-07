@@ -1,0 +1,105 @@
+import aboutDesktop from './assets/about-desktop.webp';
+import servicesDesktop from './assets/services-desktop.webp';
+import servicesMobile from './assets/services-mobile.webp';
+import contactDesktop from './assets/contact-desktop.webp';
+import contactMobile from './assets/contact-mobile.webp';
+
+export const metadata = {
+  title: 'Align Laura’s desktop page margins',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a1b7d0-c257-7ba1-bb96-83450a7e548c',
+  worktree: '/Users/tszabo/orca/workspaces/woodbrook/laura-s-page',
+  branch: 'szabototo89/laura-s-page',
+  commit: '624a92af30caeb5198e482a6d66274177a72ce1b',
+  updatedAt: '2026-11-07T21:11:45Z',
+  summary:
+    'Services and Contact now use About’s desktop content margins across their headers, sections and footers.',
+};
+
+## Goal
+
+Keep the content edges consistent when desktop visitors move between About, Services and Contact. Preserve the existing phone and tablet layout rules.
+
+## Technical changes
+
+Baseline: `023a171ed765421ffb1512d66e83717aafaa80a5`. The implementation commit is recorded above.
+
+| Area            | Before                                        | After                                                                       | Why                                    | Code                                                                                                |
+| --------------- | --------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Desktop margins | Each page sets narrower container widths      | Above 900px, both use the shared 1280px container with 24px minimum gutters | Match About’s content edges            | `apps/laura-faichney-web/src/services-design.css`, `apps/laura-faichney-web/src/contact-design.css` |
+| Service list    | An additional 1180px cap shifts rows inward   | Desktop rows use the full shared container                                  | Align services with header and hero    | `services-design.css`                                                                               |
+| Hero decoration | Right offsets use the old page widths         | Desktop offsets follow the shared container width                           | Keep artwork at the viewport edge      | Both page stylesheets                                                                               |
+| Service images  | Desktop image sizing assumes a narrower row   | Responsive image hints cover the wider service rows                         | Keep source selection appropriate      | `apps/laura-faichney-web/src/features/site/ServicesPage.tsx`                                        |
+| Regression      | Reference checks require the old 935px margin | Cross-page checks compare all containers at three desktop widths            | Prevent inconsistent margins returning | `apps/laura-faichney-web/tests/e2e/desktop-page-margins.spec.ts`, `services-design.spec.ts`         |
+
+## Architecture changes
+
+Laura’s website presents the artist’s work and accepts project enquiries. This change adjusts page styling and image size hints; it does not change system boundaries, component responsibilities or interactions. No C4 diagram changes are needed.
+
+| Level | Change                                                                  | Evidence                                         |
+| ----- | ----------------------------------------------------------------------- | ------------------------------------------------ |
+| C1    | Unchanged: visitors and external services are the same                  | Page styling only                                |
+| C2    | Unchanged: the website, content store and enquiry provider are the same | No deployment configuration or data changes      |
+| C3    | Unchanged: page and shared component responsibilities remain the same   | CSS width rules and a responsive image hint only |
+
+## Verification
+
+| Check                    | Result  | Evidence                                                                                                                                                                         |
+| ------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Failing regression first | PASS    | New alignment checks failed at 1024, 1440 and 2048px before the CSS change.                                                                                                      |
+| Focused browser checks   | PASS    | Focused Playwright: 25 passed. Full pre-commit Laura suite: 130 browser tests passed. Repository lint, typecheck and tests passed.                                               |
+| Repository build         | PASS    | `bun run build` exited 0.                                                                                                                                                        |
+| Desktop/mobile review    | PASS    | Playwright captures at 1440×1000 and 390×844, both 2× resolution; published page content; screenshots in `assets/`.                                                              |
+| Container measurements   | PASS    | At 1440px, all three hero containers start at 80px and span 1280px.                                                                                                              |
+| cmux tab                 | NOT RUN | `cmux browser open` failed: no live cmux socket. The dev server runs on port 3004; Playwright captured it.                                                                       |
+| Handoff check            | PASS    | `bun run --cwd apps/handoffs docs:check` passed; `bun run build:handoffs` passed.                                                                                                |
+| Temporary preview        | PASS    | [Preview](https://laura-desktop-margins.laura-faichney-all-things-art.pages.dev): routes, desktop margins, overflow and enquiry focus passed; `assets/preview-verification.txt`. |
+
+## Appearance
+
+Screenshots use the existing published artist content. About provides the desktop comparison. WebP copies preserve the original 2× screenshot dimensions.
+
+<AppearanceGallery
+  images={[
+    {
+      src: aboutDesktop,
+      title: 'About desktop reference',
+      alt: 'About at 1440px',
+      description:
+        'Compare the left and right content edges with Services and Contact.',
+    },
+    {
+      src: servicesDesktop,
+      title: 'Services desktop',
+      alt: 'Services with aligned desktop margins',
+      description:
+        'Check the header, hero, alternating service rows, process and footer edges.',
+    },
+    {
+      src: contactDesktop,
+      title: 'Contact desktop',
+      alt: 'Contact with aligned desktop margins',
+      description:
+        'Check that the hero, enquiry panels, service cards and footer share the same container edges.',
+    },
+    {
+      src: servicesMobile,
+      title: 'Services mobile',
+      alt: 'Services on a phone',
+      description:
+        'Check the existing single-column service layout and 20px gutters.',
+    },
+    {
+      src: contactMobile,
+      title: 'Contact mobile',
+      alt: 'Contact on a phone',
+      description:
+        'Check the stacked enquiry panels, full-width submit button and readable fields.',
+    },
+  ]}
+/>
+
+## Next steps
+
+The user requested a direct merge into main without a pull request. The temporary preview remains available for seven days.

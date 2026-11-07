@@ -1,0 +1,15 @@
+Initial preview verification: implementation commit 624a92af30caeb5198e482a6d66274177a72ce1b
+URL: https://laura-desktop-margins.laura-faichney-all-things-art.pages.dev
+1024 about {"x":24,"y":82,"width":976,"height":468.671875}
+1024 services {"x":24,"y":69.625,"width":976,"height":418.796875}
+1024 contact {"x":24,"y":76.796875,"width":976,"height":471.03125}
+1440 about {"x":80,"y":82,"width":1280,"height":540}
+1440 services {"x":80,"y":88,"width":1280,"height":501.984375}
+1440 contact {"x":80,"y":88,"width":1280,"height":580}
+2048 about {"x":384,"y":82,"width":1280,"height":540}
+2048 services {"x":384,"y":88,"width":1280,"height":515.453125}
+2048 contact {"x":384,"y":88,"width":1280,"height":580}
+390 about {"x":20,"y":69,"width":350,"height":781.75}
+390 services {"x":20,"y":69,"width":350,"height":715.03125}
+390 contact {"x":20,"y":69,"width":350,"height":698.5}
+PASS: preview routes, desktop margins, overflow and enquiry focus
