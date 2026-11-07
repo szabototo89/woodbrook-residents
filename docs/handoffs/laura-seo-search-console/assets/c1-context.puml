@@ -1,0 +1,20 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Context>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Laura website — C1 search monitoring — changes from 023a171
+
+Person(laura_owner, "Laura site maintainer", "Maintains the artist website and reviews search visibility")
+System(laura_site, "Laura Faichney website", "Presents artwork and creative services and accepts enquiries")
+System_Ext(laura_search_console, "[ADDED] Google Search Console", "Reports search clicks, impressions and indexing for the verified domain\nChange: DNS verification establishes the allthingsart.ie domain property; reports initially process data.")
+
+Rel(laura_owner, laura_site, "Reviews published artwork and services", "HTTPS")
+Rel(laura_owner, laura_search_console, "[ADDED] Reviews search performance and indexing\nChange: The maintainer can now open the verified domain reports.", "HTTPS")
+Rel(laura_search_console, laura_site, "[ADDED] Reports Google Search visibility for\nChange: Search visibility is monitored across allthingsart.ie subdomains and protocols.", "Verified domain property")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

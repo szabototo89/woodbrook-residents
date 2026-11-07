@@ -1,0 +1,89 @@
+{
+  "tool": "Lighthouse 13.6.0",
+  "mode": "Mobile simulated throttling; one laboratory run, not field data",
+  "url": "https://allthingsart.ie/",
+  "fetchTime": "2026-11-07T21:19:29.959Z",
+  "scores": {
+    "performance": 94.0,
+    "seo": 100
+  },
+  "metrics": {
+    "first-contentful-paint": {
+      "displayValue": "1.0\u00a0s",
+      "numericValue": 953.075
+    },
+    "largest-contentful-paint": {
+      "displayValue": "3.1\u00a0s",
+      "numericValue": 3126.075
+    },
+    "speed-index": {
+      "displayValue": "1.8\u00a0s",
+      "numericValue": 1781.1298580200673
+    },
+    "total-blocking-time": {
+      "displayValue": "0\u00a0ms",
+      "numericValue": 0
+    },
+    "cumulative-layout-shift": {
+      "displayValue": "0",
+      "numericValue": 0
+    }
+  },
+  "seoAudits": [
+    {
+      "id": "is-crawlable",
+      "score": 1,
+      "title": "Page isn\u2019t blocked from indexing"
+    },
+    {
+      "id": "document-title",
+      "score": 1,
+      "title": "Document has a `<title>` element"
+    },
+    {
+      "id": "meta-description",
+      "score": 1,
+      "title": "Document has a meta description"
+    },
+    {
+      "id": "http-status-code",
+      "score": 1,
+      "title": "Page has successful HTTP status code"
+    },
+    {
+      "id": "link-text",
+      "score": 1,
+      "title": "Links have descriptive text"
+    },
+    {
+      "id": "crawlable-anchors",
+      "score": 1,
+      "title": "Links are crawlable"
+    },
+    {
+      "id": "robots-txt",
+      "score": 1,
+      "title": "robots.txt is valid"
+    },
+    {
+      "id": "image-alt",
+      "score": 1,
+      "title": "Image elements have `[alt]` attributes"
+    },
+    {
+      "id": "hreflang",
+      "score": 1,
+      "title": "Document has a valid `hreflang`"
+    },
+    {
+      "id": "canonical",
+      "score": 1,
+      "title": "Document has a valid `rel=canonical`"
+    },
+    {
+      "id": "structured-data",
+      "score": null,
+      "title": "Structured data is valid"
+    }
+  ]
+}
