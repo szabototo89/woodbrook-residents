@@ -46,7 +46,7 @@ export function ServicesPage(props: ServicesPageProps) {
               <div className="service-image-frame">
                 <ServiceImage
                   image={service.image}
-                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 900px) calc((100vw - 64px) * .36), (max-width: 1450px) 28.8vw, 418px"
+                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 900px) calc((100vw - 64px) * .36), (max-width: 1328px) calc((100vw - 48px) * .36), 461px"
                 />
               </div>
               <div className="service-list-copy">

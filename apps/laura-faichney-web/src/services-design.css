@@ -1,9 +1,4 @@
 /* The services reference: cream paper, alternating artwork and painted edges. */
-.services-page .container,
-.site-header:has(a[href='/services'][aria-current='page']) .container,
-body:has(.services-page) .site-footer .container {
-  width: min(80%, 1160px);
-}
 .services-page .services-hero,
 .services-page .page-hero-inner {
   min-height: clamp(300px, 32vw, 460px);
@@ -225,8 +220,10 @@ body:has(.services-page) .site-footer {
   border-top: 1px solid rgb(255 255 255 / 0.16);
 }
 @media (min-width: 901px) {
+  .services-page .service-list {
+    max-width: none;
+  }
   .services-page .contact-inner {
-    width: min(76%, 1040px);
     grid-template-columns: 1.15fr 0.8fr auto;
   }
   .services-page .contact-section h2 {
@@ -370,12 +367,6 @@ body:has(.services-page) .site-footer {
   body:has(.services-page) .site-footer {
     padding-block: 16px;
   }
-  body:has(.services-page) .site-footer .container {
-    width: min(90%, 1280px);
-  }
-  .services-page .services-process .container {
-    width: min(90%, 1240px);
-  }
   .process-heading h2 {
     font-size: clamp(2rem, 3.6vw, 3.5rem);
   }
@@ -437,5 +428,19 @@ body:has(.services-page) .site-footer {
   }
   .services-page .contact-section {
     padding-block: 56px;
+  }
+}
+
+@media (min-width: 901px) {
+  .services-page .page-hero-art {
+    right: calc((min(100vw - 48px, 1280px) - 100vw) / 2);
+  }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  body:has(.services-page) .site-footer .container {
+    width: min(90%, 1280px);
+  }
+  .services-page .services-process .container {
+    width: min(90%, 1240px);
   }
 }
