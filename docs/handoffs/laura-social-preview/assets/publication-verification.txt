@@ -1,0 +1,11 @@
+Observed 2026-11-08T20:49:52.547346+00:00
+The user explicitly approves publication of the sharing feature after the feature-specific approval request.
+Non-force push: 7065be3..11c5a73 -> main. No PR is created, as requested.
+Production commit: 11c5a734e093b1337777c50766321aee85bcca01
+GitHub deployment: https://github.com/szabototo89/woodbrook-residents/actions/runs/42521742887
+Deployment conclusion: success.
+All 10 production sitemap pages pass the JavaScript-disabled sharing metadata checks.
+The public JPEG returns HTTP 200 and image/jpeg; 1200x630, 202898 bytes.
+Local and production JPEG SHA-256: 616d97a8a329d2d99b0ece1805231adfe5e8870a256b2b17113a81079351f884
+Preview: https://social-preview.laura-faichney-all-things-art.pages.dev
+See production-check.json and preview-check.json for route-level evidence.

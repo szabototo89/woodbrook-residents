@@ -6,14 +6,14 @@ import mobile from './assets/mobile.png';
 
 export const metadata = {
   title: 'Laura branded link previews',
-  status: 'ready for review',
+  status: 'complete',
   agent: 'codex',
   session: '01a1b7d6-e3ba-73d1-b2f7-904de6f6e461',
   worktree:
     '/Users/tszabo/orca/workspaces/woodbrook/Setup-Google-search-for-Laura-s-page',
   branch: 'szabototo89/Setup-Google-search-for-Laura-s-page',
-  commit: '537f6f43c0b1f00c6cecff97a3ac16a6883f4e25',
-  updatedAt: '2026-11-08T19:59:04Z',
+  commit: '11c5a734e093b1337777c50766321aee85bcca01',
+  updatedAt: '2026-11-08T20:49:52Z',
   summary:
     'Adds a branded artwork cover to the metadata used when Laura’s website links are shared.',
 };
@@ -54,17 +54,17 @@ Change: preview consumers can now fetch the named cover and its dimensions. Unma
 
 ## Verification
 
-| Check                           | Result  | Evidence                                                                                                                                                              |
-| ------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Test-first metadata             | PASS    | Two expectations fail before implementation; the updated unit suite passes with image, dimensions, alt text and preview-origin assertions.                            |
-| JPEG output                     | PASS    | 1200×630 RGB JPEG, 202,898 bytes; source artwork and logo are preserved.                                                                                              |
-| JavaScript-free crawler test    | PASS    | Focused Playwright social-sharing test passes on all fixture routes and checks the actual JPEG response.                                                              |
-| Published-content static build  | PASS    | Static build verifies 10 pages; `assets/static-check.json` records sharing metadata and the public 1200×630 JPEG.                                                     |
-| Repository build                | PASS    | `bun run build` exits 0; log `/private/tmp/laura-social-repo-build.log`.                                                                                              |
-| Temporary preview               | PASS    | [Preview](https://social-preview.laura-faichney-all-things-art.pages.dev) at `537f6f4`: all 10 metadata responses and the JPEG pass; see `assets/preview-check.json`. |
-| Production and direct main push | NOT RUN | Automatic review requires a new exception for this separate feature. The user approval card is pending; production image publication awaits approval.                 |
-| Desktop/mobile preview review   | PASS    | Playwright captures at 1440×1000 (2×) and 390×844 (3×) use actual metadata; platform layouts are illustrative.                                                        |
-| Handoff structure               | PASS    | `bun run --cwd apps/handoffs docs:check` validates 26 handoffs; historical exemptions remain unchanged.                                                               |
+| Check                           | Result | Evidence                                                                                                                                                                                              |
+| ------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test-first metadata             | PASS   | Two expectations fail before implementation; the updated unit suite passes with image, dimensions, alt text and preview-origin assertions.                                                            |
+| JPEG output                     | PASS   | 1200×630 RGB JPEG, 202,898 bytes. Production and approved local asset SHA-256 match; `assets/publication-verification.txt`.                                                                           |
+| JavaScript-free crawler test    | PASS   | Focused Playwright social-sharing test passes on all fixture routes and checks the actual JPEG response.                                                                                              |
+| Published-content static build  | PASS   | Static build verifies 10 pages; `assets/static-check.json` records sharing metadata and the public 1200×630 JPEG.                                                                                     |
+| Repository build                | PASS   | `bun run build` exits 0; log `/private/tmp/laura-social-repo-build.log`.                                                                                                                              |
+| Temporary preview               | PASS   | [Preview](https://social-preview.laura-faichney-all-things-art.pages.dev) at `11c5a73`: all 10 pages and JPEG pass; `assets/preview-check.json`.                                                      |
+| Production and direct main push | PASS   | Approved main push `7065be3..11c5a73`; [deployment](https://github.com/szabototo89/woodbrook-residents/actions/runs/42521742887) succeeds. `assets/production-check.json` verifies all 10 live pages. |
+| Desktop/mobile preview review   | PASS   | Playwright captures at 1440×1000 (2×) and 390×844 (3×) use actual metadata; platform layouts are illustrative.                                                                                        |
+| Handoff structure               | PASS   | `bun run --cwd apps/handoffs docs:check` validates 26 handoffs; historical exemptions remain unchanged.                                                                                               |
 
 ## Appearance
 
@@ -96,4 +96,4 @@ Change: preview consumers can now fetch the named cover and its dimensions. Unma
 
 ## Next steps
 
-The feature and non-production preview are verified. Main publication needs the pending explicit exception approval: automatic review treats the earlier SEO-only exception as insufficient for this feature. After approval, publish and verify the live tags and JPEG. Existing shares may keep their cached image until the platform refreshes it; exact platform rendering is outside the website’s control.
+None. Sharing services control their own layout and cache; an existing shared link may retain its earlier preview until refreshed.

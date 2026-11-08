@@ -41,6 +41,8 @@ The user explicitly approves an exception to the earlier PR-only rule. The histo
 
 On 8 November 2026, the user supplies a Google results screenshot showing the custom-domain homepage for “all things art”, with its title and portrait thumbnail. This confirms homepage indexing for that observed search; it does not prove indexing of all collection pages or stable ranking across locations.
 
+On 8 November 2026, the [branded sharing preview](../handoffs/laura-social-preview/index.mdx) is also published from `11c5a73`. Every public page now declares the approved 1200×630 image; accurate JSON-LD remains follow-up work.
+
 Operational procedure for future updates:
 
 1. Fetch the production homepage, services, a collection, robots and sitemap. Confirm custom-domain canonical and sitemap URLs.

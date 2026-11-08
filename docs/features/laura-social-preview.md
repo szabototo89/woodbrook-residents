@@ -1,6 +1,6 @@
 # Laura branded sharing previews
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
@@ -17,6 +17,8 @@ Public pages offer the same branded 1200×630 cover alongside their own title an
 - Image URLs use the configured public origin on the homepage and nested pages.
 - Existing page-specific titles, descriptions and canonicals remain present.
 - Desktop and mobile representative card captures show readable artwork and text.
+
+Verified on production on 8 November 2026 from `11c5a73`: all 10 public pages include the sharing tags without JavaScript, and the public JPEG matches the approved image.
 
 ## Scope
 
