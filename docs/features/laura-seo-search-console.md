@@ -23,8 +23,8 @@ The correction is deployed to production from `bc4de01` on 7 November 2026. All 
 
 ## Scope
 
-Included: canonical-domain configuration, regression tests, a dated SEO audit, a measurable improvement plan, and Search Console ownership setup.
+Included: canonical-domain configuration, regression tests, the verified production deployment, a dated SEO audit, a measurable improvement plan and Search Console ownership setup.
 
-Deferred: production deployment, sitemap submission until the domain correction is live, host redirects, missing-page behavior, service-specific landing pages, structured data, social preview images and further performance work. No Google Analytics account, enquiry conversion tracking, scheduled API reporting, CMS content edits or ranking guarantee is included.
+Follow-up work: host redirects, missing-page behavior, service-specific landing pages, structured data and further performance work. Branded link previews are documented separately in [Laura sharing previews](laura-social-preview.md). No Google Analytics account, enquiry conversion tracking, scheduled API reporting, CMS content edits or ranking guarantee is included.
 
 See [the audit and improvement goal](../operations/laura-seo-plan.md) and [the engineering handoff](../handoffs/laura-seo-search-console/index.mdx).

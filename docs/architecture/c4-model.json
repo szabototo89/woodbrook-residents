@@ -559,6 +559,16 @@
       "kind": "system",
       "name": "Google Search Console",
       "description": "Reports search clicks, impressions and indexing for the verified domain"
+    },
+    "laura_link_reader": {
+      "kind": "person",
+      "name": "Prospective client",
+      "description": "Views shared art links and visits the website"
+    },
+    "laura_preview_services": {
+      "kind": "system",
+      "name": "Link preview services",
+      "description": "Read public metadata to display shared website cards"
     }
   },
   "relationships": {
@@ -1130,6 +1140,23 @@
       "to": "laura_site",
       "label": "Reports Google Search visibility for",
       "technology": "Verified domain property"
+    },
+    "laura_reader_preview": {
+      "from": "laura_link_reader",
+      "to": "laura_preview_services",
+      "label": "Views shared website cards"
+    },
+    "laura_preview_site": {
+      "from": "laura_preview_services",
+      "to": "laura_site",
+      "label": "Fetches page metadata and cover",
+      "technology": "HTTPS"
+    },
+    "laura_reader_site": {
+      "from": "laura_link_reader",
+      "to": "laura_site",
+      "label": "Visits artwork and services",
+      "technology": "HTTPS"
     }
   },
   "diagrams": {
@@ -2356,6 +2383,33 @@
           "laura_search_console_site": {
             "status": "added",
             "description": "Search visibility is monitored across allthingsart.ie subdomains and protocols."
+          }
+        }
+      }
+    },
+    "laura_social_context": {
+      "level": "C1",
+      "scope": "laura_site",
+      "title": "Laura website \u2014 C1 sharing previews \u2014 changes from 7065be3",
+      "handoff": "laura-social-preview",
+      "source": "docs/handoffs/laura-social-preview/assets/c1-context.puml",
+      "elements": ["laura_link_reader", "laura_site", "laura_preview_services"],
+      "relationships": [
+        "laura_reader_preview",
+        "laura_preview_site",
+        "laura_reader_site"
+      ],
+      "changes": {
+        "elements": {
+          "laura_site": {
+            "status": "changed",
+            "description": "Adds a public 1200\u00d7630 branded JPEG and image metadata."
+          }
+        },
+        "relationships": {
+          "laura_preview_site": {
+            "status": "changed",
+            "description": "Text metadata now includes the branded image URL and dimensions."
           }
         }
       }

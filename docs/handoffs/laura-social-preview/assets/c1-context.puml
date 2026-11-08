@@ -1,0 +1,20 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Context>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Laura website — C1 sharing previews — changes from 7065be3
+
+Person(laura_link_reader, "Prospective client", "Views shared art links and visits the website")
+System(laura_site, "[CHANGED] Laura Faichney website", "Presents artwork and creative services and accepts enquiries\nChange: Adds a public 1200×630 branded JPEG and image metadata.")
+System_Ext(laura_preview_services, "Link preview services", "Read public metadata to display shared website cards")
+
+Rel(laura_link_reader, laura_preview_services, "Views shared website cards")
+Rel(laura_preview_services, laura_site, "[CHANGED] Fetches page metadata and cover\nChange: Text metadata now includes the branded image URL and dimensions.", "HTTPS")
+Rel(laura_link_reader, laura_site, "Visits artwork and services", "HTTPS")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

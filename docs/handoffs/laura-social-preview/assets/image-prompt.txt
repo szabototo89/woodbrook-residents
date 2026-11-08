@@ -1,0 +1,10 @@
+Tool: built-in image_gen (no API/CLI fallback).
+Generated: 7 November 2026.
+Reference 1: apps/laura-faichney-web/public/brand/laura-faichney-signature.png
+Reference 2: apps/laura-faichney-web/public/artwork/portrait-cutout.png
+
+Final prompt:
+Use case: ads-marketing. Create a finished website social-sharing/Open Graph cover for Laura Faichney All Things Art. Landscape canvas exactly 1200 x 630 pixels (1.905:1), opaque warm ivory #fbf7f1 background. Input image 1 is the existing brand signature/logo: preserve its exact spelling, pink handwritten signature and navy 'ALL THINGS ART' lockup. Input image 2 is the website's existing colourful painted portrait: preserve the artwork's identity, expression, colours and brushwork, and use it as the hero on the right side, cropped boldly but with the whole closed-eye expression and red lips recognisable. This is an elegant graphic composition of the supplied existing assets, not a new artwork. Place the logo in the upper-left portion with generous margins. Below it, set the exact headline 'Bold Art' on one line and 'Brighter Spaces' on the next in a large, refined dark navy editorial serif, echoing the website. Put the exact website address 'allthingsart.ie' discreetly along the lower-left edge. Keep all typography clean, legible at thumbnail size, with no overlaps. The portrait occupies about the right half and may extend to the right canvas edge; maintain a calm ivory field around the text. Use one subtle gold brushstroke accent near the headline, matching the existing homepage. No browser frame, no UI controls, no rounded card outline, no invented services or other copy, no additional logos or watermarks. The result is the actual flat cover image used when people share the site's link.
+
+Production preparation:
+The original generated PNG remains in Codex generated_images. The deployment JPEG is resized to exactly 1200 x 630 and encoded at quality 90 with mozjpeg: 202,898 bytes. Neither reference asset is overwritten.

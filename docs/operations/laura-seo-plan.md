@@ -39,6 +39,8 @@ The user submitted `https://allthingsart.ie/sitemap.xml` during this session. It
 
 The user explicitly approves an exception to the earlier PR-only rule. The history-preserving main push succeeds, and [deployment `bc4de01`](https://github.com/szabototo89/woodbrook-residents/actions/runs/42416973726) succeeds. All 10 live canonicals, sitemap entries and robots sitemap reference now use the custom domain. The user confirms the corrected sitemap is set; URL Inspection lists it as the homepage discovery source and reports “Discovered - currently not indexed”.
 
+On 8 November 2026, the user supplies a Google results screenshot showing the custom-domain homepage for “all things art”, with its title and portrait thumbnail. This confirms homepage indexing for that observed search; it does not prove indexing of all collection pages or stable ranking across locations.
+
 Operational procedure for future updates:
 
 1. Fetch the production homepage, services, a collection, robots and sitemap. Confirm custom-domain canonical and sitemap URLs.
