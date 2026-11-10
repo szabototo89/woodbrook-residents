@@ -119,8 +119,117 @@ function mockSanity(result: unknown) {
   return calls;
 }
 
+test.each([null, undefined])(
+  'gallery pictures retain collection order when optional display order is %s',
+  async (order) => {
+    const photo = homeResult.collections[0]!.photos[0]!;
+    const collections = [
+      {
+        ...homeResult.collections[0]!,
+        photos: [
+          { ...photo, imageAlt: 'First picture in the collection', order },
+          { ...photo, imageAlt: 'Second picture in the collection', order: 14 },
+        ],
+      },
+    ];
+    mockSanity({
+      ...homeResult,
+      page: { hero: homeResult.home.hero, seo: {} },
+      collections,
+    });
+    const source = new LauraSanitySource();
+    for (const data of [await source.loadHome(), await source.loadGallery()]) {
+      expect(data.collections[0]!.photos.map((picture) => picture.alt)).toEqual(
+        ['First picture in the collection', 'Second picture in the collection'],
+      );
+      expect(
+        data.collections[0]!.photos.map((picture) => picture.order),
+      ).toEqual([0, 14]);
+    }
+  },
+);
+
 beforeEach(() => {
   vi.unstubAllGlobals();
+});
+
+test('the build revises the original home copy to focus on paintings and murals', async () => {
+  mockSanity({
+    ...homeResult,
+    home: {
+      ...homeResult.home,
+      hero: {
+        ...homeResult.home.hero,
+        description:
+          'Commissioned paintings, murals, signage, facepainting and art tutoring - bringing more colour and creativity to everyday spaces.',
+      },
+      servicesHeading: 'Art for Homes, Businesses & Events',
+      seo: {
+        title: 'Laura Faichney All Things Art',
+        description:
+          'Colourful paintings, murals, signage, facepainting and art tutoring by Laura Faichney.',
+      },
+    },
+  });
+  const home = await new LauraSanitySource().loadHome();
+  expect(home.hero.description).toBe(
+    'Commissioned paintings and indoor and outdoor murals — bringing colour and character to your space.',
+  );
+  expect(home.servicesHeading).toBe('Commissioned Paintings, Murals & More');
+  expect(home.seo.description).toBe(
+    "Explore Laura Faichney's commissioned paintings and indoor and outdoor murals. View her work and get in touch about your project.",
+  );
+  expect(home.services).toHaveLength(homeResult.services.length);
+});
+
+test.each([
+  [
+    'services',
+    'Art for Every\nSpace and Occasion',
+    'Services',
+    'From bespoke paintings to large-scale murals, facepainting and art tutoring, creative services for homes, businesses and events.',
+    'Commissioned Paintings & Murals',
+    ['Commissioned Paintings', 'and Murals'],
+  ],
+  [
+    'gallery',
+    'A glimpse of my work',
+    'Gallery',
+    'A glimpse of Laura Faichney paintings and creative work.',
+    'Paintings & Creative Work',
+    ['Paintings and', 'Creative Work'],
+  ],
+] as const)(
+  'the build revises original %s headings and metadata',
+  async (page, title, seoTitle, description, expectedTitle, expectedLines) => {
+    mockSanity({
+      page: {
+        hero: { ...homeResult.home.hero, title },
+        seo: { title: seoTitle, description },
+      },
+      settings: homeResult.settings,
+      services: homeResult.services,
+      collections: homeResult.collections,
+    });
+    const source = new LauraSanitySource();
+    const data =
+      page === 'services'
+        ? await source.loadServices()
+        : await source.loadGallery();
+    expect(data.hero.titleLines).toEqual(expectedLines);
+    expect(data.seo.title).toBe(expectedTitle);
+    expect(data.seo.description).not.toBe(description);
+  },
+);
+
+test('copy revisions preserve later editorial changes without publishing to Sanity', async () => {
+  const requests = mockSanity(homeResult);
+  const home = await new LauraSanitySource().loadHome();
+  expect(home.hero.description).toBe('Hero description');
+  expect(home.servicesHeading).toBe('Services heading');
+  expect(home.seo).toEqual(homeResult.home.seo);
+  expect(requests).toHaveLength(1);
+  expect(requests[0]).toContain('/data/query/');
 });
 
 test('loads an enabled announcement and its optional action from the home singleton', async () => {

@@ -608,6 +608,11 @@ h2 {
 .service-list {
   max-width: 1180px;
 }
+.gallery-page .button {
+  white-space: normal;
+  text-align: center;
+}
+
 .service-list-link {
   display: grid;
   grid-template-columns: 230px minmax(0, 1fr) 50px;

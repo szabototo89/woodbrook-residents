@@ -40,6 +40,7 @@ export function ServicesPage(props: ServicesPageProps) {
           {data.services.map((service) => (
             <a
               className="service-list-link"
+              id={service.slug}
               href={`/contact?service=${encodeURIComponent(service.slug)}`}
               key={service.slug}
             >

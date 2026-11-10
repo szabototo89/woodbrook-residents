@@ -1,15 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { ServicesPage } from '../features/site/SitePages';
 import { pageHeadFromSeo } from '../features/site/lauraSanity';
+import { serviceDiscoveryCopy } from '../features/site/serviceDiscoveryCopy';
 
 export const Route = createFileRoute('/services')({
   loader: async () => (await import('virtual:laura-content')).default.services,
   head: ({ loaderData }) =>
     pageHeadFromSeo({
       seo: loaderData?.seo ?? {},
-      fallbackTitle: 'Services',
-      fallbackDescription:
-        'From bespoke paintings to large-scale murals, facepainting and art tutoring, creative services for homes, businesses and events.',
+      fallbackTitle: serviceDiscoveryCopy.services.title,
+      fallbackDescription: serviceDiscoveryCopy.services.description,
       path: '/services',
     }),
   component: ServicesRoute,

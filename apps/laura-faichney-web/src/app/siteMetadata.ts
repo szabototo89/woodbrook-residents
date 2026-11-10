@@ -29,7 +29,9 @@ export function createPageHead(input: {
   const fullTitle =
     input.title === SITE_NAME
       ? 'Laura Faichney | All Things Art'
-      : `${input.title} | ${SITE_NAME}`;
+      : input.title.includes(SITE_NAME)
+        ? input.title
+        : `${input.title} | ${SITE_NAME}`;
   const canonicalUrl = new URL(input.path, `${siteUrl}/`).toString();
   const socialImageUrl = new URL(SOCIAL_IMAGE_PATH, `${siteUrl}/`).toString();
 

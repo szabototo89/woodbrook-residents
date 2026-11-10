@@ -14,7 +14,10 @@ export function MuralFeature(props: MuralFeatureProps) {
           <Eyebrow brush>{mural.eyebrow}</Eyebrow>
           <h2>{mural.heading}</h2>
           <p>{mural.copy}</p>
-          <a className="button button-secondary" href="/contact">
+          <a
+            className="button button-secondary"
+            href="/contact?service=murals-indoor-outdoor"
+          >
             {mural.ctaLabel} <Arrow />
           </a>
         </div>

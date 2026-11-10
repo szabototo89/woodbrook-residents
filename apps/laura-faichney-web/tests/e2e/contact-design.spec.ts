@@ -5,7 +5,10 @@ test('contact page follows the reference journey and exposes working contact lin
 }) => {
   await page.goto('/contact');
   await expect(
-    page.getByRole('heading', { level: 1, name: 'Get in Touch' }),
+    page.getByRole('heading', {
+      level: 1,
+      name: 'Discuss Your Painting or Mural',
+    }),
   ).toHaveCount(1);
   for (const name of [
     'Send a Message',

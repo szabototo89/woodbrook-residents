@@ -27,6 +27,11 @@ export function GalleryPage(props: GalleryPageProps) {
       <section className="section gallery-page">
         <div className="container">
           <GalleryCollections collections={data.collections} eager />
+          <p>
+            <a className="button button-secondary" href="/services">
+              Explore commissioned paintings and murals
+            </a>
+          </p>
         </div>
       </section>
       <ContactSection settings={data.settings} />

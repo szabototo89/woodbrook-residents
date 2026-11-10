@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { createPageHead } from '../app/siteMetadata';
 import { ContactPage } from '../features/site/SitePages';
+import { serviceDiscoveryCopy } from '../features/site/serviceDiscoveryCopy';
 
 export const Route = createFileRoute('/contact')({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -9,9 +10,8 @@ export const Route = createFileRoute('/contact')({
   loader: async () => (await import('virtual:laura-content')).default.services,
   head: () =>
     createPageHead({
-      title: 'Contact',
-      description:
-        'Contact Laura Faichney about a commissioned painting, mural, event or creative session.',
+      title: serviceDiscoveryCopy.contact.title,
+      description: serviceDiscoveryCopy.contact.description,
       path: '/contact',
     }),
   component: ContactRoute,

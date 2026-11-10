@@ -1,0 +1,61 @@
+{
+  "baseCommit": "f1688de0bed8b0c313703284b7fa342196228399",
+  "content": "Published Sanity content; no synthetic review examples",
+  "testFirst": {
+    "unit": "5 expected failures before implementation",
+    "browser": "JavaScript-free contact metadata expected the new description and received the old description"
+  },
+  "unit": {
+    "command": "bun run --cwd apps/laura-faichney-web test:unit",
+    "vitest": 112,
+    "bunScriptTests": 32,
+    "result": "PASS"
+  },
+  "typecheck": {
+    "command": "bun run --cwd apps/laura-faichney-web typecheck",
+    "result": "PASS"
+  },
+  "focusedBrowser": {
+    "files": [
+      "service-discovery.spec.ts",
+      "contact-design.spec.ts",
+      "services-design.spec.ts",
+      "responsive.spec.ts"
+    ],
+    "passed": 48,
+    "result": "PASS",
+    "observedFix": "Gallery service link wraps at 320px"
+  },
+  "repositoryBuild": {
+    "command": "bun run build",
+    "result": "PASS"
+  },
+  "staticBuild": {
+    "pages": 10,
+    "internalLinks": "verified",
+    "origin": "https://service-discovery-33.laura-faichney-all-things-art.pages.dev",
+    "result": "PASS"
+  },
+  "screenshots": {
+    "desktop": {
+      "viewport": [1440, 1000],
+      "scale": 2
+    },
+    "mobile": {
+      "viewport": [390, 844],
+      "scale": 3
+    }
+  },
+  "cmux": "Access denied: only processes started inside cmux can connect. Used Orca tab and Playwright instead.",
+  "productionMutations": false,
+  "implementationCommit": "9e3ff4d321b8558d775bc68411594927390b7807",
+  "normalCommitHooks": {
+    "result": "PASS",
+    "command": "git commit (normal precommit)",
+    "notes": "Normal hooks pass for both feature and published-content compatibility commits. No hooks bypassed."
+  },
+  "publishedContentCompatibility": {
+    "galleryOrder": "Null and missing order each fail before the reader fix; array sequence and explicit numeric order remain intact afterwards.",
+    "completeTitle": "Two fully branded title variants fail before the metadata fix; page, Open Graph and card titles retain the brand once afterwards."
+  }
+}

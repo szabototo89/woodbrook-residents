@@ -108,3 +108,17 @@ test('site metadata qualifies secondary page titles with the site name', () => {
     title: 'Services | Laura Faichney All Things Art',
   });
 });
+
+test.each([
+  `${SITE_NAME} | Paintings and Murals`,
+  `Paintings and Murals | ${SITE_NAME}`,
+])('a complete CMS title retains its brand once: %s', (title) => {
+  const head = createPageHead({
+    title,
+    description: 'Custom published description.',
+    path: '/',
+  });
+  expect(head.meta).toContainEqual({ title });
+  expect(head.meta).toContainEqual({ property: 'og:title', content: title });
+  expect(head.meta).toContainEqual({ name: 'twitter:title', content: title });
+});

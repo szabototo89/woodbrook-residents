@@ -1,0 +1,25 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Laura static builder — C3 service discovery — changes from f1688de
+
+System_Ext(laura_cms, "Laura Sanity project", "Stores Laura artwork, services and editorial copy")
+Container_Boundary(laura_builder, "Laura static builder") {
+  Component(laura_content_reader, "[CHANGED] Published artist content reader", "GROQ over HTTPS and Zod", "Validates published page and service documents\nChange: Accepts optional gallery display order, matching Studio; preserves the collection photo sequence.")
+  Component(laura_copy_revision, "[ADDED] Service discovery copy revision", "TypeScript pure functions", "Replaces original introductory copy while preserving custom editor values\nChange: Original broad service copy becomes painting and mural copy; custom editor wording is preserved.")
+  Component(laura_content_snapshot, "Artist content snapshot", "JSON and Vite virtual module", "Shares captured content with both route bundles")
+  Component(laura_page_rendering, "[CHANGED] Artist page rendering", "React and TanStack Start", "Renders page headings, metadata and enquiry navigation\nChange: Adds service links and mural enquiry selection; complete CMS titles keep the brand once.")
+}
+
+Rel(laura_content_reader, laura_cms, "Reads published artist documents", "HTTPS / GROQ")
+Rel(laura_content_reader, laura_copy_revision, "[ADDED] Revises validated page copy\nChange: Previously returned original mapped copy; now applies the approved revision.", "TypeScript call")
+Rel(laura_content_reader, laura_content_snapshot, "[CHANGED] Supplies mapped page content\nChange: Captures revised copy rather than the original starter wording.", "TypeScript return values")
+Rel(laura_page_rendering, laura_content_snapshot, "Renders captured content", "Vite virtual module")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

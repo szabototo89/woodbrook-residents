@@ -7,6 +7,7 @@ import { EnquiryGuide } from './EnquiryGuide';
 import { PageHero } from './PageHero';
 import { ServicesProcess } from './ServicesProcess';
 import { MapPin } from 'lucide-react';
+import { serviceDiscoveryCopy } from './serviceDiscoveryCopy';
 import type { CmsService, CmsSettings } from './lauraSanity';
 
 type ContactPageProps = {
@@ -22,8 +23,8 @@ export function ContactPage(props: ContactPageProps) {
       <PageHero
         className="contact-hero"
         eyebrow="Let’s create something special"
-        title="Get in Touch"
-        description="Whether it’s a commissioned painting, mural, event or creative session, I’d love to hear from you."
+        title={serviceDiscoveryCopy.contact.heading}
+        description={serviceDiscoveryCopy.contact.introduction}
         image="/artwork/contact-studio-cutout.webp"
         imageSrcSet="/artwork/contact-studio-cutout-320.webp 320w, /artwork/contact-studio-cutout-480.webp 480w, /artwork/contact-studio-cutout-512.webp 512w, /artwork/contact-studio-cutout-640.webp 640w, /artwork/contact-studio-cutout-960.webp 960w, /artwork/contact-studio-cutout-1374.webp 1374w"
         imageSizes="(max-width: 640px) 280px, (max-width: 768px) 44vw, 60vw"

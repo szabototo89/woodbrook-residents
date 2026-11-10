@@ -569,6 +569,46 @@
       "kind": "system",
       "name": "Link preview services",
       "description": "Read public metadata to display shared website cards"
+    },
+    "laura_builder": {
+      "kind": "container",
+      "name": "Laura static builder",
+      "description": "Captures published artist content and renders the public website",
+      "technology": "Bun, Vite and TanStack Start",
+      "parent": "laura_site"
+    },
+    "laura_cms": {
+      "kind": "system",
+      "name": "Laura Sanity project",
+      "description": "Stores Laura artwork, services and editorial copy"
+    },
+    "laura_content_reader": {
+      "kind": "component",
+      "name": "Published artist content reader",
+      "description": "Validates published page and service documents",
+      "technology": "GROQ over HTTPS and Zod",
+      "parent": "laura_builder"
+    },
+    "laura_copy_revision": {
+      "kind": "component",
+      "name": "Service discovery copy revision",
+      "description": "Replaces original introductory copy while preserving custom editor values",
+      "technology": "TypeScript pure functions",
+      "parent": "laura_builder"
+    },
+    "laura_content_snapshot": {
+      "kind": "component",
+      "name": "Artist content snapshot",
+      "description": "Shares captured content with both route bundles",
+      "technology": "JSON and Vite virtual module",
+      "parent": "laura_builder"
+    },
+    "laura_page_rendering": {
+      "kind": "component",
+      "name": "Artist page rendering",
+      "description": "Renders page headings, metadata and enquiry navigation",
+      "technology": "React and TanStack Start",
+      "parent": "laura_builder"
     }
   },
   "relationships": {
@@ -1157,6 +1197,30 @@
       "to": "laura_site",
       "label": "Visits artwork and services",
       "technology": "HTTPS"
+    },
+    "laura_read_published": {
+      "from": "laura_content_reader",
+      "to": "laura_cms",
+      "label": "Reads published artist documents",
+      "technology": "HTTPS / GROQ"
+    },
+    "laura_revise_copy": {
+      "from": "laura_content_reader",
+      "to": "laura_copy_revision",
+      "label": "Revises validated page copy",
+      "technology": "TypeScript call"
+    },
+    "laura_snapshot_revised": {
+      "from": "laura_content_reader",
+      "to": "laura_content_snapshot",
+      "label": "Supplies mapped page content",
+      "technology": "TypeScript return values"
+    },
+    "laura_render_snapshot": {
+      "from": "laura_page_rendering",
+      "to": "laura_content_snapshot",
+      "label": "Renders captured content",
+      "technology": "Vite virtual module"
     }
   },
   "diagrams": {
@@ -2410,6 +2474,52 @@
           "laura_preview_site": {
             "status": "changed",
             "description": "Text metadata now includes the branded image URL and dimensions."
+          }
+        }
+      }
+    },
+    "laura_service_discovery_components": {
+      "level": "C3",
+      "scope": "laura_builder",
+      "title": "Laura static builder \u2014 C3 service discovery \u2014 changes from f1688de",
+      "handoff": "laura-service-discovery",
+      "source": "docs/handoffs/laura-service-discovery/assets/c3-builder.puml",
+      "elements": [
+        "laura_cms",
+        "laura_content_reader",
+        "laura_copy_revision",
+        "laura_content_snapshot",
+        "laura_page_rendering"
+      ],
+      "relationships": [
+        "laura_read_published",
+        "laura_revise_copy",
+        "laura_snapshot_revised",
+        "laura_render_snapshot"
+      ],
+      "changes": {
+        "elements": {
+          "laura_copy_revision": {
+            "status": "added",
+            "description": "Original broad service copy becomes painting and mural copy; custom editor wording is preserved."
+          },
+          "laura_page_rendering": {
+            "status": "changed",
+            "description": "Adds service links and mural enquiry selection; complete CMS titles keep the brand once."
+          },
+          "laura_content_reader": {
+            "status": "changed",
+            "description": "Accepts optional gallery display order, matching Studio; preserves the collection photo sequence."
+          }
+        },
+        "relationships": {
+          "laura_revise_copy": {
+            "status": "added",
+            "description": "Previously returned original mapped copy; now applies the approved revision."
+          },
+          "laura_snapshot_revised": {
+            "status": "changed",
+            "description": "Captures revised copy rather than the original starter wording."
           }
         }
       }
