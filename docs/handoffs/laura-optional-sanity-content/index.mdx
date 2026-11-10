@@ -1,0 +1,106 @@
+import desktop from './assets/sample-desktop.png';
+import mobile from './assets/sample-mobile.png';
+import containers from './assets/c2-containers.puml?raw';
+import containersImage from './assets/c2-containers.svg';
+import components from './assets/c3-components.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+
+export const metadata = {
+  title: 'Allow partial Laura content',
+  status: 'in progress',
+  agent: 'codex',
+  session: '01a1c7b9-028c-7111-b9f3-d93cd390319b',
+  worktree: '/Users/tszabo/.codex/worktrees/7a6f/laura-s-page',
+  branch: 'fix/laura-optional-sanity-content',
+  commit: '84c49ed3df0b1d26a929ee9cb139a8148c1d039f',
+  updatedAt: '2026-11-10T23:25:00Z',
+  summary:
+    'Partial Sanity content no longer blocks Laura’s build, and missing order uses document timestamps.',
+};
+
+## Goal
+
+Keep the website usable while the artist publishes partial content. Make all Studio content fields optional without changing visitor enquiry requirements.
+
+## Technical changes
+
+Baseline: `84c49ed3df0b1d26a929ee9cb139a8148c1d039f`. The implementation commit will be recorded after verification.
+
+| Area              | Before                                                                         | After                                                                     | Why                                                                   | Code                                                                 |
+| ----------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Content reader    | Null gallery alt text and order abort the snapshot                             | Absent text, documents, objects and lists normalize to empty values       | Partial publishing must not block every page                          | `apps/laura-faichney-web/scripts/lauraSanitySource.ts`               |
+| Ordering          | Numeric order is mandatory                                                     | Explicit order, then creation time, then update time; oldest first        | Support records without manual ordering                               | `displayOrder`, home/gallery timestamp projections                   |
+| Partial records   | Every referenced photo must be complete                                        | Skip missing assets, empty collections and records without route slugs    | Keep remaining links and viewers usable                               | `mapGalleryCollection`, `loadHome`, `loadGallery`, `loadServices`    |
+| Images and copy   | Components assume every section and image exists                               | Omit absent sections, images and contact links; stretch text-only layouts | Avoid broken images and empty artwork columns                         | `src/features/site`, `src/styles.css`, `scripts/lauraImageAssets.ts` |
+| Accessible labels | Artwork alt text must be present                                               | Use collection name plus artwork when missing                             | Keep valid pictures discoverable without inventing image descriptions | `mapGalleryItem`                                                     |
+| Studio            | Required validators block partial documents; new records default order to zero | Fields are optional; order has no automatic value                         | Match the website’s optional content contract                         | `apps/laura-studio/schemaTypes`                                      |
+
+Nulls normalize only at the CMS boundary. UI data keeps stable string, object and array shapes; an empty image URL means no usable asset. Supplied malformed types, unsafe announcement URLs and failed network requests still fail visibly. No CMS migration or published document edit is needed. Missing timestamps sort last with stable source order for ties. Incomplete announcements are hidden; incomplete actions are omitted.
+
+## Architecture changes
+
+Laura’s website presents artwork and project enquiries. The build snapshot captures published content before rendering. The Sanity content reader now normalizes missing fields, the image cache skips missing assets, and page components render the remaining content.
+
+| Level | Change                                                                             | Evidence                            |
+| ----- | ---------------------------------------------------------------------------------- | ----------------------------------- |
+| C1    | Unchanged: the same artist, visitors and external services use the site            | No new actor, system or integration |
+| C2    | Changed: website and Studio accept partial content; their boundaries stay the same | Container view below                |
+| C3    | Changed: reader, cache and page components handle absent content                   | Component view below                |
+
+<PlantUmlDiagram
+  title="Laura containers"
+  source={containers}
+  image={containersImage}
+/>
+
+Change: the website accepts partial published documents and the Studio allows editors to publish them. Unmarked elements are unchanged context.
+
+<PlantUmlDiagram
+  title="Laura website components"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: the reader supplies normalized partial data and timestamps; the cache and pages omit unavailable artwork. The build snapshot remains the same boundary.
+
+## Verification
+
+| Check                    | Result  | Evidence                                                                                                                 |
+| ------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Failing regression first | PASS    | New source/UI tests failed before implementation; Studio optional-field test also failed before removing required rules. |
+| Laura unit tests         | PASS    | `bun run --cwd apps/laura-faichney-web test:unit`: 108 Vitest tests and 32 Bun script tests.                             |
+| Studio tests             | PASS    | `bun run --cwd apps/laura-studio test:unit`: 21 tests passed.                                                            |
+| Browser regression       | PASS    | `bun run --cwd apps/laura-faichney-web playwright test`: 140 passed against offline fixtures.                            |
+| Typechecks               | PASS    | Both Laura applications: `tsc --noEmit` exited 0.                                                                        |
+| Repository build         | PASS    | `bun run build` exited 0; final revision will be rebuilt before review.                                                  |
+| Sample appearance        | PASS    | Playwright captures at 1440×1000 and 390×844, 2× resolution; no empty image/contact URLs or horizontal overflow.         |
+| cmux tab                 | NOT RUN | cmux rejected access: only processes started inside cmux can connect. Local dev servers remain running.                  |
+| Temporary previews       | NOT RUN | Deployment follows the verified implementation commit.                                                                   |
+| Handoff validation       | NOT RUN | Validation follows the completed handoff content.                                                                        |
+
+## Appearance
+
+These screenshots use explicitly labelled sample content with missing artwork and optional sections. They do not change published CMS content.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop sample',
+      alt: 'Partial content on desktop',
+      description:
+        'The sample service and text remain visible without artwork or empty optional sections.',
+    },
+    {
+      src: mobile,
+      title: 'Phone sample',
+      alt: 'Partial content on a phone',
+      description:
+        'The sample content fits the phone without a blank image column or empty contact links.',
+    },
+  ]}
+/>
+
+## Next steps
+
+Finish final checks, deploy temporary website and Studio previews from the latest commit, and open a pull request for review.

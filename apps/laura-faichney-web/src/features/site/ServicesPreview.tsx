@@ -9,12 +9,13 @@ type ServicesPreviewProps = {
 };
 
 export function ServicesPreview(props: ServicesPreviewProps) {
+  if (!props.services.length) return null;
   return (
     <section className="section services-preview" id="services">
       <div className="container">
         <div className="section-heading centered">
           <Eyebrow>Creative services</Eyebrow>
-          <h2>{props.heading}</h2>
+          <h2>{props.heading || 'Creative services'}</h2>
         </div>
         <div className="service-grid" data-motion="services">
           {props.services.map((service, index) => (
@@ -26,12 +27,14 @@ export function ServicesPreview(props: ServicesPreviewProps) {
                 animationDelay: `calc(${index} * var(--motion-stagger))`,
               }}
             >
-              <div className="service-image-frame">
-                <ServiceImage
-                  sizes="(max-width: 640px) 106px, (max-width: 900px) calc((100vw - 84px) / 3), (max-width: 1328px) calc((100vw - 120px) / 5), 242px"
-                  image={service.image}
-                />
-              </div>
+              {service.image.url && (
+                <div className="service-image-frame">
+                  <ServiceImage
+                    sizes="(max-width: 640px) 106px, (max-width: 900px) calc((100vw - 84px) / 3), (max-width: 1328px) calc((100vw - 120px) / 5), 242px"
+                    image={service.image}
+                  />
+                </div>
+              )}
               <span>
                 {service.title}
                 <Arrow />

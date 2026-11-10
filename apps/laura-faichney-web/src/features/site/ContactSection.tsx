@@ -7,21 +7,33 @@ type ContactSectionProps = { settings: CmsSettings };
 
 export function ContactSection(props: ContactSectionProps) {
   const { settings } = props;
+  if (
+    ![
+      settings.email,
+      settings.phone,
+      settings.eyebrow,
+      settings.heading,
+      settings.copy,
+    ].some(Boolean)
+  )
+    return null;
   return (
     <section className="contact-section" id="contact">
       <div className="container contact-inner">
         <div>
           <Eyebrow>{settings.eyebrow}</Eyebrow>
-          <h2>{settings.heading}</h2>
-          <p>{settings.copy}</p>
+          {settings.heading && <h2>{settings.heading}</h2>}
+          {settings.copy && <p>{settings.copy}</p>}
         </div>
         <ContactDetails settings={settings} />
-        <a
-          className="button button-primary"
-          href={`mailto:${settings.email}?subject=${encodeURIComponent(settings.mailtoSubject)}`}
-        >
-          Start a Project <Arrow />
-        </a>
+        {settings.email && (
+          <a
+            className="button button-primary"
+            href={`mailto:${settings.email}?subject=${encodeURIComponent(settings.mailtoSubject)}`}
+          >
+            Start a Project <Arrow />
+          </a>
+        )}
       </div>
     </section>
   );

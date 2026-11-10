@@ -1,4 +1,4 @@
-import {expect, test} from 'vitest'
+import {expect, test, vi} from 'vitest'
 
 import {galleryItem} from './galleryItem'
 import {service} from './service'
@@ -30,6 +30,10 @@ test('home has an optional announcement with an explicit visibility switch and o
   for (const value of [
     undefined,
     {enabled: false},
+    {enabled: true},
+    {enabled: true, title: 'Update', message: ' '},
+    {enabled: true, title: 'Update', message: 'Message', link: {label: 'Read more'}},
+    {enabled: true, title: 'Update', message: 'Message', link: {href: '/about'}},
     {enabled: true, title: 'Update', message: 'Sample message.'},
     {
       enabled: true,
@@ -47,12 +51,7 @@ test('home has an optional announcement with an explicit visibility switch and o
     expect(validate(value)).toBe(true)
   }
   for (const value of [
-    {enabled: true},
-    {enabled: true, title: 'Update', message: ' '},
     ...[
-      {},
-      {label: 'Read more'},
-      {label: ' ', href: '/about'},
       {label: 'Read more', href: 'javascript:alert(1)'},
       {label: 'Read more', href: '//example.com'},
       {label: 'Read more', href: '/\\example.com'},
@@ -74,7 +73,7 @@ test('page singletons share the hero and SEO shapes', () => {
   expect(fieldNames('seo')).toEqual(expect.arrayContaining(['title', 'description']))
 })
 
-test('every image field has a required alt-text sibling', () => {
+test('every image field offers an optional alt-text sibling', () => {
   const imageTypes = schemaTypes.filter(
     (type) => type.type === 'document' || type.type === 'object',
   )
@@ -90,7 +89,7 @@ test('every image field has a required alt-text sibling', () => {
       const alt = fields.find((candidate) => candidate['name'] === `${String(field['name'])}Alt`)
       expect(alt).toBeDefined()
       expect(alt?.['type']).toBe('string')
-      expect(typeof alt?.['validation']).toBe('function')
+      expect(alt?.['validation']).toBeUndefined()
     }
   }
 })
@@ -179,5 +178,33 @@ test('every document preview renders a title and subtitle', () => {
     const preview = (type as {preview?: {prepare?: unknown}}).preview
     const rendered = preparePreview(preview?.prepare, {})
     expect(rendered.title.length).toBeGreaterThan(0)
+  }
+})
+
+test('all content fields allow publishing without a value', () => {
+  function inspect(fields: unknown) {
+    if (!Array.isArray(fields)) return
+    for (const field of fields) {
+      if (typeof field.validation === 'function') {
+        const {rule} = createMockRule()
+        const required = vi.fn(() => rule)
+        field.validation(
+          new Proxy(rule, {
+            get(target, property) {
+              return property === 'required' ? required : Reflect.get(target, property)
+            },
+          }),
+        )
+        expect(required, String(field.name)).not.toHaveBeenCalled()
+      }
+      inspect(field.fields)
+      for (const member of field.of ?? []) inspect(member.fields)
+    }
+  }
+  for (const type of schemaTypes) if ('fields' in type) inspect(type.fields)
+  for (const typeName of ['service', 'galleryCollection', 'galleryItem']) {
+    expect(
+      fieldsOf(typeName).find((field) => field['name'] === 'order')?.['initialValue'],
+    ).toBeUndefined()
   }
 })

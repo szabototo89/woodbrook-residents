@@ -544,6 +544,58 @@
       "kind": "person",
       "name": "Engineer",
       "description": "Starts, inspects and stops local browser projects"
+    },
+    "laura_site": {
+      "kind": "system",
+      "name": "Laura Faichney website",
+      "description": "Presents artwork and creative services and accepts project enquiries"
+    },
+    "laura_web": {
+      "kind": "container",
+      "name": "Laura public website",
+      "description": "Builds published content into pages for artwork visitors",
+      "technology": "TanStack Start, React and Bun",
+      "parent": "laura_site"
+    },
+    "laura_studio": {
+      "kind": "container",
+      "name": "Laura Sanity Studio",
+      "description": "Lets the artist publish website content",
+      "technology": "Sanity Studio",
+      "parent": "laura_site"
+    },
+    "laura_sanity": {
+      "kind": "system",
+      "name": "Sanity content service",
+      "description": "Stores and serves published Laura documents and image assets"
+    },
+    "laura_reader": {
+      "kind": "component",
+      "name": "Sanity content reader",
+      "description": "Validates and normalizes published documents and determines display order",
+      "technology": "TypeScript and Zod",
+      "parent": "laura_web"
+    },
+    "laura_snapshot": {
+      "kind": "component",
+      "name": "Build snapshot",
+      "description": "Captures four page queries once before building the website",
+      "technology": "Bun and JSON",
+      "parent": "laura_web"
+    },
+    "laura_images": {
+      "kind": "component",
+      "name": "Image cache",
+      "description": "Downloads responsive variants of usable site images",
+      "technology": "Bun filesystem cache",
+      "parent": "laura_web"
+    },
+    "laura_pages": {
+      "kind": "component",
+      "name": "Page components",
+      "description": "Render available content and omit absent sections and artwork",
+      "technology": "React",
+      "parent": "laura_web"
     }
   },
   "relationships": {
@@ -1097,6 +1149,42 @@
       "from": "dev_engineer",
       "to": "dev_launcher",
       "label": "Runs browser projects using"
+    },
+    "laura_web_reads_sanity": {
+      "from": "laura_web",
+      "to": "laura_sanity",
+      "label": "Reads published content and image assets at build time",
+      "technology": "GROQ and HTTPS"
+    },
+    "laura_studio_publishes": {
+      "from": "laura_studio",
+      "to": "laura_sanity",
+      "label": "Publishes artist content",
+      "technology": "Sanity API over HTTPS"
+    },
+    "laura_snapshot_reads": {
+      "from": "laura_snapshot",
+      "to": "laura_reader",
+      "label": "Loads normalized page content",
+      "technology": "Function calls"
+    },
+    "laura_reader_queries": {
+      "from": "laura_reader",
+      "to": "laura_sanity",
+      "label": "Queries published page content",
+      "technology": "GROQ over HTTPS"
+    },
+    "laura_snapshot_caches": {
+      "from": "laura_snapshot",
+      "to": "laura_images",
+      "label": "Caches usable image variants",
+      "technology": "Function calls"
+    },
+    "laura_pages_read_snapshot": {
+      "from": "laura_pages",
+      "to": "laura_snapshot",
+      "label": "Reads captured page data",
+      "technology": "Build-time JSON import"
     }
   },
   "diagrams": {
@@ -2292,6 +2380,87 @@
           "dev_lifecycle_starts_servers": {
             "status": "added",
             "description": "The manager alone spawns and stops the project process groups it records."
+          }
+        }
+      }
+    },
+    "laura_optional_containers": {
+      "level": "C2",
+      "scope": "laura_site",
+      "title": "Laura website \u2014 C2 containers \u2014 changes from 84c49ed",
+      "handoff": "laura-optional-sanity-content",
+      "source": "docs/handoffs/laura-optional-sanity-content/assets/c2-containers.puml",
+      "elements": ["laura_web", "laura_studio", "laura_sanity"],
+      "relationships": ["laura_web_reads_sanity", "laura_studio_publishes"],
+      "changes": {
+        "elements": {
+          "laura_web": {
+            "status": "changed",
+            "description": "Missing content now produces partial pages instead of blocking the build."
+          },
+          "laura_studio": {
+            "status": "changed",
+            "description": "Content fields are optional; unset order uses document timestamps."
+          }
+        },
+        "relationships": {
+          "laura_web_reads_sanity": {
+            "status": "changed",
+            "description": "Collection and photo projections also read creation and update timestamps."
+          },
+          "laura_studio_publishes": {
+            "status": "changed",
+            "description": "Partial documents can be published without required-field errors."
+          }
+        }
+      }
+    },
+    "laura_optional_components": {
+      "level": "C3",
+      "scope": "laura_web",
+      "title": "Laura public website \u2014 C3 components \u2014 changes from 84c49ed",
+      "handoff": "laura-optional-sanity-content",
+      "source": "docs/handoffs/laura-optional-sanity-content/assets/c3-components.puml",
+      "elements": [
+        "laura_snapshot",
+        "laura_reader",
+        "laura_images",
+        "laura_pages",
+        "laura_sanity"
+      ],
+      "relationships": [
+        "laura_snapshot_reads",
+        "laura_reader_queries",
+        "laura_snapshot_caches",
+        "laura_pages_read_snapshot"
+      ],
+      "changes": {
+        "elements": {
+          "laura_reader": {
+            "status": "changed",
+            "description": "Null content becomes empty text and lists; absent order uses creation or update time."
+          },
+          "laura_images": {
+            "status": "changed",
+            "description": "Missing image URLs are skipped instead of downloaded."
+          },
+          "laura_pages": {
+            "status": "changed",
+            "description": "Text-only layouts omit missing artwork, empty sections and unavailable contact links."
+          }
+        },
+        "relationships": {
+          "laura_snapshot_reads": {
+            "status": "changed",
+            "description": "Absent CMS fields no longer abort snapshot generation."
+          },
+          "laura_reader_queries": {
+            "status": "changed",
+            "description": "Reads timestamps for collection and photo ordering."
+          },
+          "laura_pages_read_snapshot": {
+            "status": "changed",
+            "description": "Consumes normalized partial data with fallback titles and artwork labels."
           }
         }
       }

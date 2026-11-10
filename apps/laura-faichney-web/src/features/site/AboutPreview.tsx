@@ -7,28 +7,31 @@ type AboutPreviewProps = { about: HomeData['about'] };
 
 export function AboutPreview(props: AboutPreviewProps) {
   const { about } = props;
+  if (!about.image.url && !about.heading && !about.copy) return null;
   return (
     <section className="section about-preview">
       <div className="container about-preview-inner" data-motion="composition">
-        <div className="about-art">
-          <img
-            src={about.image.url}
-            srcSet={
-              about.image.srcSet ??
-              sanityImageSrcSet(about.image.url, [320, 480, 640, 768, 960])
-            }
-            sizes="(max-width: 640px) calc((100vw - 56px) / 2), (max-width: 1328px) calc((100vw - 48px) * .272), 348px"
-            decoding="async"
-            alt={about.image.alt}
-            width="1448"
-            height="1086"
-            loading="lazy"
-          />
-        </div>
+        {about.image.url && (
+          <div className="about-art">
+            <img
+              src={about.image.url}
+              srcSet={
+                about.image.srcSet ??
+                sanityImageSrcSet(about.image.url, [320, 480, 640, 768, 960])
+              }
+              sizes="(max-width: 640px) calc((100vw - 56px) / 2), (max-width: 1328px) calc((100vw - 48px) * .272), 348px"
+              decoding="async"
+              alt={about.image.alt}
+              width="1448"
+              height="1086"
+              loading="lazy"
+            />
+          </div>
+        )}
         <div className="about-copy">
           <Eyebrow>About Laura</Eyebrow>
-          <h2>{about.heading}</h2>
-          <p>{about.copy}</p>
+          {about.heading && <h2>{about.heading}</h2>}
+          {about.copy && <p>{about.copy}</p>}
           <a className="button button-primary" href="/about">
             More About Laura <Arrow />
           </a>

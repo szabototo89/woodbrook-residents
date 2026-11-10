@@ -12,7 +12,6 @@ export const galleryCollection = defineType({
       title: 'Collection title',
       type: 'string',
       description: 'Shown on the collection card and its page, for example "Colour & nature".',
-      validation: (rule) => rule.required().error('Give the collection a title.'),
     }),
     defineField({
       name: 'slug',
@@ -21,8 +20,6 @@ export const galleryCollection = defineType({
       options: {source: 'title', maxLength: 96},
       description:
         'Set once when you create the collection and never change it afterwards — the address of its page uses it.',
-      validation: (rule) =>
-        rule.required().error('Generate the web address name for the collection.'),
     }),
     defineField({
       name: 'description',
@@ -30,32 +27,26 @@ export const galleryCollection = defineType({
       type: 'text',
       rows: 2,
       description: 'One or two sentences shown on the collection page.',
-      validation: (rule) => rule.required().error('Describe the collection in a sentence or two.'),
     }),
     defineField({
       name: 'order',
       title: 'Display order',
       type: 'number',
-      initialValue: 0,
-      description: 'Lower numbers appear first on the Gallery page and home preview.',
+      description:
+        'Optional. Without an order, creation time (or update time) is used. Lower numbers appear first on the Gallery page and home preview.',
     }),
     defineField({
       name: 'photos',
       title: 'Pictures',
       type: 'array',
-      description: 'Pictures in this collection, in the order visitors browse them.',
+      description:
+        'Pictures in this collection. Each picture uses its display order, or creation time (then update time) when unset.',
       of: [
         defineArrayMember({
           type: 'reference',
           to: [{type: 'galleryItem'}],
         }),
       ],
-      validation: (rule) =>
-        rule
-          .required()
-          .error('Add at least one picture to the collection.')
-          .min(1)
-          .error('Add at least one picture to the collection.'),
     }),
   ],
   preview: {

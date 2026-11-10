@@ -254,3 +254,36 @@ test('offline audits bundle gallery covers, full pictures and thumbnails without
     imageCacheDirectory('production'),
   );
 });
+
+test('caches a snapshot without artwork without attempting image downloads', async () => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(
+      async () =>
+        new Response(
+          JSON.stringify({
+            result: {
+              home: null,
+              about: null,
+              page: null,
+              settings: null,
+              services: null,
+              collections: null,
+            },
+          }),
+        ),
+    ),
+  );
+  const original = await loadLauraSnapshot();
+  const directory = await mkdtemp(path.join(tmpdir(), 'laura-empty-images-'));
+  directories.push(directory);
+  const fetch = vi.fn();
+  vi.stubGlobal('fetch', fetch);
+  const result = await cacheLauraImages(original, {
+    cacheDirectory: path.join(directory, 'cache'),
+    publicDirectory: path.join(directory, 'public'),
+  });
+  expect(result).toEqual(original);
+  expect(fetch).not.toHaveBeenCalled();
+  expect(await readdir(path.join(directory, 'public/site-images'))).toEqual([]);
+});

@@ -25,7 +25,9 @@ export function HomePage(props: HomePageProps) {
       <section className="hero home-hero">
         <div className="container hero-inner">
           <div className="hero-copy">
-            <p className="hero-kicker">{data.hero.eyebrow}</p>
+            {data.hero.eyebrow && (
+              <p className="hero-kicker">{data.hero.eyebrow}</p>
+            )}
             <h1>
               <TitleLines
                 lines={data.hero.titleLines}
@@ -33,38 +35,41 @@ export function HomePage(props: HomePageProps) {
               />
             </h1>
             <GoldStroke />
-            <p>{data.hero.description}</p>
+            {data.hero.description && <p>{data.hero.description}</p>}
             <a className="button button-primary" href="/gallery">
-              {data.hero.ctaLabel ?? 'View My Work'} <Arrow />
+              {data.hero.ctaLabel || 'View My Work'} <Arrow />
             </a>
           </div>
-          <div className="hero-art">
-            <picture>
-              {(data.hero.image.avifSrcSet ??
-                heroImageSrcSet(data.hero.image.url, 'avif')) && (
-                <source
-                  type="image/avif"
+          {data.hero.image.url && (
+            <div className="hero-art">
+              <picture>
+                {(data.hero.image.avifSrcSet ??
+                  heroImageSrcSet(data.hero.image.url, 'avif')) && (
+                  <source
+                    type="image/avif"
+                    srcSet={
+                      data.hero.image.avifSrcSet ??
+                      heroImageSrcSet(data.hero.image.url, 'avif')
+                    }
+                    sizes="(max-width: 640px) 100vw, (max-width: 1328px) 61vw, 805px"
+                  />
+                )}
+                <img
+                  src={data.hero.image.url}
                   srcSet={
-                    data.hero.image.avifSrcSet ??
-                    heroImageSrcSet(data.hero.image.url, 'avif')
+                    data.hero.image.srcSet ??
+                    heroImageSrcSet(data.hero.image.url)
                   }
                   sizes="(max-width: 640px) 100vw, (max-width: 1328px) 61vw, 805px"
+                  decoding="async"
+                  alt={data.hero.image.alt}
+                  width="1374"
+                  height="1145"
+                  fetchPriority="high"
                 />
-              )}
-              <img
-                src={data.hero.image.url}
-                srcSet={
-                  data.hero.image.srcSet ?? heroImageSrcSet(data.hero.image.url)
-                }
-                sizes="(max-width: 640px) 100vw, (max-width: 1328px) 61vw, 805px"
-                decoding="async"
-                alt={data.hero.image.alt}
-                width="1374"
-                height="1145"
-                fetchPriority="high"
-              />
-            </picture>
-          </div>
+              </picture>
+            </div>
+          )}
         </div>
       </section>
       <ServicesPreview

@@ -12,15 +12,12 @@ export const servicesPage = defineType({
       title: 'Page banner',
       type: 'pageHero',
       description: 'Banner at the top of the Services page.',
-      validation: (rule) => rule.required().error('Fill in the Services page banner.'),
     }),
     defineField({
       name: 'seo',
       title: 'Search listing',
       type: 'seo',
       description: 'How the Services page appears in Google results and browser tabs.',
-      validation: (rule) =>
-        rule.required().error('Fill in the search listing for the Services page.'),
     }),
   ],
   preview: {

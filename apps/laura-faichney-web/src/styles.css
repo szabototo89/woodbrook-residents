@@ -1818,3 +1818,23 @@ h2 {
     animation: none !important;
   }
 }
+
+/* Incomplete CMS content can render as text without reserving artwork space. */
+.hero-inner:not(:has(.hero-art)),
+.page-hero-inner:not(:has(.page-hero-art)),
+.story-inner:not(:has(img)),
+.about-preview-inner:not(:has(.about-art)),
+.service-list-link:not(:has(.service-image-frame)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+.mural-feature:not(:has(.mural-art)) .mural-copy {
+  width: 100%;
+  max-width: none;
+}
+.hero-inner:not(:has(.hero-art)) .hero-copy,
+.page-hero-inner:not(:has(.page-hero-art)) .page-hero-copy {
+  max-width: min(100%, 56rem);
+}
+.service-card:not(:has(.service-image-frame)) {
+  grid-template-columns: minmax(0, 1fr);
+}

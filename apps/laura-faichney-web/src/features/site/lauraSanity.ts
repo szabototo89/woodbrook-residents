@@ -1,5 +1,7 @@
 import { createPageHead } from '../../app/siteMetadata';
 
+// The Sanity reader normalizes absent text to empty strings and absent lists to [].
+// An empty image URL means no usable asset; rendering and caching omit it.
 export type CmsImage = {
   url: string;
   alt: string;

@@ -38,46 +38,55 @@ export function AboutPage(props: AboutPageProps) {
           ) : undefined
         }
       />
-      <section className="values">
-        <div className="container values-grid">
-          {data.values.map((value) => {
-            const Icon = valueIcons[value.icon] ?? Palette;
-            return (
-              <div key={value.title}>
-                <span className="values-icon" aria-hidden="true">
-                  <Icon size={44} strokeWidth={1.75} aria-hidden="true" />
-                </span>
-                <h2>
-                  <TitleLines lines={splitBalancedLines(value.title)} />
-                </h2>
-                <p>{value.text}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-      <section className="section story">
-        <div className="container story-inner">
-          <div>
-            <h2>{data.storyHeading}</h2>
-            <GoldStroke />
-            <p>{data.storyBody}</p>
+      {data.values.length > 0 && (
+        <section className="values">
+          <div className="container values-grid">
+            {data.values.map((value) => {
+              const Icon = valueIcons[value.icon] ?? Palette;
+              return (
+                <div key={value.title}>
+                  <span className="values-icon" aria-hidden="true">
+                    <Icon size={44} strokeWidth={1.75} aria-hidden="true" />
+                  </span>
+                  <h2>
+                    <TitleLines lines={splitBalancedLines(value.title)} />
+                  </h2>
+                  <p>{value.text}</p>
+                </div>
+              );
+            })}
           </div>
-          <img
-            src={data.storyImage.url}
-            srcSet={
-              data.storyImage.srcSet ??
-              sanityImageSrcSet(data.storyImage.url, [320, 480, 640, 768, 960])
-            }
-            sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) calc((100vw - 48px) * .42), 538px"
-            decoding="async"
-            alt={data.storyImage.alt}
-            width="1122"
-            height="1402"
-            loading="lazy"
-          />
-        </div>
-      </section>
+        </section>
+      )}
+      {(data.storyHeading || data.storyBody || data.storyImage.url) && (
+        <section className="section story">
+          <div className="container story-inner">
+            <div>
+              {data.storyHeading && <h2>{data.storyHeading}</h2>}
+              <GoldStroke />
+              {data.storyBody && <p>{data.storyBody}</p>}
+            </div>
+            {data.storyImage.url && (
+              <img
+                src={data.storyImage.url}
+                srcSet={
+                  data.storyImage.srcSet ??
+                  sanityImageSrcSet(
+                    data.storyImage.url,
+                    [320, 480, 640, 768, 960],
+                  )
+                }
+                sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1328px) calc((100vw - 48px) * .42), 538px"
+                decoding="async"
+                alt={data.storyImage.alt}
+                width="1122"
+                height="1402"
+                loading="lazy"
+              />
+            )}
+          </div>
+        </section>
+      )}
       <ContactSection settings={data.settings} />
     </main>
   );

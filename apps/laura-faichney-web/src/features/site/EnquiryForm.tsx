@@ -165,8 +165,13 @@ export function EnquiryForm(props: EnquiryFormProps) {
         <Arrow />
       </button>
       <p className="enquiry-help" id="enquiry-help">
-        Required fields are marked *. You can also{' '}
-        <a href={`mailto:${props.settings.email}`}>email me directly</a>.
+        Required fields are marked *.{' '}
+        {props.settings.email && (
+          <>
+            You can also{' '}
+            <a href={`mailto:${props.settings.email}`}>email me directly</a>.
+          </>
+        )}
       </p>
       <div className="enquiry-status" role="status">
         {status === 'submitted' && (

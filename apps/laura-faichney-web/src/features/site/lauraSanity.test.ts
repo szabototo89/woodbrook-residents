@@ -172,20 +172,6 @@ test('an enabled announcement does not need an action', async () => {
 });
 
 test.each([
-  { enabled: true, title: ' ', message: 'Sample message.' },
-  { enabled: true, title: 'Studio update', message: '' },
-  {
-    enabled: true,
-    title: 'Studio update',
-    message: 'Sample message.',
-    link: { label: 'Read more' },
-  },
-  {
-    enabled: true,
-    title: 'Studio update',
-    message: 'Sample message.',
-    link: { label: '', href: '/about' },
-  },
   ...['javascript:alert(1)', '//example.com', '/\\example.com'].map((href) => ({
     enabled: true,
     title: 'Studio update',
@@ -193,7 +179,7 @@ test.each([
     link: { label: 'Read more', href },
   })),
 ])(
-  'incomplete active announcements fail content validation: %j',
+  'unsafe announcement links fail content validation: %j',
   async (announcement) => {
     mockSanity({ ...homeResult, home: { ...homeResult.home, announcement } });
     await expect(new LauraSanitySource().loadHome()).rejects.toThrow(
@@ -279,7 +265,7 @@ test('queries the Sanity API for the Laura project', async () => {
   expect(decodeURIComponent(calls[0] ?? '')).toContain('_id == "homePage"');
 });
 
-test('fails the build with a named message when home content is missing', async () => {
+test('uses a page title when home content is missing', async () => {
   mockSanity({
     home: null,
     settings: homeResult.settings,
@@ -292,10 +278,10 @@ test('fails the build with a named message when home content is missing', async 
     apiVersion: '2025-09-01',
   });
 
-  await expect(source.loadHome()).rejects.toThrow(/Sanity homePage/);
+  expect((await source.loadHome()).hero.titleLines).toEqual(['Laura Faichney']);
 });
 
-test('fails the build when a service is missing its slug', async () => {
+test('omits services without a usable slug', async () => {
   mockSanity({
     ...homeResult,
     services: [
@@ -314,7 +300,7 @@ test('fails the build when a service is missing its slug', async () => {
     apiVersion: '2025-09-01',
   });
 
-  await expect(source.loadHome()).rejects.toThrow(/service/);
+  expect((await source.loadHome()).services).toEqual([]);
 });
 
 test('fails the build when Sanity answers with an error status', async () => {
@@ -597,4 +583,195 @@ test('loads only the first four collections for home while gallery keeps all', a
     'collection-4',
     'collection-5',
   ]);
+});
+
+test.each([null, undefined])(
+  'loads every page when singleton documents and lists are %s',
+  async (missing) => {
+    mockSanity({
+      home: missing,
+      about: missing,
+      page: missing,
+      settings: missing,
+      services: missing,
+      collections: missing,
+    });
+    const source = new LauraSanitySource();
+    const home = await source.loadHome();
+    const about = await source.loadAbout();
+    const services = await source.loadServices();
+    const gallery = await source.loadGallery();
+    expect(home.hero.titleLines).toEqual(['Laura Faichney']);
+    expect(about.hero.titleLines).toEqual(['About']);
+    expect(services.hero.titleLines).toEqual(['Services']);
+    expect(gallery.hero.titleLines).toEqual(['Gallery']);
+    expect(home.services).toEqual([]);
+    expect(gallery.collections).toEqual([]);
+    expect(await source.loadSettings()).toMatchObject({ email: '', phone: '' });
+  },
+);
+
+test('normalizes null fields, broken references and image metadata without losing usable pictures', async () => {
+  const photo = {
+    image: {
+      ...cmsImage('image-photo1-640x480-webp'),
+      hotspot: { x: null, y: null, width: null, height: null },
+    },
+    imageAlt: null,
+    order: null,
+  };
+  const collections = [
+    {
+      title: null,
+      slug: { current: 'partial' },
+      description: null,
+      order: null,
+      photos: [
+        null,
+        {},
+        { ...photo, _createdAt: '2026-02-01T00:00:00Z' },
+        { ...photo, _createdAt: '2026-01-01T00:00:00Z' },
+      ],
+    },
+    null,
+    { slug: null },
+  ];
+  mockSanity({
+    ...homeResult,
+    home: Object.fromEntries(
+      Object.keys(homeResult.home).map((key) => [key, null]),
+    ),
+    about: {
+      hero: null,
+      values: [null, { icon: null, title: null, text: null }],
+      storyImage: { asset: null },
+      seo: null,
+    },
+    page: {
+      hero: { image: { asset: { _ref: null } } },
+      seo: { title: null, description: null },
+    },
+    settings: Object.fromEntries(
+      Object.keys(homeResult.settings).map((key) => [key, null]),
+    ),
+    services: [
+      null,
+      {
+        slug: { current: 'partial' },
+        title: null,
+        description: null,
+        image: null,
+        imageAlt: null,
+        order: null,
+      },
+    ],
+    collections,
+  });
+  const source = new LauraSanitySource();
+  for (const data of [await source.loadHome(), await source.loadGallery()]) {
+    expect(data.collections).toHaveLength(1);
+    const collection = data.collections[0]!;
+    expect(collection.title).toBe('Untitled collection');
+    expect(collection.photos).toHaveLength(2);
+    expect(collection.photos.map((photo) => photo.alt)).toEqual([
+      'Untitled collection — artwork',
+      'Untitled collection — artwork',
+    ]);
+    expect(collection.photos[0]?.order).toBeLessThan(
+      collection.photos[1]!.order,
+    );
+    expect(collection.photos[0]?.image.url).toContain('cdn.sanity.io');
+  }
+  expect((await source.loadAbout()).values).toEqual([]);
+  expect((await source.loadServices()).services[0]).toMatchObject({
+    title: 'Creative service',
+    image: { url: '' },
+  });
+});
+
+test('uses explicit order, then creation time, then update time for services, collections and photos', async () => {
+  const records = [
+    {
+      slug: { current: 'updated' },
+      order: null,
+      _updatedAt: '2026-03-01T00:00:00Z',
+    },
+    {
+      slug: { current: 'created' },
+      order: null,
+      _createdAt: '2026-02-01T00:00:00Z',
+      _updatedAt: '2026-04-01T00:00:00Z',
+    },
+    {
+      slug: { current: 'explicit' },
+      order: 0,
+      _createdAt: '2026-05-01T00:00:00Z',
+    },
+  ];
+  const photos = records.map((record) => ({
+    ...record,
+    image: cmsImage('image-photo1-640x480-webp'),
+    imageAlt: record.slug.current,
+  }));
+  const calls = mockSanity({
+    ...homeResult,
+    page: { hero: homeResult.home.hero, seo: {} },
+    services: records,
+    collections: records.map((record) => ({ ...record, photos })),
+  });
+  const source = new LauraSanitySource();
+  for (const data of [await source.loadHome(), await source.loadGallery()]) {
+    expect(data.collections.map((item) => item.slug)).toEqual([
+      'explicit',
+      'created',
+      'updated',
+    ]);
+    expect(data.collections[0]?.photos.map((item) => item.alt)).toEqual([
+      'explicit',
+      'created',
+      'updated',
+    ]);
+  }
+  expect(
+    (await source.loadServices()).services.map((item) => item.slug),
+  ).toEqual(['explicit', 'created', 'updated']);
+  for (const call of calls.filter((call) =>
+    new URL(call).searchParams.get('query')?.includes('photos[]->'),
+  )) {
+    const query = new URL(call).searchParams.get('query')!;
+    expect(query).toContain('_createdAt');
+    expect(query).toContain('_updatedAt');
+  }
+});
+
+test('still rejects malformed field types instead of treating them as missing', async () => {
+  mockSanity({
+    ...homeResult,
+    collections: [
+      {
+        slug: { current: 'invalid' },
+        photos: [{ imageAlt: 42, order: 'first' }],
+      },
+    ],
+  });
+  await expect(new LauraSanitySource().loadHome()).rejects.toThrow(
+    /galleryCollection.*imageAlt/,
+  );
+});
+
+test.each([
+  { enabled: true, title: null, message: 'Message' },
+  { enabled: true, title: 'Update', message: null },
+  {
+    enabled: true,
+    title: 'Update',
+    message: 'Message',
+    link: { label: null, href: null },
+  },
+])('omits incomplete announcement content: %j', async (announcement) => {
+  mockSanity({ ...homeResult, home: { ...homeResult.home, announcement } });
+  const result = (await new LauraSanitySource().loadHome()).announcement;
+  if (!announcement.title || !announcement.message)
+    expect(result).toBeUndefined();
+  else expect(result?.link).toBeUndefined();
 });

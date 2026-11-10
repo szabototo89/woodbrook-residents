@@ -10,8 +10,6 @@ export const seo = defineType({
       title: 'Page title',
       type: 'string',
       description: 'Shown in the browser tab and as the blue link in Google results.',
-      validation: (rule) =>
-        rule.required().error('Give the page a title so it has a name in tabs and search results.'),
     }),
     defineField({
       name: 'description',
@@ -21,8 +19,6 @@ export const seo = defineType({
       description: 'One or two sentences under the page title in Google results.',
       validation: (rule) =>
         rule
-          .required()
-          .error('Write a short description so the page looks right in search results.')
           .max(160)
           .warning(
             'Google usually shows about 155 characters — shorten this so it is not cut off.',

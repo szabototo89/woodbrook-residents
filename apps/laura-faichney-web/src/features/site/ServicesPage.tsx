@@ -35,41 +35,48 @@ export function ServicesPage(props: ServicesPageProps) {
           />
         }
       />
-      <section className="service-list-section" aria-label="Creative services">
-        <div className="container service-list">
-          {data.services.map((service) => (
-            <a
-              className="service-list-link"
-              href={`/contact?service=${encodeURIComponent(service.slug)}`}
-              key={service.slug}
-            >
-              <div className="service-image-frame">
-                <ServiceImage
-                  image={service.image}
-                  sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 900px) calc((100vw - 64px) * .36), (max-width: 1328px) calc((100vw - 48px) * .36), 461px"
-                />
-              </div>
-              <div className="service-list-copy">
-                <h2>
-                  {service.title}
-                  <Arrow />
-                </h2>
-                <span>{service.description}</span>
-                {serviceHighlights[service.slug] && (
-                  <ul
-                    className="service-highlights"
-                    aria-label={`${service.title} options`}
-                  >
-                    {serviceHighlights[service.slug]?.map((highlight) => (
-                      <li key={highlight}>{highlight}</li>
-                    ))}
-                  </ul>
+      {data.services.length > 0 && (
+        <section
+          className="service-list-section"
+          aria-label="Creative services"
+        >
+          <div className="container service-list">
+            {data.services.map((service) => (
+              <a
+                className="service-list-link"
+                href={`/contact?service=${encodeURIComponent(service.slug)}`}
+                key={service.slug}
+              >
+                {service.image.url && (
+                  <div className="service-image-frame">
+                    <ServiceImage
+                      image={service.image}
+                      sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 900px) calc((100vw - 64px) * .36), (max-width: 1328px) calc((100vw - 48px) * .36), 461px"
+                    />
+                  </div>
                 )}
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
+                <div className="service-list-copy">
+                  <h2>
+                    {service.title}
+                    <Arrow />
+                  </h2>
+                  {service.description && <span>{service.description}</span>}
+                  {serviceHighlights[service.slug] && (
+                    <ul
+                      className="service-highlights"
+                      aria-label={`${service.title} options`}
+                    >
+                      {serviceHighlights[service.slug]?.map((highlight) => (
+                        <li key={highlight}>{highlight}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
       <ServicesProcess />
       <ContactSection settings={data.settings} />
     </main>

@@ -24,11 +24,13 @@ export function GalleryPage(props: GalleryPageProps) {
         imageSizes="(max-width: 640px) 200px, (max-width: 900px) calc((100vw - 48px) / 2), (max-width: 1328px) calc((100vw - 48px) * .58), 742px"
         imageAlt={data.hero.image.alt}
       />
-      <section className="section gallery-page">
-        <div className="container">
-          <GalleryCollections collections={data.collections} eager />
-        </div>
-      </section>
+      {data.collections.length > 0 && (
+        <section className="section gallery-page">
+          <div className="container">
+            <GalleryCollections collections={data.collections} eager />
+          </div>
+        </section>
+      )}
       <ContactSection settings={data.settings} />
     </main>
   );

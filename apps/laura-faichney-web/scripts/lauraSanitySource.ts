@@ -63,40 +63,81 @@ export function resolveLauraSanityConfig(
   };
 }
 
-const sanityImageSchema = z.object({
+// Normalize absent CMS content once, before it reaches page components.
+const textSchema = z
+  .string()
+  .nullish()
+  .transform((value) => value?.trim() ?? '');
+const optionalNumberSchema = z
+  .number()
+  .nullish()
+  .transform((value) => value ?? undefined);
+const optionalObject = <T extends z.ZodRawShape>(shape: T) =>
+  z.preprocess((value) => value ?? {}, z.object(shape).catchall(z.unknown()));
+const listSchema = <T extends z.ZodType>(schema: T) =>
+  z
+    .array(schema.nullish())
+    .nullish()
+    .transform((value) =>
+      (value ?? []).filter((item): item is z.output<T> => item != null),
+    );
+const timestampFields = {
+  _createdAt: textSchema,
+  _updatedAt: textSchema,
+};
+function displayOrder(item: {
+  order?: number;
+  _createdAt: string;
+  _updatedAt: string;
+}): number {
+  if (item.order !== undefined) return item.order;
+  for (const timestamp of [item._createdAt, item._updatedAt]) {
+    const time = Date.parse(timestamp);
+    if (Number.isFinite(time)) return time;
+  }
+  return Number.MAX_SAFE_INTEGER;
+}
+
+const sanityImageSchema = optionalObject({
   asset: z
-    .object({ _ref: z.string().describe('Sanity image asset reference') })
+    .object({ _ref: textSchema.describe('Sanity image asset reference') })
+    .nullish()
     .describe('Image asset pointer'),
   hotspot: z
     .object({
-      x: z.number().describe('Focal point horizontal position'),
-      y: z.number().describe('Focal point vertical position'),
-      height: z.number().describe('Focal point height'),
-      width: z.number().describe('Focal point width'),
+      x: optionalNumberSchema,
+      y: optionalNumberSchema,
+      height: optionalNumberSchema,
+      width: optionalNumberSchema,
     })
-    .optional()
+    .nullish()
+    .transform((value) =>
+      value &&
+      value.x !== undefined &&
+      value.y !== undefined &&
+      value.height !== undefined &&
+      value.width !== undefined
+        ? { x: value.x, y: value.y, height: value.height, width: value.width }
+        : undefined,
+    )
     .describe('Editor-chosen focal point for crops'),
 });
 
 export type SanityImageValue = z.infer<typeof sanityImageSchema>;
 
-const heroSchema = z
-  .object({
-    eyebrow: z.string().describe('Small heading above the banner title'),
-    title: z.string().describe('Banner heading, one line per row'),
-    description: z.string().describe('Banner introduction paragraph'),
-    image: sanityImageSchema.describe('Banner artwork'),
-    imageAlt: z.string().describe('Banner artwork alt text'),
-    ctaLabel: z.string().optional().describe('Banner button text, if any'),
-  })
-  .catchall(z.unknown());
+const heroSchema = optionalObject({
+  eyebrow: textSchema.describe('Small heading above the banner title'),
+  title: textSchema.describe('Banner heading, one line per row'),
+  description: textSchema.describe('Banner introduction paragraph'),
+  image: sanityImageSchema.describe('Banner artwork'),
+  imageAlt: textSchema.describe('Banner artwork alt text'),
+  ctaLabel: textSchema.describe('Banner button text, if any'),
+});
 
-const seoSchema = z
-  .object({
-    title: z.string().optional().describe('Search listing title'),
-    description: z.string().optional().describe('Search listing description'),
-  })
-  .catchall(z.unknown());
+const seoSchema = optionalObject({
+  title: textSchema.describe('Search listing title'),
+  description: textSchema.describe('Search listing description'),
+});
 
 const announcementSchema = z.preprocess(
   (value) =>
@@ -108,11 +149,11 @@ const announcementSchema = z.preprocess(
       : undefined,
   z
     .object({
-      title: z.string().trim().min(1).describe('Announcement heading'),
-      message: z.string().trim().min(1).describe('Announcement message'),
+      title: textSchema.describe('Announcement heading'),
+      message: textSchema.describe('Announcement message'),
       link: z
         .object({
-          label: z.string().trim().min(1).describe('Announcement action text'),
+          label: textSchema.describe('Announcement action text'),
           href: z
             .union([
               z
@@ -120,76 +161,80 @@ const announcementSchema = z.preprocess(
                 .trim()
                 .regex(/^\/(?![/\\])/),
               z.url({ protocol: /^https?$/ }),
+              z.literal(''),
             ])
+            .nullish()
+            .transform((value) => value ?? '')
             .describe('Site path or HTTP(S) link'),
         })
         .nullish()
         .transform((value) => value ?? undefined)
         .describe('Optional announcement action'),
     })
-    .optional(),
+    .optional()
+    .transform((value) =>
+      value?.title && value.message
+        ? {
+            ...value,
+            link: value.link?.label && value.link.href ? value.link : undefined,
+          }
+        : undefined,
+    ),
 );
 
-const settingsSchema = z
-  .object({
-    contactEmail: z.string().describe('Shared contact email address'),
-    contactPhone: z.string().describe('Shared contact phone number'),
-    contactMailtoSubject: z.string().describe('Prefilled email subject'),
-    contactEyebrow: z.string().describe('Contact strip tagline'),
-    contactHeading: z.string().describe('Contact strip heading'),
-    contactCopy: z.string().describe('Contact strip invitation'),
-  })
-  .catchall(z.unknown());
+const settingsSchema = optionalObject({
+  contactEmail: textSchema.describe('Shared contact email address'),
+  contactPhone: textSchema.describe('Shared contact phone number'),
+  contactMailtoSubject: textSchema.describe('Prefilled email subject'),
+  contactEyebrow: textSchema.describe('Contact strip tagline'),
+  contactHeading: textSchema.describe('Contact strip heading'),
+  contactCopy: textSchema.describe('Contact strip invitation'),
+});
 
-const serviceSchema = z
-  .object({
-    title: z.string().describe('Service name'),
-    slug: z
-      .object({ current: z.string().describe('URL-safe service name') })
-      .catchall(z.unknown())
-      .describe('Stable web address name'),
-    description: z.string().describe('Short service description'),
-    image: sanityImageSchema.describe('Service photo'),
-    imageAlt: z.string().describe('Service photo alt text'),
-    order: z.number().describe('Display order, lower first'),
-  })
-  .catchall(z.unknown());
+const serviceSchema = optionalObject({
+  title: textSchema.describe('Service name'),
+  slug: optionalObject({
+    current: textSchema.describe('URL-safe service name'),
+  }).describe('Stable web address name'),
+  description: textSchema.describe('Short service description'),
+  image: sanityImageSchema.describe('Service photo'),
+  imageAlt: textSchema.describe('Service photo alt text'),
+  ...timestampFields,
+  order: optionalNumberSchema.describe('Display order, lower first'),
+});
 
-const galleryItemSchema = z
-  .object({
-    image: sanityImageSchema.describe('Artwork photo'),
-    imageAlt: z.string().describe('Artwork alt text'),
-    saleStatus: z
-      .enum(['for-sale', 'not-for-sale', 'none'])
-      .optional()
-      .catch(undefined)
-      .describe('Optional published sale availability; none hides the badge'),
-    order: z.number().describe('Display order, lower first'),
-  })
-  .catchall(z.unknown());
+const galleryItemSchema = optionalObject({
+  image: sanityImageSchema.describe('Artwork photo'),
+  imageAlt: textSchema.describe('Artwork alt text'),
+  saleStatus: z
+    .enum(['for-sale', 'not-for-sale', 'none'])
+    .optional()
+    .catch(undefined)
+    .describe('Optional published sale availability; none hides the badge'),
+  ...timestampFields,
+  order: optionalNumberSchema.describe('Display order, lower first'),
+});
 
-const galleryCollectionSchema = z
-  .object({
-    title: z.string().describe('Collection title'),
-    slug: z
-      .object({ current: z.string().describe('URL-safe collection name') })
-      .catchall(z.unknown())
-      .describe('Stable web address name'),
-    description: z.string().describe('Collection description'),
-    order: z.number().describe('Display order, lower first'),
-    photos: z
-      .array(galleryItemSchema.describe('Collection picture'))
-      .describe('Pictures in browsing order'),
-  })
-  .catchall(z.unknown());
+const galleryCollectionSchema = optionalObject({
+  title: textSchema.describe('Collection title'),
+  slug: optionalObject({
+    current: textSchema.describe('URL-safe collection name'),
+  }).describe('Stable web address name'),
+  description: textSchema.describe('Collection description'),
+  ...timestampFields,
+  order: optionalNumberSchema.describe('Display order, lower first'),
+  photos: listSchema(galleryItemSchema.describe('Collection picture')).describe(
+    'Pictures in browsing order',
+  ),
+});
 
 const homeQuery = `{
   "home": *[_id == "homePage"][0],
   "settings": *[_id == "siteSettings"][0],
   "services": *[_type == "service"] | order(order asc),
   "collections": *[_type == "galleryCollection"] | order(order asc) {
-    title, slug, description, order,
-    "photos": photos[]-> { image, imageAlt, saleStatus, order }
+    title, slug, description, order, _createdAt, _updatedAt,
+    "photos": photos[]-> { image, imageAlt, saleStatus, order, _createdAt, _updatedAt }
   }
 }`;
 
@@ -208,8 +253,8 @@ const galleryQuery = `{
   "page": *[_id == "galleryPage"][0],
   "settings": *[_id == "siteSettings"][0],
   "collections": *[_type == "galleryCollection"] | order(order asc) {
-    title, slug, description, order,
-    "photos": photos[]-> { image, imageAlt, saleStatus, order }
+    title, slug, description, order, _createdAt, _updatedAt,
+    "photos": photos[]-> { image, imageAlt, saleStatus, order, _createdAt, _updatedAt }
   }
 }`;
 
@@ -238,7 +283,7 @@ export function artworkUrl(
   height?: number,
 ): string | undefined {
   const parsed = sanityImageSchema.safeParse(image);
-  if (!parsed.success) return undefined;
+  if (!parsed.success || !parsed.data.asset?._ref) return undefined;
   const source: {
     asset: { _ref: string };
     hotspot?: { x: number; y: number; height: number; width: number };
@@ -261,40 +306,29 @@ export function artworkUrl(
   }
 }
 
-function requireImage(
+function mapImage(
   config: LauraSanityConfig,
-  label: string,
   image: unknown,
   alt: string,
   width: number,
   height?: number,
 ): CmsImage {
   const url = artworkUrl(config, image, width, height);
-  if (!url) {
-    throw new Error(`Sanity ${label} is missing its artwork image.`);
-  }
-  return { url, alt };
+  return { url: url ?? '', alt };
 }
 
 function mapHero(
   config: LauraSanityConfig,
-  label: string,
+  fallbackTitle: string,
   hero: z.infer<typeof heroSchema>,
   width: number,
   height?: number,
 ): CmsHero {
   return {
     eyebrow: hero.eyebrow,
-    titleLines: splitTitleLines(hero.title),
+    titleLines: splitTitleLines(hero.title || fallbackTitle),
     description: hero.description,
-    image: requireImage(
-      config,
-      label,
-      hero.image,
-      hero.imageAlt,
-      width,
-      height,
-    ),
+    image: mapImage(config, hero.image, hero.imageAlt, width, height),
     ctaLabel: hero.ctaLabel,
   };
 }
@@ -304,44 +338,36 @@ function mapService(
   item: z.infer<typeof serviceSchema>,
 ): CmsService {
   return {
-    title: item.title,
+    title: item.title || 'Creative service',
     slug: item.slug.current,
     description: item.description,
-    image: requireImage(
-      config,
-      `service "${item.title}"`,
-      item.image,
-      item.imageAlt,
-      1448,
-      1086,
-    ),
-    order: item.order,
+    image: mapImage(config, item.image, item.imageAlt, 1448, 1086),
+    order: displayOrder(item),
   };
 }
 
 function mapGalleryItem(
   config: LauraSanityConfig,
   item: z.infer<typeof galleryItemSchema>,
+  collectionTitle: string,
 ): CmsGalleryItem {
   return {
-    alt: item.imageAlt,
+    alt: item.imageAlt || `${collectionTitle} — artwork`,
     saleStatus: item.saleStatus,
-    image: requireImage(
+    image: mapImage(
       config,
-      'gallery item',
       item.image,
-      item.imageAlt,
+      item.imageAlt || `${collectionTitle} — artwork`,
       640,
       480,
     ),
-    fullImage: requireImage(
+    fullImage: mapImage(
       config,
-      'gallery item',
       item.image,
-      item.imageAlt,
+      item.imageAlt || `${collectionTitle} — artwork`,
       1280,
     ),
-    order: item.order,
+    order: displayOrder(item),
   };
 }
 
@@ -350,11 +376,16 @@ function mapGalleryCollection(
   item: z.infer<typeof galleryCollectionSchema>,
 ): CmsGalleryCollection {
   return {
-    title: item.title,
+    title: item.title || 'Untitled collection',
     slug: item.slug.current,
     description: item.description,
-    order: item.order,
-    photos: item.photos.map((photo) => mapGalleryItem(config, photo)),
+    order: displayOrder(item),
+    photos: item.photos
+      .map((photo) =>
+        mapGalleryItem(config, photo, item.title || 'Untitled collection'),
+      )
+      .filter((photo) => photo.image.url && photo.fullImage.url)
+      .sort((a, b) => a.order - b.order),
   };
 }
 
@@ -380,16 +411,14 @@ function parseDoc<T>(label: string, schema: z.ZodType<T>, value: unknown): T {
   return parsed.data;
 }
 
-const homeSchema = z
-  .object({
-    home: z.unknown().describe('Published homePage singleton'),
-    settings: z.unknown().describe('Published siteSettings singleton'),
-    services: z.array(z.unknown()).describe('Raw service documents'),
-    collections: z
-      .array(z.unknown())
-      .describe('Raw gallery collection documents'),
-  })
-  .catchall(z.unknown());
+const homeSchema = optionalObject({
+  home: z.unknown().optional().describe('Published homePage singleton'),
+  settings: z.unknown().optional().describe('Published siteSettings singleton'),
+  services: listSchema(z.unknown()).describe('Raw service documents'),
+  collections: listSchema(z.unknown()).describe(
+    'Raw gallery collection documents',
+  ),
+});
 
 export class LauraSanitySource {
   constructor(
@@ -429,37 +458,30 @@ export class LauraSanitySource {
 
   async loadHome(): Promise<HomeData> {
     const data = await this.query('home page', homeQuery, homeSchema);
-    if (!data.home) {
-      throw new Error(
-        'Sanity homePage document is missing. Publish it in the Studio.',
-      );
-    }
     const home = parseDoc(
       'homePage',
-      z
-        .object({
-          hero: heroSchema.describe('Home page banner'),
-          announcement: announcementSchema.describe(
-            'Optional homepage announcement',
-          ),
-          servicesHeading: z.string().describe('Services section heading'),
-          muralEyebrow: z.string().describe('Mural section tagline'),
-          muralHeading: z.string().describe('Mural section heading'),
-          muralCopy: z.string().describe('Mural section text'),
-          muralCtaLabel: z.string().describe('Mural button text'),
-          muralImage: sanityImageSchema.describe('Mural section artwork'),
-          muralImageAlt: z.string().describe('Mural artwork alt text'),
-          galleryHeading: z.string().describe('Gallery preview heading'),
-          aboutImage: sanityImageSchema.describe('About preview photo'),
-          aboutImageAlt: z.string().describe('About preview photo alt text'),
-          aboutHeading: z.string().describe('About preview heading'),
-          aboutCopy: z.string().describe('About preview text'),
-          testimonialQuote: z.string().describe('Client quote'),
-          testimonialAuthor: z.string().describe('Quote author name'),
-          testimonialRole: z.string().describe('Quote author role'),
-          seo: seoSchema.describe('Home search listing'),
-        })
-        .catchall(z.unknown()),
+      optionalObject({
+        hero: heroSchema.describe('Home page banner'),
+        announcement: announcementSchema.describe(
+          'Optional homepage announcement',
+        ),
+        servicesHeading: textSchema.describe('Services section heading'),
+        muralEyebrow: textSchema.describe('Mural section tagline'),
+        muralHeading: textSchema.describe('Mural section heading'),
+        muralCopy: textSchema.describe('Mural section text'),
+        muralCtaLabel: textSchema.describe('Mural button text'),
+        muralImage: sanityImageSchema.describe('Mural section artwork'),
+        muralImageAlt: textSchema.describe('Mural artwork alt text'),
+        galleryHeading: textSchema.describe('Gallery preview heading'),
+        aboutImage: sanityImageSchema.describe('About preview photo'),
+        aboutImageAlt: textSchema.describe('About preview photo alt text'),
+        aboutHeading: textSchema.describe('About preview heading'),
+        aboutCopy: textSchema.describe('About preview text'),
+        testimonialQuote: textSchema.describe('Client quote'),
+        testimonialAuthor: textSchema.describe('Quote author name'),
+        testimonialRole: textSchema.describe('Quote author role'),
+        seo: seoSchema.describe('Home search listing'),
+      }),
       data.home,
     );
     const settings = mapSettings(
@@ -469,6 +491,7 @@ export class LauraSanitySource {
       .map((item) =>
         mapService(this.config, parseDoc('service', serviceSchema, item)),
       )
+      .filter((item) => item.slug)
       .sort((a, b) => a.order - b.order);
     const galleryPreview = selectHomeGalleryCollections(
       data.collections
@@ -478,11 +501,12 @@ export class LauraSanitySource {
             parseDoc('galleryCollection', galleryCollectionSchema, item),
           ),
         )
+        .filter((item) => item.slug && item.photos.length > 0)
         .sort((a, b) => a.order - b.order),
     );
 
     return {
-      hero: mapHero(this.config, 'homePage hero', home.hero, 1374),
+      hero: mapHero(this.config, 'Laura Faichney', home.hero, 1374),
       announcement: home.announcement,
       servicesHeading: home.servicesHeading,
       mural: {
@@ -490,21 +514,14 @@ export class LauraSanitySource {
         heading: home.muralHeading,
         copy: home.muralCopy,
         ctaLabel: home.muralCtaLabel,
-        image: requireImage(
-          this.config,
-          'homePage mural',
-          home.muralImage,
-          home.muralImageAlt,
-          1254,
-        ),
+        image: mapImage(this.config, home.muralImage, home.muralImageAlt, 1254),
       },
       galleryHeading: home.galleryHeading,
       about: {
         heading: home.aboutHeading,
         copy: home.aboutCopy,
-        image: requireImage(
+        image: mapImage(
           this.config,
-          'homePage about',
           home.aboutImage,
           home.aboutImageAlt,
           1448,
@@ -527,42 +544,31 @@ export class LauraSanitySource {
     const data = await this.query(
       'about page',
       aboutQuery,
-      z
-        .object({
-          about: z.unknown().describe('Published aboutPage singleton'),
-          settings: z.unknown().describe('Published siteSettings singleton'),
-        })
-        .catchall(z.unknown()),
+      optionalObject({
+        about: z.unknown().optional().describe('Published aboutPage singleton'),
+        settings: z
+          .unknown()
+          .optional()
+          .describe('Published siteSettings singleton'),
+      }),
     );
-    if (!data.about) {
-      throw new Error(
-        'Sanity aboutPage document is missing. Publish it in the Studio.',
-      );
-    }
     const about = parseDoc(
       'aboutPage',
-      z
-        .object({
-          hero: heroSchema.describe('About page banner'),
-          values: z
-            .array(
-              z
-                .object({
-                  icon: z.string().describe('Strength symbol key'),
-                  title: z.string().describe('Strength title'),
-                  text: z.string().describe('Strength sentence'),
-                })
-                .catchall(z.unknown())
-                .describe('About strength entry'),
-            )
-            .describe('About strengths'),
-          storyHeading: z.string().describe('Story heading'),
-          storyBody: z.string().describe('Story text'),
-          storyImage: sanityImageSchema.describe('Story portrait'),
-          storyImageAlt: z.string().describe('Story portrait alt text'),
-          seo: seoSchema.describe('About search listing'),
-        })
-        .catchall(z.unknown()),
+      optionalObject({
+        hero: heroSchema.describe('About page banner'),
+        values: listSchema(
+          optionalObject({
+            icon: textSchema.describe('Strength symbol key'),
+            title: textSchema.describe('Strength title'),
+            text: textSchema.describe('Strength sentence'),
+          }).describe('About strength entry'),
+        ).describe('About strengths'),
+        storyHeading: textSchema.describe('Story heading'),
+        storyBody: textSchema.describe('Story text'),
+        storyImage: sanityImageSchema.describe('Story portrait'),
+        storyImageAlt: textSchema.describe('Story portrait alt text'),
+        seo: seoSchema.describe('About search listing'),
+      }),
       data.about,
     );
     const settings = mapSettings(
@@ -570,17 +576,18 @@ export class LauraSanitySource {
     );
 
     return {
-      hero: mapHero(this.config, 'aboutPage hero', about.hero, 1374),
-      values: about.values.map((value) => ({
-        icon: value.icon,
-        title: value.title,
-        text: value.text,
-      })),
+      hero: mapHero(this.config, 'About', about.hero, 1374),
+      values: about.values
+        .filter((value) => value.title || value.text)
+        .map((value) => ({
+          icon: value.icon,
+          title: value.title,
+          text: value.text,
+        })),
       storyHeading: about.storyHeading,
       storyBody: about.storyBody,
-      storyImage: requireImage(
+      storyImage: mapImage(
         this.config,
-        'aboutPage story',
         about.storyImage,
         about.storyImageAlt,
         1122,
@@ -594,27 +601,24 @@ export class LauraSanitySource {
     const data = await this.query(
       'services page',
       servicesQuery,
-      z
-        .object({
-          page: z.unknown().describe('Published servicesPage singleton'),
-          settings: z.unknown().describe('Published siteSettings singleton'),
-          services: z.array(z.unknown()).describe('Raw service documents'),
-        })
-        .catchall(z.unknown()),
+      optionalObject({
+        page: z
+          .unknown()
+          .optional()
+          .describe('Published servicesPage singleton'),
+        settings: z
+          .unknown()
+          .optional()
+          .describe('Published siteSettings singleton'),
+        services: listSchema(z.unknown()).describe('Raw service documents'),
+      }),
     );
-    if (!data.page) {
-      throw new Error(
-        'Sanity servicesPage document is missing. Publish it in the Studio.',
-      );
-    }
     const page = parseDoc(
       'servicesPage',
-      z
-        .object({
-          hero: heroSchema.describe('Services page banner'),
-          seo: seoSchema.describe('Services search listing'),
-        })
-        .catchall(z.unknown()),
+      optionalObject({
+        hero: heroSchema.describe('Services page banner'),
+        seo: seoSchema.describe('Services search listing'),
+      }),
       data.page,
     );
     const settings = mapSettings(
@@ -624,10 +628,11 @@ export class LauraSanitySource {
       .map((item) =>
         mapService(this.config, parseDoc('service', serviceSchema, item)),
       )
+      .filter((item) => item.slug)
       .sort((a, b) => a.order - b.order);
 
     return {
-      hero: mapHero(this.config, 'servicesPage hero', page.hero, 1374),
+      hero: mapHero(this.config, 'Services', page.hero, 1374),
       seo: page.seo,
       services,
       settings,
@@ -638,29 +643,26 @@ export class LauraSanitySource {
     const data = await this.query(
       'gallery page',
       galleryQuery,
-      z
-        .object({
-          page: z.unknown().describe('Published galleryPage singleton'),
-          settings: z.unknown().describe('Published siteSettings singleton'),
-          collections: z
-            .array(z.unknown())
-            .describe('Raw gallery collection documents'),
-        })
-        .catchall(z.unknown()),
+      optionalObject({
+        page: z
+          .unknown()
+          .optional()
+          .describe('Published galleryPage singleton'),
+        settings: z
+          .unknown()
+          .optional()
+          .describe('Published siteSettings singleton'),
+        collections: listSchema(z.unknown()).describe(
+          'Raw gallery collection documents',
+        ),
+      }),
     );
-    if (!data.page) {
-      throw new Error(
-        'Sanity galleryPage document is missing. Publish it in the Studio.',
-      );
-    }
     const page = parseDoc(
       'galleryPage',
-      z
-        .object({
-          hero: heroSchema.describe('Gallery page banner'),
-          seo: seoSchema.describe('Gallery search listing'),
-        })
-        .catchall(z.unknown()),
+      optionalObject({
+        hero: heroSchema.describe('Gallery page banner'),
+        seo: seoSchema.describe('Gallery search listing'),
+      }),
       data.page,
     );
     const settings = mapSettings(
@@ -673,10 +675,11 @@ export class LauraSanitySource {
           parseDoc('galleryCollection', galleryCollectionSchema, item),
         ),
       )
+      .filter((item) => item.slug && item.photos.length > 0)
       .sort((a, b) => a.order - b.order);
 
     return {
-      hero: mapHero(this.config, 'galleryPage hero', page.hero, 1374),
+      hero: mapHero(this.config, 'Gallery', page.hero, 1374),
       seo: page.seo,
       collections,
       settings,

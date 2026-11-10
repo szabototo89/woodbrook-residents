@@ -8,6 +8,7 @@ type ServiceImageProps = {
 };
 
 export function ServiceImage(props: ServiceImageProps) {
+  if (!props.image.url) return null;
   return (
     <img
       src={props.image.url}

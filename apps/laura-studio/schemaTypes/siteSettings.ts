@@ -13,12 +13,6 @@ export const siteSettings = defineType({
       title: 'Contact email address',
       type: 'string',
       description: 'Shown in the contact strip on every page and on the Contact page.',
-      validation: (rule) =>
-        rule
-          .required()
-          .error('Add your email address so visitors can reach you.')
-          .email()
-          .error('Enter a valid email address, like name@example.com.'),
     }),
     defineField({
       name: 'contactPhone',
@@ -26,8 +20,6 @@ export const siteSettings = defineType({
       type: 'string',
       initialValue: '089-4007747',
       description: 'Shown next to the email address. Visitors on phones can tap it to call.',
-      validation: (rule) =>
-        rule.required().error('Add your phone number so visitors can call you.'),
     }),
     defineField({
       name: 'contactMailtoSubject',
@@ -35,7 +27,6 @@ export const siteSettings = defineType({
       type: 'string',
       initialValue: 'Art project enquiry',
       description: 'Prefilled subject when a visitor clicks the Start a Project button.',
-      validation: (rule) => rule.required().error('Add the email subject visitors will send with.'),
     }),
     defineField({
       name: 'contactEyebrow',
@@ -44,7 +35,6 @@ export const siteSettings = defineType({
       fieldset: 'contactStrip',
       initialValue: 'Let’s create something special',
       description: 'Small line above the Get in Touch heading on every page.',
-      validation: (rule) => rule.required().error('Add the tagline for the contact strip.'),
     }),
     defineField({
       name: 'contactHeading',
@@ -53,7 +43,6 @@ export const siteSettings = defineType({
       fieldset: 'contactStrip',
       initialValue: 'Get in Touch',
       description: 'Big heading of the contact strip on every page.',
-      validation: (rule) => rule.required().error('Add the heading for the contact strip.'),
     }),
     defineField({
       name: 'contactCopy',
@@ -64,7 +53,6 @@ export const siteSettings = defineType({
       initialValue:
         'Have a painting, mural, event or creative session in mind? I’d love to hear from you.',
       description: 'Friendly invitation under the contact strip heading on every page.',
-      validation: (rule) => rule.required().error('Add the invitation for the contact strip.'),
     }),
   ],
   preview: {

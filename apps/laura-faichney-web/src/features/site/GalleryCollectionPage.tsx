@@ -24,7 +24,9 @@ export function GalleryCollectionPage(props: GalleryCollectionPageProps) {
           <Eyebrow>Collection</Eyebrow>
           <h1>{props.collection.title}</h1>
           <GoldStroke />
-          <p>{props.collection.description}</p>
+          {props.collection.description && (
+            <p>{props.collection.description}</p>
+          )}
           <a className="text-link" href="/gallery">
             <ArrowLeft size={18} aria-hidden="true" /> Back to gallery
           </a>

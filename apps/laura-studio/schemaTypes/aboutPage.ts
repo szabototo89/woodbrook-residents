@@ -13,13 +13,12 @@ export const aboutPage = defineType({
       title: 'Page banner',
       type: 'pageHero',
       description: 'Banner at the top of the About page.',
-      validation: (rule) => rule.required().error('Fill in the About page banner.'),
     }),
     defineField({
       name: 'values',
       title: 'Strengths',
       type: 'array',
-      description: 'The four strengths shown under the banner, for example Creative & Bespoke.',
+      description: 'The strengths shown under the banner, for example Creative & Bespoke.',
       of: [
         defineArrayMember({
           type: 'object',
@@ -39,21 +38,18 @@ export const aboutPage = defineType({
                 layout: 'radio',
               },
               description: 'Small symbol shown above the strength.',
-              validation: (rule) => rule.required().error('Pick a symbol for the strength.'),
             }),
             defineField({
               name: 'title',
               title: 'Strength title',
               type: 'string',
               description: 'Short title, for example "Brighter Spaces".',
-              validation: (rule) => rule.required().error('Give the strength a title.'),
             }),
             defineField({
               name: 'text',
               title: 'Strength text',
               type: 'string',
               description: 'One sentence saying what the strength means.',
-              validation: (rule) => rule.required().error('Add one sentence for the strength.'),
             }),
           ],
           preview: {
@@ -61,14 +57,6 @@ export const aboutPage = defineType({
           },
         }),
       ],
-      validation: (rule) =>
-        rule
-          .required()
-          .error('Add your four strengths for the About page.')
-          .min(4)
-          .error('The About page shows four strengths — add all four.')
-          .max(4)
-          .error('The About page shows four strengths — remove the extra one.'),
     }),
     defineField({
       name: 'storyHeading',
@@ -77,7 +65,6 @@ export const aboutPage = defineType({
       fieldset: 'story',
       initialValue: 'My Story',
       description: 'Heading above your personal story on the About page.',
-      validation: (rule) => rule.required().error('Add the heading for your story.'),
     }),
     defineField({
       name: 'storyBody',
@@ -88,7 +75,6 @@ export const aboutPage = defineType({
       initialValue:
         'Art has always been a big part of my life. I love how it can transform a space, bring people together and create moments of joy. Whether it’s a mural, a painting for a home, or a first experience with facepainting, my goal is to make everyday spaces a little brighter.',
       description: 'Your personal story on the About page.',
-      validation: (rule) => rule.required().error('Write your story for the About page.'),
     }),
     defineField({
       name: 'storyImage',
@@ -98,7 +84,6 @@ export const aboutPage = defineType({
       fieldset: 'story',
       description:
         'Portrait beside your story. Drag the hotspot dot onto the face so it is never cropped out.',
-      validation: (rule) => rule.required().error('Add your portrait beside the story.'),
     }),
     defineField({
       name: 'storyImageAlt',
@@ -107,15 +92,12 @@ export const aboutPage = defineType({
       fieldset: 'story',
       description:
         'Describe the portrait for visitors who cannot see it. Example: Colourful painted portrait.',
-      validation: (rule) =>
-        rule.required().error('Describe the portrait so screen readers can announce it.'),
     }),
     defineField({
       name: 'seo',
       title: 'Search listing',
       type: 'seo',
       description: 'How the About page appears in Google results and browser tabs.',
-      validation: (rule) => rule.required().error('Fill in the search listing for the About page.'),
     }),
   ],
   preview: {

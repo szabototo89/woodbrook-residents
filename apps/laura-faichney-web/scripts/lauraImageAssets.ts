@@ -92,7 +92,7 @@ export async function cacheLauraImages(
   ];
   await mkdir(options.cacheDirectory, { recursive: true });
   const files = new Set<string>();
-  for (const image of images) {
+  for (const image of images.filter((image) => image.url)) {
     const source = new URL(image.url);
     if (
       source.origin !== 'https://cdn.sanity.io' ||

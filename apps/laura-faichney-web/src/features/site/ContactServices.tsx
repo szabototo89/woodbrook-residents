@@ -25,6 +25,12 @@ const groups = [
 type ContactServicesProps = { services: CmsService[] };
 
 export function ContactServices(props: ContactServicesProps) {
+  if (
+    !props.services.some((service) =>
+      groups.some((group) => group.slugs.includes(service.slug)),
+    )
+  )
+    return null;
   return (
     <section
       className="contact-services"
@@ -55,6 +61,12 @@ export function ContactServices(props: ContactServicesProps) {
             );
             const first = services[0];
             if (!first) return null;
+            if (
+              !props.services.some((service) =>
+                groups.some((group) => group.slugs.includes(service.slug)),
+              )
+            )
+              return null;
             return (
               <a
                 className="contact-service-card"

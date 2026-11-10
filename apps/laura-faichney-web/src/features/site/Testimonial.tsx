@@ -5,6 +5,7 @@ type TestimonialProps = { testimonial: HomeData['testimonial'] };
 
 export function Testimonial(props: TestimonialProps) {
   const { testimonial } = props;
+  if (!testimonial.quote) return null;
   return (
     <section className="testimonial" aria-labelledby="testimonial-heading">
       <div className="container testimonial-inner">
@@ -14,9 +15,13 @@ export function Testimonial(props: TestimonialProps) {
         </div>
         <figure className="testimonial-quote">
           <blockquote>“{testimonial.quote}”</blockquote>
-          <figcaption>
-            {testimonial.author} · {testimonial.role}
-          </figcaption>
+          {(testimonial.author || testimonial.role) && (
+            <figcaption>
+              {[testimonial.author, testimonial.role]
+                .filter(Boolean)
+                .join(' · ')}
+            </figcaption>
+          )}
         </figure>
       </div>
     </section>

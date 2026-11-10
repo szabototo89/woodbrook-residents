@@ -1,0 +1,25 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Laura public website — C3 components — changes from 84c49ed
+
+System_Ext(laura_sanity, "Sanity content service", "Stores and serves published Laura documents and image assets")
+Container_Boundary(laura_web, "Laura public website") {
+  Component(laura_snapshot, "Build snapshot", "Bun and JSON", "Captures four page queries once before building the website")
+  Component(laura_reader, "[CHANGED] Sanity content reader", "TypeScript and Zod", "Validates and normalizes published documents and determines display order\nChange: Null content becomes empty text and lists; absent order uses creation or update time.")
+  Component(laura_images, "[CHANGED] Image cache", "Bun filesystem cache", "Downloads responsive variants of usable site images\nChange: Missing image URLs are skipped instead of downloaded.")
+  Component(laura_pages, "[CHANGED] Page components", "React", "Render available content and omit absent sections and artwork\nChange: Text-only layouts omit missing artwork, empty sections and unavailable contact links.")
+}
+
+Rel(laura_snapshot, laura_reader, "[CHANGED] Loads normalized page content\nChange: Absent CMS fields no longer abort snapshot generation.", "Function calls")
+Rel(laura_reader, laura_sanity, "[CHANGED] Queries published page content\nChange: Reads timestamps for collection and photo ordering.", "GROQ over HTTPS")
+Rel(laura_snapshot, laura_images, "Caches usable image variants", "Function calls")
+Rel(laura_pages, laura_snapshot, "[CHANGED] Reads captured page data\nChange: Consumes normalized partial data with fallback titles and artwork labels.", "Build-time JSON import")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml
