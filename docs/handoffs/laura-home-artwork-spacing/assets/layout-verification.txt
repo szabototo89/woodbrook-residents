@@ -1,0 +1,12 @@
+before desktop hero: gap -35.8px
+before desktop mural: gap -11.2px
+before mobile hero: gap 16.0px
+before mobile mural: gap 18.0px
+
+after desktop hero: gap 52.4px
+after desktop mural: gap 57.6px
+after mobile hero: gap 40.0px
+after mobile mural: gap 18.0px
+
+New Playwright regression: seven desktop failures before the fix; 12 passed after.
+Full Laura browser suite: 153 passed.

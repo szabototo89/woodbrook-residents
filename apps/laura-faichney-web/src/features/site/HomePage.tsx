@@ -51,7 +51,7 @@ export function HomePage(props: HomePageProps) {
                       data.hero.image.avifSrcSet ??
                       heroImageSrcSet(data.hero.image.url, 'avif')
                     }
-                    sizes="(max-width: 640px) 100vw, (max-width: 1328px) 61vw, 805px"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1328px) 56vw, 700px"
                   />
                 )}
                 <img
@@ -60,7 +60,7 @@ export function HomePage(props: HomePageProps) {
                     data.hero.image.srcSet ??
                     heroImageSrcSet(data.hero.image.url)
                   }
-                  sizes="(max-width: 640px) 100vw, (max-width: 1328px) 61vw, 805px"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1328px) 56vw, 700px"
                   decoding="async"
                   alt={data.hero.image.alt}
                   width="1374"

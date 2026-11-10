@@ -11,6 +11,23 @@ export function MuralFeature(props: MuralFeatureProps) {
   return (
     <section className="mural-feature" data-motion="mural">
       <div className="container mural-inner">
+        {mural.image.url && (
+          <div className="mural-art">
+            <img
+              src={mural.image.url}
+              srcSet={
+                mural.image.srcSet ??
+                sanityImageSrcSet(mural.image.url, [320, 480, 640, 768, 960])
+              }
+              sizes="(max-width: 400px) calc(100vw - 40px), (max-width: 640px) 360px, (max-width: 1328px) 46vw, 608px"
+              decoding="async"
+              alt={mural.image.alt}
+              width="1254"
+              height="1254"
+              loading="lazy"
+            />
+          </div>
+        )}
         <div className="mural-copy">
           <Eyebrow brush>{mural.eyebrow}</Eyebrow>
           {mural.heading && <h2>{mural.heading}</h2>}
@@ -22,23 +39,6 @@ export function MuralFeature(props: MuralFeatureProps) {
           )}
         </div>
       </div>
-      {mural.image.url && (
-        <div className="mural-art">
-          <img
-            src={mural.image.url}
-            srcSet={
-              mural.image.srcSet ??
-              sanityImageSrcSet(mural.image.url, [320, 480, 640, 768, 960])
-            }
-            sizes="(max-width: 408px) calc(100vw - 48px), (max-width: 640px) 360px, (max-width: 900px) 49vw, 65vw"
-            decoding="async"
-            alt={mural.image.alt}
-            width="1254"
-            height="1254"
-            loading="lazy"
-          />
-        </div>
-      )}
     </section>
   );
 }

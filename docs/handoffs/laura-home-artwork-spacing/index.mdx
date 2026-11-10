@@ -1,0 +1,123 @@
+import beforeHeroDesktop from './assets/before-hero-desktop.png';
+import beforeHeroMobile from './assets/before-hero-mobile.png';
+import beforeMuralDesktop from './assets/before-mural-desktop.png';
+import beforeMuralMobile from './assets/before-mural-mobile.png';
+import afterHeroDesktop from './assets/after-hero-desktop.png';
+import afterHeroMobile from './assets/after-hero-mobile.png';
+import afterMuralDesktop from './assets/after-mural-desktop.png';
+import afterMuralMobile from './assets/after-mural-mobile.png';
+
+export const metadata = {
+  title: 'Separate homepage artwork and text',
+  status: 'in progress',
+  agent: 'codex',
+  session: '01a1c7b9-028c-7111-b9f3-d93cd390319b',
+  worktree: '/Users/tszabo/.codex/worktrees/7a6f/laura-s-page',
+  branch: 'fix/laura-optional-sanity-content',
+  commit: '9ef5c0dbeb6e4526e3c498f05ee3d764c22185dc',
+  updatedAt: '2026-11-10T23:45:00Z',
+  summary:
+    'The homepage hero and mural keep rectangular artwork in separate columns beside their text.',
+};
+
+## Goal
+
+Keep homepage text readable when the artist chooses an opaque photograph. Preserve the stacked phone layout and existing links.
+
+## Technical changes
+
+Baseline: `9ef5c0dbeb6e4526e3c498f05ee3d764c22185dc`. This is separate from the completed optional-content handoff.
+
+| Area         | Before                                                        | After                                                     | Why                                                      | Code                                                   |
+| ------------ | ------------------------------------------------------------- | --------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------ |
+| Hero         | Absolute artwork starts inside the text column                | Normal grid flow allocates two bounded columns with a gap | Rectangular images must not cover text                   | `apps/laura-faichney-web/src/styles.css`               |
+| Mural        | Artwork uses viewport offsets while copy uses container width | Image and copy share one grid container                   | Keep both edges in the same coordinate system            | `src/features/site/MuralFeature.tsx`, `src/styles.css` |
+| Phone layout | Copy and image stack                                          | Copy and image still stack with a positive vertical gap   | Preserve narrow-screen reading and links                 | Mobile rules in `src/styles.css`                       |
+| Image sizing | Source hints assume oversized overlapping artwork             | Hints match the allocated columns                         | Avoid requesting oversized responsive images             | `HomePage.tsx`, `MuralFeature.tsx`                     |
+| Regression   | No rectangular-artwork separation check                       | Checks 12 widths from 390 to 2560px                       | Cover both reported desktop layouts and breakpoint edges | `tests/e2e/home-artwork-spacing.spec.ts`               |
+
+## Architecture changes
+
+Laura’s website presents artwork and project enquiries. This change affects image placement within two existing homepage sections. Content loading, component responsibilities and application boundaries stay the same.
+
+| Level | Change                                                                                            | Evidence                          |
+| ----- | ------------------------------------------------------------------------------------------------- | --------------------------------- |
+| C1    | Unchanged: the same artist, visitors and external services use the site                           | Presentation-only change          |
+| C2    | Unchanged: the public website, Studio and content service remain the same                         | No new application or store       |
+| C3    | Unchanged: HomePage and MuralFeature render the same content; only layout and image sizing change | Existing components and data flow |
+
+## Verification
+
+| Check                    | Result  | Evidence                                                                                                 |
+| ------------------------ | ------- | -------------------------------------------------------------------------------------------------------- |
+| Failing regression first | PASS    | Seven desktop checks fail at 901–2560px before the fix.                                                  |
+| Focused layout           | PASS    | 12 viewport checks pass after the fix, including 640/641 and 900/901px boundaries.                       |
+| Browser regression       | PASS    | Full Laura Playwright suite: 153 passed.                                                                 |
+| Unit tests               | PASS    | Laura: 109 Vitest tests and 32 Bun script tests passed.                                                  |
+| Desktop baseline         | PASS    | At 1440px the hero overlaps by 35.8px and mural by 11.2px; `assets/before-*.png`.                        |
+| Repository build         | NOT RUN | The first build found the new handoff folder before its index existed; rerun after adding this document. |
+| Desktop/mobile result    | NOT RUN | Capture the implemented live-content build after static export.                                          |
+| Temporary preview        | NOT RUN | Deploy after the implementation commit.                                                                  |
+| Handoff validation       | NOT RUN | Run docs:check after completing this document.                                                           |
+| Static export            | PASS    | Current published content produces 10 HTML files and valid internal links.                               |
+
+## Appearance
+
+Screenshots use the same published artwork at 1440×1000 and 390×844 with 2× resolution. Desktop pairs show the removed overlap; phone pairs show the preserved stacking.
+
+<AppearanceGallery
+  images={[
+    {
+      src: beforeHeroDesktop,
+      title: 'Before hero desktop',
+      alt: 'Before hero layout on desktop',
+      description: 'The artwork extends beneath the text area.',
+    },
+    {
+      src: afterHeroDesktop,
+      title: 'After hero desktop',
+      alt: 'After hero layout on desktop',
+      description: 'The text and image have separate columns.',
+    },
+    {
+      src: beforeHeroMobile,
+      title: 'Before hero mobile',
+      alt: 'Before hero layout on mobile',
+      description: 'Baseline phone stacking for comparison.',
+    },
+    {
+      src: afterHeroMobile,
+      title: 'After hero mobile',
+      alt: 'After hero layout on mobile',
+      description: 'The image follows the text with a vertical gap.',
+    },
+    {
+      src: beforeMuralDesktop,
+      title: 'Before mural desktop',
+      alt: 'Before mural layout on desktop',
+      description: 'The artwork extends beneath the text area.',
+    },
+    {
+      src: afterMuralDesktop,
+      title: 'After mural desktop',
+      alt: 'After mural layout on desktop',
+      description: 'The text and image have separate columns.',
+    },
+    {
+      src: beforeMuralMobile,
+      title: 'Before mural mobile',
+      alt: 'Before mural layout on mobile',
+      description: 'Baseline phone stacking for comparison.',
+    },
+    {
+      src: afterMuralMobile,
+      title: 'After mural mobile',
+      alt: 'After mural layout on mobile',
+      description: 'The image follows the text with a vertical gap.',
+    },
+  ]}
+/>
+
+## Next steps
+
+Finish screenshot review, static export and repository checks; deploy the temporary preview and push the verified fix to main as requested.
