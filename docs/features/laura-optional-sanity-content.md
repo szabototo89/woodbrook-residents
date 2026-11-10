@@ -1,6 +1,6 @@
 # Optional Laura content
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 

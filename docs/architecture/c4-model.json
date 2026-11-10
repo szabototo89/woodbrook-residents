@@ -2500,7 +2500,7 @@
     "laura_optional_containers": {
       "level": "C2",
       "scope": "laura_site",
-      "title": "Laura website \u2014 C2 containers \u2014 changes from 84c49ed",
+      "title": "Laura website \u2014 C2 containers \u2014 changes from f1688de",
       "handoff": "laura-optional-sanity-content",
       "source": "docs/handoffs/laura-optional-sanity-content/assets/c2-containers.puml",
       "elements": ["laura_web", "laura_studio", "laura_sanity"],
@@ -2531,7 +2531,7 @@
     "laura_optional_components": {
       "level": "C3",
       "scope": "laura_web",
-      "title": "Laura public website \u2014 C3 components \u2014 changes from 84c49ed",
+      "title": "Laura public website \u2014 C3 components \u2014 changes from f1688de",
       "handoff": "laura-optional-sanity-content",
       "source": "docs/handoffs/laura-optional-sanity-content/assets/c3-components.puml",
       "elements": [

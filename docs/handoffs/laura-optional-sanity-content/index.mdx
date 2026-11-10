@@ -1,3 +1,5 @@
+import galleryDesktop from './assets/gallery-desktop.png';
+import galleryMobile from './assets/gallery-mobile.png';
 import desktop from './assets/sample-desktop.png';
 import mobile from './assets/sample-mobile.png';
 import containers from './assets/c2-containers.puml?raw';
@@ -7,13 +9,13 @@ import componentsImage from './assets/c3-components.svg';
 
 export const metadata = {
   title: 'Allow partial Laura content',
-  status: 'in progress',
+  status: 'complete',
   agent: 'codex',
   session: '01a1c7b9-028c-7111-b9f3-d93cd390319b',
   worktree: '/Users/tszabo/.codex/worktrees/7a6f/laura-s-page',
   branch: 'fix/laura-optional-sanity-content',
-  commit: '84c49ed3df0b1d26a929ee9cb139a8148c1d039f',
-  updatedAt: '2026-11-10T23:25:00Z',
+  commit: '157d90fef348b47c70d3c084f4186227f84e3cf9',
+  updatedAt: '2026-11-10T23:33:14Z',
   summary:
     'Partial Sanity content no longer blocks Laura’s build, and missing order uses document timestamps.',
 };
@@ -24,7 +26,7 @@ Keep the website usable while the artist publishes partial content. Make all Stu
 
 ## Technical changes
 
-Baseline: `84c49ed3df0b1d26a929ee9cb139a8148c1d039f`. The implementation commit will be recorded after verification.
+Baseline: `f1688de0bed8b0c313703284b7fa342196228399`. Implementation starts in `1962db5`; the recorded commit integrates the latest main branch. The delta below excludes upstream SEO and sharing work.
 
 | Area              | Before                                                                         | After                                                                     | Why                                                                   | Code                                                                 |
 | ----------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------- |
@@ -35,7 +37,7 @@ Baseline: `84c49ed3df0b1d26a929ee9cb139a8148c1d039f`. The implementation commit 
 | Accessible labels | Artwork alt text must be present                                               | Use collection name plus artwork when missing                             | Keep valid pictures discoverable without inventing image descriptions | `mapGalleryItem`                                                     |
 | Studio            | Required validators block partial documents; new records default order to zero | Fields are optional; order has no automatic value                         | Match the website’s optional content contract                         | `apps/laura-studio/schemaTypes`                                      |
 
-Nulls normalize only at the CMS boundary. UI data keeps stable string, object and array shapes; an empty image URL means no usable asset. Supplied malformed types, unsafe announcement URLs and failed network requests still fail visibly. No CMS migration or published document edit is needed. Missing timestamps sort last with stable source order for ties. Incomplete announcements are hidden; incomplete actions are omitted.
+Nulls normalize only at the Sanity content boundary. UI data keeps stable string, object and array shapes; an empty image URL means no usable asset. Supplied malformed types, unsafe announcement URLs and failed network requests still fail visibly. No content migration or published document edit is needed. Missing timestamps sort last with stable source order for ties. Incomplete announcements are hidden; incomplete actions are omitted.
 
 ## Architecture changes
 
@@ -65,25 +67,44 @@ Change: the reader supplies normalized partial data and timestamps; the cache an
 
 ## Verification
 
-| Check                    | Result  | Evidence                                                                                                                 |
-| ------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Failing regression first | PASS    | New source/UI tests failed before implementation; Studio optional-field test also failed before removing required rules. |
-| Laura unit tests         | PASS    | `bun run --cwd apps/laura-faichney-web test:unit`: 108 Vitest tests and 32 Bun script tests.                             |
-| Studio tests             | PASS    | `bun run --cwd apps/laura-studio test:unit`: 21 tests passed.                                                            |
-| Browser regression       | PASS    | `bun run --cwd apps/laura-faichney-web playwright test`: 140 passed against offline fixtures.                            |
-| Typechecks               | PASS    | Both Laura applications: `tsc --noEmit` exited 0.                                                                        |
-| Repository build         | PASS    | `bun run build` exited 0; final revision will be rebuilt before review.                                                  |
-| Sample appearance        | PASS    | Playwright captures at 1440×1000 and 390×844, 2× resolution; no empty image/contact URLs or horizontal overflow.         |
-| cmux tab                 | NOT RUN | cmux rejected access: only processes started inside cmux can connect. Local dev servers remain running.                  |
-| Temporary previews       | NOT RUN | Deployment follows the verified implementation commit.                                                                   |
-| Handoff validation       | NOT RUN | Validation follows the completed handoff content.                                                                        |
+| Check                       | Result  | Evidence                                                                                                                                                                                                                    |
+| --------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Failing regression first    | PASS    | New source/UI tests failed before implementation; Studio optional-field test also failed before removing required rules.                                                                                                    |
+| Laura unit tests            | PASS    | `bun run --cwd apps/laura-faichney-web test:unit`: 109 Vitest tests and 32 Bun script tests.                                                                                                                                |
+| Studio tests                | PASS    | `bun run --cwd apps/laura-studio test:unit`: 21 tests passed.                                                                                                                                                               |
+| Browser regression          | PASS    | `bun run --cwd apps/laura-faichney-web playwright test`: 141 passed against offline fixtures after integrating main.                                                                                                        |
+| Typechecks                  | PASS    | Both Laura applications: `tsc --noEmit` exited 0.                                                                                                                                                                           |
+| Repository build            | PASS    | `bun run build` exited 0 on the merged implementation.                                                                                                                                                                      |
+| Sample appearance           | PASS    | Playwright captures at 1440×1000 and 390×844, 2× resolution; no empty image/contact URLs or horizontal overflow.                                                                                                            |
+| cmux tab                    | NOT RUN | cmux rejected access: only processes started inside cmux can connect. Local dev servers remain running.                                                                                                                     |
+| Temporary previews          | PASS    | [Website](https://laura-optional-content.laura-faichney-all-things-art.pages.dev) and [Studio](https://laura-optional-studio.laura-faichney-all-things-art.pages.dev), commit `157d90f`; `assets/preview-verification.txt`. |
+| Handoff validation          | PASS    | `bun run --cwd apps/handoffs docs:check` and `c4:check` pass; both change-annotated views rendered and visually reviewed.                                                                                                   |
+| Static export               | PASS    | Live-content `build:static` verifies 10 HTML files and every generated internal link.                                                                                                                                       |
+| Merged repository hooks     | PASS    | Normal pre-commit lint, typechecks, unit, browser and end-to-end checks all exit 0.                                                                                                                                         |
+| Deployed website            | PASS    | Five routes return HTTP 200 at both viewports; picture navigation works with no runtime errors or Sanity API requests.                                                                                                      |
+| Published gallery           | PASS    | The reader loads 5 published collections and 129 photos with finite display-order values.                                                                                                                                   |
+| Studio preview              | PASS    | HTTP 200 and the artist Studio login screen render after adding the exact temporary credentialed CORS origin.                                                                                                               |
+| Signed-in editor publishing | NOT RUN | No editorial login or CMS document write is performed. Schema validation behavior is covered by 21 Studio tests.                                                                                                            |
 
 ## Appearance
 
-These screenshots use explicitly labelled sample content with missing artwork and optional sections. They do not change published CMS content.
+The gallery pair shows published content in the deployed preview. The sample pair shows explicitly labelled content with missing artwork and optional sections.
 
 <AppearanceGallery
   images={[
+    {
+      src: galleryDesktop,
+      title: 'Published gallery desktop',
+      alt: 'Published gallery on desktop',
+      description: 'Five published collections load in the deployed preview.',
+    },
+    {
+      src: galleryMobile,
+      title: 'Published gallery phone',
+      alt: 'Published gallery on a phone',
+      description:
+        'The published gallery fits the phone viewport without horizontal overflow.',
+    },
     {
       src: desktop,
       title: 'Desktop sample',
@@ -103,4 +124,4 @@ These screenshots use explicitly labelled sample content with missing artwork an
 
 ## Next steps
 
-Finish final checks, deploy temporary website and Studio previews from the latest commit, and open a pull request for review.
+The user requested a direct merge and push to remote main. No pull request is needed. Temporary previews expire after seven days; retire the temporary Studio CORS origin when its preview is retired.

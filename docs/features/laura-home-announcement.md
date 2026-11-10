@@ -23,7 +23,7 @@ When Laura has an update to share, she can highlight it on her homepage so visit
 - An enabled announcement appears below the header and before the hero, with an accessible section name and a level-two heading.
 - An announcement without a button remains a complete informational section.
 - Existing Home documents without the new field build successfully and retain their layout.
-- A disabled announcement with unfinished content is ignored; an enabled announcement with missing required content fails validation.
+- An announcement without a heading or message is hidden, even when enabled. Incomplete actions are omitted. Unsafe supplied links still fail validation.
 - Internal paths and HTTP(S) links work; script URLs and protocol-relative destinations are rejected.
 - At 320, 390, 640, 700, 900 and 1440px, the card and text stay within the viewport and do not overlap adjacent sections.
 - The optional action opens a new tab with the keyboard and without JavaScript, leaves the homepage open, and uses `noopener noreferrer`.

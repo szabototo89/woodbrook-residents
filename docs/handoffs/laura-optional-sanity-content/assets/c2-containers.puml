@@ -6,7 +6,7 @@ LAYOUT_TOP_DOWN()
 skinparam defaultFontName SansSerif
 skinparam nodesep 45
 skinparam ranksep 45
-title Laura website — C2 containers — changes from 84c49ed
+title Laura website — C2 containers — changes from f1688de
 
 System_Ext(laura_sanity, "Sanity content service", "Stores and serves published Laura documents and image assets")
 System_Boundary(laura_site, "Laura Faichney website") {

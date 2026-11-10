@@ -1,0 +1,30 @@
+Implementation and integration commit: 157d90fef348b47c70d3c084f4186227f84e3cf9
+Baseline: f1688de0bed8b0c313703284b7fa342196228399
+Website deployment: https://52bbd9ea.laura-faichney-all-things-art.pages.dev
+Website alias: https://laura-optional-content.laura-faichney-all-things-art.pages.dev
+Studio deployment: https://1376294f.laura-faichney-all-things-art.pages.dev
+Studio alias: https://laura-optional-studio.laura-faichney-all-things-art.pages.dev
+Website: desktop 1440x1000 and mobile 390x844, device scale 2.
+desktop pre-navigation errors: []
+desktop: five routes HTTP 200; 5 collections; picture navigation works; no runtime errors, Sanity API requests, empty URLs or overflow.
+mobile pre-navigation errors: []
+mobile: five routes HTTP 200; 5 collections; picture navigation works; no runtime errors, Sanity API requests, empty URLs or overflow.
+
+Studio HTTP 200; title: Sanity Studio; visible text: LF
+Laura Faichney All Things Art
+Choose login provider
+Google
+GitHub
+E-mail / password
+Community
+•
+Docs
+•
+Privacy
+•
+sanity.io
+
+Studio preview adds this exact credentialed CORS origin:
+https://laura-optional-studio.laura-faichney-all-things-art.pages.dev
+No CMS document is changed. Signed-in editorial publishing is not tested.
+The website smoke check waits for client scripts before operating picture controls.
