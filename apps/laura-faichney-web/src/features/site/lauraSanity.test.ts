@@ -119,6 +119,36 @@ function mockSanity(result: unknown) {
   return calls;
 }
 
+test.each([null, undefined])(
+  'gallery pictures retain collection order when optional display order is %s',
+  async (order) => {
+    const photo = homeResult.collections[0]!.photos[0]!;
+    const collections = [
+      {
+        ...homeResult.collections[0]!,
+        photos: [
+          { ...photo, imageAlt: 'First picture in the collection', order },
+          { ...photo, imageAlt: 'Second picture in the collection', order: 14 },
+        ],
+      },
+    ];
+    mockSanity({
+      ...homeResult,
+      page: { hero: homeResult.home.hero, seo: {} },
+      collections,
+    });
+    const source = new LauraSanitySource();
+    for (const data of [await source.loadHome(), await source.loadGallery()]) {
+      expect(data.collections[0]!.photos.map((picture) => picture.alt)).toEqual(
+        ['First picture in the collection', 'Second picture in the collection'],
+      );
+      expect(
+        data.collections[0]!.photos.map((picture) => picture.order),
+      ).toEqual([0, 14]);
+    }
+  },
+);
+
 beforeEach(() => {
   vi.unstubAllGlobals();
 });

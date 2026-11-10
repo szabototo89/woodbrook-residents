@@ -169,7 +169,13 @@ const galleryItemSchema = z
       .optional()
       .catch(undefined)
       .describe('Optional published sale availability; none hides the badge'),
-    order: z.number().describe('Display order, lower first'),
+    order: z
+      .number()
+      .nullish()
+      .transform((value) => value ?? 0)
+      .describe(
+        'Optional display order; collection photo sequence remains authoritative',
+      ),
   })
   .catchall(z.unknown());
 
