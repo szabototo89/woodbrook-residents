@@ -20,7 +20,7 @@ export function ServicesPreview(props: ServicesPreviewProps) {
           {props.services.map((service, index) => (
             <a
               className="service-card"
-              href="/services"
+              href={`/services#${encodeURIComponent(service.slug)}`}
               key={service.slug}
               style={{
                 animationDelay: `calc(${index} * var(--motion-stagger))`,

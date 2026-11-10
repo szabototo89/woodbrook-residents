@@ -33,6 +33,15 @@ transformations; the GitHub deploy workflow restores it between runs. Gallery
 collection photos and thumbnails still load from Sanity's image CDN. Failed
 required image downloads stop the build.
 
+## Painting and mural copy
+
+The build revises known original home, Services and Gallery wording using
+`src/features/site/serviceDiscoveryCopy.ts`. Exact original values and empty
+metadata receive the approved painting and mural copy. Other Studio text is
+preserved. This does not write to Sanity. Contact copy remains application-owned.
+Publish an explicit custom value in Studio to replace revised text on a later
+build. See `docs/features/laura-service-discovery.md` for the approved scope.
+
 ## Development
 
 From the repository root:

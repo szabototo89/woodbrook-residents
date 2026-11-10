@@ -1,6 +1,11 @@
 import { createClient, type SanityClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import { z } from 'zod';
+import {
+  reviseHomeCopy,
+  reviseServicesCopy,
+  reviseGalleryCopy,
+} from '../src/features/site/serviceDiscoveryCopy';
 
 import {
   selectHomeGalleryCollections,
@@ -481,7 +486,7 @@ export class LauraSanitySource {
         .sort((a, b) => a.order - b.order),
     );
 
-    return {
+    return reviseHomeCopy({
       hero: mapHero(this.config, 'homePage hero', home.hero, 1374),
       announcement: home.announcement,
       servicesHeading: home.servicesHeading,
@@ -520,7 +525,7 @@ export class LauraSanitySource {
       services,
       collections: galleryPreview,
       settings,
-    };
+    });
   }
 
   async loadAbout(): Promise<AboutData> {
@@ -626,12 +631,12 @@ export class LauraSanitySource {
       )
       .sort((a, b) => a.order - b.order);
 
-    return {
+    return reviseServicesCopy({
       hero: mapHero(this.config, 'servicesPage hero', page.hero, 1374),
       seo: page.seo,
       services,
       settings,
-    };
+    });
   }
 
   async loadGallery(): Promise<GalleryData> {
@@ -675,12 +680,12 @@ export class LauraSanitySource {
       )
       .sort((a, b) => a.order - b.order);
 
-    return {
+    return reviseGalleryCopy({
       hero: mapHero(this.config, 'galleryPage hero', page.hero, 1374),
       seo: page.seo,
       collections,
       settings,
-    };
+    });
   }
 
   async loadSettings(): Promise<CmsSettings> {

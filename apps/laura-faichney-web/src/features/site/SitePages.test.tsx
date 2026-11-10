@@ -392,7 +392,7 @@ test('home presents the artwork-led journey and accessible contact actions', () 
   expect(html).toContain('Brighter Spaces');
   expect(html).toContain('Art for Homes, Businesses &amp; Events');
   expect(html).toContain('Murals that bring spaces to life');
-  expect(html).toContain('href="/services"');
+  expect(html).toContain('href="/services#commissioned-paintings"');
   expect(html).toContain('href="/gallery"');
   expect(html).toContain('href="tel:0894007747"');
   expect(html).toContain('href="mailto:lauralfaichney@gmail.com"');
@@ -491,6 +491,29 @@ test('services expose all five supplied offerings as complete links', () => {
     'alt="Paintbrushes in a paint-splashed cup with sweeping colourful brushstrokes"',
   );
   expect(html.match(/<h1\b/g)).toHaveLength(1);
+});
+
+test('home service links land on the corresponding service and mural enquiries are preselected', () => {
+  const home = renderToStaticMarkup(<HomePage data={homeData} />);
+  const details = renderToStaticMarkup(<ServicesPage data={servicesData} />);
+  for (const service of services) {
+    expect(home).toContain(`href="/services#${service.slug}"`);
+    expect(details).toContain(`id="${service.slug}"`);
+  }
+  expect(home).toContain('href="/contact?service=murals-indoor-outdoor"');
+});
+
+test('gallery and contact explain the painting and mural enquiry journey', () => {
+  const gallery = renderToStaticMarkup(<GalleryPage data={galleryData} />);
+  expect(gallery).toContain('Explore commissioned paintings and murals');
+  expect(gallery).toContain('href="/services"');
+  const contact = renderToStaticMarkup(
+    <ContactPage settings={settings} services={services} />,
+  );
+  expect(contact).toContain('Discuss Your Painting or Mural');
+  expect(contact).toContain(
+    'Share your idea, preferred size or space, timeframe and project location.',
+  );
 });
 
 test('services introduce the creative offerings and explain the enquiry process', () => {
