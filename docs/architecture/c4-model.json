@@ -545,10 +545,30 @@
       "name": "Engineer",
       "description": "Starts, inspects and stops local browser projects"
     },
+    "laura_owner": {
+      "kind": "person",
+      "name": "Laura site maintainer",
+      "description": "Maintains the artist website and reviews search visibility"
+    },
     "laura_site": {
       "kind": "system",
       "name": "Laura Faichney website",
-      "description": "Presents artwork and creative services and accepts project enquiries"
+      "description": "Presents artwork and creative services and accepts enquiries"
+    },
+    "laura_search_console": {
+      "kind": "system",
+      "name": "Google Search Console",
+      "description": "Reports search clicks, impressions and indexing for the verified domain"
+    },
+    "laura_link_reader": {
+      "kind": "person",
+      "name": "Prospective client",
+      "description": "Views shared art links and visits the website"
+    },
+    "laura_preview_services": {
+      "kind": "system",
+      "name": "Link preview services",
+      "description": "Read public metadata to display shared website cards"
     },
     "laura_web": {
       "kind": "container",
@@ -1149,6 +1169,41 @@
       "from": "dev_engineer",
       "to": "dev_launcher",
       "label": "Runs browser projects using"
+    },
+    "laura_owner_site": {
+      "from": "laura_owner",
+      "to": "laura_site",
+      "label": "Reviews published artwork and services",
+      "technology": "HTTPS"
+    },
+    "laura_owner_search_console": {
+      "from": "laura_owner",
+      "to": "laura_search_console",
+      "label": "Reviews search performance and indexing",
+      "technology": "HTTPS"
+    },
+    "laura_search_console_site": {
+      "from": "laura_search_console",
+      "to": "laura_site",
+      "label": "Reports Google Search visibility for",
+      "technology": "Verified domain property"
+    },
+    "laura_reader_preview": {
+      "from": "laura_link_reader",
+      "to": "laura_preview_services",
+      "label": "Views shared website cards"
+    },
+    "laura_preview_site": {
+      "from": "laura_preview_services",
+      "to": "laura_site",
+      "label": "Fetches page metadata and cover",
+      "technology": "HTTPS"
+    },
+    "laura_reader_site": {
+      "from": "laura_link_reader",
+      "to": "laura_site",
+      "label": "Visits artwork and services",
+      "technology": "HTTPS"
     },
     "laura_web_reads_sanity": {
       "from": "laura_web",
@@ -2380,6 +2435,64 @@
           "dev_lifecycle_starts_servers": {
             "status": "added",
             "description": "The manager alone spawns and stops the project process groups it records."
+          }
+        }
+      }
+    },
+    "laura_seo_context": {
+      "level": "C1",
+      "scope": "laura_site",
+      "title": "Laura website \u2014 C1 search monitoring \u2014 changes from 023a171",
+      "handoff": "laura-seo-search-console",
+      "source": "docs/handoffs/laura-seo-search-console/assets/c1-context.puml",
+      "elements": ["laura_owner", "laura_site", "laura_search_console"],
+      "relationships": [
+        "laura_owner_site",
+        "laura_owner_search_console",
+        "laura_search_console_site"
+      ],
+      "changes": {
+        "elements": {
+          "laura_search_console": {
+            "status": "added",
+            "description": "DNS verification establishes the allthingsart.ie domain property; reports initially process data."
+          }
+        },
+        "relationships": {
+          "laura_owner_search_console": {
+            "status": "added",
+            "description": "The maintainer can now open the verified domain reports."
+          },
+          "laura_search_console_site": {
+            "status": "added",
+            "description": "Search visibility is monitored across allthingsart.ie subdomains and protocols."
+          }
+        }
+      }
+    },
+    "laura_social_context": {
+      "level": "C1",
+      "scope": "laura_site",
+      "title": "Laura website \u2014 C1 sharing previews \u2014 changes from 7065be3",
+      "handoff": "laura-social-preview",
+      "source": "docs/handoffs/laura-social-preview/assets/c1-context.puml",
+      "elements": ["laura_link_reader", "laura_site", "laura_preview_services"],
+      "relationships": [
+        "laura_reader_preview",
+        "laura_preview_site",
+        "laura_reader_site"
+      ],
+      "changes": {
+        "elements": {
+          "laura_site": {
+            "status": "changed",
+            "description": "Adds a public 1200\u00d7630 branded JPEG and image metadata."
+          }
+        },
+        "relationships": {
+          "laura_preview_site": {
+            "status": "changed",
+            "description": "Text metadata now includes the branded image URL and dimensions."
           }
         }
       }

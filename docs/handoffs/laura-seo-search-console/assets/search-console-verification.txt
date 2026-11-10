@@ -1,0 +1,50 @@
+Observed 2026-11-07 in the existing signed-in Google Chrome session.
+Property: sc-domain:allthingsart.ie
+Property URL: https://search.google.com/search-console?resource_id=sc-domain%3Aallthingsart.ie
+
+Ownership dialog:
+  Ownership verified
+  Verification method: Domain name provider
+  To stay verified, don't remove the DNS record.
+
+Cloudflare DNS table:
+  A new apex TXT record containing Google's provided verification value was saved.
+  Record count changed from 6 to 7. Existing records were preserved.
+
+Overview:
+  Performance: Processing data, please check again in a day or so
+  Indexing: Processing data, please check again in a day or so
+
+URL Inspection, https://allthingsart.ie/:
+  URL is not on Google
+  Page is not indexed: URL is unknown to Google
+  No referring sitemaps detected
+  Referring page: None detected
+  Last crawl: N/A
+  User-declared canonical: N/A
+  Google-selected canonical: N/A
+
+Sitemaps:
+  No submitted sitemaps.
+  Submission and Request indexing were deliberately not performed because live
+  canonical links and sitemap still reference the pages.dev hosting origin.
+  Both require the reviewed domain correction to reach production first.
+
+No additional Search Console users, service-account permissions or Analytics
+properties were created. The existing maintainer account owns the property.
+
+Follow-up observed 2026-11-07 after the user submitted the sitemap:
+  Initial list status: Couldn’t fetch.
+  Detail status: Sitemap can be read, but has errors.
+  Last read: 11/7/26. Discovered pages: 10.
+  URL not allowed: 10 instances.
+  Examples: pages.dev homepage, services and gallery (lines 3, 4 and 5).
+  This confirms successful fetching followed by rejection of the wrong-domain URLs.
+  No agent resubmission or Request indexing action was performed.
+
+Final follow-up after approved production deployment bc4de01:
+  GitHub Actions run 42416973726 succeeds. All 10 live canonicals are verified.
+  The user confirms the corrected sitemap is set in Search Console.
+  URL Inspection reports: Discovered - currently not indexed.
+  Discovery Sitemaps: https://allthingsart.ie/sitemap.xml. Last crawl: N/A.
+  No agent Request indexing action was performed; the user received the steps.

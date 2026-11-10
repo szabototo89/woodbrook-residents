@@ -1,0 +1,74 @@
+Command: git commit (normal .githooks/pre-commit -> bun run precommit)
+Implementation commit: 47da521
+No hooks bypassed. Selected suite summaries follow.
+
+▶ dashboard: typecheck
+▶ forma-studio: typecheck
+▶ forma-studio-web: typecheck
+▶ handoffs: typecheck
+Validated 23 change-focused handoffs; 6 historical records preserved.
+▶ laura-faichney-web: typecheck
+▶ laura-studio: typecheck
+▶ mobile: typecheck
+▶ sanity-studio: typecheck
+▶ web: typecheck
+ 161 pass
+ 0 fail
+▶ dashboard: test:unit
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+▶ forma-studio: test:unit
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+▶ forma-studio-web: test:unit
+ Test Files  9 passed (9)
+      Tests  78 passed (78)
+▶ handoffs: test:unit
+ Test Files  10 passed (10)
+      Tests  73 passed (73)
+▶ laura-faichney-web: test:unit
+ Test Files  16 passed (16)
+      Tests  101 passed (101)
+ 32 pass
+ 0 fail
+▶ laura-studio: test:unit
+ Test Files  4 passed (4)
+      Tests  20 passed (20)
+▶ mobile: test:unit
+ Test Files  15 passed (15)
+      Tests  70 passed (70)
+▶ sanity-studio: test:unit
+ Test Files  12 passed (12)
+      Tests  53 passed (53)
+▶ web: test:unit
+ Test Files  63 passed (63)
+      Tests  355 passed (355)
+ Test Files  2 passed (2)
+      Tests  2 passed (2)
+▶ dashboard: test:browser
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+▶ sanity-studio: test:browser
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+▶ web: test:browser
+ Test Files  3 passed (3)
+      Tests  9 passed (9)
+▶ dashboard: test:e2e
+  8 passed (2.5s)
+▶ forma-studio-web: test:e2e
+  58 passed (25.6s)
+▶ handoffs: test:e2e
+Validated 23 change-focused handoffs; 6 historical records preserved.
+C4 model and generated sources agree.
+  7 passed (5.5s)
+▶ laura-faichney-web: test:e2e
+  127 passed (26.3s)
+▶ mobile: test:e2e
+  10 passed (3.7s)
+▶ sanity-studio: test:e2e
+  3 passed (1.8s)
+▶ web: test:e2e
+  54 passed (18.6s)
+  14 passed (23.4s)
+[szabototo89/Setup-Google-search-for-Laura-s-page 47da521] fix(laura): use allthingsart.ie for search canonical URLs

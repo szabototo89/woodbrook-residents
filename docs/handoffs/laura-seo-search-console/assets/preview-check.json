@@ -1,0 +1,68 @@
+{
+  "previewUrl": "https://seo-search-console.laura-faichney-all-things-art.pages.dev",
+  "commit": "f3fa02d1d0b4e2a25147f24e74c25f2f952cc012",
+  "checkedAt": "2026-11-07T21:30:52.513Z",
+  "robotsTxt": "User-agent: *\nAllow: /\nSitemap: https://allthingsart.ie/sitemap.xml\n",
+  "pages": [
+    {
+      "path": "/",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/",
+      "xRobotsTag": "noindex"
+    },
+    {
+      "path": "/services",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/services",
+      "xRobotsTag": "noindex"
+    },
+    {
+      "path": "/gallery",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery",
+      "xRobotsTag": "noindex"
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/about",
+      "xRobotsTag": "noindex"
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/contact",
+      "xRobotsTag": "noindex"
+    },
+    {
+      "path": "/gallery/hummingbird",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/hummingbird",
+      "xRobotsTag": "noindex"
+    },
+    {
+      "path": "/gallery/mad-cow",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/mad-cow",
+      "xRobotsTag": "noindex"
+    },
+    {
+      "path": "/gallery/coco-after-dark",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/coco-after-dark",
+      "xRobotsTag": "noindex"
+    },
+    {
+      "path": "/gallery/wild-at-heart",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/wild-at-heart",
+      "xRobotsTag": "noindex"
+    },
+    {
+      "path": "/gallery/angus-has-notions",
+      "status": 200,
+      "canonical": "https://allthingsart.ie/gallery/angus-has-notions",
+      "xRobotsTag": "noindex"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+import context from './assets/c1-context.puml?raw';
+import contextImage from './assets/c1-context.svg';
+import cover from './assets/sharing-cover.jpg';
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+
+export const metadata = {
+  title: 'Laura branded link previews',
+  status: 'complete',
+  agent: 'codex',
+  session: '01a1b7d6-e3ba-73d1-b2f7-904de6f6e461',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/Setup-Google-search-for-Laura-s-page',
+  branch: 'szabototo89/Setup-Google-search-for-Laura-s-page',
+  commit: '11c5a734e093b1337777c50766321aee85bcca01',
+  updatedAt: '2026-11-08T20:49:52Z',
+  summary:
+    'Adds a branded artwork cover to the metadata used when Laura’s website links are shared.',
+};
+
+## Goal
+
+Show Laura’s signature and colourful portrait in shared website links. Keep each page’s own title and description, and serve the image without JavaScript or authentication.
+
+## Technical changes
+
+Baseline: `7065be36d01b8d7facf7da40e9981dff14d70ea3`; implementation: `537f6f43c0b1f00c6cecff97a3ac16a6883f4e25`. This is a separate feature from the completed SEO and Search Console handoff. The user explicitly approves direct updates to main without a PR for this task.
+
+| Area              | Before                                             | After                                                                                      | Why                                                    | Code                                                       |
+| ----------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------ | ---------------------------------------------------------- |
+| Sharing artwork   | No dedicated sharing cover.                        | A versioned 1200×630 JPEG uses Laura’s signature, portrait and headline.                   | Keep branding readable at thumbnail size.              | `public/social/laura-faichney-share-v1.jpg` in Laura’s app |
+| Page head         | Text sharing fields; small summary card; no image. | Open Graph image, MIME type, dimensions and alt text; large-image card and matching image. | Give crawlers a complete image contract.               | `apps/laura-faichney-web/src/app/siteMetadata.ts`          |
+| Origin resolution | Page canonical uses the configured origin.         | The sharing image uses the same origin, including explicit previews.                       | Keep image URLs absolute and nested routes consistent. | `createPageHead` and metadata regression tests             |
+
+Built-in image generation composes the existing logo and portrait references. The generated PNG remains in Codex storage; the optimised JPEG and [prompt](./assets/image-prompt.txt) are preserved in the workspace. No CMS content, new visitor tracking or platform account is added. Sharing platforms control rendering and may cache previous previews. Contract references: [Open Graph image properties](https://ogp.me/#structured) and [LinkedIn cached-preview guidance](https://www.linkedin.com/help/linkedin/answer/a6233775), accessed 8 November 2026.
+
+## Architecture changes
+
+The website presents Laura’s artwork and services. External link preview services fetch public page metadata and the sharing cover; their own applications render the resulting card.
+
+| Level | Change                                                                             | Evidence                                                                                |
+| ----- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| C1    | Changed public sharing contract from text-only fields to a branded image.          | Annotated context view below.                                                           |
+| C2    | Unchanged: the existing static website serves both HTML and JPEG files.            | No application, store or external image service is added.                               |
+| C3    | Unchanged boundaries: the shared page-head helper keeps its interface and callers. | Existing metadata responsibility gains fields; static asset delivery remains unchanged. |
+
+<PlantUmlDiagram
+  title="Laura link preview delivery"
+  source={context}
+  image={contextImage}
+/>
+
+Change: preview consumers can now fetch the named cover and its dimensions. Unmarked browsing and card consumption are unchanged context.
+
+## Verification
+
+| Check                           | Result | Evidence                                                                                                                                                                                              |
+| ------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test-first metadata             | PASS   | Two expectations fail before implementation; the updated unit suite passes with image, dimensions, alt text and preview-origin assertions.                                                            |
+| JPEG output                     | PASS   | 1200×630 RGB JPEG, 202,898 bytes. Production and approved local asset SHA-256 match; `assets/publication-verification.txt`.                                                                           |
+| JavaScript-free crawler test    | PASS   | Focused Playwright social-sharing test passes on all fixture routes and checks the actual JPEG response.                                                                                              |
+| Published-content static build  | PASS   | Static build verifies 10 pages; `assets/static-check.json` records sharing metadata and the public 1200×630 JPEG.                                                                                     |
+| Repository build                | PASS   | `bun run build` exits 0; log `/private/tmp/laura-social-repo-build.log`.                                                                                                                              |
+| Temporary preview               | PASS   | [Preview](https://social-preview.laura-faichney-all-things-art.pages.dev) at `11c5a73`: all 10 pages and JPEG pass; `assets/preview-check.json`.                                                      |
+| Production and direct main push | PASS   | Approved main push `7065be3..11c5a73`; [deployment](https://github.com/szabototo89/woodbrook-residents/actions/runs/42521742887) succeeds. `assets/production-check.json` verifies all 10 live pages. |
+| Desktop/mobile preview review   | PASS   | Playwright captures at 1440×1000 (2×) and 390×844 (3×) use actual metadata; platform layouts are illustrative.                                                                                        |
+| Handoff structure               | PASS   | `bun run --cwd apps/handoffs docs:check` validates 26 handoffs; historical exemptions remain unchanged.                                                                                               |
+
+## Appearance
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop card example',
+      alt: 'Representative desktop shared-link card',
+      description:
+        'Actual website metadata and cover in an illustrative wide-screen card; this is not a messaging-platform screenshot.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile card example',
+      alt: 'Representative mobile shared-link card',
+      description:
+        'Check the cover, title and description at 390 pixels; the platform controls its final layout.',
+    },
+    {
+      src: cover,
+      title: 'Sharing cover',
+      alt: 'Laura Faichney signature, colourful painted portrait and Bold Art Brighter Spaces headline',
+      description:
+        'Review logo spelling, readable headline, artwork crop and the visible allthingsart.ie address.',
+    },
+  ]}
+/>
+
+## Next steps
+
+None. Sharing services control their own layout and cache; an existing shared link may retain its earlier preview until refreshed.

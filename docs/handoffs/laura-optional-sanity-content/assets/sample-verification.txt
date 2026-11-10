@@ -1,0 +1,2 @@
+desktop: sample heading, service, no missing images or contact links, no overflow; hero copy 896px
+mobile: sample heading, service, no missing images or contact links, no overflow; hero copy 350px

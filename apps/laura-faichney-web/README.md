@@ -5,7 +5,7 @@ from the `uag6kepo` ("Laura Faichney All Things Art") Sanity project, dataset
 `production`, captured once before each build and rendered
 with bundled site artwork and Sanity-hosted gallery photos (see `docs/features/laura-content-model.md`).
 
-Production: `https://laura-faichney-all-things-art.pages.dev`
+Production: `https://allthingsart.ie`
 
 ## Sanity content
 
@@ -41,7 +41,7 @@ From the repository root:
 bun run dev:laura-faichney-web
 ```
 
-The app captures content when the development server starts and runs on port 3003. Restart it to load newly published content. The production origin used for canonical metadata defaults to `https://laura-faichney-all-things-art.pages.dev` and can be overridden with `VITE_PUBLIC_SITE_URL`.
+The app captures content when the development server starts and runs on port 3003. Restart it to load newly published content. The production origin used for canonical metadata defaults to `https://allthingsart.ie` and can be overridden with `VITE_PUBLIC_SITE_URL`.
 
 ## Verification
 
@@ -78,7 +78,7 @@ Dashboard build settings (repository root):
 
 - Build command: `bun run --cwd apps/laura-faichney-web build:static`
 - Build output directory: `apps/laura-faichney-web/dist/client`
-- Build environment variables: `VITE_PUBLIC_SITE_URL=https://laura-faichney-all-things-art.pages.dev`, `BUN_VERSION=1.4.0`
+- Build environment variables: `VITE_PUBLIC_SITE_URL=https://allthingsart.ie`, `BUN_VERSION=1.4.0`
 
 Easiest deploy from the repository root (builds then deploys):
 

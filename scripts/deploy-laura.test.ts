@@ -16,7 +16,7 @@ test('uses the Laura Cloudflare Pages project and production URL by default', ()
 
   expect(config).toMatchObject({
     projectName: 'laura-faichney-all-things-art',
-    siteUrl: 'https://laura-faichney-all-things-art.pages.dev',
+    siteUrl: 'https://allthingsart.ie',
     branch: 'main',
     appDir: 'apps/laura-faichney-web',
     distClientDir: 'apps/laura-faichney-web/dist/client',
@@ -27,9 +27,7 @@ test('builds the static site with the production site URL', () => {
   const config = getLauraDeployConfig({});
   const env = buildStaticDeployEnv(config, {});
 
-  expect(env.VITE_PUBLIC_SITE_URL).toBe(
-    'https://laura-faichney-all-things-art.pages.dev',
-  );
+  expect(env.VITE_PUBLIC_SITE_URL).toBe('https://allthingsart.ie');
 });
 
 test('ignores ambient VITE_PUBLIC_SITE_URL from local dotenv files', () => {
@@ -37,9 +35,7 @@ test('ignores ambient VITE_PUBLIC_SITE_URL from local dotenv files', () => {
     VITE_PUBLIC_SITE_URL: 'http://localhost:3000',
   });
 
-  expect(config.siteUrl).toBe(
-    'https://laura-faichney-all-things-art.pages.dev',
-  );
+  expect(config.siteUrl).toBe('https://allthingsart.ie');
 });
 
 test('forces the production site URL into the static build env', () => {
@@ -50,9 +46,7 @@ test('forces the production site URL into the static build env', () => {
     VITE_PUBLIC_SITE_URL: 'http://localhost:3000',
   });
 
-  expect(env.VITE_PUBLIC_SITE_URL).toBe(
-    'https://laura-faichney-all-things-art.pages.dev',
-  );
+  expect(env.VITE_PUBLIC_SITE_URL).toBe('https://allthingsart.ie');
 });
 
 test('allows an explicit LAURA_SITE_URL override for preview deploys', () => {
@@ -103,6 +97,7 @@ test('deploys from the app dir in CI so wrangler finds the Pages config', () => 
 
   expect(workflow).toContain('workingDirectory: apps/laura-faichney-web');
   expect(workflow).toContain('command: pages deploy dist/client');
+  expect(workflow).toContain('VITE_PUBLIC_SITE_URL: https://allthingsart.ie');
 });
 
 test('triggers the same deploy from a Sanity repository_dispatch event', () => {
