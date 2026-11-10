@@ -1,0 +1,121 @@
+import components from './assets/c3-builder.puml?raw';
+import componentsImage from './assets/c3-builder.svg';
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import gallery from './assets/mobile-gallery.png';
+import contact from './assets/mobile-contact.png';
+
+export const metadata = {
+  title: 'Laura painting and mural discovery',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a1c0fa-3efc-7b20-bd49-f4d527cc0709',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/laura-faichney-improve-service-discovery-with-me',
+  branch: 'szabototo89/laura-faichney-improve-service-discovery-with-me',
+  commit: '9e3ff4d321b8558d775bc68411594927390b7807',
+  updatedAt: '2026-11-10T17:27:25Z',
+  summary:
+    'Focuses existing page copy and enquiry links on paintings and murals while preserving other services and custom CMS wording.',
+};
+
+## Goal
+
+Help prospective customers understand Laura's painting and mural offer, browse work and start a relevant enquiry. This implements the existing-page phase of [the approved direction](https://github.com/szabototo89/woodbrook-residents/issues/33#issuecomment-6744385006). The user requests an open PR without merging or deploying to production.
+
+## Technical changes
+
+Baseline: `f1688de0bed8b0c313703284b7fa342196228399`. Implementation: `9e3ff4d321b8558d775bc68411594927390b7807` (includes the published-content compatibility fix). The final PR records the latest documentation commit and refreshed deployments.
+
+| Area                    | Before                                                        | After                                                                                 | Why                                             | Code                                                                                                            |
+| ----------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Captured editorial copy | Original copy groups five services equally.                   | Known original wording highlights paintings and murals; custom Studio values survive. | Review copy without changing the live CMS.      | `apps/laura-faichney-web/src/features/site/serviceDiscoveryCopy.ts`; `scripts/lauraSanitySource.ts` in that app |
+| Gallery data            | Reader rejects missing optional display order.                | Missing values use zero; the collection photo sequence is retained.                   | Match the existing Studio field contract.       | `apps/laura-faichney-web/scripts/lauraSanitySource.ts`                                                          |
+| Complete CMS titles     | The brand is appended to an already branded title.            | A complete title keeps its entered brand once.                                        | Preserve custom page, sharing and card titles.  | `apps/laura-faichney-web/src/app/siteMetadata.ts`                                                               |
+| Page metadata           | Services and Gallery titles are generic.                      | Four page descriptions and two titles describe the approved focus.                    | Align search copy with each destination.        | `apps/laura-faichney-web/src/routes/`; `serviceDiscoveryCopy.ts`                                                |
+| Service navigation      | All homepage service cards open the top of Services.          | Each card links to its matching service anchor.                                       | Reach the chosen offer directly.                | `ServicesPreview.tsx`; `ServicesPage.tsx` in the app's site feature                                             |
+| Mural enquiries         | The mural action opens an unselected contact form.            | The action selects the published mural service.                                       | Keep enquiry intent through navigation.         | `MuralFeature.tsx`; existing `EnquiryForm.tsx`                                                                  |
+| Gallery and Contact     | Gallery has no service action; Contact has a generic heading. | Gallery links to Services; Contact invites painting and mural projects.               | Connect browsing with the enquiry journey.      | `GalleryPage.tsx`; `ContactPage.tsx`                                                                            |
+| Narrow screens          | The new gallery action initially overflows at 320px.          | Its text wraps within the available width.                                            | Keep the service action usable on small phones. | `apps/laura-faichney-web/src/styles.css`                                                                        |
+
+The content revision runs after published Sanity documents are validated and before the existing build snapshot is saved. It replaces exact original strings and empty metadata. It does not overwrite other editorial text or write to Sanity. Studio edits still appear on the next build; setting the original string again triggers the revision. Contact copy remains application-owned, as before. Artwork, gallery collection names and URLs, service order and all five offers remain intact.
+
+The fresh 10 November content includes new gallery collections and a custom complete homepage title. The reader now accepts absent optional gallery display order, matching Studio, while retaining the collection reference sequence. Complete CMS titles retain the brand once. Neither compatibility fix writes to Sanity.
+
+The source for the offer is [Laura's published Services page](https://allthingsart.ie/services/), accessed 9 November 2026. Candidate search terms are unmeasured. This change adds no service-area claims, prices, new pages or tracking.
+
+## Architecture changes
+
+The Laura website presents artwork and creative services and accepts enquiries. Its static builder captures a content snapshot: one saved set of page data shared by the page bundles. The new copy revision changes this build step; visitors still read rendered pages without a Sanity content request.
+
+| Level | Change                                                                              | Evidence                                                  |
+| ----- | ----------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| C1    | Unchanged: the prospective client, website and external systems retain their roles. | No new actor, service or public endpoint.                 |
+| C2    | Unchanged: the same static site and Sanity project serve the same responsibilities. | Existing four-query capture and static deployment remain. |
+| C3    | Added copy revision; changed content validation, metadata and enquiry navigation.   | Annotated builder view below and technical-change table.  |
+
+<PlantUmlDiagram
+  title="Laura service discovery build changes"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: validated original copy passes through the new revision before capture. Page rendering adds service anchors and enquiry links. Unmarked elements and relationships are unchanged context. Newly registered C4 elements document existing applications; they do not add runtime services.
+
+## Verification
+
+| Check                                 | Result  | Evidence                                                                                                                                                                                                                                                                                    |
+| ------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test-first implementation             | PASS    | Five new unit checks fail before changes; contact browser metadata check receives the old description before its fix.                                                                                                                                                                       |
+| Laura unit and script tests           | PASS    | `bun run --cwd apps/laura-faichney-web test:unit`: 112 Vitest tests and 32 Bun script tests pass.                                                                                                                                                                                           |
+| Laura typecheck                       | PASS    | `bun run --cwd apps/laura-faichney-web typecheck` exits 0.                                                                                                                                                                                                                                  |
+| Published-content compatibility       | PASS    | Four regressions fail before the fixes; gallery sequence and complete titles pass afterwards. `assets/verification.json`.                                                                                                                                                                   |
+| Focused desktop/mobile browser checks | PASS    | 48 Playwright checks pass across service discovery, contact, service design and responsive files; includes 320px and JavaScript-free contact metadata.                                                                                                                                      |
+| Published-content static build        | PASS    | 10 HTML pages and all generated internal links verified with the review origin; `assets/verification.json`.                                                                                                                                                                                 |
+| Repository build                      | PASS    | `bun run build` exits 0; log `/private/tmp/laura-seo-repository-build.log`.                                                                                                                                                                                                                 |
+| Normal commit hooks                   | PASS    | Full precommit passes before both `0bbb379` and `9e3ff4d`; earlier documentation error is fixed and interrupted script timeouts pass on retry.                                                                                                                                              |
+| C4 source and rendering               | PASS    | `c4:check` agrees; PlantUML 1.2026.9 renders the new source with added/changed annotations.                                                                                                                                                                                                 |
+| Handoff structure and viewer          | PASS    | `docs:check` validates 27 handoffs; 73 viewer tests pass. Desktop/mobile diagram controls, source and image links pass; `assets/viewer-check.json`.                                                                                                                                         |
+| Desktop/mobile appearance             | PASS    | Published-content screenshots at 1440×1000, 2×, and 390×844, 3×; no synthetic review content.                                                                                                                                                                                               |
+| Required cmux tab                     | NOT RUN | cmux refuses processes outside cmux. Orca and Playwright provide browser review; this worktree's Laura dev server uses port 3008.                                                                                                                                                           |
+| Temporary previews                    | PASS    | [Website](https://service-discovery-33.laura-faichney-all-things-art.pages.dev) passes 10-page and enquiry checks; [handoff](https://laura-discovery-handoff-33.woodbrook-design-gallery.pages.dev/#/laura-service-discovery) passes viewer checks. Final PR records latest-commit refresh. |
+| Search Console improvement            | NOT RUN | Private baseline export and later comparison are separate work; no traffic or ranking improvement is claimed.                                                                                                                                                                               |
+
+## Appearance
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop Services',
+      alt: 'Services page focused on commissioned paintings and murals',
+      description:
+        'Review the painting and mural heading, introduction and unchanged first service at 1440 pixels.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile Services',
+      alt: 'Mobile painting and mural services introduction',
+      description:
+        'Review the heading and paragraph wrapping at 390 pixels. The existing artwork appears before the heading.',
+    },
+    {
+      src: gallery,
+      title: 'Mobile Gallery',
+      alt: 'Mobile gallery with the revised paintings heading',
+      description:
+        'Review the gallery heading. The service action below the collections also passes the 320-pixel overflow check.',
+    },
+    {
+      src: contact,
+      title: 'Mobile Contact',
+      alt: 'Mobile contact page inviting a painting or mural enquiry',
+      description:
+        'Review the revised enquiry heading. The form continues to offer every published service.',
+    },
+  ]}
+/>
+
+## Next steps
+
+Keep the PR open for owner review; merge and production deployment are excluded. Separate pages need Laura's original project details and confirmed coverage. URL corrections, structured data, private measurement exports and the 28-day comparison remain outside this phase; issue #33 stays open.

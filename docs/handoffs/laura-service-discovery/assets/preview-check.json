@@ -1,0 +1,59 @@
+{
+  "preview": "https://service-discovery-33.laura-faichney-all-things-art.pages.dev",
+  "commit": "9e3ff4d321b8558d775bc68411594927390b7807",
+  "pages": [
+    {
+      "path": "/",
+      "status": 200,
+      "title": "Laura Faichney All Things Art | Murals, Portraits & Art Workshops Dublin"
+    },
+    {
+      "path": "/services",
+      "status": 200,
+      "title": "Commissioned Paintings & Murals | Laura Faichney All Things Art"
+    },
+    {
+      "path": "/gallery",
+      "status": 200,
+      "title": "Paintings & Creative Work | Laura Faichney All Things Art"
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "title": "About Laura | Laura Faichney All Things Art"
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "title": "Contact | Laura Faichney All Things Art"
+    },
+    {
+      "path": "/gallery/work-in-the-community",
+      "status": 200,
+      "title": "Work in the community | Laura Faichney All Things Art"
+    },
+    {
+      "path": "/gallery/original-paintings-and-portraits",
+      "status": 200,
+      "title": "Original Paintings & Portraits | Laura Faichney All Things Art"
+    },
+    {
+      "path": "/gallery/murals-and-creative-spaces",
+      "status": 200,
+      "title": "Murals & Creative Spaces | Laura Faichney All Things Art"
+    },
+    {
+      "path": "/gallery/festive-window-painting",
+      "status": 200,
+      "title": "Festive Window Painting | Laura Faichney All Things Art"
+    },
+    {
+      "path": "/gallery/pet-portraits",
+      "status": 200,
+      "title": "Pet Portraits | Laura Faichney All Things Art"
+    }
+  ],
+  "enquirySelection": ["commissioned-paintings", "murals-indoor-outdoor"],
+  "responsiveWidths": [320, 390, 1440],
+  "runtimeApiRequests": []
+}
