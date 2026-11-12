@@ -17,6 +17,20 @@ function event(documentId: string, startsAt: string): CommunityEvent {
   };
 }
 
+test('event timeline retains undated events in a separate group', () => {
+  const groups = groupEventsByTimeline(
+    [event('unknown', ''), event('invalid', 'invalid')],
+    '2026-09-10',
+  );
+  expect(groups).toMatchObject([
+    {
+      id: 'undated',
+      title: 'Dates to be confirmed',
+      events: [{ documentId: 'unknown' }, { documentId: 'invalid' }],
+    },
+  ]);
+});
+
 test('event timeline groups Dublin event dates into this week, next week, and later', () => {
   const groups = groupEventsByTimeline(
     [

@@ -1,0 +1,142 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import eventsDesktop from './assets/events-desktop.png';
+import eventsMobile from './assets/events-mobile.png';
+import components from './assets/c3-components.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+import mobileComponents from './assets/c3-mobile.puml?raw';
+import mobileComponentsImage from './assets/c3-mobile.svg';
+import mobileReaderDesktop from './assets/mobile-reader-desktop.png';
+import mobileReaderMobile from './assets/mobile-reader-mobile.png';
+
+export const metadata = {
+  title: 'Flexible Sanity content',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a1d18d-b9bf-7102-8c70-3f82982ffeab',
+  worktree: '/Users/tszabo/orca/workspaces/woodbrook/cero',
+  branch: 'szabototo89/fix-web-build-clone',
+  commit: 'e0bd06d73d8595caf7f96f820e55d105077466e8',
+  updatedAt: '2026-11-12T21:18:00Z',
+  summary:
+    'Published records with incomplete dates and unfamiliar categories remain available without blocking the static build.',
+};
+
+## Goal
+
+Keep published community information accessible when editorial dates or categories are incomplete. Retain every record and state missing dates without inventing facts.
+
+## Technical changes
+
+Baseline: `1ee889d26756d20b1176da6325a181cd05dac6f5`. Web implementation: `e0bd06d73d8595caf7f96f820e55d105077466e8`. Mobile compatibility and this handoff follow on the same branch; the PR records the final deployed commit.
+
+| Area                  | Before                                                   | After                                                                                                             | Why                                                           | Code                                                                                  |
+| --------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Content normalization | One invalid category or date aborts the snapshot.        | Categories normalize to supported values or Other; unavailable dates become empty text or absent optional fields. | Keep records without guessing dates.                          | `apps/web/src/features/content/contentSchemas.ts`, `contentDates.ts`                  |
+| Diagnostics           | Raw schema errors omit document identity.                | Warnings identify fallback fields; unrecoverable errors identify the document and field.                          | Make content repair actionable.                               | `apps/web/src/features/content/sanityContentSource.ts`                                |
+| Date presentation     | Invalid dates can throw during rendering.                | Pages label unavailable dates and disclose missing source review dates.                                           | Render incomplete records truthfully.                         | `contentFormatting.ts`, detail pages, `EventCard.tsx`                                 |
+| News sorting          | Missing dates return an unstable numeric comparison.     | Undated news follows dated news in either sort direction.                                                         | Preserve predictable browsing.                                | `contentQueries.ts`, `updates/newsFilters.ts`                                         |
+| Event calendars       | Missing dates can break timeline or calendar generation. | Undated events keep their own timeline group and detail page; calendar actions wait for a start date.             | Avoid fabricated calendar entries.                            | `events/eventTimeline.ts`, `AddToCalendarButton.tsx`, `scripts/generate-event-ics.ts` |
+| Calendar timestamp    | Calendar creation time uses the source review date.      | Calendar creation time uses the generation time.                                                                  | Source review dates are optional factual metadata.            | `events/eventCalendar.ts`                                                             |
+| Mobile compatibility  | The mobile date formatter throws on empty strings.       | It returns Date unavailable while keeping collection and detail records.                                          | Preserve the shared endpoint contract for existing consumers. | `apps/mobile/src/features/content/contentModels.ts`                                   |
+
+No CMS documents or dependencies change. The read-only mobile endpoint shares normalization: required date fields remain strings, with empty text representing unavailable dates. Duplicate identities, broken project relations, invalid stages and waste streams still fail. Mobile changes are limited to date formatting and its regression tests.
+
+## Architecture changes
+
+Woodbrook provides public community information. Its Public website application reads published documents from Sanity Content Lake into one content snapshot, a validated collection of public records. This change relaxes editorial dates and categories within that existing path.
+
+| Level | Change                                                                                                          | Evidence                                        |
+| ----- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| C1    | Unchanged: residents, editors, Woodbrook and Sanity keep their existing roles and system boundaries.            | Existing Sanity queries and Worker entry point. |
+| C2    | Unchanged: the website, asset host and mobile reader keep the same applications, store and network calls.       | `wrangler.jsonc`, `sanityQueries.ts`            |
+| C3    | Changed: normalization retains incomplete records; presentation handles unavailable dates and guards calendars. | Change-annotated component view below.          |
+
+<PlantUmlDiagram
+  title="Flexible content — C3 website components"
+  source={components}
+  image={componentsImage}
+/>
+
+<PlantUmlDiagram
+  title="Mobile date compatibility — C3 components"
+  source={mobileComponents}
+  image={mobileComponentsImage}
+/>
+
+Change: mobile screens receive unavailable date labels instead of formatting exceptions. The component stays inside the existing Mobile app.
+
+Change: the content reader supplies retained documents with normalized categories and dates. Date presentation accepts that contract. The diagram labels changed responsibilities and interactions; unmarked elements remain unchanged context.
+
+## Verification
+
+| Check                 | Result  | Evidence                                                                                                                                                                                               |
+| --------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| TDD                   | PASS    | Nine initial regressions fail before implementation; source-note and warning regressions also fail before their fixes.                                                                                 |
+| Web units             | PASS    | `bun run --cwd apps/web test:unit`: 366 standard and two static tests pass with coverage thresholds.                                                                                                   |
+| Mobile units          | PASS    | `bun run --cwd apps/mobile test:unit`: 71 tests pass with coverage thresholds.                                                                                                                         |
+| TypeScript            | PASS    | `bun run --cwd apps/web typecheck` exits 0.                                                                                                                                                            |
+| Repository build      | PASS    | `bun run build` exits 0; all application builds pass.                                                                                                                                                  |
+| Live static build     | PASS    | `bun run build:static` verifies 87 HTML pages, 75 cached data files and every internal link.                                                                                                           |
+| Calendar generation   | PASS    | Live build writes 22 calendar files; one undated event remains accessible without a calendar file.                                                                                                     |
+| Desktop/mobile review | PASS    | Playwright: desktop 1440×1100 at 2× and mobile 390×664 at 3×; article fallbacks, no overflow or browser errors.                                                                                        |
+| Live API              | PASS    | Preview API returns 200 with six updates, five projects, 23 events, one consultation and 32 resources; incomplete records remain present.                                                              |
+| cmux tab              | NOT RUN | The server loads on port 3014; cmux rejects this Orca process: only processes started inside cmux can connect.                                                                                         |
+| Handoff validation    | PASS    | `bun run --cwd apps/handoffs docs:check` and `c4:check` pass; both diagrams render locally.                                                                                                            |
+| Commit hooks          | PASS    | Web implementation commit passes the full repository hooks; the documentation/mobile commit uses the same required hooks.                                                                              |
+| Temporary preview     | PASS    | [Web](https://woodbrook-flexible-content-preview.shankill.workers.dev) and [mobile](https://woodbrook-flexible-mobile-preview.shankill.workers.dev) load; final deployed commit is recorded in the PR. |
+
+## Appearance
+
+These screenshots show existing published Sanity content. No local facts or dates were seeded or changed.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop article',
+      alt: 'Desktop article with unavailable dates',
+      description:
+        'The affected article remains visible under Other and states that its dates are unavailable.',
+    },
+    {
+      src: mobile,
+      title: 'Mobile article',
+      alt: 'Mobile article with unavailable dates',
+      description:
+        'The same article and source review fallback remain readable without horizontal overflow.',
+    },
+    {
+      src: mobileReaderDesktop,
+      title: 'Mobile reader on desktop',
+      alt: 'Mobile reader with unavailable date',
+      description:
+        'The shared API record opens in the mobile reader without a formatting exception.',
+    },
+    {
+      src: mobileReaderMobile,
+      title: 'Mobile reader on phone',
+      alt: 'Phone reader with unavailable date',
+      description:
+        'The affected article retains its title and unavailable date label.',
+    },
+    {
+      src: eventsDesktop,
+      title: 'Desktop events',
+      alt: 'Events with an undated group',
+      description:
+        'The existing undated event remains in Dates to be confirmed.',
+    },
+    {
+      src: eventsMobile,
+      title: 'Mobile events',
+      alt: 'Mobile events with an undated group',
+      description:
+        'Dated and undated event groups remain accessible on a phone.',
+    },
+  ]}
+/>
+
+## Next steps
+
+Review the open PR and its web/mobile previews. Temporary Worker previews have a seven-day review lifetime, ending 19 November 2026; refresh them if review continues. Production remains unchanged.

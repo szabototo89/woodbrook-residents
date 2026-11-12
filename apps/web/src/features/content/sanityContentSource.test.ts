@@ -1,8 +1,19 @@
 import { afterEach, expect, test, vi } from 'vitest';
 
 import { SanityContentSource } from './sanityContentSource';
+import { loadContentSnapshot } from './contentSnapshot';
+import {
+  updates,
+  projects,
+  events,
+  surveys,
+  resources,
+} from '../../../tests/e2e/seed-content';
 
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+});
 
 function sanityResponse(result: unknown) {
   return new Response(JSON.stringify({ result }), {
@@ -10,6 +21,134 @@ function sanityResponse(result: unknown) {
     headers: { 'Content-Type': 'application/json' },
   });
 }
+
+test('unrecoverable document errors identify the document and field', async () => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (input: string | URL | Request) => {
+      const query = decodeURIComponent(String(input));
+      return sanityResponse(
+        query.includes('_type == "siteSetting"')
+          ? null
+          : query.includes('_type == "project"')
+            ? [{ ...projects[0], _id: 'broken-stage', stage: 'unrecognized' }]
+            : [],
+      );
+    }),
+  );
+  await expect(
+    loadContentSnapshot(
+      new SanityContentSource({
+        projectId: 'ca34quae',
+        dataset: 'production',
+        apiVersion: '2025-09-01',
+      }),
+    ),
+  ).rejects.toThrow('Sanity project "broken-stage" is invalid: stage:');
+});
+
+test('Sanity snapshot keeps every record with incomplete categories and dates', async () => {
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  const records: Record<string, unknown[]> = {
+    update: [
+      {
+        ...updates[0],
+        _id: 'incomplete-update',
+        kind: 'new-category',
+        publishedOn: null,
+        sourceReviewedOn: 'bad-date',
+      },
+    ],
+    project: [
+      {
+        ...projects[0],
+        _id: 'incomplete-project',
+        category: ' Parks ',
+        updatedOn: '',
+        sourceReviewedOn: null,
+      },
+    ],
+    event: [
+      {
+        ...events[0],
+        _id: 'incomplete-event',
+        startsAt: '',
+        endsAt: 'bad-date',
+        sourceReviewedOn: '',
+      },
+    ],
+    survey: [
+      {
+        ...surveys[0],
+        _id: 'incomplete-survey',
+        opensOn: 'bad-date',
+        closesOn: '',
+        sourceReviewedOn: '',
+        relatedProject: null,
+      },
+    ],
+    resource: [
+      {
+        ...resources[0],
+        _id: 'incomplete-resource',
+        category: 'new-category',
+        providerType: null,
+        sourceReviewedOn: '',
+      },
+    ],
+  };
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (input: string | URL | Request) => {
+      const type = /_type == "(\w+)"/.exec(
+        decodeURIComponent(String(input)),
+      )?.[1];
+      return sanityResponse(
+        type === 'siteSetting' ? null : (records[type ?? ''] ?? []),
+      );
+    }),
+  );
+  const snapshot = await loadContentSnapshot(
+    new SanityContentSource({
+      projectId: 'ca34quae',
+      dataset: 'production',
+      apiVersion: '2025-09-01',
+    }),
+  );
+  expect(snapshot.updates).toMatchObject([
+    {
+      documentId: 'incomplete-update',
+      kind: 'other',
+      publishedOn: '',
+      sourceReviewedOn: '',
+    },
+  ]);
+  expect(snapshot.projects).toMatchObject([
+    { documentId: 'incomplete-project', category: 'parks', updatedOn: '' },
+  ]);
+  expect(snapshot.events).toMatchObject([
+    { documentId: 'incomplete-event', startsAt: '', endsAt: undefined },
+  ]);
+  expect(snapshot.surveys).toMatchObject([
+    {
+      documentId: 'incomplete-survey',
+      opensOn: undefined,
+      closesOn: undefined,
+    },
+  ]);
+  expect(snapshot.resources).toMatchObject([
+    {
+      documentId: 'incomplete-resource',
+      category: 'other',
+      providerType: 'other',
+    },
+  ]);
+  expect(warn).toHaveBeenCalledWith(
+    expect.stringContaining(
+      'Sanity update "incomplete-update" uses fallback values for: kind, publishedOn, sourceReviewedOn.',
+    ),
+  );
+});
 
 test('SanityContentSource loads every canonical collection into one snapshot', async () => {
   const fetchMock = vi.fn(async (input: string | URL | Request) => {
@@ -48,6 +187,7 @@ test('SanityContentSource loads every canonical collection into one snapshot', a
 });
 
 test('SanityContentSource normalizes slugs, images, and project relations', async () => {
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
   const fetchMock = vi.fn(async (input: string | URL | Request) => {
     const url = decodeURIComponent(String(input));
     if (url.includes('_type == "siteSetting"')) {
@@ -147,6 +287,7 @@ test('SanityContentSource normalizes slugs, images, and project relations', asyn
   expect(snapshot.updates[0]?.featuredUntil).toBe('2026-11-01T12:00:00.000Z');
   expect(snapshot.surveys[0]?.relatedProjectId).toBe('project-1');
   expect(snapshot.resources[0]?.displayOrder).toBe(1);
+  expect(warn).not.toHaveBeenCalled();
 });
 
 test('SanityContentSource identifies the failed Sanity query', async () => {

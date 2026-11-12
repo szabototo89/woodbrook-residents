@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { normalizeContentDate } from './contentDates';
 
 import {
   projectCategories,
@@ -14,23 +15,24 @@ const optionalString = z
   .nullish()
   .transform((value) => value ?? undefined);
 
-function isParseableDate(value: string): boolean {
-  return value.length > 0 && !Number.isNaN(new Date(value).getTime());
-}
-
 const dateString = z
-  .string()
-  .refine(isParseableDate, { message: 'Must be a non-empty parseable date.' })
-  .describe('ISO date or date-time string.');
+  .unknown()
+  .transform(normalizeContentDate)
+  .describe('Date or date-time string; empty when unavailable.');
 
 const optionalDateString = z
-  .string()
-  .nullish()
-  .transform((value) => value ?? undefined)
-  .refine((value) => value === undefined || isParseableDate(value), {
-    message: 'Must be a non-empty parseable date when present.',
-  })
-  .describe('Optional ISO date or date-time string.');
+  .unknown()
+  .optional()
+  .transform((value) => normalizeContentDate(value) || undefined)
+  .describe('Optional date or date-time string; absent when unavailable.');
+
+function categorySchema<T extends string>(values: readonly T[]) {
+  return z.unknown().transform((value) => {
+    const normalized =
+      typeof value === 'string' ? value.trim().toLowerCase() : '';
+    return values.find((category) => category === normalized) ?? 'other';
+  });
+}
 
 export const siteSettingSchema = z.object({
   name: z.string().describe('Public name of the community website.'),
@@ -46,9 +48,9 @@ export const updateSchema = z.object({
   documentId: z.string().describe('Stable source-independent record ID.'),
   title: z.string().describe('Public update title.'),
   slug: z.string().describe('URL-safe update route slug.'),
-  kind: z
-    .enum(updateKinds)
-    .describe('Editorial category used to label the update.'),
+  kind: categorySchema(updateKinds).describe(
+    'Editorial category used to label the update.',
+  ),
   summary: z.string().describe('Short update summary used on cards.'),
   body: z.string().describe('Long-form update content.'),
   publishedOn: dateString.describe('ISO date when the update was published.'),
@@ -78,9 +80,9 @@ export const projectSchema = z.object({
   documentId: z.string().describe('Stable source-independent record ID.'),
   title: z.string().describe('Public project title.'),
   slug: z.string().describe('URL-safe project route slug.'),
-  category: z
-    .enum(projectCategories)
-    .describe('Subject category used to group the project.'),
+  category: categorySchema(projectCategories).describe(
+    'Subject category used to group the project.',
+  ),
   stage: z
     .enum(projectStages)
     .describe('Current public lifecycle stage of the project.'),
@@ -179,13 +181,13 @@ export const resourceSchema = z.object({
   documentId: z.string().describe('Stable source-independent record ID.'),
   title: z.string().describe('Public service or provider name.'),
   slug: z.string().describe('URL-safe local-information route slug.'),
-  category: z
-    .enum(resourceCategories)
-    .describe('Directory category used for filtering.'),
+  category: categorySchema(resourceCategories).describe(
+    'Directory category used for filtering.',
+  ),
   serviceType: z.string().describe('Human-readable type of service.'),
-  providerType: z
-    .enum(providerTypes)
-    .describe('Kind of organisation providing the service.'),
+  providerType: categorySchema(providerTypes).describe(
+    'Kind of organisation providing the service.',
+  ),
   description: z.string().describe('Short public service description.'),
   url: optionalString.describe('Optional provider website URL.'),
   phone: optionalString.describe('Optional public telephone number.'),

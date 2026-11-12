@@ -44,3 +44,9 @@ test('omits the end date when the event has no end time', () => {
 test('names the static calendar file after the event slug', () => {
   expect(eventCalendarFileName(event)).toBe('community-clean-up.ics');
 });
+
+test('calendar generation uses its creation time when the source review date is unavailable', () => {
+  expect(() =>
+    buildEventCalendar({ ...event, sourceReviewedOn: '' }),
+  ).not.toThrow();
+});

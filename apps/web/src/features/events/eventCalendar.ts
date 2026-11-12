@@ -19,7 +19,7 @@ function escapeCalendarText(value: string) {
 
 export function buildEventCalendar(
   event: CommunityEvent,
-  createdAt: string | Date = `${event.sourceReviewedOn}T00:00:00.000Z`,
+  createdAt: string | Date = new Date(),
 ) {
   const lines = [
     'BEGIN:VCALENDAR',

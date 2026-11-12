@@ -1,0 +1,21 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Public website — C3 flexible content — changes from 1ee889d
+
+System_Ext(sanity_content_lake, "Sanity Content Lake", "Stores published community content and editor drafts")
+Container_Boundary(woodbrook_browser, "Public website application") {
+  Component(flexible_content_source, "[CHANGED] Content reader", "TypeScript and Zod", "Normalizes dates and categories in published content\nChange: Previously rejected incomplete fields; now retains records with fallbacks.")
+  Component(flexible_content_presentation, "[CHANGED] Date presentation", "React and TypeScript", "Renders unavailable dates and guards calendar actions\nChange: Previously assumed valid dates; now handles unavailable dates.")
+}
+
+Rel(flexible_content_source, sanity_content_lake, "Reads published community documents from", "GROQ over HTTPS")
+Rel(flexible_content_presentation, flexible_content_source, "[CHANGED] Reads normalized records from\nChange: Now accepts unavailable dates and Other categories.", "Content snapshot")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

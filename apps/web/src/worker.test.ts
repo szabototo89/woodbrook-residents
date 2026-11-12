@@ -220,8 +220,8 @@ test.each([
         ?.match(/_type == "([^"]+)"/)?.[1];
       let result =
         type && type in results ? Reflect.get(results, type) : undefined;
-      if (type === 'update' && failure === 'validation')
-        result = [{ ...record, kind: 'invalid' }];
+      if (type === 'project' && failure === 'validation')
+        result = [{ ...results.project[0], stage: 'invalid' }];
       if (type === 'update' && failure === 'duplicate')
         result = [...results.update, ...results.update];
       if (type === 'survey' && failure === 'relation')

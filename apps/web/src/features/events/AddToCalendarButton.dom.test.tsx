@@ -24,6 +24,14 @@ const event: CommunityEvent = {
   featured: false,
 };
 
+test('does not offer a calendar action until the event has a date', () => {
+  const { container, unmount } = renderUi(
+    <AddToCalendarButton event={{ ...event, startsAt: '' }} />,
+  );
+  expect(container.querySelector('button')).toBeNull();
+  unmount();
+});
+
 test('renders a Woodbrook-styled button that opens calendar options', async () => {
   vi.stubEnv('VITE_PUBLIC_SITE_URL', '');
   try {

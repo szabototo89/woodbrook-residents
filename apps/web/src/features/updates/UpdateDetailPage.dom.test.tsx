@@ -41,6 +41,36 @@ function renderUpdate(body: string, fields: Partial<Update> = {}) {
   return rendered.container;
 }
 
+test('keeps undated news readable without claiming a source review date', () => {
+  const container = renderUpdate('Sample incomplete content.', {
+    publishedOn: '',
+    sourceReviewedOn: '',
+    kind: 'other',
+  });
+  expect(container.querySelector('h1')?.textContent).toBe('Sample update');
+  expect(container.querySelector('header')?.textContent).toContain(
+    'Date unavailable',
+  );
+  expect(container.querySelector('aside')?.textContent).toContain(
+    'Source review date unavailable.',
+  );
+  expect(container.querySelector('aside a')?.getAttribute('href')).toBe(
+    sample.sourceUrl,
+  );
+});
+
+test('does not render an empty source label or source link for incomplete news', () => {
+  const container = renderUpdate('', {
+    sourceName: '',
+    sourceUrl: '',
+    sourceReviewedOn: '',
+  });
+  expect(container.querySelector('aside')?.textContent).not.toContain(
+    'Source: .',
+  );
+  expect(container.querySelector('aside a')).toBeNull();
+});
+
 test('renders Markdown headings, emphasis, lists, quotes, and links as read-only content', () => {
   const container = renderUpdate(
     '## Residents are calling for\n\n- **Parking:** More spaces\n- *Transport:* Better access\n\n> Infrastructure creates communities.\n\n### Next steps\n\n1. Read the proposal\n2. [Read the source](https://example.com/proposal)',

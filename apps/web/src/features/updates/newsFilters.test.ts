@@ -91,3 +91,20 @@ test('date sorting respects time zones and stable equal-date ordering', () => {
     selectNews({ availability: 'ready', items: [] }, parseNewsParams({})).items,
   ).toEqual([]);
 });
+
+test('undated news stays after dated news in either sort direction', () => {
+  const items = [
+    article('Unknown', 'news', ''),
+    article('New', 'news', '2026-10-01'),
+    article('Old', 'news', '2026-01-01'),
+  ];
+  for (const sort of ['oldest', 'newest'] as const) {
+    const selected = selectNews(
+      { availability: 'ready', items },
+      { category: 'news', sort },
+    );
+    expect(selected.items.map((item) => item.title)).toEqual(
+      sort === 'oldest' ? ['Old', 'New', 'Unknown'] : ['New', 'Old', 'Unknown'],
+    );
+  }
+});

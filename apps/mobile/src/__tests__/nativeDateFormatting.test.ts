@@ -37,8 +37,10 @@ test.each([
 );
 
 test.each([readableDate, readableDateTime])(
-  'rejects invalid dates instead of displaying broken copy',
+  'labels unavailable dates without requiring the native Intl API',
   (format) => {
-    expect(() => format('not-a-date')).toThrow(RangeError);
+    for (const value of ['', 'not-a-date', ' ']) {
+      expect(format(value)).toBe('Date unavailable');
+    }
   },
 );

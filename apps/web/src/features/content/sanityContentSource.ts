@@ -427,6 +427,36 @@ function mapResource(item: unknown) {
   };
 }
 
+function parseDocument<T extends Record<string, unknown>>(
+  label: string,
+  schema: z.ZodType<T>,
+  input: SanityRecord & { documentId: string },
+): T {
+  const result = schema.safeParse(input);
+  if (!result.success) {
+    const details = result.error.issues
+      .map((issue) => `${issue.path.join('.')}: ${issue.message}`)
+      .join('; ');
+    throw new Error(
+      `Sanity ${label} "${input.documentId}" is invalid: ${details}`,
+      { cause: result.error },
+    );
+  }
+  const fallbackFields = Object.entries(result.data)
+    .filter(
+      ([field, value]) =>
+        (typeof value !== 'object' && value !== input[field]) ||
+        (value === '' && /(?:On|At)$/.test(field)),
+    )
+    .map(([field]) => field);
+  if (fallbackFields.length > 0) {
+    console.warn(
+      `Sanity ${label} "${input.documentId}" uses fallback values for: ${fallbackFields.join(', ')}.`,
+    );
+  }
+  return result.data;
+}
+
 export class SanityContentSource implements ContentSource {
   readonly name = 'sanity' as const;
   private readonly imageClient: SanityClient;
@@ -506,15 +536,27 @@ export class SanityContentSource implements ContentSource {
     const snapshot: ContentSnapshot = {
       siteSetting: site ?? undefined,
       updates: updates.map((item) =>
-        updateSchema.parse(mapUpdate(this.imageClient, item)),
+        parseDocument(
+          'update',
+          updateSchema,
+          mapUpdate(this.imageClient, item),
+        ),
       ),
       projects: projects.map((item) =>
-        projectSchema.parse(mapProject(this.imageClient, item)),
+        parseDocument(
+          'project',
+          projectSchema,
+          mapProject(this.imageClient, item),
+        ),
       ),
-      events: events.map((item) => eventSchema.parse(mapEvent(item))),
-      surveys: surveys.map((item) => surveySchema.parse(mapSurvey(item))),
+      events: events.map((item) =>
+        parseDocument('event', eventSchema, mapEvent(item)),
+      ),
+      surveys: surveys.map((item) =>
+        parseDocument('survey', surveySchema, mapSurvey(item)),
+      ),
       resources: resources.map((item) =>
-        resourceSchema.parse(mapResource(item)),
+        parseDocument('resource', resourceSchema, mapResource(item)),
       ),
     };
 

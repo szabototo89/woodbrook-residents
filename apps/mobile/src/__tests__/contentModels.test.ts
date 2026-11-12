@@ -71,6 +71,21 @@ const optionalContent: ContentSnapshot = {
   ],
 };
 
+test('mobile date labels tolerate unavailable dates from the shared content endpoint', () => {
+  const content = {
+    ...optionalContent,
+    events: [
+      { ...optionalContent.events[0]!, startsAt: '', sourceReviewedOn: '' },
+    ],
+  };
+  expect(getCollectionModel(content, 'events').cards[0]?.meta).toContain(
+    'Date unavailable',
+  );
+  expect(getDetailModel(content, 'events', 'event')?.reviewedOn).toBe(
+    'Date unavailable',
+  );
+});
+
 test('content models preserve optional and closed content behavior', () => {
   expect(getCollectionModel(optionalContent, 'updates').cards).toEqual([]);
   expect(getCollectionModel(optionalContent, 'projects').cards[0]?.meta).toBe(

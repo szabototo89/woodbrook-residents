@@ -15,3 +15,10 @@ test('content formatting formats event date-times with Dublin local time', () =>
 test('content formatting turns CMS enum values into readable labels', () => {
   expect(formatLabel('roads-paths')).toBe('Roads Paths');
 });
+
+test('content formatting labels unavailable dates without throwing', () => {
+  for (const value of ['', 'not-a-date', ' ']) {
+    expect(formatDate(value)).toBe('Date unavailable');
+    expect(formatDateTime(value)).toBe('Date unavailable');
+  }
+});

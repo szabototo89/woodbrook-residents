@@ -91,8 +91,17 @@ export function EventDetailPage() {
           <aside className="source-note">
             <p className="eyebrow">Source and freshness</p>
             <p>
-              Event details were checked against the organiser’s public
-              information on {formatDate(event.sourceReviewedOn)}.
+              {event.sourceReviewedOn ? (
+                <>
+                  Event details were checked against the organiser’s public
+                  information on {formatDate(event.sourceReviewedOn)}.
+                </>
+              ) : (
+                <>
+                  Source review date unavailable. Check the organiser’s public
+                  information.
+                </>
+              )}
             </p>
             <a
               className="text-link"
