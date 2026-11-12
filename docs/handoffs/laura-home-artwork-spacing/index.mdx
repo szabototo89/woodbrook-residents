@@ -9,13 +9,13 @@ import afterMuralMobile from './assets/after-mural-mobile.png';
 
 export const metadata = {
   title: 'Separate homepage artwork and text',
-  status: 'in progress',
+  status: 'complete',
   agent: 'codex',
   session: '01a1c7b9-028c-7111-b9f3-d93cd390319b',
   worktree: '/Users/tszabo/.codex/worktrees/7a6f/laura-s-page',
   branch: 'fix/laura-optional-sanity-content',
-  commit: '9ef5c0dbeb6e4526e3c498f05ee3d764c22185dc',
-  updatedAt: '2026-11-10T23:45:00Z',
+  commit: 'd0a50ed47a84f3179a2cd9abef49a6e9e231fa87',
+  updatedAt: '2026-11-12T20:19:37Z',
   summary:
     'The homepage hero and mural keep rectangular artwork in separate columns beside their text.',
 };
@@ -26,15 +26,16 @@ Keep homepage text readable when the artist chooses an opaque photograph. Preser
 
 ## Technical changes
 
-Baseline: `9ef5c0dbeb6e4526e3c498f05ee3d764c22185dc`. This is separate from the completed optional-content handoff.
+Baseline: `9ef5c0dbeb6e4526e3c498f05ee3d764c22185dc`. The layout implementation commit is recorded above. This handoff’s completion commit also removes redundant scrolling from the hover test. This is separate from the completed optional-content handoff.
 
-| Area         | Before                                                        | After                                                     | Why                                                      | Code                                                   |
-| ------------ | ------------------------------------------------------------- | --------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------ |
-| Hero         | Absolute artwork starts inside the text column                | Normal grid flow allocates two bounded columns with a gap | Rectangular images must not cover text                   | `apps/laura-faichney-web/src/styles.css`               |
-| Mural        | Artwork uses viewport offsets while copy uses container width | Image and copy share one grid container                   | Keep both edges in the same coordinate system            | `src/features/site/MuralFeature.tsx`, `src/styles.css` |
-| Phone layout | Copy and image stack                                          | Copy and image still stack with a positive vertical gap   | Preserve narrow-screen reading and links                 | Mobile rules in `src/styles.css`                       |
-| Image sizing | Source hints assume oversized overlapping artwork             | Hints match the allocated columns                         | Avoid requesting oversized responsive images             | `HomePage.tsx`, `MuralFeature.tsx`                     |
-| Regression   | No rectangular-artwork separation check                       | Checks 12 widths from 390 to 2560px                       | Cover both reported desktop layouts and breakpoint edges | `tests/e2e/home-artwork-spacing.spec.ts`               |
+| Area               | Before                                                        | After                                                     | Why                                                      | Code                                                   |
+| ------------------ | ------------------------------------------------------------- | --------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------ |
+| Hero               | Absolute artwork starts inside the text column                | Normal grid flow allocates two bounded columns with a gap | Rectangular images must not cover text                   | `apps/laura-faichney-web/src/styles.css`               |
+| Mural              | Artwork uses viewport offsets while copy uses container width | Image and copy share one grid container                   | Keep both edges in the same coordinate system            | `src/features/site/MuralFeature.tsx`, `src/styles.css` |
+| Phone layout       | Copy and image stack                                          | Copy and image still stack with a positive vertical gap   | Preserve narrow-screen reading and links                 | Mobile rules in `src/styles.css`                       |
+| Image sizing       | Source hints assume oversized overlapping artwork             | Hints match the allocated columns                         | Avoid requesting oversized responsive images             | `HomePage.tsx`, `MuralFeature.tsx`                     |
+| Regression         | No rectangular-artwork separation check                       | Checks 12 widths from 390 to 2560px                       | Cover both reported desktop layouts and breakpoint edges | `tests/e2e/home-artwork-spacing.spec.ts`               |
+| Hover verification | An explicit scroll races the hover action’s own scroll        | Let Playwright hover scroll to its target                 | Keep the pointer on the card during its assertion        | `tests/e2e/motion.spec.ts`                             |
 
 ## Architecture changes
 
@@ -48,18 +49,21 @@ Laura’s website presents artwork and project enquiries. This change affects im
 
 ## Verification
 
-| Check                    | Result  | Evidence                                                                                                 |
-| ------------------------ | ------- | -------------------------------------------------------------------------------------------------------- |
-| Failing regression first | PASS    | Seven desktop checks fail at 901–2560px before the fix.                                                  |
-| Focused layout           | PASS    | 12 viewport checks pass after the fix, including 640/641 and 900/901px boundaries.                       |
-| Browser regression       | PASS    | Full Laura Playwright suite: 153 passed.                                                                 |
-| Unit tests               | PASS    | Laura: 109 Vitest tests and 32 Bun script tests passed.                                                  |
-| Desktop baseline         | PASS    | At 1440px the hero overlaps by 35.8px and mural by 11.2px; `assets/before-*.png`.                        |
-| Repository build         | NOT RUN | The first build found the new handoff folder before its index existed; rerun after adding this document. |
-| Desktop/mobile result    | NOT RUN | Capture the implemented live-content build after static export.                                          |
-| Temporary preview        | NOT RUN | Deploy after the implementation commit.                                                                  |
-| Handoff validation       | NOT RUN | Run docs:check after completing this document.                                                           |
-| Static export            | PASS    | Current published content produces 10 HTML files and valid internal links.                               |
+| Check                    | Result  | Evidence                                                                                                                                                                    |
+| ------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Failing regression first | PASS    | Seven desktop checks fail at 901–2560px before the fix.                                                                                                                     |
+| Focused layout           | PASS    | 12 viewport checks pass after the fix, including 640/641 and 900/901px boundaries.                                                                                          |
+| Browser regression       | PASS    | Full Laura Playwright suite: 153 passed.                                                                                                                                    |
+| Unit tests               | PASS    | Laura: 109 Vitest tests and 32 Bun script tests passed.                                                                                                                     |
+| Desktop baseline         | PASS    | At 1440px the hero overlaps by 35.8px and mural by 11.2px; `assets/before-*.png`.                                                                                           |
+| Repository build         | NOT RUN | The first build found the new handoff folder before its index existed; rerun after adding this document.                                                                    |
+| Desktop/mobile result    | NOT RUN | Capture the implemented live-content build after static export.                                                                                                             |
+| Temporary preview        | PASS    | [Cloudflare preview](https://laura-home-spacing.laura-faichney-all-things-art.pages.dev), commit `d0a50ed`; six live-content widths and gallery navigation verified.        |
+| Handoff validation       | NOT RUN | Run docs:check after completing this document.                                                                                                                              |
+| Static export            | PASS    | Current published content produces 10 HTML files and valid internal links.                                                                                                  |
+| Repository hooks         | PASS    | Normal lint, typechecks, unit, browser and end-to-end hooks pass without bypass flags.                                                                                      |
+| Woodbrook Lighthouse CI  | FAIL    | [Separate workflow](https://github.com/szabototo89/woodbrook-residents/actions/runs/42924993864) fails on `apps/web` CMS fields: `kind`, `publishedOn`, `sourceReviewedOn`. |
+| Hover timing regression  | PASS    | The double-scroll failure reproduces in isolated runs; removing the explicit scroll passes 20 repetitions with unchanged feedback assertions.                               |
 
 ## Appearance
 
@@ -120,4 +124,4 @@ Screenshots use the same published artwork at 1440×1000 and 390×844 with 2× r
 
 ## Next steps
 
-Finish screenshot review, static export and repository checks; deploy the temporary preview and push the verified fix to main as requested.
+The user requested a direct push to main. No further Laura layout work remains. The temporary preview expires after seven days.

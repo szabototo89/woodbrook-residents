@@ -29,7 +29,6 @@ test('service and CTA feedback moves only images and directional arrows', async 
   const service = page.getByRole('link', {
     name: exactName(firstServiceTitle),
   });
-  await service.scrollIntoViewIfNeeded();
   await service.hover();
   await expect
     .poll(() =>

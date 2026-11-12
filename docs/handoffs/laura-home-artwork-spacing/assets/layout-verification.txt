@@ -10,3 +10,10 @@ after mobile mural: gap 18.0px
 
 New Playwright regression: seven desktop failures before the fix; 12 passed after.
 Full Laura browser suite: 153 passed.
+
+2026-11-12 final hook investigation:
+The hover test initially fails intermittently: expected image lift, received none.
+Trace: the card moves from viewport y=334.125 to y=668.125 after hover; :hover is false.
+The explicit scroll races the action's own scroll. Remove only the redundant explicit scroll.
+Before correction: isolated repetitions fail 1/5 and 1/10.
+After correction: 20/20 repetitions pass; image and arrow assertions remain unchanged.

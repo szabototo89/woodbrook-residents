@@ -1,0 +1,14 @@
+Implementation commit: d0a50ed47a84f3179a2cd9abef49a6e9e231fa87
+Preview: https://bf98d985.laura-faichney-all-things-art.pages.dev
+Alias: https://laura-home-spacing.laura-faichney-all-things-art.pages.dev
+390px: hero 40.0px, mural 18.0px; no horizontal overflow or runtime errors.
+641px: hero 24.0px, mural 25.6px; no horizontal overflow or runtime errors.
+901px: hero 27.0px, mural 36.0px; no horizontal overflow or runtime errors.
+1440px: hero 52.4px, mural 57.6px; no horizontal overflow or runtime errors.
+2048px: hero 55.1px, mural 64.0px; no horizontal overflow or runtime errors.
+2560px: hero 55.1px, mural 64.0px; no horizontal overflow or runtime errors.
+
+desktop pre-navigation errors: []
+desktop: five routes HTTP 200; 5 collections; picture navigation works; no runtime errors, Sanity API requests, empty URLs or overflow.
+mobile pre-navigation errors: []
+mobile: five routes HTTP 200; 5 collections; picture navigation works; no runtime errors, Sanity API requests, empty URLs or overflow.

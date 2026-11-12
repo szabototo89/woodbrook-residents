@@ -1,6 +1,6 @@
 # Homepage artwork and text spacing
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
