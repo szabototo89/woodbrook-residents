@@ -57,6 +57,7 @@ const gallery = (await readLauraSnapshot()).gallery;
 const requiredPages = [
   '/',
   '/services',
+  '/prices',
   '/gallery',
   '/about',
   '/contact',

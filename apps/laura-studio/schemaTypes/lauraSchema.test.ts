@@ -181,7 +181,7 @@ test('every document preview renders a title and subtitle', () => {
   }
 })
 
-test('all content fields allow publishing without a value', () => {
+test('legacy content fields allow publishing without a value', () => {
   function inspect(fields: unknown) {
     if (!Array.isArray(fields)) return
     for (const field of fields) {
@@ -201,10 +201,78 @@ test('all content fields allow publishing without a value', () => {
       for (const member of field.of ?? []) inspect(member.fields)
     }
   }
-  for (const type of schemaTypes) if ('fields' in type) inspect(type.fields)
+  for (const type of schemaTypes)
+    if (type.name !== 'pricesPage' && 'fields' in type) inspect(type.fields)
   for (const typeName of ['service', 'galleryCollection', 'galleryItem']) {
     expect(
       fieldsOf(typeName).find((field) => field['name'] === 'order')?.['initialValue'],
     ).toBeUndefined()
   }
+})
+
+// Prices has a strict publishing contract; legacy partial content remains optional.
+test('prices categories can differ from services and use shared price validation', () => {
+  expect(fieldNames('pricesPage')).toEqual(
+    expect.arrayContaining(['categories', 'fallbackQuote', 'sharedNotes', 'seo']),
+  )
+  const categories = fieldsOf('pricesPage').find((field) => field['name'] === 'categories')!
+  const category = (categories['of'] as Array<Record<string, unknown>>)[0]!
+  const {rule, capturedCustom} = createMockRule()
+  ;(category['validation'] as Function)(rule)
+  const validate = capturedCustom[0]!
+  expect(validate({title: 'Wedding gifts'})).toBe(true)
+  expect(
+    validate({
+      title: 'Wedding gifts',
+      offers: [{label: 'A gift', mode: 'from', amount: -1, currency: 'EUR', scope: 'per painting'}],
+    }),
+  ).toContain('amount')
+})
+
+test('prices publishing requires non-empty page copy and complete SEO', () => {
+  for (const name of [
+    'title',
+    'introduction',
+    'fallbackQuote',
+    'fallbackGuidance',
+    'enquiryLabel',
+    'contactHeading',
+    'contactCopy',
+    'seo',
+  ]) {
+    const field = fieldsOf('pricesPage').find((field) => field['name'] === name)!
+    const {rule, capturedCustom} = createMockRule()
+    ;(field['validation'] as Function)(rule)
+    const validate = capturedCustom[0]!
+    for (const value of name === 'seo'
+      ? [undefined, {}, {title: 'Prices'}, {description: 'Copy'}, {title: ' ', description: 'Copy'}]
+      : [undefined, '', ' '])
+      expect(typeof validate(value)).toBe('string')
+    expect(
+      validate(name === 'seo' ? {title: 'Prices', description: 'Copy'} : 'Approved copy'),
+    ).toBe(true)
+  }
+})
+
+test('price row validation accepts all supported modes and rejects incomplete rows', () => {
+  const categories = fieldsOf('pricesPage').find((field) => field['name'] === 'categories')!
+  const category = (categories['of'] as Array<Record<string, unknown>>)[0]!
+  const offers = (category['fields'] as Array<Record<string, unknown>>).find(
+    (field) => field['name'] === 'offers',
+  )!
+  const row = (offers['of'] as Array<Record<string, unknown>>)[0]!
+  const {rule, capturedCustom} = createMockRule()
+  ;(row['validation'] as Function)(rule)
+  const validate = capturedCustom[0]!
+  for (const value of [
+    undefined,
+    {},
+    {label: 'Sample', mode: 'fixed', amount: 0, currency: 'EUR', scope: 'per session'},
+  ])
+    expect(typeof validate(value)).toBe('string')
+  for (const value of [
+    {label: 'Sample', mode: 'fixed', amount: 40, currency: 'EUR', scope: 'per session'},
+    {label: 'Bespoke', mode: 'quote', guidance: 'Send dimensions.'},
+  ])
+    expect(validate(value)).toBe(true)
 })

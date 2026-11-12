@@ -9,6 +9,7 @@ export function SiteFooter() {
           <a href="/">Home</a>
           <a href="/about">About</a>
           <a href="/services">Services</a>
+          <a href="/prices">Prices</a>
           <a href="/gallery">Gallery</a>
           <a href="/contact">Contact</a>
         </nav>

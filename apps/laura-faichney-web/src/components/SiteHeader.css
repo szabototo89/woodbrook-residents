@@ -62,7 +62,7 @@
   display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .header-inner {
     gap: 6px;
   }
@@ -150,5 +150,19 @@
 @media (prefers-reduced-motion: reduce) {
   .navigation a:after {
     transition: none;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 760px) {
+  .site-header .wordmark {
+    width: 145px;
+  }
+  .navigation {
+    gap: 5px;
+  }
+  .header-cta {
+    padding-inline: 12px;
+    font-size: 11px;
+    gap: 6px;
   }
 }

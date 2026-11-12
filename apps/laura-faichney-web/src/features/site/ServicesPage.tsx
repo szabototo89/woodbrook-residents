@@ -24,15 +24,20 @@ export function ServicesPage(props: ServicesPageProps) {
         imageSizes="(max-width: 420px) calc(100vw - 40px), (max-width: 640px) 380px, 50vw"
         imageAlt={data.hero.image.alt}
         action={
-          <img
-            className="services-motto"
-            src="/decoration/art-brings-people-together.webp"
-            srcSet="/decoration/art-brings-people-together-240.webp 240w, /decoration/art-brings-people-together-400.webp 400w, /decoration/art-brings-people-together.webp 600w"
-            sizes="(max-width: 1000px) 180px, (max-width: 1333px) 18vw, 240px"
-            alt="Art brings people together"
-            width="1448"
-            height="1086"
-          />
+          <div className="services-hero-actions">
+            <img
+              className="services-motto"
+              src="/decoration/art-brings-people-together.webp"
+              srcSet="/decoration/art-brings-people-together-240.webp 240w, /decoration/art-brings-people-together-400.webp 400w, /decoration/art-brings-people-together.webp 600w"
+              sizes="(max-width: 1000px) 180px, (max-width: 1333px) 18vw, 240px"
+              alt="Art brings people together"
+              width="1448"
+              height="1086"
+            />
+            <a className="button button-primary" href="/prices">
+              View prices <Arrow />
+            </a>
+          </div>
         }
       />
       {data.services.length > 0 && (

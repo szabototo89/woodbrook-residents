@@ -1,3 +1,4 @@
+import type { PriceCategory } from '../../../../../shared/lauraPricing';
 import { createPageHead } from '../../app/siteMetadata';
 
 // The Sanity reader normalizes absent text to empty strings and absent lists to [].
@@ -163,3 +164,18 @@ export function pageHeadFromSeo(input: {
     path: input.path,
   });
 }
+
+export type PricesData = {
+  eyebrow: string;
+  title: string;
+  introduction: string;
+  categories: PriceCategory[];
+  inspiration: CmsImage[];
+  fallbackQuote: string;
+  fallbackGuidance: string;
+  sharedNotes: string[];
+  enquiryLabel: string;
+  contactHeading: string;
+  contactCopy: string;
+  seo: CmsSeo;
+};

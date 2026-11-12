@@ -1,3 +1,4 @@
+import content from '../../../tests/fixtures/site-content.json';
 import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -258,21 +259,24 @@ test('offline audits bundle gallery covers, full pictures and thumbnails without
 test('caches a snapshot without artwork without attempting image downloads', async () => {
   vi.stubGlobal(
     'fetch',
-    vi.fn(
-      async () =>
-        new Response(
-          JSON.stringify({
-            result: {
-              home: null,
-              about: null,
-              page: null,
-              settings: null,
-              services: null,
-              collections: null,
-            },
-          }),
-        ),
-    ),
+    vi.fn(async (input: RequestInfo | URL) => {
+      if (String(input).includes('pricesPage'))
+        return Response.json({
+          result: { page: { ...content.pricesPage.page, inspiration: [] } },
+        });
+      return new Response(
+        JSON.stringify({
+          result: {
+            home: null,
+            about: null,
+            page: null,
+            settings: null,
+            services: null,
+            collections: null,
+          },
+        }),
+      );
+    }),
   );
   const original = await loadLauraSnapshot();
   const directory = await mkdtemp(path.join(tmpdir(), 'laura-empty-images-'));

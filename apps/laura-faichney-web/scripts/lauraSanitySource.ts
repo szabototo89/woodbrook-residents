@@ -1,3 +1,7 @@
+import {
+  priceCategoryError,
+  type PriceCategory,
+} from '../../../shared/lauraPricing';
 import { createClient, type SanityClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import { z } from 'zod';
@@ -15,6 +19,7 @@ import {
   type AboutData,
   type ServicesData,
   type GalleryData,
+  type PricesData,
 } from '../src/features/site/lauraSanity';
 
 export type LauraSanityConfig = {
@@ -91,11 +96,11 @@ function displayOrder(item: {
   _updatedAt: string;
 }): number {
   if (item.order !== undefined) return item.order;
-  for (const timestamp of [item._createdAt, item._updatedAt]) {
-    const time = Date.parse(timestamp);
-    if (Number.isFinite(time)) return time;
-  }
-  return Number.MAX_SAFE_INTEGER;
+  return (
+    [item._createdAt, item._updatedAt]
+      .map((timestamp) => Date.parse(timestamp))
+      .find(Number.isFinite) ?? Number.MAX_SAFE_INTEGER
+  );
 }
 
 const sanityImageSchema = optionalObject({
@@ -105,10 +110,10 @@ const sanityImageSchema = optionalObject({
     .describe('Image asset pointer'),
   hotspot: z
     .object({
-      x: optionalNumberSchema,
-      y: optionalNumberSchema,
-      height: optionalNumberSchema,
-      width: optionalNumberSchema,
+      x: optionalNumberSchema.describe('Horizontal focal point'),
+      y: optionalNumberSchema.describe('Vertical focal point'),
+      height: optionalNumberSchema.describe('Focal point height'),
+      width: optionalNumberSchema.describe('Focal point width'),
     })
     .nullish()
     .transform((value) =>
@@ -427,7 +432,7 @@ export class LauraSanitySource {
 
   private queryUrl(groq: string): string {
     const base = `https://${this.config.projectId}.api.sanity.io/v${this.config.apiVersion}/data/query/${this.config.dataset}`;
-    return `${base}?query=${encodeURIComponent(groq)}`;
+    return `${base}?perspective=published&query=${encodeURIComponent(groq)}`;
   }
 
   private async query<T>(
@@ -636,6 +641,104 @@ export class LauraSanitySource {
       seo: page.seo,
       services,
       settings,
+    };
+  }
+
+  async loadPrices(): Promise<PricesData> {
+    const requiredText = z.string().trim().min(1);
+    const data = await this.query(
+      'pricesPage',
+      `{
+      "page": *[_id == "pricesPage"][0] {
+        ..., categories[] { ..., "serviceSlug": service->slug.current }
+      }
+    }`,
+      z.object({
+        page: z
+          .object({
+            eyebrow: textSchema.describe('Small heading above the page title'),
+            title: requiredText.describe('Prices page heading'),
+            introduction: requiredText.describe('Short introduction'),
+            fallbackQuote: requiredText.describe(
+              'Label for a category without rates',
+            ),
+            fallbackGuidance: requiredText.describe(
+              'Quote requirements for a category without rates',
+            ),
+            enquiryLabel: requiredText.describe(
+              'Category enquiry link wording',
+            ),
+            contactHeading: requiredText.describe('Contact invitation heading'),
+            contactCopy: requiredText.describe('Contact invitation copy'),
+            inspiration: listSchema(
+              optionalObject({
+                image: sanityImageSchema.describe(
+                  'Optional inspiration artwork',
+                ),
+                imageAlt: requiredText.describe('Describe the artwork'),
+              }),
+            )
+              .refine(
+                (images) => images.length <= 3,
+                'Use at most three inspiration pictures.',
+              )
+              .describe('Optional gallery inspiration pictures'),
+            sharedNotes: listSchema(requiredText).describe(
+              'Visible shared pricing qualifications',
+            ),
+            categories: z
+              .array(
+                z.custom<PriceCategory>().superRefine((category, context) => {
+                  const error = priceCategoryError(category);
+                  if (error) {
+                    context.addIssue({ code: 'custom', message: error });
+                    return;
+                  }
+                  if (
+                    category &&
+                    category.serviceSlug != null &&
+                    (typeof category.serviceSlug !== 'string' ||
+                      !category.serviceSlug.trim())
+                  ) {
+                    context.addIssue({
+                      code: 'custom',
+                      message:
+                        'service: Select a published service with a slug, or remove the reference.',
+                    });
+                  }
+                  if (
+                    category &&
+                    'service' in category &&
+                    category.service &&
+                    !category.serviceSlug
+                  ) {
+                    context.addIssue({
+                      code: 'custom',
+                      message:
+                        'service: The linked service must be published with a slug.',
+                    });
+                  }
+                }),
+              )
+              .min(1)
+              .describe('Independent pricing categories in editorial order'),
+            seo: z
+              .object({
+                title: requiredText.describe('Prices search title'),
+                description: requiredText.describe('Prices search description'),
+              })
+              .describe('Required Prices metadata'),
+          })
+          .describe('Required published Prices singleton'),
+      }),
+    );
+    return {
+      ...data.page,
+      inspiration: data.page.inspiration
+        .map((item) =>
+          mapImage(this.config, item.image, item.imageAlt, 768, 480),
+        )
+        .filter((image) => image.url),
     };
   }
 

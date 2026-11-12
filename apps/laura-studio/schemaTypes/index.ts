@@ -5,6 +5,7 @@ import {galleryPage} from './galleryPage'
 import {homePage} from './homePage'
 import {pageHero} from './pageHero'
 import {seo} from './seo'
+import {pricesPage} from './pricesPage'
 import {service} from './service'
 import {servicesPage} from './servicesPage'
 import {siteSettings} from './siteSettings'
@@ -13,6 +14,7 @@ export const schemaTypes = [
   homePage,
   aboutPage,
   servicesPage,
+  pricesPage,
   galleryPage,
   siteSettings,
   service,

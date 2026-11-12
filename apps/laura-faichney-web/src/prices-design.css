@@ -1,0 +1,452 @@
+.prices-page {
+  background: #fdf9f5;
+  position: relative;
+  isolation: isolate;
+  padding: 22px 0 36px;
+}
+.prices-page::before,
+.prices-page::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/decoration/blush-gold-brush.webp') center / contain
+    no-repeat;
+  width: 280px;
+  height: 200px;
+  opacity: 0.8;
+}
+.prices-page::before {
+  top: 0;
+  left: -75px;
+  transform: rotate(180deg);
+}
+.prices-page::after {
+  bottom: 0;
+  right: 0;
+  width: 150px;
+  transform: rotate(180deg);
+}
+.prices-intro {
+  text-align: center;
+  margin: 0 auto 30px;
+}
+.prices-intro .eyebrow {
+  color: #996105;
+  font-size: 14px;
+  letter-spacing: 0.3em;
+}
+.prices-intro h1 {
+  font-size: clamp(2.5rem, 4vw, 3.7rem);
+  line-height: 1.04;
+}
+.prices-intro .gold-stroke {
+  width: 225px;
+  height: 9px;
+  margin: 14px auto 12px;
+  background-color: #cc8b09;
+}
+.prices-description {
+  font-size: 18px;
+}
+.prices-guide {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 64px;
+}
+.price-category {
+  min-width: 0;
+  border-bottom: 1px solid #e8d1bf;
+  padding: 18px 0 8px;
+}
+.price-category-heading {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.price-category-heading > svg {
+  color: #bb800b;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+}
+.price-category-heading h2 {
+  font-size: 29px;
+  line-height: 1.05;
+  margin-bottom: 5px;
+}
+.price-category-heading p {
+  font-size: 13px;
+}
+.price-options {
+  list-style: none;
+  margin: 0 0 0 14px;
+  padding: 0;
+}
+.price-option {
+  border-bottom: 1px solid #eddaca;
+  padding: 6px 8px;
+}
+.price-option:last-child {
+  border-bottom: 0;
+}
+.price-option-main {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.price-option-label {
+  font-size: 14px;
+  line-height: 1.4;
+  min-width: 0;
+}
+.price-option-label > span {
+  font-weight: 600;
+}
+.price-option-label small {
+  font-size: 12px;
+  margin-left: 5px;
+}
+.price-amount {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: right;
+  line-height: 1.35;
+  flex-shrink: 0;
+  max-width: 52%;
+}
+.price-amount small {
+  font-size: 11px;
+  font-weight: 400;
+  display: inline;
+  margin-right: 5px;
+}
+.price-inclusions {
+  padding-left: 17px;
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: #45515e;
+}
+.price-inclusions li::marker {
+  color: #996105;
+}
+.price-qualification {
+  font-size: 12px;
+  color: #45515e;
+  margin-top: 3px;
+}
+.price-enquiry {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-height: 44px;
+  color: #c51d4b;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.price-enquiry:hover {
+  text-decoration: underline;
+}
+.price-fallback {
+  padding: 6px 8px;
+  font-size: 14px;
+}
+.price-fallback .price-amount {
+  text-align: left;
+  max-width: none;
+}
+.price-category:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 0 40px;
+}
+.price-category:last-child:nth-child(odd) .price-enquiry {
+  grid-column: 2;
+}
+.prices-notes {
+  margin: 16px 0 0;
+  font-size: 12px;
+  color: #45515e;
+}
+.prices-notes p + p {
+  margin-top: 6px;
+}
+.prices-inspiration {
+  margin-top: 18px;
+  border-top: 1px solid #e8d1bf;
+  padding-top: 14px;
+}
+.prices-inspiration-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+.prices-inspiration-heading h2 {
+  font-size: 34px;
+  line-height: 1.1;
+}
+.prices-inspiration-heading > a {
+  display: none;
+  color: #c51d4b;
+  text-decoration: none;
+  font-size: 13px;
+}
+.prices-artwork {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) 0.5fr;
+  gap: 24px;
+  align-items: center;
+}
+.prices-artwork a img {
+  width: 100%;
+  height: 155px;
+  object-fit: cover;
+  border-radius: 9px;
+}
+.prices-motto {
+  width: 100%;
+  height: auto;
+}
+.prices-contact {
+  display: grid;
+  grid-template-columns: 1.15fr 0.8fr auto;
+  align-items: center;
+  gap: 28px;
+  margin: 26px -20px 0;
+  border-radius: 20px;
+  background: #ffedea;
+  padding: 22px 32px;
+}
+.prices-contact h2 {
+  font-size: 31px;
+  line-height: 1.05;
+}
+.prices-contact .gold-stroke {
+  height: 6px;
+  margin: 9px 0 0;
+  background: #cc8b09;
+}
+.prices-contact > p {
+  font-size: 13px;
+  border-left: 1px solid #e8b8a9;
+  padding-left: 28px;
+}
+.prices-contact-actions {
+  display: flex;
+  gap: 14px;
+}
+.prices-contact .button {
+  font-size: 13px;
+  min-height: 44px;
+  padding: 8px 23px;
+  border-radius: 30px;
+  white-space: normal;
+  text-align: center;
+}
+.prices-quote {
+  border: 1px solid #d92755;
+  color: #c51d4b;
+  background: transparent;
+}
+@media (max-width: 1100px) {
+  .prices-guide {
+    column-gap: 32px;
+  }
+  .prices-contact {
+    grid-template-columns: 1fr 1fr;
+  }
+  .prices-contact-actions {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+}
+@media (max-width: 700px) {
+  .prices-page {
+    padding-top: 27px;
+  }
+  .prices-intro {
+    margin-bottom: 20px;
+  }
+  .prices-intro .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+  }
+  .prices-intro h1 {
+    font-size: clamp(2.4rem, 7.8vw, 3.5rem);
+    line-height: 1;
+  }
+  .prices-intro .gold-stroke {
+    width: 150px;
+    margin: 15px auto;
+    height: 6px;
+  }
+  .prices-description {
+    font-size: 16px;
+    max-width: 300px;
+    margin-inline: auto;
+  }
+  .prices-guide {
+    display: block;
+  }
+  .price-category {
+    padding: 22px 0 12px;
+  }
+  .price-category-heading {
+    gap: 13px;
+    margin-bottom: 12px;
+  }
+  .price-category-heading h2 {
+    font-size: 29px;
+  }
+  .price-category-heading p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .price-category-heading > svg {
+    width: 33px;
+    height: 33px;
+    flex-basis: 33px;
+  }
+  .price-options {
+    margin-left: 22px;
+  }
+  .price-option {
+    padding: 8px 0;
+  }
+  .price-option-main {
+    gap: 12px;
+  }
+  .price-option-label {
+    font-size: 14px;
+  }
+  .price-option-label small {
+    display: block;
+    margin: 2px 0 0;
+    font-size: 12px;
+  }
+  .price-amount {
+    font-size: 18px;
+    max-width: 48%;
+  }
+  .price-inclusions,
+  .price-qualification {
+    font-size: 12px;
+  }
+  .price-category:last-child:nth-child(odd) {
+    display: block;
+  }
+  .prices-inspiration-heading {
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .prices-inspiration-heading h2 {
+    font-size: 27px;
+  }
+  .prices-inspiration-heading > a {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    min-height: 44px;
+    flex-shrink: 0;
+  }
+  .prices-artwork {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .prices-artwork a img {
+    height: 106px;
+  }
+  .prices-motto {
+    display: none;
+  }
+  .prices-contact {
+    display: block;
+    padding: 24px 16px;
+    margin: 20px -8px 0;
+    text-align: center;
+  }
+  .prices-contact h2 {
+    font-size: 30px;
+  }
+  .prices-contact .gold-stroke {
+    display: none;
+  }
+  .prices-contact > p {
+    border: 0;
+    padding: 0;
+    margin-top: 12px;
+    font-size: 14px;
+  }
+  .prices-contact-actions {
+    margin-top: 20px;
+    gap: 10px;
+  }
+  .prices-contact .button {
+    flex: 1;
+    padding: 8px 14px;
+  }
+}
+@media (max-width: 360px) {
+  .price-option-main {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .price-amount {
+    max-width: 100%;
+  }
+  .prices-inspiration-heading {
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .prices-contact-actions {
+    flex-direction: column;
+  }
+}
+
+.services-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.prices-page :focus-visible {
+  outline-color: #996105;
+}
+
+@media (min-width: 701px) {
+  .prices-intro {
+    margin-bottom: 12px;
+  }
+  .price-option {
+    padding-block: 5px;
+  }
+  .price-option-label > span {
+    font-weight: 500;
+  }
+  .price-category-heading {
+    margin-bottom: 8px;
+  }
+}
+
+.price-category-heading > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.price-amount {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .prices-inspiration-heading {
+    flex-wrap: wrap;
+  }
+  .price-option-main {
+    flex-wrap: wrap;
+  }
+}

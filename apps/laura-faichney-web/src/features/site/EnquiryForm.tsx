@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Arrow } from './Arrow';
 import { sendGoogleFormEnquiry } from './googleFormSubmission';
 import type { CmsService, CmsSettings } from './lauraSanity';
@@ -15,6 +15,12 @@ export function EnquiryForm(props: EnquiryFormProps) {
     props.selectedService === 'other'
       ? props.selectedService
       : '';
+
+  const serviceField = useRef<HTMLSelectElement>(null);
+  useEffect(() => {
+    // Static HTML has no query-specific selection; apply it after hydration.
+    if (serviceField.current) serviceField.current.value = initialService ?? '';
+  }, [initialService]);
 
   const [status, setStatus] = useState<
     'idle' | 'sending' | 'submitted' | 'error'
@@ -120,6 +126,7 @@ export function EnquiryForm(props: EnquiryFormProps) {
         <label htmlFor="enquiry-service">
           Service Interested In <span aria-hidden="true">*</span>
           <select
+            ref={serviceField}
             id="enquiry-service"
             name="service"
             disabled={status === 'sending'}

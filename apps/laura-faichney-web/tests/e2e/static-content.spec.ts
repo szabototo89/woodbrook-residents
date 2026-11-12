@@ -11,7 +11,14 @@ test('direct visits and client navigation use built content without Sanity API r
       requests.push(route.request().url());
       await route.abort();
     });
-  for (const path of ['/', '/about', '/services', '/contact', '/gallery']) {
+  for (const path of [
+    '/',
+    '/about',
+    '/services',
+    '/prices',
+    '/contact',
+    '/gallery',
+  ]) {
     await page.goto(path);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   }

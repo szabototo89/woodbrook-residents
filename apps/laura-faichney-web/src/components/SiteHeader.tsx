@@ -11,6 +11,7 @@ export function SiteHeader(props: SiteHeaderProps) {
     ['Home', '/'],
     ['About', '/about'],
     ['Services', '/services'],
+    ['Prices', '/prices'],
     ['Gallery', '/gallery'],
     ['Contact', '/contact'],
   ];

@@ -22,7 +22,7 @@ for (const width of [320, 390, 640, 641, 768, 900, 1024, 1440, 2048]) {
         .boundingBox(),
     });
     const reference = await geometry();
-    for (const path of ['/', '/services', '/gallery', '/contact']) {
+    for (const path of ['/', '/services', '/prices', '/gallery', '/contact']) {
       await page.goto(path);
       await page.evaluate(() => document.fonts.ready);
       expect(await geometry(), `${path} header matches About`).toEqual(

@@ -9,7 +9,7 @@ test('captures all pages from local fixtures without a network fallback', async 
   const fetch = vi.fn(fixtureResponse);
   vi.stubGlobal('fetch', fetch);
   const snapshot = await loadLauraSnapshot(new LauraSanitySource());
-  expect(fetch).toHaveBeenCalledTimes(4);
+  expect(fetch).toHaveBeenCalledTimes(5);
   expect(snapshot.home.hero.titleLines.join(' ')).toContain('Brighter');
   expect(snapshot.services.services).toHaveLength(5);
   expect(
