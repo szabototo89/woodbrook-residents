@@ -70,20 +70,25 @@ const validUpdate = {
   featured: false,
 };
 
-test('content schemas rejects empty or unparseable required dates', () => {
-  expect(() =>
-    updateSchema.parse({ ...validUpdate, publishedOn: '' }),
-  ).toThrow();
-  expect(() =>
-    updateSchema.parse({ ...validUpdate, publishedOn: 'not-a-date' }),
-  ).toThrow();
-  expect(() =>
-    updateSchema.parse({ ...validUpdate, sourceReviewedOn: '' }),
-  ).toThrow();
+test('content schemas keeps updates with unavailable dates without inventing dates', () => {
+  for (const value of ['', 'not-a-date', '  ', null, undefined, 42]) {
+    const update = updateSchema.parse({
+      ...validUpdate,
+      publishedOn: value,
+      sourceReviewedOn: value,
+    });
+    expect(update.documentId).toBe(validUpdate.documentId);
+    expect(update.publishedOn).toBe('');
+    expect(update.sourceReviewedOn).toBe('');
+  }
+  expect(
+    updateSchema.parse({ ...validUpdate, publishedOn: ' 2026-09-10 ' })
+      .publishedOn,
+  ).toBe('2026-09-10');
   expect(() => updateSchema.parse(validUpdate)).not.toThrow();
 });
 
-test('content schemas rejects empty or unparseable optional dates when present', () => {
+test('content schemas treats unavailable optional dates as absent', () => {
   const validSurvey = {
     documentId: 'survey-1',
     slug: 'survey-1',
@@ -94,17 +99,18 @@ test('content schemas rejects empty or unparseable optional dates when present',
     sourceUrl: 'https://example.com/survey',
     sourceReviewedOn: '2026-09-09',
   };
-  expect(() => surveySchema.parse({ ...validSurvey, closesOn: '' })).toThrow();
-  expect(() =>
-    surveySchema.parse({ ...validSurvey, closesOn: 'yesterday-ish' }),
-  ).toThrow();
+  for (const closesOn of ['', 'yesterday-ish', null, 42]) {
+    expect(
+      surveySchema.parse({ ...validSurvey, closesOn }).closesOn,
+    ).toBeUndefined();
+  }
   expect(() =>
     surveySchema.parse({ ...validSurvey, closesOn: '2026-10-01' }),
   ).not.toThrow();
   expect(() => surveySchema.parse(validSurvey)).not.toThrow();
 });
 
-test('content schemas rejects empty event dates and collection dates', () => {
+test('content schemas retains events and collection entries without dates', () => {
   const validEvent = {
     documentId: 'event-1',
     slug: 'event-1',
@@ -116,8 +122,10 @@ test('content schemas rejects empty event dates and collection dates', () => {
     sourceReviewedOn: '2026-09-09',
     featured: false,
   };
-  expect(() => eventSchema.parse({ ...validEvent, startsAt: '' })).toThrow();
-  expect(() => eventSchema.parse({ ...validEvent, endsAt: '' })).toThrow();
+  expect(eventSchema.parse({ ...validEvent, startsAt: '' }).startsAt).toBe('');
+  expect(
+    eventSchema.parse({ ...validEvent, endsAt: '' }).endsAt,
+  ).toBeUndefined();
 
   const validResource = {
     documentId: 'resource-1',
@@ -136,11 +144,20 @@ test('content schemas rejects empty event dates and collection dates', () => {
     sourceUrl: 'https://example.com/resource',
     sourceReviewedOn: '2026-09-09',
   };
-  expect(() =>
+  expect(
     resourceSchema.parse({
       ...validResource,
       collectionDates: [{ id: 0, date: '', stream: 'recycling' }],
-    }),
-  ).toThrow();
+    }).collectionDates,
+  ).toEqual([{ id: 0, date: '', stream: 'recycling' }]);
   expect(() => resourceSchema.parse(validResource)).not.toThrow();
+});
+
+test('content schemas normalizes category spelling and uses Other for unknown categories', () => {
+  expect(updateSchema.parse({ ...validUpdate, kind: ' Transport ' }).kind).toBe(
+    'transport',
+  );
+  for (const kind of ['local-news', '', null, undefined, 42]) {
+    expect(updateSchema.parse({ ...validUpdate, kind }).kind).toBe('other');
+  }
 });

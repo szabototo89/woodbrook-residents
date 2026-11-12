@@ -5,6 +5,7 @@ import { CalendarPlus } from 'lucide-react';
 import type { CommunityEvent } from '../content/contentTypes';
 import { resolveSiteUrl } from '../../app/siteMetadata';
 import { buildAddToCalendarConfig } from './addToCalendarConfig';
+import { isContentDate } from '../content/contentDates';
 
 type AddToCalendarButtonProps = {
   event: CommunityEvent;
@@ -24,6 +25,8 @@ export function AddToCalendarButton(props: AddToCalendarButtonProps) {
     },
     [props.event],
   );
+
+  if (!isContentDate(props.event.startsAt)) return null;
 
   return (
     <button

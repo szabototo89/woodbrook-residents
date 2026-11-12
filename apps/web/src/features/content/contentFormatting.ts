@@ -1,4 +1,7 @@
+import { isContentDate } from './contentDates';
+
 export function formatDate(value: string) {
+  if (!isContentDate(value)) return 'Date unavailable';
   return new Intl.DateTimeFormat('en-IE', {
     day: 'numeric',
     month: 'long',
@@ -8,6 +11,7 @@ export function formatDate(value: string) {
 }
 
 export function formatDateTime(value: string) {
+  if (!isContentDate(value)) return 'Date unavailable';
   return new Intl.DateTimeFormat('en-IE', {
     dateStyle: 'long',
     timeStyle: 'short',

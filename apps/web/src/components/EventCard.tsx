@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router';
 import { ArrowRight, CalendarDays, MapPin } from 'lucide-react';
 
 import { formatDateTime } from '../features/content/contentFormatting';
+import { isContentDate } from '../features/content/contentDates';
 import type { CommunityEvent } from '../features/content/contentTypes';
 
 type EventCardProps = {
@@ -17,16 +18,20 @@ export function EventCard(props: EventCardProps) {
     <article className="event-card">
       <div className="event-date" aria-hidden="true">
         <strong>
-          {new Intl.DateTimeFormat('en-IE', {
-            day: '2-digit',
-            timeZone: 'Europe/Dublin',
-          }).format(new Date(props.event.startsAt))}
+          {isContentDate(props.event.startsAt)
+            ? new Intl.DateTimeFormat('en-IE', {
+                day: '2-digit',
+                timeZone: 'Europe/Dublin',
+              }).format(new Date(props.event.startsAt))
+            : '—'}
         </strong>
         <span>
-          {new Intl.DateTimeFormat('en-IE', {
-            month: 'short',
-            timeZone: 'Europe/Dublin',
-          }).format(new Date(props.event.startsAt))}
+          {isContentDate(props.event.startsAt)
+            ? new Intl.DateTimeFormat('en-IE', {
+                month: 'short',
+                timeZone: 'Europe/Dublin',
+              }).format(new Date(props.event.startsAt))
+            : 'TBC'}
         </span>
       </div>
       <div>

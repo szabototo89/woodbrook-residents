@@ -65,18 +65,30 @@ export function UpdateDetailPage() {
           <aside className="source-note">
             <p className="eyebrow">Source and freshness</p>
             <p>
-              This summary was checked against {update.sourceName} on{' '}
-              {formatDate(update.sourceReviewedOn)}.
+              {update.sourceReviewedOn ? (
+                <>
+                  {' '}
+                  This summary was checked against {update.sourceName} on{' '}
+                  {formatDate(update.sourceReviewedOn)}.
+                </>
+              ) : (
+                <>
+                  {update.sourceName ? `Source: ${update.sourceName}. ` : ''}
+                  Source review date unavailable.
+                </>
+              )}
             </p>
-            <a
-              className="text-link"
-              href={update.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Read the original source{' '}
-              <ArrowUpRight size={15} aria-hidden="true" />
-            </a>
+            {update.sourceUrl ? (
+              <a
+                className="text-link"
+                href={update.sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Read the original source{' '}
+                <ArrowUpRight size={15} aria-hidden="true" />
+              </a>
+            ) : null}
           </aside>
         </div>
       </article>

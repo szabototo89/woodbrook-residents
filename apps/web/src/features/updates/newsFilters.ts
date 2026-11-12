@@ -1,4 +1,5 @@
 import { updateKinds } from '../content/contentTaxonomy';
+import { compareContentDates } from '../content/contentDates';
 import type { UpdateKind, UpdatesContent } from '../content/contentTypes';
 
 export type NewsParams = {
@@ -21,7 +22,6 @@ export function selectNews(content: UpdatesContent, params: NewsParams) {
   const articles = content.featuredUpdate
     ? [content.featuredUpdate, ...content.items]
     : content.items;
-  const direction = params.sort === 'oldest' ? 1 : -1;
   return {
     featuredUpdate: undefined,
     items: articles
@@ -29,10 +29,8 @@ export function selectNews(content: UpdatesContent, params: NewsParams) {
         (article) =>
           params.category === 'all' || article.kind === params.category,
       )
-      .sort(
-        (left, right) =>
-          direction *
-          (Date.parse(left.publishedOn) - Date.parse(right.publishedOn)),
+      .sort((left, right) =>
+        compareContentDates(left.publishedOn, right.publishedOn, params.sort),
       ),
   };
 }

@@ -105,8 +105,18 @@ export function LocalServiceDetailPage() {
           <aside className="source-note">
             <p className="eyebrow">Source and freshness</p>
             <p>
-              These details were checked against {resource.sourceName} on{' '}
-              {formatDate(resource.sourceReviewedOn)}.
+              {resource.sourceReviewedOn ? (
+                <>
+                  {' '}
+                  These details were checked against {
+                    resource.sourceName
+                  } on {formatDate(resource.sourceReviewedOn)}.
+                </>
+              ) : (
+                <>
+                  Source: {resource.sourceName}. Source review date unavailable.
+                </>
+              )}
             </p>
             <a
               className="text-link"

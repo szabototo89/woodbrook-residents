@@ -54,6 +54,18 @@ test('events page renders the timeline during SSR', async () => {
   expect(markup).toContain('Events by date');
 });
 
+test('events page keeps undated events visible during SSR', async () => {
+  mockContent = {
+    availability: 'ready',
+    items: [{ ...readyEvent, startsAt: '' }],
+  };
+  const { EventsPage } = await import('./EventsPage');
+  const markup = renderToStaticMarkup(createElement(EventsPage));
+  expect(markup).toContain('Dates to be confirmed');
+  expect(markup).toContain('Test event');
+  expect(markup).toContain('Date unavailable');
+});
+
 test('events page lists events in chronological order', async () => {
   const laterSecond: CommunityEvent = {
     ...readyEvent,

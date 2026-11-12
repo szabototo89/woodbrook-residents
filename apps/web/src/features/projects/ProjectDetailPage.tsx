@@ -72,8 +72,19 @@ export function ProjectDetailPage() {
           <aside className="source-note">
             <p className="eyebrow">Source and freshness</p>
             <p>
-              This project summary was checked against {project.sourceName} on{' '}
-              {formatDate(project.sourceReviewedOn)}.
+              {project.sourceReviewedOn ? (
+                <>
+                  {' '}
+                  This project summary was checked against {
+                    project.sourceName
+                  }{' '}
+                  on {formatDate(project.sourceReviewedOn)}.
+                </>
+              ) : (
+                <>
+                  Source: {project.sourceName}. Source review date unavailable.
+                </>
+              )}
             </p>
             <a
               className="text-link"

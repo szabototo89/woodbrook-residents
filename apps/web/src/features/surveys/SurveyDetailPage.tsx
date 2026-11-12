@@ -75,8 +75,17 @@ export function SurveyDetailPage() {
           <aside className="source-note">
             <p className="eyebrow">Source and freshness</p>
             <p>
-              This consultation summary was checked against {survey.sourceName}{' '}
-              on {formatDate(survey.sourceReviewedOn)}.
+              {survey.sourceReviewedOn ? (
+                <>
+                  {' '}
+                  This consultation summary was checked against{' '}
+                  {survey.sourceName} on {formatDate(survey.sourceReviewedOn)}.
+                </>
+              ) : (
+                <>
+                  Source: {survey.sourceName}. Source review date unavailable.
+                </>
+              )}
             </p>
             <a
               className="text-link"

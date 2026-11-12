@@ -1,4 +1,5 @@
 import { getUpcomingEvents } from '../events/homeEvent';
+import { compareContentDates } from './contentDates';
 import type {
   ContentSnapshot,
   HomeContent,
@@ -54,9 +55,8 @@ export function getUpdatesContentFromSnapshot(
 }
 
 export function getUpdatesFromSnapshot(snapshot: ContentSnapshot) {
-  return [...snapshot.updates].sort(
-    (left, right) =>
-      Date.parse(right.publishedOn) - Date.parse(left.publishedOn),
+  return [...snapshot.updates].sort((left, right) =>
+    compareContentDates(left.publishedOn, right.publishedOn),
   );
 }
 

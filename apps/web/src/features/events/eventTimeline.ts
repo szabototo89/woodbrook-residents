@@ -1,10 +1,11 @@
 import type { CommunityEvent } from '../content/contentTypes';
+import { isContentDate } from '../content/contentDates';
 
 const DUBLIN_TIME_ZONE = 'Europe/Dublin';
 const MILLISECONDS_PER_DAY = 86_400_000;
 
 export type EventTimelinePeriod =
-  'this-week' | 'next-week' | 'later' | 'earlier';
+  'this-week' | 'next-week' | 'later' | 'earlier' | 'undated';
 
 export type EventTimelineGroup = {
   id: EventTimelinePeriod;
@@ -65,6 +66,7 @@ export function groupEventsByTimeline(
   const laterStarts = nextWeekStarts + 7;
 
   const periodForEvent = (event: CommunityEvent): EventTimelinePeriod => {
+    if (!isContentDate(event.startsAt)) return 'undated';
     const eventDay = getDublinDayNumber(event.startsAt);
     if (eventDay < thisWeekStarts) {
       return 'earlier';
@@ -101,6 +103,12 @@ export function groupEventsByTimeline(
       id: 'earlier',
       title: 'Earlier dates',
       dateRange: `Before ${formatDay(thisWeekStarts)}`,
+      events: [],
+    },
+    {
+      id: 'undated',
+      title: 'Dates to be confirmed',
+      dateRange: 'Check the organiser’s source for dates',
       events: [],
     },
   ];
