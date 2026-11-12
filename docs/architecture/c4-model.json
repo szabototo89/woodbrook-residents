@@ -616,6 +616,27 @@
       "description": "Render available content and omit absent sections and artwork",
       "technology": "React",
       "parent": "laura_web"
+    },
+    "flexible_content_source": {
+      "kind": "component",
+      "name": "Content reader",
+      "description": "Normalizes dates and categories in published content",
+      "technology": "TypeScript and Zod",
+      "parent": "woodbrook_browser"
+    },
+    "flexible_content_presentation": {
+      "kind": "component",
+      "name": "Date presentation",
+      "description": "Renders unavailable dates and guards calendar actions",
+      "technology": "React and TypeScript",
+      "parent": "woodbrook_browser"
+    },
+    "flexible_mobile_dates": {
+      "kind": "component",
+      "name": "Mobile date formatting",
+      "description": "Formats available dates and labels unavailable dates",
+      "technology": "TypeScript Date methods",
+      "parent": "mobile_public_app"
     }
   },
   "relationships": {
@@ -1240,6 +1261,24 @@
       "to": "laura_snapshot",
       "label": "Reads captured page data",
       "technology": "Build-time JSON import"
+    },
+    "flexible_source_lake": {
+      "from": "flexible_content_source",
+      "to": "sanity_content_lake",
+      "label": "Reads published community documents from",
+      "technology": "GROQ over HTTPS"
+    },
+    "flexible_presentation_source": {
+      "from": "flexible_content_presentation",
+      "to": "flexible_content_source",
+      "label": "Reads normalized records from",
+      "technology": "Content snapshot"
+    },
+    "flexible_mobile_screens_dates": {
+      "from": "native_resident_screens",
+      "to": "flexible_mobile_dates",
+      "label": "Requests date labels from",
+      "technology": "TypeScript calls"
     }
   },
   "diagrams": {
@@ -2574,6 +2613,60 @@
           "laura_pages_read_snapshot": {
             "status": "changed",
             "description": "Consumes normalized partial data with fallback titles and artwork labels."
+          }
+        }
+      }
+    },
+    "flexible_content_components": {
+      "level": "C3",
+      "scope": "woodbrook_browser",
+      "title": "Public website \u2014 C3 flexible content \u2014 changes from 1ee889d",
+      "handoff": "flexible-sanity-content",
+      "source": "docs/handoffs/flexible-sanity-content/assets/c3-components.puml",
+      "elements": [
+        "flexible_content_source",
+        "flexible_content_presentation",
+        "sanity_content_lake"
+      ],
+      "relationships": ["flexible_source_lake", "flexible_presentation_source"],
+      "changes": {
+        "elements": {
+          "flexible_content_source": {
+            "status": "changed",
+            "description": "Previously rejected incomplete fields; now retains records with fallbacks."
+          },
+          "flexible_content_presentation": {
+            "status": "changed",
+            "description": "Previously assumed valid dates; now handles unavailable dates."
+          }
+        },
+        "relationships": {
+          "flexible_presentation_source": {
+            "status": "changed",
+            "description": "Now accepts unavailable dates and Other categories."
+          }
+        }
+      }
+    },
+    "flexible_mobile_components": {
+      "level": "C3",
+      "scope": "mobile_public_app",
+      "title": "Mobile app \u2014 C3 date compatibility \u2014 changes from 1ee889d",
+      "handoff": "flexible-sanity-content",
+      "source": "docs/handoffs/flexible-sanity-content/assets/c3-mobile.puml",
+      "elements": ["native_resident_screens", "flexible_mobile_dates"],
+      "relationships": ["flexible_mobile_screens_dates"],
+      "changes": {
+        "elements": {
+          "flexible_mobile_dates": {
+            "status": "changed",
+            "description": "Previously threw on invalid dates; now returns Date unavailable."
+          }
+        },
+        "relationships": {
+          "flexible_mobile_screens_dates": {
+            "status": "changed",
+            "description": "Accepts empty dates from the shared snapshot."
           }
         }
       }

@@ -95,11 +95,11 @@ const shortMonthNames = [
 
 function parseDate(value: string) {
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) throw new RangeError('Invalid time value');
-  return date;
+  return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
-function formatDate(date: Date) {
+function formatDate(date: Date | undefined) {
+  if (!date) return 'Date unavailable';
   return `${date.getDate()} ${shortMonthNames[date.getMonth()]} ${date.getFullYear()}`;
 }
 
@@ -109,6 +109,7 @@ export function readableDate(value: string) {
 
 export function readableDateTime(value: string) {
   const date = parseDate(value);
+  if (!date) return 'Date unavailable';
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
   return `${formatDate(date)}, ${hours}:${minutes}`;

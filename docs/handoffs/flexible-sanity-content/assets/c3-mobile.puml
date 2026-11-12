@@ -1,0 +1,19 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Mobile app — C3 date compatibility — changes from 1ee889d
+
+Container_Boundary(mobile_public_app, "Mobile app") {
+  Component(native_resident_screens, "Resident screens", "ReactLynx", "Display public records and date labels")
+  Component(flexible_mobile_dates, "[CHANGED] Mobile date formatting", "TypeScript Date methods", "Formats available dates and labels unavailable dates\nChange: Previously threw on invalid dates; now returns Date unavailable.")
+}
+
+Rel(native_resident_screens, flexible_mobile_dates, "[CHANGED] Requests date labels from\nChange: Accepts empty dates from the shared snapshot.", "TypeScript calls")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml
