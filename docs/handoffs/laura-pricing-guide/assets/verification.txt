@@ -1,0 +1,28 @@
+Baseline: 1ee889d
+Implementation: 6cbfc533677ca2a4ac87a0e29bc722075f9a09d0
+Website initial deployment: https://0ac1e20c.laura-faichney-all-things-art.pages.dev
+Website alias: https://laura-prices-35.laura-faichney-all-things-art.pages.dev
+Studio initial deployment: https://e8a48a7c.laura-faichney-all-things-art.pages.dev
+Studio alias: https://laura-prices-studio-35.laura-faichney-all-things-art.pages.dev
+Preview aliases are refreshed from the final PR commit; see the PR for final deployment hashes.
+
+Published Prices singleton: pricesPage
+Published revision: hpf0silrPxAfB7rIgMHb9G
+Production: five independent categories, 15 quote-only options, zero numeric pricing fields, three existing published artwork images.
+Actual published service references resolve to commissioned-paintings, murals-indoor-outdoor, christmas-seasonal-window-painting, facepainting and art-tutoring.
+Content source: existing published Services and owner-supplied reference images, accessed 12 November 2026. Owner explicitly authorised quote-only publication and production deployment.
+Sanity schema deployed from the local Studio; exact source _.schemas.default inspected. Connector default schema selection was ambiguous, so local Studio document validation and the website build validator checked the exact content. Local validator output: [].
+
+Website preview: desktop 1536x1024 and phone 390x844, device scale 2, reduced motion.
+Both: HTTP 200, 15 quote-only rows, no numeric prices, no overflow, no runtime errors, no visitor Sanity content API requests. First phone quote visible without scrolling.
+All five enquiry links select the corresponding actual service after navigation and reload.
+Six public routes return HTTP 200. JavaScript disabled: heading, 15 quotes and contact links render.
+Studio preview: HTTP 200, Sanity Studio title, sign-in screen visible, no runtime errors. Exact temporary credentialled CORS origin added.
+
+Unit: 127 website Vitest tests, 32 Bun script tests; 24 Studio tests with 100% measured coverage.
+Laura browser regression: 164 passed with two workers.
+Full normal repository precommit: PASS, no bypass. Earlier unrestricted parallel run exposed header/Services/menu regressions; fixes and bounded CI worker configuration pass all checks.
+Repository build: bun run build, exit 0.
+Published static export: 11 HTML files and every generated internal link verified.
+Handoff: docs:check and c4:check pass; generated C2/C3 SVGs reviewed in desktop/mobile viewer, including fit, zoom, keyboard navigation and source disclosure.
+cmux: no live socket exists. Playwright supplies desktop/mobile verification.

@@ -16,7 +16,7 @@ the values above and can be overridden for previews or local experiments:
 - `SANITY_DATASET` (or `VITE_SANITY_DATASET` at build time)
 - `SANITY_API_VERSION` (or `VITE_SANITY_API_VERSION` at build time)
 
-Each build makes four published-content queries (Home, About, Services, Gallery)
+Each build makes five published-content queries (Home, About, Services, Prices, Gallery)
 and writes a validated snapshot to the ignored `.cache/laura-content.json`.
 Vite embeds that snapshot in the client and server bundles. Route loaders,
 preloads, gallery swipes, sitemap generation and static verification reuse it;
@@ -32,6 +32,23 @@ These are served from `/site-images/` on Cloudflare Pages. The persistent
 transformations; the GitHub deploy workflow restores it between runs. Gallery
 collection photos and thumbnails still load from Sanity's image CDN. Failed
 required image downloads stop the build.
+
+## Prices and commissions
+
+The `pricesPage` singleton owns independently named and ordered pricing categories,
+with multiple rows per category. Categories can differ from Services. An optional
+reference to a published service preselects it in the existing contact form.
+
+Production currently uses quote-only options, as the owner requested. Numeric
+examples exist only in the labelled offline test fixtures. Studio and the build
+share `shared/lauraPricing.ts`: fixed/from prices need a positive amount,
+currency and scope; ranges need ordered positive bounds; quote rows need guidance
+and no numeric fields. A category without rows uses the page’s explicit quote
+message. A missing Prices singleton or invalid row stops a fresh build.
+
+Publish changes in Laura Studio, then rebuild/deploy to update the website.
+Publishing alone does not replace the current deployed snapshot. Approve real
+rates and commercial terms before replacing quote-only options with numeric ones.
 
 ## Development
 
@@ -56,7 +73,7 @@ bun run build
 bun run build:static
 ```
 
-`test:e2e` checks all five routes at 320, 390, 640, 700, 900 and 1440 pixels, the mobile service and gallery layouts, logo loading, and keyboard menu dismissal.
+`test:e2e` checks all six routes at 320, 390, 640, 700, 900 and 1440 pixels, the mobile service and gallery layouts, logo loading, and keyboard menu dismissal.
 
 Gallery swipe tests use native Chromium touch input in mobile mode at 320, 390 and 430px, plus WebKit with an iPhone viewport and synthetic touch events. They verify that the image follows the finger, pictures and adjacent collections remain browsable, and vertical scrolling and multi-touch gestures preserve selection. The WebKit checks require its Playwright browser binary; they do not replace physical-device testing.
 
@@ -68,7 +85,7 @@ the separate `.cache/test-image-assets/` cache, so test artwork cannot populate
 the production cache. It also blocks Sanity API endpoints while checking direct
 visits and client navigation.
 
-The static build is written to `dist/client` and verifies the five main pages plus each CMS gallery collection, internal links, crawler metadata, and the absence of Sanity API code or runtime-only output.
+The static build is written to `dist/client` and verifies the six main pages plus each CMS gallery collection, internal links, crawler metadata, and the absence of Sanity API code or runtime-only output.
 
 ## Cloudflare Pages deployment
 

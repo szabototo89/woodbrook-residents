@@ -1,6 +1,6 @@
 # Laura pricing guide
 
-Status: In progress
+Status: Available
 
 ## Job to be done
 
@@ -25,6 +25,6 @@ The Prices singleton in Laura Studio owns independently named and ordered catego
 
 Includes Studio editing, build-time validation, metadata, sitemap/static checks, responsive presentation and links into the existing form. Categories own price content because the user explicitly requested grouping independent of Services, superseding issue #35’s original per-service storage proposal.
 
-Excludes checkout, payment, booking, calculators, submission changes and production rate approval. Test/preview prices are illustrative and visibly labelled. Production remains unchanged until the owner supplies approved categories, rates and terms and publishes the required Prices singleton.
+Excludes checkout, payment, booking, calculators and submission changes. The owner approved a quote-only production release: five categories and 15 realistic options, with no amounts or currency fields. Numeric modes are tested using visibly labelled offline fixtures; actual rates require separate approval. The PR preview uses the published quote-only content.
 
 Sources: [issue #35](https://github.com/szabototo89/woodbrook-residents/issues/35), user-provided desktop/mobile reference images and category clarification, 12 November 2026.
