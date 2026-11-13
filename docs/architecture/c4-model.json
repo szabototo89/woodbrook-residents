@@ -623,6 +623,32 @@
       "description": "Captures five published page queries once before building the website",
       "technology": "Bun and JSON",
       "parent": "laura_web"
+    },
+    "laura_schema_agent": {
+      "kind": "system",
+      "name": "Sanity-connected editing agent",
+      "description": "Existing CMS client that discovers schemas and edits artist content without repository access"
+    },
+    "laura_prices_schema": {
+      "kind": "component",
+      "name": "Prices schema",
+      "description": "Defines editable Prices fields and publishing validation",
+      "technology": "Sanity schema definitions",
+      "parent": "laura_studio"
+    },
+    "laura_price_checks": {
+      "kind": "component",
+      "name": "Pricing validation",
+      "description": "Checks fixed, from, range and quote options before Studio publishing",
+      "technology": "Shared TypeScript validators",
+      "parent": "laura_studio"
+    },
+    "laura_price_contract": {
+      "kind": "component",
+      "name": "Agent editing contract",
+      "description": "Exports versioned JSON rules, examples, safe editing steps and publishing limits",
+      "technology": "TypeScript and JSON",
+      "parent": "laura_studio"
     }
   },
   "relationships": {
@@ -1265,6 +1291,36 @@
       "to": "laura_prices_snapshot",
       "label": "Renders build-time content using",
       "technology": "virtual:laura-content"
+    },
+    "laura_studio_schema_export": {
+      "from": "laura_studio",
+      "to": "laura_sanity",
+      "label": "Deploys discoverable schema metadata to",
+      "technology": "Sanity schema API over HTTPS"
+    },
+    "laura_agent_schema_read": {
+      "from": "laura_schema_agent",
+      "to": "laura_sanity",
+      "label": "Reads editing schemas and publishes reviewed drafts using",
+      "technology": "Sanity MCP"
+    },
+    "laura_schema_imports_contract": {
+      "from": "laura_prices_schema",
+      "to": "laura_price_contract",
+      "label": "Includes serialized contract metadata from",
+      "technology": "TypeScript import"
+    },
+    "laura_schema_uses_checks": {
+      "from": "laura_prices_schema",
+      "to": "laura_price_checks",
+      "label": "Validates offer content using",
+      "technology": "TypeScript function calls"
+    },
+    "laura_schema_exports_contract": {
+      "from": "laura_prices_schema",
+      "to": "laura_sanity",
+      "label": "Exports fields, help text and agent contract to",
+      "technology": "Sanity schema API over HTTPS"
     }
   },
   "diagrams": {
@@ -2680,6 +2736,76 @@
           "laura_prices_pages_read": {
             "status": "added",
             "description": "Reuses the Prices snapshot for generated HTML and browser navigation."
+          }
+        }
+      }
+    },
+    "laura_agent_contract_containers": {
+      "level": "C2",
+      "scope": "laura_site",
+      "title": "Laura website \u2014 C2 agent contract \u2014 changes from 5ce7312",
+      "handoff": "laura-pricing-agent-contract",
+      "source": "docs/handoffs/laura-pricing-agent-contract/assets/c2-containers.puml",
+      "elements": ["laura_studio", "laura_sanity", "laura_schema_agent"],
+      "relationships": [
+        "laura_studio_schema_export",
+        "laura_agent_schema_read"
+      ],
+      "changes": {
+        "elements": {
+          "laura_studio": {
+            "status": "changed",
+            "description": "Prices metadata now includes a complete versioned contract and field guidance."
+          }
+        },
+        "relationships": {
+          "laura_studio_schema_export": {
+            "status": "changed",
+            "description": "Exports full JSON rules and examples instead of opaque custom-rule markers alone."
+          },
+          "laura_agent_schema_read": {
+            "status": "changed",
+            "description": "Existing schema reads now reveal singleton IDs, all mode rules and publication limits."
+          }
+        }
+      }
+    },
+    "laura_agent_contract_components": {
+      "level": "C3",
+      "scope": "laura_studio",
+      "title": "Laura Studio \u2014 C3 agent contract \u2014 changes from 5ce7312",
+      "handoff": "laura-pricing-agent-contract",
+      "source": "docs/handoffs/laura-pricing-agent-contract/assets/c3-components.puml",
+      "elements": [
+        "laura_prices_schema",
+        "laura_price_checks",
+        "laura_price_contract",
+        "laura_sanity"
+      ],
+      "relationships": [
+        "laura_schema_imports_contract",
+        "laura_schema_uses_checks",
+        "laura_schema_exports_contract"
+      ],
+      "changes": {
+        "elements": {
+          "laura_prices_schema": {
+            "status": "changed",
+            "description": "Adds agentEditingContract schema options and complete plain-text field descriptions."
+          },
+          "laura_price_contract": {
+            "status": "added",
+            "description": "New source owns declarative requirements, examples and draft/deployment instructions."
+          }
+        },
+        "relationships": {
+          "laura_schema_imports_contract": {
+            "status": "added",
+            "description": "Imports the serialized contract; validators keep their existing behavior."
+          },
+          "laura_schema_exports_contract": {
+            "status": "changed",
+            "description": "The existing deployment exports the full editing contract to Sanity-only clients."
           }
         }
       }

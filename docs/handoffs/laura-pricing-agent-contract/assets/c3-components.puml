@@ -1,0 +1,23 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Laura Studio — C3 agent contract — changes from 5ce7312
+
+System_Ext(laura_sanity, "Sanity content service", "Stores and serves published Laura documents and image assets")
+Container_Boundary(laura_studio, "Laura Sanity Studio") {
+  Component(laura_prices_schema, "[CHANGED] Prices schema", "Sanity schema definitions", "Defines editable Prices fields and publishing validation\nChange: Adds agentEditingContract schema options and complete plain-text field descriptions.")
+  Component(laura_price_checks, "Pricing validation", "Shared TypeScript validators", "Checks fixed, from, range and quote options before Studio publishing")
+  Component(laura_price_contract, "[ADDED] Agent editing contract", "TypeScript and JSON", "Exports versioned JSON rules, examples, safe editing steps and publishing limits\nChange: New source owns declarative requirements, examples and draft/deployment instructions.")
+}
+
+Rel(laura_prices_schema, laura_price_contract, "[ADDED] Includes serialized contract metadata from\nChange: Imports the serialized contract; validators keep their existing behavior.", "TypeScript import")
+Rel(laura_prices_schema, laura_price_checks, "Validates offer content using", "TypeScript function calls")
+Rel(laura_prices_schema, laura_sanity, "[CHANGED] Exports fields, help text and agent contract to\nChange: The existing deployment exports the full editing contract to Sanity-only clients.", "Sanity schema API over HTTPS")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml
