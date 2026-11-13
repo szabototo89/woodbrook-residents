@@ -1,0 +1,86 @@
+import discovery from './assets/sanity-discovery.json?url';
+import containers from './assets/c2-containers.puml?raw';
+import containersImage from './assets/c2-containers.svg';
+import components from './assets/c3-components.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+
+export const metadata = {
+  title: 'Discoverable Prices editing contract',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a1d188-b26e-7ed2-9a32-4c8fa56e2635',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/laura-faichney-help-visitors-understand-prices-b',
+  branch: 'szabototo89/laura-faichney-help-visitors-understand-prices-b',
+  commit: '5ce7312c0532696f6fc4ab3ae65b9a63c1ae235b',
+  updatedAt: '2026-11-13T08:24:17Z',
+  summary:
+    'Exposes the complete Prices editing contract through Sanity schema metadata for repository-free agents.',
+};
+
+## Goal
+
+Let a Sanity-connected editing agent discover the full Prices contract without repository access. Preserve existing content and validation behavior.
+
+## Technical changes
+
+Baseline and recorded HEAD before this follow-up: `5ce7312`. The accompanying PR records the implementation commit and final deployments. The reused worktree and branch stay in place.
+
+| Area             | Before                                            | After                                                                | Why                                          | Code                                          |
+| ---------------- | ------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------- | --------------------------------------------- |
+| Schema discovery | Custom validators appear only as opaque markers   | Versioned JSON in `options.agentEditingContract`                     | Expose complete rules to Sanity-only clients | `shared/lauraPricingContract.ts`              |
+| Field guidance   | Some required/forbidden combinations are implicit | Every Prices field explains its purpose and constraints              | Make targeted edits understandable           | `apps/laura-studio/schemaTypes/pricesPage.ts` |
+| Mode changes     | Agent must infer incompatible values              | Explicit required/unset lists and illustrative examples              | Avoid invalid mixed pricing modes            | `PRICES_AGENT_CONTRACT.modes`                 |
+| Safe editing     | Singleton and revision rules live outside schema  | IDs, keys, draft preservation and revision guidance are discoverable | Preserve other edits and correct references  | `PRICES_AGENT_CONTRACT.editing`               |
+| Publication      | Schema does not describe static delivery          | Contract separates Sanity publication from verified deployment       | Avoid claiming a publish updated the website | `PRICES_AGENT_CONTRACT.publishing`            |
+| Conformance      | No schema-only contract check                     | Serialized metadata examples exercise real validators                | Detect examples or instructions that drift   | `pricesAgentContract.test.ts`                 |
+
+No new content fields or content documents are introduced. The contract sits in schema options and is not included in the public Prices snapshot. Root help points agents to it; individual fields provide concise instructions. Numeric examples are test shapes, not approved rates. <a href={discovery}>The actual Sanity discovery export</a> is retained as evidence. Production `pricesPage` revision `hpf0silrPxAfB7rIgMHb9G` still contains five categories, 15 quote-only options and no numeric pricing fields.
+
+## Architecture changes
+
+The existing Studio exports richer schema metadata to the existing Sanity service. A Sanity-only editing agent reads that metadata using its existing tools. Studio and website price validators keep the same behavior.
+
+| Level | Change                                                                                                    | Evidence             |
+| ----- | --------------------------------------------------------------------------------------------------------- | -------------------- |
+| C1    | Unchanged: no new application, actor access or external API; existing CMS clients receive richer metadata | Schema options only  |
+| C2    | Changed: Studio schema export supplies a complete agent contract                                          | Container view below |
+| C3    | Added contract module; changed Prices schema descriptions/options; existing validators remain unchanged   | Component view below |
+
+<PlantUmlDiagram
+  title="Laura schema discovery"
+  source={containers}
+  image={containersImage}
+/>
+
+Change: the existing schema deployment/read paths now carry complete instructions. Unmarked elements are unchanged context.
+
+<PlantUmlDiagram
+  title="Laura Studio contract components"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: the Prices schema imports a new declarative contract; pricing validation continues using the existing shared rules.
+
+## Verification
+
+| Check                       | Result  | Evidence                                                                                                                                |
+| --------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Failing tests first         | PASS    | Schema-only discovery tests failed before the new descriptions/options were added.                                                      |
+| Studio tests                | PASS    | 29 tests pass, with 100% measured coverage.                                                                                             |
+| Website tests               | PASS    | Existing website units: 127 Vitest tests and 32 Bun script tests.                                                                       |
+| Typecheck/build             | PASS    | Studio `typecheck` and `build` exit 0.                                                                                                  |
+| Actual Sanity export        | PASS    | `get_schema` for deployed `_.schemas.default` preserves `options.agentEditingContract`; all four modes are discoverable.                |
+| Repository-free examples    | PASS    | Metadata fetched from Sanity generates four valid full pages; the real reader rejects 19 missing-field and 10 incompatible-field cases. |
+| Content preservation        | PASS    | Published document revision and 15 quote-only options are unchanged; no content mutation is used for verification.                      |
+| Repository build            | PASS    | `bun run build` exits 0 on the implementation.                                                                                          |
+| Handoff checks              | PASS    | `docs:check`, `c4:check` and diagram rendering pass; desktop/mobile viewer checks cover fit, zoom and source disclosure.                |
+| Studio preview              | NOT RUN | Final commit preview deployment and exact link are recorded on the PR.                                                                  |
+| Production schema discovery | NOT RUN | After merge, deploy the managed Studio and verify the default schema lookup without a schema-ID override.                               |
+| Studio visual inspection    | NOT RUN | No signed-in editor session; actual behavior is verified through schema API reads. No public layout changes.                            |
+| cmux browser                | FAIL    | No live cmux socket. The local dev server is ready at port 3015.                                                                        |
+
+## Next steps
+
+Merge automatically after verification, as requested. Deploy the production Studio/schema, verify default Sanity-only discovery and record final deployment evidence on the PR. Keep current live prices quote-only.

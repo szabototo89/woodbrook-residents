@@ -1,0 +1,21 @@
+' Generated from docs/architecture/c4-model.json. Run bun run --cwd apps/handoffs c4:generate.
+@startuml
+!pragma layout smetana
+!include <C4/C4_Container>
+LAYOUT_TOP_DOWN()
+skinparam defaultFontName SansSerif
+skinparam nodesep 45
+skinparam ranksep 45
+title Laura website — C2 agent contract — changes from 5ce7312
+
+System_Ext(laura_sanity, "Sanity content service", "Stores and serves published Laura documents and image assets")
+System_Ext(laura_schema_agent, "Sanity-connected editing agent", "Existing CMS client that discovers schemas and edits artist content without repository access")
+System_Boundary(laura_site, "Laura Faichney website") {
+  Container(laura_studio, "[CHANGED] Laura Sanity Studio", "Sanity Studio", "Lets the artist publish website content\nChange: Prices metadata now includes a complete versioned contract and field guidance.")
+}
+
+Rel(laura_studio, laura_sanity, "[CHANGED] Deploys discoverable schema metadata to\nChange: Exports full JSON rules and examples instead of opaque custom-rule markers alone.", "Sanity schema API over HTTPS")
+Rel(laura_schema_agent, laura_sanity, "[CHANGED] Reads editing schemas and publishes reviewed drafts using\nChange: Existing schema reads now reveal singleton IDs, all mode rules and publication limits.", "Sanity MCP")
+SHOW_LEGEND()
+footer [ADDED] New; [CHANGED] Modified; [REMOVED] Retired; Unmarked = unchanged context
+@enduml

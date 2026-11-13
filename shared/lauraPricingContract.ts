@@ -1,0 +1,148 @@
+/** Public schema metadata for editors that can access Sanity but not this repository. */
+export const PRICES_AGENT_CONTRACT = {
+  version: 1,
+  document: {
+    projectId: 'uag6kepo',
+    dataset: 'production',
+    type: 'pricesPage',
+    publishedId: 'pricesPage',
+    draftId: 'drafts.pricesPage',
+    publicUrl: 'https://allthingsart.ie/prices',
+  },
+  currentRelease:
+    'The owner approved a quote-only production release. Preserve quote-only options unless the owner explicitly approves actual amounts, currency and commercial terms. All numeric examples below are illustrative test data, never approved rates.',
+  requiredText: [
+    'title',
+    'introduction',
+    'fallbackQuote',
+    'fallbackGuidance',
+    'enquiryLabel',
+    'contactHeading',
+    'contactCopy',
+  ],
+  seoRequiredText: ['title', 'description'],
+  textRules: [
+    'Required text must be a string containing non-whitespace characters. The build trims required page/SEO text.',
+    'eyebrow is optional text. Category title and every offer label must contain non-whitespace characters.',
+    'Category description, offer qualifications and optional guidance are text, not Portable Text arrays.',
+    'inclusions and sharedNotes are optional arrays of non-empty text strings. An empty inclusions/sharedNotes array is allowed.',
+    'Keep offer-specific extras, minimums or cost qualifications beside the affected offer. Do not invent commercial terms.',
+  ],
+  categoryRules: [
+    'categories is required and contains at least one object. Array order determines public display order.',
+    'Use _type priceCategory and a stable, unique _key for each category object. Preserve existing _key values.',
+    'Category names/grouping are independent of Services. Changing a pricing category must not rename or duplicate service documents.',
+    'icon is optional; supported values are palette, wall, window, smile and tuition. Omission uses palette.',
+    'service is an optional Sanity reference {_type:"reference",_ref:"<existing published service ID>"}. Look up the real published service and its non-empty slug.current. Never invent an ID or link to a draft-only service.',
+    'A linked published service preselects that service at /contact?service=<encoded slug>#enquiry. An absent reference uses /contact#enquiry.',
+    'serviceSlug is a derived query result, not an editable field. Store service references, not serviceSlug.',
+    'offers is optional. Unset offers to use fallbackQuote and fallbackGuidance. A present empty offers array is invalid; do not use [] as the absence state.',
+    'Use _type priceOffer and a stable, unique _key for every offer object. Offer array order determines public row order.',
+    'Every offer needs a non-empty label and one of the four exact mode values below.',
+  ],
+  numericRules: [
+    'amount, minimum and maximum must be positive finite JSON numbers when required. Do not store currency symbols, numeric strings, zero, negative values, NaN or Infinity.',
+    'A range requires maximum > minimum; equal bounds are not a range. Use fixed mode for a single amount.',
+    'Numeric modes require a supported uppercase ISO currency code, for example EUR, and non-empty scope describing the unit, size or duration. Confirm the real currency and scope with the owner.',
+    'Unset fields listed by the chosen mode. Do not keep a previous fixed amount in range mode, range bounds in fixed/from mode, or numeric/currency/scope fields in quote mode.',
+    'The website formats currency and qualifiers from structured fields. Do not encode an amount or From/range qualifier into a label instead.',
+  ],
+  currencyCodes: Intl.supportedValuesOf('currency'),
+  modes: {
+    fixed: {
+      meaning: 'A fixed price for the stated scope.',
+      required: ['label', 'mode', 'amount', 'currency', 'scope'],
+      unset: ['minimum', 'maximum'],
+      example: {
+        _type: 'priceOffer',
+        _key: 'illustrative-fixed',
+        label: 'Illustrative session',
+        mode: 'fixed',
+        amount: 100,
+        currency: 'EUR',
+        scope: 'per session',
+      },
+    },
+    from: {
+      meaning: 'Open-ended starting guidance, not a guaranteed final total.',
+      required: ['label', 'mode', 'amount', 'currency', 'scope'],
+      unset: ['minimum', 'maximum'],
+      example: {
+        _type: 'priceOffer',
+        _key: 'illustrative-from',
+        label: 'Illustrative artwork',
+        mode: 'from',
+        amount: 100,
+        currency: 'EUR',
+        scope: 'per painting',
+      },
+    },
+    range: {
+      meaning: 'A bounded guide range, not a guaranteed final total.',
+      required: ['label', 'mode', 'minimum', 'maximum', 'currency', 'scope'],
+      unset: ['amount'],
+      example: {
+        _type: 'priceOffer',
+        _key: 'illustrative-range',
+        label: 'Illustrative session',
+        mode: 'range',
+        minimum: 100,
+        maximum: 150,
+        currency: 'EUR',
+        scope: 'per session',
+      },
+    },
+    quote: {
+      meaning:
+        'Quote on request, with visible information needed to prepare it.',
+      required: ['label', 'mode', 'guidance'],
+      unset: ['amount', 'minimum', 'maximum', 'currency', 'scope'],
+      example: {
+        _type: 'priceOffer',
+        _key: 'illustrative-quote',
+        label: 'Bespoke artwork',
+        mode: 'quote',
+        guidance: 'Share your idea, preferred size and style.',
+      },
+    },
+  },
+  inspirationRules: [
+    'inspiration is optional and contains at most three objects, with _type inspirationImage and stable unique _key values.',
+    'Use an existing Sanity image asset reference in image.asset; never invent an asset ID or put a raw image URL into that field.',
+    'Each included inspiration object requires non-empty imageAlt. Preserve image crop/hotspot and asset metadata when changing unrelated text.',
+  ],
+  editing: [
+    'Read the deployed pricesPage schema and this contract, then read both pricesPage and drafts.pricesPage before editing.',
+    'There is one singleton: pricesPage. Do not create another randomly named Prices page or delete the required published singleton.',
+    'If a draft already exists, preserve its unrequested changes. Use the latest _rev as an optimistic revision guard where the mutation tool supports it.',
+    'If no draft exists, create the draft of pricesPage from the current published content using the tool’s draft workflow; omit system-managed revision/timestamp fields.',
+    'Patch only requested fields. Preserve all other fields, references and _key values. Address array members by _key, not stale positional indexes.',
+    'For a mode change, set all required fields and unset every incompatible field from that mode in the same patch/transaction. Retain the row label and _key.',
+    'Only approved rates and terms may be published. The schema examples describe supported shapes; they are not permission to replace current quotes with sample prices.',
+    'Validate the draft against these explicit rules before publishing. Use documents_validate when available, but custom JavaScript rules may appear only as custom markers or be unavailable to API validation.',
+    'Do not interpret a successful API mutation or skipped validation as proof that a website build will pass. Resolve invalid or missing fields before publishing.',
+    'Publish the exact reviewed draft with a revision guard where supported. Re-read the published singleton to confirm the intended values. Do not discard another editor’s draft.',
+  ],
+  publishing: [
+    'The website reads the published perspective during a fresh build. Draft-only edits never appear on the public website.',
+    'A successful publish changes Sanity immediately. The public website changes only after a successful rebuild and deployment; publishing is not proof of deployment.',
+    'The maintainer can run the Deploy Laura Faichney GitHub workflow in szabototo89/woodbrook-residents. Automatic rebuilds depend on the project’s configured webhook; never assume a delivery succeeded.',
+    'A Sanity-only agent can confirm published content but cannot independently confirm the GitHub build or website rollout. Report: Published in Sanity; website deployment unverified, unless deployment evidence is available.',
+    'Missing required page content, malformed prices or invalid linked services stop the build. An older snapshot is never substituted after a failed fresh read.',
+    'Visitors read generated static content and make no Sanity content API requests. A deployed site continues serving its last successful snapshot if Sanity is later unavailable.',
+  ],
+};
+
+export const pricesAgentDescription =
+  'Singleton pricesPage in project uag6kepo, dataset production; draft ID drafts.pricesPage. Sanity-only agents: read the complete versioned JSON in options.agentEditingContract before editing. It includes field rules, illustrative examples, safe draft/revision/key operations and publishing limits. Published changes require a successful website rebuild/deployment.';
+
+export const serializedPricesAgentContract = JSON.stringify(
+  PRICES_AGENT_CONTRACT,
+  null,
+  2,
+);
+
+export const priceModeDescription = [
+  'Exact modes and field requirements. Each example is illustrative, not an approved production rate.',
+  JSON.stringify(PRICES_AGENT_CONTRACT.modes),
+].join('\n');
