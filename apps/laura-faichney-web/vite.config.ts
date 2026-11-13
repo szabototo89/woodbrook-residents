@@ -15,6 +15,7 @@ export default defineConfig(async ({ mode, command }) => {
       [
         'services-design.css',
         'contact-design.css',
+        'prices-design.css',
         'styles.css',
         'components/SiteHeader.css',
       ].map((file) =>
@@ -41,9 +42,10 @@ export default defineConfig(async ({ mode, command }) => {
             // Raw imports retain Vite's CSS dependency watching in development.
             return `import services from '/src/services-design.css?raw';
               import contact from '/src/contact-design.css?raw';
+              import prices from '/src/prices-design.css?raw';
               import base from '/src/styles.css?raw';
               import header from '/src/components/SiteHeader.css?raw';
-              export default [services, contact, base.replace(/^@import .+;$/gm, ''), header].join('\\n');`;
+              export default [services, contact, prices, base.replace(/^@import .+;$/gm, ''), header].join('\\n');`;
           }
           // Hydration reuses the CSS already delivered in the document.
           return this.environment.config.consumer === 'server'

@@ -27,7 +27,7 @@ export default defineConfig({
         S.list()
           .title('Content')
           .items([
-            // Mirrors the public site navigation: Home, About, Services, Gallery.
+            // Mirrors the public site navigation: Home, About, Services, Prices, Gallery.
             singleton(S, 'Home', 'homePage', HomeIcon),
             singleton(S, 'About', 'aboutPage', UserIcon),
             S.listItem()
@@ -42,6 +42,7 @@ export default defineConfig({
                     S.documentTypeListItem('service').title('All services'),
                   ]),
               ),
+            singleton(S, 'Prices', 'pricesPage', TagIcon),
             S.listItem()
               .title('Gallery')
               .id('gallery')

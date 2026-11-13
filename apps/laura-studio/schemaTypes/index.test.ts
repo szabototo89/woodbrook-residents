@@ -12,6 +12,7 @@ test('studio schema registers the Laura document and object types', () => {
       'galleryPage',
       'homePage',
       'pageHero',
+      'pricesPage',
       'seo',
       'service',
       'servicesPage',

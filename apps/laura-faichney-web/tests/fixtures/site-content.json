@@ -5,10 +5,13 @@
         "enabled": true,
         "title": "A little news from the studio",
         "message": "This sample announcement shows where Laura can share her latest update. Add a short message and an optional link for visitors who want to find out more.",
-        "link": { "label": "Meet Laura", "href": "/about" }
+        "link": {
+          "label": "Meet Laura",
+          "href": "/about"
+        }
       },
       "hero": {
-        "eyebrow": "Bold art \u00b7 brighter spaces \u00b7 happier people",
+        "eyebrow": "Bold art · brighter spaces · happier people",
         "titleLines": ["Bold Art", "Brighter Spaces"],
         "description": "Commissioned paintings, murals, signage, facepainting and art tutoring - bringing more colour and creativity to everyday spaces.",
         "image": {
@@ -37,24 +40,24 @@
       },
       "muralImageAlt": "Large pink painted flower with green leaves",
       "aboutHeading": "Art, colour and people are what inspire me",
-      "aboutCopy": "Hi, I\u2019m Laura - an artist and creative all-rounder. I love transforming spaces with bold, colourful art and helping people discover their creativity through painting, facepainting and art tutoring.",
+      "aboutCopy": "Hi, I’m Laura - an artist and creative all-rounder. I love transforming spaces with bold, colourful art and helping people discover their creativity through painting, facepainting and art tutoring.",
       "aboutImage": {
         "asset": {
           "_ref": "image-5b7739acb7674b9e33bd37b480f6effabe3cc0b1-1448x1086-webp"
         }
       },
-      "aboutImageAlt": "Paintbrushes, palettes and colourful canvases in an artist\u2019s studio",
+      "aboutImageAlt": "Paintbrushes, palettes and colourful canvases in an artist’s studio",
       "testimonialQuote": "Laura created a stunning mural for our nursery. It has completely transformed the space and the children absolutely love it!",
-      "testimonialAuthor": "Sarah O\u2019Connor",
+      "testimonialAuthor": "Sarah O’Connor",
       "testimonialRole": "Nursery owner"
     },
     "settings": {
       "contactEmail": "lauralfaichney@gmail.com",
       "contactPhone": "089-4007747",
       "contactMailtoSubject": "Art project enquiry",
-      "contactEyebrow": "Let\u2019s create something special",
+      "contactEyebrow": "Let’s create something special",
       "contactHeading": "Get in Touch",
-      "contactCopy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+      "contactCopy": "Have a painting, mural, event or creative session in mind? I’d love to hear from you."
     },
     "services": [
       {
@@ -173,8 +176,8 @@
                 "_ref": "image-c1949059522fb58517fa0e2696ce24ca46565f89-640x480-webp"
               }
             },
-            "imageAlt": "Coffee cups on a wooden caf\u00e9 table",
-            "alt": "Coffee cups on a wooden caf\u00e9 table",
+            "imageAlt": "Coffee cups on a wooden café table",
+            "alt": "Coffee cups on a wooden café table",
             "order": 0
           },
           {
@@ -290,7 +293,7 @@
       "hero": {
         "eyebrow": "About Laura",
         "titleLines": ["A love for art", "and community"],
-        "description": "I\u2019m Laura Faichney, an artist based in Ireland, creating colourful paintings, murals and bespoke pieces for homes, businesses and events. I also offer facepainting and art tutoring, sharing my passion for creativity with all ages.",
+        "description": "I’m Laura Faichney, an artist based in Ireland, creating colourful paintings, murals and bespoke pieces for homes, businesses and events. I also offer facepainting and art tutoring, sharing my passion for creativity with all ages.",
         "image": {
           "asset": {
             "_ref": "image-039ccadcad11f40cb3edf73e3badd086e040239c-1374x1145-webp"
@@ -309,7 +312,7 @@
         {
           "icon": "heart",
           "title": "All Ages Welcome",
-          "text": "From children\u2019s facepainting to art tutoring."
+          "text": "From children’s facepainting to art tutoring."
         },
         {
           "icon": "sparkles",
@@ -323,7 +326,7 @@
         }
       ],
       "storyHeading": "My Story",
-      "storyBody": "Art has always been a big part of my life. I love how it can transform a space, bring people together and create moments of joy. Whether it\u2019s a mural, a painting for a home, or a first experience with facepainting, my goal is to make everyday spaces a little brighter.",
+      "storyBody": "Art has always been a big part of my life. I love how it can transform a space, bring people together and create moments of joy. Whether it’s a mural, a painting for a home, or a first experience with facepainting, my goal is to make everyday spaces a little brighter.",
       "storyImage": {
         "asset": {
           "_ref": "image-6dc8b4ce1ddd05917a67627ed1140f7230f2ac9d-1122x1402-png"
@@ -337,9 +340,9 @@
         "email": "lauralfaichney@gmail.com",
         "phone": "089-4007747",
         "mailtoSubject": "Art project enquiry",
-        "eyebrow": "Let\u2019s create something special",
+        "eyebrow": "Let’s create something special",
         "heading": "Get in Touch",
-        "copy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+        "copy": "Have a painting, mural, event or creative session in mind? I’d love to hear from you."
       },
       "storyImageAlt": "Colourful painted portrait"
     },
@@ -347,9 +350,9 @@
       "contactEmail": "lauralfaichney@gmail.com",
       "contactPhone": "089-4007747",
       "contactMailtoSubject": "Art project enquiry",
-      "contactEyebrow": "Let\u2019s create something special",
+      "contactEyebrow": "Let’s create something special",
       "contactHeading": "Get in Touch",
-      "contactCopy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+      "contactCopy": "Have a painting, mural, event or creative session in mind? I’d love to hear from you."
     }
   },
   "servicesPage": {
@@ -375,9 +378,9 @@
       "contactEmail": "lauralfaichney@gmail.com",
       "contactPhone": "089-4007747",
       "contactMailtoSubject": "Art project enquiry",
-      "contactEyebrow": "Let\u2019s create something special",
+      "contactEyebrow": "Let’s create something special",
       "contactHeading": "Get in Touch",
-      "contactCopy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+      "contactCopy": "Have a painting, mural, event or creative session in mind? I’d love to hear from you."
     },
     "services": [
       {
@@ -475,9 +478,9 @@
       "contactEmail": "lauralfaichney@gmail.com",
       "contactPhone": "089-4007747",
       "contactMailtoSubject": "Art project enquiry",
-      "contactEyebrow": "Let\u2019s create something special",
+      "contactEyebrow": "Let’s create something special",
       "contactHeading": "Get in Touch",
-      "contactCopy": "Have a painting, mural, event or creative session in mind? I\u2019d love to hear from you."
+      "contactCopy": "Have a painting, mural, event or creative session in mind? I’d love to hear from you."
     },
     "collections": [
       {
@@ -524,8 +527,8 @@
                 "_ref": "image-c1949059522fb58517fa0e2696ce24ca46565f89-640x480-webp"
               }
             },
-            "imageAlt": "Coffee cups on a wooden caf\u00e9 table",
-            "alt": "Coffee cups on a wooden caf\u00e9 table",
+            "imageAlt": "Coffee cups on a wooden café table",
+            "alt": "Coffee cups on a wooden café table",
             "order": 0
           },
           {
@@ -635,5 +638,197 @@
         ]
       }
     ]
+  },
+  "pricesPage": {
+    "page": {
+      "eyebrow": "Pricing & commissions",
+      "title": "Art, Creative Events & Tuition",
+      "introduction": "Sample pricing for review — rates and terms await Laura’s approval.",
+      "fallbackQuote": "Quote on request",
+      "fallbackGuidance": "Share your idea and requirements so Laura can prepare a quote.",
+      "enquiryLabel": "Enquire",
+      "categories": [
+        {
+          "title": "Commissioned Paintings",
+          "description": "Original, hand-painted artwork made for your space or as a special gift.",
+          "icon": "palette",
+          "serviceSlug": "commissioned-paintings",
+          "offers": [
+            {
+              "label": "Small painting",
+              "mode": "from",
+              "amount": 120,
+              "currency": "EUR",
+              "scope": "up to 30 × 30 cm"
+            },
+            {
+              "label": "Medium painting",
+              "mode": "from",
+              "amount": 220,
+              "currency": "EUR",
+              "scope": "up to 60 × 60 cm"
+            },
+            {
+              "label": "Large painting",
+              "mode": "from",
+              "amount": 380,
+              "currency": "EUR",
+              "scope": "over 60 × 60 cm"
+            },
+            {
+              "label": "Custom commission",
+              "mode": "quote",
+              "guidance": "Share your idea, dimensions and a reference photo."
+            }
+          ]
+        },
+        {
+          "title": "Murals (Indoor & Outdoor)",
+          "description": "Large-scale, colourful artwork for homes, businesses and events.",
+          "icon": "wall",
+          "serviceSlug": "murals-indoor-outdoor",
+          "offers": [
+            {
+              "label": "Feature wall",
+              "mode": "from",
+              "amount": 350,
+              "currency": "EUR",
+              "scope": "up to 5 m²"
+            },
+            {
+              "label": "Larger mural",
+              "mode": "from",
+              "amount": 650,
+              "currency": "EUR",
+              "scope": "5–15 m²"
+            },
+            {
+              "label": "Bespoke mural",
+              "mode": "quote",
+              "guidance": "Share your idea, dimensions and a reference photo."
+            }
+          ]
+        },
+        {
+          "title": "Christmas & Seasonal Window Painting",
+          "description": "Festive, hand-painted window designs for shops and businesses.",
+          "icon": "window",
+          "serviceSlug": "signage",
+          "offers": [
+            {
+              "label": "Single shop front / window",
+              "mode": "from",
+              "amount": 150,
+              "currency": "EUR",
+              "scope": "per window"
+            },
+            {
+              "label": "Multiple windows",
+              "mode": "range",
+              "currency": "EUR",
+              "scope": "example package",
+              "minimum": 100,
+              "maximum": 200
+            },
+            {
+              "label": "Seasonal package",
+              "mode": "quote",
+              "guidance": "Share your idea, dimensions and a reference photo."
+            }
+          ]
+        },
+        {
+          "title": "Facepainting",
+          "description": "Colourful facepainting for parties, festivals and events.",
+          "icon": "smile",
+          "serviceSlug": "facepainting",
+          "offers": [
+            {
+              "label": "1 hour",
+              "mode": "fixed",
+              "amount": 80,
+              "currency": "EUR",
+              "scope": "parties & small events"
+            },
+            {
+              "label": "2 hours",
+              "mode": "fixed",
+              "amount": 150,
+              "currency": "EUR",
+              "scope": "per session"
+            },
+            {
+              "label": "Events & festivals",
+              "mode": "quote",
+              "guidance": "Share your idea, dimensions and a reference photo."
+            }
+          ]
+        },
+        {
+          "title": "Art Tutoring",
+          "description": "Creative art tuition for all ages and skill levels.",
+          "icon": "tuition",
+          "serviceSlug": "art-tutoring",
+          "offers": [
+            {
+              "label": "One-to-one lessons",
+              "mode": "fixed",
+              "amount": 40,
+              "currency": "EUR",
+              "scope": "60 minutes"
+            },
+            {
+              "label": "Small group (2–4 people)",
+              "mode": "fixed",
+              "amount": 20,
+              "currency": "EUR",
+              "scope": "per person / 60 minutes"
+            },
+            {
+              "label": "Workshops",
+              "mode": "from",
+              "amount": 100,
+              "currency": "EUR",
+              "scope": "2+ hours"
+            }
+          ]
+        }
+      ],
+      "sharedNotes": [
+        "Sample pricing for design review only — rates, currency and terms await Laura’s approval. Starting prices and ranges are illustrative guidance, not a final quote."
+      ],
+      "contactHeading": "Have something special in mind?",
+      "contactCopy": "Explore Laura’s work or get in touch to discuss a bespoke project, event or creative session.",
+      "seo": {
+        "title": "Prices — sample guide",
+        "description": "Sample pricing for art, creative events and tuition. Rates await Laura’s approval."
+      },
+      "inspiration": [
+        {
+          "image": {
+            "asset": {
+              "_ref": "image-e31807d572fbe68ee33f28c40a908bc8591bef0d-1448x1086-webp"
+            }
+          },
+          "imageAlt": "Colourful cow painting with a crown of bright wildflowers"
+        },
+        {
+          "image": {
+            "asset": {
+              "_ref": "image-058c63ac168bd4c0b7f8b54317215cf08d20f5e9-1448x1086-webp"
+            }
+          },
+          "imageAlt": "Pink peony mural with green and gold leaves on a navy wall"
+        },
+        {
+          "image": {
+            "asset": {
+              "_ref": "image-25d211d18daea4f4b44d5ed5b957d59b60702f5b-1448x1086-webp"
+            }
+          },
+          "imageAlt": "Hand-lettered gold Welcome sign on dark wood"
+        }
+      ]
+    }
   }
 }

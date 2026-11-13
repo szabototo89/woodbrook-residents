@@ -616,6 +616,13 @@
       "description": "Render available content and omit absent sections and artwork",
       "technology": "React",
       "parent": "laura_web"
+    },
+    "laura_prices_snapshot": {
+      "kind": "component",
+      "name": "Build snapshot with Prices",
+      "description": "Captures five published page queries once before building the website",
+      "technology": "Bun and JSON",
+      "parent": "laura_web"
     }
   },
   "relationships": {
@@ -1240,6 +1247,24 @@
       "to": "laura_snapshot",
       "label": "Reads captured page data",
       "technology": "Build-time JSON import"
+    },
+    "laura_prices_snapshot_reads": {
+      "from": "laura_prices_snapshot",
+      "to": "laura_reader",
+      "label": "Captures validated published page content using",
+      "technology": "TypeScript"
+    },
+    "laura_prices_snapshot_caches": {
+      "from": "laura_prices_snapshot",
+      "to": "laura_images",
+      "label": "Caches usable page images using",
+      "technology": "TypeScript"
+    },
+    "laura_prices_pages_read": {
+      "from": "laura_pages",
+      "to": "laura_prices_snapshot",
+      "label": "Renders build-time content using",
+      "technology": "virtual:laura-content"
     }
   },
   "diagrams": {
@@ -2574,6 +2599,87 @@
           "laura_pages_read_snapshot": {
             "status": "changed",
             "description": "Consumes normalized partial data with fallback titles and artwork labels."
+          }
+        }
+      }
+    },
+    "laura_prices_containers": {
+      "level": "C2",
+      "scope": "laura_site",
+      "title": "Laura website \u2014 C2 Prices \u2014 changes from 1ee889d",
+      "handoff": "laura-pricing-guide",
+      "source": "docs/handoffs/laura-pricing-guide/assets/c2-containers.puml",
+      "elements": ["laura_web", "laura_studio", "laura_sanity"],
+      "relationships": ["laura_web_reads_sanity", "laura_studio_publishes"],
+      "changes": {
+        "elements": {
+          "laura_web": {
+            "status": "changed",
+            "description": "Adds a static Prices route and category enquiry links."
+          },
+          "laura_studio": {
+            "status": "changed",
+            "description": "Adds independent pricing categories, multiple rates and strict publishing checks."
+          }
+        },
+        "relationships": {
+          "laura_web_reads_sanity": {
+            "status": "changed",
+            "description": "Reads the required Prices singleton at build time only."
+          },
+          "laura_studio_publishes": {
+            "status": "changed",
+            "description": "Publishes approved price modes, scopes, terms and optional service references."
+          }
+        }
+      }
+    },
+    "laura_prices_components": {
+      "level": "C3",
+      "scope": "laura_web",
+      "title": "Laura public website \u2014 C3 Prices \u2014 changes from 1ee889d",
+      "handoff": "laura-pricing-guide",
+      "source": "docs/handoffs/laura-pricing-guide/assets/c3-components.puml",
+      "elements": [
+        "laura_prices_snapshot",
+        "laura_reader",
+        "laura_images",
+        "laura_pages",
+        "laura_sanity"
+      ],
+      "relationships": [
+        "laura_prices_snapshot_reads",
+        "laura_reader_queries",
+        "laura_prices_snapshot_caches",
+        "laura_prices_pages_read"
+      ],
+      "changes": {
+        "elements": {
+          "laura_prices_snapshot": {
+            "status": "added",
+            "description": "Replaces the four-page snapshot with five required page loads."
+          },
+          "laura_reader": {
+            "status": "changed",
+            "description": "Requires Prices content and validates every supplied rate and service link."
+          },
+          "laura_pages": {
+            "status": "changed",
+            "description": "Adds category price lists with fixed/from/range/quote modes and enquiry URLs."
+          }
+        },
+        "relationships": {
+          "laura_prices_snapshot_reads": {
+            "status": "added",
+            "description": "Captures Prices with the other pages; fresh read failures abort the build."
+          },
+          "laura_reader_queries": {
+            "status": "changed",
+            "description": "Adds the published Prices query and dereferences category enquiry services."
+          },
+          "laura_prices_pages_read": {
+            "status": "added",
+            "description": "Reuses the Prices snapshot for generated HTML and browser navigation."
           }
         }
       }

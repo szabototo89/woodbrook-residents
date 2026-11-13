@@ -1,7 +1,14 @@
 import { useEffect } from 'react';
 import { useRouter } from '@tanstack/react-router';
 
-const pagePaths = new Set(['/', '/about', '/services', '/gallery', '/contact']);
+const pagePaths = new Set([
+  '/',
+  '/about',
+  '/services',
+  '/prices',
+  '/gallery',
+  '/contact',
+]);
 
 export function usePageTransitions() {
   const router = useRouter();

@@ -1,0 +1,114 @@
+import desktop from './assets/desktop.png';
+import mobile from './assets/mobile.png';
+import containers from './assets/c2-containers.puml?raw';
+import containersImage from './assets/c2-containers.svg';
+import components from './assets/c3-components.puml?raw';
+import componentsImage from './assets/c3-components.svg';
+
+export const metadata = {
+  title: 'Laura pricing guide',
+  status: 'ready for review',
+  agent: 'codex',
+  session: '01a1d188-b26e-7ed2-9a32-4c8fa56e2635',
+  worktree:
+    '/Users/tszabo/orca/workspaces/woodbrook/laura-faichney-help-visitors-understand-prices-b',
+  branch: 'szabototo89/laura-faichney-help-visitors-understand-prices-b',
+  commit: '6cbfc533677ca2a4ac87a0e29bc722075f9a09d0',
+  updatedAt: '2026-11-13T07:41:49Z',
+  summary:
+    'Adds an editable price guide based on the supplied images, with categories independent of Services.',
+};
+
+## Goal
+
+Help visitors budget for creative work and send a relevant enquiry. Publish realistic options with quote guidance and no numeric prices, as the owner requested. Numeric modes remain covered by labelled test fixtures.
+
+## Technical changes
+
+Baseline: `1ee889d`. Implementation: `6cbfc53`. The existing linked worktree and branch are reused. The owner’s category clarification supersedes issue #35’s original per-service pricing proposal.
+
+| Area              | Before                                    | After                                                            | Why                                         | Code                                                        |
+| ----------------- | ----------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------- | ----------------------------------------------------------- |
+| Price guide       | No Prices route                           | Compact responsive lists, gold icons, artwork and contact panel  | Follow the supplied images                  | `src/features/site/PricesPage.tsx`, `src/prices-design.css` |
+| Discovery         | Services and gallery navigation only      | Prices follows Services in header/footer and links from Services | Make budget guidance discoverable           | `SiteHeader.tsx`, `SiteFooter.tsx`, `ServicesPage.tsx`      |
+| Content ownership | No editable pricing                       | Prices singleton owns independent categories and multiple rows   | Categories may differ from Services         | `apps/laura-studio/schemaTypes/pricesPage.ts`               |
+| Publishing rules  | No price validation                       | Studio/build share fixed/from/range/quote checks                 | Reject misleading or incomplete amounts     | `shared/lauraPricing.ts`, `scripts/lauraSanitySource.ts`    |
+| Static content    | Four page reads                           | Five published reads; missing Prices stops the build             | Keep visitor requests independent of Sanity | `scripts/lauraSnapshot.ts`                                  |
+| Enquiries         | Static hydration can lose query selection | Category links select the service after hydration                | Preserve form submissions                   | `PriceCategorySection.tsx`, `EnquiryForm.tsx`               |
+| Static discovery  | Five base routes                          | Prices added to static verification and sitemap                  | Support direct visits and search previews   | `generate-seo-files.ts`, `verify-static-build.ts`           |
+
+Paths without an app prefix are under `apps/laura-faichney-web/`. The owner authorised production publication of `pricesPage`: five categories, 15 quote-only options and no amounts or currency fields. The draft passed local Studio document validation with zero errors and the strict build reader accepted it. Published revision: `hpf0silrPxAfB7rIgMHb9G`. Numeric examples exist only in labelled test fixtures. Optional inspiration images reuse the responsive image cache. Shared-header breakpoints accommodate six navigation items. The Services link shares the existing hero action area, preserving its compact spacing. Prices uses the shared page transition and destination focus.
+
+## Architecture changes
+
+The website builds published content into a snapshot: a JSON capture reused for static HTML and browser navigation. Prices extends that existing flow. Studio and the build use the same price rules, while category service references remain optional.
+
+| Level | Change                                                                                             | Evidence                |
+| ----- | -------------------------------------------------------------------------------------------------- | ----------------------- |
+| C1    | Unchanged: the same artist, visitors, website and external systems participate                     | No new actor or service |
+| C2    | Changed: website and Studio add price presentation and publishing responsibilities                 | Container view below    |
+| C3    | Changed: reader validates Prices; snapshot captures five pages; components render price categories | Component view below    |
+
+<PlantUmlDiagram
+  title="Laura Prices containers"
+  source={containers}
+  image={containersImage}
+/>
+
+Change: the website adds Prices and Studio publishes its independent categories. Unmarked elements remain unchanged context.
+
+<PlantUmlDiagram
+  title="Laura Prices components"
+  source={components}
+  image={componentsImage}
+/>
+
+Change: five page loads replace four; the reader validates price rows before the page components consume the snapshot.
+
+## Verification
+
+| Check                        | Result  | Evidence                                                                                                                                           |
+| ---------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Failing tests first          | PASS    | Missing page, artwork omission, static selection, contrast and transition/focus checks failed before their fixes.                                  |
+| Website unit tests           | PASS    | `test:unit`: 127 Vitest tests and 32 Bun script tests.                                                                                             |
+| Studio tests                 | PASS    | `test:unit`: 24 tests; 100% measured coverage.                                                                                                     |
+| Full Laura browser suite     | PASS    | 164 tests pass using the repository’s two-worker CI configuration.                                                                                 |
+| Static browser checks        | PASS    | Required widths, doubled text, no-JavaScript rendering, selection after reload and no visitor Sanity content API requests.                         |
+| Repository build             | PASS    | `bun run build` exits 0 after the quote-only singleton is published.                                                                               |
+| Static export                | PASS    | Published-content `build:static` verifies 11 HTML files, metadata, sitemap and internal links.                                                     |
+| Website preview              | PASS    | [Quote guide](https://laura-prices-35.laura-faichney-all-things-art.pages.dev/prices); implementation commit `6cbfc53`; `assets/verification.txt`. |
+| Studio preview               | PASS    | [Studio](https://laura-prices-studio-35.laura-faichney-all-things-art.pages.dev); HTTP 200, sign-in screen, no runtime errors.                     |
+| Desktop/mobile captures      | PASS    | Deployed preview at 1536×1024 and 390×844 CSS pixels, 2× scale; all five category enquiries survive reload.                                        |
+| Handoff checks               | PASS    | `docs:check`, `c4:check`; diagrams rendered and reviewed in desktop/mobile viewer with zoom, fit and source controls.                              |
+| Normal repository hooks      | PASS    | Implementation commit passes formatting, lint, typechecks, unit, browser and end-to-end checks without bypasses.                                   |
+| Production CMS content       | PASS    | `pricesPage`, revision `hpf0silrPxAfB7rIgMHb9G`: five categories, 15 options, zero numeric pricing fields. Local document validation returns `[]`. |
+| Signed-in editor interaction | NOT RUN | Studio sign-in renders; no interactive editorial login. Schema tests and actual content publication verify the content contract.                   |
+| cmux browser                 | FAIL    | No live cmux socket; opening/renaming a tab fails. Playwright provides the actual desktop/mobile review.                                           |
+| Production rollout           | NOT RUN | Owner authorised GitHub merge and deployment. Final rollout verification is recorded on the linked PR and issue.                                   |
+
+## Appearance
+
+The final captures use published quote-only content. The inspiration strip reuses the cow, peony and Christmas-window artwork already published in Laura’s project. The supplied desktop and phone images guide the composition.
+
+<AppearanceGallery
+  images={[
+    {
+      src: desktop,
+      title: 'Desktop quote guide',
+      alt: 'Quote-only Prices page on desktop',
+      description:
+        'Paired categories, quote labels, inspiration strip and pink enquiry invitation.',
+    },
+    {
+      src: mobile,
+      title: 'Phone quote guide',
+      alt: 'Quote-only Prices page on a phone',
+      description:
+        'All categories stack with visible quote guidance and service-specific enquiry actions.',
+    },
+  ]}
+/>
+
+## Next steps
+
+Merge and deploy under the owner’s explicit instruction; record final rollout verification on the PR and issue. Numeric rates are optional future content and require approval. Keep the reused worktree and branch. Temporary previews follow the repository’s seven-day retention policy.

@@ -86,6 +86,7 @@ export async function cacheLauraImages(
     result.about.storyImage,
     result.services.hero.image,
     result.gallery.hero.image,
+    ...result.prices.inspiration,
     ...result.home.services.map((service) => service.image),
     ...result.services.services.map((service) => service.image),
     ...galleryImages,

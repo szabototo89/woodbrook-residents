@@ -14,6 +14,7 @@ const outputRoot = path.join(appRoot, 'dist', 'client');
 export const STATIC_BASE_ROUTES = [
   '/',
   '/services',
+  '/prices',
   '/gallery',
   '/about',
   '/contact',

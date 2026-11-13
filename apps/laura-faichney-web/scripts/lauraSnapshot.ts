@@ -6,6 +6,7 @@ import type {
   GalleryData,
   HomeData,
   ServicesData,
+  PricesData,
 } from '../src/features/site/lauraSanity';
 import { cacheLauraImages, imageCacheDirectory } from './lauraImageAssets';
 
@@ -14,6 +15,7 @@ export type LauraSnapshot = {
   about: AboutData;
   services: ServicesData;
   gallery: GalleryData;
+  prices: PricesData;
 };
 
 const snapshotUrl = new URL('../.cache/laura-content.json', import.meta.url);
@@ -21,16 +23,17 @@ const snapshotUrl = new URL('../.cache/laura-content.json', import.meta.url);
 export async function loadLauraSnapshot(
   source: Pick<
     LauraSanitySource,
-    'loadHome' | 'loadAbout' | 'loadServices' | 'loadGallery'
+    'loadHome' | 'loadAbout' | 'loadServices' | 'loadGallery' | 'loadPrices'
   > = new LauraSanitySource(),
 ): Promise<LauraSnapshot> {
-  const [home, about, services, gallery] = await Promise.all([
+  const [home, about, services, gallery, prices] = await Promise.all([
     source.loadHome(),
     source.loadAbout(),
     source.loadServices(),
     source.loadGallery(),
+    source.loadPrices(),
   ]);
-  return { home, about, services, gallery };
+  return { home, about, services, gallery, prices };
 }
 
 export async function generateLauraSnapshot(
